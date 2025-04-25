@@ -2253,6 +2253,10 @@
     <CValidatorUnitInWeaponRange id="AP_TargetInWeaponRange">
         <ResultFailed value="TargetIsOutOfRange"/>
     </CValidatorUnitInWeaponRange>
+    <CValidatorCombine id="AP_TargetNotInWeaponRange">
+        <Negate value="1"/>
+        <CombineArray value="AP_TargetInWeaponRange"/>
+    </CValidatorCombine>
     <CValidatorUnitWeaponFiring id="AP_CasterIsFiringWeapon">
         <!-- This mutates in Multi -->
         <WhichUnit Value="Caster"/>
@@ -7637,5 +7641,56 @@
         <CombineArray value="CasterIsAttacking"/>
         <CombineArray value="CasterNotInCombat"/>
         <CombineArray value="TacticalStimpackHostiles"/>
+    </CValidatorCombine>
+    <CValidatorLocationCompareRange id="AP_TacticalJumpJetsRetreatTest">
+        <Compare value="LE"/>
+        <Range value="8"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CValidatorLocationCompareRange>
+    <CValidatorUnitOrderQueue id="AP_CasterIsNotAttacking">
+        <AbilLink value="attack"/>
+        <Find value="0"/>
+    </CValidatorUnitOrderQueue>
+    <CValidatorCombine id="AP_SiegeTankForwardJumpJets">
+        <Type value="And"/>
+        <CombineArray value="AP_SiegeTankSiegedJumpJetsReady"/>
+        <CombineArray value="CasterHasNoOrders"/>
+        <CombineArray value="AP_IsSiegeTankSiegedOrMerc"/>
+    </CValidatorCombine>
+    <CValidatorLocationCompareRange id="AP_TacticalJumpJetsAttackRange">
+        <Compare value="GT"/>
+        <Range value="13"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+    </CValidatorLocationCompareRange>
+    <CValidatorLocationEnumArea id="AP_SiegeTankJumpJetRangeHostileSearch" parent="HostileSearch">
+        <AreaArray Radius="20"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
+        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CValidatorLocationEnumArea>
+    <CValidatorUnitCompareCooldown id="AP_SiegeTankSiegedJumpJetsNotOnCooldown">
+        <WhichUnit Value="Caster"/>
+        <CooldownLink value="Abil/AP_SiegeTankJumpJet"/>
+        <Ability value="AP_SiegeTankSiegedJumpJet"/>
+        <Compare value="LT"/>
+        <Value value="0.0625"/>
+    </CValidatorUnitCompareCooldown>
+    <CValidatorCombine id="AP_SiegeTankSiegedJumpJetsReady">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveHoverSiegeTank"/>
+        <CombineArray value="AP_SiegeTankSiegedJumpJetsNotOnCooldown"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_TankShouldForwardJumpJet">
+        <Type value="And"/>
+        <CombineArray value="AP_SiegeTankSiegedJumpJetsReady"/>
+        <CombineArray value="AP_SiegeTankJumpJetRangeHostileSearch"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_TankShouldNotForwardJumpJet">
+        <Negate value="1"/>
+        <CombineArray value="AP_TankShouldForwardJumpJet"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_TacticalSiegeTankUnsiege">
+        <Type value="And"/>
+        <CombineArray value="AP_TankShouldNotForwardJumpJet"/>
+        <CombineArray value="TacticalSiegeTankUnsiege"/>
     </CValidatorCombine>
 </Catalog>

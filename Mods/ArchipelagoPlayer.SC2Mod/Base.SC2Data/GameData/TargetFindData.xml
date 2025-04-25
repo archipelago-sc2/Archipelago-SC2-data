@@ -16,4 +16,52 @@
         <AreaArray/>
         <Abil value="AP_D8Charge"/>
     </CTargetFindEnumArea>
+    <CTargetFindSet id="AP_SiegeTankJumpJets">
+        <Type value="Successful"/>
+        <Array value="AP_JumpJetsRetreat"/>
+        <Array value="AP_JumpJetsAttack"/>
+    </CTargetFindSet>
+    <!-- Run away if we're low on health and being attacked. -->
+    <CTargetFindSet id="AP_JumpJetsRetreat">
+        <CasterValidator value="CasterVitalityLT60Percent"/>
+        <Type value="Sequential"/>
+        <Array value="AP_JumpJetsAttacker"/>
+        <Array value="AP_JumpJetsAwayOffset"/>
+    </CTargetFindSet>
+    <CTargetFindLastAttacker id="AP_JumpJetsAttacker">
+        <TargetValidator value="AP_TacticalJumpJetsRetreatTest"/>
+    </CTargetFindLastAttacker>
+    <CTargetFindOffset id="AP_JumpJetsAwayOffset">
+        <Flags index="EvaluateCmd" value="1"/>
+        <Angle value="180"/>
+        <Distance value="8,8"/>
+    </CTargetFindOffset>
+    <CTargetFindSet id="AP_JumpJetsAttack">
+        <!-- Prefer Sieging over diving in while in Tank mode -->
+        <CasterValidator value="AP_SiegeTankForwardJumpJets"/>
+        <Type value="Sequential"/>
+        <Array value="AP_JumpJetsSearchTarget"/>
+        <Array value="AP_JumpJetsSearchEvaluateLocation"/>
+    </CTargetFindSet>
+    <CTargetFindEffect id="AP_JumpJetsSearchTarget">
+        <Effect value="AP_SiegeTankJumpJetsAISearch"/>
+    </CTargetFindEffect>
+    <CTargetFindBestPoint id="AP_JumpJetsSearchEvaluateLocation">
+        <Flags index="EvaluateCmd" value="1"/>
+        <DamageBase value="1"/>
+        <MinCount value="1"/>
+        <MinScore value="0"/>
+        <Effect value="AP_SiegeTankJumpJetsAISearch"/>
+    </CTargetFindBestPoint>
+    <CTargetFindEnumArea id="AP_JumpJetsAttackTarget">
+        <TargetValidator value="AP_TacticalJumpJetsAttackRange"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Hallucination,Invulnerable"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
+        <AreaArray/>
+        <ExtendRadius value="20"/>
+    </CTargetFindEnumArea>
+    <CTargetFindOffset id="AP_JumpJetsAttackOffset">
+        <Flags index="EvaluateCmd" value="1"/>
+        <Distance value="-8,-8"/>
+    </CTargetFindOffset>
 </Catalog>

@@ -20,13 +20,29 @@
         <Abil value="AP_MorphToSwarmHostUprooted"/>
         <Validator value="AP_TacticalBurrowSwarmHostUp"/>
     </CTacticalOrder>
-    <CTacticalOrder id="AP_SiegeTank">
+    <CTacticalSet id="AP_SiegeTank">
+        <Array value="AP_SiegeTankSiege"/>
+        <Array value="AP_SiegeTankJumpJets"/>
+    </CTacticalSet>
+    <CTacticalOrder id="AP_SiegeTankSiege">
         <Abil value="AP_SiegeMode"/>
         <Validator value="TacticalSiegeTankSeige"/>
     </CTacticalOrder>
-    <CTacticalOrder id="AP_SiegeTankSieged">
+    <CTacticalSet id="AP_SiegeTankSieged">
+        <Array value="AP_SiegeTankSiegedJumpJets"/>
+        <Array value="AP_SiegeTankSiegedUnsiege"/>
+    </CTacticalSet>
+    <CTacticalOrder id="AP_SiegeTankSiegedUnsiege">
         <Abil value="AP_Unsiege"/>
-        <Validator value="TacticalSiegeTankUnsiege"/>
+        <Validator value="AP_TacticalSiegeTankUnsiege"/>
+    </CTacticalOrder>
+    <CTacticalOrder id="AP_SiegeTankJumpJets">
+        <Abil value="AP_SiegeTankJumpJet"/>
+        <TargetFind value="AP_SiegeTankJumpJets"/>
+    </CTacticalOrder>
+    <CTacticalOrder id="AP_SiegeTankSiegedJumpJets">
+        <Abil value="AP_SiegeTankSiegedJumpJet"/>
+        <TargetFind value="AP_SiegeTankJumpJets"/>
     </CTacticalOrder>
     <CTacticalOrder id="AP_Marine">
         <Abil value="AP_Stimpack"/>
