@@ -36487,6 +36487,9 @@
         <WireframeShieldColor value="255,0,128,0"/>
     </CActorUnit>
     <CActorSplat id="AP_MercUltraliskBurrowedSplat" parent="BurrowedSplat" unitName="AP_MercUltralisk"/>
+    <CActorSound id="AP_MercUltraliskRoar" parent="SoundOneShot">
+        <Sound value="AP_SCBW_Ultralisk_Ready"/>
+    </CActorSound>
     <CActorUnit id="AP_MercUltralisk" parent="GenericUnitBase" unitName="AP_MercUltralisk">
         <Aliases value="_UnitHuge"/>
         <Macros value="ZergBurrowStandardAnimMacro"/>
@@ -36562,6 +36565,7 @@
         <On Terms="AbilMorph.*.Finish; MorphTo AP_MercUltralisk; MorphFrom AP_MercTorrasqueChrysalis" Send="SetScale 0.200000"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_MercUltralisk; MorphFrom AP_MercTorrasqueChrysalis" Send="SetScale 1.000000 0.400000"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_MercUltralisk; MorphFrom AP_MercTorrasqueChrysalis" Send="$Birth 0 0.000000 0.250000"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_MercUltralisk; MorphFrom AP_MercTorrasqueChrysalis" Send="Create AP_MercUltraliskRoar"/>
         <Model value="Ultralisk_Remastered"/>
         <AnimBlendTime value="0.300000"/>
         <HighlightTooltip value="Unit/Name/AP_MercUltralisk"/>
