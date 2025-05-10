@@ -27646,6 +27646,9 @@
         <Host Subject="_Selectable"/>
         <HostSiteOps Ops="SOpAttachOverhead" HoldRotation="1"/>
     </CActorModel>
+    <CActorSound id="AP_UltraliskRoar" parent="SoundOneShot">
+        <Sound value="AP_Ultralisk_Ready"/>
+    </CActorSound>
     <CActorUnit id="AP_Ultralisk" parent="AP_UltraliskBase" unitName="AP_Ultralisk">
         <On Terms="AbilMorph.*.Finish; MorphTo AP_Ultralisk; !AbilKey BurrowUp" Send="Create"/>
         <On Terms="UnitBirth.AP_UltraliskResourceEfficiency" Send="Create"/>
@@ -27666,6 +27669,7 @@
         <PlacementModel value="AP_HotSTorrasque"/>
         <DeathArray index="Normal" ModelLink="AP_UltraliskEx1BDeath"/>
         <PortraitModel value="AP_TorrasquePortrait"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_Ultralisk; MorphFrom AP_TorrasqueChrysalis" Send="Create AP_UltraliskRoar"/>
         <GroupIcon>
             <Image index="0" value="Assets\Textures\Wireframe-Zerg-ultraliskex1b.dds"/>
         </GroupIcon>
