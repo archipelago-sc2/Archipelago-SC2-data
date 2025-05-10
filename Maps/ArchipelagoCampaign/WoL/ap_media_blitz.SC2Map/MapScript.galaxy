@@ -961,12 +961,14 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     gv_statueBullhorns[5] = UnitFromId(217);
     gv_statueBullhorns[6] = UnitFromId(215);
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
-        UnitSetPropertyFixed(gv_odin, c_unitPropLifeRegen, 2.1);
+        UnitSetPropertyFixed(gv_odin, c_unitPropLifeRegen, 0.7);
         UnitBehaviorAdd(gv_odin, "AP_ZergOdin", gv_odin, 1);
+        UnitBehaviorAdd(gv_odin, "AP_ZergOdinHealthRegen", gv_odin, 1);
     }
     else {
         if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) {
             TechTreeUpgradeAddLevel(1, "AP_ProtossOdin", 1);
+            UnitBehaviorAdd(gv_odin, "AP_ProtossOdinShieldRegen", gv_odin, 1);
             UnitSetPropertyFixed(gv_odin, c_unitPropShieldsMax, 500.0);
             UnitSetPropertyFixed(gv_odin, c_unitPropShields, 500.0);
         }
