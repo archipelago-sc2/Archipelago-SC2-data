@@ -5570,9 +5570,28 @@
         <Find value="0"/>
     </CValidatorUnitType>
     <!-- For use in patching transports -->
-    <CValidatorUnitFilters id="AP_IsNotAirUnit">
+    <CValidatorCombine id="AP_IsNotAirUnit">
+        <ResultFailed value="CantLoadThatUnit"/>
+        <Type value="Or"/>
+        <CombineArray value="AP_IsNotAirPlaneUnit"/>
+        <!-- This covers vanilla colossi as well as AP regular + purifier colossi via select alias -->
+        <CombineArray value="IsColossus"/>
+        <CombineArray value="AP_IsAPColossusTaldarim"/>
+        <CombineArray value="AP_IsVanillaColossusTaldarim"/>
+        <CombineArray value="AP_IsVanillaColossusPurifier"/>
+    </CValidatorCombine>
+    <CValidatorUnitFilters id="AP_IsNotAirPlaneUnit">
         <Filters value="-;Air,AirUnit"/>
     </CValidatorUnitFilters>
+    <CValidatorUnitType id="AP_IsAPColossusTaldarim">
+        <Value value="AP_ColossusTaldarim"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_IsVanillaColossusTaldarim">
+        <Value value="ColossusTaldarim"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_IsVanillaColossusPurifier">
+        <Value value="ColossusPurifier"/>
+    </CValidatorUnitType>
     <CValidatorUnitType id="AP_IsAPPredatorNest">
         <Value value="AP_ZergMercenaryCompound"/>
     </CValidatorUnitType>
