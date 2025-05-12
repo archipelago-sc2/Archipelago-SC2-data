@@ -5613,6 +5613,8 @@ bool gt_AfterMidCineChamber00Intro_Func (bool testConds, bool runActions) {
         UnitBehaviorRemovePlayer(auto60181B81_var, "Exp03StasisEnding", gv_pLAYER_02_ZERG, 1);
         libNtve_gf_PauseUnit(auto60181B81_var, false);
         libNtve_gf_MakeUnitInvulnerable(auto60181B81_var, false);
+        UnitSetState(auto60181B81_var, c_unitStateTargetable, true);
+        UnitSetState(auto60181B81_var, c_unitStateSelectable, true);
     }
     UnitIssueOrder(UnitFromId(70), OrderTargetingPoint(AbilityCommand("attack", 0), PointFromId(296)), c_orderQueueReplace);
     UnitIssueOrder(UnitFromId(75), OrderTargetingPoint(AbilityCommand("attack", 0), PointFromId(463)), c_orderQueueReplace);
