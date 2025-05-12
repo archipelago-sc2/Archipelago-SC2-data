@@ -7958,6 +7958,10 @@
         <Icon value="Assets\Textures\RadarIcon2.dds"/>
         <IconArcLength value="3.250000"/>
     </CActorRange>
+    <CActorModel id="AP_AlarakEx2Portrait3DAddition" parent="CompositePortraitAddition"/>
+    <CActorPortrait id="AP_AlarakEx2Portrait" parent="CompositePortrait"/>
+    <CActorModel id="AP_AlarakEx2PortraitAddition" parent="CompositePortraitAddition"/>
+    <CActorPortrait id="AP_AlarakEx2Portrait3D" parent="CompositePortrait"/>
     <CActorModel id="AP_AlarakLightningStrike" parent="BuffContinuous">
         <On Terms="Behavior.AP_AlarakLightningStrikes.On" Send="Create"/>
         <On Terms="Behavior.AP_AlarakLightningStrikes.Off" Send="AnimBracketStop BSD"/>
@@ -27642,6 +27646,9 @@
         <Host Subject="_Selectable"/>
         <HostSiteOps Ops="SOpAttachOverhead" HoldRotation="1"/>
     </CActorModel>
+    <CActorSound id="AP_UltraliskRoar" parent="SoundOneShot">
+        <Sound value="AP_Ultralisk_Ready"/>
+    </CActorSound>
     <CActorUnit id="AP_Ultralisk" parent="AP_UltraliskBase" unitName="AP_Ultralisk">
         <On Terms="AbilMorph.*.Finish; MorphTo AP_Ultralisk; !AbilKey BurrowUp" Send="Create"/>
         <On Terms="UnitBirth.AP_UltraliskResourceEfficiency" Send="Create"/>
@@ -27662,6 +27669,7 @@
         <PlacementModel value="AP_HotSTorrasque"/>
         <DeathArray index="Normal" ModelLink="AP_UltraliskEx1BDeath"/>
         <PortraitModel value="AP_TorrasquePortrait"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_Ultralisk; MorphFrom AP_TorrasqueChrysalis" Send="Create AP_UltraliskRoar"/>
         <GroupIcon>
             <Image index="0" value="Assets\Textures\Wireframe-Zerg-ultraliskex1b.dds"/>
         </GroupIcon>
@@ -34882,6 +34890,19 @@
         </Wireframe>
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-zerg-groundcarapace-level0.dds"/>
         <Aliases value="_UnitSmall"/>
+        <SoundArray index="Birth" value="Changeling_Birth"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="Help" value="Changeling_Help"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <SoundArray index="Attack" value="Changeling_Attack"/>
+        <SoundArray index="Pissed" value="Changeling_Pissed"/>
+        <SoundArray index="Movement" value="Changeling_Movement"/>
+        <SoundArray index="Turning" value="Changeling_Turning"/>
+        <SoundArray index="Board" value="Changeling_Board"/>
+        <SoundArray index="Click" value="Changeling_Click"/>
+        <SoundArray index="ClickError" value="Changeling_ClickError"/>
+        <SoundArray index="Highlight" value="Changeling_Highlight"/>
     </CActorUnit>
     <CActorMissile id="AP_ContaminateMissile" parent="GenericAttackMissile" unitName="AP_ContaminateWeapon">
         <Model value="ContaminateWeapon"/>
@@ -36487,6 +36508,9 @@
         <WireframeShieldColor value="255,0,128,0"/>
     </CActorUnit>
     <CActorSplat id="AP_MercUltraliskBurrowedSplat" parent="BurrowedSplat" unitName="AP_MercUltralisk"/>
+    <CActorSound id="AP_MercUltraliskRoar" parent="SoundOneShot">
+        <Sound value="AP_SCBW_Ultralisk_Ready"/>
+    </CActorSound>
     <CActorUnit id="AP_MercUltralisk" parent="GenericUnitBase" unitName="AP_MercUltralisk">
         <Aliases value="_UnitHuge"/>
         <Macros value="ZergBurrowStandardAnimMacro"/>
@@ -36562,6 +36586,7 @@
         <On Terms="AbilMorph.*.Finish; MorphTo AP_MercUltralisk; MorphFrom AP_MercTorrasqueChrysalis" Send="SetScale 0.200000"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_MercUltralisk; MorphFrom AP_MercTorrasqueChrysalis" Send="SetScale 1.000000 0.400000"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_MercUltralisk; MorphFrom AP_MercTorrasqueChrysalis" Send="$Birth 0 0.000000 0.250000"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_MercUltralisk; MorphFrom AP_MercTorrasqueChrysalis" Send="Create AP_MercUltraliskRoar"/>
         <Model value="Ultralisk_Remastered"/>
         <AnimBlendTime value="0.300000"/>
         <HighlightTooltip value="Unit/Name/AP_MercUltralisk"/>

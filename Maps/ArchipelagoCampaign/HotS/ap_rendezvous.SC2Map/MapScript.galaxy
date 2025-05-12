@@ -10652,7 +10652,7 @@ bool gt_MidReinforcementsProtossQ_Func (bool testConds, bool runActions) {
 
     TriggerQueueEnter();
     libSwaC_gf_SetAllSoundChannelVolumesCampaign(libSwaC_ge_VolumeChannelModeCampaign_Speech);
-    libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("TalDarimExecutorPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), SoundLink("AP_ProtossTransmissionReinforcements", 0), 0.0, c_transmissionDurationAdd, true);
+    TransmissionSendForPlayerSelect(PlayerGroupAll(), TransmissionSourceFromModel("AP_AlarakEx2Portrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), "AP_AlarakEx2Portrait", "Talk", SoundLink("AP_ProtossTransmissionReinforcements", -1), null, null, 0.0, c_transmissionDurationAdd, true, c_maxPlayers, false);
     Wait(1.0, c_timeReal);
     libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("ArtanisPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), SoundLink("AP_ProtossTransmissionStart2", -1), 3.1, c_transmissionDurationSet, true);
     libSwaC_gf_SetAllSoundChannelVolumesCampaign(libSwaC_ge_VolumeChannelModeCampaign_Game);
