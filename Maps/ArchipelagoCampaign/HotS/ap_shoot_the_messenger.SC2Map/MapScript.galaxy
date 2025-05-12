@@ -313,6 +313,7 @@ trigger gt_VictoryTerran2;
 trigger gt_VictoryTerran3;
 trigger gt_VictoryTerran4;
 trigger gt_VictoryProtoss;
+trigger gt_VictoryProtoss2;
 trigger gt_FactionSwapInit;
 trigger gt_onDifficultyCasual;
 trigger gt_onDifficultyNormal;
@@ -5945,6 +5946,7 @@ void gt_VictorySetup_Init () {
 bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     string auto7883E05C_val;
+    string auto9FA72620_val;
 
     // Actions
     if (!runActions) {
@@ -5979,6 +5981,12 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     gv_victoryCinematicCompleted = false;
     CinematicFade(true, 1.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, true);
     libSwaC_gf_SetAllSoundChannelVolumesCampaign(libSwaC_ge_VolumeChannelModeCampaign_CinematicInTransmission);
+    auto9FA72620_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto9FA72620_val == "Prot") {
+        TriggerExecute(gt_VictoryProtoss2, true, false);
+    }
+    else {
+    }
     if ((gv_alternateVictory == false)) {
         libSwaC_gf_SendTransmissionCampaign(gv_victoryKerrigan, "zMission_Expedition02|Line00041", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
     }
@@ -6311,6 +6319,14 @@ bool gt_VictoryProtoss_Func (bool testConds, bool runActions) {
         UnitCreate(1, "AP_Dragoon", 0, gv_pLAYER_01_USER, RegionRandomPoint(RegionFromId(20)), libNtve_gf_RandomAngle());
         UnitGroupAddUnitGroup(lv_victoryZerg, UnitLastCreatedGroup());
     }
+    UnitCreate(1, "AP_Dragoon", 0, gv_pLAYER_01_USER, libNtve_gf_PointFacingAngle(PointFromId(1635245936), 270.0), libNtve_gf_RandomAngle());
+    UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 1), PointFromId(820040115)), c_orderQueueReplace);
+    UnitCreate(1, "AP_Dragoon", 0, gv_pLAYER_01_USER, libNtve_gf_PointFacingAngle(PointFromId(820040115), 270.0), libNtve_gf_RandomAngle());
+    UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 1), PointFromId(1635245936)), c_orderQueueReplace);
+    UnitCreate(1, "AP_Dragoon", 0, gv_pLAYER_01_USER, libNtve_gf_PointFacingAngle(PointFromId(86), 270.0), libNtve_gf_RandomAngle());
+    UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 1), PointFromId(691)), c_orderQueueReplace);
+    UnitCreate(1, "AP_Dragoon", 0, gv_pLAYER_01_USER, libNtve_gf_PointFacingAngle(PointFromId(691), 270.0), libNtve_gf_RandomAngle());
+    UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 1), PointFromId(86)), c_orderQueueReplace);
     while (true) {
         auto45C503AE_g = lv_victoryZerg;
         auto45C503AE_u = UnitGroupCount(auto45C503AE_g, c_unitCountAll);
@@ -6330,6 +6346,34 @@ bool gt_VictoryProtoss_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_VictoryProtoss_Init () {
     gt_VictoryProtoss = TriggerCreate("gt_VictoryProtoss_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Victory Protoss 2
+//--------------------------------------------------------------------------------------------------
+bool gt_VictoryProtoss2_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    while (true) {
+        libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("AP_DragoonPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_TopLeft), SoundLink("zEvoMission_Baneling_ZExpedition03Zealot_027", -1), 0.0, c_transmissionDurationAdd, false);
+        Wait(1.0, c_timeReal);
+        libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("AP_DragoonPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_BottomRight), SoundLink("zEvoMission_Roach_ZExpedition03Zealot_031", -1), 0.0, c_transmissionDurationAdd, false);
+        Wait(1.0, c_timeReal);
+        libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("AP_DragoonPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterRight), SoundLink("zEvoMission_Roach_Immortal_055", -1), 0.0, c_transmissionDurationAdd, false);
+        Wait(1.0, c_timeReal);
+        libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("AP_DragoonPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), SoundLink("zEvoMission_Baneling_ZExpedition03Stalker_058", -1), 0.0, c_transmissionDurationAdd, false);
+        Wait(1.0, c_timeReal);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_VictoryProtoss2_Init () {
+    gt_VictoryProtoss2 = TriggerCreate("gt_VictoryProtoss2_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7147,6 +7191,7 @@ void InitTriggers () {
     gt_VictoryTerran3_Init();
     gt_VictoryTerran4_Init();
     gt_VictoryProtoss_Init();
+    gt_VictoryProtoss2_Init();
     gt_FactionSwapInit_Init();
     gt_onDifficultyCasual_Init();
     gt_onDifficultyNormal_Init();
