@@ -3619,6 +3619,7 @@
         <AbilSoundArray AbilCmd="AP_SiegeMode,Execute" Sound="SiegeTank_SiegeModeVO"/>
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
         <Aliases value="_UnitLarge"/>
+        <HighlightTooltip value="Unit/Name/AP_SiegeTank"/>
     </CActorUnit>
     <CActorUnit id="AP_SiegeModeMorphModel" parent="GenericUnitBaseMorphTransition" unitName="AP_SiegeModeMorphModel">
         <Model value="SiegeTankSiegedMorph"/>
@@ -4742,6 +4743,7 @@
         <On Terms="UnitPortrait.*.Configure" Target="::PortraitGameSelf" Send="AnimPlay Visor Morph,End"/>
         <On Terms="UnitPortrait.*.Configure" Target="::PortraitGameSelf" Send="PortraitAnimSetTimeFrom Visor MorphStart"/>
         <Aliases value="_UnitLarge"/>
+        <HighlightTooltip value="Unit/Name/AP_VikingAssault"/>
     </CActorUnit>
     <CActorUnit id="AP_FighterMorphModel" parent="GenericUnitBaseMorphTransition" unitName="AP_FighterMorphModel">
         <Model value="VikingMorph"/>
@@ -4774,6 +4776,7 @@
         <On Terms="UnitPortrait.*.Configure" Target="::PortraitGameSelf" Send="AnimPlay Visor Morph,Start PlayForever,NonLooping"/>
         <On Terms="UnitPortrait.*.Configure" Target="::PortraitGameSelf" Send="PortraitAnimSetTimeFrom Visor MorphStart"/>
         <Aliases value="_UnitLarge"/>
+        <HighlightTooltip value="Unit/Name/AP_VikingAssault"/>
     </CActorUnit>
     <CActorSound id="AP_FighterMode" parent="SoundOneShot">
         <Sound value="Viking_MorphToFighter"/>
@@ -27220,6 +27223,7 @@
         <Wireframe>
             <Image value="Assets\Textures\wireframe-terran-liberator-agmode.dds"/>
         </Wireframe>
+        <HighlightTooltip value="Unit/Name/AP_Liberator"/>
     </CActorUnit>
     <CActorUnit id="AP_MercLiberatorAGMorphModel" parent="GenericUnitBaseMorphTransition" unitName="AP_MercLiberatorAGMorphModel">
         <Aliases value="_UnitLarge"/>
@@ -27278,6 +27282,7 @@
         <Wireframe>
             <Image value="Assets\Textures\wireframe-terran-liberator-agmodeblackops.dds"/>
         </Wireframe>
+        <HighlightTooltip value="Unit/Name/AP_MercLiberator"/>
     </CActorUnit>
     <CActorModel id="AP_LiberatorAGSearchIndicatorModel">
         <Inherits index="TeamColor" value="1"/>
@@ -27516,6 +27521,7 @@
         <Wireframe>
             <Image value="Assets\Textures\wireframe-terran-liberator-aamode.dds"/>
         </Wireframe>
+        <HighlightTooltip value="Unit/Name/AP_Liberator"/>
     </CActorUnit>
     <CActorUnit id="AP_MercLiberatorMorphModel" parent="GenericUnitBaseMorphTransition" unitName="AP_MercLiberatorMorphModel">
         <Aliases value="_UnitLarge"/>
@@ -27577,6 +27583,7 @@
         <Wireframe>
             <Image value="Assets\Textures\wireframe-terran-liberatorblackops.dds"/>
         </Wireframe>
+        <HighlightTooltip value="Unit/Name/AP_MercLiberator"/>
     </CActorUnit>
     <CActorAction id="AP_LiberatorShieldHitter" parent="AoESplashShieldHitter" effectHit="AP_LiberatorMissileDamage"/>
     <CActorAction id="AP_MercLiberatorShieldHitter" parent="AoESplashShieldHitter" effectHit="AP_MercLiberatorMissileDamage"/>
@@ -28968,6 +28975,7 @@
         <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreaker; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreaker; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
         <Sound value="AP_SiegeBreaker_MorphToTank"/>
+        <HighlightTooltip value="Unit/Name/AP_SiegeBreaker"/>
     </CActorSound>
     <CActorUnit id="AP_InfestedSiegeBreaker" parent="GenericUnitMorph" unitName="AP_InfestedSiegeBreaker">
         <Aliases value="_UnitLarge"/>
@@ -29335,6 +29343,7 @@
         <Wireframe>
             <Image value="AP\Assets\Textures\Wireframe-Terran-Viking-mercenary-fighter.dds"/>
         </Wireframe>
+        <HighlightTooltip value="Unit/Name/AP_HelsAngelFighter"/>
     </CActorUnit>
     <CActorModel id="AP_VikingMercenaryFighterReentry" parent="ModelAdditionNoAnims">
         <On Terms="ActorCreation" Send="AnimBracketStart BSDb Birth Stand Death ContentPlayOnce"/>
@@ -29390,6 +29399,7 @@
         <Wireframe>
             <Image value="AP\Assets\Textures\Wireframe-Terran-Viking-mercenary-Fighter.dds"/>
         </Wireframe>
+        <HighlightTooltip value="Unit/Name/AP_HelsAngelFighter"/>
     </CActorUnit>
     <CActorAction id="AP_WreckingCrewFighterUpgradedAttack" parent="AP_WreckingCrewFighterAttackBase" effectImpact="AP_WreckingCrewFighterU" effectLaunch="AP_WreckingCrewFighterLM">
         <On Terms="Effect.AP_WreckingCrewFighterLM.Start; At Caster; ValidateEffect AP_HALORocketsResearched" Send="Create"/>
@@ -42367,7 +42377,7 @@
             <Image value="Assets\Textures\Wireframe-general-mineralpallet.dds"/>
         </Wireframe>
         <Scale value="0.800000"/>
-        <HighlightSubTooltip value="Unit/Name/AP_KerriganVoidCoopEconDropSubtip"/>
+        <HighlightSubTooltip value="Button/Tooltip/AP_KerriganVoidCoopEconDropLT1Text"/>
         <Filter index="Ally" value="1"/>
         <Filter index="Neutral" value="1"/>
         <Filter index="Enemy" value="1"/>
@@ -42395,7 +42405,7 @@
         <Wireframe>
             <Image value="Assets\Textures\Wireframe-general-mineralpallet.dds"/>
         </Wireframe>
-        <HighlightSubTooltip value="Unit/Name/AP_KerriganVoidCoopEconDropSubtip"/>
+        <HighlightSubTooltip value="Button/Tooltip/AP_KerriganVoidCoopEconDrop1Text"/>
         <Filter index="Ally" value="1"/>
         <Filter index="Neutral" value="1"/>
         <Filter index="Enemy" value="1"/>
@@ -42418,7 +42428,7 @@
         <Wireframe>
             <Image value="Assets\Textures\Wireframe-general-mineralpallet.dds"/>
         </Wireframe>
-        <HighlightSubTooltip value="Unit/Name/KerriganVoidCoopEconDropSubtip"/>
+        <HighlightSubTooltip value="Button/Tooltip/AP_KerriganVoidCoopEconDrop2Text"/>
         <Filter index="Ally" value="1"/>
         <Filter index="Neutral" value="1"/>
         <Filter index="Enemy" value="1"/>
@@ -42441,7 +42451,7 @@
         <Wireframe>
             <Image value="Assets\Textures\Wireframe-general-mineralpallet.dds"/>
         </Wireframe>
-        <HighlightSubTooltip value="Unit/Name/AP_KerriganVoidCoopEconDropSubtip"/>
+        <HighlightSubTooltip value="Button/Tooltip/AP_KerriganVoidCoopEconDrop3Text"/>
         <Filter index="Ally" value="1"/>
         <Filter index="Neutral" value="1"/>
         <Filter index="Enemy" value="1"/>
@@ -42465,7 +42475,7 @@
             <Image value="Assets\Textures\Wireframe-general-mineralpallet.dds"/>
         </Wireframe>
         <Scale value="1.200000"/>
-        <HighlightSubTooltip value="Unit/Name/KerriganVoidCoopEconDropSubtip"/>
+        <HighlightSubTooltip value="Button/Tooltip/AP_KerriganVoidCoopEconDrop4Text"/>
         <Filter index="Ally" value="1"/>
         <Filter index="Neutral" value="1"/>
         <Filter index="Enemy" value="1"/>
@@ -42489,7 +42499,7 @@
             <Image value="Assets\Textures\Wireframe-general-mineralpallet.dds"/>
         </Wireframe>
         <Scale value="1.400000"/>
-        <HighlightSubTooltip value="Unit/Name/AP_KerriganVoidCoopEconDropSubtip"/>
+        <HighlightSubTooltip value="Button/Tooltip/AP_KerriganVoidCoopEconDrop5Text"/>
         <Filter index="Ally" value="1"/>
         <Filter index="Neutral" value="1"/>
         <Filter index="Enemy" value="1"/>
