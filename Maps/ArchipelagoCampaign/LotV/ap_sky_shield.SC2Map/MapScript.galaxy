@@ -2069,6 +2069,10 @@ bool gt_TransferFirstBaseToPlayer_Func (bool testConds, bool runActions) {
         if ((UnitGetType(lv_unit) == "AP_ZerglingRespawnControllerUnit")) {
             UnitRemove(lv_unit);
         }
+        else if ((UnitGetType(lv_unit) == "OrbitalCommand")) {
+            libNtve_gf_ReplaceUnit(lv_unit, "AP_CommandCenter", libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
+            lv_unit = libNtve_gf_LastReplacedUnit();
+        }
         else if (true) {
             lv_unitType = UnitGetType(lv_unit);
             libNtve_gf_ReplaceUnit(lv_unit, "AP_" + lv_unitType, libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
@@ -2077,6 +2081,7 @@ bool gt_TransferFirstBaseToPlayer_Func (bool testConds, bool runActions) {
         libNtve_gf_RescueUnit(lv_unit, gv_pLAYER_01_USER, true);
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
     }
+    lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     TriggerExecute(gt_IncreaseSupplyCap, true, false);
     return true;
 }
@@ -2127,6 +2132,10 @@ bool gt_TransferSecondBaseToPlayer_Func (bool testConds, bool runActions) {
         if ((UnitGetType(lv_unit) == "AP_ZerglingRespawnControllerUnit")) {
             UnitRemove(lv_unit);
         }
+        else if ((UnitGetType(lv_unit) == "OrbitalCommand")) {
+            libNtve_gf_ReplaceUnit(lv_unit, "AP_CommandCenter", libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
+            lv_unit = libNtve_gf_LastReplacedUnit();
+        }
         else if (true) {
             lv_unitType = UnitGetType(lv_unit);
             libNtve_gf_ReplaceUnit(lv_unit, "AP_" + lv_unitType, libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
@@ -2135,6 +2144,7 @@ bool gt_TransferSecondBaseToPlayer_Func (bool testConds, bool runActions) {
         libNtve_gf_RescueUnit(lv_unit, gv_pLAYER_01_USER, true);
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
     }
+    lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     TriggerExecute(gt_IncreaseSupplyCap, true, false);
     return true;
 }
