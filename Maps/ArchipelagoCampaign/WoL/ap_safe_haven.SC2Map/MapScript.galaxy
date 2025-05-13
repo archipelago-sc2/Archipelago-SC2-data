@@ -693,6 +693,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     unitgroup autoEBB3F6E8_g;
     int autoEBB3F6E8_u;
     unit autoEBB3F6E8_var;
+    unitgroup auto5972562D_g;
+    int auto5972562D_u;
+    unit auto5972562D_var;
     unitgroup auto871775BC_g;
     int auto871775BC_u;
     unit auto871775BC_var;
@@ -716,14 +719,20 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
                 auto25A9036C_var = UnitGroupUnitFromEnd(auto25A9036C_g, auto25A9036C_u);
                 if (auto25A9036C_var == null) { break; }
                 libNtve_gf_ReplaceUnit(auto25A9036C_var, "AP_Hive", libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
-                autoEBB3F6E8_g = UnitGroup("AP_Larva", gv_pLAYER01_USER, RegionCircle(UnitGetPosition(libNtve_gf_LastReplacedUnit()), 5.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-                autoEBB3F6E8_u = UnitGroupCount(autoEBB3F6E8_g, c_unitCountAll);
-                for (;; autoEBB3F6E8_u -= 1) {
-                    autoEBB3F6E8_var = UnitGroupUnitFromEnd(autoEBB3F6E8_g, autoEBB3F6E8_u);
-                    if (autoEBB3F6E8_var == null) { break; }
-                    UnitRemove(autoEBB3F6E8_var);
-                }
-                lib15EF4C78_gf_AP_Player_SpawnLarvaForHatchery(libNtve_gf_LastReplacedUnit(), 3);
+            }
+            autoEBB3F6E8_g = UnitGroup("AP_Larva", gv_pLAYER01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+            autoEBB3F6E8_u = UnitGroupCount(autoEBB3F6E8_g, c_unitCountAll);
+            for (;; autoEBB3F6E8_u -= 1) {
+                autoEBB3F6E8_var = UnitGroupUnitFromEnd(autoEBB3F6E8_g, autoEBB3F6E8_u);
+                if (autoEBB3F6E8_var == null) { break; }
+                UnitRemove(autoEBB3F6E8_var);
+            }
+            auto5972562D_g = UnitGroup("AP_Hive", gv_pLAYER01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+            auto5972562D_u = UnitGroupCount(auto5972562D_g, c_unitCountAll);
+            for (;; auto5972562D_u -= 1) {
+                auto5972562D_var = UnitGroupUnitFromEnd(auto5972562D_g, auto5972562D_u);
+                if (auto5972562D_var == null) { break; }
+                lib15EF4C78_gf_AP_Player_SpawnLarvaForHatchery(auto5972562D_var, 3);
             }
             PlayerSetRace(1, "Zerg");
             lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
@@ -1281,6 +1290,13 @@ void gt_DEBUGMalignantCreep_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_IntroSequence_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    unitgroup autoC84C2E97_g;
+    int autoC84C2E97_u;
+    unit autoC84C2E97_var;
+    unitgroup auto08A51CCE_g;
+    int auto08A51CCE_u;
+    unit auto08A51CCE_var;
+
     // Actions
     if (!runActions) {
         return true;
@@ -1291,6 +1307,20 @@ bool gt_IntroSequence_Func (bool testConds, bool runActions) {
     libNtve_gf_GlobalCinematicSetting(true);
     TriggerExecute(gt_StartAI, true, false);
     Wait(0.1, c_timeReal);
+    autoC84C2E97_g = UnitGroup("AP_Larva", gv_pLAYER01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoC84C2E97_u = UnitGroupCount(autoC84C2E97_g, c_unitCountAll);
+    for (;; autoC84C2E97_u -= 1) {
+        autoC84C2E97_var = UnitGroupUnitFromEnd(autoC84C2E97_g, autoC84C2E97_u);
+        if (autoC84C2E97_var == null) { break; }
+        UnitRemove(autoC84C2E97_var);
+    }
+    auto08A51CCE_g = UnitGroup("AP_Hive", gv_pLAYER01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto08A51CCE_u = UnitGroupCount(auto08A51CCE_g, c_unitCountAll);
+    for (;; auto08A51CCE_u -= 1) {
+        auto08A51CCE_var = UnitGroupUnitFromEnd(auto08A51CCE_g, auto08A51CCE_u);
+        if (auto08A51CCE_var == null) { break; }
+        lib15EF4C78_gf_AP_Player_SpawnLarvaForHatchery(auto08A51CCE_var, 3);
+    }
     libNtve_gf_CinematicMode(false, PlayerGroupAll(), 1.5);
     libNtve_gf_GlobalCinematicSetting(false);
     libNtve_gf_SwooshCamera(gv_pLAYER01_USER, ((CameraInfoGetValue(CameraInfoDefault(), c_cameraValueDistance)) + 8.0), CameraInfoGetValue(CameraInfoDefault(), c_cameraValueDistance), PlayerStartLocation(gv_pLAYER01_USER), 1.5);
