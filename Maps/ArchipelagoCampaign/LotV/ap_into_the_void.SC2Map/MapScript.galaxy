@@ -1913,6 +1913,7 @@ bool gt_TransferZergControlToPlayer_Func (bool testConds, bool runActions) {
         libNtve_gf_RescueUnit(lv_unit, gv_pLAYER_01_USER, true);
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
     }
+    lib15EF4C78_gf_StartingWorkersAutoHarvest(gv_pLAYER_01_USER, RegionEntireMap(), null);
     PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropSuppliesLimit, c_playerPropOperAdd, 200);
     UnitGroupAddUnitGroup(lv_unitGroup, UnitGroup("AP_Hive", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     UnitGroupAddUnitGroup(lv_unitGroup, UnitGroup("AP_Lair", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
@@ -3413,6 +3414,7 @@ bool gt_StartGameStage2Q_Func (bool testConds, bool runActions) {
     }
 
     UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/ADA11C5C"), null, PointFromId(443));
+    lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     libVCMI_gf_StartingWorkersAutoHarvest(RegionFromId(7), RegionFromId(8));
     TriggerExecute(gt_UpdateKerriganDefendRegion, true, false);
     TriggerExecute(gt_KerriganSpellAI, true, false);

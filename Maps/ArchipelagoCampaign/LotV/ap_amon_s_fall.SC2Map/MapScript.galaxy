@@ -2260,8 +2260,10 @@ bool gt_StartGameQ_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_QuantumRayCheck, true, false);
     UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/ADA11C5C"), null, PointFromId(1));
     libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionPlayableMap(), gv_pLAYER_01_USER);
+    lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     VisRevealArea(gv_pLAYER_01_USER, RegionFromId(2), 0.0, false);
     Wait(3.0, c_timeReal);
+    lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     TriggerQueueEnter();
     TriggerExecute(gt_ObjectiveDestroyCrystalsCreate, true, true);
     gv_pingsAllowed = true;

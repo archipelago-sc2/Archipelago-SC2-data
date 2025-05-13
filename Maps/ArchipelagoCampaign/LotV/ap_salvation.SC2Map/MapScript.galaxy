@@ -1254,6 +1254,8 @@ bool gt_TransferAllyControlToPlayer_Func (bool testConds, bool runActions) {
             libNtve_gf_RescueUnit(lv_unit, gv_pLAYER_01_USER, true);
             lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
         }
+        lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+        lib15EF4C78_gf_StartingWorkersAutoHarvest(gv_pLAYER_01_USER, RegionEntireMap(), null);
         PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropSuppliesLimit, c_playerPropOperAdd, 600);
         auto9C5FAAB6_g = UnitGroup("MineralField", c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
         auto9C5FAAB6_u = UnitGroupCount(auto9C5FAAB6_g, c_unitCountAll);
@@ -1864,6 +1866,7 @@ bool gt_StartGameQ_Func (bool testConds, bool runActions) {
     }
 
     libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionFromId(12), gv_pLAYER_01_USER);
+    lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     TriggerExecute(gt_ObjectiveKeystoneMustSurviveCreate, true, false);
     Wait(3.0, c_timeReal);
     TriggerExecute(gt_KeystoneStatus, true, false);
