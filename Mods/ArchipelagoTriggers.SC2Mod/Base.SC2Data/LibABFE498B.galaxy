@@ -9872,10 +9872,26 @@ void libABFE498B_gf_AP_Triggers_resetBase (int lp_player) {
 bool auto_libABFE498B_gf_AP_Triggers_resetBase_TriggerFunc (bool testConds, bool runActions) {
     int lp_player = auto_libABFE498B_gf_AP_Triggers_resetBase_lp_player;
 
+    // Variable Declarations
+    unitgroup lv_gasWorkers;
+    region lv_mineralRegion;
+    region lv_gasRegion;
+
     // Automatic Variable Declarations
+    unitgroup autoCFCC292E_g;
+    int autoCFCC292E_u;
+    unit autoCFCC292E_var;
+    unitgroup auto59AF0E0C_g;
+    int auto59AF0E0C_u;
+    unit auto59AF0E0C_var;
     unitgroup autoF6FB042E_g;
     int autoF6FB042E_u;
     unit autoF6FB042E_var;
+
+    // Variable Initialization
+    lv_gasWorkers = UnitGroupEmpty();
+    lv_mineralRegion = RegionEntireMap();
+    lv_gasRegion = RegionEmpty();
 
     // Implementation
     lib15EF4C78_gf_AP_Player_ResetMercenaryCooldowns(lp_player);
@@ -9892,7 +9908,25 @@ bool auto_libABFE498B_gf_AP_Triggers_resetBase_TriggerFunc (bool testConds, bool
 
     lib15EF4C78_gf_AP_Player_findPrimaryTownHall(lp_player);
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(lp_player);
-    lib15EF4C78_gf_StartingWorkersAutoHarvest(lp_player, RegionEntireMap(), null);
+    autoCFCC292E_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoCFCC292E_u = UnitGroupCount(autoCFCC292E_g, c_unitCountAll);
+    for (;; autoCFCC292E_u -= 1) {
+        autoCFCC292E_var = UnitGroupUnitFromEnd(autoCFCC292E_g, autoCFCC292E_u);
+        if (autoCFCC292E_var == null) { break; }
+        if (lib15EF4C78_gf_AP_Player_IsGasHarvestable(autoCFCC292E_var)) {
+            UnitGroupAdd(lv_gasWorkers, UnitGroupClosestToPoint(UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter((1 << c_targetFilterWorker), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), UnitGetPosition(autoCFCC292E_var)));
+        }
+
+    }
+    auto59AF0E0C_g = lv_gasWorkers;
+    auto59AF0E0C_u = UnitGroupCount(auto59AF0E0C_g, c_unitCountAll);
+    for (;; auto59AF0E0C_u -= 1) {
+        auto59AF0E0C_var = UnitGroupUnitFromEnd(auto59AF0E0C_g, auto59AF0E0C_u);
+        if (auto59AF0E0C_var == null) { break; }
+        RegionAddCircle(lv_gasRegion, true, UnitGetPosition(auto59AF0E0C_var), 0.5);
+        RegionAddCircle(lv_mineralRegion, false, UnitGetPosition(auto59AF0E0C_var), 0.5);
+    }
+    lib15EF4C78_gf_StartingWorkersAutoHarvest(lp_player, lv_mineralRegion, lv_gasRegion);
     autoF6FB042E_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoF6FB042E_u = UnitGroupCount(autoF6FB042E_g, c_unitCountAll);
     for (;; autoF6FB042E_u -= 1) {

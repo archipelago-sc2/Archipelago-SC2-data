@@ -3756,18 +3756,21 @@ void lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit (unit lp_unit) {
     // Variable Declarations
     string lv_behavior;
     int lv_index;
+    int lv_count;
 
     // Automatic Variable Declarations
-    const int auto01D20A2A_ae = 24;
+    int auto01D20A2A_ae;
     const int auto01D20A2A_ai = 1;
 
     // Variable Initialization
 
     // Implementation
+    lv_count = CatalogFieldValueCount(c_gameCatalogUnit, UnitGetType(lp_unit), "BehaviorArray", c_playerAny);
+    auto01D20A2A_ae = (lv_count - 1);
     lv_index = 0;
     for ( ; ( (auto01D20A2A_ai >= 0 && lv_index <= auto01D20A2A_ae) || (auto01D20A2A_ai < 0 && lv_index >= auto01D20A2A_ae) ) ; lv_index += auto01D20A2A_ai ) {
         lv_behavior = (CatalogFieldValueGet(c_gameCatalogUnit, UnitGetType(lp_unit), "BehaviorArray[" + IntToString(lv_index) + "].Link", UnitGetOwner(lp_unit)));
-        if ((lv_behavior != null) && (lv_behavior != "") && (lv_behavior != "PowerUserBaseDefenseSmall") && (lv_behavior != "PowerUserQueueSmall") && (lv_behavior != "PowerUserQueue")) {
+        if ((lv_behavior != null) && (lv_behavior != "") && (lv_behavior != "PowerUserBaseDefenseSmall") && (lv_behavior != "PowerUserQueueSmall") && (lv_behavior != "PowerUserQueue") && (lv_behavior != "AP_ZerglingRespawnControllerRebirth") && (lv_behavior != "AP_ZerglingRespawnControllerSearch") && (lv_behavior != "AP_HarvestableVespeneGeyserGasZerg") && (lv_behavior != "AP_HarvestableVespeneGeyserGasProtoss") && (lv_behavior != "AP_HarvestableVespeneGeyserGas") && (lv_behavior != "AP_HarvestableRichVespeneGeyserGas")) {
             UnitBehaviorRemove(lp_unit, lv_behavior, c_unitBehaviorCountAll);
             UnitBehaviorAdd(lp_unit, lv_behavior, lp_unit, 1);
         }
@@ -4027,7 +4030,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
             lv_indexWorker = UnitGroupUnitFromEnd(auto4EC1769A_g, auto4EC1769A_u);
             if (lv_indexWorker == null) { break; }
             UnitGroupClear(lv_gasResourceGroup);
-            autoD5BCFAB5_g = UnitGroup(null, lp_player, RegionCircle(UnitGetPosition(lv_indexWorker), 6.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+            autoD5BCFAB5_g = UnitGroup(null, lp_player, RegionCircle(UnitGetPosition(lv_indexWorker), 12.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
             autoD5BCFAB5_u = UnitGroupCount(autoD5BCFAB5_g, c_unitCountAll);
             for (;; autoD5BCFAB5_u -= 1) {
                 lv_indexResource = UnitGroupUnitFromEnd(autoD5BCFAB5_g, autoD5BCFAB5_u);
@@ -4037,7 +4040,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
                 }
 
             }
-            if ((UnitGroupCount(lv_gasResourceGroup, c_unitCountAlive) > 0)) {
+            if ((UnitGroupCount(lv_gasResourceGroup, c_unitCountAlive) > 0) && (UnitOrderCount(lv_indexWorker) <= 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false)) {
                 UnitIssueOrder(lv_indexWorker, OrderTargetingUnit(null, UnitGroupClosestToPoint(lv_gasResourceGroup, UnitGetPosition(lv_indexWorker))), c_orderQueueReplace);
             }
             else {
@@ -4053,7 +4056,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
             lv_indexWorker = UnitGroupUnitFromEnd(auto0A8744D6_g, auto0A8744D6_u);
             if (lv_indexWorker == null) { break; }
             UnitGroupClear(lv_mineralResourceGroup);
-            auto39A9F810_g = UnitGroup(null, 0, RegionCircle(UnitGetPosition(lv_indexWorker), 6.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+            auto39A9F810_g = UnitGroup(null, 0, RegionCircle(UnitGetPosition(lv_indexWorker), 12.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
             auto39A9F810_u = UnitGroupCount(auto39A9F810_g, c_unitCountAll);
             for (;; auto39A9F810_u -= 1) {
                 lv_indexResource = UnitGroupUnitFromEnd(auto39A9F810_g, auto39A9F810_u);
@@ -4063,7 +4066,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
                 }
 
             }
-            if ((UnitGroupCount(lv_mineralResourceGroup, c_unitCountAlive) > 0)) {
+            if ((UnitGroupCount(lv_mineralResourceGroup, c_unitCountAlive) > 0) && (UnitOrderCount(lv_indexWorker) <= 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false)) {
                 UnitIssueOrder(lv_indexWorker, OrderTargetingUnit(null, UnitGroupClosestToPoint(lv_mineralResourceGroup, UnitGetPosition(lv_indexWorker))), c_orderQueueReplace);
             }
 
@@ -4078,7 +4081,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
             lv_indexWorker = UnitGroupUnitFromEnd(auto7B7B077D_g, auto7B7B077D_u);
             if (lv_indexWorker == null) { break; }
             UnitGroupClear(lv_gasResourceGroup);
-            auto820CEEF2_g = UnitGroup(null, lp_player, RegionCircle(UnitGetPosition(lv_indexWorker), 6.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+            auto820CEEF2_g = UnitGroup(null, lp_player, RegionCircle(UnitGetPosition(lv_indexWorker), 12.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
             auto820CEEF2_u = UnitGroupCount(auto820CEEF2_g, c_unitCountAll);
             for (;; auto820CEEF2_u -= 1) {
                 lv_indexResource = UnitGroupUnitFromEnd(auto820CEEF2_g, auto820CEEF2_u);
@@ -4101,7 +4104,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
                 lv_indexWorker = UnitGroupUnitFromEnd(autoEB9D2520_g, autoEB9D2520_u);
                 if (lv_indexWorker == null) { break; }
                 UnitGroupClear(lv_mineralResourceGroup);
-                autoDBDC9A6A_g = UnitGroup(null, 0, RegionCircle(UnitGetPosition(lv_indexWorker), 6.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+                autoDBDC9A6A_g = UnitGroup(null, 0, RegionCircle(UnitGetPosition(lv_indexWorker), 12.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
                 autoDBDC9A6A_u = UnitGroupCount(autoDBDC9A6A_g, c_unitCountAll);
                 for (;; autoDBDC9A6A_u -= 1) {
                     lv_indexResource = UnitGroupUnitFromEnd(autoDBDC9A6A_g, autoDBDC9A6A_u);
@@ -4111,7 +4114,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
                     }
 
                 }
-                if ((UnitGroupCount(lv_mineralResourceGroup, c_unitCountAlive) > 0)) {
+                if ((UnitGroupCount(lv_mineralResourceGroup, c_unitCountAlive) > 0) && (UnitOrderCount(lv_indexWorker) <= 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false)) {
                     UnitIssueOrder(lv_indexWorker, OrderTargetingUnit(null, UnitGroupClosestToPoint(lv_mineralResourceGroup, UnitGetPosition(lv_indexWorker))), c_orderQueueReplace);
                 }
 
