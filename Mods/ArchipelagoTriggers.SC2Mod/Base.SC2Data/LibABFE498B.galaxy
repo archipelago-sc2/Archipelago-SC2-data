@@ -9816,6 +9816,7 @@ bool libABFE498B_gf_AP_Triggers_checkSoA (int lp_player, int lp_mode, bool lp_no
 void libABFE498B_gf_AP_Triggers_startNoBuild (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
+    libABFE498B_gv_aP_Triggers_IsNoBuild = true;
     TriggerExecute(libABFE498B_gt_AP_Triggers_InitSoA, true, false);
     if ((libABFE498B_gf_AP_Triggers_checkSoA(lp_player, 0, true) == false)) {
         lib15EF4C78_gf_ShowSpearofAdunUI(false, c_transitionDurationImmediate);
@@ -9833,6 +9834,7 @@ void libABFE498B_gf_AP_Triggers_startNoBuild (int lp_player) {
 void libABFE498B_gf_AP_Triggers_pauseBuild (int lp_player, bool lp_pauseunpause) {
     // Automatic Variable Declarations
     // Implementation
+    libABFE498B_gv_aP_Triggers_IsNoBuild = lp_pauseunpause;
     if ((lp_pauseunpause == true)) {
         if ((libABFE498B_gf_AP_Triggers_checkSoA(lp_player, 0, true) == false)) {
             lib15EF4C78_gf_ShowSpearofAdunUI(false, c_transitionDurationDefault);
@@ -9897,7 +9899,7 @@ bool auto_libABFE498B_gf_AP_Triggers_resetBase_TriggerFunc (bool testConds, bool
     lib15EF4C78_gf_AP_Player_ResetMercenaryCooldowns(lp_player);
     if ((libABFE498B_gf_AP_Triggers_checkSoA(lp_player, 0, false) == true)) {
         TriggerExecute(libABFE498B_gt_AP_Triggers_InitSoA, true, true);
-        if ((libABFE498B_gf_AP_Triggers_checkSoA(lp_player, 0, true) == false)) {
+        if (((libABFE498B_gf_AP_Triggers_checkSoA(lp_player, 0, true) == false) || (libABFE498B_gv_aP_Triggers_IsNoBuild == false))) {
             lib15EF4C78_gf_AP_Player_ResetSoA(lp_player);
             lib15EF4C78_gf_ShowSpearofAdunUI(true, c_transitionDurationDefault);
         }
@@ -9906,6 +9908,7 @@ bool auto_libABFE498B_gf_AP_Triggers_resetBase_TriggerFunc (bool testConds, bool
         }
     }
 
+    libABFE498B_gv_aP_Triggers_IsNoBuild = false;
     lib15EF4C78_gf_AP_Player_findPrimaryTownHall(lp_player);
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(lp_player);
     autoCFCC292E_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
