@@ -11590,6 +11590,7 @@
     </CUpgrade>
     <CUpgrade id="AP_DisruptorRestructuredThrusters">
         <Icon value="Assets\Textures\btn-upgrade-protoss-alarak-stalkerphasingarmor.dds"/>
+        <EffectArray Operation="Set" Reference="Behavior,AP_PurificationNovaTargettedCaster,Modification.MoveSpeedBonus" Value="0"/>
         <EffectArray Operation="Set" Reference="Button,AP_PurificationNovaTargeted,Tooltip" Value="Button/Tooltip/AP_PurificationNovaTargetedUpgrade"/>
         <EditorCategories value="Race:Protoss,UpgradeType:Talents"/>
         <AffectedUnitArray value="AP_Disruptor"/>
@@ -16812,7 +16813,13 @@
         <Icon value="Assets\Textures\btn-upgrade-mengsk-ghostacademy-guidedtacticalstrike.dds"/>
     </CUpgrade>
     <CUpgrade id="AP_HaveGhostMengsk"/>
-    <CUpgrade id="AP_TrooperMengskWeaponDrop"/>
+    <CUpgrade id="AP_TrooperMengskWeaponDrop">
+        <EditorCategories value="Race:Terran,UpgradeType:Talents"/>
+        <EffectArray Operation="Set" Reference="Behavior,AP_TrooperMengskWeaponTimedLife,Duration" Value="300"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_TrooperMengskFlamethrower,CostResource[Vespene]" Value="20"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_TrooperMengskImproved,CostResource[Vespene]" Value="20"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_TrooperMengskAA,CostResource[Vespene]" Value="20"/>    
+    </CUpgrade>
     <CUpgrade id="AP_TrooperMengskImproved"/>
     <CUpgrade id="AP_TrooperMengskAA"/>
     <CUpgrade id="AP_TrooperMengskFlamethrower"/>

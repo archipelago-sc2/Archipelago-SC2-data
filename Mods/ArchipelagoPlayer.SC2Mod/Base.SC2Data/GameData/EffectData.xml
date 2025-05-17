@@ -11978,11 +11978,6 @@
         <EffectArray value="AP_PurificationNovaRemoveCasterThrust"/>
         <EffectArray value="AP_PurificationNovaRemoveCasterNoThrust"/>
     </CEffectSet>
-    <CEffectRemoveBehavior id="AP_PurificationNovaRemoveCasterThrust">
-        <ValidatorArray index="0" removed="1"/>
-        <EditorCategories value="Race:Protoss"/>
-        <BehaviorLink value="AP_PurificationNovaTargettedCasterUseThrust"/>
-    </CEffectRemoveBehavior>
     <CEffectRemoveBehavior id="AP_PurificationNovaRemoveCasterNoThrust">
         <ValidatorArray index="0" removed="1"/>
         <EditorCategories value="Race:Protoss"/>
@@ -12071,15 +12066,9 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_PurificationNovaTargettedCaster"/>
     </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="AP_PurificationNovaTargettedCasterBC">
-        <EditorCategories value="Race:Protoss"/>
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_PurificationNovaTargettedCasterUseThrust"/>
-    </CEffectApplyBehavior>
     <CEffectSet id="AP_PurificationNovaTargettedInitialSet">
         <EditorCategories value="Race:Protoss"/>
         <EffectArray value="AP_PurificationNovaTargettedCasterAB"/>
-        <EffectArray value="AP_PurificationNovaTargettedCasterBC"/>
         <EffectArray value="AP_PurificationNovaTargettedCU"/>
         <TargetLocationType value="Point"/>
     </CEffectSet>
@@ -21629,7 +21618,6 @@
     </CEffectModifyUnit>
     <CEffectSwitch id="AP_TrooperMengskDeathSwitch">
         <EditorCategories value=""/>
-        <ValidatorArray value="AP_HaveTrooperMengskWeaponDrop"/>
         <CaseArray Validator="AP_CasterIsTrooperMengskAA" Effect="AP_TrooperMengskWeaponAACU"/>
         <CaseArray Validator="AP_CasterIsTrooperMengskFlamethrower" Effect="AP_TrooperMengskWeaponFlamethrowerCU"/>
         <CaseArray Validator="AP_CasterIsTrooperMengskImproved" Effect="AP_TrooperMengskWeaponImprovedCU"/>
