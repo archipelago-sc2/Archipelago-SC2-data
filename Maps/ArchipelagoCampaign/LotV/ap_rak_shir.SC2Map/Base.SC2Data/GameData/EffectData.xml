@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CEffectSet id="AP_PitAlarakLifeRegenSet">
+        <EditorCategories value="Race:Protoss"/>
+        <EffectArray value="AP_PitAlarakLifeRegenAuraAB"/>
+        <EffectArray value="PitAlarakShieldRegenDummyDamage2"/>
+    </CEffectSet>
+    <CEffectModifyUnit id="AP_PitAlarakLifeRegenAuraRestore">
+        <EditorCategories value="Race:Protoss"/>
+        <VitalArray index="Life">
+            <Change value="1"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectEnumArea id="AP_PitAlarakLifeRegenAuraSearch">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="-;Self,Neutral,Enemy,Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray MaxCount="150" Radius="10" Effect="AP_PitAlarakLifeRegenSet"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="AP_PitAlarakLifeRegenAuraAB">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="AP_PitAlarakLifeRegen"/>
+    </CEffectApplyBehavior>
+</Catalog>

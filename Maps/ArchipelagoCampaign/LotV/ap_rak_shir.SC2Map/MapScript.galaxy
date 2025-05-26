@@ -56,6 +56,7 @@ const int gv_pLAYER_05_TALDARIM = 5;
 const int gv_pLAYER_07_ALARAK = 7;
 const int gv_pLAYER_08_MALASH = 8;
 const int gv_pLAYER_09_ELEMENTAL = 9;
+const int gv_pLAYER_10_STUKOV = 10;
 const int gv_tugOfWar_WaypointMax = 22;
 const int gv_resourcePickupsMax = 8;
 
@@ -128,6 +129,7 @@ unitgroup gv_cinematicPausedUnits;
 unitgroup gv_cinematicTempUnits;
 bool gv_cinematicCompleted;
 unit gv_cinematicAlarak;
+unit gv_cinematicStukov;
 unit gv_cinematicMalash;
 unit gv_cinematicDuelBubble;
 unitgroup gv_cinematicPlayerGroup;
@@ -303,6 +305,7 @@ trigger gt_IntroAlarakRegenAura;
 trigger gt_VictoryQ;
 trigger gt_VictorySetup;
 trigger gt_VictoryCinematic;
+trigger gt_VictoryCinematicZerg;
 trigger gt_VictoryCinematicEnd;
 trigger gt_VictoryCleanup;
 trigger gt_VictoryCreateSpectators1;
@@ -503,6 +506,7 @@ void cai_startall () {
     cai_start("ai3CC6BC9D", 7);
     cai_start("aiD606BE98", 8);
     cai_start("ai436B92E3", 9);
+    AICampaignStart(10);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -652,7 +656,7 @@ unitgroup gf_GetFriendlyUnitsNearAlarak () {
     for (;; auto28BBCA79_u -= 1) {
         auto28BBCA79_var = UnitGroupUnitFromEnd(auto28BBCA79_g, auto28BBCA79_u);
         if (auto28BBCA79_var == null) { break; }
-        if ((auto28BBCA79_var != gv_alarak) && (UnitHasBehavior2(auto28BBCA79_var, "PitAlarakShieldRegen") == true)) {
+        if ((auto28BBCA79_var != gv_alarak) && ((UnitHasBehavior2(auto28BBCA79_var, "AP_PitAlarakLifeRegen") == true) || (UnitHasBehavior2(auto28BBCA79_var, "PitAlarakShieldRegen") == true))) {
             UnitGroupAdd(lv_friendlyUnitsNearTugOfWar, auto28BBCA79_var);
         }
 
@@ -1081,11 +1085,15 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr")) {
             PlayerSetRace(gv_pLAYER_01_USER, "Terr");
             lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
+            UnitBehaviorRemove(gv_alarak, "PitAlarakShieldRegenAura", 1);
+            UnitBehaviorAddPlayer(gv_alarak, "AP_PitAlarakLifeRegenAura", gv_pLAYER_01_USER, 1);
         }
         else {
             if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
                 PlayerSetRace(gv_pLAYER_01_USER, "Zerg");
                 lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
+                UnitBehaviorRemove(gv_alarak, "PitAlarakShieldRegenAura", 1);
+                UnitBehaviorAddPlayer(gv_alarak, "AP_PitAlarakLifeRegenAura", gv_pLAYER_01_USER, 1);
             }
 
         }
@@ -1643,11 +1651,11 @@ bool gt_StartGameQ_Func (bool testConds, bool runActions) {
     TriggerQueueExit();
     Wait(2.0, c_timeGame);
     TriggerExecute(gt_TipReadyQ, true, false);
-    Wait(10.0, c_timeReal);
+    Wait(2.0, c_timeReal);
     TriggerExecute(gt_ObjectiveSpeedrunCreate, true, false);
-    Wait(30.0, c_timeReal);
+    Wait(14.0, c_timeReal);
     TriggerExecute(gt_ObjectiveResourcePickupsCreate, true, false);
-    Wait(30.0, c_timeReal);
+    Wait(14.0, c_timeReal);
     TriggerExecute(gt_ObjectiveKillNexusCreate, true, false);
     return true;
 }
@@ -2487,6 +2495,8 @@ void gt_TugOfWarDefeatImminentWarningQ_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_TugOfWarVictoryImminentQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto385423D3_val;
+
     // Conditions
     if (testConds) {
         if (!((libVCMI_gf_GameIsOver() == false))) {
@@ -2516,6 +2526,12 @@ bool gt_TugOfWarVictoryImminentQ_Func (bool testConds, bool runActions) {
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
     libVCMI_gf_SendTransmissionCampaign(gv_malash, "pMission_Taldarim02|Line00053", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
     libVCMI_gf_SendTransmissionCampaign(gv_alarak, "pMission_Taldarim02|Line00036", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    auto385423D3_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto385423D3_val == "Zerg") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00458", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+    }
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
     TriggerQueueExit();
     return true;
@@ -2665,6 +2681,7 @@ bool gt_SlaynElemental01KilledQ_Func (bool testConds, bool runActions) {
 
     // Automatic Variable Declarations
     int auto7AEC04E4_val;
+    string autoCAA0C0B3_val;
 
     // Variable Initialization
     lv_slaynElementalPoint = UnitGetPosition(EventUnit());
@@ -2722,8 +2739,23 @@ bool gt_SlaynElemental01KilledQ_Func (bool testConds, bool runActions) {
         TriggerExecute(gt_ObjectiveKillSlaynElementalsComplete, true, false);
         TriggerQueueEnter();
         libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00135", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        autoCAA0C0B3_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoCAA0C0B3_val == "Neut") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00135", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (autoCAA0C0B3_val == "Terr") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "Mission_Epilogue02|Line00057", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (autoCAA0C0B3_val == "Zerg") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00463", c_transmissionDurationSet, 1.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00464", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00456", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else {
+        }
         libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
         TriggerQueueExit();
     }
@@ -2749,6 +2781,7 @@ bool gt_SlaynElemental02KilledQ_Func (bool testConds, bool runActions) {
 
     // Automatic Variable Declarations
     int auto4D3EC43E_val;
+    string auto8F6F8990_val;
 
     // Variable Initialization
     lv_slaynElementalPoint = UnitGetPosition(EventUnit());
@@ -2806,8 +2839,23 @@ bool gt_SlaynElemental02KilledQ_Func (bool testConds, bool runActions) {
         TriggerExecute(gt_ObjectiveKillSlaynElementalsComplete, true, false);
         TriggerQueueEnter();
         libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00135", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        auto8F6F8990_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (auto8F6F8990_val == "Neut") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00135", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (auto8F6F8990_val == "Terr") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "Mission_Epilogue02|Line00057", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (auto8F6F8990_val == "Zerg") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00463", c_transmissionDurationSet, 1.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00464", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00456", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else {
+        }
         libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
         TriggerQueueExit();
     }
@@ -2833,6 +2881,7 @@ bool gt_SlaynElemental03KilledQ_Func (bool testConds, bool runActions) {
 
     // Automatic Variable Declarations
     int auto259D5101_val;
+    string auto74847795_val;
 
     // Variable Initialization
     lv_slaynElementalPoint = UnitGetPosition(EventUnit());
@@ -2890,8 +2939,23 @@ bool gt_SlaynElemental03KilledQ_Func (bool testConds, bool runActions) {
         TriggerExecute(gt_ObjectiveKillSlaynElementalsComplete, true, false);
         TriggerQueueEnter();
         libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00135", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        auto74847795_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (auto74847795_val == "Neut") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00135", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (auto74847795_val == "Terr") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "Mission_Epilogue02|Line00057", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (auto74847795_val == "Zerg") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00134", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00463", c_transmissionDurationSet, 1.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00464", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00456", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else {
+        }
         libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
         TriggerQueueExit();
     }
@@ -3407,6 +3471,8 @@ void gt_AIReplaceWithWarpInSpecial_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_SpecialEscortWave01Q_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string autoFF8B8C6D_val;
+
     // Conditions
     if (testConds) {
         if (!((libVCMI_gf_GameIsOver() == false))) {
@@ -3438,9 +3504,24 @@ bool gt_SpecialEscortWave01Q_Func (bool testConds, bool runActions) {
     SoundPlayForPlayer(SoundLink("Ping", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
     Wait(2.0, c_timeGame);
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
-    libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00097", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
-    libVCMI_gf_SendTransmissionCampaign(gv_malash, "pMission_Taldarim02|Line00107", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
-    libVCMI_gf_SendTransmissionCampaign(gv_alarak, "pMission_Taldarim02|Line00114", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    autoFF8B8C6D_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoFF8B8C6D_val == "Neut") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00097", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(gv_malash, "pMission_Taldarim02|Line00107", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(gv_alarak, "pMission_Taldarim02|Line00114", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (autoFF8B8C6D_val == "Terr") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Korhal02|Line00015", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(gv_malash, "pMission_Taldarim02|Line00107", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(gv_alarak, "pMission_Taldarim02|Line00114", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (autoFF8B8C6D_val == "Zerg") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00459", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(gv_malash, "pMission_Taldarim02|Line00107", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(gv_alarak, "pMission_Taldarim02|Line00114", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+    }
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
     TriggerQueueExit();
     return true;
@@ -3456,6 +3537,8 @@ void gt_SpecialEscortWave01Q_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_SpecialEscortWave02Q_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string autoD032A921_val;
+
     // Conditions
     if (testConds) {
         if (!((libVCMI_gf_GameIsOver() == false))) {
@@ -3485,7 +3568,18 @@ bool gt_SpecialEscortWave02Q_Func (bool testConds, bool runActions) {
     SoundPlayForPlayer(SoundLink("Ping", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
     Wait(2.0, c_timeGame);
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
-    libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00098", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    autoD032A921_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoD032A921_val == "Neut") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00098", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (autoD032A921_val == "Terr") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Korhal02|Line00029", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (autoD032A921_val == "Zerg") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Ulnar02|Line00074", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+    }
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
     TriggerQueueExit();
     return true;
@@ -3501,6 +3595,8 @@ void gt_SpecialEscortWave02Q_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_SpecialEscortWave03Q_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto75314685_val;
+
     // Conditions
     if (testConds) {
         if (!((libVCMI_gf_GameIsOver() == false))) {
@@ -3530,7 +3626,18 @@ bool gt_SpecialEscortWave03Q_Func (bool testConds, bool runActions) {
     SoundPlayForPlayer(SoundLink("Ping", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
     Wait(2.0, c_timeGame);
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
-    libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00099", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    auto75314685_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto75314685_val == "Neut") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00099", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto75314685_val == "Terr") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Korhal02|Line00034", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto75314685_val == "Zerg") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00461", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+    }
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
     TriggerQueueExit();
     return true;
@@ -3546,6 +3653,8 @@ void gt_SpecialEscortWave03Q_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_SpecialEscortWave04Q_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto0F20E42D_val;
+
     // Conditions
     if (testConds) {
         if (!((libVCMI_gf_GameIsOver() == false))) {
@@ -3575,7 +3684,18 @@ bool gt_SpecialEscortWave04Q_Func (bool testConds, bool runActions) {
     SoundPlayForPlayer(SoundLink("Ping", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
     Wait(2.0, c_timeGame);
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
-    libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00100", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    auto0F20E42D_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto0F20E42D_val == "Neut") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00100", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto0F20E42D_val == "Terr") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Korhal02|Line00095", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto0F20E42D_val == "Zerg") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00460", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+    }
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
     TriggerQueueExit();
     return true;
@@ -3592,6 +3712,9 @@ void gt_SpecialEscortWave04Q_Init () {
 bool gt_SpecialEscortWave05RepeatableQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     int auto45921534_val;
+    string autoA27CF6E4_val;
+    string auto8E42D163_val;
+    string autoE4FB7A72_val;
 
     // Conditions
     if (testConds) {
@@ -3629,13 +3752,46 @@ bool gt_SpecialEscortWave05RepeatableQ_Func (bool testConds, bool runActions) {
     }
     auto45921534_val = gv_specialEscortTransmissionIterator;
     if (auto45921534_val == 1) {
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00126", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        autoA27CF6E4_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoA27CF6E4_val == "Neut") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00126", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (autoA27CF6E4_val == "Terr") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Korhal02|Line00095", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (autoA27CF6E4_val == "Zerg") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00459", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else {
+        }
     }
     else if (auto45921534_val == 2) {
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00098", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        auto8E42D163_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (auto8E42D163_val == "Neut") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00098", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (auto8E42D163_val == "Terr") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Korhal02|Line00034", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (auto8E42D163_val == "Zerg") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00461", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else {
+        }
     }
     else if (auto45921534_val == 3) {
-        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00100", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        autoE4FB7A72_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoE4FB7A72_val == "Neut") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00100", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (autoE4FB7A72_val == "Terr") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Korhal02|Line00015", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (autoE4FB7A72_val == "Zerg") {
+            libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00460", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else {
+        }
     }
     else {
     }
@@ -3657,6 +3813,8 @@ bool gt_AttackWave01Q_Func (bool testConds, bool runActions) {
     unitgroup lv_waveGroup;
 
     // Automatic Variable Declarations
+    string autoACDF11B2_val;
+
     // Variable Initialization
 
     // Conditions
@@ -3689,8 +3847,21 @@ bool gt_AttackWave01Q_Func (bool testConds, bool runActions) {
     SoundPlayForPlayer(SoundLink("Ping", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
     Wait(2.0, c_timeGame);
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
-    libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00101", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
-    libVCMI_gf_SendTransmissionCampaign(gv_malash, "pMission_Taldarim02|Line00102", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    autoACDF11B2_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoACDF11B2_val == "Neut") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00101", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(gv_malash, "pMission_Taldarim02|Line00102", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (autoACDF11B2_val == "Terr") {
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00101", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(gv_malash, "Mission_Epilogue01|Line00070", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (autoACDF11B2_val == "Zerg") {
+        libVCMI_gf_SendTransmissionCampaign(gv_malash, "pMission_Taldarim02|Line00102", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libVCMI_gf_SendTransmissionCampaign(null, "pMission_Taldarim02|Line00457", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+    }
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
     TriggerQueueExit();
     return true;
@@ -4269,6 +4440,7 @@ bool gt_AlarakEscortsAddToGroup_Func (bool testConds, bool runActions) {
 void gt_AlarakEscortsAddToGroup_Init () {
     gt_AlarakEscortsAddToGroup = TriggerCreate("gt_AlarakEscortsAddToGroup_Func");
     TriggerAddEventUnitBehaviorChange(gt_AlarakEscortsAddToGroup, null, "PitAlarakShieldRegen", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(gt_AlarakEscortsAddToGroup, null, "AP_PitAlarakLifeRegen", c_unitBehaviorChangeCreate);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4308,6 +4480,7 @@ bool gt_AlarakEscortsRemoveFromGroup_Func (bool testConds, bool runActions) {
 void gt_AlarakEscortsRemoveFromGroup_Init () {
     gt_AlarakEscortsRemoveFromGroup = TriggerCreate("gt_AlarakEscortsRemoveFromGroup_Func");
     TriggerAddEventUnitBehaviorChange(gt_AlarakEscortsRemoveFromGroup, null, "PitAlarakShieldRegen", c_unitBehaviorChangeDestroy);
+    TriggerAddEventUnitBehaviorChange(gt_AlarakEscortsRemoveFromGroup, null, "AP_PitAlarakLifeRegen", c_unitBehaviorChangeDestroy);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4718,13 +4891,14 @@ bool gt_ObjectiveResourcePickupsCreate_Func (bool testConds, bool runActions) {
     while (!((libVCMI_gf_PlayerInCinematicModeCampaign() == false))) {
         Wait(1.0, c_timeGame);
     }
-    libVCMI_gf_PingMinimapCampaign(PlayerGroupSingle(gv_pLAYER_01_USER), PointFromId(957002224), 5.0, Color(100.00, 0.00, 0.00));
     ObjectiveCreate(StringExternal("Param/Value/3EA19308"), StringToText(""), c_objectiveStateHidden, false);
     gv_objectiveResourcePickups = ObjectiveLastCreated();
     lib5BD4895D_gf_AP_Core_addCategoryObjectiveWithCounter(gv_objectiveResourcePickups, lib5BD4895D_ge_APObjectiveCategory_Extra, "", gv_resourcePickupsCollected, gv_resourcePickupsMax, true);
     lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(gv_objectiveResourcePickups);
     lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveResourcePickups, gv_lOCATION_ID_RESOURCE_PICKUPS);
     lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveResourcePickups, true);
+    Wait(2.0, c_timeGame);
+    libVCMI_gf_PingMinimapCampaign(PlayerGroupSingle(gv_pLAYER_01_USER), PointFromId(957002224), 5.0, Color(0.00, 100.00, 0.00));
     Wait(libVCMI_gv_campaignObjectiveDelay, c_timeReal);
     return true;
 }
@@ -5536,6 +5710,8 @@ void gt_IntroAlarakRegenAura_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_VictoryQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string autoBCC55F83_val;
+
     // Conditions
     if (testConds) {
         if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
@@ -5552,7 +5728,13 @@ bool gt_VictoryQ_Func (bool testConds, bool runActions) {
     libVCMI_gf_GameOver(libVCMI_ge_CampaignMissionGameResultType_Victory);
     TriggerQueueEnter();
     TriggerExecute(gt_VictorySetup, true, true);
-    TriggerExecute(gt_VictoryCinematic, true, true);
+    autoBCC55F83_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoBCC55F83_val == "Zerg") {
+        TriggerExecute(gt_VictoryCinematicZerg, true, true);
+    }
+    else {
+        TriggerExecute(gt_VictoryCinematic, true, true);
+    }
     TriggerExecute(gt_VictoryCinematicEnd, true, true);
     TriggerExecute(gt_VictoryCleanup, true, true);
     TriggerQueueExit();
@@ -5562,6 +5744,7 @@ bool gt_VictoryQ_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_VictoryQ_Init () {
     gt_VictoryQ = TriggerCreate("gt_VictoryQ_Func");
+    TriggerAddEventKeyPressed(gt_VictoryQ, c_playerAny, c_keyN, true, c_keyModifierStateIgnore, c_keyModifierStateIgnore, c_keyModifierStateIgnore);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5714,6 +5897,120 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_VictoryCinematic_Init () {
     gt_VictoryCinematic = TriggerCreate("gt_VictoryCinematic_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Victory Cinematic Zerg
+//--------------------------------------------------------------------------------------------------
+bool gt_VictoryCinematicZerg_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup autoA5C67920_g;
+    int autoA5C67920_u;
+    unit autoA5C67920_var;
+    unitgroup auto54665A76_g;
+    int auto54665A76_u;
+    unit auto54665A76_var;
+    unitgroup auto89D88FB7_g;
+    int auto89D88FB7_u;
+    unit auto89D88FB7_var;
+    unitgroup autoED30CC34_g;
+    int autoED30CC34_u;
+    unit autoED30CC34_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(2905), 0.0, -1, 10, true);
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(2920), (SoundLengthSync(SoundLink(ConversationDataGetSound("pMission_Taldarim02|Line00037", true), c_soundIndexAny)) + 0.0), -1, 10, true);
+    TriggerSkippableBegin(PlayerGroupAll(), 0, null, true, false);
+    gv_cinematicCompleted = false;
+    SoundtrackStop(PlayerGroupAll(), c_soundtrackCategoryMusic, true);
+    SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryMusic, "PTaldarim02_Music_Outro", c_soundtrackCueAny, c_soundtrackIndexAny, false);
+    UnitIssueOrder(gv_cinematicAlarak, OrderTargetingUnit(AbilityCommand("PitAlarakFightDummyAbility", 0), gv_cinematicMalash), c_orderQueueReplace);
+    UnitIssueOrder(gv_cinematicAlarak, OrderTargetingPoint(AbilityCommand("move", 0), PointWithOffsetPolar(UnitGetPosition(gv_cinematicAlarak), 1.5, 320.0)), c_orderQueueReplace);
+    UnitIssueOrder(gv_cinematicMalash, OrderTargetingPoint(AbilityCommand("move", 0), PointWithOffsetPolar(UnitGetPosition(gv_cinematicMalash), 1.0, 320.0)), c_orderQueueReplace);
+    UnitIssueOrder(gv_cinematicDuelBubble, OrderTargetingPoint(AbilityCommand("move", 0), PointWithOffsetPolar(UnitGetPosition(gv_cinematicDuelBubble), 1.0, 320.0)), c_orderQueueReplace);
+    TriggerExecute(gt_VictoryCreateSpectators1, true, false);
+    CinematicFade(true, 1.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, true);
+    Wait(2.0, c_timeGame);
+    UnitIssueOrder(gv_cinematicAlarak, Order(AbilityCommand("PitAlarakFightDummyAbilityCancel", 0)), c_orderQueueReplace);
+    UnitKill(gv_cinematicDuelBubble);
+    Wait(0.5, c_timeGame);
+    UnitIssueOrder(gv_cinematicAlarak, OrderTargetingUnit(AbilityCommand("PitAlarakKillMalash", 0), gv_cinematicMalash), c_orderQueueReplace);
+    SoundPlayForPlayer(SoundLink("Event_Taldarim02_EndCine_A", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    SoundPlayForPlayer(SoundLink("Event_Taldarim02_PitDeath_Explosion", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    libNtve_gf_SendActorMessageToUnit(gv_cinematicAlarak, "AnimClear Hover");
+    Wait(8.0, c_timeGame);
+    libVCMI_gf_SendTransmissionCampaign(gv_cinematicAlarak, "pMission_Taldarim02|Line00037", c_transmissionDurationAdd, 0.0, false, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    TransmissionWait(TransmissionLastSent(), 1.0);
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "InfestedStukov", c_unitCreateIgnorePlacement, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(399941389), 0.0, 0.0));
+    gv_cinematicStukov = UnitLastCreated();
+    UnitIssueOrder(gv_cinematicStukov, OrderTargetingPoint(AbilityCommand("move", 0), PointWithOffset(PointFromId(879), 0.0, 0.0)), c_orderQueueReplace);
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(1465337073), 0.0, -1, 10, true);
+    libVCMI_gf_SendTransmissionCampaign(gv_cinematicStukov, "pMission_Taldarim02|Line00462", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    UnitSetFacing(gv_cinematicAlarak, 135.0, 0.3);
+    libVCMI_gf_SendTransmissionCampaign(gv_cinematicAlarak, "pMission_Aiur04|Line00259", c_transmissionDurationSub, 0.3, false, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    TransmissionWait(TransmissionLastSent(), 1.2);
+    UnitIssueOrder(gv_cinematicStukov, OrderTargetingUnit(AbilityCommand("DevastatingShot", 0), gv_cinematicAlarak), c_orderQueueReplace);
+    TriggerExecute(gt_VictoryCreateSpectators2, true, false);
+    Wait(1.0, c_timeGame);
+    libNtve_gf_CreateUnitsWithDefaultFacing(10, "AP_SIInfestedMarineBurrowed", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(2089902143), 0.0, 0.0));
+    libNtve_gf_CreateUnitsWithDefaultFacing(10, "AP_SIInfestedMarineBurrowed", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(388865737), 0.0, 0.0));
+    autoA5C67920_g = UnitGroup("AP_SIInfestedMarineBurrowed", gv_pLAYER_10_STUKOV, null, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoA5C67920_u = UnitGroupCount(autoA5C67920_g, c_unitCountAll);
+    for (;; autoA5C67920_u -= 1) {
+        autoA5C67920_var = UnitGroupUnitFromEnd(autoA5C67920_g, autoA5C67920_u);
+        if (autoA5C67920_var == null) { break; }
+        UnitIssueOrder(autoA5C67920_var, Order(AbilityCommand("AP_BurrowSIInfestedMarineUp", 0)), c_orderQueueReplace);
+    }
+    libNtve_gf_CreateUnitsWithDefaultFacing(3, "AP_StukovInfestedBansheeBurrowed", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(1425526722), 0.0, 0.0));
+    libNtve_gf_CreateUnitsWithDefaultFacing(3, "AP_StukovInfestedBansheeBurrowed", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(1499655732), 0.0, 0.0));
+    auto54665A76_g = UnitGroup("AP_StukovInfestedBansheeBurrowed", gv_pLAYER_10_STUKOV, null, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto54665A76_u = UnitGroupCount(auto54665A76_g, c_unitCountAll);
+    for (;; auto54665A76_u -= 1) {
+        auto54665A76_var = UnitGroupUnitFromEnd(auto54665A76_g, auto54665A76_u);
+        if (auto54665A76_var == null) { break; }
+        UnitIssueOrder(auto54665A76_var, Order(AbilityCommand("AP_BurrowStukovInfestedBansheeUp", 0)), c_orderQueueReplace);
+    }
+    Wait(2.0, c_timeGame);
+    libNtve_gf_CreateUnitsWithDefaultFacing(3, "AP_StukovInfestedDiamondBack", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(1284231048), 0.0, 0.0));
+    libNtve_gf_CreateUnitsWithDefaultFacing(3, "AP_StukovInfestedDiamondBack", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(1449818240), 0.0, 0.0));
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(1990836043), 4.0, -1, 10, true);
+    auto89D88FB7_g = UnitGroup(null, gv_pLAYER_02_TALDARIM, RegionFromId(13), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto89D88FB7_u = UnitGroupCount(auto89D88FB7_g, c_unitCountAll);
+    for (;; auto89D88FB7_u -= 1) {
+        auto89D88FB7_var = UnitGroupUnitFromEnd(auto89D88FB7_g, auto89D88FB7_u);
+        if (auto89D88FB7_var == null) { break; }
+        UnitSetPropertyFixed(auto89D88FB7_var, c_unitPropMovementSpeed, 3.0);
+        UnitIssueOrder(auto89D88FB7_var, OrderTargetingPoint(AbilityCommand("attack", 0), PointFromId(878)), c_orderQueueReplace);
+    }
+    autoED30CC34_g = UnitGroup(null, gv_pLAYER_10_STUKOV, null, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoED30CC34_u = UnitGroupCount(autoED30CC34_g, c_unitCountAll);
+    for (;; autoED30CC34_u -= 1) {
+        autoED30CC34_var = UnitGroupUnitFromEnd(autoED30CC34_g, autoED30CC34_u);
+        if (autoED30CC34_var == null) { break; }
+        UnitIssueOrder(autoED30CC34_var, OrderTargetingPoint(AbilityCommand("attack", 0), PointFromId(2937)), c_orderQueueReplace);
+    }
+    libVCMI_gf_SendTransmissionCampaign(gv_cinematicStukov, "Mission_Epilogue01|Line00092", c_transmissionDurationAdd, 0.0, false, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    Wait(2.0, c_timeGame);
+    libNtve_gf_CreateUnitsWithDefaultFacing(2, "AP_InfestedAbomination", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(2139513799), 0.0, 0.0));
+    libVCMI_gf_CreateDropPod(libVCMI_ge_DropPodRace_Zerg, PointFromId(2139513799), UnitLastCreatedGroup(), false, gv_pLAYER_10_STUKOV);
+    Wait(2.0, c_timeGame);
+    libNtve_gf_CreateUnitsWithDefaultFacing(2, "AP_InfestedAbomination", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(2933), 0.0, 0.0));
+    libVCMI_gf_CreateDropPod(libVCMI_ge_DropPodRace_Zerg, PointFromId(2933), UnitLastCreatedGroup(), false, gv_pLAYER_10_STUKOV);
+    Wait(2.0, c_timeGame);
+    libNtve_gf_CreateUnitsWithDefaultFacing(10, "AP_SIInfestedMarine", 0, gv_pLAYER_10_STUKOV, PointWithOffset(PointFromId(881), 0.0, 0.0));
+    libVCMI_gf_CreateDropPod(libVCMI_ge_DropPodRace_Zerg, PointFromId(881), UnitLastCreatedGroup(), false, gv_pLAYER_10_STUKOV);
+    Wait(3.5, c_timeGame);
+    gv_cinematicCompleted = true;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_VictoryCinematicZerg_Init () {
+    gt_VictoryCinematicZerg = TriggerCreate("gt_VictoryCinematicZerg_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5900,6 +6197,7 @@ bool gt_VictoryCreateSpectators2_Func (bool testConds, bool runActions) {
         libNtve_gf_CreateUnitsAtPoint2(1, "HighTemplar", c_unitCreateIgnorePlacement, gv_pLAYER_02_TALDARIM, PointWithOffsetPolar(PointFromName(("Outro Ascendent " + IntToString(lv_i))), 5.0, (PointGetFacing(PointFromName(("Outro Ascendent " + IntToString(lv_i)))) - 180.0)));
         UnitSetPropertyFixed(UnitLastCreated(), c_unitPropMovementSpeed, 1.2);
         UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), PointFromName(("Outro Ascendent " + IntToString(lv_i)))), c_orderQueueReplace);
+        UnitIssueOrder(gv_cinematicAlarak, OrderTargetingUnit(AbilityCommand("PitAlarakKillMalash", 0), gv_cinematicMalash), c_orderQueueReplace);
         UnitGroupAdd(lv_ascendentGroup, UnitLastCreated());
     }
     return true;
@@ -6019,6 +6317,7 @@ void InitTriggers () {
     gt_VictoryQ_Init();
     gt_VictorySetup_Init();
     gt_VictoryCinematic_Init();
+    gt_VictoryCinematicZerg_Init();
     gt_VictoryCinematicEnd_Init();
     gt_VictoryCleanup_Init();
     gt_VictoryCreateSpectators1_Init();
