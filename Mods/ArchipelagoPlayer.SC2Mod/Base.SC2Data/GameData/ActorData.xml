@@ -1673,6 +1673,7 @@
         <On Terms="Abil.AP_TradeStructureTransport.TransportUnloadStop" Send="AnimBracketStop Unload"/>
         <On Terms="AbilTransport.AP_TradeStructureTransport.TransportLoad; !AnimPlaying Pickup" Send="AnimPlay Pickup Pickup"/>
         <On Terms="AbilTransport.AP_TradeStructureTransport.TransportUnload" Send="$Spell"/>
+        <Remove Terms="UnitConstruction.AP_TradeStructure.Start" Send="Create AP_TradeStructureBuild"/>
         <Model value="AP_VoidRift"/>
         <Scale value="0.660000"/>
         <BuildModel value="AP_VoidRift"/>
@@ -22344,7 +22345,7 @@
     </CActorSound>
     <CActorProgress id="ProtossConstruction">
         <!-- Override -->
-        <On Terms="Abil.AP_ProtossBuild.BuiltStart" Send="Create"/>
+        <On Terms="Abil.AP_ProtossBuild.BuiltStart; !ValidateUnit AP_IsAPTradeStructure" Send="Create"/>
     </CActorProgress>
     <CActorStateMonitor id="ProtossFlamesSmallBuilding">
         <!-- Override -->
@@ -41408,18 +41409,278 @@
     <CActorRange id="AP_MarineMengskSpiderMinesRange" parent="RangeAbil" abil="AP_MarineMengskSpiderMines"/>
     <CActorSimple id="AP_WarpRelocateTransition">
         <On Terms="Behavior.AP_WarpRelocating.On" Send="Create"/>
-        <On Terms="ActorCreation" Target="_Unit" Send="SetOpacity 0.000000 0.500000 WarpRelocateOpacity"/>
-        <On Terms="Behavior.AP_WarpRelocating.Off" Target="_Unit" Send="ClearOpacity 0.250000 WarpRelocateOpacity"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetOpacity 0.000000 2.00000 WarpRelocateOpacity"/>
         <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorDestruction" Target="_Unit" Send="Create AP_WarpRelocateInSound"/>
     </CActorSimple>
+    <CActorSound id="AP_WarpRelocateInSound" parent="SoundOneShot">
+        <Sound value="Protoss_BuildingWarpIn"/>
+    </CActorSound>
     <CActorModel id="AP_WarpRelocateBuildModel" parent="ModelAnimationStyleContinuous">
         <Model value="GatewayBuild"/>
         <On Terms="Behavior.AP_WarpRelocating.On" Send="Create"/>
         <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
-        <On Terms="ActorCreation; ValidateUnit AP_IsAPNexus" Send="SetScale 1.200000 0.250000"/>
+        <On Terms="ActorCreation; ValidateUnit AP_IsAPNexus" Send="SetScale 2,2,1 0.250000"/>
         <On Terms="ActorCreation; ValidateUnit AP_Is2x2APProtossStructure" Send="SetScale 0.800000 0.250000"/>
         <Host Subject="_Unit"/>
-        <HostSiteOps Ops="SOpAttachCenter"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+        <Scale value="1.500000,1.500000,1.000000"/>
+    </CActorModel>
+    <CActorModel default="1" id="AP_WarpRelocateInBase" parent="ModelAdditionNoAnims">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.700000 AsTimeScale"/>
+        <On Terms="AnimDone" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="AnimSetCompletion Lifetime 20.000000"/>
+        <!--On Terms="ActorDestruction" Target="AP_##id##Splat" Send="SetVisibility 1"/-->
+        <On Terms="ActorDestruction" Target="_Unit" Send="ClearOpacity 0.000000 WarpRelocateOpacity"/>
+        <!--On Terms="Behavior.AP_WarpRelocateDestination.Destroy; ValidateUnit AP_IsAP##id##" Send="Create"/-->
+        <On Terms="ActorDestruction; !ValidateUnit HasNoPower" Target="_Unit" Send="AnimGroupRemove Unpowered"/>
+        <On Terms="ActorDestruction; !ValidateUnit HasNoPower" Target="_Unit" Send="AnimPlay Power Stand,Unpowered,End"/>
+        <Model value="##id##Birth"/>
+    </CActorModel>
+    <CActorModel default="1" id="AP_WarpRelocateOutBase" parent="ModelAdditionNoAnims">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="AnimPlay Unpower Stand,Unpowered,Start"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="AnimGroupApply Unpowered"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End PlayForever,ForceLooping -1.000000 -1.000000 0.700000 AsTimeScale"/>
+        <On Terms="TimerExpired" Send="AnimSetCompletion Lifetime 30.000000"/>
+        <On Terms="ActorCreation" Send="TimerSet"/>
+        <On Terms="TimerExpired" Send="TimerSet 3.000000"/>
+        <!--On Terms="ActorCreation" Target="AP_##id##Splat" Send="SetVisibility"/-->
+        <!-- On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAP##unitName##" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/-->
+        <Model value="##id##Birth"/>
+        <Scale value="1.050000"/>
+    </CActorModel>
+    <CActorModel id="AP_NexusRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPNexus" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_NexusSplat" Send="SetVisibility"/>
+        <Model value="NexusBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_NexusRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPNexus" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_NexusSplat" Send="SetVisibility 1"/>
+        <Model value="NexusBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_GatewayRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPGateway" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_GatewaySplat" Send="SetVisibility"/>
+        <Model value="GatewayBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_GatewayRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPGateway" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_GatewaySplat" Send="SetVisibility 1"/>
+        <Model value="GatewayBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_CyberneticsCoreRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPCyberneticsCore" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_CyberneticsCoreSplat" Send="SetVisibility"/>
+        <Model value="CyberneticsCoreBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_CyberneticsCoreRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPCyberneticsCore" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_CyberneticsCoreSplat" Send="SetVisibility 1"/>
+        <Model value="CyberneticsCoreBirth"/>
+    </CActorModel>
+    <CActorSimple id="AP_WarpRelocateOut">
+        <On Terms="Behavior.AP_WarpRelocateDestination.Enable" Send="Create"/>
+        <On Terms="ActorDestruction" Target="_Unit" Send="SetOpacity 0.000000 0.000000 WarpRelocateOpacity"/>
+        <On Terms="Behavior.AP_WarpRelocateDestination.Disable" Send="Destroy"/>
+    </CActorSimple>
+    <CActorModel id="AP_WarpgateRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPWarpgate" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_GatewaySplat" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="AnimPlay Morph Morph,End 0 -1.000000 -1.000000 2.000000 AsDuration"/>
+        <Model value="GatewayBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_WarpgateRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPWarpgate" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_GatewaySplat" Send="SetVisibility 1"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="AnimGroupRemove Superior"/>
+        <On Terms="ActorDestruction" Target="_Unit" Send="AnimPlay Morph Morph 0 -1.000000 -1.000000 2.000000 AsDuration"/>
+        <Model value="GatewayBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_StargateWarpRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPStargateWarp" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_StargateSplat" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End PlayForever,ForceLooping -1.000000 -1.000000 0.400000 AsTimeScale"/>
+        <On Terms="ActorCreation" Send="AnimSetCompletion Lifetime 35.000000"/>
+        <Remove Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End PlayForever,ForceLooping -1.000000 -1.000000 0.700000 AsTimeScale"/>
+        <Remove Terms="ActorCreation" Send="AnimSetCompletion Lifetime 30.000000"/>
+        <Model value="AP_WarpStargateBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_StargateWarpRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPStargateWarp" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_StargateSplat" Send="SetVisibility 1"/>
+        <Model value="AP_WarpStargateBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_RoboticsFacilityWarpRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPRoboticsFacilityWarp" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_RoboticsFacilityWarpSplat" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="AnimGroupRemove Superior"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.400000 AsTimeScale"/>
+        <Remove Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.700000 AsTimeScale"/>
+        <Model value="RoboticsFacilityBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_RoboticsFacilityWarpRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPRoboticsFacilityWarp" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_RoboticsFacilityWarpSplat" Send="SetVisibility 1"/>
+        <On Terms="ActorDestruction" Target="_Unit" Send="AnimGroupApply Superior"/>
+        <Model value="RoboticsFacilityBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_TemplarArchiveRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPTemplarArchive" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_TemplarArchiveSplat" Send="SetVisibility"/>
+        <Model value="TemplarArchiveBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_TemplarArchiveRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPTemplarArchive" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_TemplarArchiveSplat" Send="SetVisibility 1"/>
+        <Model value="TemplarArchiveBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_DarkShrineRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPDarkShrine" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_DarkShrineSplat" Send="SetVisibility"/>
+        <Model value="DarkShrineBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_DarkShrineRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPDarkShrine" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_DarkShrineSplat" Send="SetVisibility 1"/>
+        <Model value="DarkShrineBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_StargateRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPStargate" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_StargateSplat" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.400000 AsTimeScale"/>
+        <On Terms="ActorCreation" Send="AnimSetCompletion Lifetime 30.000000"/>
+        <Remove Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.700000 AsTimeScale"/>
+        <Remove Terms="ActorCreation" Send="AnimSetCompletion Lifetime 20.000000"/>
+        <Model value="StargateBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_StargateRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPStargate" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_StargateSplat" Send="SetVisibility 1"/>
+        <Model value="StargateBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_RoboticsFacilityRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPRoboticsFacility" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_RoboticsFacilitySplat" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.400000 AsTimeScale"/>
+        <Remove Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.700000 AsTimeScale"/>
+        <Model value="RoboticsFacilityBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_RoboticsFacilityRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPRoboticsFacility" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_RoboticsFacilitySplat" Send="SetVisibility 1"/>
+        <Model value="RoboticsFacilityBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_RoboticsBayRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPRoboticsBay" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_RoboticsBaySplat" Send="SetVisibility"/>
+        <Model value="RoboticsBayBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_RoboticsBayRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPRoboticsBay" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_RoboticsBaySplat" Send="SetVisibility 1"/>
+        <Model value="RoboticsBayBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_FleetBeaconRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPFleetBeacon" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_FleetBeaconSplat" Send="SetVisibility"/>
+        <Model value="FleetBeaconBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_FleetBeaconRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPFleetBeacon" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_FleetBeaconSplat" Send="SetVisibility 1"/>
+        <Model value="FleetBeaconBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_AssimilatorRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPAssimilator" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_AssimilatorSplat" Send="SetVisibility"/>
+        <Model value="AssimilatorBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_AssimilatorRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocateDestination.Disable; ValidateUnit AP_IsAPAssimilator" Send="Create"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetOpacity 0.000000 0.000000 WarpRelocateOpacity"/>
+        <Model value="AssimilatorBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_OrbitalAssimilatorRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPOrbitalAssimilator" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_AssimilatorSplat" Send="SetVisibility"/>
+        <Model value="AssimilatorBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_OrbitalAssimilatorRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocateDestination.Disable; ValidateUnit AP_IsAPOrbitalAssimilator" Send="Create"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetOpacity 0.000000 0.000000 WarpRelocateOpacity"/>
+        <Model value="AssimilatorBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_ForgeRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPForge" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_ForgeSplat" Send="SetVisibility"/>
+        <Model value="ForgeBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_ForgeRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPForge" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_ForgeSplat" Send="SetVisibility 1"/>
+        <Model value="ForgeBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_PhotonCannonRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPPhotonCannon" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_PhotonCannonSplat" Send="SetVisibility"/>
+        <Model value="PhotonCannonBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_PhotonCannonRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPPhotonCannon" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_PhotonCannonSplat" Send="SetVisibility 1"/>
+        <Model value="PhotonCannonBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_ShieldBatteryRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsAPShieldBattery" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_ShieldBatterySplat" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.400000 AsTimeScale"/>
+        <Remove Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.700000 AsTimeScale"/>
+        <Model value="ShieldBatteryBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_ShieldBatteryRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsAPShieldBattery" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_ShieldBatterySplat" Send="SetVisibility 1"/>
+        <Model value="ShieldBatteryBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_KhaydarinMonolithRelocateOut" parent="AP_WarpRelocateOutBase">
+        <On Terms="Behavior.AP_WarpRelocating.On; ValidateUnit AP_IsKhaydarinMonolith" Send="Create"/>
+        <On Terms="Behavior.AP_WarpRelocating.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="AP_KhaydarinMonolithSplat" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.400000 AsTimeScale"/>
+        <Remove Terms="ActorCreation" Send="AnimPlay Lifetime Stand,Build,End 0 -1.000000 -1.000000 0.700000 AsTimeScale"/>
+        <Model value="AP_KhaydarinMonolithBirth"/>
+    </CActorModel>
+    <CActorModel id="AP_KhaydarinMonolithRelocateIn" parent="AP_WarpRelocateInBase">
+        <On Terms="Behavior.AP_WarpRelocating.Off; ValidateUnit AP_IsKhaydarinMonolith" Send="Create"/>
+        <On Terms="ActorDestruction" Target="AP_KhaydarinMonolithSplat" Send="SetVisibility 1"/>
+        <Model value="AP_KhaydarinMonolithBirth"/>
     </CActorModel>
     <CActorUnit id="AP_GoliathMengsk" parent="AP_GoliathBase" unitName="AP_GoliathMengsk">
         <CustomUnitStatusFrame value="AP_Coop_UnitStatus_Mengsk/MengskGoliath_StatusFrame"/>
