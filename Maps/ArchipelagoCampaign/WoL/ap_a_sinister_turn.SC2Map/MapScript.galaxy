@@ -541,7 +541,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_p1_USER);
         libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionEntireMap(), gv_p1_USER);
         lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_p1_USER);
-        TriggerExecute(gt_ObjectiveDestroyPrisonsCreateQ, true, false);
     }
     return true;
 }
@@ -2971,6 +2970,10 @@ bool gt_PlayerBuildingArmyActivatesMidCin_Func (bool testConds, bool runActions)
             return false;
         }
 
+        if (!((libNtve_gf_TriggeringProgressUnitType() != "AP_SICocoonInfestedSCV"))) {
+            return false;
+        }
+
         if (!((UnitGetOwner(EventUnitProgressUnit()) == 1))) {
             return false;
         }
@@ -3074,6 +3077,10 @@ bool gt_PlayerBuildingUnitActivatesActivatesStalker_Func (bool testConds, bool r
         }
 
         if (!((UnitFilterMatch(EventUnitProgressUnit(), gv_p1_USER, UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterWorker) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)))) == true))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_TriggeringProgressUnitType() != "AP_SICocoonInfestedSCV"))) {
             return false;
         }
 
