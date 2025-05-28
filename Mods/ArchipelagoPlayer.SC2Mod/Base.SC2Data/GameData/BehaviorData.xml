@@ -3918,17 +3918,6 @@
         <Period value="0.5"/>
         <PeriodicEffect value="AP_ZerglingRangeWaitCounter"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_ZerglingRespawnControllerRebirth">
-        <Alignment value="Positive"/>
-        <FinalEffect value="AP_ZerglingRespawnControllerRebirthCU"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_ZerglingRespawnControllerSearch">
-        <Alignment value="Positive"/>
-        <Requirements value="AP_ZerglingRespawnPrimaryNotActive"/>
-        <Period value="3"/>
-        <PeriodicEffect value="AP_ZerglingRespawnPrimaryDeathSearch"/>
-        <FinalEffect value="AP_ZerglingRespawnControllerRebirth"/>
-    </CBehaviorBuff>
     <CBehaviorBuff id="AP_ZerglingRespawnDeath">
         <BehaviorCategories index="Permanent" value="1"/>
         <InfoFlags index="Hidden" value="1"/>
@@ -3943,6 +3932,7 @@
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
         <RemoveValidatorArray value="NotHidden"/>
+        <InitialEffect value="AP_ZerglingRespawnPrimaryRemoveOthers"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_ZerglingRespawnWorkingTimer">
         <Alignment value="Positive"/>
