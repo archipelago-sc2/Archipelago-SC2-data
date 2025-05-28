@@ -6066,7 +6066,7 @@ bool gt_BaseMidCleanup_Func (bool testConds, bool runActions) {
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Drone", 0, gv_pLAYER_01_USER, PointFromId(115));
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Drone", 0, gv_pLAYER_01_USER, PointFromId(131));
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Drone", 0, gv_pLAYER_01_USER, PointFromId(164));
-        lib15EF4C78_gf_ZerglingRespawnSetPrimaryHatchery(gv_pLAYER_01_USER, UnitGroupClosestToPoint(UnitGroup("AP_Hive", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), PointFromId(205)));
+        lib15EF4C78_gf_AP_Player_setPrimaryTownHall(gv_pLAYER_01_USER, UnitGroupClosestToPoint(UnitGroup("AP_Hive", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), PointFromId(205)));
         lib15EF4C78_gf_AP_Player_clearZerglingRespawnChargesFromPlayer(gv_pLAYER_01_USER);
         auto59CAF6FC_g = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
         auto59CAF6FC_u = UnitGroupCount(auto59CAF6FC_g, c_unitCountAll);
@@ -6082,7 +6082,7 @@ bool gt_BaseMidCleanup_Func (bool testConds, bool runActions) {
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Probe", 0, gv_pLAYER_01_USER, PointFromId(115));
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Probe", 0, gv_pLAYER_01_USER, PointFromId(131));
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Probe", 0, gv_pLAYER_01_USER, PointFromId(164));
-        lib15EF4C78_gf_ZerglingRespawnSetPrimaryHatchery(gv_pLAYER_01_USER, UnitGroupClosestToPoint(UnitGroup("AP_Nexus", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), PointFromId(205)));
+        lib15EF4C78_gf_AP_Player_setPrimaryTownHall(gv_pLAYER_01_USER, UnitGroupClosestToPoint(UnitGroup("AP_Nexus", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), PointFromId(205)));
     }
     else {
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_SCV", 0, gv_pLAYER_01_USER, PointFromId(49));
@@ -6090,7 +6090,7 @@ bool gt_BaseMidCleanup_Func (bool testConds, bool runActions) {
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_SCV", 0, gv_pLAYER_01_USER, PointFromId(115));
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_SCV", 0, gv_pLAYER_01_USER, PointFromId(131));
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_SCV", 0, gv_pLAYER_01_USER, PointFromId(164));
-        lib15EF4C78_gf_ZerglingRespawnSetPrimaryHatchery(gv_pLAYER_01_USER, UnitFromId(228));
+        lib15EF4C78_gf_AP_Player_setPrimaryTownHall(gv_pLAYER_01_USER, UnitFromId(228));
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionEntireMap(), gv_pLAYER_01_USER);

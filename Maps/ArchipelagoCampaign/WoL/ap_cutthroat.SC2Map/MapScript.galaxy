@@ -1129,7 +1129,7 @@ bool gt_ChangeOwnerofIntroStructures_Func (bool testConds, bool runActions) {
     libNtve_gf_RescueUnit(EventUnit(), gv_p01_USER, true);
     if ((UnitGetType(EventUnit()) == "AP_CommandCenter")) {
         UnitSetPropertyFixed(EventUnit(), c_unitPropEnergy, 50.0);
-        lib15EF4C78_gf_ZerglingRespawnSetPrimaryHatchery(gv_p01_USER, EventUnit());
+        lib15EF4C78_gf_AP_Player_setPrimaryTownHall(gv_p01_USER, EventUnit());
         lib15EF4C78_gf_AP_Player_clearZerglingRespawnChargesFromPlayer(gv_p01_USER);
         lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_p01_USER);
     }
@@ -5742,7 +5742,7 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
         libNtve_gf_ShowHideUnit(auto27CB4954_var, true);
     }
     UnitPauseAll(false);
-    lib15EF4C78_gf_ZerglingRespawnSetPrimaryHatchery(gv_p03_MIRA_HAN, null);
+    lib15EF4C78_gf_AP_Player_setPrimaryTownHall(gv_p03_MIRA_HAN, null);
     lib15EF4C78_gf_AP_Player_clearZerglingRespawnChargesFromPlayer(gv_p03_MIRA_HAN);
     auto05A7AB37_g = UnitGroup(null, gv_p03_MIRA_HAN, null, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
     auto05A7AB37_u = UnitGroupCount(auto05A7AB37_g, c_unitCountAll);
