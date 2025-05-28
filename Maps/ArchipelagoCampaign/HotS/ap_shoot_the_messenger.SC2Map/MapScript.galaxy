@@ -5946,7 +5946,7 @@ void gt_VictorySetup_Init () {
 bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     string auto7883E05C_val;
-    string auto9FA72620_val;
+    string autoCA6C4E83_val;
 
     // Actions
     if (!runActions) {
@@ -5981,12 +5981,6 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     gv_victoryCinematicCompleted = false;
     CinematicFade(true, 1.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, true);
     libSwaC_gf_SetAllSoundChannelVolumesCampaign(libSwaC_ge_VolumeChannelModeCampaign_CinematicInTransmission);
-    auto9FA72620_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
-    if (auto9FA72620_val == "Prot") {
-        TriggerExecute(gt_VictoryProtoss2, true, false);
-    }
-    else {
-    }
     if ((gv_alternateVictory == false)) {
         libSwaC_gf_SendTransmissionCampaign(gv_victoryKerrigan, "zMission_Expedition02|Line00041", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
     }
@@ -5994,8 +5988,19 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
         libSwaC_gf_SendTransmissionCampaign(gv_victoryKerrigan, "zMission_Expedition02|Line00084", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
     }
     CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(200), (SoundLengthSync(SoundLink(ConversationDataGetSound("zMission_Expedition02|Line00043", true), c_soundIndexAny)) + SoundLengthSync(SoundLink(ConversationDataGetSound("zMission_Expedition02|Line00042", true), c_soundIndexAny))), -1, 10.0, true);
-    libSwaC_gf_SendTransmissionCampaign(null, "zMission_Expedition02|Line00042", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
-    libSwaC_gf_SendTransmissionCampaign(gv_victoryKerrigan, "zMission_Expedition02|Line00043", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    autoCA6C4E83_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoCA6C4E83_val == "Prot") {
+        TriggerExecute(gt_VictoryProtoss2, true, false);
+        libSwaC_gf_SendTransmissionCampaign(null, "zMission_Expedition02|Line00042", c_transmissionDurationSet, 3.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        Wait(2.0, c_timeReal);
+        libSwaC_gf_SendTransmissionCampaign(null, "zMission_Hybrid03|Line00049", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        Wait(3.0, c_timeReal);
+        libSwaC_gf_SendTransmissionCampaign(null, "zMission_Hybrid03|Line00042", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+        libSwaC_gf_SendTransmissionCampaign(null, "zMission_Expedition02|Line00042", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        libSwaC_gf_SendTransmissionCampaign(gv_victoryKerrigan, "zMission_Expedition02|Line00043", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
     gv_victoryCinematicCompleted = true;
     return true;
 }
@@ -6360,13 +6365,13 @@ bool gt_VictoryProtoss2_Func (bool testConds, bool runActions) {
 
     while (true) {
         libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("AP_DragoonPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_TopLeft), SoundLink("zEvoMission_Baneling_ZExpedition03Zealot_027", -1), 0.0, c_transmissionDurationAdd, false);
-        Wait(1.0, c_timeReal);
+        Wait(2.0, c_timeReal);
         libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("AP_DragoonPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_BottomRight), SoundLink("zEvoMission_Roach_ZExpedition03Zealot_031", -1), 0.0, c_transmissionDurationAdd, false);
-        Wait(1.0, c_timeReal);
+        Wait(2.0, c_timeReal);
         libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("AP_DragoonPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterRight), SoundLink("zEvoMission_Roach_Immortal_055", -1), 0.0, c_transmissionDurationAdd, false);
-        Wait(1.0, c_timeReal);
+        Wait(2.0, c_timeReal);
         libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("AP_DragoonPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), SoundLink("zEvoMission_Baneling_ZExpedition03Stalker_058", -1), 0.0, c_transmissionDurationAdd, false);
-        Wait(1.0, c_timeReal);
+        Wait(2.0, c_timeReal);
     }
     return true;
 }
