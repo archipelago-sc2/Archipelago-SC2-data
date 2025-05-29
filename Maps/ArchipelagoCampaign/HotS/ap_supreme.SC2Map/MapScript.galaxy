@@ -167,7 +167,6 @@ sound gv_zurvanStingerFade;
 sound gv_zurvanIntroSound;
 sound gv_zurvanQuakeSound2;
 sound gv_zurvanRockSound;
-bool gv_aP_Trigger_Replacements;
 
 void InitGlobals () {
     int init_i;
@@ -264,12 +263,6 @@ trigger gt_DEBUGYagdraBoss;
 trigger gt_DEBUGKraithBoss;
 trigger gt_DEBUGSlivanBoss;
 trigger gt_DEBUGZurvanBoss;
-trigger gt_DEBUGEnableReplacements;
-trigger gt_DEBUGViperQueen;
-trigger gt_DEBUGBullfrogMedic;
-trigger gt_DEBUGOverlord;
-trigger gt_DEBUGYggdrasil;
-trigger gt_DEBUGNydus;
 trigger gt_StartGameQ;
 trigger gt_UnitTakesDamage;
 trigger gt_AttackedUnitCountdowns;
@@ -2638,201 +2631,6 @@ void gt_DEBUGZurvanBoss_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Enable Replacements
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGEnableReplacements_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_inCinematic2 == true))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/8B52990B"), true);
-    TechTreeUpgradeAddLevel(gv_pLAYER_01_USER, "AP_AllowSwarmAssistance", 1);
-    HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/F13E7FDB"), libNtve_ge_TipType_MissionStrategy), StringExternal("Param/Value/844F33E9"), StringExternal("Param/Value/D8D90E3A"), "AP\\Assets\\Textures\\AP_icon.dds");
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGEnableReplacements_Init () {
-    gt_DEBUGEnableReplacements = TriggerCreate("gt_DEBUGEnableReplacements_Func");
-    TriggerAddEventChatMessage(gt_DEBUGEnableReplacements, c_playerAny, "-r", true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Viper/Queen
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGViperQueen_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_inCinematic2 == true))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/E531D6AC"), true);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockViper(1);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockSwarmQueen(1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGViperQueen_Init () {
-    gt_DEBUGViperQueen = TriggerCreate("gt_DEBUGViperQueen_Func");
-    TriggerAddEventHotkeyPressed(gt_DEBUGViperQueen, c_playerAny, c_hotkeyHeroSelect1, true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Bullfrog/Medic
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGBullfrogMedic_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_inCinematic2 == true))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/86418EAA"), true);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockInfestedBullfrog(1);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockInfestedMedic(1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGBullfrogMedic_Init () {
-    gt_DEBUGBullfrogMedic = TriggerCreate("gt_DEBUGBullfrogMedic_Func");
-    TriggerAddEventHotkeyPressed(gt_DEBUGBullfrogMedic, c_playerAny, c_hotkeyHeroSelect2, true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Overlord
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGOverlord_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_inCinematic2 == true))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/EBF3BD1A"), true);
-    libABFE498B_gf_AP_Triggers_Zerg_OverlordVentralSacs(1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGOverlord_Init () {
-    gt_DEBUGOverlord = TriggerCreate("gt_DEBUGOverlord_Func");
-    TriggerAddEventHotkeyPressed(gt_DEBUGOverlord, c_playerAny, c_hotkeyHeroSelect3, true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Yggdrasil
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGYggdrasil_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_inCinematic2 == true))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/870DAA38"), true);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockYggdrasil(1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGYggdrasil_Init () {
-    gt_DEBUGYggdrasil = TriggerCreate("gt_DEBUGYggdrasil_Func");
-    TriggerAddEventHotkeyPressed(gt_DEBUGYggdrasil, c_playerAny, c_hotkeyHeroSelect4, true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Nydus
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGNydus_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_inCinematic2 == true))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/54EC5498"), true);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockNydusWorm(1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGNydus_Init () {
-    gt_DEBUGNydus = TriggerCreate("gt_DEBUGNydus_Func");
-    TriggerAddEventHotkeyPressed(gt_DEBUGNydus, c_playerAny, c_hotkeyHeroSelect5, true);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: Start Game Q
 //--------------------------------------------------------------------------------------------------
 bool gt_StartGameQ_Func (bool testConds, bool runActions) {
@@ -2845,7 +2643,7 @@ bool gt_StartGameQ_Func (bool testConds, bool runActions) {
     TimerStart(gv_achievementTimedRunTimer, 720.0, false, c_timeAI);
     TriggerExecute(gt_YagdraInit, true, false);
     TriggerExecute(gt_YagdraRescueCave, true, false);
-    if ((gv_aP_Trigger_Replacements == true)) {
+    if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTechAllowSubstitutes == true)) {
         TriggerExecute(gt_EnableReplacements, true, false);
     }
 
@@ -13395,12 +13193,6 @@ void InitTriggers () {
     gt_DEBUGKraithBoss_Init();
     gt_DEBUGSlivanBoss_Init();
     gt_DEBUGZurvanBoss_Init();
-    gt_DEBUGEnableReplacements_Init();
-    gt_DEBUGViperQueen_Init();
-    gt_DEBUGBullfrogMedic_Init();
-    gt_DEBUGOverlord_Init();
-    gt_DEBUGYggdrasil_Init();
-    gt_DEBUGNydus_Init();
     gt_StartGameQ_Init();
     gt_UnitTakesDamage_Init();
     gt_AttackedUnitCountdowns_Init();
