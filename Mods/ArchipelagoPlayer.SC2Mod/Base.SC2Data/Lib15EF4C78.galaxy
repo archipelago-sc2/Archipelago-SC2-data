@@ -5541,7 +5541,6 @@ void lib15EF4C78_gt_KerriganEconDrop_Init () {
 bool lib15EF4C78_gt_AP_Player_ElderProbeWarpInHandler_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_caster;
-    unit lv_unit;
     point lv_targetPoint;
 
     // Automatic Variable Declarations
@@ -5553,10 +5552,7 @@ bool lib15EF4C78_gt_AP_Player_ElderProbeWarpInHandler_Func (bool testConds, bool
         return true;
     }
 
-    UnitCreate(1, "AP_ElderProbe", c_unitCreateConstruct, EventPlayerEffectUsedUnitOwner(c_effectPlayerCaster), EventPlayerEffectUsedPoint(c_effectLocationTargetPoint), libNtve_gf_RandomAngle());
-    lv_unit = UnitLastCreated();
-    lv_targetPoint = UnitGetPosition(lv_unit);
-    UnitRemove(lv_unit);
+    lv_targetPoint = UnitTypePlacementTestsFromPoint("AP_ElderProbe", 1, EventPlayerEffectUsedPoint(c_effectLocationTargetPoint), 5.0, c_placementTestCreepMask | c_placementTestPowerMask | c_placementTestFogMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestZoneMask | c_placementTestCliffMask | c_placementTestDensityMask);
     UnitIssueOrder(lv_caster, OrderTargetingPoint(AbilityCommand("AP_ElderProbeWarpinBackground", 0), lv_targetPoint), c_orderQueueAddToFront);
     return true;
 }
