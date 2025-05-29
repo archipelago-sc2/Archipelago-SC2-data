@@ -7,4 +7,233 @@
     <CEffectEnumArea id="ZurvanLightningBreathSearch">
         <AreaArray index="0" Arc="84.9902" Radius="12" Effect="ZurvanLightningBreathDamage"/>
     </CEffectEnumArea>
+    <CEffectCreateUnit id="AP_FakeLeapStrikePrecursor">
+        <ValidatorArray value="AP_KerriganPlacement"/>
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetPoint"/>
+        <CreateFlags index="Birth" value="0"/>
+        <CreateFlags index="DropOff" value="0"/>
+        <CreateFlags index="Precursor" value="1"/>
+        <CreateFlags index="ProvideFood" value="0"/>
+        <CreateFlags index="TechComplete" value="0"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <CreateFlags index="NormalizeSpawnOffset" value="0"/>
+        <SpawnEffect value="AP_FakeLeapStrike"/>
+        <SpawnUnit value="AP_Hydralisk"/>
+    </CEffectCreateUnit>
+    <CEffectSwitch id="AP_FakeMend">
+        <EditorCategories value=""/>
+        <CaseArray Validator="AP_HaveInfestedMedic" Effect="AP_FakeMendCreateInfestedMedic"/>
+        <CaseDefault value="AP_FakeMendCreateQueen"/>
+    </CEffectSwitch>
+    <CEffectApplyBehavior id="AP_FakeMendAB">
+        <EditorCategories value=""/>
+        <Behavior value="AP_FakeMendTimedLife"/>
+    </CEffectApplyBehavior>
+    <CEffectCreateUnit id="AP_FakeMendCreateInfestedMedic">
+        <EditorCategories value=""/>
+        <SpawnEffect value="AP_FakeMendSet"/>
+        <SpawnUnit value="AP_InfestedMedic"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="AP_FakeMendCreateQueen">
+        <EditorCategories value=""/>
+        <SpawnEffect value="AP_FakeMendSet"/>
+        <SpawnUnit value="AP_Queen"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_FakeMendSet">
+        <EditorCategories value=""/>
+        <EffectArray value="AP_FakeMendStunAB"/>
+        <EffectArray value="AP_FakeMendAB"/>
+    </CEffectSet>
+    <CEffectTeleport id="AP_NydusLeapStrikeTeleport">
+        <EditorCategories value=""/>
+        <WhichUnit Value="Caster"/>
+        <TargetLocation Effect="AP_FakeLeapStrike" Value="TargetPoint"/>
+    </CEffectTeleport>
+    <CEffectCreatePersistent id="AP_NydusLeapStrike">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="4"/>
+        <PeriodicEffectArray value="AP_FakeLeapCasterAB"/>
+        <PeriodicEffectArray value="AP_NydusLeapStrikeTeleport"/>
+        <PeriodicEffectArray value="AP_FakeLeapCasterAB"/>
+        <PeriodicEffectArray value="AP_DoNothing"/>
+        <PeriodicOffsetArray value="0,1,0"/>
+        <PeriodicOffsetArray value="0,10,0"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="1.5"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="AP_BullfrogLeapStrikeOffset">
+        <EditorCategories value=""/>
+        <WhichLocation Value="CasterPoint"/>
+        <OffsetVectorStartLocation Value="CasterPoint"/>
+        <OffsetVectorEndLocation Effect="AP_BullfrogLeapStrike"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_BullfrogLeapStrikeCreate"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="AP_DoNothing">
+        <EditorCategories value=""/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_FakeLeapCasterAB">
+        <EditorCategories value=""/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_FakeLeapCasterBehavior"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_FakeLeapCasterVisibleAB">
+        <EditorCategories value=""/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_FakeLeapCasterBehaviorVisible"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_FakeLeapOverlordAB">
+        <EditorCategories value=""/>
+        <Behavior value="AP_FakeLeapOverlordBehavior"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="AP_BullfrogLeapStrike">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="AP_BullfrogLeapStrikeOffset"/>
+        <PeriodicEffectArray value="AP_FakeLeapCasterAB"/>
+        <PeriodicEffectArray value="AP_FakeLeapStrikeTeleport"/>
+        <PeriodicOffsetArray value="0,1,0"/>
+        <PeriodicOffsetArray value="0,10,0"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <PeriodicPeriodArray value="1.5"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_BullfrogLeapStrikeCreate">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetPoint"/>
+        <CreateFlags index="OffsetByRadius" value="0"/>
+        <CreateFlags index="Placement" value="0"/>
+        <CreateFlags index="ProvideFood" value="0"/>
+        <CreateFlags index="SetFacing" value="1"/>
+        <CreateFlags index="TechComplete" value="0"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnEffect value="AP_BullfrogLeapStrikePersistent"/>
+        <SpawnUnit value="AP_InfestedBullfrog"/>
+    </CEffectCreateUnit>
+    <CEffectCreatePersistent id="AP_BullfrogLeapStrikePersistent">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="AP_BullfrogLeapStrikeAB"/>
+        <PeriodicEffectArray value="AP_BullfrogLeapStrikeOrder"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="1.5"/>
+    </CEffectCreatePersistent>
+    <CEffectIssueOrder id="AP_BullfrogLeapStrikeOrder">
+        <EditorCategories value=""/>
+        <Abil value="AP_InfBullfrogLeap"/>
+        <Target Effect="AP_FakeLeapStrike" Value="TargetPoint"/>
+    </CEffectIssueOrder>
+    <CEffectApplyBehavior id="AP_BullfrogLeapStrikeAB">
+        <EditorCategories value=""/>
+        <Behavior value="AP_BullfrogLeapStrikeBehavior"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_ViperLeapAB">
+        <EditorCategories value=""/>
+        <Behavior value="AP_MercAirDrop"/>
+    </CEffectApplyBehavior>
+    <CEffectIssueOrder id="AP_ViperLeapStrikeOrder">
+        <EditorCategories value=""/>
+        <Abil value="AP_Yoink"/>
+        <Target Effect="AP_FakeLeapStrike" Value="CasterUnit"/>
+    </CEffectIssueOrder>
+    <CEffectCreateUnit id="AP_ViperLeapStrikeCreate">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetPoint"/>
+        <CreateFlags index="ProvideFood" value="0"/>
+        <CreateFlags index="TechComplete" value="0"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnEffect value="AP_ViperLeapStrikeDelay"/>
+        <SpawnUnit value="AP_Viper"/>
+    </CEffectCreateUnit>
+    <CEffectCreatePersistent id="AP_FakeLeapStrikePersistent">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="AP_FakeLeapStrikeCreate"/>
+        <PeriodicEffectArray value="AP_FakeLeapCasterAB"/>
+        <PeriodicEffectArray value="AP_FakeLeapStrikeTeleport"/>
+        <PeriodicOffsetArray value="0,1,0"/>
+        <PeriodicOffsetArray value="0,10,0"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <Flags index="Channeled" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_FakeLeapStrikeCreate">
+        <EditorCategories value=""/>
+        <WhichLocation Value="CasterPoint"/>
+        <CreateFlags index="ProvideFood" value="0"/>
+        <CreateFlags index="TechComplete" value="0"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnEffect value="AP_FakeLeapStrikeSet"/>
+        <SpawnUnit value="AP_Overlord"/>
+    </CEffectCreateUnit>
+    <CEffectSwitch id="AP_FakeLeapStrike">
+        <EditorCategories value=""/>
+        <CaseArray Validator="AP_HaveNydus" Effect="AP_NydusLeapStrike"/>
+        <CaseArray Validator="AP_HaveVentralOrYggdrasil" Effect="AP_FakeLeapStrikePersistent"/>
+        <CaseArray Validator="AP_HaveInfBullfrog" Effect="AP_BullfrogLeapStrike"/>
+        <CaseArray Validator="AP_HaveHotSMutaliskViper" Effect="AP_ViperLeapStrikePersistent"/>
+        <CaseDefault value="AP_FakeLeapStrikePersistent"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSwitch>
+    <CEffectIssueOrder id="AP_FakeLeapStrikeOrder">
+        <EditorCategories value=""/>
+        <Abil value="move"/>
+        <Target Effect="AP_FakeLeapStrike" Value="TargetPoint"/>
+    </CEffectIssueOrder>
+    <CEffectCreatePersistent id="AP_ViperLeapStrikeDelay">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodCount value="4"/>
+        <PeriodicEffectArray value="AP_FakeLeapOverlordAB"/>
+        <PeriodicEffectArray value="AP_FakeLeapOverlordAB"/>
+        <PeriodicEffectArray value="AP_ViperLeapStrikeOrder"/>
+        <PeriodicEffectArray value="AP_FakeLeapOverlordAB"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <PeriodicPeriodArray value="0"/>
+        <InitialEffect value="AP_ViperLeapAB"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="AP_ViperLeapStrikePersistent">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="4"/>
+        <PeriodicEffectArray value="AP_ViperLeapStrikeCreate"/>
+        <PeriodicEffectArray value="AP_FakeLeapCasterVisibleAB"/>
+        <PeriodicEffectArray value="AP_FakeLeapCasterVisibleAB"/>
+        <PeriodicEffectArray value="AP_DoNothing"/>
+        <PeriodicOffsetArray value="0,1,0"/>
+        <PeriodicOffsetArray value="0,10,0"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="2"/>
+        <PeriodicPeriodArray value="2"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="AP_FakeLeapStrikeSet">
+        <EditorCategories value=""/>
+        <EffectArray value="AP_FakeLeapOverlordAB"/>
+        <EffectArray value="AP_FakeLeapStrikeOrder"/>
+    </CEffectSet>
+    <CEffectTeleport id="AP_FakeLeapStrikeTeleport">
+        <EditorCategories value=""/>
+        <WhichUnit Value="Caster"/>
+        <TargetLocation Effect="AP_FakeLeapStrike" Value="TargetPoint"/>
+    </CEffectTeleport>
+    <CEffectApplyBehavior id="AP_FakeMendStunAB">
+        <EditorCategories value=""/>
+        <Behavior value="AP_FakeMendStun"/>
+    </CEffectApplyBehavior>
 </Catalog>

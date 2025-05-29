@@ -1,6 +1,53 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../schemas/SchemaRequirementNodeData.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
     <CRequirementCountUpgrade id="CountUpgradeHotSScavengerRoachInstallationCompleteOnly3515923415">
         <Flags index="TechTreeCheat" value="0"/>
     </CRequirementCountUpgrade>
+    <CRequirementAllowAbil id="AP_Bullfrog">
+        <Link value="AP_SIFactoryTrain"/>
+        <Index value="3"/>
+    </CRequirementAllowAbil>
+    <CRequirementAllowUnit id="AP_InfestedMedic">
+        <Link value="AP_InfestedMedic"/>
+    </CRequirementAllowUnit>
+    <CRequirementAllowUnit id="AP_NydusWorm">
+        <Link value="AP_NydusWorm"/>
+    </CRequirementAllowUnit>
+    <CRequirementAllowUnit id="AP_SwarmQueenNode">
+        <Link value="AP_Queen"/>
+    </CRequirementAllowUnit>
+    <CRequirementAllowUnit id="AP_Yggdrasil">
+        <Link value="AP_Yggdrasil"/>
+    </CRequirementAllowUnit>
+    <CRequirementAnd id="AP_AllowFakeMend">
+        <OperandArray value="AP_AllowSwarmAssistance"/>
+        <OperandArray value="AP_SwarmQueenOrInfestedMedic"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_AllowFakeLeapStrike">
+        <OperandArray value="AP_TransportItem"/>
+        <OperandArray value="AP_AllowSwarmAssistance"/>
+    </CRequirementAnd>
+    <CRequirementCountUpgrade id="AP_AllowSwarmAssistance">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_AllowSwarmAssistance" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_Viper">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_HotSMutaliskViper" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_VentralSacks">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_overlordtransport" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementOr id="AP_SwarmQueenOrInfestedMedic">
+        <OperandArray value="AP_SwarmQueenNode"/>
+        <OperandArray value="AP_InfestedMedic"/>
+    </CRequirementOr>
+    <CRequirementOr id="AP_TransportItem">
+        <OperandArray value="AP_Yggdrasil"/>
+        <OperandArray value="AP_Bullfrog"/>
+        <OperandArray value="AP_Viper"/>
+        <OperandArray value="AP_VentralSacks"/>
+        <OperandArray value="AP_NydusWorm"/>
+    </CRequirementOr>
 </Catalog>

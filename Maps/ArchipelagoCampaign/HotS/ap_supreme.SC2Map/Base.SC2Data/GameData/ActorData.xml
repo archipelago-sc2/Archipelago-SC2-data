@@ -6,4 +6,119 @@
         <On index="3" removed="1"/>
         <On index="4" removed="1"/>
     </CActorDoodad>
+    <CActorSimple id="AP_FakeLeapCaster">
+        <Supporter Subject="_Selectable"/>
+        <On Terms="Behavior.AP_FakeLeapCasterBehavior.On" Send="Create"/>
+        <On Terms="Behavior.AP_FakeLeapCasterBehavior.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="SetVisibility"/>
+        <On Terms="ActorDestruction" Target="_Selectable" Send="SetVisibility 1"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="Create AP_OverlordTransportLoadSound"/>
+        <On Terms="ActorDestruction" Target="_Selectable" Send="Create AP_OverlordTransportUnloadSound"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="Create AP_OverlordUnload"/>
+        <On Terms="ActorDestruction" Target="_Selectable" Send="Create AP_OverlordUnload"/>
+    </CActorSimple>
+    <CActorModel id="AP_FakeLeapOverlord" parent="ModelAdditionNoAnims">
+        <On Terms="Behavior.AP_FakeLeapOverlordBehavior.On" Send="Create"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_HaveYggdrasil" Target="_Selectable" Send="ModelSwap AP_Yggdrasil"/>
+        <On Terms="UnitDeath.AP_Overlord; ValidatePlayer AP_HaveYggdrasil" Send="TimerSet 0.062500"/>
+        <On Terms="TimerExpired" Target="_DeathModel" Send="ModelSwap AP_YggdrasilDeath"/>
+        <Model value="ProtossEnergyGust"/>
+    </CActorModel>
+    <CActorModel id="AP_BullfrogLeapStrike" parent="ModelAdditionNoAnims">
+        <On Terms="Behavior.AP_BullfrogLeapStrikeBehavior.On" Send="Create"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="AnimBracketStart Burrow IGNORE Burrow Unburrow ClosingFull,Instant"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="AnimSetCompletion Burrow 100.000000"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.250000"/>
+        <On Terms="TimerExpired" Target="_Selectable" Send="AnimBracketStop Burrow"/>
+        <Model value="ProtossEnergyGust"/>
+    </CActorModel>
+    <CActorSound id="AP_FakeLeapSound" parent="SoundOneShot">
+        <On Terms="Effect.AP_FakeLeapStrikeCreate.Start" Send="Create"/>
+        <Sound value="Overlord_Ready"/>
+    </CActorSound>
+    <CActorModel id="AP_FakeMendMedic" parent="ModelAdditionNoAnims">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart Lifetime Unload,End Stand"/>
+        <On Terms="ActorCreation" Send="AnimSetCompletion Lifetime 30.000000"/>
+        <Host Subject="AP_FakeMendMedicUnburrow"/>
+        <HostSiteOps Ops="SOpAttachCenter SOpMoveDownByDot5"/>
+        <Model value="AP_MercMedic"/>
+        <Scale value="1.100000"/>
+    </CActorModel>
+    <CActorModel id="AP_FakeMendMedicUnburrow" parent="ModelAdditionNoAnims">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <On Terms="ActorCreation" Send="Create AP_FakeMendMedic"/>
+        <On Terms="TimerExpired" Target="_Selectable" Send="SetOpacity"/>
+        <On Terms="TimerExpired" Send="SetOpacity"/>
+        <On Terms="ActorCreation" Send="AnimPlay Burrow Unburrow"/>
+        <On Terms="AnimDone" Send="Destroy"/>
+        <On Terms="ActorDestruction" Target="AP_FakeMendMedic" Send="Destroy"/>
+        <On Terms="ActorDestruction" Target="_Selectable" Send="SetOpacity 1.000000"/>
+        <On Terms="UnitBirth.AP_InfestedMedic.EditorPlaced" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet"/>
+        <On Terms="ActorCreation" Send="Create AP_FakeMendMedicAttachment"/>
+        <On Terms="ActorDestruction" Target="AP_FakeMendMedicAttachment" Send="Destroy"/>
+        <Model value="Hydralisk"/>
+        <Scale value="1.000000,1.000000,0.700000"/>
+    </CActorModel>
+    <CActorModel id="AP_FakeMendSummon" parent="ModelAnimationStyleOneShot">
+        <Flags index="SuppressSaveLoad" value="0"/>
+        <On index="0" Terms="ActorCreation" Send="AnimPlay Burrow Unburrow,01"/>
+        <On index="1" Terms="AnimDone; AnimName Burrow" Send="Destroy"/>
+        <On index="2" Terms="Behavior.AP_FakeMendTimedLife.On" Send="Create"/>
+        <On Terms="ActorCreation; ValidateUnit AP_IsSwarmQueen" Target="_Selectable" Send="AnimPlay Burrow Unburrow"/>
+        <On Terms="ActorCreation" Send="Create BurrowUpMedium"/>
+        <On Terms="ActorCreation; ValidateUnit AP_IsInfestedMedic" Send="Create AP_FakeMendMedicUnburrow"/>
+        <Model value="BurrowFXMedium"/>
+    </CActorModel>
+    <CActorModel id="AP_FakeMendMedicAttachment" parent="ModelAddition">
+        <Host Subject="AP_FakeMendMedic"/>
+        <HostSiteOps Ops="SOpAttachHead"/>
+        <Model value="NeuralParasiteModel"/>
+        <AutoScaleFactor value="1.000000"/>
+    </CActorModel>
+    <CActorModel id="AP_NydusLeapStrikeOut" parent="ModelAdditionNoAnims">
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <On Terms="Effect.AP_NydusLeapStrike.Start; At Caster" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart Lifetime Birth,02 IGNORE Unburrow ContentPlayOnce 2.000000 AsTimeScale"/>
+        <On Terms="AnimBracketState.*.AfterClosing" Send="Destroy"/>
+        <HostSiteOps Ops="SOpSourcePointStationary"/>
+        <Model value="NydusCanal"/>
+    </CActorModel>
+    <CActorModel id="AP_NydusLeapStrikeIn" parent="ModelAdditionNoAnims">
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <On Terms="Effect.AP_NydusLeapStrikeTeleport.Stop" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart Lifetime Birth,02 IGNORE Unburrow ContentPlayOnce 2.000000 AsTimeScale"/>
+        <On Terms="AnimBracketState.*.AfterClosing" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.312500"/>
+        <On Terms="TimerExpired" Send="HostSiteOpsRemove ::Host SOpCasterUnit"/>
+        <On Terms="TimerExpired" Send="HostSiteOpsAdd ::Host AP_SOpCasterUnitStationary Tail 1 1"/>
+        <HostSiteOps Ops="SOpCasterUnit" HoldRotation="1"/>
+        <Model value="NydusCanal"/>
+    </CActorModel>
+    <CActorSound id="AP_ViperLeapSound" parent="SoundOneShot">
+        <On Terms="Effect.AP_ViperLeapStrikeCreate" Send="Create"/>
+        <Sound value="LairViper_Ready"/>
+    </CActorSound>
+    <CActorSound id="AP_BullfrogLeapSound" parent="SoundOneShot">
+        <On Terms="Effect.AP_BullfrogLeapStrikeCreate.Start" Send="Create"/>
+        <Sound value="SwarmHost_Ready"/>
+    </CActorSound>
+    <CActorSound id="AP_NydusLeapStrikeSound" parent="SoundOneShot">
+        <On Terms="Effect.AP_NydusLeapStrike.Start" Send="Create"/>
+        <On Terms="Effect.AP_NydusLeapStrikeTeleport.Stop" Send="Create"/>
+        <Sound value="NydusWorm_Birth"/>
+    </CActorSound>
+    <CActorSiteOpEffect id="AP_SOpCasterUnitStationary">
+        <HoldPosition value="1"/>
+        <Location value="CasterUnit"/>
+    </CActorSiteOpEffect>
 </Catalog>
