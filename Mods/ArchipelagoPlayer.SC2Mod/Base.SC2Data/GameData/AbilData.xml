@@ -14781,6 +14781,34 @@
             <Button DefaultButtonFace="AP_ElderProbes"/>
         </InfoArray>
     </CAbilBuild>
+    <CAbilBehavior id="AP_ElderProbePowerSource">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="AP_ElderProbePowerOff"/>
+        <CmdButtonArray index="Off" DefaultButtonFace="AP_ElderProbePowerOn"/>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="ToggledOn" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="2"/>
+        </Cost>
+        <OffCost>
+            <Cooldown TimeUse="2"/>
+        </OffCost>
+        <BehaviorArray value="AP_ElderProbePowerSource"/>
+    </CAbilBehavior>
+    <CAbilEffectInstant id="AP_ElderProbeReconstruction">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="AP_ElderProbeWarpinDummy"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Cost>
+            <Charge CountMax="5" CountUse="1" Location="Player"/>
+            <Cooldown TimeStart="20" TimeUse="20"/>
+        </Cost>
+        <AutoCastRange value="1"/>
+        <ProducedUnitArray value="AP_ElderProbe"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ReconstructElderProbe" Requirements="AP_HaveSummonedElderProbes"/>
+    </CAbilEffectInstant>
     <CAbilWarpTrain id="AP_ProbeWarpin">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <InfoArray index="Train1" Time="5" Unit="AP_Probe">
