@@ -1786,7 +1786,7 @@ unitgroup lib15EF4C78_gf_AP_Player_getTownHalls (int lp_player) {
     lv_candidateBuildings = UnitGroupEmpty();
 
     // Implementation
-    lv_index = 1;
+    lv_index = 0;
     for ( ; ( (auto0B2837B3_ai >= 0 && lv_index <= auto0B2837B3_ae) || (auto0B2837B3_ai < 0 && lv_index >= auto0B2837B3_ae) ) ; lv_index += auto0B2837B3_ai ) {
         UnitGroupAddUnitGroup(lv_candidateBuildings, UnitGroup((lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[lv_index]), lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     }
@@ -4033,6 +4033,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
 
     // Variable Declarations
     unit lv_indexWorker;
+    abilcmd lv_indexWorker2;
     unitgroup lv_mineralResourceGroup;
     unitgroup lv_gasResourceGroup;
     unit lv_indexResource;
@@ -4095,7 +4096,8 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
                 }
 
             }
-            if ((UnitGroupCount(lv_gasResourceGroup, c_unitCountAlive) > 0) && (UnitOrderCount(lv_indexWorker) <= 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false)) {
+            lv_indexWorker2 = OrderGetAbilityCommand(UnitOrder(lv_indexWorker, 0));
+            if ((UnitGroupCount(lv_gasResourceGroup, c_unitCountAlive) > 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false) && (AbilityCommandGetAbility(lv_indexWorker2) != "AP_DroneHarvest") && (AbilityCommandGetAbility(lv_indexWorker2) != "AP_ProbeHarvest") && (AbilityCommandGetAbility(lv_indexWorker2) != "AP_SCVHarvest")) {
                 UnitIssueOrder(lv_indexWorker, OrderTargetingUnit(null, UnitGroupClosestToPoint(lv_gasResourceGroup, UnitGetPosition(lv_indexWorker))), c_orderQueueReplace);
             }
             else {
@@ -4121,7 +4123,8 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
                 }
 
             }
-            if ((UnitGroupCount(lv_mineralResourceGroup, c_unitCountAlive) > 0) && (UnitOrderCount(lv_indexWorker) <= 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false)) {
+            lv_indexWorker2 = OrderGetAbilityCommand(UnitOrder(lv_indexWorker, 0));
+            if ((UnitGroupCount(lv_mineralResourceGroup, c_unitCountAlive) > 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false) && (AbilityCommandGetAbility(lv_indexWorker2) != "AP_DroneHarvest") && (AbilityCommandGetAbility(lv_indexWorker2) != "AP_ProbeHarvest") && (AbilityCommandGetAbility(lv_indexWorker2) != "AP_SCVHarvest")) {
                 UnitIssueOrder(lv_indexWorker, OrderTargetingUnit(null, UnitGroupClosestToPoint(lv_mineralResourceGroup, UnitGetPosition(lv_indexWorker))), c_orderQueueReplace);
             }
 
@@ -4169,7 +4172,7 @@ bool auto_lib15EF4C78_gf_StartingWorkersAutoHarvest_TriggerFunc (bool testConds,
                     }
 
                 }
-                if ((UnitGroupCount(lv_mineralResourceGroup, c_unitCountAlive) > 0) && (UnitOrderCount(lv_indexWorker) <= 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false)) {
+                if ((UnitGroupCount(lv_mineralResourceGroup, c_unitCountAlive) > 0) && (libNtve_gf_UnitIsHidden(lv_indexWorker) == false)) {
                     UnitIssueOrder(lv_indexWorker, OrderTargetingUnit(null, UnitGroupClosestToPoint(lv_mineralResourceGroup, UnitGetPosition(lv_indexWorker))), c_orderQueueReplace);
                 }
 
@@ -5541,7 +5544,6 @@ void lib15EF4C78_gt_KerriganEconDrop_Init () {
 bool lib15EF4C78_gt_AP_Player_ElderProbeWarpInHandler_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_caster;
-    unit lv_unit;
     point lv_targetPoint;
 
     // Automatic Variable Declarations
@@ -5553,10 +5555,7 @@ bool lib15EF4C78_gt_AP_Player_ElderProbeWarpInHandler_Func (bool testConds, bool
         return true;
     }
 
-    UnitCreate(1, "AP_ElderProbe", c_unitCreateConstruct, EventPlayerEffectUsedUnitOwner(c_effectPlayerCaster), EventPlayerEffectUsedPoint(c_effectLocationTargetPoint), libNtve_gf_RandomAngle());
-    lv_unit = UnitLastCreated();
-    lv_targetPoint = UnitGetPosition(lv_unit);
-    UnitRemove(lv_unit);
+    lv_targetPoint = UnitTypePlacementTestsFromPoint("AP_ElderProbe", 1, EventPlayerEffectUsedPoint(c_effectLocationTargetPoint), 5.0, c_placementTestCreepMask | c_placementTestPowerMask | c_placementTestFogMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestZoneMask | c_placementTestCliffMask | c_placementTestDensityMask);
     UnitIssueOrder(lv_caster, OrderTargetingPoint(AbilityCommand("AP_ElderProbeWarpinBackground", 0), lv_targetPoint), c_orderQueueAddToFront);
     return true;
 }
