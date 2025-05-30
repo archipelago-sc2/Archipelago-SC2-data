@@ -1856,6 +1856,7 @@ bool gt_PlatformButtonPressed_Func (bool testConds, bool runActions) {
 
     if ((EventDialogControl() == gv_movingPlatform.lv_townBellButton)) {
         lv_probeGroup = UnitGroup("AP_Probe", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_platformNexus), 15.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
+        UnitGroupAddUnitGroup(lv_probeGroup, UnitGroup("AP_ElderProbe", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_platformNexus), 15.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0));
         UnitGroupAddUnitGroup(lv_probeGroup, UnitGroup("AP_SCV", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_platformNexus), 15.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0));
         UnitGroupAddUnitGroup(lv_probeGroup, UnitGroup("AP_SISCV", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_platformNexus), 15.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0));
         UnitGroupAddUnitGroup(lv_probeGroup, UnitGroup("AP_Drone", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_platformNexus), 15.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0));
