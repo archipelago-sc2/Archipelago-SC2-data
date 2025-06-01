@@ -44354,7 +44354,12 @@
         <On Terms="UnitConstruction.AP_ElderProbe.Finish" Send="AnimPlay ConstructionDeath Stand,Birth,Death FullMatch"/>
         <Model value="AP_ElderProbe"/>
         <BuildModel value="AP_ElderProbe"/>
-        <DeathArray index="Normal" ModelLink="AP_ElderProbeDeath"/>
+		<SoundArray index="Ready" value="AP_ProbeSCBW@Ready"/>
+        <SoundArray index="What" value="AP_ProbeSCBW@What"/>
+        <SoundArray index="Yes" value="AP_ProbeSCBW@Yes"/>
+        <SoundArray index="Attack" value="AP_ProbeSCBW@Yes"/>
+		<SoundArray index="Pissed" value="AP_ProbeSCBW@Pissed"/>
+        <DeathArray index="Normal" ModelLink="AP_ElderProbeDeath" SoundLink="AP_ProbeSCBW@Death"/>
         <PlacementModel value="AP_ElderProbe"/>
         <PortraitModel value="Probe_Remastered_Portrait"/>
         <GroupIcon>
@@ -44389,7 +44394,7 @@
         <On Terms="ActorCreation" Send="StatusDecrement Red"/>
     </CActorModel>
     <CActorSound id="AP_ElderProbeWarpinSound" parent="SoundOneShot">
-        <Sound value="Probe_Ready"/>
+        <Sound value="AP_ProbeSCBW@Ready"/>
     </CActorSound>
     <CActorModel id="AP_ProbeWarpin" parent="ModelAdditionNoAnims">
         <Inherits index="Opacity" value="0"/>
