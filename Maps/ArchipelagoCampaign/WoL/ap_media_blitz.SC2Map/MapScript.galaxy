@@ -230,7 +230,7 @@ trigger gt_SCVBuildsSupplyDepot;
 trigger gt_SCVGoesIdle;
 trigger gt_ShowAggroIcononUnit;
 trigger gt_HornerBuildsPlayerBase;
-trigger gt_ParadePlazaReaction;
+trigger gt_ParadePlazaReactionStartSneakAttack;
 trigger gt_AggroPassiveUnits;
 trigger gt_InitialAttackOver;
 trigger gt_OdinDiesMovetoStage2;
@@ -1266,6 +1266,9 @@ bool gt_StartGameStage1_Func (bool testConds, bool runActions) {
     GamePauseAllCharges(true);
     GamePauseAllCooldowns(true);
     libABFE498B_gf_AP_Triggers_startNoBuild(gv_p01_USER);
+    lib15EF4C78_gf_PauseUnpauseSpearofAdunCooldowns(gv_p01_USER, true);
+    lib15EF4C78_gf_SetSpearofAdunEnergy(gv_p01_USER, 0.0, lib15EF4C78_ge_SpearofAdunEnergyType_Regeneration);
+    lib15EF4C78_gf_SetSpearofAdunEnergy(gv_p01_USER, 1.0, lib15EF4C78_ge_SpearofAdunEnergyType_Absolute);
     TriggerExecute(gt_SCVBuildsSupplyDepot, true, false);
     Wait(2.0, c_timeGame);
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
@@ -2425,9 +2428,9 @@ void gt_HornerBuildsPlayerBase_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Parade Plaza Reaction
+// Trigger: Parade Plaza Reaction - Start Sneak Attack
 //--------------------------------------------------------------------------------------------------
-bool gt_ParadePlazaReaction_Func (bool testConds, bool runActions) {
+bool gt_ParadePlazaReactionStartSneakAttack_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     unitgroup auto04317FC0_g;
     int auto04317FC0_u;
@@ -2469,6 +2472,8 @@ bool gt_ParadePlazaReaction_Func (bool testConds, bool runActions) {
     libNtve_gf_SendActorMessageToGameRegionWithFilters(RegionCircle(RegionGetCenter(RegionFromId(9)), 20.0), c_actorIntersectAgainstRadiusContact, "SetVisibility", "Doodad", "ScopeContains Balloons");
     libNtve_gf_SendActorMessageToGameRegionWithFilters(RegionCircle(RegionGetCenter(RegionFromId(9)), 20.0), c_actorIntersectAgainstRadiusContact, "SetVisibility", "Doodad", "ScopeContains TickerTapeFX");
     libNtve_gf_SendActorMessageToGameRegionWithFilters(RegionCircle(RegionGetCenter(RegionFromId(9)), 20.0), c_actorIntersectAgainstRadiusContact, "SetVisibility", "Doodad", "ScopeContains Fireworks");
+    lib15EF4C78_gf_PauseUnpauseSpearofAdunCooldowns(gv_p01_USER, false);
+    lib15EF4C78_gf_SetSpearofAdunEnergy(gv_p01_USER, libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogUnit, "AP_SoACaster", "EnergyRegenRate", gv_p01_USER), lib15EF4C78_ge_SpearofAdunEnergyType_Regeneration);
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
         UnitBehaviorAdd(gv_odin, "AP_OdinInfested", gv_odin, 1);
     }
@@ -2510,10 +2515,10 @@ bool gt_ParadePlazaReaction_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_ParadePlazaReaction_Init () {
-    gt_ParadePlazaReaction = TriggerCreate("gt_ParadePlazaReaction_Func");
-    TriggerAddEventUnitStartedAttack(gt_ParadePlazaReaction, null);
-    TriggerAddEventUnitAbility(gt_ParadePlazaReaction, null, AbilityCommand("OdinBarrage", 255), c_unitAbilStageExecute, false);
+void gt_ParadePlazaReactionStartSneakAttack_Init () {
+    gt_ParadePlazaReactionStartSneakAttack = TriggerCreate("gt_ParadePlazaReactionStartSneakAttack_Func");
+    TriggerAddEventUnitStartedAttack(gt_ParadePlazaReactionStartSneakAttack, null);
+    TriggerAddEventUnitAbility(gt_ParadePlazaReactionStartSneakAttack, null, AbilityCommand("OdinBarrage", 255), c_unitAbilStageExecute, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -8204,7 +8209,7 @@ void InitTriggers () {
     gt_SCVGoesIdle_Init();
     gt_ShowAggroIcononUnit_Init();
     gt_HornerBuildsPlayerBase_Init();
-    gt_ParadePlazaReaction_Init();
+    gt_ParadePlazaReactionStartSneakAttack_Init();
     gt_AggroPassiveUnits_Init();
     gt_InitialAttackOver_Init();
     gt_OdinDiesMovetoStage2_Init();

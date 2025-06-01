@@ -3484,6 +3484,10 @@ bool gt_RescueSuperWarpGateTrainedUnits_Func (bool testConds, bool runActions) {
 
     Wait(1.0, c_timeAI);
     libNtve_gf_RescueUnit(EventUnitProgressUnit(), gv_pLAYER_01_USER, true);
+    while (!((libNtve_gf_UnitIsUnderConstruction(EventUnitProgressUnit()) == false))) {
+        Wait(0.5, c_timeGame);
+    }
+    UnitSetPropertyFixed(EventUnitProgressUnit(), c_unitPropLifePercent, 100.0);
     return true;
 }
 

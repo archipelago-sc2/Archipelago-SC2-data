@@ -36187,6 +36187,7 @@
         <Macros value="UnloadDropAnim"/>
         <Macros value="TerrainSquibAnimations"/>
         <DeathArray index="Normal" ModelLink="AP_Tyrannozor_Death" SoundLink="AP_Tyrannozor_Death" VoiceLink="TerrorzorDeath_Vox"/>
+        <DeathArray index="Fire" ModelLink="AP_Tyrannozor" SoundLink="Uni_DeathFXFireLarge" VoiceLink="AP_Tyrannozor_Death_Vox"/>
         <DeathCustoms ModelLink="ZergLargeUnitDeathLow" Name="AntiGravZerg"/>
         <PortraitModel value="Tyrannozor_Primal_Collection_Portrait"/>
         <WalkAnimMoveSpeed value="1.3984"/>
@@ -45115,4 +45116,25 @@
         <HostSiteOps Ops="SOpAttachOriginStationary"/>
         <Sound value="Medivac_Unload"/>
     </CActorSound>
+    <CActorModelMaterial id="AP_GlazeFire" parent="GlazeParent">
+        <Remove Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.000000 DelayApply"/>
+        <On Terms="TimerExpired; TimerName DelayApply" Send="ModelMaterialApplyTo ::Main"/>
+        <On Terms="ActorCreation" Send="TimerSet 6.000000 Destroy"/>
+        <On Terms="TimerExpired; TimerName Destroy" Send="AnimBracketStop BSD"/>
+        <Model value="GlazeFireWorldSpace"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModelMaterial>
+    <CActorModel id="AP_TyrannozorDeathModelFireAttachment" parent="ModelAnimationStyleContinuous">
+        <Aliases value="_Snapshot"/>
+        <Remove Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="UnitDeath.AP_Tyrannozor; Death Fire" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 6.000000"/>
+        <On Terms="TimerExpired" Send="AnimBracketStop BSD"/>
+        <On Terms="ActorCreation" Send="Create AP_GlazeFire"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachTarget"/>
+        <Model value="DOM_Fire_Large"/>
+        <Scale value="0.800000"/>
+    </CActorModel>
 </Catalog>

@@ -1049,6 +1049,7 @@ void gf_SpawnFirstVoidThrasherAttackAI (int lp_targetPlayer, point lp_spawnPoint
     string lv_attackPathWaypointString;
     point lv_attackPathWaypoint;
     region lv_attackPathLeashRegion;
+    bool lv_destroyedBase;
 
     // Automatic Variable Declarations
     // Variable Initialization
@@ -1076,9 +1077,14 @@ void gf_SpawnFirstVoidThrasherAttackAI (int lp_targetPlayer, point lp_spawnPoint
         gv_voidThrasherAttackCountvsRaynor += 1;
         lv_attackPathLeashRegion = RegionFromId(13);
         lv_attackPathWaypointString = "Narud_vsRaynor_";
-        lv_attackPathWaypointIndexMax = 15;
     }
-    gv_voidThrasherAttackTarget = lp_targetPlayer;
+    lv_attackPathWaypointIndexMax = 15;
+    if ((libABFE498B_gv_aP_Triggers_Option_takeOverAIAllies == true)) {
+        gv_voidThrasherAttackTarget = gv_pLAYER_01_USER;
+    }
+    else {
+        gv_voidThrasherAttackTarget = lp_targetPlayer;
+    }
     lv_attackPathWaypointIndex = 1;
     lv_attackPathWaypoint = PointFromName((lv_attackPathWaypointString + "0" + IntToString(lv_attackPathWaypointIndex)));
     gv_voidThrasherAttackActive = true;
@@ -1099,6 +1105,23 @@ void gf_SpawnFirstVoidThrasherAttackAI (int lp_targetPlayer, point lp_spawnPoint
         else {
             lv_attackPathWaypoint = PointFromName((lv_attackPathWaypointString + "0" + IntToString(lv_attackPathWaypointIndex)));
         }
+        if ((libABFE498B_gv_aP_Triggers_Option_takeOverAIAllies == true)) {
+            if ((lp_targetPlayer == gv_pLAYER_02_RAYNOR) && (libNtve_gf_UnitInRegion(gv_voidThrasher, RegionFromId(15)) == true) && (UnitCount(null, gv_pLAYER_01_USER, RegionFromId(15), UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0) <= 2)) {
+                lv_destroyedBase = true;
+                lv_attackPathLeashRegion = RegionEntireMap();
+            }
+
+            if ((lp_targetPlayer == gv_pLAYER_03_KERRIGAN) && (libNtve_gf_UnitInRegion(gv_voidThrasher, RegionFromId(2)) == true) && (UnitCount(null, gv_pLAYER_01_USER, RegionFromId(2), UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0) <= 2)) {
+                lv_destroyedBase = true;
+                lv_attackPathLeashRegion = RegionEntireMap();
+            }
+
+            if ((lv_destroyedBase == true)) {
+                lv_attackPathWaypoint = PointFromId(487);
+            }
+
+        }
+
         if ((libNtve_gf_UnitInRegion(gv_narud, lv_attackPathLeashRegion) == true)) {
             if ((UnitGroupCount(UnitGroupAlliance(UnitGetOwner(gv_voidThrasher), c_unitAllianceEnemy, RegionCircle(UnitGetPosition(gv_voidThrasher), 10.0), UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) > 0) && (UnitHasBehavior2(gv_voidThrasher, "NarudEpilogueSpawnMode") == false) && (UnitHasBehavior2(gv_voidThrasher, "NarudEpilogueSpawnModeEnd") == false)) {
                 gf_ThrasherAttackEnemies(gv_voidThrasher, libLotv_gf_DifficultyValueInt2(1, 1, 3, 3));
@@ -1132,6 +1155,7 @@ void gf_SpawnVoidThrasherAttackAI (int lp_targetPlayer) {
     string lv_attackPathWaypointString;
     point lv_attackPathWaypoint;
     region lv_attackPathLeashRegion;
+    bool lv_destroyedBase;
 
     // Automatic Variable Declarations
     int autoCD78DB99_n;
@@ -1183,7 +1207,12 @@ void gf_SpawnVoidThrasherAttackAI (int lp_targetPlayer) {
         lv_attackPathWaypointString = "Narud_vsRaynor_";
         lv_attackPathWaypointIndexMax = 15;
     }
-    gv_voidThrasherAttackTarget = lp_targetPlayer;
+    if ((libABFE498B_gv_aP_Triggers_Option_takeOverAIAllies == true)) {
+        gv_voidThrasherAttackTarget = gv_pLAYER_01_USER;
+    }
+    else {
+        gv_voidThrasherAttackTarget = lp_targetPlayer;
+    }
     lv_attackPathWaypoint = PointFromName((lv_attackPathWaypointString + "0" + IntToString(lv_attackPathWaypointIndex)));
     gv_voidThrasherAttackActive = true;
     TriggerEnable(gt_VoidThrasherDies, true);
@@ -1205,6 +1234,23 @@ void gf_SpawnVoidThrasherAttackAI (int lp_targetPlayer) {
         else {
             lv_attackPathWaypoint = PointFromName((lv_attackPathWaypointString + "0" + IntToString(lv_attackPathWaypointIndex)));
         }
+        if ((libABFE498B_gv_aP_Triggers_Option_takeOverAIAllies == true)) {
+            if ((lp_targetPlayer == gv_pLAYER_02_RAYNOR) && (libNtve_gf_UnitInRegion(gv_voidThrasher, RegionFromId(15)) == true) && (UnitCount(null, gv_pLAYER_01_USER, RegionFromId(15), UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0) <= 2)) {
+                lv_destroyedBase = true;
+                lv_attackPathLeashRegion = RegionEntireMap();
+            }
+
+            if ((lp_targetPlayer == gv_pLAYER_03_KERRIGAN) && (libNtve_gf_UnitInRegion(gv_voidThrasher, RegionFromId(2)) == true) && (UnitCount(null, gv_pLAYER_01_USER, RegionFromId(2), UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0) <= 2)) {
+                lv_destroyedBase = true;
+                lv_attackPathLeashRegion = RegionEntireMap();
+            }
+
+            if ((lv_destroyedBase == true)) {
+                lv_attackPathWaypoint = PointFromId(487);
+            }
+
+        }
+
         if ((libNtve_gf_UnitInRegion(gv_narud, lv_attackPathLeashRegion) == true)) {
             if ((UnitGroupCount(UnitGroupAlliance(UnitGetOwner(gv_voidThrasher), c_unitAllianceEnemy, RegionCircle(UnitGetPosition(gv_voidThrasher), 10.0), UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) > 0) && (UnitHasBehavior2(gv_voidThrasher, "NarudEpilogueSpawnMode") == false) && (UnitHasBehavior2(gv_voidThrasher, "NarudEpilogueSpawnModeEnd") == false)) {
                 gf_ThrasherAttackEnemies(gv_voidThrasher, libLotv_gf_DifficultyValueInt2(1, 1, 3, 3));
@@ -2732,10 +2778,6 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
-            return false;
-        }
-
         if (!((libVCMI_gf_PlayerInCinematicModeCampaign() == false))) {
             return false;
         }

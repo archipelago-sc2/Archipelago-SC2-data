@@ -1516,6 +1516,9 @@ bool gt_StartGameStage01_Func (bool testConds, bool runActions) {
 
     libABFE498B_gf_AP_Triggers_startNoBuild(gv_pLAYER_01_USER);
     TimerStart(gv_speedRunTimer, 1200.0, false, c_timeAI);
+    lib15EF4C78_gf_PauseUnpauseSpearofAdunCooldowns(gv_pLAYER_01_USER, true);
+    lib15EF4C78_gf_SetSpearofAdunEnergy(gv_pLAYER_01_USER, 0.0, lib15EF4C78_ge_SpearofAdunEnergyType_Regeneration);
+    lib15EF4C78_gf_SetSpearofAdunEnergy(gv_pLAYER_01_USER, 1.0, lib15EF4C78_ge_SpearofAdunEnergyType_Absolute);
     VisRevealerCreate(gv_pLAYER_01_USER, RegionFromId(12));
     gv_timedAttackVision = VisRevealerLastCreated();
     UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/6B22C67E"), null, PointFromId(157));
@@ -1635,6 +1638,8 @@ bool gt_StartTimedAttackTimer_Func (bool testConds, bool runActions) {
     TriggerEnable(TriggerGetCurrent(), false);
     gv_timedAttackStarted = true;
     UIClearMessages(PlayerGroupAll(), c_messageAreaDirective);
+    lib15EF4C78_gf_PauseUnpauseSpearofAdunCooldowns(gv_pLAYER_01_USER, false);
+    lib15EF4C78_gf_SetSpearofAdunEnergy(gv_pLAYER_01_USER, libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogUnit, "AP_SoACaster", "EnergyRegenRate", gv_pLAYER_01_USER), lib15EF4C78_ge_SpearofAdunEnergyType_Regeneration);
     TimerStart(gv_timedAttackTimer, 160.0, false, c_timeAI);
     libSwaC_gf_TimerWindowCreate2(gv_timedAttackTimer, StringExternal("Param/Value/D20F854E"), true, false, libSwaC_ge_CampaignTimerPositiveNegativeOptions_Negative);
     gv_timedAttackTimerWindow = TimerWindowLastCreated();

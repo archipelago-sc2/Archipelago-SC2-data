@@ -1104,6 +1104,7 @@ bool auto_gf_SaveFrozenZerg_TriggerFunc (bool testConds, bool runActions) {
     }
     Wait(0.5, c_timeGame);
     libNtve_gf_RescueUnit(lp_cHOSEN_UNIT, gv_pLAYER_01_USER, true);
+    lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lp_cHOSEN_UNIT);
     if ((UnitTypeTestAttribute(UnitGetType(lp_cHOSEN_UNIT), c_unitAttributeStructure) == false)) {
         gv_feralZergUnfrozen += 1;
         libA472B13C_gf_ReplaceUnit(lp_cHOSEN_UNIT);
@@ -1383,6 +1384,10 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
         else if (auto979593C3_val == "AP_CreepTumorUsed") {
             UnitBehaviorAdd(auto1921DFD1_var, "FlashFreeze", auto1921DFD1_var, 1);
             UnitBehaviorRemove(auto1921DFD1_var, "AP_makeCreep8x6", 1);
+        }
+        else if (auto979593C3_val == "AP_SporeCrawler") {
+            UnitBehaviorAdd(auto1921DFD1_var, "FlashFreeze", auto1921DFD1_var, 1);
+            UnitBehaviorRemove(auto1921DFD1_var, "AP_ZergBuildingNotOnCreep", 1);
         }
         else {
         }
