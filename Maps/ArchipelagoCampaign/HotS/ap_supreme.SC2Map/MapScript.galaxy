@@ -65,6 +65,7 @@ playergroup gv_enemyPlayers;
 unit gv_kerrigan;
 bool gv_gameOver;
 bool gv_inCinematic;
+bool gv_inCinematic2;
 unit[16] gv_attackedUnits;
 int[16] gv_attackUnitCountdowns;
 unitgroup gv_primalZergAttackers;
@@ -257,6 +258,7 @@ trigger gt_Init04MusicSound;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
+trigger gt_DEBUGActivateDebugMode;
 trigger gt_DEBUGYagdraBoss;
 trigger gt_DEBUGKraithBoss;
 trigger gt_DEBUGSlivanBoss;
@@ -439,6 +441,7 @@ trigger gt_onDifficultyNormal;
 trigger gt_onDifficultyHard;
 trigger gt_onDifficultyBrutal;
 trigger gt_ArchInit;
+trigger gt_EnableReplacements;
 trigger gt_SetMineralCount;
 trigger gt_XelNagaRelicPickupsFirst;
 trigger gt_XelNagaRelicPickupsSecond;
@@ -2145,6 +2148,27 @@ void gt_Init07Help_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Activate Debug Mode
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGActivateDebugMode_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/F2196C1C"), true);
+    gv_inCinematic2 = true;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGActivateDebugMode_Init () {
+    gt_DEBUGActivateDebugMode = TriggerCreate("gt_DEBUGActivateDebugMode_Func");
+    TriggerAddEventChatMessage(gt_DEBUGActivateDebugMode, c_playerAny, "-debug", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: DEBUG - Yagdra Boss
 //--------------------------------------------------------------------------------------------------
 bool gt_DEBUGYagdraBoss_Func (bool testConds, bool runActions) {
@@ -2168,7 +2192,7 @@ bool gt_DEBUGYagdraBoss_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((gv_inCinematic2 == true))) {
             return false;
         }
 
@@ -2246,7 +2270,7 @@ bool gt_DEBUGKraithBoss_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((gv_inCinematic2 == true))) {
             return false;
         }
 
@@ -2363,7 +2387,7 @@ bool gt_DEBUGSlivanBoss_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((gv_inCinematic2 == true))) {
             return false;
         }
 
@@ -2501,7 +2525,7 @@ bool gt_DEBUGZurvanBoss_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((gv_inCinematic2 == true))) {
             return false;
         }
 
@@ -2619,6 +2643,10 @@ bool gt_StartGameQ_Func (bool testConds, bool runActions) {
     TimerStart(gv_achievementTimedRunTimer, 720.0, false, c_timeAI);
     TriggerExecute(gt_YagdraInit, true, false);
     TriggerExecute(gt_YagdraRescueCave, true, false);
+    if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTechAllowSubstitutes == true)) {
+        TriggerExecute(gt_EnableReplacements, true, false);
+    }
+
     TriggerQueueEnter();
     UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/F92D94B7"), null, PointFromId(3));
     Wait(3.0, c_timeReal);
@@ -12956,6 +12984,34 @@ void gt_ArchInit_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Enable Replacements
+//--------------------------------------------------------------------------------------------------
+bool gt_EnableReplacements_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TechTreeUpgradeAddLevel(gv_pLAYER_01_USER, "AP_AllowSwarmAssistance", 1);
+    HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/2C3D467D"), libNtve_ge_TipType_MissionStrategy), StringExternal("Param/Value/AA0C7F87"), StringExternal("Param/Value/D68C7FF9"), "AP\\Assets\\Textures\\AP_icon.dds");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_EnableReplacements_Init () {
+    gt_EnableReplacements = TriggerCreate("gt_EnableReplacements_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Set Mineral Count
 //--------------------------------------------------------------------------------------------------
 bool gt_SetMineralCount_Func (bool testConds, bool runActions) {
@@ -13132,6 +13188,7 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
+    gt_DEBUGActivateDebugMode_Init();
     gt_DEBUGYagdraBoss_Init();
     gt_DEBUGKraithBoss_Init();
     gt_DEBUGSlivanBoss_Init();
@@ -13314,6 +13371,7 @@ void InitTriggers () {
     gt_onDifficultyHard_Init();
     gt_onDifficultyBrutal_Init();
     gt_ArchInit_Init();
+    gt_EnableReplacements_Init();
     gt_SetMineralCount_Init();
     gt_XelNagaRelicPickupsFirst_Init();
     gt_XelNagaRelicPickupsSecond_Init();

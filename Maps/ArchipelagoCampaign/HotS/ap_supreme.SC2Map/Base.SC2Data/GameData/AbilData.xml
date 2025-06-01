@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CAbilEffectInstant id="AP_FakeMend">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Cost>
+            <Vital index="Energy" value="50"/>
+            <Cooldown TimeUse="30"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_FakeMend" Requirements="AP_FakeMend"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="AP_FakeLeapStrike">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Cost>
+            <Cooldown TimeUse="10"/>
+        </Cost>
+        <Range value="10"/>
+        <CastIntroTime value="0.25"/>
+        <CastOutroTime value="0.25"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_FakeLeapStrike" Requirements="AP_FakeLeapStrike"/>
+        <Effect index="0" value="AP_FakeLeapStrikePrecursor"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <UninterruptibleArray index="Finish" value="1"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="AP_Yoink">
+        <!-- Override -->
+        <TargetFilters index="0" value="Visible;Self,Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+    </CAbilEffectTarget>
+</Catalog>
