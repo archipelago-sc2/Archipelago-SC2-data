@@ -24076,6 +24076,7 @@
         <PeriodicPeriodArray value="0.15"/>
         <PeriodicPeriodArray value="0.15"/>
         <PeriodicPeriodArray value="0.15"/>
+        <FinalEffect value="AP_ElderProbeUsed"/>
     </CEffectCreatePersistent>
     <CEffectApplyBehavior id="AP_ElderProbeWarpinApply">
         <EditorCategories value="Race:Protoss"/>
@@ -24137,6 +24138,28 @@
         <PeriodicEffectArray value="AP_ElderProbeWarpinSearch"/>
         <PeriodicPeriodArray value="0.0625"/>
     </CEffectCreatePersistent>
+    <CEffectModifyPlayer id="AP_ElderProbeReconstructionCharge">
+        <EditorCategories value=""/>
+        <WhichPlayer Value="Origin"/>
+        <Cost>
+            <Charge>
+                <CountMax value="5"/>
+                <CountUse value="-1"/>
+                <Link value="Abil/AP_ElderProbeReconstruction"/>
+                <Location value="Player"/>
+            </Charge>
+        </Cost>
+        <ValidatorArray value="AP_ElderProbeGiveReconstuctionCharge"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="AP_ElderProbeUsed">
+        <EditorCategories value=""/>
+        <WhichPlayer Value="Origin"/>
+        <Upgrades Upgrade="AP_ElderProbesSummoned" Count="1"/>
+    </CEffectModifyPlayer>
+    <CEffectDamage id="AP_ElderProbeParticleBeamDamage" parent="DU_WEAP">
+        <EditorCategories value="Race:Protoss"/>
+        <Amount value="7"/>
+    </CEffectDamage>
     <CEffectApplyBehavior id="AP_StalkerPurifierReconstructionApply">
         <EditorCategories value="Race:Protoss"/>
         <WhichUnit Value="Source"/>

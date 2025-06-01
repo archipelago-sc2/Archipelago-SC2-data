@@ -44352,6 +44352,13 @@
         <On Terms="UnitConstruction.AP_ElderProbe.Start" Send="Create"/>
         <On Terms="UnitConstruction.AP_ElderProbe.Start" Send="Create AP_ElderProbeWarpin"/>
         <On Terms="UnitConstruction.AP_ElderProbe.Finish" Send="AnimPlay ConstructionDeath Stand,Birth,Death FullMatch"/>
+        <On Terms="Abil.AP_ProbeHarvest.Start" Send="TimerSet 0.000000 harvest"/>
+        <On Terms="TimerExpired; TimerName harvest" Send="StatusIncrement harvest"/>
+        <On Terms="StatusIncrement.*.harvest" Send="TimerSet 1.000000 harvest"/>
+        <On Terms="StatusIncrement.*.harvest" Send="Create AP_ElderProbeMine"/>
+        <On Terms="Abil.AP_ProbeHarvest.Stop" Send="TimerKill harvest"/>
+        <On Terms="StatusIncrement.*.harvest; IsStatus harvest 3" Send="TimerKill harvest"/>
+        <On Terms="Abil.AP_ProbeHarvest.Start" Send="StatusSet harvest 0"/>
         <Model value="AP_ElderProbe"/>
         <BuildModel value="AP_ElderProbe"/>
 		<SoundArray index="Ready" value="AP_ProbeSCBW@Ready"/>
@@ -44471,6 +44478,45 @@
     <CActorSiteOpLocalOffset id="AP_ProbeWarpinOffset">
         <LocalOffset value="0.000000,0.500000,-0.500000"/>
     </CActorSiteOpLocalOffset>
+    <CActorSound id="AP_ElderProbeMine" parent="SoundOneShot">
+        <EditorCategories value=""/>
+    </CActorSound>
+    <CActorAction id="AP_ElderProbeAttack" parent="GenericAttack" effectAttack="AP_ElderProbeParticleBeamDamage">
+        <ImpactMap index="None" Model="ProbeAttackImpact" Sound="Probe_AttackImpact"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorBeamSimple id="AP_ElderProbeAttackBeam" parent="GenericAttackBeam">
+        <On Terms="ActorCreation" Send="SetTintColor {196,196,255 2.000000}"/>
+        <Model value="ProbeAttackBeam"/>
+        <Scale value="1.500000"/>
+    </CActorBeamSimple>
+    <CActorPower id="AP_ElderProbePower">
+        <On Terms="Behavior.AP_ElderProbePowerSource.Create" Send="Create"/>
+        <On Terms="Behavior.AP_ElderProbePowerSource.Destroy" Send="Destroy"/>
+        <VisualArray value="AP_ElderProbeUnpoweredVisual"/>
+        <VisualArray value="AP_ElderProbePowerVisual"/>
+    </CActorPower>
+    <CActorSplat id="AP_ElderProbePowerVisual">
+        <FogVisibility value="Visible"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpShadow SOpForwardNorth"/>
+        <Color value="255,128,128,128"/>
+        <FadeIn value="0.000000"/>
+        <FadeOut value="0.000000"/>
+        <HoldTime value="-1.000000"/>
+        <Layer value="PowerLayer"/>
+        <Model value="WarpPrismPowerVisualFast"/>
+    </CActorSplat>
+    <CActorSplat id="AP_ElderProbeUnpoweredVisual">
+        <FogVisibility value="Visible"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpShadow SOpForwardNorth"/>
+        <FadeIn value="0.000000"/>
+        <FadeOut value="0.000000"/>
+        <HoldTime value="-1.000000"/>
+        <Layer value="PowerLayer"/>
+        <Model value="WarpPrismUnpoweredVisual"/>
+    </CActorSplat>
     <CActorModelMaterial id="AP_StalkerPurifierReconstructionGlaze" parent="GlazeParent">
         <On Terms="Behavior.AP_StalkerPurifierRecentlyReconstructed.On" Send="Create"/>
         <On Terms="ActorCreation" Send="TimerSet 0.125000 DelayApply"/>
