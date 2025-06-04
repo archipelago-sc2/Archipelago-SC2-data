@@ -2526,7 +2526,7 @@ bool gt_DebugIntro_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2544,6 +2544,7 @@ bool gt_DebugIntro_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/0CEA8767"), true);
     TriggerExecute(gt_BriefingQ, true, true);
     ConsoleCommand("exit", true, true);
     return true;
@@ -2562,7 +2563,7 @@ bool gt_DebugStage2FindIntel_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2584,6 +2585,7 @@ bool gt_DebugStage2FindIntel_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/2440A812"), true);
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerExecute(gt_ObjectiveRecoverDownedForcesCreate, true, true);
     TriggerExecute(gt_S1GarrisonsAllFilledUp, true, true);
@@ -2611,7 +2613,7 @@ bool gt_DebugStage3CatchStationOfficer_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2637,6 +2639,7 @@ bool gt_DebugStage3CatchStationOfficer_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/0FC28238"), true);
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerEnable(gt_DebugStage2FindIntel, false);
     gv_currentStage = 2;
