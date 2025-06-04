@@ -1788,6 +1788,18 @@
         <AreaArray Radius="1.5" Effect="AP_UltrasonicPulseApplyBehavior"/>
         <SearchFlags index="CallForHelp" value="1"/>
     </CEffectEnumArea>
+    <CEffectEnumArea id="AP_KillLarvaSearchArea">
+        <EditorCategories value="Race:Zerg"/>
+        <ValidatorArray value="AP_IsLarvaSpawner"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="-;Ally,Neutral,Enemy"/>
+        <AreaArray Radius="3.5" Effect="AP_KillLarvaDamage"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="AP_KillLarvaDamage">
+        <ValidatorArray value="AP_IsAPLarva"/>
+        <ImpactLocation Value="TargetUnit"/>
+        <Flags index="Kill" value="1"/>
+    </CEffectDamage>
     <CEffectDamage id="AP_JavelinMissileLaunchersDamage" parent="DU_WEAP_SPLASH">
         <EditorCategories value="Race:Terran"/>
         <AttributeBonus index="Light" value="4"/>
@@ -8667,7 +8679,7 @@
         <ValidatorArray value="AP_TargetIsGroundUnitFilter"/>
         <EditorCategories value=""/>
         <ExcludeArray Value="Target"/>
-        <SearchFilters value="Ground;Player,Ally,Neutral,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFilters value="Ground;Player,Ally,Neutral,Buried,Cloaked,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray MaxCount="3" Radius="2" Effect="AP_StalwartLightningWeaponBounceDamage"/>
         <SearchFlags index="CallForHelp" value="1"/>
         <SearchFlags index="SameCliff" value="1"/>
@@ -8677,10 +8689,10 @@
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
         <AttributeBonus index="Light" value="2"/>
-        <ArmorReduction value="1"/>
+        <ArmorReduction value="0"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
-        <Amount value="2"/>
+        <Amount value="6"/>
         <SearchFlags index="CallForHelp" value="1"/>
         <Death value="Fire"/>
     </CEffectDamage>
@@ -8688,11 +8700,10 @@
         <EditorCategories value="Race:Protoss"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-        <AttributeBonus index="Light" value="2"/>
-        <ArmorReduction value="1"/>
+        <ArmorReduction value="0"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
-        <Amount value="2"/>
+        <Amount value="5"/>
         <SearchFlags index="CallForHelp" value="1"/>
         <Death value="Fire"/>
     </CEffectDamage>
@@ -8704,7 +8715,7 @@
         <Flags index="PersistUntilDestroyed" value="1"/>
         <InitialEffect value="AP_StalwartLightningWeaponSet"/>
         <PeriodicEffectArray value="AP_StalwartLightningWeaponSet"/>
-        <PeriodicPeriodArray value="0.25"/>
+        <PeriodicPeriodArray value="0.5"/>
     </CEffectCreatePersistent>
     <CEffectDamage id="AP_ImmortalSplashStrafeDamage">
         <EditorCategories value="Race:Protoss"/>
@@ -22793,6 +22804,17 @@
         <WhichUnit Value="Caster"/>
         <BehaviorLink value="AP_YggGreaterHydraliskDenEssence"/>
     </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="AP_YggdrasilBileLauncherEssence">
+        <ValidatorArray index="0" value="AP_IsAPBileLauncher"/>
+        <EditorCategories value="Race:Zerg"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_YggBileLauncherEssence"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="AP_YggdrasilRemoveBileLauncherEssence">
+        <EditorCategories value=""/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="AP_YggBileLauncherEssence"/>
+    </CEffectRemoveBehavior>
     <CEffectApplyBehavior id="AP_YggdrasilSpireEssence">
         <ValidatorArray index="0" value="AP_IsAPSpire"/>
         <EditorCategories value="Race:Zerg"/>
@@ -22896,6 +22918,7 @@
         <ValidatorArray value="AP_IsAPDroneBuilding"/>
         <ValidatorArray value="LifeGTZero"/>
         <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_KillLarvaSearchArea"/>
         <EffectArray value="AP_YggdrasilConsume"/>
         <EffectArray value="AP_YggdrasilAssimilateBasic"/>
         <EffectArray value="AP_YggdrasilAssimilateMain"/>
@@ -22918,6 +22941,7 @@
         <EffectArray value="AP_YggdrasilEvolutionChamberEssence"/>
         <EffectArray value="AP_YggdrasilSpineCrawlerEssence"/>
         <EffectArray value="AP_YggdrasilSporeCrawlerEssence"/>
+        <EffectArray value="AP_YggdrasilBileLauncherEssence"/>
     </CEffectSet>
     <CEffectSet id="AP_YggdrasilAssimilateMain">
         <ValidatorArray value="AP_IsAPDroneBuilding"/>
@@ -22943,7 +22967,6 @@
         <EffectArray value="AP_YggdrasilPredatorNestEssence"/>
     </CEffectSet>
     <CEffectSet id="AP_YggdrasilRemoveBasic">
-        <ValidatorArray value="AP_IsAPDroneBuilding"/>
         <EditorCategories value="Race:Zerg"/>
         <EffectArray value="AP_YggdrasilRemoveEvolutionChamberEssence"/>
         <EffectArray value="AP_YggdrasilRemoveSpineCrawlerEssence"/>
@@ -22951,9 +22974,9 @@
         <EffectArray value="AP_YggdrasilRemoveSpawningPoolEssence"/>
         <EffectArray value="AP_YggdrasilRemoveRoachWarrenEssence"/>
         <EffectArray value="AP_YggdrasilRemoveBanelingNestEssence"/>
+        <EffectArray value="AP_YggdrasilRemoveBileLauncherEssence"/>
     </CEffectSet>
     <CEffectSet id="AP_YggdrasilRemoveMain">
-        <ValidatorArray value="AP_IsAPDroneBuilding"/>
         <EditorCategories value="Race:Zerg"/>
         <EffectArray value="AP_YggdrasilRemoveHiveEssence"/>
         <EffectArray value="AP_YggdrasilRemoveLairEssence"/>
@@ -22962,7 +22985,6 @@
         <EffectArray value="AP_YggdrasilRemoveAutomatedExtractorEssence"/>
     </CEffectSet>
     <CEffectSet id="AP_YggdrasilRemoveAdvanced">
-        <ValidatorArray value="AP_IsAPDroneBuilding"/>
         <EditorCategories value="Race:Zerg"/>
         <EffectArray value="AP_YggdrasilRemoveHydraliskDenEssence"/>
         <EffectArray value="AP_YggdrasilRemoveGreaterHydraliskDenEssence"/>
