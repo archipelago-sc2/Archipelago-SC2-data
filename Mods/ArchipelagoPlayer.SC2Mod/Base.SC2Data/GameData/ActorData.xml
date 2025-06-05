@@ -41817,7 +41817,7 @@
         <On Terms="Effect.AP_StalwartLightningWeapon.Start" Send="Create"/>
         <On Terms="Effect.AP_StalwartLightningWeaponDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
         <On Terms="Effect.AP_StalwartLightningWeapon.Stop" Send="Destroy WhenReady"/>
-        <On Terms="ActorCreation" Send="SetScale .7500000"/>
+        <On Terms="ActorCreation" Send="SetScale .2000000"/>
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <ImpactSite value="AP_StalwartLightningAttackImpactSite"/>
         <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance SOpForwardLaunchGuide"/>
@@ -41851,9 +41851,9 @@
         <On Terms="Effect.AP_StalwartLightningWeaponBounceDamage.Start" Send="Create"/>
         <On Terms="Effect.AP_StalwartLightningWeaponBounceDamage.Start; At Effect; FromEffectTreeDescendant" Send="ActionDamage"/>
         <On Terms="Effect.AP_StalwartLightningWeaponBounceDamage.Stop" Send="Destroy WhenReady"/>
-        <On Terms="ActorCreation" Send="TimerSet 0.200000 DelayDeath"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.500000 DelayDeath"/>
         <On Terms="TimerExpired; TimerName DelayDeath" Send="Destroy"/>
-        <On Terms="ActorCreation" Send="SetScale .5000000"/>
+        <On Terms="ActorCreation" Send="SetScale .200000"/>
         <LaunchRequest Subject="AP_StalwartLightningAttackImpactSite" Actor="Find"/>
         <BeamScope value="Caster"/>
         <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance"/>
@@ -41870,7 +41870,7 @@
         <On Terms="ActorOrphan" Send="Destroy"/>
         <On Terms="ActorCreation" Send="RefSetFromRequest ::actor.CasterUnit _Unit Caster Find"/>
         <On Terms="ActorCreation" Target="::actor.CasterUnit" Send="Signal CampaignBeamCreated"/>
-        <On Terms="ActorCreation" Send="TimerSet 0.200000 DelayDeath"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.500000 DelayDeath"/>
         <On Terms="TimerExpired; TimerName DelayDeath" Send="Destroy"/>
         <Model value="AP_StalwartLightningAttackBeam"/>
     </CActorBeamSimple>

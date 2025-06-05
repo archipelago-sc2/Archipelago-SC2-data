@@ -925,6 +925,15 @@
     <CValidatorUnitType id="AP_IsInfestedBunkerRooted">
         <Value value="AP_SIInfestedBunker"/>
     </CValidatorUnitType>
+    <CValidatorCombine id="AP_IsLarvaSpawner">
+        <CombineArray value="AP_IsAPHatchery"/>
+        <CombineArray value="AP_IsAPLair"/>
+        <CombineArray value="AP_IsAPHive"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="AP_IsAPLarva">
+        <Value value="AP_Larva"/>
+        <ResultFailed value="Error,Error/CantTargetLarva"/>
+    </CValidatorUnitType>
     <CValidatorCombine id="IsLair" parent="CValidatorCombine">
         <!-- Override -->
         <CombineArray value="AP_IsVanillaLair"/>
@@ -5609,10 +5618,8 @@
         <Value value="AP_HydraliskDen"/>
     </CValidatorUnitType>
     <CValidatorCombine id="AP_IsAPDroneBuilding">
-        <CombineArray value="AP_IsAPSpineCrawlerRooted"/>
-        <CombineArray value="AP_IsAPSpineCrawlerUprooted"/>
-        <CombineArray value="AP_IsAPSporeCrawlerRooted"/>
-        <CombineArray value="AP_IsAPSporeCrawlerUprooted"/>
+        <CombineArray value="AP_IsAPSpineCrawler"/>
+        <CombineArray value="AP_IsAPSporeCrawler"/>
         <CombineArray value="AP_IsAPRoachWarren"/>
         <CombineArray value="AP_IsAPHydraliskDen"/>
         <CombineArray value="AP_IsAPSpire"/>
@@ -5632,6 +5639,7 @@
         <CombineArray value="AP_IsAPInfestationPit"/>
         <CombineArray value="AP_IsAPAutomatedExtractorRich"/>
         <CombineArray value="AP_IsAPExtractorRich"/>
+        <CombineArray value="AP_IsAPBileLauncher"/>
         <ResultFailed value="CantTargetThatUnit"/>
     </CValidatorCombine>
     <CValidatorUnitType id="AP_IsAPUltraliskCavern">
