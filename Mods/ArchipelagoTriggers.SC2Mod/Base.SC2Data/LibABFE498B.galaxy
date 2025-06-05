@@ -10612,6 +10612,70 @@ void libABFE498B_gt_UpgradeProtossStructures_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_activateDebugMode
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((libABFE498B_gv_aP_Triggers_DebugMode == false)) {
+        libABFE498B_gv_aP_Triggers_DebugMode = true;
+        TriggerDebugOutput(1, (StringExternal("Param/Value/lib_ABFE498B_0032FC65")), true);
+    }
+    else {
+        libABFE498B_gv_aP_Triggers_DebugMode = false;
+        TriggerDebugOutput(1, (StringExternal("Param/Value/lib_ABFE498B_41372683")), true);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_activateDebugMode = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_activateDebugMode, c_playerAny, "-debug", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_takeControl
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_takeControl_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = StringToInt(StringWord(EventChatMessage(false), 2));
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((lv_player > 0)) {
+        TriggerDebugOutput(1, (StringExternal("Param/Value/lib_ABFE498B_B088BBD9") + IntToText(lv_player)), true);
+        libNtve_gf_SetAllianceOneWay(lv_player, EventPlayer(), libNtve_ge_AllianceSetting_AllyWithSharedVisionControlAndSpending);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_takeControl_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_takeControl = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_takeControl_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_takeControl, c_playerAny, "-control", false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_tradeStructureBuilt
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Func (bool testConds, bool runActions) {
@@ -10701,6 +10765,8 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_giveMiscTech_Init();
     libABFE498B_gt_AP_Triggers_techTreeInit_Init();
     libABFE498B_gt_UpgradeProtossStructures_Init();
+    libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init();
+    libABFE498B_gt_AP_Triggers_Debug_takeControl_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
 }
