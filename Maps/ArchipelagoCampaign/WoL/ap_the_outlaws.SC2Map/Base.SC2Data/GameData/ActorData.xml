@@ -1,6 +1,32 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CActorAction id="AP_ZerglingLeapAction" parent="GenericAttack" effectAttack="AP_ZerglingLeapFate">
+        <EditorCategories value=""/>
+    </CActorAction>
+    <CActorSimple id="AP_ZerglingLeap">
+        <EditorCategories value=""/>
+        <On Terms="Effect.AP_ZerglingLeapFate.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet"/>
+        <On Terms="TimerExpired" Send="TimerSet 0.031250"/>
+        <On Terms="TimerExpired" Send="Create AP_ZerglingLeapForce"/>
+        <On Terms="TimerExpired" Send="StatusIncrement AP_Zergling"/>
+        <On Terms="TimerExpired; IsStatus AP_Zergling 4" Send="Destroy"/>
+    </CActorSimple>
+    <CActorModel id="AP_ZerglingLeapImpact" parent="ModelAnimationStyleOneShot">
+        <EditorCategories value=""/>
+        <On index="0" Terms="ActorCreation" Send="AnimPlay Lifetime Stand 0 -1.000000 -1.000000 0.300000 AsTimeScale"/>
+        <On index="1" Terms="AnimDone; AnimName Lifetime" Send="Destroy"/>
+        <On index="2" removed="1"/>
+        <Model value="ShieldAbsorbImmortalViz"/>
+        <Scale value="2.000000"/>
+    </CActorModel>
     <CActorDoodad id="SignMarSara"/>
     <CActorDoodad id="SignIronForge"/>
     <CActorDoodad id="SignLarge"/>
+    <CActorForceSphere id="AP_ZerglingLeapForce">
+        <HostSiteOps Ops="SOpTargetPointStationary SOpMoveDownBy1 SOpRandomPointInCircleDot35"/>
+        <Duration value="-1.000000"/>
+        <Magnitude value="150.000000"/>
+        <Radius value="3.000000"/>
+    </CActorForceSphere>
 </Catalog>
