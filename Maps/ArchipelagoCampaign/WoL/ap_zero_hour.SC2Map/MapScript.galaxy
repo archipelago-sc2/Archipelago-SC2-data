@@ -102,7 +102,6 @@ bool gv_inCinematic;
 unit gv_nydusWormP02;
 unit gv_nydusWormP03;
 unit gv_nydusWormP04;
-bool gv_developerCheats;
 int gv_aP_ReinforcementsTriggered;
 timer gv_dropPodExpansion1;
 timer gv_dropPodExpansion2;
@@ -224,9 +223,11 @@ trigger gt_Init04Music;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
-trigger gt_DEBUGAllyControl;
-trigger gt_DEBUGDropPod;
 trigger gt_DEBUGStrandedForces;
+trigger gt_DEBUGFlankAttack;
+trigger gt_DEBUGDropPod;
+trigger gt_DEBUGColorZergPlayers;
+trigger gt_DEBUGVictory;
 trigger gt_IntroSequence;
 trigger gt_StartGame;
 trigger gt_BurrowAmbushGlobalTrigger;
@@ -849,62 +850,6 @@ void gt_Init07Help_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Ally Control
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGAllyControl_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_developerCheats == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/8ACBD00E"), true);
-    libNtve_gf_SetAlliance(gv_pLAYER01_USER, gv_pLAYER06_REBELS, libNtve_ge_AllianceSetting_AllyWithSharedVisionControlAndSpending);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGAllyControl_Init () {
-    gt_DEBUGAllyControl = TriggerCreate("gt_DEBUGAllyControl_Func");
-    TriggerAddEventChatMessage(gt_DEBUGAllyControl, 1, "control", true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Drop Pod
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGDropPod_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_developerCheats == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/CBF5072A"), true);
-    TimerStart(gv_dropPodExpansion4, 1.0, false, c_timeGame);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGDropPod_Init () {
-    gt_DEBUGDropPod = TriggerCreate("gt_DEBUGDropPod_Func");
-    TriggerAddEventChatMessage(gt_DEBUGDropPod, 1, "drop", true);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: DEBUG - Stranded Forces
 //--------------------------------------------------------------------------------------------------
 bool gt_DEBUGStrandedForces_Func (bool testConds, bool runActions) {
@@ -913,7 +858,7 @@ bool gt_DEBUGStrandedForces_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((gv_developerCheats == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -943,7 +888,149 @@ bool gt_DEBUGStrandedForces_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStrandedForces_Init () {
     gt_DEBUGStrandedForces = TriggerCreate("gt_DEBUGStrandedForces_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStrandedForces, 1, "rf", true);
+    TriggerAddEventChatMessage(gt_DEBUGStrandedForces, 1, "-spawn", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Flank Attack
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGFlankAttack_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/911EA46A"), true);
+    AIAttackWaveSetTargetPlayer(gv_pLAYER03_ZERG, PlayerGroupSingle(gv_pLAYER01_USER));
+    AIAttackWaveSetGatherPoint(gv_pLAYER03_ZERG, PointFromId(261));
+    if (((PlayerDifficulty(1) <= 2) == true)) {
+        UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/169A91DE"));
+        AIAttackWaveAddWaypoint(gv_pLAYER03_ZERG, PointFromId(361), false);
+        AIAttackWaveAddWaypoint(gv_pLAYER03_ZERG, PointFromId(363), false);
+        AIAttackWaveAddUnits4(2, 2, 4, 8, "Mutalisk");
+    }
+    else {
+        if (((PlayerDifficulty(1) == 3) == true)) {
+            UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/B965C69B"));
+            AIAttackWaveAddWaypoint(gv_pLAYER03_ZERG, PointFromId(594), false);
+            AIAttackWaveAddWaypoint(gv_pLAYER03_ZERG, PointFromId(363), false);
+            AIAttackWaveAddUnits4(2, 2, 4, 8, "Mutalisk");
+        }
+        else {
+            UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/9140EFF9"));
+            AIAttackWaveAddWaypoint(gv_pLAYER03_ZERG, PointFromId(594), false);
+            AIAttackWaveAddWaypoint(gv_pLAYER03_ZERG, PointFromId(363), false);
+            AIAttackWaveAddUnits4(2, 2, 4, 5, "Mutalisk");
+            AIAttackWaveSend(gv_pLAYER03_ZERG, 75, false);
+            AIAttackWaveAddWaypoint(gv_pLAYER03_ZERG, PointFromId(651), false);
+            AIAttackWaveAddWaypoint(gv_pLAYER03_ZERG, PointFromId(363), false);
+            AIAttackWaveAddUnits4(2, 2, 4, 5, "Mutalisk");
+        }
+    }
+    AIAttackWaveSend(gv_pLAYER03_ZERG, 75, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGFlankAttack_Init () {
+    gt_DEBUGFlankAttack = TriggerCreate("gt_DEBUGFlankAttack_Func");
+    TriggerAddEventChatMessage(gt_DEBUGFlankAttack, 1, "-flank", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Drop Pod
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGDropPod_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/CBF5072A"), true);
+    TimerStart(gv_dropPodExpansion4, 1.0, false, c_timeGame);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGDropPod_Init () {
+    gt_DEBUGDropPod = TriggerCreate("gt_DEBUGDropPod_Func");
+    TriggerAddEventChatMessage(gt_DEBUGDropPod, 1, "-drop", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Color Zerg Players
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGColorZergPlayers_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/934B07D7"), true);
+    PlayerSetColorIndex(gv_pLAYER02_ZERG, 1, true);
+    PlayerSetColorIndex(gv_pLAYER03_ZERG, 3, true);
+    PlayerSetColorIndex(gv_pLAYER04_ZERG, 4, true);
+    PlayerSetColorIndex(gv_pLAYER05_ZERG_NOAI, 5, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGColorZergPlayers_Init () {
+    gt_DEBUGColorZergPlayers = TriggerCreate("gt_DEBUGColorZergPlayers_Func");
+    TriggerAddEventChatMessage(gt_DEBUGColorZergPlayers, gv_pLAYER01_USER, "-color", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/4401EDF4"), true);
+    TimerStart(gv_evacuationTimer, 5.0, false, c_timeGame);
+    TriggerQueueClear(c_triggerQueueRetain);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, gv_pLAYER01_USER, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1006,10 +1093,6 @@ bool gt_StartGame_Func (bool testConds, bool runActions) {
     CreepSetSpeed(c_creepSpeedGrowth, 1000.0);
     TriggerExecute(gt_StrandedRebelMarinesTiming, true, false);
     Wait(3.0, c_timeReal);
-    if ((gv_developerCheats == true)) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/8590699D"), true);
-    }
-
     TriggerExecute(gt_ObjectiveHoldOutCreateQ, true, false);
     TriggerExecute(gt_TransmissionIntroQ, true, false);
     Wait(3.0, c_timeReal);
@@ -5747,6 +5830,11 @@ void gt_VictorySetup_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string autoDD50BA3E_val;
+    const int auto7E92046C_n = 20;
+    int auto7E92046C_i;
+    const int auto99A00DBB_n = 20;
+    int auto99A00DBB_i;
     const int auto0A382049_n = 25;
     int auto0A382049_i;
     const int auto243EB627_n = 20;
@@ -5755,6 +5843,12 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     int autoF0DF740E_i;
     const int auto9050C9D7_n = 20;
     int auto9050C9D7_i;
+    string autoAEC8560F_val;
+    const int auto24704383_n = 20;
+    int auto24704383_i;
+    string auto31410531_val;
+    const int autoB8BE4357_n = 20;
+    int autoB8BE4357_i;
 
     // Actions
     if (!runActions) {
@@ -5762,13 +5856,37 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     }
 
     CameraApplyInfo(gv_pLAYER01_USER, CameraInfoFromId(1119), 0.0, -1, 10, true);
-    libNtve_gf_UnitCreateFacingPoint(1, "Hyperion", 0, gv_pLAYER07_HYPERION, PointFromId(270), PointFromId(1117));
-    gv_victoryHyperion = UnitLastCreated();
-    libNtve_gf_PlayAnimation(libNtve_gf_MainActorofUnit(gv_victoryHyperion), c_animNameDefault, "Stand Work", c_animFlagNonLooping, c_animTimeDefault);
-    libNtve_gf_SetAnimationTimeScale(libNtve_gf_MainActorofUnit(gv_victoryHyperion), c_animNameDefault, 1.5);
-    UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(271)), c_orderQueueAddToEnd);
-    UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("HyperionYamatoSpecial", 0), PointFromId(1117)), c_orderQueueAddToEnd);
-    UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(866)), c_orderQueueAddToEnd);
+    autoDD50BA3E_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoDD50BA3E_val == "Prot") {
+        // Transmission - SoundLink("TZeratul04Artanis00009", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul04Artanis00009", -1), c_transmissionDurationAdd, 0.0, false);
+        libNtve_gf_UnitCreateFacingPoint(1, "Purifier", 0, gv_pLAYER07_HYPERION, PointFromId(270), PointFromId(1117));
+        gv_victoryHyperion = UnitLastCreated();
+        UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(866)), c_orderQueueAddToEnd);
+        UnitBehaviorAdd(gv_victoryHyperion, "PurifierPlanetCrackerCharge", gv_victoryHyperion, 1);
+    }
+    else if (autoDD50BA3E_val == "Zerg") {
+        // Transmission - SoundLink("TValerian03Adjutant00066", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TValerian03Adjutant00066", -1), c_transmissionDurationAdd, 0.0, false);
+        libNtve_gf_UnitCreateFacingPoint(1, "Leviathan", 0, gv_pLAYER07_HYPERION, PointFromId(270), PointFromId(1117));
+        gv_victoryHyperion = UnitLastCreated();
+        for (auto7E92046C_i = 1; auto7E92046C_i <= auto7E92046C_n; auto7E92046C_i += 1) {
+            UnitIssueOrder(gv_victoryHyperion, Order(AbilityCommand("LeviathanSpawnMutalisk", 0)), c_orderQueueAddToEnd);
+        }
+        UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(271)), c_orderQueueAddToEnd);
+        UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("BioPlasmidDischarge2", 0), PointFromId(1117)), c_orderQueueAddToEnd);
+        for (auto99A00DBB_i = 1; auto99A00DBB_i <= auto99A00DBB_n; auto99A00DBB_i += 1) {
+            UnitIssueOrder(gv_victoryHyperion, Order(AbilityCommand("LeviathanSpawnMutalisk", 0)), c_orderQueueAddToEnd);
+        }
+        UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(866)), c_orderQueueAddToEnd);
+    }
+    else {
+        libNtve_gf_UnitCreateFacingPoint(1, "Hyperion", 0, gv_pLAYER07_HYPERION, PointFromId(270), PointFromId(1117));
+        gv_victoryHyperion = UnitLastCreated();
+        libNtve_gf_PlayAnimation(libNtve_gf_MainActorofUnit(gv_victoryHyperion), c_animNameDefault, "Stand Work", c_animFlagNonLooping, c_animTimeDefault);
+        libNtve_gf_SetAnimationTimeScale(libNtve_gf_MainActorofUnit(gv_victoryHyperion), c_animNameDefault, 1.5);
+        UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(866)), c_orderQueueAddToEnd);
+    }
     for (auto0A382049_i = 1; auto0A382049_i <= auto0A382049_n; auto0A382049_i += 1) {
         libNtve_gf_CreateUnitsAtPoint2(1, "Zergling", 0, gv_pLAYER02_ZERG, RegionRandomPoint(RegionFromId(6)));
         UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(16)), c_orderQueueReplace);
@@ -5812,16 +5930,45 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     Wait(4.0, c_timeGame);
     libNtve_gf_MakeUnitFacePoint(gv_victoryHyperion, PointFromId(16), 1.0);
     UnitSetState(gv_victoryHyperion, c_unitStateTurnSuppressed, false);
+    autoAEC8560F_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoAEC8560F_val == "Prot") {
+    }
+    else if (autoAEC8560F_val == "Zerg") {
+        for (auto24704383_i = 1; auto24704383_i <= auto24704383_n; auto24704383_i += 1) {
+            UnitIssueOrder(gv_victoryHyperion, Order(AbilityCommand("LeviathanSpawnMutalisk", 0)), c_orderQueueAddToEnd);
+        }
+        UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("BioPlasmidDischarge2", 0), PointFromId(1117)), c_orderQueueAddToEnd);
+        UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(866)), c_orderQueueAddToEnd);
+    }
+    else {
+    }
     TriggerExecute(gt_VictoryMutas, true, false);
     CameraApplyInfo(gv_pLAYER01_USER, CameraInfoFromId(787), 22.0, -1, 10, true);
     Wait(5.0, c_timeGame);
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
-    // Transmission - SoundLink("TRaynor03Horner00012", 0)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TRaynor03Horner00012", -1), c_transmissionDurationAdd, 0.0, true);
-    // Transmission - SoundLink("TRaynor03Raynor00010", 0)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TRaynor03Raynor00010", -1), c_transmissionDurationAdd, 0.0, true);
-    // Transmission - SoundLink("TRaynor03Horner00018", 0)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TRaynor03Horner00018", -1), c_transmissionDurationAdd, 0.0, true);
+    auto31410531_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto31410531_val == "Prot") {
+        // Transmission - SoundLink("TZeratul04Artanis00035", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul04Artanis00035", -1), c_transmissionDurationAdd, 0.0, true);
+        // Transmission - SoundLink("TZeratul02Zeratul00031", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul02Zeratul00031", -1), c_transmissionDurationAdd, 0.0, true);
+    }
+    else if (auto31410531_val == "Zerg") {
+        for (autoB8BE4357_i = 1; autoB8BE4357_i <= autoB8BE4357_n; autoB8BE4357_i += 1) {
+            UnitIssueOrder(gv_victoryHyperion, Order(AbilityCommand("LeviathanSpawnMutalisk", 0)), c_orderQueueAddToEnd);
+        }
+        // Transmission - SoundLink("TValerian03Kerrigan00057", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TValerian03Kerrigan00057", -1), c_transmissionDurationAdd, 0.0, true);
+        Wait(2.0, c_timeGame);
+    }
+    else {
+        // Transmission - SoundLink("TRaynor03Horner00012", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TRaynor03Horner00012", -1), c_transmissionDurationAdd, 0.0, true);
+        // Transmission - SoundLink("TRaynor03Raynor00010", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TRaynor03Raynor00010", -1), c_transmissionDurationAdd, 0.0, true);
+        // Transmission - SoundLink("TRaynor03Horner00018", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TRaynor03Horner00018", -1), c_transmissionDurationAdd, 0.0, true);
+    }
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     Wait(2.0, c_timeGame);
     gv_victoryCinematicCompleted = true;
@@ -6736,9 +6883,11 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
-    gt_DEBUGAllyControl_Init();
-    gt_DEBUGDropPod_Init();
     gt_DEBUGStrandedForces_Init();
+    gt_DEBUGFlankAttack_Init();
+    gt_DEBUGDropPod_Init();
+    gt_DEBUGColorZergPlayers_Init();
+    gt_DEBUGVictory_Init();
     gt_IntroSequence_Init();
     gt_StartGame_Init();
     gt_BurrowAmbushGlobalTrigger_Init();

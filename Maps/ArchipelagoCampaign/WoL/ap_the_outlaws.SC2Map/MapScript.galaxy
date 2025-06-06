@@ -150,6 +150,7 @@ trigger gt_Init04Music;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
+trigger gt_DEBUGVictory;
 trigger gt_IntroSequence;
 trigger gt_StartGame;
 trigger gt_InitialOrderGiven;
@@ -239,7 +240,9 @@ trigger gt_BriefingScene02;
 trigger gt_LowerCrane;
 trigger gt_VictoryQ;
 trigger gt_VictorySetup;
-trigger gt_VictoryCinematic;
+trigger gt_VictoryCinematicTerran;
+trigger gt_VictoryCinematicZerg;
+trigger gt_VictoryCinematicProtoss;
 trigger gt_VictoryCinematicEnd;
 trigger gt_VictoryCleanup;
 trigger gt_RaiseCrane;
@@ -751,6 +754,34 @@ bool gt_Init07Help_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_Init07Help_Init () {
     gt_Init07Help = TriggerCreate("gt_Init07Help_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/C304465B"), true);
+    TriggerExecute(gt_VictoryDominionOutpostCompleted, false, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4584,6 +4615,8 @@ void gt_LowerCrane_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_VictoryQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string autoAE4820AA_val;
+
     // Actions
     if (!runActions) {
         return true;
@@ -4591,7 +4624,16 @@ bool gt_VictoryQ_Func (bool testConds, bool runActions) {
 
     TriggerQueueEnter();
     TriggerExecute(gt_VictorySetup, true, true);
-    TriggerExecute(gt_VictoryCinematic, true, true);
+    autoAE4820AA_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoAE4820AA_val == "Zerg") {
+        TriggerExecute(gt_VictoryCinematicZerg, true, true);
+    }
+    else if (autoAE4820AA_val == "Prot") {
+        TriggerExecute(gt_VictoryCinematicProtoss, true, true);
+    }
+    else {
+        TriggerExecute(gt_VictoryCinematicTerran, true, true);
+    }
     TriggerExecute(gt_VictoryCinematicEnd, true, true);
     TriggerExecute(gt_VictoryCleanup, true, true);
     TriggerQueueExit();
@@ -4676,9 +4718,9 @@ void gt_VictorySetup_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Victory Cinematic
+// Trigger: Victory Cinematic Terran
 //--------------------------------------------------------------------------------------------------
-bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
+bool gt_VictoryCinematicTerran_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_i;
     unitgroup lv_craneMarines;
@@ -4736,8 +4778,174 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_VictoryCinematic_Init () {
-    gt_VictoryCinematic = TriggerCreate("gt_VictoryCinematic_Func");
+void gt_VictoryCinematicTerran_Init () {
+    gt_VictoryCinematicTerran = TriggerCreate("gt_VictoryCinematicTerran_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Victory Cinematic Zerg
+//--------------------------------------------------------------------------------------------------
+bool gt_VictoryCinematicZerg_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_i;
+    unitgroup lv_craneMarines;
+    int lv_portrait;
+    point lv_point;
+
+    // Automatic Variable Declarations
+    const int autoAD3F9614_ae = 20;
+    const int autoAD3F9614_ai = 1;
+    unitgroup auto1773D7A8_g;
+    int auto1773D7A8_u;
+    unit auto1773D7A8_var;
+    unitgroup auto237110FC_g;
+    int auto237110FC_u;
+    unit auto237110FC_var;
+
+    // Variable Initialization
+    lv_craneMarines = UnitGroupEmpty();
+    lv_portrait = c_invalidPortraitId;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerScoreValueEnable(gv_pLAYER_01_USER, "UnitsTrainedCount", false);
+    CreepModify(Point(47.0, 77.0), 25.0, true, false);
+    lv_i = 1;
+    for ( ; ( (autoAD3F9614_ai >= 0 && lv_i <= autoAD3F9614_ae) || (autoAD3F9614_ai < 0 && lv_i >= autoAD3F9614_ae) ) ; lv_i += autoAD3F9614_ai ) {
+        lv_point = PointWithOffsetPolar(PointFromId(1057661095), 12.0, (140.0 + (lv_i * 7.0)));
+        libNtve_gf_UnitCreateFacingPoint(1, "AP_Zergling", 0, gv_pLAYER_01_USER, lv_point, Point(47.0, 77.0));
+        UnitGroupAdd(lv_craneMarines, UnitLastCreated());
+    }
+    TriggerExecute(gt_VictoryMarinePatrol, true, false);
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(748), 0.0, -1, 10, true);
+    TriggerSkippableBegin(PlayerGroupAll(), 0, null, true, false);
+    gv_victoryCinematicCompleted = false;
+    CinematicFade(true, 1.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, false);
+    Wait(1.0, c_timeReal);
+    SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryMusic, "TRaynor02MusicOutro", c_soundtrackCueAny, c_soundtrackIndexAny, true);
+    auto1773D7A8_g = lv_craneMarines;
+    auto1773D7A8_u = UnitGroupCount(auto1773D7A8_g, c_unitCountAll);
+    for (;; auto1773D7A8_u -= 1) {
+        auto1773D7A8_var = UnitGroupUnitFromEnd(auto1773D7A8_g, auto1773D7A8_u);
+        if (auto1773D7A8_var == null) { break; }
+        UnitIssueOrder(auto1773D7A8_var, OrderTargetingPoint(AbilityCommand("move", 0), libNtve_gf_PointOffsetTowardsPoint(UnitGetPosition(auto1773D7A8_var), 3.0, Point(47.0, 77.0))), c_orderQueueReplace);
+    }
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(579), (SoundLengthSync(SoundLink("TRaynor02Adjutant00066", 0)) - 1.0), -1, 10, true);
+    CameraSave(gv_pLAYER_01_USER);
+    Wait(1.0, c_timeReal);
+    // Transmission - SoundLink("TValerian01BriefingKerrigan00010", 0)
+    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TValerian01BriefingKerrigan00010", 0), c_transmissionDurationAdd, 0.0, false);
+    TriggerExecute(gt_RaiseCrane, true, false);
+    Wait(4.0, c_timeGame);
+    auto237110FC_g = lv_craneMarines;
+    auto237110FC_u = UnitGroupCount(auto237110FC_g, c_unitCountAll);
+    for (;; auto237110FC_u -= 1) {
+        auto237110FC_var = UnitGroupUnitFromEnd(auto237110FC_g, auto237110FC_u);
+        if (auto237110FC_var == null) { break; }
+        lv_point = libNtve_gf_PointOffsetTowardsPoint(PointFromId(1057661095), 0.5, UnitGetPosition(auto237110FC_var));
+        UnitCreateEffectPoint(auto237110FC_var, "AP_ZerglingLeap", lv_point);
+        libNtve_gf_PlayAnimation(libNtve_gf_MainActorofUnit(auto237110FC_var), c_animNameDefault, "Attack", 0, c_animTimeDefault);
+    }
+    GameSetGlobalTimeScale(0.3);
+    SoundPlayForPlayer(SoundLink("Zergling_Attack", 4), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    CameraLookAt(gv_pLAYER_01_USER, PointFromId(1057661095), 2.0, -1, 10.0);
+    CameraSetValue(gv_pLAYER_01_USER, c_cameraValueDistance, 15.0, 1.0, -1, 10.0);
+    CameraSetValue(gv_pLAYER_01_USER, c_cameraValuePitch, 10.0, 1.0, -1, 10.0);
+    Wait(3.5, c_timeGame);
+    libNtve_gf_CreateActorAtPoint("AP_ZerglingLeapImpact", PointFromId(1057661095));
+    SoundPlayForPlayer(SoundLink("Immortal_BarrierOn", 0), c_maxPlayers, PlayerGroupAll(), 150.0, 0.0);
+    // Transmission - SoundLink("THanson01Hanson00012", 0)
+    libCamp_gf_SendTransmissionCampaign(null, SoundLink("THanson01Hanson00012", 0), c_transmissionDurationAdd, 0.0, true);
+    CameraRestore(gv_pLAYER_01_USER, 1.0, -1, 10.0);
+    Wait(1.0, c_timeGame);
+    GameSetGlobalTimeScale(1.0);
+    gv_victoryCinematicCompleted = true;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_VictoryCinematicZerg_Init () {
+    gt_VictoryCinematicZerg = TriggerCreate("gt_VictoryCinematicZerg_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Victory Cinematic Protoss
+//--------------------------------------------------------------------------------------------------
+bool gt_VictoryCinematicProtoss_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_i;
+    unit lv_u;
+    unitgroup lv_craneMarines;
+    int lv_portrait;
+
+    // Automatic Variable Declarations
+    unitgroup autoB0DD46EC_g;
+    int autoB0DD46EC_u;
+    unit autoB0DD46EC_var;
+
+    // Variable Initialization
+    lv_craneMarines = UnitGroupEmpty();
+    lv_portrait = c_invalidPortraitId;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerScoreValueEnable(gv_pLAYER_01_USER, "UnitsTrainedCount", false);
+    libNtve_gf_CreateUnitsAtPoint2(1, "AP_ZealotShakuras", 0, gv_pLAYER_01_USER, PointFromId(1308));
+    UnitGroupAdd(lv_craneMarines, UnitLastCreated());
+    libNtve_gf_CreateUnitsAtPoint2(1, "AP_ZealotShakuras", 0, gv_pLAYER_01_USER, PointFromId(1309));
+    UnitGroupAdd(lv_craneMarines, UnitLastCreated());
+    libNtve_gf_CreateUnitsAtPoint2(1, "AP_ZealotShakuras", 0, gv_pLAYER_01_USER, PointFromId(1310));
+    UnitGroupAdd(lv_craneMarines, UnitLastCreated());
+    libNtve_gf_CreateUnitsAtPoint2(1, "AP_ZealotShakuras", 0, gv_pLAYER_01_USER, PointFromId(1311));
+    UnitGroupAdd(lv_craneMarines, UnitLastCreated());
+    libNtve_gf_CreateUnitsAtPoint2(1, "AP_ZealotShakuras", 0, gv_pLAYER_01_USER, PointFromId(1312));
+    UnitGroupAdd(lv_craneMarines, UnitLastCreated());
+    TriggerExecute(gt_VictoryMarinePatrol, true, false);
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(748), 0.0, -1, 10, true);
+    TriggerSkippableBegin(PlayerGroupAll(), 0, null, true, false);
+    gv_victoryCinematicCompleted = false;
+    CinematicFade(true, 1.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, false);
+    Wait(1.0, c_timeReal);
+    SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryMusic, "TRaynor02MusicOutro", c_soundtrackCueAny, c_soundtrackIndexAny, true);
+    autoB0DD46EC_g = lv_craneMarines;
+    autoB0DD46EC_u = UnitGroupCount(autoB0DD46EC_g, c_unitCountAll);
+    for (;; autoB0DD46EC_u -= 1) {
+        autoB0DD46EC_var = UnitGroupUnitFromEnd(autoB0DD46EC_g, autoB0DD46EC_u);
+        if (autoB0DD46EC_var == null) { break; }
+        UnitIssueOrder(autoB0DD46EC_var, OrderTargetingPoint(AbilityCommand("move", 0), libNtve_gf_PointOffsetTowardsPoint(UnitGetPosition(autoB0DD46EC_var), 1.0, Point(47.0, 77.0))), c_orderQueueReplace);
+    }
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(579), (SoundLengthSync(SoundLink("TRaynor02Adjutant00066", 0)) - 1.0), -1, 10, true);
+    Wait(1.0, c_timeReal);
+    // Transmission - SoundLink("TZeratul01Zeratul00027", 0)
+    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul01Zeratul00027", 0), c_transmissionDurationAdd, 0.0, true);
+    TriggerExecute(gt_RaiseCrane, true, false);
+    CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(580), SoundLengthSync(SoundLink("TRaynor02Tychus00067", 0)), -1, 10, true);
+    Wait(1.0, c_timeReal);
+    // Transmission - SoundLink("TZeratul02HybridProtoss00014", 0)
+    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul02HybridProtoss00014", 0), c_transmissionDurationAdd, 0.0, true);
+    Wait(1.0, c_timeReal);
+    PlayerCreateEffectPoint(2, "EnergyNovaPersistent", PointFromId(1143));
+    CameraPan(1, PointFromId(1143), 2.0, -1, 10.0, false);
+    UnitCreate(1, "Maar", 0, 2, PointFromId(1143), 270.0);
+    lv_u = UnitLastCreated();
+    libNtve_gf_PlayAnimation(libNtve_gf_MainActorofUnit(lv_u), c_animNameDefault, "Birth", 0, c_animTimeDefault);
+    Wait(1.0, c_timeReal);
+    UnitIssueOrder(lv_u, OrderTargetingPoint(AbilityCommand("move", 0), libNtve_gf_PointOffsetTowardsPoint(UnitGetPosition(lv_u), 1.0, Point(47.0, 77.0))), c_orderQueueReplace);
+    // Transmission - SoundLink("TZeratul02HybridProtoss00016", 0)
+    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul02HybridProtoss00016", 0), c_transmissionDurationAdd, 0.0, true);
+    gv_victoryCinematicCompleted = true;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_VictoryCinematicProtoss_Init () {
+    gt_VictoryCinematicProtoss = TriggerCreate("gt_VictoryCinematicProtoss_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4827,6 +5035,7 @@ void gt_RaiseCrane_Init () {
 bool gt_VictoryMarinePatrol_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit[5] lv_marineUnits;
+    unitgroup lv_marineGroup;
     point[5] lv_marinePoints1;
     point[5] lv_marinePoints2;
     int lv_i;
@@ -4834,12 +5043,14 @@ bool gt_VictoryMarinePatrol_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     const int auto9137C3C2_ae = 4;
     const int auto9137C3C2_ai = 1;
+    string autoD4792CE8_val;
     const int autoD9070CF7_ae = 4;
     const int autoD9070CF7_ai = 1;
     const int auto275BE933_ae = 4;
     const int auto275BE933_ai = 1;
 
     // Variable Initialization
+    lv_marineGroup = UnitGroupEmpty();
 
     // Actions
     if (!runActions) {
@@ -4850,11 +5061,21 @@ bool gt_VictoryMarinePatrol_Func (bool testConds, bool runActions) {
     for ( ; ( (auto9137C3C2_ai >= 0 && lv_i <= auto9137C3C2_ae) || (auto9137C3C2_ai < 0 && lv_i >= auto9137C3C2_ae) ) ; lv_i += auto9137C3C2_ai ) {
         lv_marinePoints1[lv_i] = PointWithOffsetPolar(PointFromId(1306), 1.0, (IntToFixed(lv_i) * 90.0));
         lv_marinePoints2[lv_i] = PointWithOffsetPolar(PointFromId(1307), 1.0, (IntToFixed(lv_i) * 90.0));
-        UnitCreate(1, "Marine", 0, gv_pLAYER_01_USER, lv_marinePoints1[1], 225.0);
+        autoD4792CE8_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoD4792CE8_val == "Zerg") {
+            UnitCreate(1, "AP_Hydralisk", 0, gv_pLAYER_01_USER, lv_marinePoints1[1], 225.0);
+        }
+        else if (autoD4792CE8_val == "Prot") {
+            UnitCreate(1, "AP_StalkerShakuras", 0, gv_pLAYER_01_USER, lv_marinePoints1[1], 225.0);
+        }
+        else {
+            UnitCreate(1, "Marine", 0, gv_pLAYER_01_USER, lv_marinePoints1[1], 225.0);
+        }
+        UnitGroupAdd(lv_marineGroup, UnitLastCreated());
         lv_marineUnits[lv_i] = UnitLastCreated();
     }
     while (true) {
-        if ((UnitGroupCount(UnitGroup("Marine", gv_pLAYER_01_USER, RegionCircle(PointFromId(1306), 1.5), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) > 0)) {
+        if ((UnitGroupCount(UnitGroupFilterRegion(lv_marineGroup, RegionCircle(PointFromId(1306), 1.5), 0), c_unitCountAlive) > 0)) {
             Wait(1.0, c_timeGame);
             lv_i = 1;
             for ( ; ( (autoD9070CF7_ai >= 0 && lv_i <= autoD9070CF7_ae) || (autoD9070CF7_ai < 0 && lv_i >= autoD9070CF7_ae) ) ; lv_i += autoD9070CF7_ai ) {
@@ -4862,7 +5083,7 @@ bool gt_VictoryMarinePatrol_Func (bool testConds, bool runActions) {
             }
         }
 
-        if ((UnitGroupCount(UnitGroup("Marine", gv_pLAYER_01_USER, RegionCircle(PointFromId(1307), 1.5), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) > 0)) {
+        if ((UnitGroupCount(UnitGroupFilterRegion(lv_marineGroup, RegionCircle(PointFromId(1307), 1.5), 0), c_unitCountAlive) > 0)) {
             Wait(3.0, c_timeGame);
             lv_i = 1;
             for ( ; ( (auto275BE933_ai >= 0 && lv_i <= auto275BE933_ae) || (auto275BE933_ai < 0 && lv_i >= auto275BE933_ae) ) ; lv_i += auto275BE933_ai ) {
@@ -5371,6 +5592,7 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
+    gt_DEBUGVictory_Init();
     gt_IntroSequence_Init();
     gt_StartGame_Init();
     gt_InitialOrderGiven_Init();
@@ -5460,7 +5682,9 @@ void InitTriggers () {
     gt_LowerCrane_Init();
     gt_VictoryQ_Init();
     gt_VictorySetup_Init();
-    gt_VictoryCinematic_Init();
+    gt_VictoryCinematicTerran_Init();
+    gt_VictoryCinematicZerg_Init();
+    gt_VictoryCinematicProtoss_Init();
     gt_VictoryCinematicEnd_Init();
     gt_VictoryCleanup_Init();
     gt_RaiseCrane_Init();

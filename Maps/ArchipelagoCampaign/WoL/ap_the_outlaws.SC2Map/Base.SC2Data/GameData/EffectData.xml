@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CEffectLaunchMissile id="AP_ZerglingLeap">
+        <ValidatorArray index="0" removed="1"/>
+        <EditorCategories value="Race:Zerg"/>
+        <LaunchLocation Value="CasterUnit"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactOffset value="0,0,1"/>
+        <ImpactEffect value="AP_ZerglingLeapFate"/>
+        <Flags index="PlacementIgnoreBlockers" value="1"/>
+        <Flags index="ValidateTeleport" value="0"/>
+        <PlacementRange value="1"/>
+        <Movers Link="AP_HotSRaptorChargeMissile" IfRangeLTE="-1"/>
+        <DeathType value="Unknown"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="AP_ZerglingLeapFate">
+        <EditorCategories value=""/>
+        <ImpactLocation Value="CasterUnit"/>
+        <Flags index="Kill" value="1"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+</Catalog>

@@ -10636,6 +10636,7 @@ bool libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Func (bool testConds, bo
 void libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init () {
     libABFE498B_gt_AP_Triggers_Debug_activateDebugMode = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Func");
     TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_activateDebugMode, c_playerAny, "-debug", true);
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_activateDebugMode, c_playerAny, "-d", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -10673,6 +10674,35 @@ bool libABFE498B_gt_AP_Triggers_Debug_takeControl_Func (bool testConds, bool run
 void libABFE498B_gt_AP_Triggers_Debug_takeControl_Init () {
     libABFE498B_gt_AP_Triggers_Debug_takeControl = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_takeControl_Func");
     TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_takeControl, c_playerAny, "-control", false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_clearQueue
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_clearQueue_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, (StringExternal("Param/Value/lib_ABFE498B_4073FE0C")), true);
+    TriggerQueueClear(c_triggerQueueRetain);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_clearQueue_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_clearQueue = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_clearQueue_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_clearQueue, c_playerAny, "-clear", false);
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_clearQueue, c_playerAny, "-c", false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -10767,6 +10797,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_UpgradeProtossStructures_Init();
     libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init();
     libABFE498B_gt_AP_Triggers_Debug_takeControl_Init();
+    libABFE498B_gt_AP_Triggers_Debug_clearQueue_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
 }

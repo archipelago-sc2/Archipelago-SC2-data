@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CActorAction id="BioPlasmidDischargeAttack2" parent="GenericAttack" effectImpact="BioPlasmidDischargeDamage2" effectLaunch="BioPlasmidDischargeLaunchMissile2">
+        <LaunchAttachQuery Methods="Weapon 1"/>
+        <LaunchAssets Sound="Leviathan_BioPlasmidDischargeLaunch"/>
+        <Missile value="BioPlasmidDischargeAttackMissile"/>
+        <ImpactSiteOps HoldPosition="1"/>
+        <ImpactAttachQuery Methods="Origin"/>
+        <ImpactMap index="None" Model="BioPlasmidDischargeAttackImpact" Sound="Leviathan_BioPlasmidDischargeImpact"/>
+    </CActorAction>
+    <CActorModel id="BioPlasmidDischargeChargeModel2" parent="ModelAddition">
+        <On Terms="Abil.BioPlasmidDischarge2.SourcePrepStart" Send="Create"/>
+        <On Terms="Abil.BioPlasmidDischarge2.SourcePrepStop" Send="Destroy"/>
+        <HostSiteOps Ops="SOpAttachWeapon01"/>
+        <Model value="BioPlasmidDischargeChargeModel"/>
+    </CActorModel>
+    <CActorSound id="BioPlasmidDischargeChargeSound2" parent="SoundContinuous">
+        <On Terms="Abil.BioPlasmidDischarge2.SourcePrepStart" Send="Create"/>
+        <On Terms="Abil.BioPlasmidDischarge2.SourcePrepStop" Send="Destroy"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachWeapon01"/>
+        <Sound value="Leviathan_BioPlasmidDischargeChargeUp"/>
+    </CActorSound>
     <!--                                                                                         -->
     <!-- Invisible Pylon ....................................................................... -->
     <!--                                                                                         -->
