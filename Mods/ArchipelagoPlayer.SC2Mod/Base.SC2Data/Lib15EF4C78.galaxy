@@ -5539,6 +5539,39 @@ void lib15EF4C78_gt_KerriganEconDrop_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Player_AvengerRecallUnselect
+//--------------------------------------------------------------------------------------------------
+bool lib15EF4C78_gt_AP_Player_AvengerRecallUnselect_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = EventPlayerEffectUsedUnitOwner(c_effectPlayerTarget);
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGroupCount(UnitGroupSelected(lv_player), c_unitCountAlive) > 1))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitSelect(EventPlayerEffectUsedUnit(c_effectUnitTarget), lv_player, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib15EF4C78_gt_AP_Player_AvengerRecallUnselect_Init () {
+    lib15EF4C78_gt_AP_Player_AvengerRecallUnselect = TriggerCreate("lib15EF4C78_gt_AP_Player_AvengerRecallUnselect_Func");
+    TriggerAddEventPlayerEffectUsed(lib15EF4C78_gt_AP_Player_AvengerRecallUnselect, c_playerAny, "AP_DarkTemplarRecallTeleport");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Player_ElderProbeWarpInHandler
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_AP_Player_ElderProbeWarpInHandler_Func (bool testConds, bool runActions) {
@@ -9638,6 +9671,7 @@ void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_WarpRelocateAssimilatorFinish_Init();
     lib15EF4C78_gt_KerriganPsiStrike_Init();
     lib15EF4C78_gt_KerriganEconDrop_Init();
+    lib15EF4C78_gt_AP_Player_AvengerRecallUnselect_Init();
     lib15EF4C78_gt_AP_Player_ElderProbeWarpInHandler_Init();
     lib15EF4C78_gt_PM_SoAStatusWatch_Init();
     lib15EF4C78_gt_PM_SoAAutonomousStatusWatch_Init();
