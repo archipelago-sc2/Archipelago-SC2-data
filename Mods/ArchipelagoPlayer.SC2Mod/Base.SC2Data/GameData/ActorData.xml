@@ -14496,32 +14496,15 @@
         <Macros value="PhysicsDeathsVoidGround"/>
         <On Terms="Behavior.Hallucination.On" Send="Create HallucinationBirthSoundMedium"/>
         <On Terms="UnitDeathCustomize; ValidateUnit IsHallucination" Send="DeathCustomize Hallucination"/>
-        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
-        <On Terms="WeaponStart.*.AttackStart; WeaponTargetElevation GE 20.000000" Send="AnimBracketStart Attack Attack,Superior"/>
-        <On Terms="WeaponStart.*.AttackStart; WeaponTargetElevation LE -20.000000" Send="AnimBracketStart Attack Attack,Inferior"/>
-        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
-        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
-        <!--On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/-->
-        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="ModelSwap DarkImmortal"/>
-        <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap DarkImmortal"/>
-        <On Terms="UnitDeathCustomize; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomize DarkProtoss"/>
-        <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_Immortal_Land"/>
-        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="DeathCustomsEnablePhysics 0"/>
-        <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomsEnablePhysics 0"/>
-        <On Terms="Behavior.AP_ImmortalOverload.On" Send="AnimBracketStart Cover Cover,Start Cover Cover,End"/>
-        <On Terms="Behavior.AP_ImmortalOverload.On" Send="Create AP_Immortal_Barrier_OnSound"/>
-        <On Terms="Behavior.AP_ImmortalOverload.Off" Send="AnimBracketStop Cover"/>
-        <On Terms="Behavior.AP_ImmortalOverload.Off" Send="Create AP_Immortal_Void_BarrierOffSound"/>
-        <On Terms="UnitBirth; ValidateUnit AP_HasPurifierProtoss" Send="TextureSelectById PurifierHackDiffuse"/>
-        <On Terms="Upgrade.AP_PurifierProtoss.Add" Send="TextureSelectById PurifierHackDiffuse"/>
-        <On Terms="Signal.*.PurifierHack" Send="TextureSelectById PurifierHackDiffuse"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_IsTerrazineShadow" Send="DeathCustomize Hallucination"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveVoidShade" Send="DeathCustomize Shadow"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveTerrazineShadow" Send="DeathCustomize Shadow"/>
-        <On Terms="Behavior.AP_ImmortalBarrierBase.On" Send="Create AP_Immortal_Barrier_OnSound"/>
-        <On Terms="Behavior.AP_ImmortalBarrierBase.On" Send="AnimBracketStart Cover Cover,Start Cover Cover,End"/>
-        <On Terms="Behavior.AP_ImmortalBarrierBase.Off" Send="Create AP_Immortal_Void_BarrierOffSound"/>
-        <On Terms="Behavior.AP_ImmortalBarrierBase.Off" Send="AnimBracketStop Cover"/>
+        <On Terms="WeaponStart.*.AttackStart; ValidateUnit CasterIsStationary" Send="AnimBracketStart Attack IGNORE Channel IGNORE 0 0.500000 AsTimeScale"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack Instant"/>
+        <On Terms="UnitMovementUpdate.*.Walk; AnimPlaying Attack" Send="AnimBracketStop Attack"/>
+        <On Terms="UnitMovementUpdate.*.Stand; !AnimPlaying Attack; ValidateUnit CasterIsAttacking" Send="AnimBracketStart Attack IGNORE Channel IGNORE 0 0.500000 AsTimeScale"/>
+        <On Terms="WeaponStart.*.AttackStart" Target="_ImmortalPurifierAttachment" Send="Signal Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Target="_ImmortalPurifierAttachment" Send="Signal Stop"/>
         <Model value="Immortal_Purifier_Collection"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <BuildModel value="AP_Immortal_Purifier_Collection_WarpIn"/>
@@ -41822,9 +41805,12 @@
     </CActorAction>
     <CActorBeamSimple id="AP_StalwartLightningAttackBeam" parent="BeamSimpleAnimationStyleContinuous">
         <Macros value="ActionTargetTeleportDestroy"/>
+        <Remove Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD IGNORE Birth,00 Death ContentForceLooping"/>
         <On Terms="Effect.AP_StalwartLightningWeapon.Stop; At Effect" Send="AnimBracketStop BSD"/>
         <On Terms="ActorCreation" Send="RefSetFromRequest ::actor.CasterUnit _Unit Caster Find"/>
         <On Terms="ActorCreation" Target="::actor.CasterUnit" Send="Signal CampaignBeamCreated"/>
+        <On Terms="ActorCreation" Send="SetTintColor {255,64,0 4.000000}"/>
     </CActorBeamSimple>
     <CActorSound id="AP_StalwartLightningAttackLoop" parent="SoundContinuous">
         <On Terms="Effect.AP_StalwartLightningWeapon.Start" Send="Create"/>
@@ -41859,12 +41845,15 @@
     </CActorAction>
     <CActorBeamSimple id="AP_StalwartLightningBeamBounceAttackBeam" parent="BeamSimpleAnimationStyleContinuous">
         <Macros value="ActionTargetTeleportDestroy"/>
+        <Remove Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD IGNORE Birth,00 Death ContentForceLooping"/>
         <On Terms="Effect.AP_StalwartLightningWeaponBounceDamage.Stop; At Effect" Send="AnimBracketStop BSD"/>
         <On Terms="ActorOrphan" Send="Destroy"/>
         <On Terms="ActorCreation" Send="RefSetFromRequest ::actor.CasterUnit _Unit Caster Find"/>
         <On Terms="ActorCreation" Target="::actor.CasterUnit" Send="Signal CampaignBeamCreated"/>
         <On Terms="ActorCreation" Send="TimerSet 0.500000 DelayDeath"/>
         <On Terms="TimerExpired; TimerName DelayDeath" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetTintColor {255,64,0 4.000000}"/>
         <Model value="AP_StalwartLightningAttackBeam"/>
     </CActorBeamSimple>
     <CActorUnit id="AP_MedicMengsk" parent="AP_MedicBase" unitName="AP_MedicMengsk">
@@ -45184,4 +45173,74 @@
     <CActorRange id="AP_VoidHighTemplarMindBlastRange" parent="RangeAbil" abil="AP_VoidHighTemplarMindBlast"/>
     <CActorRange id="AP_VoidHighTemplarSacrificeRange" parent="RangeAbil" abil="AP_AscendantSacrifice"/>
     <CActorRange id="AP_VoidHighTemplarPowerOverwhelmingRange" parent="RangeAbilHover" abil="AP_AscendantSacrificeInstant"/>
+    <CActorModel id="AP_ImmortalPurifierArcLeft" parent="ModelAdditionNoAnims">
+        <Aliases value="_ImmortalPurifierAttachment"/>
+        <EditorCategories value=""/>
+        <On Terms="UnitBirth.AP_ImmortalPurifier" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,02 PlayForever"/>
+        <On Terms="ActorCreation; !IsInEditor" Send="Signal Stop"/>
+        <On Terms="Signal.*.Attack" Send="SetVisibility 1"/>
+        <On Terms="Signal.*.Stop" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Send="SetTintColor {255,128,0 4.000000}"/>
+        <HostSiteOps Ops="SOpAttachTarget2 AP_ImmortalPurifierSparksRotation"/>
+        <Model value="AP_ImmortalPurifierArc"/>
+        <Scale value="0.300000"/>
+    </CActorModel>
+    <CActorModel id="AP_ImmortalPurifierArcRight" parent="ModelAdditionNoAnims">
+        <Aliases value="_ImmortalPurifierAttachment"/>
+        <EditorCategories value=""/>
+        <On Terms="UnitBirth.AP_ImmortalPurifier" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,02 PlayForever"/>
+        <On Terms="ActorCreation; !IsInEditor" Send="Signal Stop"/>
+        <On Terms="Signal.*.Attack" Send="SetVisibility 1"/>
+        <On Terms="Signal.*.Stop" Send="SetVisibility"/>
+        <On Terms="ActorCreation" Send="SetTintColor {255,128,0 4.000000}"/>
+        <HostSiteOps Ops="SOpAttachTarget1 AP_ImmortalPurifierSparksRotation"/>
+        <Model value="AP_ImmortalPurifierArc"/>
+        <Scale value="0.300000"/>
+    </CActorModel>
+    <CActorModel id="AP_ImmortalPurifierSparksLeft" parent="ModelAdditionNoAnims">
+        <Aliases value="_ImmortalPurifierAttachment"/>
+        <EditorCategories value=""/>
+        <On Terms="UnitBirth.AP_ImmortalPurifier" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,00 PlayForever,ForceLooping"/>
+        <On Terms="ActorCreation" Send="TimerSet"/>
+        <On Terms="TimerExpired" Send="TimerSet 0.700000"/>
+        <On Terms="TimerExpired" Send="AnimSetCompletion Lifetime"/>
+        <On Terms="ActorCreation; !IsInEditor" Send="Signal Stop"/>
+        <On Terms="Signal.*.Attack" Send="SetVisibility 1"/>
+        <On Terms="Signal.*.Stop" Send="SetVisibility"/>
+        <On Terms="Signal.*.Attack" Send="DestroyParticles"/>
+        <On Terms="TimerExpired" Send="SetTintColor {255,48,0 8.000000}"/>
+        <HostSiteOps Ops="SOpAttachTarget2 AP_ImmortalPurifierSparksRotation AP_ImmortalPurifierSparksOffset"/>
+        <Model value="AP_ImmortalPurifierSparks"/>
+        <Scale value="1.000000,1.000000,0.500000"/>
+    </CActorModel>
+    <CActorModel id="AP_ImmortalPurifierSparksRight" parent="ModelAdditionNoAnims">
+        <Aliases value="_ImmortalPurifierAttachment"/>
+        <EditorCategories value=""/>
+        <On Terms="UnitBirth.AP_ImmortalPurifier" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,00 PlayForever,ForceLooping"/>
+        <On Terms="ActorCreation" Send="TimerSet"/>
+        <On Terms="TimerExpired" Send="TimerSet 0.700000"/>
+        <On Terms="TimerExpired" Send="AnimSetCompletion Lifetime"/>
+        <On Terms="ActorCreation; !IsInEditor" Send="Signal Stop"/>
+        <On Terms="Signal.*.Attack" Send="SetVisibility 1"/>
+        <On Terms="Signal.*.Stop" Send="SetVisibility"/>
+        <On Terms="Signal.*.Attack" Send="DestroyParticles"/>
+        <On Terms="TimerExpired" Send="SetTintColor {255,48,0 8.000000}"/>
+        <HostSiteOps Ops="SOpAttachTarget1 AP_ImmortalPurifierSparksRotation AP_ImmortalPurifierSparksOffset"/>
+        <Model value="AP_ImmortalPurifierSparks"/>
+        <Scale value="1.000000,1.000000,0.500000"/>
+    </CActorModel>
+    <CActorSiteOpLocalOffset id="AP_ImmortalPurifierSparksOffset">
+        <EditorCategories value=""/>
+        <LocalOffset value="0.000000,-0.500000,0.000000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpRotationExplicit id="AP_ImmortalPurifierSparksRotation">
+        <EditorCategories value=""/>
+        <Forward value="0.000000,1.000000,0.000000"/>
+        <Up value="0.000000,0.000000,1.000000"/>
+        <IsLocal value="1"/>
+    </CActorSiteOpRotationExplicit>
 </Catalog>
