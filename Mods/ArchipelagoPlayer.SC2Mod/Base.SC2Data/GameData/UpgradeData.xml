@@ -1322,7 +1322,6 @@
         <EffectArray Reference="Effect,AP_PhaseDisruptors,Amount" Value="2"/>
         <EffectArray Reference="Effect,AP_PhaseDisruptors,AttributeBonus[Armored]" Value="3"/>
         <EffectArray Reference="Weapon,AP_StalwartLightningWeapon,Level" Value="1"/>
-        <EffectArray Reference="Weapon,AP_StalwartLightningWeaponMoving,Level" Value="1"/>
         <EffectArray Reference="Effect,AP_StalwartLightningWeaponDamage,Amount" Value="1"/>
         <EffectArray Reference="Effect,AP_StalwartLightningWeaponBounceDamage,Amount" Value="1"/>
         <EffectArray Reference="Effect,AP_ImmortalTaldarimWeaponDamage,Amount" Value="1"/>
@@ -14826,10 +14825,10 @@
         <AffectedUnitArray value="AP_ImmortalPurifier"/>
     </CUpgrade>
     <CUpgrade id="AP_StalwartStabilizedElectrodes">
-        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,Options[Hidden]" Value="1"/>
-        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,Options[Disabled]" Value="1"/>
-        <EffectArray Operation="Subtract" Reference="Weapon,AP_StalwartLightningWeaponMoving,Options[Hidden]" Value="1"/>
-        <EffectArray Operation="Subtract" Reference="Weapon,AP_StalwartLightningWeaponMoving,Options[Disabled]" Value="1"/>
+        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,Options[OnlyFireWhileInAttackOrder]" Value="0"/>
+        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,Options[OnlyFireAtAttackOrderTarget]" Value="0"/>
+        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,AllowedMovement" Value="Moving"/>
+        <EffectArray Operation="Add" Reference="Weapon,AP_StalwartLightningWeapon,Range" Value="1"/>
         <AffectedUnitArray value="AP_ImmortalPurifier"/>
     </CUpgrade>
     <CUpgrade id="AP_StalwartHighVoltageCapacitors">
@@ -14914,16 +14913,17 @@
     <CUpgrade id="AP_DarkTemplarResearchShadowDash"/>
     <CUpgrade id="AP_AvengerCloak"/>
     <CUpgrade id="AP_DarkTemplarShadowFuryLesser">
-        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFury"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFuryLesser"/>
     </CUpgrade>
     <CUpgrade id="AP_DarkTemplarShadowFuryGreater">
         <EffectArray Reference="Behavior,AP_DarkTemplarShadowFuryController,Duration" Value="0.4"/>
         <EffectArray Reference="Behavior,AP_DarkTemplarShadowFuryController,PeriodCount" Value="1"/>
-        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFury"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFuryGreater"/>
     </CUpgrade>
     <CUpgrade id="AP_DarkTemplarShadowFuryAll">
         <EffectArray Reference="Behavior,AP_DarkTemplarShadowFuryController,Duration" Value="0.8"/>
         <EffectArray Reference="Behavior,AP_DarkTemplarShadowFuryController,PeriodCount" Value="2"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFury"/>
     </CUpgrade>
     <CUpgrade id="AP_BloodHunterBrutalEfficiency">
         <EffectArray Operation="Subtract" Reference="Weapon,AP_DarkTemplarTaldarim,Period" Value="1.694"/>
@@ -15000,6 +15000,33 @@
     </CUpgrade>
     <CUpgrade id="AP_SentryHallucination"/>
     <CUpgrade id="AP_SentryForceField"/>
+    <CUpgrade id="AP_WarCouncilNerfs">
+        <EffectArray Operation="Set" Reference="Button,AP_VoidZealotWhirlwind,Tooltip" Value="Button/Tooltip/AP_VoidZealotWhirlwindWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_BlinkShieldRestoreUpgrade,Tooltip" Value="Button/Tooltip/AP_BlinkShieldRestoreUpgradeWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_SlayerBlink,Tooltip" Value="Button/Tooltip/AP_SlayerBlinkWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_SupplicantSacrifice,Tooltip" Value="Button/Tooltip/AP_SupplicantSacrificeWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_PermanentlyCloakedAvenger,Tooltip" Value="Button/Tooltip/AP_PermanentlyCloakedAvengerWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFuryUnobtained"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidSentryShieldRepairDouble,Tooltip" Value="Button/Tooltip/AP_VoidSentryShieldRepairDoubleWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidSentryChronoBeam,Tooltip" Value="Button/Tooltip/AP_VoidSentryChronoBeamWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_HealingPsionicStorm,Tooltip" Value="Button/Tooltip/AP_HealingPsionicStormWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_FeedbackSignifier,Tooltip" Value="Button/Tooltip/AP_FeedbackSignifierWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_HaveBarrier,Tooltip" Value="Button/Tooltip/AP_HaveBarrierWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidColossusFireBeam,Tooltip" Value="Button/Tooltip/AP_VoidColossusFireBeamWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_PhoenixAiurGravitonBeamPassive,Tooltip" Value="Button/Tooltip/AP_PhoenixAiurGravitonBeamPassiveWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_GravitonBeamVoidCampaign,Tooltip" Value="Button/Tooltip/AP_GravitonBeamVoidCampaignWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidRayVoidPrismaticRange,Tooltip" Value="Button/Tooltip/AP_VoidRayVoidPrismaticRangeWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_ObserverScopophobia,Tooltip" Value="Button/Tooltip/AP_ObserverScopophobiaWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_RepairDrones,Tooltip" Value="Button/Tooltip/AP_RepairDronesWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_CarrierHyperjump,Tooltip" Value="Button/Tooltip/AP_CarrierHyperjumpWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_CarrierPurifierSolarBeam,Tooltip" Value="Button/Tooltip/AP_CarrierPurifierSolarBeamWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_LightningBomb,Tooltip" Value="Button/Tooltip/AP_LightningBombWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_ScoutPurifierCoronaBeam,Tooltip" Value="Button/Tooltip/AP_ScoutPurifierCoronaBeamWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_ScoutTaldarimVulcanBlaster,Tooltip" Value="Button/Tooltip/AP_ScoutTaldarimVulcanBlasterWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_ScoutNerazimPhantomDash,Tooltip" Value="Button/Tooltip/AP_ScoutNerazimPhantomDashWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_WarpPrismWarpRefraction,Tooltip" Value="Button/Tooltip/AP_WarpPrismWarpRefractionWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_DisruptorBlink,Tooltip" Value="Button/Tooltip/AP_DisruptorBlinkWCNerf"/>
+    </CUpgrade>
     <CUpgrade id="AP_AlarakHavocAbilityRange">
         <Icon value="Assets\Textures\btn-upgrade-protoss-alarak-rangeincrease.dds"/>
         <EffectArray Reference="Abil,AP_ObserverTargetLock,Range[0]" Value="3"/>
