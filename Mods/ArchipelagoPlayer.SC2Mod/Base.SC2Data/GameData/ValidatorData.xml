@@ -5290,8 +5290,13 @@
     </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HaveDarkTemplarShadowFuryAll">
         <Find value="1"/>
-        <Value value="AP_DarkTemplarShadowFuryAll"/>
+        <Value value="AP_HaveDarkTemplarShadowFuryAll"/>
     </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_HaveDarkTemplarShadowFuryOnlyAll">
+        <Type value="And"/>
+        <CombineArray value="AP_NoGreaterOrLesserShadowFury"/>
+        <CombineArray value="AP_HaveDarkTemplarShadowFuryAll"/>
+    </CValidatorCombine>
     <CValidatorCombine id="AP_HaveShadowFuryAllAndNerfs">
         <Type value="And"/>
         <CombineArray value="AP_HaveWarCouncilNerfs"/>
