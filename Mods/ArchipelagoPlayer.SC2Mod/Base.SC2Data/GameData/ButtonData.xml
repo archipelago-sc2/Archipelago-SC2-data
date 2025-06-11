@@ -27,11 +27,6 @@
         <AlertIcon value="Assets\Textures\btn-upgrade-protoss-fenix-disruptorpermanentcloak.dds"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
-    <CButton id="AP_RestructuredThrusters">
-        <Icon value="Assets\Textures\btn-upgrade-protoss-alarak-stalkerphasingarmor.dds"/>
-        <AlertIcon value="Assets\Textures\btn-upgrade-protoss-alarak-stalkerphasingarmor.dds"/>
-        <EditorCategories value="Race:Protoss"/>
-    </CButton>
     <CButton id="AP_PurificationNovaEarly">
         <Icon value="Assets\Textures\btn-upgrade-protoss-fenix-purificationblast.dds"/>
         <AlertIcon value="Assets\Textures\btn-upgrade-protoss-fenix-purificationblast.dds"/>
@@ -40,6 +35,7 @@
     <CButton id="AP_DisruptorBlink">
         <Icon value="Assets\Textures\BTN-Ability-Protoss-BlinkCharges.dds"/>
         <AlertIcon value="Assets\Textures\BTN-Ability-Protoss-BlinkCharges.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <HotkeyAlias value="AP_Blink"/>
         <Universal value="1"/>
     </CButton>
@@ -2132,6 +2128,7 @@
     </CButton>
     <CButton id="AP_VoidRayVoidPrismaticRange">
         <Icon value="Assets\Textures\btn-ability-protoss-prismaticrange.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <AlertIcon value="Assets\Textures\btn-missing-kaeo.dds"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
@@ -2157,6 +2154,7 @@
     <CButton id="AP_RepairDrones">
         <Icon value="Assets\Textures\btn-ability-protoss-carrierrepairdrones.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-carrierrepairdrones.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_GravitonBeam">
@@ -2172,11 +2170,13 @@
     <CButton id="AP_PhoenixAiurGravitonBeamPassive">
         <Icon value="Assets\Textures\btn-ability-protoss-dualgravitonbeam.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-dualgravitonbeam.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_GravitonBeamVoidCampaign">
         <Icon value="Assets\Textures\btn-ability-protoss-gravitonbeam-color.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-gravitonbeam-color.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
         <Hotkey value="Button/Hotkey/GravitonBeam"/>
         <HotkeyAlias value="GravitonBeam"/>
@@ -2241,6 +2241,7 @@
         <Icon value="Assets\Textures\btn-ability-protoss-barrier-upgraded.dds"/>
         <AlertTooltip value="Button/Tooltip/ResearchBarrier"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-barrier-upgraded.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_ImmortalOverload">
@@ -2285,6 +2286,7 @@
     </CButton>
     <CButton id="AP_VoidColossusFireBeam">
         <Icon value="Assets\Textures\BTN-Ability-Protoss-FireBeam.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_PermanentlyCloakedObserver">
@@ -2304,9 +2306,15 @@
         <Icon value="Assets\Textures\BTN-ability-Protoss-permanentlycloaked-darktemplar-color.dds"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
+    <CButton id="AP_PermanentlyCloakedAvenger">
+        <Icon value="Assets\Textures\BTN-ability-Protoss-permanentlycloaked-darktemplar-color.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CButton>
     <CButton id="AP_VoidDarkTemplarShadowFury">
         <Tooltip value="Button/Tooltip/AP_VoidDarkTemplarShadowFuryUnobtained"/>
         <Icon value="Assets\Textures\BTN-Ability-Protoss-ShadowFury.dds"/>
+        <TooltipAppender Validator="AP_HaveShadowFuryAllAndNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_VoidStasis">
@@ -2337,6 +2345,7 @@
     <CButton id="AP_HealingPsionicStorm">
         <Icon value="Assets\Textures\btn-upgrade-artanis-healingpsionicstorm.dds"/>
         <AlertIcon value="Assets\Textures\btn-upgrade-artanis-healingpsionicstorm.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_PsiStorm">
@@ -2375,6 +2384,14 @@
         <AlertIcon value="Assets\Textures\btn-ability-protoss-feedback-color.dds"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
+    <CButton id="AP_FeedbackSignifier">
+        <Icon value="Assets\Textures\btn-ability-protoss-feedback-color.dds"/>
+        <AlertIcon value="Assets\Textures\btn-ability-protoss-feedback-color.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
+        <Tooltip value="Button/Tooltip/AP_Feedback"/>
+        <Hotkey value="Button/Hotkey/AP_Feedback"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CButton>
     <CButton id="AP_Blink">
         <Icon value="Assets\Textures\btn-ability-protoss-blink-color.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-blink-color.dds"/>
@@ -2396,6 +2413,7 @@
     <CButton id="AP_BlinkShieldRestoreUpgrade">
         <Icon value="Assets\Textures\btn-ability-protoss-blinkshieldrestore.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-blinkshieldrestore.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
     </CButton>
     <CButton id="AP_BanelingCorrosiveBile">
         <Icon value="Assets\Textures\BTN-Upgrade-Zerg-CorrosiveAcid.dds"/>
@@ -2763,6 +2781,7 @@
     <CButton id="AP_LightningBomb">
         <Icon value="Assets\Textures\btn-ability-protoss-disintegration.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-disintegration.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_DarkArchonConfusion">
@@ -2809,6 +2828,7 @@
     <CButton id="AP_SlayerBlink">
         <Icon value="Assets\Textures\btn-ability-protoss-blink-color.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-blink-color.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
         <HotkeySet value="AP_Blink"/>
         <HotkeyAlias value="AP_Blink"/>
@@ -3013,6 +3033,7 @@
     </CButton>
     <CButton id="AP_VoidSentryChronoBeam">
         <Icon value="Assets\Textures\btn-ability-protoss-chronobeam.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
     </CButton>
     <CButton id="AP_VoidSentryPhasingMode">
         <Icon value="Assets\Textures\btn-ability-protoss-energizerphasingmode.dds"/>
@@ -3037,6 +3058,16 @@
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_HavocEnduringSight">
+        <Icon value="assets\textures\btn-ability-hornerhan-raven-analyzetarget.dds"/>
+        <AlertIcon value="assets\textures\btn-ability-hornerhan-raven-analyzetarget.dds"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CButton>
+    <CButton id="AP_SentryDoubleShieldRestore">
+        <Icon value="Assets\Textures\talent-vorazun-level07-improvedshieldregeneration.dds"/>
+        <AlertIcon value="Assets\Textures\talent-vorazun-level07-improvedshieldregeneration.dds"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CButton>
+    <CButton id="AP_EnergizerMobileChronoBeam">
         <Icon value="assets\textures\btn-ability-hornerhan-raven-analyzetarget.dds"/>
         <AlertIcon value="assets\textures\btn-ability-hornerhan-raven-analyzetarget.dds"/>
         <EditorCategories value="Race:Protoss"/>
@@ -3619,6 +3650,7 @@
     </CButton>
     <CButton id="AP_VoidZealotWhirlwind">
         <Icon value="Assets\Textures\BTN-Ability-Protoss-Whirlwind.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
     </CButton>
     <CButton id="AP_VoidZealotShadowCharge">
         <Icon value="Assets\Textures\BTN-Ability-Protoss-ShadowCharge.dds"/>
@@ -5147,6 +5179,7 @@
     <CButton id="AP_WarpPrismWarpRefraction">
         <Icon value="Assets\Textures\btn-ability-zeratul-warpprism-infinitevoid.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-zeratul-warpprism-infinitevoid.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
     </CButton>
     <CButton id="AP_HaveGraviticBoosters">
         <Icon value="Assets\Textures\btn-upgrade-protoss-graviticbooster.dds"/>
@@ -5161,6 +5194,7 @@
     <CButton id="AP_ObserverScopophobia">
         <Icon value="Assets\Textures\btn-upgrade-afaidofthedark.dds"/>
         <AlertIcon value="Assets\Textures\btn-upgrade-afaidofthedark.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_ScarabDamage">
@@ -5281,6 +5315,7 @@
     <CButton id="AP_DarkArchonIndomitableWill">
         <Icon value="assets\textures\btn-ability-zeratul-topbar-serdathlegion.dds"/>
         <AlertIcon value="assets\textures\btn-ability-zeratul-topbar-serdathlegion.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_AlarakHighTemplarImprovedSacrifice">
@@ -5429,6 +5464,7 @@
     <CButton id="AP_MothershipTaldarimIntegratedPower">
         <Icon value="assets\textures\btn-ability-stetmann-garypersonalstetzone-energy.dds"/>
         <AlertIcon value="assets\textures\btn-ability-stetmann-garypersonalstetzone-energy.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_KaraxTurretRange">
@@ -5938,6 +5974,7 @@
     </CButton>
     <CButton id="AP_VoidRayAiurChronoShear">
         <Icon value="Assets\Textures\btn-ability-spearofadun-chronomancy.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilUpgrade"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_VoidRayAiur">
@@ -5964,6 +6001,7 @@
     <CButton id="AP_CarrierHyperjump">
         <Icon value="Assets\Textures\btn-ability-protoss-blink-color.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-protoss-blink-color.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
     </CButton>
     <CButton id="AP_InterceptorTaldarim">
         <Icon value="Assets\Textures\btn-unit-collection-taldarim-interceptor.dds"/>
@@ -7208,10 +7246,12 @@
     </CButton>
     <CButton id="AP_ScoutTaldarimVulcanBlaster">
         <Icon value="AP\Assets\Textures\btn-ability-protoss-VulcanBlaster.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_ScoutNerazimPhantomDash">
         <Icon value="AP\Assets\Textures\btn-ability-protoss-PhantomDash.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_ScoutTaldarimWeaponRange">
@@ -7236,6 +7276,7 @@
     </CButton>
     <CButton id="AP_ScoutPurifierCoronaBeam">
         <Icon value="AP\Assets\Textures\btn-ability-protoss-CoronaBeam.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_ScoutNerazimDecloak">
@@ -7254,6 +7295,7 @@
     <CButton id="AP_ScoutTaldarimVulcanBlasterCancel">
         <Icon value="Assets\Textures\btn-command-cancel.dds"/>
         <AlertIcon value="Assets\Textures\btn-command-cancel.dds"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <TintRacially value="1"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
@@ -7333,6 +7375,7 @@
         <Icon value="AP\Assets\Textures\btn-ability-protoss-supplicant-sacrificeon.dds"/>
         <AlertIcon value="AP\Assets\Textures\btn-ability-protoss-supplicant-sacrificeon.dds"/>
         <HotkeySet value="AP_SupplicantSacrifice"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_SupplicantSacrificeOff">
@@ -7341,6 +7384,7 @@
         <AlertIcon value="AP\Assets\Textures\btn-ability-protoss-supplicant-sacrificeoff.dds"/>
         <HotkeySet value="AP_SupplicantSacrifice"/>
         <Tooltip value="Button/Tooltip/AP_SupplicantSacrifice"/>
+        <TooltipAppender Validator="AP_HaveWarCouncilNerfs" Text="Button/Tooltip/AP_AppendWarCouncilAbility"/>
         <EditorCategories value="Race:Protoss"/>
     </CButton>
     <CButton id="AP_InfBullfrogLeapUnload">

@@ -1322,7 +1322,6 @@
         <EffectArray Reference="Effect,AP_PhaseDisruptors,Amount" Value="2"/>
         <EffectArray Reference="Effect,AP_PhaseDisruptors,AttributeBonus[Armored]" Value="3"/>
         <EffectArray Reference="Weapon,AP_StalwartLightningWeapon,Level" Value="1"/>
-        <EffectArray Reference="Weapon,AP_StalwartLightningWeaponMoving,Level" Value="1"/>
         <EffectArray Reference="Effect,AP_StalwartLightningWeaponDamage,Amount" Value="1"/>
         <EffectArray Reference="Effect,AP_StalwartLightningWeaponBounceDamage,Amount" Value="1"/>
         <EffectArray Reference="Effect,AP_ImmortalTaldarimWeaponDamage,Amount" Value="1"/>
@@ -14826,10 +14825,10 @@
         <AffectedUnitArray value="AP_ImmortalPurifier"/>
     </CUpgrade>
     <CUpgrade id="AP_StalwartStabilizedElectrodes">
-        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,Options[Hidden]" Value="1"/>
-        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,Options[Disabled]" Value="1"/>
-        <EffectArray Operation="Subtract" Reference="Weapon,AP_StalwartLightningWeaponMoving,Options[Hidden]" Value="1"/>
-        <EffectArray Operation="Subtract" Reference="Weapon,AP_StalwartLightningWeaponMoving,Options[Disabled]" Value="1"/>
+        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,Options[OnlyFireWhileInAttackOrder]" Value="0"/>
+        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,Options[OnlyFireAtAttackOrderTarget]" Value="0"/>
+        <EffectArray Operation="Set" Reference="Weapon,AP_StalwartLightningWeapon,AllowedMovement" Value="Moving"/>
+        <EffectArray Operation="Add" Reference="Weapon,AP_StalwartLightningWeapon,Range" Value="1"/>
         <AffectedUnitArray value="AP_ImmortalPurifier"/>
     </CUpgrade>
     <CUpgrade id="AP_StalwartHighVoltageCapacitors">
@@ -14914,16 +14913,17 @@
     <CUpgrade id="AP_DarkTemplarResearchShadowDash"/>
     <CUpgrade id="AP_AvengerCloak"/>
     <CUpgrade id="AP_DarkTemplarShadowFuryLesser">
-        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFury"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFuryLesser"/>
     </CUpgrade>
     <CUpgrade id="AP_DarkTemplarShadowFuryGreater">
         <EffectArray Reference="Behavior,AP_DarkTemplarShadowFuryController,Duration" Value="0.4"/>
         <EffectArray Reference="Behavior,AP_DarkTemplarShadowFuryController,PeriodCount" Value="1"/>
-        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFury"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFuryGreater"/>
     </CUpgrade>
     <CUpgrade id="AP_DarkTemplarShadowFuryAll">
         <EffectArray Reference="Behavior,AP_DarkTemplarShadowFuryController,Duration" Value="0.8"/>
         <EffectArray Reference="Behavior,AP_DarkTemplarShadowFuryController,PeriodCount" Value="2"/>
+        <EffectArray Operation="Set" Reference="Button,AP_VoidDarkTemplarShadowFury,Tooltip" Value="Button/Tooltip/AP_VoidDarkTemplarShadowFury"/>
     </CUpgrade>
     <CUpgrade id="AP_BloodHunterBrutalEfficiency">
         <EffectArray Operation="Subtract" Reference="Weapon,AP_DarkTemplarTaldarim,Period" Value="1.694"/>
@@ -15000,6 +15000,10 @@
     </CUpgrade>
     <CUpgrade id="AP_SentryHallucination"/>
     <CUpgrade id="AP_SentryForceField"/>
+    <CUpgrade id="AP_WarCouncilNerfs">
+        <EffectArray Operation="Set" Reference="Button,AP_VoidSentryShieldRepairDouble,Tooltip" Value="Button/Tooltip/AP_VoidSentryShieldRepairDoubleWCNerf"/>
+        <EffectArray Operation="Set" Reference="Button,AP_CarrierPurifierSolarBeam,Tooltip" Value="Button/Tooltip/AP_CarrierPurifierSolarBeamWCNerf"/>
+    </CUpgrade>
     <CUpgrade id="AP_AlarakHavocAbilityRange">
         <Icon value="Assets\Textures\btn-upgrade-protoss-alarak-rangeincrease.dds"/>
         <EffectArray Reference="Abil,AP_ObserverTargetLock,Range[0]" Value="3"/>
