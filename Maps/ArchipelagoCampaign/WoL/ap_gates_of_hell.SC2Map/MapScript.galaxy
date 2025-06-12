@@ -318,6 +318,9 @@ trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
 trigger gt_Init08Variables;
+trigger gt_DEBUGDropPod;
+trigger gt_DEBUGWarfield;
+trigger gt_DEBUGVictory;
 trigger gt_IntroSequence;
 trigger gt_StartGame;
 trigger gt_FirstDropDialogue;
@@ -2067,6 +2070,100 @@ void gt_Init08Variables_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Drop Pod
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGDropPod_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    int autoC5168B82_val;
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/D0FFC193"), true);
+    autoC5168B82_val = TriggerGetExecCount(TriggerGetCurrent());
+    if (autoC5168B82_val == 0) {
+        TriggerExecute(gt_FirstDropPodSpawnQ, true, false);
+    }
+    else if (autoC5168B82_val == 1) {
+        TriggerExecute(gt_DropPodallPodSpawnsQ, true, false);
+    }
+    else {
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGDropPod_Init () {
+    gt_DEBUGDropPod = TriggerCreate("gt_DEBUGDropPod_Func");
+    TriggerAddEventChatMessage(gt_DEBUGDropPod, c_playerAny, "-drop", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Warfield
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGWarfield_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/0E53B57E"), true);
+    TriggerExecute(gt_ObjectiveTroopSupplyComplete, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGWarfield_Init () {
+    gt_DEBUGWarfield = TriggerCreate("gt_DEBUGWarfield_Func");
+    TriggerAddEventChatMessage(gt_DEBUGWarfield, c_playerAny, "-s2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/71F394D7"), true);
+    TriggerExecute(gt_VictoryPrimaryObjectiveCompleted, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Intro Sequence
 //--------------------------------------------------------------------------------------------------
 bool gt_IntroSequence_Func (bool testConds, bool runActions) {
@@ -3357,6 +3454,9 @@ bool gt_RescueFactorySpawnQ_Func (bool testConds, bool runActions) {
     }
     else if (autoCAB722B9_val == "Prot") {
         libNtve_gf_CreateUnitsWithDefaultFacing(2, "AP_SentryPurifier", 0, gv_p08_RESCUABLE, PointFromId(29));
+        libNtve_gf_AddUnitGroupToUnitGroup(UnitLastCreatedGroup(), gv_factoryAllUnits);
+        libNtve_gf_AddUnitGroupToUnitGroup(UnitLastCreatedGroup(), gv_factoryDropPodUnits);
+        UnitGroupIssueOrder(UnitLastCreatedGroup(), Order(AbilityCommand("move", 2)), c_orderQueueReplace);
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_WarpPrism", 0, gv_p08_RESCUABLE, PointFromId(29));
     }
     else {
@@ -9564,6 +9664,9 @@ void InitTriggers () {
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
     gt_Init08Variables_Init();
+    gt_DEBUGDropPod_Init();
+    gt_DEBUGWarfield_Init();
+    gt_DEBUGVictory_Init();
     gt_IntroSequence_Init();
     gt_StartGame_Init();
     gt_FirstDropDialogue_Init();
