@@ -8,6 +8,7 @@
 include "TriggerLibs/NativeLib"
 include "TriggerLibs/LibertyLib"
 include "TriggerLibs/CampaignLib"
+include "Lib15EF4C78"
 include "Lib88187CC2"
 include "Lib5BD4895D"
 include "LibABFE498B"
@@ -19,6 +20,7 @@ void InitLibs () {
     libNtve_InitLib();
     libLbty_InitLib();
     libCamp_InitLib();
+    lib15EF4C78_InitLib();
     lib88187CC2_InitLib();
     lib5BD4895D_InitLib();
     libABFE498B_InitLib();
@@ -157,6 +159,11 @@ trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
 trigger gt_PlayerIsInCombat;
 trigger gt_PlayerIsInCombatIndicatorDiminish;
+trigger gt_DEBUGSection2;
+trigger gt_DEBUGSection3;
+trigger gt_DEBUGFreePrisoner1;
+trigger gt_DEBUGFreePrisoner2;
+trigger gt_DEBUGVictory;
 trigger gt_IntroSequence;
 trigger gt_StartGame;
 trigger gt_OpeningDialogueQ;
@@ -761,6 +768,7 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
         UnitSetPropertyFixed(auto272E9EB2_var, c_unitPropEnergyPercent, 100.0);
     }
     UnitSetPropertyFixed(gv_tosh, c_unitPropEnergyPercent, 100.0);
+    lib15EF4C78_gf_AP_Player_ResetSoA(gv_p1_USER);
     TriggerExecute(gt_InitWaypoints, true, false);
     libNtve_gf_ShowHideUnit(UnitFromId(485), false);
     libNtve_gf_MakeUnitInvulnerable(UnitFromId(922), true);
@@ -1092,6 +1100,198 @@ bool gt_PlayerIsInCombatIndicatorDiminish_Func (bool testConds, bool runActions)
 void gt_PlayerIsInCombatIndicatorDiminish_Init () {
     gt_PlayerIsInCombatIndicatorDiminish = TriggerCreate("gt_PlayerIsInCombatIndicatorDiminish_Func");
     TriggerAddEventTimePeriodic(gt_PlayerIsInCombatIndicatorDiminish, 1.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Section 2
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSection2_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto862A57AF_g;
+    int auto862A57AF_u;
+    unit auto862A57AF_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/9B76C4AF"), true);
+    auto862A57AF_g = UnitGroup(null, gv_p5_DOMINION_GREY, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto862A57AF_u = UnitGroupCount(auto862A57AF_g, c_unitCountAll);
+    for (;; auto862A57AF_u -= 1) {
+        auto862A57AF_var = UnitGroupUnitFromEnd(auto862A57AF_g, auto862A57AF_u);
+        if (auto862A57AF_var == null) { break; }
+        UnitRemove(auto862A57AF_var);
+    }
+    UnitSetPosition(gv_tosh, PointFromId(414), false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSection2_Init () {
+    gt_DEBUGSection2 = TriggerCreate("gt_DEBUGSection2_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSection2, c_playerAny, "-s2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Section 3
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSection3_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup autoCABED718_g;
+    int autoCABED718_u;
+    unit autoCABED718_var;
+    unitgroup auto3761354B_g;
+    int auto3761354B_u;
+    unit auto3761354B_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/52E2AF3B"), true);
+    autoCABED718_g = UnitGroup(null, gv_p5_DOMINION_GREY, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoCABED718_u = UnitGroupCount(autoCABED718_g, c_unitCountAll);
+    for (;; autoCABED718_u -= 1) {
+        autoCABED718_var = UnitGroupUnitFromEnd(autoCABED718_g, autoCABED718_u);
+        if (autoCABED718_var == null) { break; }
+        UnitRemove(autoCABED718_var);
+    }
+    auto3761354B_g = UnitGroup(null, gv_p4_DOMINION_PURPLE, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto3761354B_u = UnitGroupCount(auto3761354B_g, c_unitCountAll);
+    for (;; auto3761354B_u -= 1) {
+        auto3761354B_var = UnitGroupUnitFromEnd(auto3761354B_g, auto3761354B_u);
+        if (auto3761354B_var == null) { break; }
+        UnitRemove(auto3761354B_var);
+    }
+    UnitSetPosition(gv_tosh, PointFromId(403), false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSection3_Init () {
+    gt_DEBUGSection3 = TriggerCreate("gt_DEBUGSection3_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSection3, c_playerAny, "-s3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Free Prisoner 1
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGFreePrisoner1_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto6D2AC24B_g;
+    int auto6D2AC24B_u;
+    unit auto6D2AC24B_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/602E668C"), true);
+    auto6D2AC24B_g = gv_cellBlockAJerksGroup;
+    auto6D2AC24B_u = UnitGroupCount(auto6D2AC24B_g, c_unitCountAll);
+    for (;; auto6D2AC24B_u -= 1) {
+        auto6D2AC24B_var = UnitGroupUnitFromEnd(auto6D2AC24B_g, auto6D2AC24B_u);
+        if (auto6D2AC24B_var == null) { break; }
+        UnitKill(auto6D2AC24B_var);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGFreePrisoner1_Init () {
+    gt_DEBUGFreePrisoner1 = TriggerCreate("gt_DEBUGFreePrisoner1_Func");
+    TriggerAddEventChatMessage(gt_DEBUGFreePrisoner1, c_playerAny, "-free1", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Free Prisoner 2
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGFreePrisoner2_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto7424B8EC_g;
+    int auto7424B8EC_u;
+    unit auto7424B8EC_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/49045CBD"), true);
+    auto7424B8EC_g = gv_cellBlockBJerksGroup;
+    auto7424B8EC_u = UnitGroupCount(auto7424B8EC_g, c_unitCountAll);
+    for (;; auto7424B8EC_u -= 1) {
+        auto7424B8EC_var = UnitGroupUnitFromEnd(auto7424B8EC_g, auto7424B8EC_u);
+        if (auto7424B8EC_var == null) { break; }
+        UnitKill(auto7424B8EC_var);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGFreePrisoner2_Init () {
+    gt_DEBUGFreePrisoner2 = TriggerCreate("gt_DEBUGFreePrisoner2_Func");
+    TriggerAddEventChatMessage(gt_DEBUGFreePrisoner2, c_playerAny, "-free2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/68AEB691"), true);
+    TriggerExecute(gt_VictoryMainPrisonCleared, false, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5786,6 +5986,11 @@ void InitTriggers () {
     gt_Init07Help_Init();
     gt_PlayerIsInCombat_Init();
     gt_PlayerIsInCombatIndicatorDiminish_Init();
+    gt_DEBUGSection2_Init();
+    gt_DEBUGSection3_Init();
+    gt_DEBUGFreePrisoner1_Init();
+    gt_DEBUGFreePrisoner2_Init();
+    gt_DEBUGVictory_Init();
     gt_IntroSequence_Init();
     gt_StartGame_Init();
     gt_OpeningDialogueQ_Init();
