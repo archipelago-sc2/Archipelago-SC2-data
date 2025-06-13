@@ -10,6 +10,8 @@ This repo contains the required StarCraft2 map and mod data for Archipelago
 - This mod contains some assets created by Enoki and Subsourian. See their licenses.
 - This mod contains some assets created by DaveSpectre. See their license.
 - This mod contains some assets created by AlleyV. See their license.
+- This mod contains some assets created by SoulFilcher. See their license. 
+- This mod contains some assets created by Solstice245. See their license.
 - This mod uses the Archipelago logo created by Krista Corkos and Christopher Wilson. See their license.
 - All third-party licenses are under [Mods/ArchipelagoPlayer.SC2Mod/3rdpartyLicenses/](Mods/ArchipelagoPlayer.SC2Mod/3rdpartyLicenses/)
 - Otherwise, MIT license shall apply, see [LICENSE](LICENSE)
