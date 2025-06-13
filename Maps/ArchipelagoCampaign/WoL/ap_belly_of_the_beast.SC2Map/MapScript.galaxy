@@ -251,6 +251,11 @@ trigger gt_Init04Music;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
+trigger gt_DEBUGPowers;
+trigger gt_DEBUGStage2;
+trigger gt_DEBUGStage3;
+trigger gt_DEBUGStage4;
+trigger gt_DEBUGCine5Victory;
 trigger gt__1IntroSequence;
 trigger gt__1StartGame;
 trigger gt__1OpeningDialogueQ;
@@ -1815,6 +1820,166 @@ bool gt_Init07Help_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_Init07Help_Init () {
     gt_Init07Help = TriggerCreate("gt_Init07Help_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Powers
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGPowers_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("RaynorSnipe", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("BonesTossGrenade", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("DutchPlaceTurret", 0), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGPowers_Init () {
+    gt_DEBUGPowers = TriggerCreate("gt_DEBUGPowers_Func");
+    TriggerAddEventChatMessage(gt_DEBUGPowers, c_playerAny, "-powers", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Stage 2
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/7D7C311E"), true);
+    TriggerExecute(gt_DEBUGPowers, true, false);
+    TriggerExecute(gt__2InitBroodchamber, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGStage2_Init () {
+    gt_DEBUGStage2 = TriggerCreate("gt_DEBUGStage2_Func");
+    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "-s2", true);
+    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "-Stage 2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Stage 3
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGStage3_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/E414420C"), true);
+    TriggerExecute(gt_DEBUGPowers, true, false);
+    TriggerExecute(gt__3InitBroodchamber, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGStage3_Init () {
+    gt_DEBUGStage3 = TriggerCreate("gt_DEBUGStage3_Func");
+    TriggerAddEventChatMessage(gt_DEBUGStage3, c_playerAny, "-s3", true);
+    TriggerAddEventChatMessage(gt_DEBUGStage3, c_playerAny, "-Stage 3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Stage 4
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGStage4_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/375BADA8"), true);
+    TriggerExecute(gt_DEBUGPowers, true, false);
+    TriggerExecute(gt__4InitBroodchamber, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGStage4_Init () {
+    gt_DEBUGStage4 = TriggerCreate("gt_DEBUGStage4_Func");
+    TriggerAddEventChatMessage(gt_DEBUGStage4, c_playerAny, "-s4", true);
+    TriggerAddEventChatMessage(gt_DEBUGStage4, c_playerAny, "-Stage 4", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG Cine 5 - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGCine5Victory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/1B9B3072"), true);
+    TriggerExecute(gt_VictoryQ, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGCine5Victory_Init () {
+    gt_DEBUGCine5Victory = TriggerCreate("gt_DEBUGCine5Victory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGCine5Victory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -13066,6 +13231,11 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
+    gt_DEBUGPowers_Init();
+    gt_DEBUGStage2_Init();
+    gt_DEBUGStage3_Init();
+    gt_DEBUGStage4_Init();
+    gt_DEBUGCine5Victory_Init();
     gt__1IntroSequence_Init();
     gt__1StartGame_Init();
     gt__1OpeningDialogueQ_Init();
