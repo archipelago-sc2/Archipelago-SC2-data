@@ -635,7 +635,10 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     for (;; autoD5F7C140_u -= 1) {
         autoD5F7C140_var = UnitGroupUnitFromEnd(autoD5F7C140_g, autoD5F7C140_u);
         if (autoD5F7C140_var == null) { break; }
-        UnitSetPropertyFixed(autoD5F7C140_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(autoD5F7C140_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(autoD5F7C140_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     auto67AE35A3_g = UnitGroup(null, c_playerAny, RegionFromId(5), UnitFilter(0, 0, 0, 0), 0);
     auto67AE35A3_u = UnitGroupCount(auto67AE35A3_g, c_unitCountAll);
