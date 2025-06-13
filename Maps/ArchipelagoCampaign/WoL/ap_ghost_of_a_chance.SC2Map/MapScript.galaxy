@@ -208,6 +208,10 @@ trigger gt_Init06Difficulties;
 trigger gt_Init07Objectives;
 trigger gt_Init08Help;
 trigger gt_ResetNova;
+trigger gt_DEBUGSection2;
+trigger gt_DEBUGSection3;
+trigger gt_DEBUGVictory;
+trigger gt_DEBUGArmNuke;
 trigger gt_IntroSequence;
 trigger gt_StartGameQ;
 trigger gt_TipStoryModeQ;
@@ -940,6 +944,141 @@ bool gt_ResetNova_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ResetNova_Init () {
     gt_ResetNova = TriggerCreate("gt_ResetNova_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Section 2
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSection2_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/0480BEF7"), true);
+    UnitKill(gv_p1MineralDepot);
+    TechTreeAbilityAllow(gv_pLAYER01_USER, AbilityCommand("Domination", 0), true);
+    TechTreeAbilityAllow(gv_pLAYER01_USER, AbilityCommand("NovaSnipe", 0), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSection2_Init () {
+    gt_DEBUGSection2 = TriggerCreate("gt_DEBUGSection2_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSection2, 1, "-s2", true);
+    TriggerAddEventChatMessage(gt_DEBUGSection2, 1, "-Section2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Section 3
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSection3_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/755F6DE5"), true);
+    UnitKill(gv_p2TerrazineDepot);
+    TechTreeAbilityAllow(gv_pLAYER01_USER, AbilityCommand("Domination", 0), true);
+    TechTreeAbilityAllow(gv_pLAYER01_USER, AbilityCommand("NovaSnipe", 0), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSection3_Init () {
+    gt_DEBUGSection3 = TriggerCreate("gt_DEBUGSection3_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSection3, 1, "-s3", true);
+    TriggerAddEventChatMessage(gt_DEBUGSection3, 1, "-Section3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/F9C7BF28"), true);
+    UnitKill(gv_p3PsiIndoctrinator);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, 1, "-win", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Arm Nuke
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGArmNuke_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_silo;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/4972DBFD"), true);
+    UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/672408DB"));
+    lv_silo = UnitGroupRandomUnit(UnitGroupSelected(gv_pLAYER01_USER), c_unitCountAlive);
+    gf_ArmSilo(lv_silo);
+    UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, (StringExternal("Param/Value/D61642A6") + IntToText(PlayerGetPropertyInt(UnitGetOwner(lv_silo), c_playerPropMinerals)) + StringExternal("Param/Value/E4D5CD8F") + IntToText(PlayerGetPropertyInt(UnitGetOwner(lv_silo), c_playerPropVespene))));
+    UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, (StringExternal("Param/Value/15B89BB3") + IntToText(PlayerGetPropertyInt(UnitGetOwner(lv_silo), c_playerPropSuppliesUsed)) + StringExternal("Param/Value/AF600F60") + IntToText(PlayerGetPropertyInt(UnitGetOwner(lv_silo), c_playerPropSuppliesMade))));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGArmNuke_Init () {
+    gt_DEBUGArmNuke = TriggerCreate("gt_DEBUGArmNuke_Func");
+    TriggerAddEventChatMessage(gt_DEBUGArmNuke, gv_pLAYER01_USER, "-arm", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7048,6 +7187,10 @@ void InitTriggers () {
     gt_Init07Objectives_Init();
     gt_Init08Help_Init();
     gt_ResetNova_Init();
+    gt_DEBUGSection2_Init();
+    gt_DEBUGSection3_Init();
+    gt_DEBUGVictory_Init();
+    gt_DEBUGArmNuke_Init();
     gt_IntroSequence_Init();
     gt_StartGameQ_Init();
     gt_TipStoryModeQ_Init();
