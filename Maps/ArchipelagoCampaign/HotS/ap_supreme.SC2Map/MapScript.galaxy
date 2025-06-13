@@ -65,7 +65,6 @@ playergroup gv_enemyPlayers;
 unit gv_kerrigan;
 bool gv_gameOver;
 bool gv_inCinematic;
-bool gv_inCinematic2;
 unit[16] gv_attackedUnits;
 int[16] gv_attackUnitCountdowns;
 unitgroup gv_primalZergAttackers;
@@ -258,11 +257,11 @@ trigger gt_Init04MusicSound;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
-trigger gt_DEBUGActivateDebugMode;
 trigger gt_DEBUGYagdraBoss;
 trigger gt_DEBUGKraithBoss;
 trigger gt_DEBUGSlivanBoss;
 trigger gt_DEBUGZurvanBoss;
+trigger gt_DEBUGVictory;
 trigger gt_StartGameQ;
 trigger gt_UnitTakesDamage;
 trigger gt_AttackedUnitCountdowns;
@@ -2148,27 +2147,6 @@ void gt_Init07Help_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Activate Debug Mode
-//--------------------------------------------------------------------------------------------------
-bool gt_DEBUGActivateDebugMode_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/F2196C1C"), true);
-    gv_inCinematic2 = true;
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DEBUGActivateDebugMode_Init () {
-    gt_DEBUGActivateDebugMode = TriggerCreate("gt_DEBUGActivateDebugMode_Func");
-    TriggerAddEventChatMessage(gt_DEBUGActivateDebugMode, c_playerAny, "-debug", true);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: DEBUG - Yagdra Boss
 //--------------------------------------------------------------------------------------------------
 bool gt_DEBUGYagdraBoss_Func (bool testConds, bool runActions) {
@@ -2192,7 +2170,7 @@ bool gt_DEBUGYagdraBoss_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((gv_inCinematic2 == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2207,6 +2185,7 @@ bool gt_DEBUGYagdraBoss_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/9BDA0342"), true);
     autoE94C6FA4_g = UnitGroup(null, gv_pLAYER_02_DOMINION2222, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoE94C6FA4_u = UnitGroupCount(autoE94C6FA4_g, c_unitCountAll);
     for (;; autoE94C6FA4_u -= 1) {
@@ -2235,8 +2214,8 @@ bool gt_DEBUGYagdraBoss_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGYagdraBoss_Init () {
     gt_DEBUGYagdraBoss = TriggerCreate("gt_DEBUGYagdraBoss_Func");
-    TriggerAddEventChatMessage(gt_DEBUGYagdraBoss, c_playerAny, "Yagdra", true);
-    TriggerAddEventChatMessage(gt_DEBUGYagdraBoss, c_playerAny, "s2", true);
+    TriggerAddEventChatMessage(gt_DEBUGYagdraBoss, c_playerAny, "-Yagdra", true);
+    TriggerAddEventChatMessage(gt_DEBUGYagdraBoss, c_playerAny, "-s2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2270,7 +2249,7 @@ bool gt_DEBUGKraithBoss_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((gv_inCinematic2 == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2285,6 +2264,7 @@ bool gt_DEBUGKraithBoss_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/99343E79"), true);
     gv_yagdraEngaged = true;
     UnitRemove(gv_yagdraHelperUnit);
     autoEA7A09C2_g = UnitGroup(null, gv_pLAYER_02_DOMINION, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -2348,8 +2328,8 @@ bool gt_DEBUGKraithBoss_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGKraithBoss_Init () {
     gt_DEBUGKraithBoss = TriggerCreate("gt_DEBUGKraithBoss_Func");
-    TriggerAddEventChatMessage(gt_DEBUGKraithBoss, c_playerAny, "Kraith", true);
-    TriggerAddEventChatMessage(gt_DEBUGKraithBoss, c_playerAny, "s3", true);
+    TriggerAddEventChatMessage(gt_DEBUGKraithBoss, c_playerAny, "-Kraith", true);
+    TriggerAddEventChatMessage(gt_DEBUGKraithBoss, c_playerAny, "-s3", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2387,7 +2367,7 @@ bool gt_DEBUGSlivanBoss_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((gv_inCinematic2 == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2402,6 +2382,7 @@ bool gt_DEBUGSlivanBoss_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/E0F0BC0A"), true);
     gv_yagdraEngaged = true;
     gv_kraithEngaged = true;
     UnitRemove(gv_yagdraHelperUnit);
@@ -2486,8 +2467,8 @@ bool gt_DEBUGSlivanBoss_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGSlivanBoss_Init () {
     gt_DEBUGSlivanBoss = TriggerCreate("gt_DEBUGSlivanBoss_Func");
-    TriggerAddEventChatMessage(gt_DEBUGSlivanBoss, c_playerAny, "Slivan", true);
-    TriggerAddEventChatMessage(gt_DEBUGSlivanBoss, c_playerAny, "s4", true);
+    TriggerAddEventChatMessage(gt_DEBUGSlivanBoss, c_playerAny, "-Slivan", true);
+    TriggerAddEventChatMessage(gt_DEBUGSlivanBoss, c_playerAny, "-s4", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2525,7 +2506,7 @@ bool gt_DEBUGZurvanBoss_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((gv_inCinematic2 == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2540,6 +2521,7 @@ bool gt_DEBUGZurvanBoss_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/48BC2B9C"), true);
     gv_yagdraEngaged = true;
     gv_kraithEngaged = true;
     gv_zurvanEngaged = true;
@@ -2626,8 +2608,46 @@ bool gt_DEBUGZurvanBoss_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGZurvanBoss_Init () {
     gt_DEBUGZurvanBoss = TriggerCreate("gt_DEBUGZurvanBoss_Func");
-    TriggerAddEventChatMessage(gt_DEBUGZurvanBoss, c_playerAny, "Zurvan", true);
-    TriggerAddEventChatMessage(gt_DEBUGZurvanBoss, c_playerAny, "s5", true);
+    TriggerAddEventChatMessage(gt_DEBUGZurvanBoss, c_playerAny, "-Zurvan", true);
+    TriggerAddEventChatMessage(gt_DEBUGZurvanBoss, c_playerAny, "-s5", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/1ADD819D"), true);
+    TriggerEnable(gt_ZurvanDies, true);
+    TriggerExecute(gt_ZurvanDies, false, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4878,8 +4898,11 @@ bool gt_YagdraDies_Func (bool testConds, bool runActions) {
         for (;; autoD0A904C4_u -= 1) {
             autoD0A904C4_var = UnitGroupUnitFromEnd(autoD0A904C4_g, autoD0A904C4_u);
             if (autoD0A904C4_var == null) { break; }
-            UnitSetPropertyFixed(autoD0A904C4_var, c_unitPropLifePercent, 100.0);
-            UnitSetPropertyFixed(autoD0A904C4_var, c_unitPropEnergyPercent, 100.0);
+            if ((UnitGetType(autoD0A904C4_var) != "AP_SoACaster")) {
+                UnitSetPropertyFixed(autoD0A904C4_var, c_unitPropLifePercent, 100.0);
+                UnitSetPropertyFixed(autoD0A904C4_var, c_unitPropEnergyPercent, 100.0);
+            }
+
         }
     }
     TriggerExecute(gt_ObjectiveSlayPrimarchsCreate, true, false);
@@ -11000,8 +11023,11 @@ bool gt_YagdraIntroCleanupNotSkipped_Func (bool testConds, bool runActions) {
     for (;; auto00F1DFE3_u -= 1) {
         auto00F1DFE3_var = UnitGroupUnitFromEnd(auto00F1DFE3_g, auto00F1DFE3_u);
         if (auto00F1DFE3_var == null) { break; }
-        UnitSetPropertyFixed(auto00F1DFE3_var, c_unitPropLifePercent, 100.0);
-        UnitSetPropertyFixed(auto00F1DFE3_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(auto00F1DFE3_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(auto00F1DFE3_var, c_unitPropLifePercent, 100.0);
+            UnitSetPropertyFixed(auto00F1DFE3_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     RegionPlayableMapSet(RegionFromId(23));
     GameTimeOfDayPause(false);
@@ -11081,8 +11107,11 @@ bool gt_YagdraIntroCleanupSkipped_Func (bool testConds, bool runActions) {
     for (;; autoF9880227_u -= 1) {
         autoF9880227_var = UnitGroupUnitFromEnd(autoF9880227_g, autoF9880227_u);
         if (autoF9880227_var == null) { break; }
-        UnitSetPropertyFixed(autoF9880227_var, c_unitPropLifePercent, 100.0);
-        UnitSetPropertyFixed(autoF9880227_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(autoF9880227_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(autoF9880227_var, c_unitPropLifePercent, 100.0);
+            UnitSetPropertyFixed(autoF9880227_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     RegionPlayableMapSet(RegionFromId(23));
     GameTimeOfDayPause(false);
@@ -11453,8 +11482,11 @@ bool gt_KraithIntroCleanupNotSkipped_Func (bool testConds, bool runActions) {
     for (;; autoE9D123EE_u -= 1) {
         autoE9D123EE_var = UnitGroupUnitFromEnd(autoE9D123EE_g, autoE9D123EE_u);
         if (autoE9D123EE_var == null) { break; }
-        UnitSetPropertyFixed(autoE9D123EE_var, c_unitPropLifePercent, 100.0);
-        UnitSetPropertyFixed(autoE9D123EE_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(autoE9D123EE_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(autoE9D123EE_var, c_unitPropLifePercent, 100.0);
+            UnitSetPropertyFixed(autoE9D123EE_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     GameTimeOfDayPause(false);
     PlayerSetState(gv_pLAYER_01_USER, c_playerStateXPGain, true);
@@ -11559,8 +11591,11 @@ bool gt_KraithIntroCleanupSkipped_Func (bool testConds, bool runActions) {
     for (;; auto3D408196_u -= 1) {
         auto3D408196_var = UnitGroupUnitFromEnd(auto3D408196_g, auto3D408196_u);
         if (auto3D408196_var == null) { break; }
-        UnitSetPropertyFixed(auto3D408196_var, c_unitPropLifePercent, 100.0);
-        UnitSetPropertyFixed(auto3D408196_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(auto3D408196_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(auto3D408196_var, c_unitPropLifePercent, 100.0);
+            UnitSetPropertyFixed(auto3D408196_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     GameTimeOfDayPause(false);
     PlayerSetState(gv_pLAYER_01_USER, c_playerStateXPGain, true);
@@ -11973,8 +12008,11 @@ bool gt_SlivanIntroCleanupNotSkipped_Func (bool testConds, bool runActions) {
     for (;; autoB79505B8_u -= 1) {
         autoB79505B8_var = UnitGroupUnitFromEnd(autoB79505B8_g, autoB79505B8_u);
         if (autoB79505B8_var == null) { break; }
-        UnitSetPropertyFixed(autoB79505B8_var, c_unitPropLifePercent, 100.0);
-        UnitSetPropertyFixed(autoB79505B8_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(autoB79505B8_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(autoB79505B8_var, c_unitPropLifePercent, 100.0);
+            UnitSetPropertyFixed(autoB79505B8_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     GameTimeOfDayPause(false);
     PlayerSetState(gv_pLAYER_01_USER, c_playerStateXPGain, true);
@@ -12075,8 +12113,11 @@ bool gt_SlivanIntroCleanupSkipped_Func (bool testConds, bool runActions) {
     for (;; auto14D2F988_u -= 1) {
         auto14D2F988_var = UnitGroupUnitFromEnd(auto14D2F988_g, auto14D2F988_u);
         if (auto14D2F988_var == null) { break; }
-        UnitSetPropertyFixed(auto14D2F988_var, c_unitPropLifePercent, 100.0);
-        UnitSetPropertyFixed(auto14D2F988_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(auto14D2F988_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(auto14D2F988_var, c_unitPropLifePercent, 100.0);
+            UnitSetPropertyFixed(auto14D2F988_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     libSwaC_gf_ResetHeroAbilityCooldowns(libSwaC_ge_HeroUnit_Kerrigan);
     GameTimeOfDayPause(false);
@@ -13188,11 +13229,11 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
-    gt_DEBUGActivateDebugMode_Init();
     gt_DEBUGYagdraBoss_Init();
     gt_DEBUGKraithBoss_Init();
     gt_DEBUGSlivanBoss_Init();
     gt_DEBUGZurvanBoss_Init();
+    gt_DEBUGVictory_Init();
     gt_StartGameQ_Init();
     gt_UnitTakesDamage_Init();
     gt_AttackedUnitCountdowns_Init();
