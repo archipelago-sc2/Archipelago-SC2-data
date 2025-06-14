@@ -18567,7 +18567,7 @@
         <AmmoUnit value="AP_TyrannozorAAWeapon"/>
     </CEffectLaunchMissile>
     <CEffectDamage id="AP_TyrannozorMissileLaunchersDamage" parent="DU_WEAP">
-        <Amount value="15"/>
+        <Amount value="16"/>
         <EditorCategories value="Race:Zerg"/>
         <Death value="Eviscerate"/>
     </CEffectDamage>
@@ -18586,7 +18586,7 @@
     </CEffectEnumArea>
     <CEffectDamage id="AP_TyrannozorKaiserBladesDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Zerg"/>
-        <Amount value="35"/>
+        <Amount value="40"/>
         <Death value="Eviscerate"/>
     </CEffectDamage>
     <CEffectDamage id="AP_TyrannozorKaiserBladesSecondaryDamage" parent="DU_WEAP">
@@ -18594,10 +18594,22 @@
         <Amount value="5"/>
         <Death value="Eviscerate"/>
     </CEffectDamage>
+    <CEffectSet id="AP_ImpalingStrikeSet">
+        <EditorCategories value="Race:Terran"/>
+        <EffectArray value="AP_ImpalingStrikeAB"/>
+        <EffectArray value="AP_ImpalingStrikeResistAB"/>
+    </CEffectSet>
     <CEffectApplyBehavior id="AP_ImpalingStrikeAB">
         <Behavior value="AP_ImpalingStrikeStun"/>
         <ValidatorArray index="0" value="AP_NotHeroic"/>
         <ValidatorArray value="NotStructure"/>
+        <ValidatorArray value="AP_NotHaveImpalingStrikeResist"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_ImpalingStrikeResistAB">
+        <Behavior value="AP_ImpalingStrikeResist"/>
+        <ValidatorArray index="0" value="AP_NotHeroic"/>
+        <ValidatorArray value="NotStructure"/>
+        <ValidatorArray value="AP_NotHaveImpalingStrikeResist"/>
     </CEffectApplyBehavior>
     <CEffectApplyBehavior id="AP_PredatorCloakAB">
         <Behavior value="AP_PredatorCloak"/>
