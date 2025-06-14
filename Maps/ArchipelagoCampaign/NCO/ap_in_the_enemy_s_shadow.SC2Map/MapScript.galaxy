@@ -321,11 +321,9 @@ trigger gt_Init04MusicSound;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
-trigger gt_DebugIntro;
 trigger gt_DebugStage2;
 trigger gt_DebugStage3;
-trigger gt_DebugAllowAllNovaTech;
-trigger gt_DebugOpenNovaTechScreen;
+trigger gt_DebugVictory;
 trigger gt_NovaHitBySonar;
 trigger gt_NovaPicksUpRestorationCharge;
 trigger gt_NovaKillsDOMUnitInDefendRegion;
@@ -2394,49 +2392,13 @@ void gt_Init07Help_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Debug -  Intro
-//--------------------------------------------------------------------------------------------------
-bool gt_DebugIntro_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
-            return false;
-        }
-
-        if (!((libNCMI_gf_GameIsOver() == false))) {
-            return false;
-        }
-
-        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerExecute(gt_BriefingQ, true, true);
-    ConsoleCommand("exit", true, true);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DebugIntro_Init () {
-    gt_DebugIntro = TriggerCreate("gt_DebugIntro_Func");
-    TriggerAddEventChatMessage(gt_DebugIntro, 1, "Intro", true);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: Debug - Stage 2
 //--------------------------------------------------------------------------------------------------
 bool gt_DebugStage2_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2459,9 +2421,11 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    TriggerDebugOutput(1, StringExternal("Param/Value/BF0EF1B8"), true);
-    libNCMI_gf_CreateMissionAutosavePoint(StringToText(""));
+    TriggerDebugOutput(1, StringExternal("Param/Value/84C55230"), true);
     UnitRemove(UnitFromId(1840974833));
+    TriggerExecute(gt_ObjectiveInfiltrateTheFacilityComplete, false, true);
+    TriggerExecute(gt_ObjectiveInvestigatePowerSignalComplete, false, true);
+    TriggerExecute(gt_ObjectiveUnlockDoorToDavisCreate, false, true);
     TriggerExecute(gt_S1NovaEntersFacilityEntranceBeacon, false, false);
     return true;
 }
@@ -2469,8 +2433,8 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage2_Init () {
     gt_DebugStage2 = TriggerCreate("gt_DebugStage2_Func");
-    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "S2", true);
-    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "Stage2", true);
+    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "-s2", true);
+    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "-Stage2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2484,7 +2448,7 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2508,7 +2472,6 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerDebugOutput(1, StringExternal("Param/Value/351F2FCC"), true);
-    libNCMI_gf_CreateMissionAutosavePoint(StringToText(""));
     TriggerExecute(gt_S1CleanUpSection01, true, true);
     auto6D3C8290_g = gv_stage2PausedUnits;
     auto6D3C8290_u = UnitGroupCount(auto6D3C8290_g, c_unitCountAll);
@@ -2524,18 +2487,18 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage3_Init () {
     gt_DebugStage3 = TriggerCreate("gt_DebugStage3_Func");
-    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "S3", true);
-    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "Stage3", true);
+    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "-s3", true);
+    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "-Stage3", true);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Debug - Allow All Nova Tech
+// Trigger: Debug - Victory
 //--------------------------------------------------------------------------------------------------
-bool gt_DebugAllowAllNovaTech_Func (bool testConds, bool runActions) {
+bool gt_DebugVictory_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2558,58 +2521,15 @@ bool gt_DebugAllowAllNovaTech_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    TriggerDebugOutput(1, StringExternal("Param/Value/E539C7C4"), true);
-    libNCMI_gf_UnlockAllMissedNovaEquipment();
+    TriggerDebugOutput(1, StringExternal("Param/Value/A671DA25"), true);
+    TriggerExecute(gt_VictoryArrestGeneralDavisCompleted, false, false);
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_DebugAllowAllNovaTech_Init () {
-    gt_DebugAllowAllNovaTech = TriggerCreate("gt_DebugAllowAllNovaTech_Func");
-    TriggerAddEventChatMessage(gt_DebugAllowAllNovaTech, c_playerAny, "alltech", true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Debug - Open Nova Tech Screen
-//--------------------------------------------------------------------------------------------------
-bool gt_DebugOpenNovaTechScreen_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
-            return false;
-        }
-
-        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
-            return false;
-        }
-
-        if (!((libNCMI_gf_GameIsOver() == false))) {
-            return false;
-        }
-
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    gv_gearSwapScreenOpen = true;
-    libNtve_gf_MakeUnitInvulnerable(gv_nova, true);
-    libNtve_gf_MakeUnitUncommandable(gv_nova, true);
-    UnitIssueOrder(gv_nova, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
-    libNCMI_gf_OpenNovaEquipmentScreen();
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_DebugOpenNovaTechScreen_Init () {
-    gt_DebugOpenNovaTechScreen = TriggerCreate("gt_DebugOpenNovaTechScreen_Func");
-    TriggerAddEventChatMessage(gt_DebugOpenNovaTechScreen, c_playerAny, "opentech", true);
+void gt_DebugVictory_Init () {
+    gt_DebugVictory = TriggerCreate("gt_DebugVictory_Func");
+    TriggerAddEventChatMessage(gt_DebugVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -11819,11 +11739,9 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
-    gt_DebugIntro_Init();
     gt_DebugStage2_Init();
     gt_DebugStage3_Init();
-    gt_DebugAllowAllNovaTech_Init();
-    gt_DebugOpenNovaTechScreen_Init();
+    gt_DebugVictory_Init();
     gt_NovaHitBySonar_Init();
     gt_NovaPicksUpRestorationCharge_Init();
     gt_NovaKillsDOMUnitInDefendRegion_Init();
