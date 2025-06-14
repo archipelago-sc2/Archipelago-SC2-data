@@ -75,7 +75,6 @@ unitgroup gv_gunPathingBlockers;
 int gv_reinforcementCount;
 unit gv_retractedBridge;
 bool gv_gameOver;
-bool gv_developmentCheats;
 int gv_inCombatIndicator;
 string gv_overlord_OriginalTooltip;
 string gv_drone_OriginalTooltip;
@@ -283,8 +282,9 @@ trigger gt_Init04MusicSound;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
-trigger gt_DEBUG_SkipTimer;
-trigger gt_DEBUG_Fenix;
+trigger gt_DEBUGSkipTimer;
+trigger gt_DEBUGFenix;
+trigger gt_DEBUGColor;
 trigger gt_PlayerIsInCombat;
 trigger gt_PlayerIsInCombatIndicatorDiminish;
 trigger gt_BroodlingsSpawnFromHutDeath;
@@ -1662,13 +1662,13 @@ void gt_Init07Help_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG_Skip Timer
+// Trigger: DEBUG: Skip Timer
 //--------------------------------------------------------------------------------------------------
-bool gt_DEBUG_SkipTimer_Func (bool testConds, bool runActions) {
+bool gt_DEBUGSkipTimer_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((gv_developmentCheats == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -1686,19 +1686,20 @@ bool gt_DEBUG_SkipTimer_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_DEBUG_SkipTimer_Init () {
-    gt_DEBUG_SkipTimer = TriggerCreate("gt_DEBUG_SkipTimer_Func");
-    TriggerAddEventChatMessage(gt_DEBUG_SkipTimer, c_playerAny, "s2", true);
+void gt_DEBUGSkipTimer_Init () {
+    gt_DEBUGSkipTimer = TriggerCreate("gt_DEBUGSkipTimer_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSkipTimer, c_playerAny, "-Stage2", true);
+    TriggerAddEventChatMessage(gt_DEBUGSkipTimer, c_playerAny, "-s2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG_Fenix
+// Trigger: DEBUG: Fenix
 //--------------------------------------------------------------------------------------------------
-bool gt_DEBUG_Fenix_Func (bool testConds, bool runActions) {
+bool gt_DEBUGFenix_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((gv_developmentCheats == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -1715,9 +1716,44 @@ bool gt_DEBUG_Fenix_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_DEBUG_Fenix_Init () {
-    gt_DEBUG_Fenix = TriggerCreate("gt_DEBUG_Fenix_Func");
-    TriggerAddEventChatMessage(gt_DEBUG_Fenix, c_playerAny, "fenix", true);
+void gt_DEBUGFenix_Init () {
+    gt_DEBUGFenix = TriggerCreate("gt_DEBUGFenix_Func");
+    TriggerAddEventChatMessage(gt_DEBUGFenix, c_playerAny, "-fenix", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Color
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGColor_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_color;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_color = StringToInt(StringWord(EventChatMessage(false), 2));
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/35E9105B"), true);
+    lib5BD4895D_gf_AP_Core_setFactionColor("ks", lv_color);
+    lib5BD4895D_gf_AP_Core_setFactionColor("pz", lv_color);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGColor_Init () {
+    gt_DEBUGColor = TriggerCreate("gt_DEBUGColor_Func");
+    TriggerAddEventChatMessage(gt_DEBUGColor, c_playerAny, "-color", false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1903,10 +1939,6 @@ bool gt_StartGameStage01Q_Func (bool testConds, bool runActions) {
     Wait(2.0, c_timeGame);
     TriggerExecute(gt_TipMissionHelpQ, true, false);
     TriggerExecute(gt_SpawningPoolLesson, true, false);
-    if ((gv_developmentCheats == true)) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/E9503FA1"), true);
-    }
-
     return true;
 }
 
@@ -9395,7 +9427,6 @@ bool gt_IntroSetup_Func (bool testConds, bool runActions) {
     for (;; autoDE0F1553_u -= 1) {
         autoDE0F1553_var = UnitGroupUnitFromEnd(autoDE0F1553_g, autoDE0F1553_u);
         if (autoDE0F1553_var == null) { break; }
-        UnitSetTeamColorIndex(autoDE0F1553_var, 7);
     }
     return true;
 }
@@ -9623,7 +9654,6 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     }
     UnitSetPosition(gv_kerrigan, PointFromId(574), false);
     UnitIssueOrder(gv_kerrigan, OrderTargetingUnit(AbilityCommand("move", 4), UnitFromId(1)), c_orderQueueReplace);
-    PlayerSetColorIndex(gv_pLAYER_01_USER, 6, true);
     UnitSetTeamColorIndex(UnitFromId(254), 2);
     UnitBehaviorRemove(gv_kerrigan, "KerriganWalk", 1);
     UnitSetState(gv_kerrigan, c_unitStateFidget, true);
@@ -9641,7 +9671,6 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     for (;; auto84C1C953_u -= 1) {
         auto84C1C953_var = UnitGroupUnitFromEnd(auto84C1C953_g, auto84C1C953_u);
         if (auto84C1C953_var == null) { break; }
-        UnitSetTeamColorIndex(auto84C1C953_var, 6);
         UnitIssueOrder(auto84C1C953_var, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
     }
     auto5E5FC4DA_g = UnitGroup(null, gv_pLAYER_03_DOMINION_MAIN, RegionEntireMap(), UnitFilter(0, (1 << (c_targetFilterHidden - 32)), (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
@@ -11394,8 +11423,9 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
-    gt_DEBUG_SkipTimer_Init();
-    gt_DEBUG_Fenix_Init();
+    gt_DEBUGSkipTimer_Init();
+    gt_DEBUGFenix_Init();
+    gt_DEBUGColor_Init();
     gt_PlayerIsInCombat_Init();
     gt_PlayerIsInCombatIndicatorDiminish_Init();
     gt_BroodlingsSpawnFromHutDeath_Init();
