@@ -542,7 +542,7 @@ bool auto_gf_RescueDiamondback_TriggerFunc (bool testConds, bool runActions) {
     Wait(1.5, c_timeGame);
     UIAlertUnit("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/8DAA5783"), null, lp_diamondback);
     libNtve_gf_RescueUnit(lp_diamondback, gv_pLAYER_01_USER, true);
-    if ((TechTreeUpgradeCount(gv_pLAYER_01_USER, "AP_BurstCapacitors", c_techCountCompleteOnly) >= 1)) {
+    if ((TechTreeUpgradeCount(gv_pLAYER_01_USER, "AP_BurstCapacitors", c_techCountCompleteOnly) >= 1) && (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
         UnitBehaviorAdd(lp_diamondback, "AP_BurstCapacitorsDamageBuff", lp_diamondback, 1);
     }
 
