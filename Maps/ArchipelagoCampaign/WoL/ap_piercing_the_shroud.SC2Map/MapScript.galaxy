@@ -415,6 +415,11 @@ trigger gt_Init04Music;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
+trigger gt_DEBUGResupply;
+trigger gt_DEBUGSection2WarbotMachineHall;
+trigger gt_DEBUGSection3AfterGenerator;
+trigger gt_DEBUGSection4AfterHybridvanish;
+trigger gt_DEBUGVictory;
 trigger gt_StartGame;
 trigger gt_TerminalUseSafety;
 trigger gt_CreateGrenades;
@@ -700,10 +705,13 @@ trigger gt_VictorySceneTiming;
 void gf_SetUnitMaxStats (unit lp_unit, fixed lp_maxShields, fixed lp_maxLife) {
     // Automatic Variable Declarations
     // Implementation
-    UnitSetPropertyFixed(lp_unit, c_unitPropShieldsMax, lp_maxShields);
-    UnitSetPropertyFixed(lp_unit, c_unitPropShieldsPercent, 100.0);
-    UnitSetPropertyFixed(lp_unit, c_unitPropLifeMax, lp_maxLife);
-    UnitSetPropertyFixed(lp_unit, c_unitPropLifePercent, 100.0);
+    if ((UnitGetType(lp_unit) != "AP_SoACaster")) {
+        UnitSetPropertyFixed(lp_unit, c_unitPropShieldsMax, lp_maxShields);
+        UnitSetPropertyFixed(lp_unit, c_unitPropLifeMax, lp_maxLife);
+        UnitSetPropertyFixed(lp_unit, c_unitPropLifePercent, 100.0);
+        UnitSetPropertyFixed(lp_unit, c_unitPropShieldsPercent, 100.0);
+    }
+
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1731,6 +1739,237 @@ void gt_Init07Help_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Resupply
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGResupply_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    point lv_point;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_point = UnitGetPosition(gv_raynor);
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/DA6E8BFA"), true);
+    libNtve_gf_CreateUnitsAtPoint2(1, "PickupPlasmaGun", c_unitCreateIgnorePlacement, gv_p07_NEUTRAL, lv_point);
+    libNtve_gf_CreateUnitsAtPoint2(1, "PickupGrenades", c_unitCreateIgnorePlacement, gv_p07_NEUTRAL, lv_point);
+    libNtve_gf_CreateUnitsAtPoint2(1, "PickupRestorationCharge", c_unitCreateIgnorePlacement, gv_p07_NEUTRAL, lv_point);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGResupply_Init () {
+    gt_DEBUGResupply = TriggerCreate("gt_DEBUGResupply_Func");
+    TriggerAddEventChatMessage(gt_DEBUGResupply, c_playerAny, "-ammo", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Section 2 - Warbot/Machine Hall
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSection2WarbotMachineHall_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    point lv_point;
+
+    // Automatic Variable Declarations
+    unitgroup autoCE274940_g;
+    int autoCE274940_u;
+    unit autoCE274940_var;
+
+    // Variable Initialization
+    lv_point = Point(185.0, 80.0);
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/8EC8DA83"), true);
+    autoCE274940_g = UnitGroup(null, gv_p01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoCE274940_u = UnitGroupCount(autoCE274940_g, c_unitCountAll);
+    for (;; autoCE274940_u -= 1) {
+        autoCE274940_var = UnitGroupUnitFromEnd(autoCE274940_g, autoCE274940_u);
+        if (autoCE274940_var == null) { break; }
+        UnitSetPosition(autoCE274940_var, lv_point, false);
+    }
+    CameraPan(gv_p01_USER, lv_point, 0.5, -1, 10.0, false);
+    TriggerExecute(gt_DEBUGResupply, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSection2WarbotMachineHall_Init () {
+    gt_DEBUGSection2WarbotMachineHall = TriggerCreate("gt_DEBUGSection2WarbotMachineHall_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSection2WarbotMachineHall, c_playerAny, "-s2", true);
+    TriggerAddEventChatMessage(gt_DEBUGSection2WarbotMachineHall, c_playerAny, "-Stage 2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Section 3 - After Generator
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSection3AfterGenerator_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((gv_escapeGameStarted == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/AFFC6891"), true);
+    TriggerExecute(gt_MidCleanup, false, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSection3AfterGenerator_Init () {
+    gt_DEBUGSection3AfterGenerator = TriggerCreate("gt_DEBUGSection3AfterGenerator_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSection3AfterGenerator, c_playerAny, "-s3", true);
+    TriggerAddEventChatMessage(gt_DEBUGSection3AfterGenerator, c_playerAny, "-Stage 3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Section 4 - After Hybrid vanish
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSection4AfterHybridvanish_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    point lv_point;
+
+    // Automatic Variable Declarations
+    unitgroup autoB97CD676_g;
+    int autoB97CD676_u;
+    unit autoB97CD676_var;
+
+    // Variable Initialization
+    lv_point = RegionGetCenter(RegionFromId(58));
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/AE2C0696"), true);
+    if ((gv_escapeGameStarted == false)) {
+        TriggerExecute(gt_MidCleanup, false, true);
+        Wait(1.0, c_timeGame);
+    }
+
+    if ((UnitIsAlive(gv_hybrid) == false)) {
+        TriggerExecute(gt_HybridCreate, false, true);
+        Wait(1.0, c_timeGame);
+    }
+
+    UnitKill(UnitFromId(627));
+    TriggerExecute(gt_HybridRocksDestroyed, false, true);
+    TriggerQueueClear(c_triggerQueueRemove);
+    TransmissionClearAll();
+    Wait(1.0, c_timeGame);
+    autoB97CD676_g = UnitGroup(null, gv_p01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoB97CD676_u = UnitGroupCount(autoB97CD676_g, c_unitCountAll);
+    for (;; autoB97CD676_u -= 1) {
+        autoB97CD676_var = UnitGroupUnitFromEnd(autoB97CD676_g, autoB97CD676_u);
+        if (autoB97CD676_var == null) { break; }
+        UnitSetPosition(autoB97CD676_var, lv_point, false);
+    }
+    CameraPan(gv_p01_USER, lv_point, 0.5, -1, 10.0, false);
+    TriggerExecute(gt_DEBUGResupply, true, false);
+    Wait(1.0, c_timeGame);
+    TriggerQueueClear(c_triggerQueueRemove);
+    TransmissionClearAll();
+    Wait(1.0, c_timeGame);
+    TransmissionClearAll();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSection4AfterHybridvanish_Init () {
+    gt_DEBUGSection4AfterHybridvanish = TriggerCreate("gt_DEBUGSection4AfterHybridvanish_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSection4AfterHybridvanish, c_playerAny, "-s4", true);
+    TriggerAddEventChatMessage(gt_DEBUGSection4AfterHybridvanish, c_playerAny, "-Stage 4", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/03006408"), true);
+    TriggerExecute(gt_VictoryEscape, false, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Start Game
 //--------------------------------------------------------------------------------------------------
 bool gt_StartGame_Func (bool testConds, bool runActions) {
@@ -2226,8 +2465,11 @@ bool gt_HealthandEnergyPickup_Func (bool testConds, bool runActions) {
     for (;; auto22FC4D74_u -= 1) {
         auto22FC4D74_var = UnitGroupUnitFromEnd(auto22FC4D74_g, auto22FC4D74_u);
         if (auto22FC4D74_var == null) { break; }
-        UnitSetPropertyFixed(auto22FC4D74_var, c_unitPropLifePercent, 100.0);
-        UnitSetPropertyFixed(auto22FC4D74_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(auto22FC4D74_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(auto22FC4D74_var, c_unitPropEnergyPercent, 100.0);
+            UnitSetPropertyFixed(auto22FC4D74_var, c_unitPropLifePercent, 100.0);
+        }
+
     }
     return true;
 }
@@ -13593,6 +13835,11 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
+    gt_DEBUGResupply_Init();
+    gt_DEBUGSection2WarbotMachineHall_Init();
+    gt_DEBUGSection3AfterGenerator_Init();
+    gt_DEBUGSection4AfterHybridvanish_Init();
+    gt_DEBUGVictory_Init();
     gt_StartGame_Init();
     gt_TerminalUseSafety_Init();
     gt_CreateGrenades_Init();

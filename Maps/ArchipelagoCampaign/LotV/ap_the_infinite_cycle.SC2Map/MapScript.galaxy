@@ -232,6 +232,7 @@ trigger gt_DebugHoldout1;
 trigger gt_DebugStage2;
 trigger gt_DebugHoldout2;
 trigger gt_DebugStage3;
+trigger gt_DebugVictory;
 trigger gt_DebugCleanupGeneral;
 trigger gt_DebugCleanupStage1;
 trigger gt_DebugCleanupHoldout1;
@@ -1971,7 +1972,7 @@ bool gt_DebugHoldout1_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1998,6 +1999,7 @@ bool gt_DebugHoldout1_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/C3011AF0"), true);
     TriggerExecute(gt_DebugCleanupGeneral, true, false);
     TriggerExecute(gt_DebugCleanupStage1, true, false);
     TriggerExecute(gt_MidHoldoutQ, true, true);
@@ -2008,8 +2010,8 @@ bool gt_DebugHoldout1_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugHoldout1_Init () {
     gt_DebugHoldout1 = TriggerCreate("gt_DebugHoldout1_Func");
-    TriggerAddEventChatMessage(gt_DebugHoldout1, c_playerAny, "h1", true);
-    TriggerAddEventChatMessage(gt_DebugHoldout1, c_playerAny, "holdout1", true);
+    TriggerAddEventChatMessage(gt_DebugHoldout1, c_playerAny, "-h1", true);
+    TriggerAddEventChatMessage(gt_DebugHoldout1, c_playerAny, "-holdout1", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2019,7 +2021,7 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2046,6 +2048,7 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/720E2C8C"), true);
     TriggerExecute(gt_DebugCleanupGeneral, true, false);
     TriggerExecute(gt_DebugCleanupStage1, true, false);
     TriggerExecute(gt_DebugCleanupHoldout1, true, false);
@@ -2057,8 +2060,8 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage2_Init () {
     gt_DebugStage2 = TriggerCreate("gt_DebugStage2_Func");
-    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "s2", true);
-    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "stage2", true);
+    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "-s2", true);
+    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "-stage2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2068,7 +2071,7 @@ bool gt_DebugHoldout2_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2095,6 +2098,7 @@ bool gt_DebugHoldout2_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/B22ACC56"), true);
     TriggerExecute(gt_DebugCleanupGeneral, true, false);
     TriggerExecute(gt_DebugCleanupStage1, true, false);
     TriggerExecute(gt_DebugCleanupHoldout1, true, false);
@@ -2106,8 +2110,8 @@ bool gt_DebugHoldout2_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugHoldout2_Init () {
     gt_DebugHoldout2 = TriggerCreate("gt_DebugHoldout2_Func");
-    TriggerAddEventChatMessage(gt_DebugHoldout2, c_playerAny, "h2", true);
-    TriggerAddEventChatMessage(gt_DebugHoldout2, c_playerAny, "holdout2", true);
+    TriggerAddEventChatMessage(gt_DebugHoldout2, c_playerAny, "-h2", true);
+    TriggerAddEventChatMessage(gt_DebugHoldout2, c_playerAny, "-holdout2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2117,7 +2121,7 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2144,6 +2148,7 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/7FE8537C"), true);
     TriggerExecute(gt_DebugCleanupGeneral, true, false);
     TriggerExecute(gt_DebugCleanupStage1, true, false);
     TriggerExecute(gt_DebugCleanupHoldout1, true, false);
@@ -2156,8 +2161,54 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage3_Init () {
     gt_DebugStage3 = TriggerCreate("gt_DebugStage3_Func");
-    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "s3", true);
-    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "stage3", true);
+    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "-s3", true);
+    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "-stage3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((libVCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((libVCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/F17FD0F3"), true);
+    TriggerExecute(gt_DebugCleanupGeneral, true, false);
+    TriggerExecute(gt_DebugCleanupStage1, true, false);
+    TriggerExecute(gt_DebugCleanupHoldout1, true, false);
+    TriggerExecute(gt_DebugCleanupStage2, true, false);
+    TriggerExecute(gt_DebugCleanupStage3, true, false);
+    TriggerExecute(gt_VictorySequence, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugVictory_Init () {
+    gt_DebugVictory = TriggerCreate("gt_DebugVictory_Func");
+    TriggerAddEventChatMessage(gt_DebugVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2171,7 +2222,7 @@ bool gt_DebugCleanupGeneral_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -2185,7 +2236,6 @@ bool gt_DebugCleanupGeneral_Func (bool testConds, bool runActions) {
     TriggerQueueClear(c_triggerQueueRetain);
     PingDestroy(gv_mainObjectivePing);
     PingDestroy(gv_bonusObjectivePing1);
-    UISetFrameVisible(PlayerGroupAll(), c_syncFrameTypeObjectivePanel, true);
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Game);
     auto688E1730_g = gv_globalEnemyUnits;
     auto688E1730_u = UnitGroupCount(auto688E1730_g, c_unitCountAll);
@@ -2214,7 +2264,7 @@ bool gt_DebugCleanupStage1_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2272,7 +2322,7 @@ bool gt_DebugCleanupHoldout1_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2318,7 +2368,7 @@ bool gt_DebugCleanupStage2_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2386,7 +2436,7 @@ bool gt_DebugCleanupStage3_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -10309,6 +10359,7 @@ void InitTriggers () {
     gt_DebugStage2_Init();
     gt_DebugHoldout2_Init();
     gt_DebugStage3_Init();
+    gt_DebugVictory_Init();
     gt_DebugCleanupGeneral_Init();
     gt_DebugCleanupStage1_Init();
     gt_DebugCleanupHoldout1_Init();

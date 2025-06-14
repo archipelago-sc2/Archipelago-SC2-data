@@ -203,6 +203,7 @@ trigger gt_DebugStage02AncientTempleGrounds;
 trigger gt_DebugStage03XelNagaCaverns;
 trigger gt_DebugOpen1;
 trigger gt_DebugOpen2;
+trigger gt_DebugVictory;
 trigger gt_CitadelInit;
 trigger gt_CitadelStartingSequence;
 trigger gt_CitadelVictory;
@@ -1244,7 +1245,7 @@ bool gt_DebugStage02AncientTempleGrounds_Func (bool testConds, bool runActions) 
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1271,6 +1272,7 @@ bool gt_DebugStage02AncientTempleGrounds_Func (bool testConds, bool runActions) 
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/0808BBC9"), true);
     TriggerExecute(gt_CitadelCleanup, true, false);
     TriggerExecute(gt_MidCitadelTempleQ, true, false);
     return true;
@@ -1279,8 +1281,8 @@ bool gt_DebugStage02AncientTempleGrounds_Func (bool testConds, bool runActions) 
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage02AncientTempleGrounds_Init () {
     gt_DebugStage02AncientTempleGrounds = TriggerCreate("gt_DebugStage02AncientTempleGrounds_Func");
-    TriggerAddEventChatMessage(gt_DebugStage02AncientTempleGrounds, c_playerAny, "s2", true);
-    TriggerAddEventChatMessage(gt_DebugStage02AncientTempleGrounds, c_playerAny, "Stage2", true);
+    TriggerAddEventChatMessage(gt_DebugStage02AncientTempleGrounds, c_playerAny, "-s2", true);
+    TriggerAddEventChatMessage(gt_DebugStage02AncientTempleGrounds, c_playerAny, "-Stage2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1290,7 +1292,7 @@ bool gt_DebugStage03XelNagaCaverns_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1317,6 +1319,7 @@ bool gt_DebugStage03XelNagaCaverns_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/C58BD48F"), true);
     TriggerEnable(gt_DebugStage02AncientTempleGrounds, false);
     TriggerExecute(gt_CitadelCleanup, true, false);
     TriggerExecute(gt_TempleCleanup, true, false);
@@ -1327,8 +1330,8 @@ bool gt_DebugStage03XelNagaCaverns_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage03XelNagaCaverns_Init () {
     gt_DebugStage03XelNagaCaverns = TriggerCreate("gt_DebugStage03XelNagaCaverns_Func");
-    TriggerAddEventChatMessage(gt_DebugStage03XelNagaCaverns, c_playerAny, "s3", true);
-    TriggerAddEventChatMessage(gt_DebugStage03XelNagaCaverns, c_playerAny, "Stage3", true);
+    TriggerAddEventChatMessage(gt_DebugStage03XelNagaCaverns, c_playerAny, "-s3", true);
+    TriggerAddEventChatMessage(gt_DebugStage03XelNagaCaverns, c_playerAny, "-Stage3", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1338,7 +1341,7 @@ bool gt_DebugOpen1_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1365,6 +1368,7 @@ bool gt_DebugOpen1_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/7385D4B6"), true);
     TriggerExecute(gt_Gate1OpenedQ, true, false);
     TriggerExecute(gt_ShadowDashUsed, true, false);
     return true;
@@ -1373,7 +1377,7 @@ bool gt_DebugOpen1_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugOpen1_Init () {
     gt_DebugOpen1 = TriggerCreate("gt_DebugOpen1_Func");
-    TriggerAddEventChatMessage(gt_DebugOpen1, c_playerAny, "open1", true);
+    TriggerAddEventChatMessage(gt_DebugOpen1, c_playerAny, "-open1", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1383,7 +1387,7 @@ bool gt_DebugOpen2_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1410,6 +1414,7 @@ bool gt_DebugOpen2_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/DA4A8ED8"), true);
     TriggerExecute(gt_Gate2OpenedQ, true, false);
     return true;
 }
@@ -1417,7 +1422,52 @@ bool gt_DebugOpen2_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugOpen2_Init () {
     gt_DebugOpen2 = TriggerCreate("gt_DebugOpen2_Func");
-    TriggerAddEventChatMessage(gt_DebugOpen2, c_playerAny, "open2", true);
+    TriggerAddEventChatMessage(gt_DebugOpen2, c_playerAny, "-open2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((libVCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((libVCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(gt_CitadelVictory) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/6255B19A"), true);
+    TriggerExecute(gt_VictorySequence, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugVictory_Init () {
+    gt_DebugVictory = TriggerCreate("gt_DebugVictory_Func");
+    TriggerAddEventChatMessage(gt_DebugVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -11509,6 +11559,7 @@ void InitTriggers () {
     gt_DebugStage03XelNagaCaverns_Init();
     gt_DebugOpen1_Init();
     gt_DebugOpen2_Init();
+    gt_DebugVictory_Init();
     gt_CitadelInit_Init();
     gt_CitadelStartingSequence_Init();
     gt_CitadelVictory_Init();
