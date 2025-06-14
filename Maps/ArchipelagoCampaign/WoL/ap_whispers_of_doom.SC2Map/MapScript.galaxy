@@ -8,6 +8,7 @@
 include "TriggerLibs/NativeLib"
 include "TriggerLibs/LibertyLib"
 include "TriggerLibs/CampaignLib"
+include "Lib15EF4C78"
 include "Lib88187CC2"
 include "Lib5BD4895D"
 include "LibABFE498B"
@@ -19,6 +20,7 @@ void InitLibs () {
     libNtve_InitLib();
     libLbty_InitLib();
     libCamp_InitLib();
+    lib15EF4C78_InitLib();
     lib88187CC2_InitLib();
     lib5BD4895D_InitLib();
     libABFE498B_InitLib();
@@ -209,6 +211,11 @@ trigger gt_Init04Music;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
+trigger gt_DebugSection2FirstShrine;
+trigger gt_DebugSection3SecondShrine;
+trigger gt_DebugSection4Kerass;
+trigger gt_DebugSection5ThirdShrine;
+trigger gt_DebugVictory;
 trigger gt_IntroSequence;
 trigger gt_StartGame;
 trigger gt_HellomynameisZeratulQ;
@@ -1241,6 +1248,176 @@ bool gt_Init07Help_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_Init07Help_Init () {
     gt_Init07Help = TriggerCreate("gt_Init07Help_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug: Section 2 - First Shrine
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugSection2FirstShrine_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((lib15EF4C78_gf_AP_Player_isPlayerInCinematicMode(1) == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/1B10B96B"), true);
+    UnitSetPosition(gv_tHEONEZERATUL, PointFromId(1749), false);
+    CameraPan(1, UnitGetPosition(gv_tHEONEZERATUL), 0.0, -1, 10, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugSection2FirstShrine_Init () {
+    gt_DebugSection2FirstShrine = TriggerCreate("gt_DebugSection2FirstShrine_Func");
+    TriggerAddEventChatMessage(gt_DebugSection2FirstShrine, 1, "-Section 2", true);
+    TriggerAddEventChatMessage(gt_DebugSection2FirstShrine, 1, "-s2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug: Section 3 - Second Shrine
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugSection3SecondShrine_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((lib15EF4C78_gf_AP_Player_isPlayerInCinematicMode(1) == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/0D1E5671"), true);
+    UnitSetPosition(gv_tHEONEZERATUL, PointFromId(1750), false);
+    CameraPan(1, UnitGetPosition(gv_tHEONEZERATUL), 0.0, -1, 10, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugSection3SecondShrine_Init () {
+    gt_DebugSection3SecondShrine = TriggerCreate("gt_DebugSection3SecondShrine_Func");
+    TriggerAddEventChatMessage(gt_DebugSection3SecondShrine, 1, "-Section 3", true);
+    TriggerAddEventChatMessage(gt_DebugSection3SecondShrine, 1, "-s3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug: Section 4 - Kerass
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugSection4Kerass_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((lib15EF4C78_gf_AP_Player_isPlayerInCinematicMode(1) == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/6651FEEA"), true);
+    UnitSetPosition(gv_tHEONEZERATUL, PointFromId(94), false);
+    CameraPan(1, UnitGetPosition(gv_tHEONEZERATUL), 0.0, -1, 10, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugSection4Kerass_Init () {
+    gt_DebugSection4Kerass = TriggerCreate("gt_DebugSection4Kerass_Func");
+    TriggerAddEventChatMessage(gt_DebugSection4Kerass, 1, "-Section 4", true);
+    TriggerAddEventChatMessage(gt_DebugSection4Kerass, 1, "-s4", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug: Section 5 - Third Shrine
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugSection5ThirdShrine_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((lib15EF4C78_gf_AP_Player_isPlayerInCinematicMode(1) == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/B8F1667C"), true);
+    UnitSetPosition(gv_tHEONEZERATUL, PointFromId(392), false);
+    CameraPan(1, UnitGetPosition(gv_tHEONEZERATUL), 0.0, -1, 10, false);
+    TriggerEnable(gt_ObjectiveShrine3Reached, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugSection5ThirdShrine_Init () {
+    gt_DebugSection5ThirdShrine = TriggerCreate("gt_DebugSection5ThirdShrine_Func");
+    TriggerAddEventChatMessage(gt_DebugSection5ThirdShrine, 1, "-Section 5", true);
+    TriggerAddEventChatMessage(gt_DebugSection5ThirdShrine, 1, "-s5", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug: Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((lib15EF4C78_gf_AP_Player_isPlayerInCinematicMode(1) == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/F0A7F0AA"), true);
+    UnitSetPosition(gv_tHEONEZERATUL, PointFromId(390), false);
+    CameraPan(1, UnitGetPosition(gv_tHEONEZERATUL), 0.0, -1, 10, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugVictory_Init () {
+    gt_DebugVictory = TriggerCreate("gt_DebugVictory_Func");
+    TriggerAddEventChatMessage(gt_DebugVictory, 1, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -10306,6 +10483,11 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
+    gt_DebugSection2FirstShrine_Init();
+    gt_DebugSection3SecondShrine_Init();
+    gt_DebugSection4Kerass_Init();
+    gt_DebugSection5ThirdShrine_Init();
+    gt_DebugVictory_Init();
     gt_IntroSequence_Init();
     gt_StartGame_Init();
     gt_HellomynameisZeratulQ_Init();
