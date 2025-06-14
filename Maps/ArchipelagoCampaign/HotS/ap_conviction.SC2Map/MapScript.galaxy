@@ -191,6 +191,7 @@ trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
 trigger gt_DEBUGStage2;
+trigger gt_DEBUGVictory;
 trigger gt_RemoveHarmlessBehavior;
 trigger gt_RemoveHealImpactFX;
 trigger gt_FearedbyDeath;
@@ -1271,13 +1272,13 @@ void gt_Init07Help_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: DEBUG - Stage2
+// Trigger: DEBUG - Stage 2
 //--------------------------------------------------------------------------------------------------
 bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -1287,6 +1288,7 @@ bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/7FA2C4A0"), true);
     if ((TriggerGetExecCount(gt__1ElevatorVictory) > 0)) {
         return true;
     }
@@ -1298,7 +1300,37 @@ bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStage2_Init () {
     gt_DEBUGStage2 = TriggerCreate("gt_DEBUGStage2_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "s2", true);
+    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "-Stage2", true);
+    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "-s2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/2AC78F78"), true);
+    TriggerEnable(gt_VictoryJimRescued, true);
+    TriggerExecute(gt_VictoryJimRescued, false, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -9432,6 +9464,7 @@ void InitTriggers () {
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
     gt_DEBUGStage2_Init();
+    gt_DEBUGVictory_Init();
     gt_RemoveHarmlessBehavior_Init();
     gt_RemoveHealImpactFX_Init();
     gt_FearedbyDeath_Init();
