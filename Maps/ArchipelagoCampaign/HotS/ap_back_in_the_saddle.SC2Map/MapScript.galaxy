@@ -290,6 +290,7 @@ trigger gt_DEBUGStartS02;
 trigger gt_DEBUGStartS03;
 trigger gt_DEBUGStartS04;
 trigger gt_DEBUGStartArchangelBossFight;
+trigger gt_DEBUGVictory;
 trigger gt_StartGameStage1Q;
 trigger gt_StartGameStage2Q;
 trigger gt_StartGameStage3Q;
@@ -1509,7 +1510,7 @@ bool gt_DEBUGStartS02_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1525,6 +1526,7 @@ bool gt_DEBUGStartS02_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueClear(c_triggerQueueKill);
+    TriggerDebugOutput(1, StringExternal("Param/Value/F4358EE7"), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("MindBolt", 0), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("PsionicLift", 0), true);
     TriggerEnable(gt_LowHealthKerrigan, true);
@@ -1532,6 +1534,8 @@ bool gt_DEBUGStartS02_Func (bool testConds, bool runActions) {
     TriggerEnable(gt_HealerbotRecharging, true);
     TriggerEnable(gt_HealerbotReady, true);
     TriggerStop(gt_HoldoutMusic);
+    TriggerExecute(gt_ObjectiveGettoSublevelDoorComplete, true, true);
+    TriggerExecute(gt_ObjectiveHoldOutAtDoorComplete, true, true);
     TriggerExecute(gt_MidQStage2, true, false);
     return true;
 }
@@ -1539,7 +1543,8 @@ bool gt_DEBUGStartS02_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStartS02_Init () {
     gt_DEBUGStartS02 = TriggerCreate("gt_DEBUGStartS02_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStartS02, c_playerAny, "s2", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartS02, c_playerAny, "-Stage2", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartS02, c_playerAny, "-s2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1557,7 +1562,7 @@ bool gt_DEBUGStartS03_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1572,6 +1577,7 @@ bool gt_DEBUGStartS03_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/3EE3E03D"), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("MindBolt", 0), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("PsionicLift", 0), true);
     TriggerEnable(gt_LowHealthKerrigan, true);
@@ -1585,7 +1591,8 @@ bool gt_DEBUGStartS03_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStartS03_Init () {
     gt_DEBUGStartS03 = TriggerCreate("gt_DEBUGStartS03_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStartS03, c_playerAny, "s3", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartS03, c_playerAny, "-Stage3", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartS03, c_playerAny, "-s3", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1603,7 +1610,7 @@ bool gt_DEBUGStartS04_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1619,6 +1626,7 @@ bool gt_DEBUGStartS04_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueClear(c_triggerQueueKill);
+    TriggerDebugOutput(1, StringExternal("Param/Value/27068088"), true);
     TriggerEnable(gt_LowHealthKerrigan, true);
     TriggerEnable(gt_LowHealthRaynor, true);
     lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveGetToSublevelDoor, false);
@@ -1637,7 +1645,8 @@ bool gt_DEBUGStartS04_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStartS04_Init () {
     gt_DEBUGStartS04 = TriggerCreate("gt_DEBUGStartS04_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStartS04, c_playerAny, "s4", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartS04, c_playerAny, "-Stage4", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartS04, c_playerAny, "-s4", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1677,11 +1686,11 @@ bool gt_DEBUGStartArchangelBossFight_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
             return false;
         }
 
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -1692,6 +1701,7 @@ bool gt_DEBUGStartArchangelBossFight_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/AC3F32EF"), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("MindBolt", 0), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("PsionicLift", 0), true);
     RegionPlayableMapSet(RegionFromId(60));
@@ -1770,8 +1780,50 @@ bool gt_DEBUGStartArchangelBossFight_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStartArchangelBossFight_Init () {
     gt_DEBUGStartArchangelBossFight = TriggerCreate("gt_DEBUGStartArchangelBossFight_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStartArchangelBossFight, c_playerAny, "boss", true);
-    TriggerAddEventChatMessage(gt_DEBUGStartArchangelBossFight, c_playerAny, "s5", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartArchangelBossFight, c_playerAny, "-Stage5", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartArchangelBossFight, c_playerAny, "-boss", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartArchangelBossFight, c_playerAny, "-s5", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/DE73085D"), true);
+    TriggerExecute(gt_VictoryArchangelDestroyed, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -14080,6 +14132,7 @@ void InitTriggers () {
     gt_DEBUGStartS03_Init();
     gt_DEBUGStartS04_Init();
     gt_DEBUGStartArchangelBossFight_Init();
+    gt_DEBUGVictory_Init();
     gt_StartGameStage1Q_Init();
     gt_StartGameStage2Q_Init();
     gt_StartGameStage3Q_Init();
