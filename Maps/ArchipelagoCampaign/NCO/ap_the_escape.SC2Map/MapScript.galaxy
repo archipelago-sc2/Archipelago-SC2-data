@@ -243,6 +243,7 @@ trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
 trigger gt_DebugStage2;
 trigger gt_DebugStage3;
+trigger gt_DebugVictory;
 trigger gt_NovaLosesDetectorConeDetectedEMPedQ;
 trigger gt_NovaLosesDetectorConeDetectedStillCloakedQ;
 trigger gt_NovaReCloaksTransmissionQ;
@@ -2387,7 +2388,7 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2420,6 +2421,7 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerStop(gt_StartGameQ);
     TriggerQueueClear(c_triggerQueueKill);
+    TriggerDebugOutput(1, StringExternal("Param/Value/A861A3F9"), true);
     TriggerExecute(gt_ObjectiveSurviveCreate, true, false);
     auto5CDEDCA8_g = UnitGroup(null, gv_pLAYER_02_DOMINION, RegionFromId(59), UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     auto5CDEDCA8_u = UnitGroupCount(auto5CDEDCA8_g, c_unitCountAll);
@@ -2471,8 +2473,8 @@ bool gt_DebugStage2_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage2_Init () {
     gt_DebugStage2 = TriggerCreate("gt_DebugStage2_Func");
-    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "S2", true);
-    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "Stage2", true);
+    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "-s2", true);
+    TriggerAddEventChatMessage(gt_DebugStage2, c_playerAny, "-Stage2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2482,7 +2484,7 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -2514,6 +2516,7 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerEnable(gt_DebugStage2, false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/9818CE10"), true);
     gv_currentSection = 2;
     gv_rescuedGhosts[3] = UnitFromId(1147);
     TriggerExecute(gt_MidQ, true, false);
@@ -2523,8 +2526,50 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage3_Init () {
     gt_DebugStage3 = TriggerCreate("gt_DebugStage3_Func");
-    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "S3", true);
-    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "Stage3", true);
+    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "-s3", true);
+    TriggerAddEventChatMessage(gt_DebugStage3, c_playerAny, "-Stage3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/656EEC1F"), true);
+    gv_rescuedGhosts[3] = UnitFromId(1147);
+    TriggerExecute(gt_VictoryReachSpaceportCompleted, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugVictory_Init () {
+    gt_DebugVictory = TriggerCreate("gt_DebugVictory_Func");
+    TriggerAddEventChatMessage(gt_DebugVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -10437,6 +10482,7 @@ void InitTriggers () {
     gt_Init07Help_Init();
     gt_DebugStage2_Init();
     gt_DebugStage3_Init();
+    gt_DebugVictory_Init();
     gt_NovaLosesDetectorConeDetectedEMPedQ_Init();
     gt_NovaLosesDetectorConeDetectedStillCloakedQ_Init();
     gt_NovaReCloaksTransmissionQ_Init();
