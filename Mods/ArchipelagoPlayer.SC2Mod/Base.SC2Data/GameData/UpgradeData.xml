@@ -1494,7 +1494,6 @@
         <EffectArray Reference="Effect,AP_VoidRayChargeBeamBaseDamageCharge2,Amount" Value="1"/>
         <EffectArray Reference="Effect,AP_VoidRayChargeBeamBaseDamageCharge3,Amount" Value="1"/>
         <EffectArray Reference="Effect,AP_VoidRayChargeBeamBounceDamageUpgraded,Amount" Value="1"/>
-        <EffectArray Reference="Effect,AP_VoidRayChargeBeamBounce3DamageUpgraded,Amount" Value="1"/>
         <EffectArray Reference="Weapon,AP_VoidRayChargeBeamBounce,Level" Value="1"/>
         <EffectArray Reference="Effect,AP_VoidRayChargeBeamBounceDamageCharge1,Amount" Value="1"/>
         <EffectArray Reference="Effect,AP_VoidRayChargeBeamBounceDamageCharge2,Amount" Value="1"/>
@@ -1538,11 +1537,7 @@
         <!-- Scout -->
         <EffectArray Reference="Weapon,AP_ScoutMPGround,Level" Value="1"/>
         <EffectArray Reference="Effect,AP_ScoutMPGround,Amount" Value="1"/>
-        <EffectArray Reference="Effect,AP_ScoutMPGroundLight,Amount" Value="1"/>
-        <EffectArray Reference="Effect,AP_ScoutMPGroundLight,AttributeBonus[Light]" Value="1"/>
         <EffectArray Reference="Effect,AP_ScoutMPGroundUpgraded,Amount" Value="2"/>
-        <EffectArray Reference="Effect,AP_ScoutMPGroundUpgradedLight,Amount" Value="2"/>
-        <EffectArray Reference="Effect,AP_ScoutMPGroundUpgradedLight,AttributeBonus[Light]" Value="2"/>
         <EffectArray Reference="Weapon,AP_ScoutMPAir,Level" Value="1"/>
         <EffectArray Reference="Effect,AP_ScoutMPAirU,Amount" Value="1"/>
         <!-- Oppressor -->
@@ -13307,29 +13302,34 @@
     <CUpgrade id="AP_ResourceEfficiencyGhost">
         <EffectArray Operation="Subtract" Reference="Unit,AP_Ghost,CostResource[Minerals]" Value="25"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_Ghost,CostResource[Vespene]" Value="25"/>
-        <EffectArray Reference="Unit,AP_Ghost,Food" Value="1"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_GhostResourceEfficiency,CostResource[Minerals]" Value="25"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_GhostResourceEfficiency,CostResource[Vespene]" Value="25"/>
-        <EffectArray Reference="Unit,AP_GhostResourceEfficiency,Food" Value="1"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostMengsk,CostResource[Minerals]" Value="25"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostMengsk,CostResource[Vespene]" Value="75"/>
-        <EffectArray Reference="Unit,AP_GhostMengsk,Food" Value="2"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostMengskResourceEfficiency,CostResource[Minerals]" Value="25"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostMengskResourceEfficiency,CostResource[Vespene]" Value="75"/>
-        <EffectArray Reference="Unit,AP_GhostMengskResourceEfficiency,Food" Value="2"/>
         <EffectArray Operation="Set" Reference="Abil,AP_BarracksTrain,InfoArray[Train3].Unit[0]" Value="AP_GhostResourceEfficiency"/>
-        <EffectArray Operation="Set" Reference="Abil,AP_EliteBarracksTrain,InfoArray[Train2].Unit[0]" Value="AP_GhostMengskResourceEfficiency"/>
         <AffectedUnitArray value="AP_Ghost"/>
+    </CUpgrade>
+    <CUpgrade id="AP_GhostBargainBinPrices">
+        <EffectArray Operation="Subtract" Reference="Unit,AP_Ghost,CostResource[Minerals]" Value="100"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_Ghost,CostResource[Vespene]" Value="50"/>
+        <EffectArray Reference="Unit,AP_Ghost,Food" Value="1"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostResourceEfficiency,CostResource[Minerals]" Value="100"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostResourceEfficiency,CostResource[Vespene]" Value="50"/>
+        <EffectArray Reference="Unit,AP_GhostResourceEfficiency,Food" Value="1"/>
     </CUpgrade>
     <CUpgrade id="AP_ResourceEfficiencySpectre">
         <EffectArray Operation="Subtract" Reference="Unit,AP_Spectre,CostResource[Minerals]" Value="25"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_Spectre,CostResource[Vespene]" Value="25"/>
-        <EffectArray Reference="Unit,AP_Spectre,Food" Value="1"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_SpectreResourceEfficiency,CostResource[Minerals]" Value="25"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_SpectreResourceEfficiency,CostResource[Vespene]" Value="25"/>
-        <EffectArray Reference="Unit,AP_SpectreResourceEfficiency,Food" Value="1"/>
         <EffectArray Operation="Set" Reference="Abil,AP_BarracksTrain,InfoArray[Train7].Unit[0]" Value="AP_SpectreResourceEfficiency"/>
         <AffectedUnitArray value="AP_Spectre"/>
+    </CUpgrade>
+    <CUpgrade id="AP_SpectreBargainBinPrices">
+        <EffectArray Operation="Subtract" Reference="Unit,AP_Spectre,CostResource[Minerals]" Value="100"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_Spectre,CostResource[Vespene]" Value="50"/>
+        <EffectArray Reference="Unit,AP_Spectre,Food" Value="1"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_SpectreResourceEfficiency,CostResource[Minerals]" Value="100"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_SpectreResourceEfficiency,CostResource[Vespene]" Value="50"/>
+        <EffectArray Reference="Unit,AP_SpectreResourceEfficiency,Food" Value="1"/>
     </CUpgrade>
     <CUpgrade id="AP_FirebatInfernalPreIgniter">
         <Flags index="UpgradeCheat" value="0"/>
@@ -14545,11 +14545,6 @@
         <EditorCategories value="Race:Protoss,UpgradeType:SpellResearch"/>
         <AffectedUnitArray value="AP_Oracle"/>
     </CUpgrade>
-    <CUpgrade id="AP_OracleStasisWardUpgradeL2">
-        <EffectArray Operation="Subtract" Reference="Behavior,AP_OracleStasisTrapTarget,Duration" Value="25.000000"/>
-        <EffectArray Operation="Add" Reference="Behavior,AP_OracleStasisTrapStunTarget,Duration" Value="25.000000"/>
-        <EffectArray Operation="Set" Reference="Effect,AP_OracleStasisTrapTargetABSet,EffectArray[0]" Value=""/>
-    </CUpgrade>
     <CUpgrade id="AP_OracleStasisWardAir">
         <Icon value="Assets\Textures\btn-ability-protoss-arcshield.dds"/>
         <Alert value="ResearchComplete"/>
@@ -14663,16 +14658,6 @@
         <EffectArray Operation="Set" Reference="Weapon,AP_VoidRayChargeBeamBounce,Tip" Value="Weapon/Tip/AP_VoidRayChargeBeamBounceUpgraded"/>
         <AffectedUnitArray value="AP_VoidRayTaldarim"/>
     </CUpgrade>
-    <CUpgrade id="AP_DestroyerReforgedBloodshardCore">
-        <EffectArray Operation="Set" Reference="Effect,AP_VoidRayChargeBeamBounce3DamageSet,EffectArray[0]" Value="AP_VoidRayChargeBeamBounce3DamageUpgraded"/>
-        <EffectArray Operation="Set" Reference="Weapon,AP_VoidRayChargeBeamBounce,Tip" Value="Weapon/Tip/AP_VoidRayChargeBeamBounceReforged"/>
-        <AffectedUnitArray value="AP_VoidRayTaldarim"/>
-    </CUpgrade>
-    <CUpgrade id="AP_DestroyerReforgedBloodshardCoreUpgraded">
-        <EffectArray Operation="Set" Reference="Effect,AP_VoidRayChargeBeamBounce3DamageSet,EffectArray[0]" Value="AP_VoidRayChargeBeamBounce3DamageUpgraded"/>
-        <EffectArray Operation="Set" Reference="Weapon,AP_VoidRayChargeBeamBounce,Tip" Value="Weapon/Tip/AP_VoidRayChargeBeamBounceReforgedUpgraded"/>
-        <AffectedUnitArray value="AP_VoidRayTaldarim"/>
-    </CUpgrade>
     <CUpgrade id="AP_DestroyerResourceEfficiency">
         <EffectArray Operation="Subtract" Reference="Unit,AP_VoidRayTaldarim,CostResource[Minerals]" Value="50"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_VoidRayTaldarim,CostResource[Vespene]" Value="25"/>
@@ -14754,6 +14739,11 @@
     <CUpgrade id="AP_ResourceEfficiencyReaver">
         <EffectArray Operation="Subtract" Reference="Unit,AP_Reaver,CostResource[Minerals]" Value="50"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_Reaver,CostResource[Vespene]" Value="25"/>
+        <EffectArray Reference="Unit,AP_Reaver,Food" Value="1"/>
+    </CUpgrade>
+    <CUpgrade id="AP_ReaverBargainBinPrices">
+        <EffectArray Operation="Subtract" Reference="Unit,AP_Reaver,CostResource[Minerals]" Value="50"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_Reaver,CostResource[Vespene]" Value="75"/>
         <EffectArray Reference="Unit,AP_Reaver,Food" Value="1"/>
     </CUpgrade>
     <CUpgrade id="AP_ReaverKhalaiReplicators">
@@ -15971,6 +15961,11 @@
         <Flags index="UpgradeCheat" value="0"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_ScoutMP,CostResource[Minerals]" Value="75"/>
         <EffectArray Operation="Subtract" Reference="Unit,AP_ScoutMP,CostResource[Vespene]" Value="25"/>
+    </CUpgrade>
+    <CUpgrade id="AP_ScoutSupplyEfficiency">
+        <Flags index="UpgradeCheat" value="0"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_ScoutMP,CostResource[Minerals]" Value="50"/>
+        <EffectArray Reference="Unit,AP_ScoutMP,Food" Value="1"/>
     </CUpgrade>
     <CUpgrade id="AP_MechanicalKnowHow">
         <Icon value="Assets\Textures\Talent-Swann-Level14-VehicleHealthIncrease.dds"/>
@@ -18593,41 +18588,5 @@
     <CUpgrade id="AP_RemoveHighlanderBehavior">
         <EffectArray Operation="Set" Reference="Abil,AP_SummonMercenaries,InfoArray[Train8].Button.Requirements" Value="AP_MercCompoundStarships"/>
         <EffectArray Operation="Set" Reference="Abil,AP_SummonZergMercs,InfoArray[Train6].Button.Requirements" Value="AP_ZergMercCompoundBroodWar"/>
-    </CUpgrade>
-    <CUpgrade id="AP_ResourceEfficiencyGhostL2">
-        <EffectArray Operation="Subtract" Reference="Unit,AP_Ghost,CostResource[Minerals]" Value="100"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_Ghost,CostResource[Vespene]" Value="50"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostResourceEfficiency,CostResource[Minerals]" Value="100"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostResourceEfficiency,CostResource[Vespene]" Value="50"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostMengsk,CostResource[Minerals]" Value="100"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostMengsk,CostResource[Vespene]" Value="150"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostMengskResourceEfficiency,CostResource[Minerals]" Value="100"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_GhostMengskResourceEfficiency,CostResource[Vespene]" Value="150"/>
-        <AffectedUnitArray value="AP_Ghost"/>
-    </CUpgrade>
-    <CUpgrade id="AP_ResourceEfficiencySpectreL2">
-        <EffectArray Operation="Subtract" Reference="Unit,AP_Spectre,CostResource[Minerals]" Value="100"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_Spectre,CostResource[Vespene]" Value="50"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_SpectreResourceEfficiency,CostResource[Minerals]" Value="100"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_SpectreResourceEfficiency,CostResource[Vespene]" Value="50"/>
-        <AffectedUnitArray value="AP_Spectre"/>
-    </CUpgrade>
-    <CUpgrade id="AP_ScoutResourceEfficiencyL2">
-        <Flags index="UpgradeCheat" value="0"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_ScoutMP,CostResource[Minerals]" Value="50"/>
-        <EffectArray Reference="Unit,AP_ScoutMP,Food" Value="1"/>
-    </CUpgrade>
-    <CUpgrade id="AP_ScoutGammaPhotonBlasters">
-        <EffectArray Operation="Set" Reference="Weapon,AP_ScoutMPGround,Effect" Value="AP_ScoutMPGroundLight"/>
-        <EffectArray Operation="Set" Reference="Weapon,AP_ScoutMPGround,DisplayEffect" Value="AP_ScoutMPGroundLight"/>
-    </CUpgrade>
-    <CUpgrade id="AP_ScoutGammaAdvancedPhotonBlasters">
-        <EffectArray Operation="Set" Reference="Weapon,AP_ScoutMPGround,Effect" Value="AP_ScoutMPGroundUpgradedLight"/>
-        <EffectArray Operation="Set" Reference="Weapon,AP_ScoutMPGround,DisplayEffect" Value="AP_ScoutMPGroundUpgradedLight"/>
-    </CUpgrade>
-    <CUpgrade id="AP_ResourceEfficiencyReaverL2">
-        <EffectArray Operation="Subtract" Reference="Unit,AP_Reaver,CostResource[Minerals]" Value="50"/>
-        <EffectArray Operation="Subtract" Reference="Unit,AP_Reaver,CostResource[Vespene]" Value="75"/>
-        <EffectArray Reference="Unit,AP_Reaver,Food" Value="1"/>
     </CUpgrade>
 </Catalog>

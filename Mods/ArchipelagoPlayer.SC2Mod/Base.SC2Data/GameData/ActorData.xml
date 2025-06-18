@@ -17684,21 +17684,9 @@
         <Inherits index="Visibility" value="1"/>
         <On Terms="Behavior.AP_OracleStasisTrapTarget.On" Send="Create"/>
         <On Terms="Behavior.AP_OracleStasisTrapTarget.Off" Send="AnimBracketStop BSD"/>
-        <Host Subject="_Unit"/>
-        <HostSiteOps Ops="SOpAttachCenter"/>
-        <AutoScaleFactor value="1.000000"/>
-        <ModelFlags index="AutomateGlobalLoops" value="1"/>
-    </CActorModel>
-    <CActorModel id="AP_OracleStasisTrapStunTarget" parent="ModelAnimationStyleContinuous">
-        <Model value="OracleStasisTrapTarget"/>
-        <Inherits index="BaseModelScale" value="1"/>
-        <Inherits index="CloakEffect" value="1"/>
-        <Inherits index="Scale" value="1"/>
-        <Inherits index="Visibility" value="1"/>
         <On Terms="Behavior.AP_OracleStasisTrapStunTarget.On" Send="Create"/>
-        <On Terms="ActorCreation" Send="SetTintColor {255,0,0 3.000000} 0.000000 OneShot AP_StasisTrap 151.000000"/>
-        <On Terms="Behavior.AP_OracleStasisTrapStunTarget.Off; !ValidatePlayer AP_CasterHaveOracleStasisWardUpgradeL2" Send="Destroy"/>
-        <On Terms="Behavior.AP_OracleStasisTrapStunTarget.Off; ValidatePlayer AP_CasterHaveOracleStasisWardUpgradeL2" Send="AnimBracketStop BSD"/>
+        <On Terms="Behavior.AP_OracleStasisTrapStunTarget.On" Send="SetTintColor {255,0,0 3.000000} 0.000000 OneShot AP_StasisTrap 151.000000"/>
+        <On Terms="Behavior.AP_OracleStasisTrapStunTarget.Off" Send="ClearTintColor 0.000000 AP_StasisTrap"/>
         <Host Subject="_Unit"/>
         <HostSiteOps Ops="SOpAttachCenter"/>
         <AutoScaleFactor value="1.000000"/>
@@ -23393,19 +23381,7 @@
         <ImpactMap index="None" Sound="AP_ScoutMP_GroundAttackImpact"/>
         <ImpactModel value="AP_ScoutMPGroundAttackModel"/>
     </CActorAction>
-    <CActorAction id="AP_ScoutMPGroundAttackLight" parent="GenericAttack" effectLaunch="AP_ScoutMPGroundLight">
-        <LaunchModel value="AP_ScoutMPGroundAttackModel"/>
-        <LaunchAssets Model="AP_ScoutMPGroundAttackLaunch" Sound="AP_ScoutMPGroundAttackLaunch"/>
-        <ImpactMap index="None" Model="AP_ScoutMPGroundAttackImpact" Sound="AP_ScoutMP_GroundAttackImpact"/>
-        <ImpactModel value="AP_ScoutMPGroundAttackModel"/>
-    </CActorAction>
     <CActorAction id="AP_ScoutMPGroundAttackUpgraded" parent="GenericAttack" effectLaunch="AP_ScoutMPGroundUpgraded">
-        <LaunchModel value="AP_ScoutMPGroundAttackModel"/>
-        <LaunchAssets Model="AP_ScoutMPGroundAttackLaunch" Sound="AP_ScoutMPGroundAttackLaunch"/>
-        <ImpactMap index="None" Model="AP_ScoutMPGroundAttackImpact" Sound="AP_ScoutMP_GroundAttackImpact"/>
-        <ImpactModel value="AP_ScoutMPGroundAttackModel"/>
-    </CActorAction>
-    <CActorAction id="AP_ScoutMPGroundAttackUpgradedLight" parent="GenericAttack" effectLaunch="AP_ScoutMPGroundUpgradedLight">
         <LaunchModel value="AP_ScoutMPGroundAttackModel"/>
         <LaunchAssets Model="AP_ScoutMPGroundAttackLaunch" Sound="AP_ScoutMPGroundAttackLaunch"/>
         <ImpactMap index="None" Model="AP_ScoutMPGroundAttackImpact" Sound="AP_ScoutMP_GroundAttackImpact"/>
@@ -31992,8 +31968,6 @@
         <On Terms="Effect.AP_VoidRayChargeBeamBounce3Damage.Start; At Effect; FromEffectTreeDescendant" Send="ActionDamage"/>
         <On Terms="Effect.AP_VoidRayChargeBeamBounceDamageUpgraded.Start" Send="Create"/>
         <On Terms="Effect.AP_VoidRayChargeBeamBounceDamageUpgraded.Start; At Effect; FromEffectTreeDescendant" Send="ActionDamage"/>
-        <On Terms="Effect.AP_VoidRayChargeBeamBounce3DamageUpgraded.Start" Send="Create"/>
-        <On Terms="Effect.AP_VoidRayChargeBeamBounce3DamageUpgraded.Start; At Effect; FromEffectTreeDescendant" Send="ActionDamage"/>
         <On Terms="ActorCreation" Send="TimerSet 0.900000 DelayDeath"/>
         <On Terms="TimerExpired; TimerName DelayDeath" Send="Destroy"/>
         <LaunchRequest Subject="AP_VoidRayChargeBeamBounceAttackBeam1ImpactSite" Actor="Find"/>
