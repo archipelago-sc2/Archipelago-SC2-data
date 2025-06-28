@@ -2516,21 +2516,22 @@
     <CActorUnit id="AP_InfestedMedic" parent="AP_MedicBase" unitName="AP_InfestedMedic">
         <On Terms="Behavior.AP_MercGroundDrop.Create" Send="Create AP_MercMedicDropModel"/>
         <On Terms="ActorCreation" Send="SetScale 1.100000"/>
-        <On Terms="ActorCreation" Send="Create AP_InfestedMedicInfestation"/>
         <On Terms="Abil.AP_MercMedicHeal.SourceChannelStart" Send="$Spell PlayForever"/>
         <On Terms="Abil.AP_MercMedicHeal.SourceChannelStop" Send="AnimClear Spell"/>
         <On Terms="Abil.AP_MercMedicHealPlusMech.SourceChannelStart" Send="$Spell PlayForever"/>
         <On Terms="Abil.AP_MercMedicHealPlusMech.SourceChannelStop" Send="AnimClear Spell"/>
         <PortraitModel value="AP_InfestedMedic_Portrait"/>
-        <Model value="AP_MercMedic"/>
-        <DeathArray index="Normal" ModelLink="AP_MercMedicDeath" SoundLink="AP_Medic_Explode"/>
-        <DeathArray index="Blast" ModelLink="AP_MercMedicDeath"/>
-        <UnitIcon value="Assets\Textures\BTN-Unit-Terran-MedicMercenary.dds"/>
+        <Model value="AP_InfestedMedic"/>
+        <DeathArray index="Normal" ModelLink="AP_InfestedMedicDeath" SoundLink="AP_Medic_Explode"/>
+        <DeathArray index="Blast" ModelLink="AP_InfestedMedicDeath"/>
+		 <DeathArray index="Disintegrate" ModelLink="AP_InfestedMedicDeathAcid" SoundLink="Uni_DeathFXAcid"/>
+        <DeathArray index="Fire" ModelLink="AP_InfestedMedicDeathFire" SoundLink="Uni_DeathFXFire"/>
+        <UnitIcon value="AP\Assets\Textures\btn-unit-infested-infestedmedic.dds"/>
         <GroupIcon>
-            <Image value="Assets\Textures\wireframe-terran-medic-mercenary.dds"/>
+            <Image index="0" value="AP\Assets\Textures\wireframe-infested-infestedmedic.dds"/>
         </GroupIcon>
         <Wireframe>
-            <Image value="Assets\Textures\wireframe-terran-medic-mercenary.dds"/>
+            <Image index="0" value="AP\Assets\Textures\wireframe-infested-infestedmedic.dds"/>
         </Wireframe>
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-zerg-groundcarapace-level0.dds"/>
         <SoundArray index="Ready" value="AP_Medic_Ready_NP"/>
@@ -2547,12 +2548,6 @@
         <VitalNames index="Shields" value="Vital/ZergShields"/>
         <WireframeShieldColor value="255,0,128,0"/>
     </CActorUnit>
-    <CActorModel id="AP_InfestedMedicInfestation" parent="ModelAddition">
-        <Model value="NeuralParasiteModel"/>
-        <HostSiteOps Ops="SOpAttachHead"/>
-        <On Terms="UnitDeath" Send="Destroy"/>
-        <AutoScaleFactor value="1.000000"/>
-    </CActorModel>
     <CActorModel id="AP_MercMedicDropModel" parent="AP_MercDropModelBase">
         <On Terms="ActorCreation" Send="SetScale 0.800000"/>
     </CActorModel>
