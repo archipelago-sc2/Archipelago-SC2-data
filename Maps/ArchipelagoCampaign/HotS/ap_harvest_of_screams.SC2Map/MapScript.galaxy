@@ -2249,7 +2249,7 @@ bool gt_GlobalFlashFreezeBehavior_Func (bool testConds, bool runActions) {
     for (;; autoBC11CD66_u -= 1) {
         autoBC11CD66_var = UnitGroupUnitFromEnd(autoBC11CD66_g, autoBC11CD66_u);
         if (autoBC11CD66_var == null) { break; }
-        if ((UnitHasBehavior2(autoBC11CD66_var, "AP_NPSwarm") == false) && (UnitHasBehavior(autoBC11CD66_var, "FlashFreeze") == false)) {
+        if ((lib15EF4C78_gf_AP_Player_UnitIsMindControlled(autoBC11CD66_var) == false) && (UnitHasBehavior(autoBC11CD66_var, "FlashFreeze") == false)) {
             gf_AddFlashFreezetoUnit(autoBC11CD66_var);
         }
 
@@ -2265,7 +2265,7 @@ bool gt_GlobalFlashFreezeBehavior_Func (bool testConds, bool runActions) {
             auto39882515_var = UnitGroupUnitFromEnd(auto39882515_g, auto39882515_u);
             if (auto39882515_var == null) { break; }
             if ((UnitHasBehavior(auto39882515_var, "FlashFreeze") == false)) {
-                if ((UnitHasBehavior2(auto39882515_var, "AP_NPSwarm") == false)) {
+                if ((lib15EF4C78_gf_AP_Player_UnitIsMindControlled(auto39882515_var) == false)) {
                     if ((libNtve_gf_UnitIsVisibleToPlayer(auto39882515_var, gv_pLAYER_01_USER) == true)) {
                         gf_AddFlashFreezetoUnit(auto39882515_var);
                     }
