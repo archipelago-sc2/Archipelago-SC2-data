@@ -18796,12 +18796,14 @@
     <CActorSound id="AP_OverlordTransportLoadSound" parent="SoundOneShot">
         <Sound value="Overlord_Load"/>
         <On Terms="AbilTransport.AP_OverlordTransport.TransportLoad" Send="Create"/>
+        <On Terms="AbilTransport.AP_YggdrasilTransport.TransportLoad" Send="Create"/>
         <Host Subject="_Selectable"/>
         <HostSiteOps Ops="SOpAttachOriginStationary"/>
     </CActorSound>
     <CActorSound id="AP_OverlordTransportUnloadSound" parent="SoundOneShot">
         <Sound value="Overlord_Unload"/>
         <On Terms="AbilTransport.AP_OverlordTransport.TransportUnload" Send="Create"/>
+        <On Terms="AbilTransport.AP_YggdrasilTransport.TransportUnload" Send="Create"/>
         <Host Subject="_Selectable"/>
         <HostSiteOps Ops="SOpAttachOriginStationary"/>
     </CActorSound>
@@ -18810,6 +18812,7 @@
         <HostSiteOps Ops="SOpAttachCenter"/>
         <Host Subject="_Selectable"/>
         <On Terms="AbilTransport.AP_OverlordTransport.TransportUnload" Send="Create"/>
+        <On Terms="AbilTransport.AP_YggdrasilTransport.TransportUnload" Send="Create"/>
     </CActorModel>
     <CActorUnit id="AP_Hive" parent="ZergBuildingEx" unitName="AP_Hive">
         <Aliases value="_UnitHuge"/>
@@ -27819,6 +27822,10 @@
         <On Terms="AbilTransport.AP_OverlordTransport.CargoLoad" Send="AnimBracketStart Unload IGNORE Unload Unload,End DontResetOnUnhide"/>
         <On Terms="AbilTransport.AP_OverlordTransport.CargoLoadSuppressed" Send="AnimBracketStart Unload IGNORE Unload Unload,End DontResetOnUnhide"/>
         <On Terms="AbilTransport.AP_OverlordTransport.CargoUnload" Send="AnimBracketStop Unload"/>
+        <!-- Add AP_Yggdrasil to common transport load/unload animations -->
+        <On Terms="AbilTransport.AP_YggdrasilTransport.CargoLoad" Send="AnimBracketStart Unload IGNORE Unload Unload,End DontResetOnUnhide"/>
+        <On Terms="AbilTransport.AP_YggdrasilTransport.CargoLoadSuppressed" Send="AnimBracketStart Unload IGNORE Unload Unload,End DontResetOnUnhide"/>
+        <On Terms="AbilTransport.AP_YggdrasilTransport.CargoUnload" Send="AnimBracketStop Unload"/>
         <!-- Add AP_WarpPrism to common transport load/unload animations -->
         <On Terms="AbilTransport.AP_WarpPrismTransport.CargoLoad" Send="AnimBracketStart Unload IGNORE Unload Unload,End DontResetOnUnhide"/>
         <On Terms="AbilTransport.AP_WarpPrismTransport.CargoLoadSuppressed" Send="AnimBracketStart Unload IGNORE Unload Unload,End DontResetOnUnhide"/>
@@ -43048,8 +43055,8 @@
         <Aliases value="_UnitLarge"/>
         <Macros value="PhysicsDeathsSwarmAir"/>
         <Macros value="PhysicsDeathsVoidAir"/>
-        <On Terms="Abil.AP_OverlordTransport.TransportUnloadStart" Send="AnimPlay Work Stand,Work PlayForever"/>
-        <On Terms="Abil.AP_OverlordTransport.TransportUnloadStop" Send="AnimClear Work"/>
+        <On Terms="Abil.AP_YggdrasilTransport.TransportUnloadStart" Send="AnimPlay Work Stand,Work PlayForever"/>
+        <On Terms="Abil.AP_YggdrasilTransport.TransportUnloadStop" Send="AnimClear Work"/>
         <On Terms="Behavior.AP_makeCreep4x4Yggdrasil.Delay" Send="Create AP_OverlordGenerateCreepModel"/>
         <On Terms="Behavior.AP_makeCreep4x4Yggdrasil.Delay" Send="Create AP_OverlordGenerateCreepSound"/>
         <On Terms="Behavior.AP_makeCreep4x4Yggdrasil.Cancel" Target="AP_OverlordGenerateCreepModel" Send="Destroy"/>
