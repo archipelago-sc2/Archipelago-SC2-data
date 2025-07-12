@@ -13956,7 +13956,7 @@
         <SoundArray index="What" value="AP_TaldarimPhoenix_What"/>
         <SoundArray index="Yes" value="AP_TaldarimPhoenix_Yes"/>
         <SoundArray index="Attack" value="AP_TaldarimPhoenix_Attack"/>
-        <SoundArray index="Pissed" value="AP_TaldarinPhoenix_Pissed"/>
+        <SoundArray index="Pissed" value="AP_TaldarimPhoenix_Pissed"/>
 		<SoundArray index="Movement" value="AP_Mirage_Movement"/>
         <UnitIcon value="Assets\Textures\btn-unit-collection-taldarim-phoenix.dds"/>
         <Wireframe>
@@ -15941,7 +15941,7 @@
         <AnimBlendTime value="0.450000"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <BuildModel value="AP_HighTemplarShakurasWarpIn"/>
-        <DeathArray index="Normal" ModelLink="AP_HighTemplarShakurasDeath" SoundLink="HighTemplar_DeathFX"/>
+        <DeathArray index="Normal" ModelLink="AP_HighTemplarShakurasDeath" SoundLink="AP_HighTemplarShakuras_Death"/>
         <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathSmall" Name="Hallucination"/>
         <!--        <DeathCustoms ModelLink="AP_HighTemplarShakurasDeath" Name="AP_HighTemplarShakurasDeath"/>-->
         <DeathCustoms ActorModel="AP_HighTemplarShakurasDeathRagdoll" ModelLink="AP_HighTemplarShakurasDeathRagdoll" Name="RagdollBasic">
@@ -23544,7 +23544,7 @@
         <On Terms="UnitDeathCustomize; ValidateUnit AP_IsTerrazineShadow" Send="DeathCustomize Hallucination"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveVoidShade" Send="DeathCustomize Shadow"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveTerrazineShadow" Send="DeathCustomize Shadow"/>
-        <Model value="AP_Stalker_Taldarim_Alarak"/>
+        <Model value="AP_TaldarimStalker"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <BuildModel value="AP_Taldarim_Stalker_Warp_In"/>
         <DeathArray index="Normal" ModelLink="AP_Stalker_Taldarim_Death_Alarak"/>
@@ -23596,12 +23596,12 @@
         </GroupIcon>
         <HeroIcon value="Assets\Textures\btn-unit-protoss-alarak-taldarim-stalker-collection.dds"/>
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel0.dds"/>
-        <SoundArray index="Ready" value="StalkerTaldarim_Ready"/>
-        <SoundArray index="Help" value="StalkerTaldarim_Help"/>
-        <SoundArray index="What" value="StalkerTaldarim_What"/>
-        <SoundArray index="Yes" value="StalkerTaldarim_Yes"/>
-        <SoundArray index="Attack" value="StalkerTaldarim_Attack"/>
-        <SoundArray index="Pissed" value="StalkerTaldarim_Pissed"/>
+        <SoundArray index="Ready" value="AP_TaldarimStalker_Ready"/>
+        <SoundArray index="Help" value="AP_TaldarimStalker_Help"/>
+        <SoundArray index="What" value="AP_TaldarimStalker_What"/>
+        <SoundArray index="Yes" value="AP_TaldarimStalker_Yes"/>
+        <SoundArray index="Attack" value="AP_TaldarimStalker_Attack"/>
+        <SoundArray index="Pissed" value="AP_TaldarimStalker_Pissed"/>
         <UnitIcon value="Assets\Textures\btn-unit-protoss-alarak-taldarim-stalker-collection.dds"/>
         <Wireframe>
             <Image value="Assets\Textures\Wireframe-Protoss-Stalker-taldarim.dds"/>
@@ -31722,7 +31722,7 @@
         <On Terms="TimerExpired; TimerName DelayDestroy" Send="Destroy"/>
         <On Terms="ActorCreation" Send="RefSetFromRequest ::actor.CasterUnit _Unit Caster Find"/>
         <On Terms="ActorCreation" Target="::actor.CasterUnit" Send="Signal CampaignBeamCreated"/>
-        <Host Subject="_Unit" Scope="Caster" Actor="Find"/>
+	    <Host Subject="_Unit" Scope="Caster" Actor="Find"/>
         <Model value="VoidRayAttackBeam"/>
     </CActorBeamSimple>
     <CActorModel id="AP_VoidRayEnhancementAddition01" parent="ModelAddition">
@@ -31734,8 +31734,9 @@
         <On Terms="Behavior.AP_VoidRayVoidDamageBoost.Off" Send="AnimBracketStop BSD"/>
         <On Terms="Behavior.AP_VoidRayChargeBeamRangeCounter.On" Send="Create"/>
         <On Terms="Behavior.AP_VoidRayChargeBeamRangeCounter.Off" Send="AnimBracketStop BSD"/>
-        <On Terms="ActorCreation; ValidateUnit AP_IsVoidRayTaldarim" Send="ModelSwap AP_VoidRayTaldarimChargeBeam"/>
-        <HostSiteOps Ops="SOpAttachWeapon03"/>
+		        <On Terms="ActorCreation; ValidateUnit AP_IsVoidRayTaldarim" Send="ModelSwap AP_VoidRayTaldarimChargeBeam"/>
+		<On Terms="ActorCreation; ValidateUnit AP_IsVoidRayPurifier" Send="ModelSwap AP_VoidRayPurifierChargeBeam"/>
+	    <HostSiteOps Ops="SOpAttachWeapon03"/>
         <Model value="VoidRayChargeBase"/>
     </CActorModel>
     <CActorModel id="AP_VoidRayEnhancementAddition02" parent="ModelAddition">
@@ -31752,6 +31753,7 @@
         <On Terms="Behavior.AP_VoidRayChargeBeamRangePhase3.On" Send="Create"/>
         <On Terms="Behavior.AP_VoidRayChargeBeamRangePhase3.Off" Send="AnimBracketStop BSD"/>
         <On Terms="ActorCreation; ValidateUnit AP_IsVoidRayTaldarim" Send="ModelSwap AP_VoidRayTaldarimChargeBeam"/>
+		<On Terms="ActorCreation; ValidateUnit AP_IsVoidRayPurifier" Send="ModelSwap AP_VoidRayPurifierChargeBeam"/>
         <HostSiteOps Ops="SOpAttachWeapon05"/>
         <Model value="VoidRayChargeBase"/>
     </CActorModel>
@@ -31765,6 +31767,7 @@
         <On Terms="Behavior.AP_VoidRayChargeBeamRangePhase3.On" Send="Create"/>
         <On Terms="Behavior.AP_VoidRayChargeBeamRangePhase3.Off" Send="AnimBracketStop BSD"/>
         <On Terms="ActorCreation; ValidateUnit AP_IsVoidRayTaldarim" Send="ModelSwap AP_VoidRayTaldarimChargeBeam"/>
+		<On Terms="ActorCreation; ValidateUnit AP_IsVoidRayPurifier" Send="ModelSwap AP_VoidRayPurifierChargeBeam"/>
         <HostSiteOps Ops="SOpAttachWeapon07"/>
         <Model value="VoidRayChargeBase"/>
     </CActorModel>
@@ -35300,7 +35303,7 @@
     </CActorAction>
     <CActorUnit id="AP_VoidRayPurifier" parent="GenericUnitBase" unitName="AP_VoidRayPurifier">
         <StatusBarFlags index="Magazine" value="0"/>
-        <Model value="VoidRay_Purifier_Collection"/>
+        <Model value="AP_PurifierVoidRay"/>
         <Macros value="PhysicsDeathsVoidAir"/>
         <Macros value="AP_VoidRayGimbalMacro"/>
         <PortraitModel value="VoidRay_Purifier_Collection_Portrait"/>
@@ -35584,7 +35587,7 @@
         <On Terms="Behavior.AP_HyperjumpTeleport.Off" Send="$Spell"/>
 		<AbilSoundArray AbilCmd="AP_CarrierHyperjump,Execute" Sound="AP_TaldarimCarrier_Hyperjump"/>
         <Baselines index="Walk" BlendIn="1.500000" BlendOut="2.000000"/>
-        <PortraitModel value="Carrier_Taldarim_Collection_Portrait"/>
+        <PortraitModel value="AP_CarrierTaldarim_Portrait"/>
         <Model value="Carrier_Taldarim_Collection"/>
         <BuildModel value="AP_CarrierTaldarimWarpIn"/>
         <PlacementModel value="AP_CarrierTaldarimPlacement"/>
