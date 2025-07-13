@@ -35130,8 +35130,6 @@
         <PlacementModel value="AP_VoidRayAiurPlacement"/>
         <DeathArray index="Normal" ModelLink="AP_VoidRayAiurDeath" SoundLink="VoidRay_Explode"/>
         <AnimBlendTime value="0.500000"/>
-        <On Terms="UnitBirth.AP_VoidRayAiur" Send="SetTintColor {192,192,64 5.000000}"/>
-        <On Terms="UnitRevive.AP_VoidRayAiur" Send="SetTintColor {192,192,64 5.000000}"/>
         <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack Stand,Channel Attack,End"/>
         <On Terms="WeaponStart.*.AttackStart" Send="Create AP_VoidRayAiurCenterBeam"/>
         <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
@@ -35146,7 +35144,6 @@
         <On Terms="AnimDone; AnimName Spell" Send="ModelSwap AP_VoidRayAiur"/>
         <On Terms="UnitConstruction.AP_VoidRayAiur.Start" Send="$Stand 0 -1.000000 -1.000000 3.250000 AsDuration"/>
         <On Terms="AnimDone; AnimName Stand" Send="$Spell 0 -1.000000 -1.000000 1.750000 AsDuration"/>
-        <On Terms="AnimDone; AnimName Stand" Send="SetLocalTintColor {192,192,64 5.000000}"/>
         <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathLarge" Name="Hallucination"/>
         <BarWidth value="100"/>
         <BarOffset value="65"/>
