@@ -223,6 +223,28 @@ void libABFE498B_gf_AP_Triggers_setGenericUpgradeOptions (int lp_bitArrayValue) 
     libABFE498B_gv_aP_Triggers_Option_genericUpgradeResearchSpeedup = (ModI(lv_currentValue, 2) == 1);
 }
 
+void libABFE498B_gf_AP_Triggers_setTradeOptions (int lp_player, int lp_bitArrayValue) {
+    // Variable Declarations
+    int lv_currentValue;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_currentValue = lp_bitArrayValue;
+
+    // Implementation
+    if ((ModI(lv_currentValue, 2) == 1)) {
+        libABFE498B_gf_AP_Triggers_unlockTradeStructure(lp_player, 1);
+    }
+    else {
+        libABFE498B_gf_AP_Triggers_unlockTradeStructure(lp_player, 0);
+    }
+    lv_currentValue = (lv_currentValue / 2);
+    if ((ModI(lv_currentValue, 2) == 1)) {
+        libABFE498B_gf_AP_Triggers_unlockAllowTradeWorkers(lp_player);
+    }
+
+}
+
 void libABFE498B_gf_AP_Triggers_setMercenaryHighlander (bool lp_value) {
     // Variable Declarations
     int lv_player;
@@ -265,20 +287,6 @@ void libABFE498B_gf_AP_Triggers_setWarCouncil (bool lp_value) {
         }
     }
 
-}
-
-void libABFE498B_gf_AP_Triggers_unlockTradeStructure (int lp_player, int lp_value) {
-    // Automatic Variable Declarations
-    // Implementation
-    if ((lp_value == 1)) {
-        TechTreeUnitAllow(lp_player, "AP_TradeStructure", true);
-        lib5BD4895D_gv_aP_Core_tradeSendUnitType = "AP_TradeStructureSendDummy";
-        lib5BD4895D_gv_aP_Core_tradeReceiveUnitType = "AP_TradeStructureReceiveDummy";
-        lib5BD4895D_gv_aP_Core_tradeChargeBehavior = "AP_TradeCharge";
-    }
-    else {
-        TechTreeUnitAllow(lp_player, "AP_TradeStructure", false);
-    }
 }
 
 void libABFE498B_gf_AP_Triggers_unlockTerranUnits (int lp_player, int lp_bitArrayValue) {
@@ -9819,6 +9827,26 @@ void libABFE498B_gf_AP_Triggers_giveProtossDefaultTech (int lp_player) {
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_VoidRayBeamCanCharge", 1);
 }
 
+void libABFE498B_gf_AP_Triggers_unlockTradeStructure (int lp_player, int lp_value) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((lp_value == 1)) {
+        TechTreeUnitAllow(lp_player, "AP_TradeStructure", true);
+        lib5BD4895D_gv_aP_Core_tradeSendUnitType = "AP_TradeStructureSendDummy";
+        lib5BD4895D_gv_aP_Core_tradeReceiveUnitType = "AP_TradeStructureReceiveDummy";
+        lib5BD4895D_gv_aP_Core_tradeChargeBehavior = "AP_TradeCharge";
+    }
+    else {
+        TechTreeUnitAllow(lp_player, "AP_TradeStructure", false);
+    }
+}
+
+void libABFE498B_gf_AP_Triggers_unlockAllowTradeWorkers (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_AllowTradeWorkers", 1);
+}
+
 void libABFE498B_gf_AP_Triggers_giveBuildingSpeed (int lp_player, int lp_level) {
     // Variable Declarations
     int lv__1stacks;
@@ -10110,7 +10138,7 @@ bool libABFE498B_gt_AP_Triggers_setOptions_Func (bool testConds, bool runActions
     string lv_storyLevels;
     string lv_enableMorphling;
     string lv_overrideRace;
-    string lv_enableTrade;
+    string lv_tradeOptions;
     string lv_difficultyDamageModifier;
     string lv_difficultyDamageModifierEvent;
     string lv_unitOptionsValue;
@@ -10136,7 +10164,7 @@ bool libABFE498B_gt_AP_Triggers_setOptions_Func (bool testConds, bool runActions
     lv_storyLevels = "";
     lv_enableMorphling = "";
     lv_overrideRace = "";
-    lv_enableTrade = "";
+    lv_tradeOptions = "";
     lv_difficultyDamageModifier = "";
     lv_difficultyDamageModifierEvent = "";
     lv_unitOptionsValue = "";
@@ -10163,7 +10191,7 @@ bool libABFE498B_gt_AP_Triggers_setOptions_Func (bool testConds, bool runActions
     lv_storyLevels = StringWord(EventChatMessage(false), 14);
     lv_enableMorphling = StringWord(EventChatMessage(false), 15);
     lv_overrideRace = StringWord(EventChatMessage(false), 16);
-    lv_enableTrade = StringWord(EventChatMessage(false), 17);
+    lv_tradeOptions = StringWord(EventChatMessage(false), 17);
     lv_difficultyDamageModifier = StringWord(EventChatMessage(false), 18);
     lv_unitOptionsValue = StringWord(EventChatMessage(false), 19);
     lv_warCouncilNerfs = StringWord(EventChatMessage(false), 20);
@@ -10195,7 +10223,7 @@ bool libABFE498B_gt_AP_Triggers_setOptions_Func (bool testConds, bool runActions
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(auto03CC9166_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        libABFE498B_gf_AP_Triggers_unlockTradeStructure(lv_currentPlayer, StringToInt(lv_enableTrade));
+        libABFE498B_gf_AP_Triggers_setTradeOptions(lv_currentPlayer, StringToInt(lv_tradeOptions));
     }
     libABFE498B_gf_AP_Triggers_setMercenaryHighlander(StringEqual(lv_unitOptionsValue, "1", c_stringCase));
     libABFE498B_gf_AP_Triggers_setWarCouncil(StringEqual(lv_warCouncilNerfs, "1", c_stringCase));

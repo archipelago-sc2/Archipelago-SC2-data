@@ -5582,6 +5582,19 @@
     <CValidatorUnitType id="AP_IsAPTradeStructure">
         <Value value="AP_TradeStructure"/>
     </CValidatorUnitType>
+    <CValidatorCombine id="AP_TradeWorkersAllowedOrNotWorker">
+        <ResultFailed value="CantLoadThatUnit,Error/AP_ForbiddenByOption"/>
+        <Type value="Or"/>
+        <CombineArray value="AP_NotWorker"/>
+        <CombineArray value="AP_TradeWorkersAllowed"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_TradeWorkersAllowed">
+        <Find value="1"/>
+        <Value value="AP_HaveAllowTradeWorkers"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitFilters id="AP_NotWorker">
+        <Filters value="-;Worker"/>
+    </CValidatorUnitFilters>
     <CValidatorUnitType id="AP_IsAPBileLauncher">
         <Value value="AP_BileLauncher"/>
     </CValidatorUnitType>
