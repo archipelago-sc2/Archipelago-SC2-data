@@ -4767,6 +4767,10 @@ bool gt_VictoryReachTechVaultCompleted_Func (bool testConds, bool runActions) {
         if (!((UnitGroupCount(UnitGroup(null, gv_pLAYER_01_USER, RegionFromId(21), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterHallucination - 32))), 0), c_unitCountAlive) >= 1))) {
             return false;
         }
+
+        if (!((UnitGroupCount(UnitGroup("Pylon", c_playerAny, RegionFromId(44), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 0))) {
+            return false;
+        }
     }
 
     // Actions
