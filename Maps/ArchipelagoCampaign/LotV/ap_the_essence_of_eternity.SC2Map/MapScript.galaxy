@@ -984,6 +984,7 @@ bool gt_TransferZergControlToPlayer_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
     }
     PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropSuppliesLimit, c_playerPropOperAdd, 200);
+    lib15EF4C78_gf_StartingWorkersAutoHarvest(gv_pLAYER_01_USER, RegionFromId(12), RegionFromId(13));
     UnitGroupAddUnitGroup(lv_unitGroup, UnitGroup("AP_Hive", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     UnitGroupAddUnitGroup(lv_unitGroup, UnitGroup("AP_Lair", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     UnitGroupAddUnitGroup(lv_unitGroup, UnitGroup("AP_Hatchery", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
@@ -1051,6 +1052,7 @@ bool gt_TransferZergControlToPlayer_Func (bool testConds, bool runActions) {
         libNtve_gf_RescueUnit(lv_unit, gv_pLAYER_01_USER, true);
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
     }
+    Wait(1.0, c_timeAI);
     return true;
 }
 
@@ -1111,6 +1113,7 @@ bool gt_TransferProtossControlToPlayer_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
     }
     PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropSuppliesLimit, c_playerPropOperAdd, 200);
+    lib15EF4C78_gf_StartingWorkersAutoHarvest(gv_pLAYER_01_USER, RegionFromId(10), RegionFromId(11));
     Wait(1.0, c_timeAI);
     auto57B017CB_g = UnitGroup(null, gv_pLAYER_02_DOMINION2, RegionPlayableMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     auto57B017CB_u = UnitGroupCount(auto57B017CB_g, c_unitCountAll);

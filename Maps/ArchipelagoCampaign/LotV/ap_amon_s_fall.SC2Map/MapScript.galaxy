@@ -307,6 +307,7 @@ void gf_CleaveBase (int lp_index);
 void gf_CleaveField (int lp_index);
 void gf_MakeAmonCleaveTarget (int lp_baseCleaveIndex);
 void gf_BlackOutTerraininRegion (region lp_region);
+void gf_HandleHeroDeathVoid (unit lp_heroUnit, unit lp_reviveLocation, fixed lp_reviveTime);
 void gf_CreateQuantumRayReticle (unit lp_targetUnit);
 bool gf_UnitisArmyforPlayer (unit lp_unit, int lp_player);
 
@@ -1744,6 +1745,213 @@ void gf_BlackOutTerraininRegion (region lp_region) {
     }
     else {
     }
+}
+
+trigger auto_gf_HandleHeroDeathVoid_Trigger = null;
+unit auto_gf_HandleHeroDeathVoid_lp_heroUnit;
+unit auto_gf_HandleHeroDeathVoid_lp_reviveLocation;
+fixed auto_gf_HandleHeroDeathVoid_lp_reviveTime;
+
+void gf_HandleHeroDeathVoid (unit lp_heroUnit, unit lp_reviveLocation, fixed lp_reviveTime) {
+    auto_gf_HandleHeroDeathVoid_lp_heroUnit = lp_heroUnit;
+    auto_gf_HandleHeroDeathVoid_lp_reviveLocation = lp_reviveLocation;
+    auto_gf_HandleHeroDeathVoid_lp_reviveTime = lp_reviveTime;
+
+    if (auto_gf_HandleHeroDeathVoid_Trigger == null) {
+        auto_gf_HandleHeroDeathVoid_Trigger = TriggerCreate("auto_gf_HandleHeroDeathVoid_TriggerFunc");
+    }
+
+    TriggerExecute(auto_gf_HandleHeroDeathVoid_Trigger, false, false);
+}
+
+bool auto_gf_HandleHeroDeathVoid_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_heroUnit = auto_gf_HandleHeroDeathVoid_lp_heroUnit;
+    unit lp_reviveLocation = auto_gf_HandleHeroDeathVoid_lp_reviveLocation;
+    fixed lp_reviveTime = auto_gf_HandleHeroDeathVoid_lp_reviveTime;
+
+    // Variable Declarations
+    int lv_heroType;
+    unit lv_actualReviveLocation;
+    string lv_reviveUnitType;
+    text lv_reviveMessage;
+    text lv_reviveRebuildMessage;
+    fixed lv_reviveCooldown;
+    int lv_revivePlayer;
+    bool lv_updateRally;
+
+    // Automatic Variable Declarations
+    int auto661AB472_val;
+    int autoC8B6A825_val;
+
+    // Variable Initialization
+
+    // Implementation
+    if ((lp_reviveLocation != null) && (UnitIsAlive(lp_reviveLocation) == false)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/C82B3B91"), false);
+        return true;
+    }
+
+    lv_heroType = libVCMI_gf_PM_HeroTypeFromUnitType(UnitGetType(lp_heroUnit));
+    libVCMI_gv_pM_HeroRevivePlayer[(lv_heroType)] = UnitGetOwner(lp_heroUnit);
+    lv_revivePlayer = UnitGetOwner(lp_heroUnit);
+    libVCMI_gv_pM_HeroRevivingUnit[(lv_heroType)] = lp_heroUnit;
+    auto661AB472_val = lv_heroType;
+    if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan) {
+        lv_reviveUnitType = "KerriganReviveCocoon";
+        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/KerriganRevive";
+        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("KerriganRevive", 0);
+        if ((lp_reviveTime == -1.0)) {
+            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeKerrigan;
+        }
+        else {
+            lv_reviveCooldown = lp_reviveTime;
+        }
+        if ((libVCMI_gv_pM_ReviveUseAltMessage == true)) {
+            TextExpressionSetToken("Param/Expression/8E97F9B6", "A", IntToText(FixedToInt(lv_reviveCooldown)));
+            lv_reviveMessage = TextExpressionAssemble("Param/Expression/8E97F9B6");
+            lv_reviveRebuildMessage = StringExternal("Param/Value/E0BAB522");
+        }
+        else {
+            TextExpressionSetToken("Param/Expression/08A85A09", "A", IntToText(FixedToInt(lv_reviveCooldown)));
+            lv_reviveMessage = TextExpressionAssemble("Param/Expression/08A85A09");
+            lv_reviveRebuildMessage = StringExternal("Param/Value/8E750E9B");
+        }
+        if ((libVCMI_gv_pM_HeroRevivePlayer[(lv_heroType)] == 1)) {
+            lv_updateRally = true;
+        }
+
+    }
+    else if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga) {
+        lv_reviveUnitType = "KerriganXelNagaReviveCocoon";
+        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/KerriganRevive";
+        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("KerriganRevive", 0);
+        if ((lp_reviveTime == -1.0)) {
+            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeKerriganXelNaga;
+        }
+        else {
+            lv_reviveCooldown = lp_reviveTime;
+        }
+        if ((libVCMI_gv_pM_ReviveUseAltMessage == true)) {
+            TextExpressionSetToken("Param/Expression/38D6D677", "A", IntToText(FixedToInt(lv_reviveCooldown)));
+            lv_reviveMessage = TextExpressionAssemble("Param/Expression/38D6D677");
+            lv_reviveRebuildMessage = StringExternal("Param/Value/BDFAE492");
+        }
+        else {
+            TextExpressionSetToken("Param/Expression/AAEB29A3", "A", IntToText(FixedToInt(lv_reviveCooldown)));
+            lv_reviveMessage = TextExpressionAssemble("Param/Expression/AAEB29A3");
+            lv_reviveRebuildMessage = StringExternal("Param/Value/F58FA9B9");
+        }
+        if ((libVCMI_gv_pM_HeroRevivePlayer[(lv_heroType)] == 1)) {
+            lv_updateRally = true;
+        }
+
+    }
+    else if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Fenix) {
+        lv_reviveUnitType = "FenixCocoon";
+        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/FenixRevive";
+        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("FenixRevive", 0);
+        if ((lp_reviveTime == -1.0)) {
+            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeFenix;
+        }
+        else {
+            lv_reviveCooldown = lp_reviveTime;
+        }
+        TextExpressionSetToken("Param/Expression/B919D88D", "A", IntToText(FixedToInt(lv_reviveCooldown)));
+        lv_reviveMessage = TextExpressionAssemble("Param/Expression/B919D88D");
+        lv_reviveRebuildMessage = StringExternal("Param/Value/1F92C371");
+    }
+    else if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Stukov) {
+        lv_reviveUnitType = "StukovReviveCocoon";
+        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/StukovRevive";
+        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("StukovRevive", 0);
+        if ((lp_reviveTime == -1.0)) {
+            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeStukov;
+        }
+        else {
+            lv_reviveCooldown = lp_reviveTime;
+        }
+        TextExpressionSetToken("Param/Expression/FB666FCE", "A", IntToText(FixedToInt(lv_reviveCooldown)));
+        lv_reviveMessage = TextExpressionAssemble("Param/Expression/FB666FCE");
+        lv_reviveRebuildMessage = StringExternal("Param/Value/7A1C36D6");
+    }
+    else if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Zagara) {
+        lv_reviveUnitType = "ZagaraReviveCocoon";
+        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/ZagaraRevive";
+        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("ZagaraRevive", 0);
+        if ((lp_reviveTime == -1.0)) {
+            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeZagara;
+        }
+        else {
+            lv_reviveCooldown = lp_reviveTime;
+        }
+    }
+    else {
+        TextExpressionSetToken("Param/Expression/06280A2B", "A", StringToText((UnitGetType(lp_heroUnit))));
+        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/06280A2B"), false);
+        return true;
+    }
+    libVCMI_gv_pM_ReviveUseAltMessage = false;
+    if ((lp_reviveLocation != null)) {
+        lv_actualReviveLocation = lp_reviveLocation;
+    }
+    else {
+        lv_actualReviveLocation = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(lv_revivePlayer);
+    }
+    if ((libVCMI_gv_pM_HeroRevivePlayer[(lv_heroType)] == 1)) {
+        if (((lv_actualReviveLocation == null) || (UnitIsAlive(lv_actualReviveLocation) == false))) {
+            libVCMI_gf_DisplayCampaignMessage(PlayerGroupAll(), libVCMI_ge_CampaignMessageType_Warning, lv_reviveRebuildMessage, libVCMI_ge_CampaignMessageFormatNotFormat_FormatMessage);
+        }
+        else {
+            libVCMI_gf_DisplayCampaignMessage(PlayerGroupAll(), libVCMI_ge_CampaignMessageType_Warning, lv_reviveMessage, libVCMI_ge_CampaignMessageFormatNotFormat_FormatMessage);
+        }
+    }
+
+    Wait(2.0, c_timeGame);
+    while (((lv_actualReviveLocation == null) || (UnitIsAlive(lv_actualReviveLocation) == false))) {
+        Wait(1.0, c_timeGame);
+        lv_actualReviveLocation = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(lv_revivePlayer);
+    }
+    if ((UnitIsAlive(lp_heroUnit) == false)) {
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, lv_reviveUnitType, 0, libVCMI_gv_pM_HeroRevivePlayer[(lv_heroType)], UnitGetPosition(lv_actualReviveLocation));
+        libVCMI_gv_pM_HeroReviverUnit[(lv_heroType)] = UnitLastCreated();
+        if ((lv_heroType == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga)) {
+            libVCUI_gf_SetHeroPanelUnit(1, UnitLastCreated());
+        }
+
+        if ((lv_updateRally == true)) {
+            UnitCreateEffectUnit(lv_actualReviveLocation, "CopyHatcheryRally", libVCMI_gv_pM_HeroReviverUnit[(lv_heroType)]);
+            UnitIssueOrder(libVCMI_gv_pM_HeroReviverUnit[(lv_heroType)], OrderTargetingUnit(AbilityCommand("RallyHatchery", 1), libVCMI_gv_pM_HeroReviverUnit[(lv_heroType)]), c_orderQueueReplace);
+        }
+
+        libNtve_gf_PlayerRemoveCooldown(libVCMI_gv_pM_HeroRevivePlayer[(lv_heroType)], libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)]);
+        PlayerAddCooldown(libVCMI_gv_pM_HeroRevivePlayer[(lv_heroType)], libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)], lv_reviveCooldown);
+    }
+
+    autoC8B6A825_val = lv_heroType;
+    if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan) {
+        TriggerEnable(libVCMI_gt_PM_HeroReviveKerriganCooldownWait, true);
+    }
+    else if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga) {
+        TriggerEnable(libVCMI_gt_PM_HeroReviveKerriganXelNagaCooldownWait, true);
+    }
+    else if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Fenix) {
+        UnitBehaviorAdd(libVCMI_gv_pM_SoAUnit, "SOAFenixCooldownDummy", libVCMI_gv_pM_SoAUnit, 1);
+        TriggerEnable(libVCMI_gt_PM_HeroReviveFenixCooldownWait, true);
+    }
+    else if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Stukov) {
+        TriggerEnable(libVCMI_gt_PM_HeroReviveStukovCooldownWait, true);
+    }
+    else if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Zagara) {
+        TriggerEnable(libVCMI_gt_PM_HeroReviveZagaraCooldownWait, true);
+    }
+    else {
+    }
+    Wait(7.0, c_timeGame);
+    if ((UnitIsAlive(lp_heroUnit) == false)) {
+        UnitSetPosition(lp_heroUnit, UnitGetPosition(libVCMI_gv_pM_HeroReviverUnit[(lv_heroType)]), false);
+    }
+
+    return true;
 }
 
 trigger auto_gf_CreateQuantumRayReticle_Trigger = null;
@@ -4683,7 +4891,7 @@ bool gt_KerriganDies_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    libVCMI_gf_HandleHeroDeathVoid(gv_kerrigan, lib15EF4C78_gf_AP_Player_getPrimaryTownHall(gv_pLAYER_01_USER), -1.0);
+    gf_HandleHeroDeathVoid(gv_kerrigan, lib15EF4C78_gf_AP_Player_getPrimaryTownHall(gv_pLAYER_01_USER), -1.0);
     return true;
 }
 

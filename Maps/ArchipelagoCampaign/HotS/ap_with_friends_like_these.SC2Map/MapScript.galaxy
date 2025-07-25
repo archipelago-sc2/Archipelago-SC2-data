@@ -236,6 +236,9 @@ trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
 trigger gt_Debug_FirstBaseSetup;
+trigger gt_Debug_SecondBaseSetup;
+trigger gt_Debug_ThirdBaseSetup;
+trigger gt_Debug_Victory;
 trigger gt_Debug_FullPower;
 trigger gt_Debug_Experience;
 trigger gt_StartGameQ;
@@ -1721,10 +1724,13 @@ bool gt_Debug_FirstBaseSetup_Func (bool testConds, bool runActions) {
     unitgroup auto8C76A8C5_g;
     int auto8C76A8C5_u;
     unit auto8C76A8C5_var;
+    unitgroup auto1A1E6E08_g;
+    int auto1A1E6E08_u;
+    unit auto1A1E6E08_var;
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -1734,6 +1740,7 @@ bool gt_Debug_FirstBaseSetup_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/BF456C22"), true);
     UnitAbilityShow(gv_hyperion, "SJHyperionBlink", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionFighters", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionYamato", true);
@@ -1744,23 +1751,39 @@ bool gt_Debug_FirstBaseSetup_Func (bool testConds, bool runActions) {
         if (auto8C76A8C5_var == null) { break; }
         UnitKill(auto8C76A8C5_var);
     }
+    auto1A1E6E08_g = UnitGroupSearch(null, gv_pLAYER_01_USER, PointFromId(1), 5.0, UnitFilter(0, 0, (1 << c_targetFilterPlayer) | (1 << c_targetFilterAlly) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto1A1E6E08_u = UnitGroupCount(auto1A1E6E08_g, c_unitCountAll);
+    for (;; auto1A1E6E08_u -= 1) {
+        auto1A1E6E08_var = UnitGroupUnitFromEnd(auto1A1E6E08_g, auto1A1E6E08_u);
+        if (auto1A1E6E08_var == null) { break; }
+        UnitKill(auto1A1E6E08_var);
+    }
+    Wait(2.0, c_timeGame);
+    UnitSetPosition(gv_hyperion, PointFromId(1), false);
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void gt_Debug_FirstBaseSetup_Init () {
     gt_Debug_FirstBaseSetup = TriggerCreate("gt_Debug_FirstBaseSetup_Func");
-    TriggerAddEventChatMessage(gt_Debug_FirstBaseSetup, c_playerAny, "s2", true);
+    TriggerAddEventChatMessage(gt_Debug_FirstBaseSetup, c_playerAny, "-s2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Debug_FullPower
+// Trigger: Debug_SecondBase Setup
 //--------------------------------------------------------------------------------------------------
-bool gt_Debug_FullPower_Func (bool testConds, bool runActions) {
+bool gt_Debug_SecondBaseSetup_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    unitgroup autoB32318F6_g;
+    int autoB32318F6_u;
+    unit autoB32318F6_var;
+    unitgroup auto245DF605_g;
+    int auto245DF605_u;
+    unit auto245DF605_var;
+
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -1770,6 +1793,134 @@ bool gt_Debug_FullPower_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/0E5F31EF"), true);
+    UnitAbilityShow(gv_hyperion, "SJHyperionBlink", true);
+    UnitAbilityShow(gv_hyperion, "SJHyperionFighters", true);
+    UnitAbilityShow(gv_hyperion, "SJHyperionYamato", true);
+    autoB32318F6_g = gv_secondBaseUnits;
+    autoB32318F6_u = UnitGroupCount(autoB32318F6_g, c_unitCountAll);
+    for (;; autoB32318F6_u -= 1) {
+        autoB32318F6_var = UnitGroupUnitFromEnd(autoB32318F6_g, autoB32318F6_u);
+        if (autoB32318F6_var == null) { break; }
+        UnitKill(autoB32318F6_var);
+    }
+    auto245DF605_g = UnitGroupSearch(null, gv_pLAYER_01_USER, PointFromId(131), 5.0, UnitFilter(0, 0, (1 << c_targetFilterPlayer) | (1 << c_targetFilterAlly) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto245DF605_u = UnitGroupCount(auto245DF605_g, c_unitCountAll);
+    for (;; auto245DF605_u -= 1) {
+        auto245DF605_var = UnitGroupUnitFromEnd(auto245DF605_g, auto245DF605_u);
+        if (auto245DF605_var == null) { break; }
+        UnitKill(auto245DF605_var);
+    }
+    Wait(2.0, c_timeGame);
+    UnitSetPosition(gv_hyperion, PointFromId(131), false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Debug_SecondBaseSetup_Init () {
+    gt_Debug_SecondBaseSetup = TriggerCreate("gt_Debug_SecondBaseSetup_Func");
+    TriggerAddEventChatMessage(gt_Debug_SecondBaseSetup, c_playerAny, "-s3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug_ThirdBase Setup
+//--------------------------------------------------------------------------------------------------
+bool gt_Debug_ThirdBaseSetup_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto8CF45A5C_g;
+    int auto8CF45A5C_u;
+    unit auto8CF45A5C_var;
+    unitgroup autoCDFC0B11_g;
+    int autoCDFC0B11_u;
+    unit autoCDFC0B11_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/B5072074"), true);
+    UnitAbilityShow(gv_hyperion, "SJHyperionBlink", true);
+    UnitAbilityShow(gv_hyperion, "SJHyperionFighters", true);
+    UnitAbilityShow(gv_hyperion, "SJHyperionYamato", true);
+    auto8CF45A5C_g = gv_thirdBaseUnits;
+    auto8CF45A5C_u = UnitGroupCount(auto8CF45A5C_g, c_unitCountAll);
+    for (;; auto8CF45A5C_u -= 1) {
+        auto8CF45A5C_var = UnitGroupUnitFromEnd(auto8CF45A5C_g, auto8CF45A5C_u);
+        if (auto8CF45A5C_var == null) { break; }
+        UnitKill(auto8CF45A5C_var);
+    }
+    autoCDFC0B11_g = UnitGroupSearch(null, gv_pLAYER_01_USER, PointFromId(132), 5.0, UnitFilter(0, 0, (1 << c_targetFilterPlayer) | (1 << c_targetFilterAlly) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoCDFC0B11_u = UnitGroupCount(autoCDFC0B11_g, c_unitCountAll);
+    for (;; autoCDFC0B11_u -= 1) {
+        autoCDFC0B11_var = UnitGroupUnitFromEnd(autoCDFC0B11_g, autoCDFC0B11_u);
+        if (autoCDFC0B11_var == null) { break; }
+        UnitKill(autoCDFC0B11_var);
+    }
+    Wait(2.0, c_timeGame);
+    UnitSetPosition(gv_hyperion, PointFromId(132), false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Debug_ThirdBaseSetup_Init () {
+    gt_Debug_ThirdBaseSetup = TriggerCreate("gt_Debug_ThirdBaseSetup_Func");
+    TriggerAddEventChatMessage(gt_Debug_ThirdBaseSetup, c_playerAny, "-s4", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug_Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_Debug_Victory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/B48916A3"), true);
+    UnitKill(gv_enemyBase);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Debug_Victory_Init () {
+    gt_Debug_Victory = TriggerCreate("gt_Debug_Victory_Func");
+    TriggerAddEventChatMessage(gt_Debug_Victory, c_playerAny, "-win", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug_FullPower
+//--------------------------------------------------------------------------------------------------
+bool gt_Debug_FullPower_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/E61AE45D"), true);
     UnitAbilityShow(gv_hyperion, "SJHyperionBlink", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionFighters", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionYamato", true);
@@ -1780,7 +1931,7 @@ bool gt_Debug_FullPower_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_Debug_FullPower_Init () {
     gt_Debug_FullPower = TriggerCreate("gt_Debug_FullPower_Func");
-    TriggerAddEventChatMessage(gt_Debug_FullPower, c_playerAny, "FullPower", true);
+    TriggerAddEventChatMessage(gt_Debug_FullPower, c_playerAny, "-FullPower", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7358,6 +7509,9 @@ void InitTriggers () {
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
     gt_Debug_FirstBaseSetup_Init();
+    gt_Debug_SecondBaseSetup_Init();
+    gt_Debug_ThirdBaseSetup_Init();
+    gt_Debug_Victory_Init();
     gt_Debug_FullPower_Init();
     gt_Debug_Experience_Init();
     gt_StartGameQ_Init();
