@@ -3290,6 +3290,14 @@
         </Wireframe>
     </CActorUnit>
     <CActorAction id="AP_VultureAttack" parent="GenericAttack" effectImpact="AP_VultureU" effectLaunch="AP_Vulture"/>
+    <CActorAction id="AP_VultureAttackMoving" parent="GenericAttack" effectImpact="AP_VultureU" effectLaunch="AP_VultureMoving">
+        <LaunchAssets Model="AP_VultureAttackLaunch" Sound="AP_VultureAttackLaunch"/>
+        <Missile value="AP_VultureAttackMissile"/>
+        <ImpactMap index="None" Model="AP_VultureAttackImpact" Sound="AP_VultureAttackImpact" ModelReaction="AP_VultureAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="AP_VultureAttackImpactShield" ModelReaction="AP_VultureAttackImpactReactionShield"/>
+        <DamageMap index="None" Model="AP_VultureAttackDamage" Sound="AP_VultureAttackDamage" ModelReaction="AP_VultureAttackDamageReaction"/>
+        <DamageMap index="Shield" Sound="AP_VultureAttackDamageShield" ModelReaction="AP_VultureAttackDamageReactionShield"/>
+    </CActorAction>
     <CActorMissile id="AP_VultureAttackMissile" parent="GenericAttackMissile" unitName="AP_VultureWeapon"/>
     <CActorAction id="AP_VultureSpiderMineAttack" parent="GenericAttack" effectAttack="AP_VultureSpiderMinesDamage">
         <ShieldFlashType value="Header"/>
@@ -45222,4 +45230,5 @@
         <Up value="0.000000,0.000000,1.000000"/>
         <IsLocal value="1"/>
     </CActorSiteOpRotationExplicit>
+    
 </Catalog>
