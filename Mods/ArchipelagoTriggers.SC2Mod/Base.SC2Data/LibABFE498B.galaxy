@@ -10082,6 +10082,11 @@ bool auto_libABFE498B_gf_AP_Triggers_resetBase_TriggerFunc (bool testConds, bool
     PlayerAddCooldown(lp_player, "Abil/AP_ElderProbeWarpin", 60.0);
     lib15EF4C78_gf_AP_Player_clearZerglingRespawnChargesFromPlayer(lp_player);
     PlayerAddChargeUsed(lp_player, "Abil/AP_ElderProbeReconstruction", 5.0);
+    if ((TechTreeUpgradeCount(lp_player, "AP_ZergStructureRapidRegen", c_techCountCompleteOnly) >= 1)) {
+        libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_ZergStructureRapidRegen", 0);
+        libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_ZergStructureRapidRegen", 1);
+    }
+
     return true;
 }
 
@@ -10781,6 +10786,73 @@ void libABFE498B_gt_AP_Triggers_Debug_clearQueue_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_reapplyDefaultBehaviors
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto3C79E6A2_g;
+    int auto3C79E6A2_u;
+    unit auto3C79E6A2_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, (StringExternal("Param/Value/lib_ABFE498B_C1E33A22")), true);
+    auto3C79E6A2_g = UnitGroup(null, EventPlayer(), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto3C79E6A2_u = UnitGroupCount(auto3C79E6A2_g, c_unitCountAll);
+    for (;; auto3C79E6A2_u -= 1) {
+        auto3C79E6A2_var = UnitGroupUnitFromEnd(auto3C79E6A2_g, auto3C79E6A2_u);
+        if (auto3C79E6A2_var == null) { break; }
+        lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(auto3C79E6A2_var);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors, c_playerAny, "-reapply", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_resetBase
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_resetBase_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, (StringExternal("Param/Value/lib_ABFE498B_164F4E85")), true);
+    libABFE498B_gf_AP_Triggers_resetBase(EventPlayer());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_resetBase_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_resetBase = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_resetBase_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_resetBase, c_playerAny, "-reset", true);
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_resetBase, c_playerAny, "-resetbase", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_tradeStructureBuilt
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Func (bool testConds, bool runActions) {
@@ -10873,6 +10945,8 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init();
     libABFE498B_gt_AP_Triggers_Debug_takeControl_Init();
     libABFE498B_gt_AP_Triggers_Debug_clearQueue_Init();
+    libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors_Init();
+    libABFE498B_gt_AP_Triggers_Debug_resetBase_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
 }
