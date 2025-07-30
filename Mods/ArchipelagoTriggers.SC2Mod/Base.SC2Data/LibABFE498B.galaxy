@@ -10082,6 +10082,11 @@ bool auto_libABFE498B_gf_AP_Triggers_resetBase_TriggerFunc (bool testConds, bool
     PlayerAddCooldown(lp_player, "Abil/AP_ElderProbeWarpin", 60.0);
     lib15EF4C78_gf_AP_Player_clearZerglingRespawnChargesFromPlayer(lp_player);
     PlayerAddChargeUsed(lp_player, "Abil/AP_ElderProbeReconstruction", 5.0);
+    if ((TechTreeUpgradeCount(lp_player, "AP_ZergStructureRapidRegen", c_techCountCompleteOnly) >= 1)) {
+        libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_ZergStructureRapidRegen", 0);
+        libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_ZergStructureRapidRegen", 1);
+    }
+
     return true;
 }
 
