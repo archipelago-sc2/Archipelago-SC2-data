@@ -1170,7 +1170,7 @@ bool gt_DEBUGMidCinematic_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1192,6 +1192,7 @@ bool gt_DEBUGMidCinematic_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, (StringExternal("Param/Value/D216AD78")), true);
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerEnable(gt_SwarmHostQ, false);
     while (!((TriggerQueueIsEmpty() == true))) {
@@ -1232,17 +1233,14 @@ bool gt_DEBUGMidCinematic_Func (bool testConds, bool runActions) {
     TriggerEnable(gt_KerriganReachesPool, false);
     TriggerEnable(gt_DefeatKerriganKilled, false);
     UnitKill(UnitFromId(20));
-    libNtve_gf_CreateUnitsWithDefaultFacing(5, "SwarmHost", 0, gv_pLAYER_01_USER, UnitGetPosition(gv_kerrigan));
-    UnitGroupAddUnitGroup(gv_swarmHostGroup, UnitLastCreatedGroup());
-    TriggerExecute(gt_MidQ, true, false);
+    TriggerExecute(gt_KerriganReachesPool, false, false);
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGMidCinematic_Init () {
     gt_DEBUGMidCinematic = TriggerCreate("gt_DEBUGMidCinematic_Func");
-    TriggerAddEventChatMessage(gt_DEBUGMidCinematic, c_playerAny, "mid", true);
-    TriggerAddEventChatMessage(gt_DEBUGMidCinematic, c_playerAny, "s2", true);
+    TriggerAddEventChatMessage(gt_DEBUGMidCinematic, c_playerAny, "-s2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
