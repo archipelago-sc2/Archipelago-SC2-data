@@ -5124,8 +5124,11 @@
         <Macros value="UnloadDropAnim"/>
         <On Terms="UnitBirth.AP_GhostResourceEfficiency" Send="Create"/>
         <On Terms="ActorCreation; ModelVariation 0" Send="ModelSwap Ghost"/>
-        <On Terms="ActorCreation; ModelVariation 1" Send="Create AP_GhostAlternate"/>
-        <On Terms="ActorCreation; ModelVariation 1" Send="Destroy"/>
+        <On Terms="ActorCreation; ModelVariation 1; ValidateUnit AP_IsGhostSetToMale" Send="ModelSwap Ghost"/>
+        <On Terms="ActorCreation; ModelVariation 1; !ValidateUnit AP_IsGhostSetToMale" Send="Create AP_GhostAlternate"/>
+        <On Terms="ActorCreation; ModelVariation 1; !ValidateUnit AP_IsGhostSetToMale" Send="Destroy"/>
+        <On Terms="Behavior.AP_GhostMorphToFemale.On" Send="Create AP_GhostAlternate"/>
+        <On Terms="Behavior.AP_GhostMorphToFemale.On" Send="Destroy"/>
         <On Terms="Abil.AP_TacNukeStrike.SourceCastStart" Send="AnimPlay SpellA Spell,A"/>
         <On Terms="Abil.AP_TacNukeStrike.SourceCastStop" Send="AnimClear SpellA"/>
         <On Terms="Abil.AP_TacNukeStrike.SourceChannelStart" Send="AnimPlay SpellB Spell,B PlayForever"/>
@@ -5201,6 +5204,8 @@
     <CActorUnit id="AP_GhostAlternate" parent="GenericUnitBase" unitName="AP_GhostAlternate">
         <Aliases value="_UnitSmall"/>
         <Macros value="UnloadDropAnim"/>
+        <On Terms="Behavior.AP_GhostMorphToMale.On" Send="Create AP_Ghost"/>
+        <On Terms="Behavior.AP_GhostMorphToMale.On" Send="Destroy"/>
         <On Terms="AbilMorph.*.Start; MorphTo AP_GhostAlternate" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphTo AP_GhostNova" Send="Destroy"/>
         <On Terms="Abil.AP_TacNukeStrike.SourceCastStart" Send="AnimPlay SpellA Spell,A"/>
@@ -5260,7 +5265,6 @@
             <Image value="Assets\Textures\wireframe-ghostfemale.dds"/>
         </GroupIcon>
         <HeroIcon value="Assets\Textures\btn-unit-terran-dom-femaleghost.dds"/>
-        <HighlightTooltip value="Unit/Name/AP_GhostAlternate"/>
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
         <SelectAbilCmd value="AP_EMP,Execute"/>
         <SoundArray index="Ready" value="GhostAlternate_Ready"/>

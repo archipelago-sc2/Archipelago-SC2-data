@@ -2374,6 +2374,7 @@ bool gt_WarpInNorthUnits_Func (bool testConds, bool runActions) {
     }
     else if (auto7EE65541_val == "Terr") {
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Ghost", 0, gv_p01_USER, PointFromId(1520));
+        lib15EF4C78_gf_AP_Player_SetGhostVariant(UnitLastCreated(), lib15EF4C78_ge_AP_Player_GhostType_FEMALE);
         libCamp_gf_CreateDropPod(libCamp_ge_DropPodRace_Terran, PointFromId(553), UnitLastCreatedGroup(), false);
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Goliath", 0, gv_p01_USER, PointFromId(1520));
         libCamp_gf_CreateDropPod(libCamp_ge_DropPodRace_Terran, PointFromId(554), UnitLastCreatedGroup(), false);
@@ -2458,6 +2459,7 @@ bool gt_WarpInSouthUnits_Func (bool testConds, bool runActions) {
     }
     else if (autoD6126DE1_val == "Terr") {
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Ghost", 0, gv_p01_USER, PointFromId(1520));
+        lib15EF4C78_gf_AP_Player_SetGhostVariant(UnitLastCreated(), lib15EF4C78_ge_AP_Player_GhostType_FEMALE);
         libCamp_gf_CreateDropPod(libCamp_ge_DropPodRace_Terran, PointFromId(548), UnitLastCreatedGroup(), false);
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Goliath", 0, gv_p01_USER, PointFromId(1520));
         libCamp_gf_CreateDropPod(libCamp_ge_DropPodRace_Terran, PointFromId(549), UnitLastCreatedGroup(), false);
@@ -4592,7 +4594,7 @@ bool gt_TransmissionHighTemplarWarpedInQ_Func (bool testConds, bool runActions) 
     auto468A236A_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto468A236A_val == "Terr") {
         // Transmission - SoundLink("GhostFemale_GhostFemale_036", -1)
-        libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("GhostPortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), SoundLink("GhostFemale_GhostFemale_036", -1), 0.0, c_transmissionDurationAdd, true);
+        libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel("GhostAlternatePortrait"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), SoundLink("GhostFemale_GhostFemale_036", -1), 0.0, c_transmissionDurationAdd, true);
     }
     else if (auto468A236A_val == "Zerg") {
         // Transmission - SoundLink("AP_InfestorIntro00001", -1)
