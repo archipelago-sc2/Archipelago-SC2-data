@@ -3839,7 +3839,7 @@ void lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit (unit lp_unit) {
     lv_index = 0;
     for ( ; ( (auto01D20A2A_ai >= 0 && lv_index <= auto01D20A2A_ae) || (auto01D20A2A_ai < 0 && lv_index >= auto01D20A2A_ae) ) ; lv_index += auto01D20A2A_ai ) {
         lv_behavior = (CatalogFieldValueGet(c_gameCatalogUnit, UnitGetType(lp_unit), "BehaviorArray[" + IntToString(lv_index) + "].Link", UnitGetOwner(lp_unit)));
-        if ((lv_behavior != null) && (lv_behavior != "") && (lv_behavior != "PowerUserBaseDefenseSmall") && (lv_behavior != "PowerUserQueueSmall") && (lv_behavior != "PowerUserQueue") && (lv_behavior != "AP_ZerglingRespawnControllerRebirth") && (lv_behavior != "AP_ZerglingRespawnControllerSearch") && (lv_behavior != "AP_HarvestableVespeneGeyserGasZerg") && (lv_behavior != "AP_HarvestableVespeneGeyserGasProtoss") && (lv_behavior != "AP_HarvestableVespeneGeyserGas") && (lv_behavior != "AP_HarvestableRichVespeneGeyserGas")) {
+        if ((lv_behavior != null) && (lv_behavior != "") && (lv_behavior != "PowerUserBaseDefenseSmall") && (lv_behavior != "PowerUserQueueSmall") && (lv_behavior != "PowerUserQueue") && (lv_behavior != "AP_ZerglingRespawnControllerRebirth") && (lv_behavior != "AP_ZerglingRespawnControllerSearch") && (lv_behavior != "AP_HarvestableVespeneGeyserGasZerg") && (lv_behavior != "AP_HarvestableVespeneGeyserGasProtoss") && (lv_behavior != "AP_HarvestableVespeneGeyserGas") && (lv_behavior != "AP_HarvestableRichVespeneGeyserGas") && (lv_behavior != "AP_SpawnLarva") && (lv_behavior != "SpawnLarva") && (lv_behavior != "QueenSpawnLarva")) {
             UnitBehaviorRemove(lp_unit, lv_behavior, c_unitBehaviorCountAll);
             UnitBehaviorAdd(lp_unit, lv_behavior, lp_unit, 1);
         }
