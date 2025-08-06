@@ -2472,6 +2472,9 @@ bool gt_DebugStage3_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerDebugOutput(1, StringExternal("Param/Value/351F2FCC"), true);
+    TriggerExecute(gt_ObjectiveInfiltrateTheFacilityComplete, false, true);
+    TriggerExecute(gt_ObjectiveInvestigatePowerSignalComplete, false, true);
+    TriggerExecute(gt_ObjectiveUnlockDoorToDavisComplete, false, true);
     TriggerExecute(gt_S1CleanUpSection01, true, true);
     auto6D3C8290_g = gv_stage2PausedUnits;
     auto6D3C8290_u = UnitGroupCount(auto6D3C8290_g, c_unitCountAll);
