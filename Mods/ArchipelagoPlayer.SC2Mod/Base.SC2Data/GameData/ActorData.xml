@@ -19978,8 +19978,6 @@
     </CActorUnit>
     <CActorSound id="AP_K5FurySound" parent="SoundOneShot"/>
     <CActorEventMacro id="AP_KerriganCosmeticMacro">
-        <On Terms="ActorCreation; ValidatePlayer AP_HaveKerriganInfestedCosmetic" Send="SetTeamColor 234,0,255 234,0,255"/>
-        <On Terms="ActorCreation; !ValidatePlayer AP_HaveKerriganInfestedCosmetic" Send="SetTeamColor 255,128,0 255,128,0"/>
         <On Terms="ActorCreation; ValidatePlayer AP_HaveKerriganInfestedCosmetic" Send="SetWalkAnimMoveSpeed 1.1992"/>
         <On Terms="ActorCreation; !ValidatePlayer AP_HaveKerriganInfestedCosmetic" Send="SetWalkAnimMoveSpeed 2"/>
         <On Terms="ActorCreation; ValidatePlayer AP_HaveKerriganInfestedCosmetic" Send="ModelSwap AP_InfestedKerrigan"/>
@@ -19987,10 +19985,8 @@
         <On Terms="UnitPortrait.*.Customize; !ValidatePlayer AP_HaveKerriganInfestedCosmetic" Send="PortraitCustomize AP_KerriganGhostPortrait AP_KerriganGhostPortrait"/>
         <On Terms="UnitPortrait.*.Customize; ValidatePlayer AP_HaveKerriganInfestedCosmetic" Send="PortraitCustomize AP_KerriganPrimalPortrait AP_KerriganPrimalPortrait"/>
         <On Terms="Upgrade.AP_KerriganInfestedCosmetic.Add" Send="SetWalkAnimMoveSpeed 1.1992"/>
-        <On Terms="Upgrade.AP_KerriganInfestedCosmetic.Add" Send="SetTeamColor 234,0,255 234,0,255"/>
         <On Terms="Upgrade.AP_KerriganInfestedCosmetic.Add" Send="ModelSwap AP_InfestedKerrigan"/>
         <On Terms="Upgrade.AP_KerriganInfestedCosmetic.Remove" Send="SetWalkAnimMoveSpeed 2"/>
-        <On Terms="Upgrade.AP_KerriganInfestedCosmetic.Remove" Send="SetTeamColor 255,128,0 255,128,0"/>
         <On Terms="Upgrade.AP_KerriganInfestedCosmetic.Remove" Send="ModelSwap AP_KerriganGhost00"/>
     </CActorEventMacro>
     <CActorEventMacro id="AP_KerriganSpells">
@@ -20194,7 +20190,9 @@
     <CActorSound id="AP_KerriganX1_Ready_Queen" parent="SoundOneShot"/>
     <CActorSound id="AP_KerriganX1_Ready_Primal" parent="SoundOneShot"/>
     <CActorModel id="AP_KerriganHeroGlow" parent="ModelAddition"/>
-    <CActorModel id="AP_KerriganHeroGlowPurple" parent="ModelAddition"/>
+    <CActorModel id="AP_KerriganHeroGlowPurple" parent="ModelAddition">
+        <Model value="AP_KerriganHeroGlow"/>
+    </CActorModel>
     <CActorModel id="AP_KerriganPrimalPortraitAddition" parent="CompositePortraitAddition"/>
     <CActorPortrait id="AP_KerriganPrimalPortrait" parent="CompositePortrait"/>
     <CActorModel id="AP_KerriganGhostPortraitAddition" parent="CompositePortraitAddition"/>
