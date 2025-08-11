@@ -3811,20 +3811,6 @@ void lib15EF4C78_gf_AP_Player_PauseMercenaryCooldowns (int lp_player, bool lp_pa
 
 }
 
-void lib15EF4C78_gf_AP_Player_SetGhostVariant (unit lp_unit, int lp_type) {
-    // Automatic Variable Declarations
-    // Implementation
-    if (((UnitGetType(lp_unit) == "AP_Ghost") || (UnitGetType(lp_unit) == "AP_GhostResourceEfficiency"))) {
-        if ((lp_type == lib15EF4C78_ge_AP_Player_GhostType_MALE)) {
-            UnitBehaviorAdd(lp_unit, "AP_GhostMorphToMale", lp_unit, 1);
-        }
-        else {
-            UnitBehaviorAdd(lp_unit, "AP_GhostMorphToFemale", lp_unit, 1);
-        }
-    }
-
-}
-
 void lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit (unit lp_unit) {
     // Variable Declarations
     string lv_behavior;
@@ -3843,7 +3829,7 @@ void lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit (unit lp_unit) {
     lv_index = 0;
     for ( ; ( (auto01D20A2A_ai >= 0 && lv_index <= auto01D20A2A_ae) || (auto01D20A2A_ai < 0 && lv_index >= auto01D20A2A_ae) ) ; lv_index += auto01D20A2A_ai ) {
         lv_behavior = (CatalogFieldValueGet(c_gameCatalogUnit, UnitGetType(lp_unit), "BehaviorArray[" + IntToString(lv_index) + "].Link", UnitGetOwner(lp_unit)));
-        if ((lv_behavior != null) && (lv_behavior != "") && (lv_behavior != "PowerUserBaseDefenseSmall") && (lv_behavior != "PowerUserQueueSmall") && (lv_behavior != "PowerUserQueue") && (lv_behavior != "AP_ZerglingRespawnControllerRebirth") && (lv_behavior != "AP_ZerglingRespawnControllerSearch") && (lv_behavior != "AP_HarvestableVespeneGeyserGasZerg") && (lv_behavior != "AP_HarvestableVespeneGeyserGasProtoss") && (lv_behavior != "AP_HarvestableVespeneGeyserGas") && (lv_behavior != "AP_HarvestableRichVespeneGeyserGas") && (lv_behavior != "AP_SpawnLarva") && (lv_behavior != "SpawnLarva") && (lv_behavior != "QueenSpawnLarva")) {
+        if ((lv_behavior != null) && (lv_behavior != "") && (lv_behavior != "PowerUserBaseDefenseSmall") && (lv_behavior != "PowerUserQueueSmall") && (lv_behavior != "PowerUserQueue") && (lv_behavior != "AP_ZerglingRespawnControllerRebirth") && (lv_behavior != "AP_ZerglingRespawnControllerSearch") && (lv_behavior != "AP_HarvestableVespeneGeyserGasZerg") && (lv_behavior != "AP_HarvestableVespeneGeyserGasProtoss") && (lv_behavior != "AP_HarvestableVespeneGeyserGas") && (lv_behavior != "AP_HarvestableRichVespeneGeyserGas")) {
             UnitBehaviorRemove(lp_unit, lv_behavior, c_unitBehaviorCountAll);
             UnitBehaviorAdd(lp_unit, lv_behavior, lp_unit, 1);
         }
