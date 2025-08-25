@@ -263,7 +263,7 @@ void lib15EF4C78_InitCustomScript () {
 
 // Presets
 // Functions
-void lib15EF4C78_gf_Stukov_NewBunkerUnitProcess (unit lp_newUnit) {
+void lib15EF4C78_gf_Stukov_NewBunkerUnitProcess (unit lp_bunker, unit lp_newUnit) {
     // Variable Declarations
     unit lv_unit;
     int lv_player;
@@ -280,23 +280,33 @@ void lib15EF4C78_gf_Stukov_NewBunkerUnitProcess (unit lp_newUnit) {
     }
 
     UnitGroupAdd(lib15EF4C78_gv_stukov_HordeGroup, lp_newUnit);
-    lib15EF4C78_gf_Stukov_SingleUnitGoToRally(lv_unit, true);
+    lib15EF4C78_gf_Stukov_SingleUnitGoToRally(lv_unit, true, UnitRallyPointTargetPoint(lp_bunker, 1, 1));
 }
 
-void lib15EF4C78_gf_Stukov_SingleUnitGoToRally (unit lp_rallyingUnit, bool lp_overrideExistingOrders) {
+void lib15EF4C78_gf_Stukov_SingleUnitGoToRally (unit lp_rallyingUnit, bool lp_overrideExistingOrders, point lp_overrideRallyPoint) {
+    // Variable Declarations
+    point lv_rallyPoint;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_rallyPoint = lib15EF4C78_gv_stukov_RallyPoint[UnitGetOwner(lp_rallyingUnit)];
+
     // Implementation
-    if ((lib15EF4C78_gv_stukov_RallyPoint != null) && ((lp_overrideExistingOrders == true) || (UnitOrderCount(lp_rallyingUnit) == 0))) {
-        UnitIssueOrder(lp_rallyingUnit, OrderTargetingPoint(AbilityCommand("move", 3), lib15EF4C78_gv_stukov_RallyPoint), c_orderQueueReplace);
+    if ((lp_overrideRallyPoint != null)) {
+        lv_rallyPoint = lp_overrideRallyPoint;
+    }
+
+    if ((lv_rallyPoint != null) && ((lp_overrideExistingOrders == true) || (UnitOrderCount(lp_rallyingUnit) == 0))) {
+        UnitIssueOrder(lp_rallyingUnit, OrderTargetingPoint(AbilityCommand("move", 3), lv_rallyPoint), c_orderQueueReplace);
     }
 
 }
 
-void lib15EF4C78_gf_Stukov_HordeGoToRally () {
+void lib15EF4C78_gf_Stukov_HordeGoToRally (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
-    if ((lib15EF4C78_gv_stukov_RallyPoint != null)) {
-        UnitGroupIssueOrder(lib15EF4C78_gv_stukov_HordeGroup, OrderTargetingPoint(AbilityCommand("move", 3), lib15EF4C78_gv_stukov_RallyPoint), c_orderQueueReplace);
+    if ((lib15EF4C78_gv_stukov_RallyPoint[lp_player] != null)) {
+        UnitGroupIssueOrder(UnitGroupFilterPlayer(lib15EF4C78_gv_stukov_HordeGroup, lp_player, 0), OrderTargetingPoint(AbilityCommand("move", 3), lib15EF4C78_gv_stukov_RallyPoint[lp_player]), c_orderQueueReplace);
     }
 
 }
@@ -4288,15 +4298,23 @@ void lib15EF4C78_gt_ApplyZergStructureRapidRegen_Init () {
 // Trigger: Stukov_InfestedBunkerRegister
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_Stukov_InfestedBunkerRegister_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_caster;
+    int lv_player;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_caster = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lv_player = UnitGetOwner(lv_caster);
+
     // Actions
     if (!runActions) {
         return true;
     }
 
-    UnitGroupAdd(lib15EF4C78_gv_stukov_BunkerGroup, EventPlayerEffectUsedUnit(c_effectUnitCaster));
-    if ((lib15EF4C78_gv_stukov_RallyPoint != null)) {
-        UnitGroupIssueOrder(lib15EF4C78_gv_stukov_BunkerGroup, OrderTargetingPoint(AbilityCommand("AP_SIInfestedBunkerRally", 0), lib15EF4C78_gv_stukov_RallyPoint), c_orderQueueReplace);
+    UnitGroupAdd(lib15EF4C78_gv_stukov_BunkerGroup, lv_caster);
+    if ((lib15EF4C78_gv_stukov_RallyPoint[lv_player] != null)) {
+        UnitGroupIssueOrder(UnitGroupFilterPlayer(lib15EF4C78_gv_stukov_BunkerGroup, lv_player, 0), OrderTargetingPoint(AbilityCommand("AP_SIInfestedBunkerRally", 0), lib15EF4C78_gv_stukov_RallyPoint[lv_player]), c_orderQueueReplace);
     }
 
     return true;
@@ -4305,7 +4323,7 @@ bool lib15EF4C78_gt_Stukov_InfestedBunkerRegister_Func (bool testConds, bool run
 //--------------------------------------------------------------------------------------------------
 void lib15EF4C78_gt_Stukov_InfestedBunkerRegister_Init () {
     lib15EF4C78_gt_Stukov_InfestedBunkerRegister = TriggerCreate("lib15EF4C78_gt_Stukov_InfestedBunkerRegister_Func");
-    TriggerAddEventPlayerEffectUsed(lib15EF4C78_gt_Stukov_InfestedBunkerRegister, 1, "AP_SIInfestedBunkerCreation");
+    TriggerAddEventPlayerEffectUsed(lib15EF4C78_gt_Stukov_InfestedBunkerRegister, c_playerAny, "AP_SIInfestedBunkerCreation");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4342,7 +4360,7 @@ bool lib15EF4C78_gt_Stukov_InfestedBunkerInitialSpawn_Func (bool testConds, bool
         for (;; auto0C07B99A_u -= 1) {
             lv_unit = UnitGroupUnitFromEnd(auto0C07B99A_g, auto0C07B99A_u);
             if (lv_unit == null) { break; }
-            lib15EF4C78_gf_Stukov_NewBunkerUnitProcess(lv_unit);
+            lib15EF4C78_gf_Stukov_NewBunkerUnitProcess(EventUnitProgressUnit(), lv_unit);
         }
     }
 
@@ -4383,8 +4401,8 @@ bool lib15EF4C78_gt_Stukov_InfestedBunkerAutoLoad_Func (bool testConds, bool run
         lv_newUnit = UnitCargoLastCreated();
     }
     else {
-        if ((lib15EF4C78_gv_stukov_RallyPoint != null)) {
-            lv_position = libNtve_gf_PointOffsetTowardsPoint(lv_position, 1.0, lib15EF4C78_gv_stukov_RallyPoint);
+        if ((lib15EF4C78_gv_stukov_RallyPoint[lv_player] != null)) {
+            lv_position = libNtve_gf_PointOffsetTowardsPoint(lv_position, 1.0, lib15EF4C78_gv_stukov_RallyPoint[lv_player]);
         }
         else {
             lv_position = PointWithOffset(lv_position, 0.0, -0.5);
@@ -4393,7 +4411,7 @@ bool lib15EF4C78_gt_Stukov_InfestedBunkerAutoLoad_Func (bool testConds, bool run
         lv_newUnit = UnitLastCreated();
         SoundPlayOnUnitForPlayer(SoundLink("Medivac_Unload", 0), lv_player, PlayerGroupAll(), lv_bunker, 0.0, 100.0, 0.0);
     }
-    lib15EF4C78_gf_Stukov_NewBunkerUnitProcess(lv_newUnit);
+    lib15EF4C78_gf_Stukov_NewBunkerUnitProcess(lv_bunker, lv_newUnit);
     return true;
 }
 
@@ -4413,28 +4431,34 @@ bool lib15EF4C78_gt_Stukov_InfestedBunkerUnloadRally_Func (bool testConds, bool 
         return true;
     }
 
-    lib15EF4C78_gf_Stukov_NewBunkerUnitProcess(EventPlayerEffectUsedUnit(c_effectUnitTarget));
+    lib15EF4C78_gf_Stukov_NewBunkerUnitProcess(EventPlayerEffectUsedUnit(c_effectUnitCaster), EventPlayerEffectUsedUnit(c_effectUnitTarget));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void lib15EF4C78_gt_Stukov_InfestedBunkerUnloadRally_Init () {
     lib15EF4C78_gt_Stukov_InfestedBunkerUnloadRally = TriggerCreate("lib15EF4C78_gt_Stukov_InfestedBunkerUnloadRally_Func");
-    TriggerAddEventPlayerEffectUsed(lib15EF4C78_gt_Stukov_InfestedBunkerUnloadRally, 1, "AP_SIInfestedBunkerBunkerUnloadSet");
+    TriggerAddEventPlayerEffectUsed(lib15EF4C78_gt_Stukov_InfestedBunkerUnloadRally, c_playerAny, "AP_SIInfestedBunkerBunkerUnloadSet");
 }
 
 //--------------------------------------------------------------------------------------------------
 // Trigger: Stukov_HordeWaveCreated
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_Stukov_HordeWaveCreated_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_barracks;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_barracks = UnitGetOriginalCaster(UnitGetOriginalCaster(EventUnitCreatedUnit()));
+
     // Actions
     if (!runActions) {
         return true;
     }
 
     UnitGroupAdd(lib15EF4C78_gv_stukov_HordeGroup, EventUnitCreatedUnit());
-    lib15EF4C78_gf_Stukov_SingleUnitGoToRally(EventUnitCreatedUnit(), false);
+    lib15EF4C78_gf_Stukov_SingleUnitGoToRally(EventUnitCreatedUnit(), false, UnitRallyPointTargetPoint(lv_barracks, 1, 1));
     return true;
 }
 
@@ -4448,22 +4472,32 @@ void lib15EF4C78_gt_Stukov_HordeWaveCreated_Init () {
 // Trigger: Stukov_RallyPlaced
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_Stukov_RallyPlaced_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_caster;
+    int lv_player;
+    unit lv_unit;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_caster = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lv_player = UnitGetOwner(lv_caster);
+
     // Actions
     if (!runActions) {
         return true;
     }
 
-    lib15EF4C78_gv_stukov_RallyTarget = null;
-    lib15EF4C78_gv_stukov_RallyPoint = EventPlayerEffectUsedPoint(c_effectLocationTargetPoint);
-    if ((lib15EF4C78_gv_stukov_RallyBeaconUnit != null)) {
-        UnitRemove(lib15EF4C78_gv_stukov_RallyBeaconUnit);
+    lib15EF4C78_gv_stukov_RallyTarget[lv_player] = null;
+    lib15EF4C78_gv_stukov_RallyPoint[lv_player] = EventPlayerEffectUsedPoint(c_effectLocationTargetPoint);
+    if ((lib15EF4C78_gv_stukov_RallyBeaconUnit[lv_player] != null)) {
+        UnitRemove(lib15EF4C78_gv_stukov_RallyBeaconUnit[lv_player]);
     }
 
-    libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_SIStukovRallyBeaconPsiEmitterPoint", c_unitCreateIgnorePlacement, 0, lib15EF4C78_gv_stukov_RallyPoint);
-    lib15EF4C78_gv_stukov_RallyBeaconUnit = UnitLastCreated();
-    UnitGroupIssueOrder(lib15EF4C78_gv_stukov_BunkerGroup, OrderTargetingPoint(AbilityCommand("AP_SIInfestedBunkerRally", 0), lib15EF4C78_gv_stukov_RallyPoint), c_orderQueueReplace);
-    lib15EF4C78_gf_Stukov_HordeGoToRally();
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_SIStukovRallyBeaconPsiEmitterPoint", c_unitCreateIgnorePlacement, 0, lib15EF4C78_gv_stukov_RallyPoint[lv_player]);
+    lib15EF4C78_gv_stukov_RallyBeaconUnit[lv_player] = UnitLastCreated();
+    UnitGroupIssueOrder(UnitGroupFilterPlayer(lib15EF4C78_gv_stukov_BunkerGroup, lv_player, 0), OrderTargetingPoint(AbilityCommand("AP_SIInfestedBunkerRally", 0), lib15EF4C78_gv_stukov_RallyPoint[lv_player]), c_orderQueueReplace);
+    UnitGroupIssueOrder(UnitGroup("AP_SIBarracks", lv_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), OrderTargetingPoint(AbilityCommand("Rally", 0), lib15EF4C78_gv_stukov_RallyPoint[lv_player]), c_orderQueueReplace);
+    lib15EF4C78_gf_Stukov_HordeGoToRally(lv_player);
     return true;
 }
 
@@ -4529,7 +4563,7 @@ bool lib15EF4C78_gt_AP_Stukov_InfestedSiegeTankDeath_Func (bool testConds, bool 
         UnitSetState(UnitLastCreated(), c_unitStateUsingSupply, false);
         UnitBehaviorAddPlayer(UnitLastCreated(), "AP_SIBarracksTrainTimedLife", lv_player, 1);
         UnitGroupAdd(lib15EF4C78_gv_stukov_HordeGroup, UnitLastCreated());
-        lib15EF4C78_gf_Stukov_SingleUnitGoToRally(UnitLastCreated(), false);
+        lib15EF4C78_gf_Stukov_SingleUnitGoToRally(UnitLastCreated(), false, null);
     }
     return true;
 }
