@@ -9921,6 +9921,50 @@ void libABFE498B_gf_AP_Triggers_giveResearchCost (int lp_player, int lp_level) {
     }
 }
 
+void libABFE498B_gf_AP_Triggers_Debug_reviveKerrigan (int lp_player) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_unit = lib15EF4C78_gf_AP_Player_getKerriganUnit(lp_player);
+    if ((lv_unit == null)) {
+        return ;
+    }
+
+    if ((UnitIsAlive(lv_unit) == false)) {
+        lib15EF4C78_gf_ReviveHeroInstantly(1, lib15EF4C78_ge_HeroUnit_Kerrigan, false);
+    }
+    else {
+        return ;
+    }
+    Wait(0.0625, c_timeGame);
+    if ((UnitIsAlive(lv_unit) == false)) {
+        Wait(2.0, c_timeGame);
+        lib15EF4C78_gf_ReviveHeroInstantly(1, lib15EF4C78_ge_HeroUnit_Kerrigan, false);
+    }
+    else {
+        return ;
+    }
+    Wait(0.0625, c_timeGame);
+    if ((UnitIsAlive(lv_unit) == false)) {
+        UnitRevive(lv_unit);
+        UnitSetPropertyFixed(lv_unit, c_unitPropLifePercent, 100.0);
+    }
+    else {
+        return ;
+    }
+    Wait(0.0625, c_timeGame);
+    if ((UnitIsAlive(lv_unit) == false)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_23272ED1"), true);
+    }
+    else {
+        return ;
+    }
+}
+
 bool libABFE498B_gf_AP_Triggers_checkSoA (int lp_player, int lp_mode, bool lp_nobuildsection) {
     // Variable Declarations
     int lv_currentPlayer;
@@ -10890,6 +10934,33 @@ void libABFE498B_gt_AP_Triggers_Debug_resetBase_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_reviveHeroes
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_963EE8BA"), true);
+    libABFE498B_gf_AP_Triggers_Debug_reviveKerrigan(EventPlayer());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_reviveHeroes = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_reviveHeroes, c_playerAny, "-revive", true);
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_reviveHeroes, c_playerAny, "-r", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_tradeStructureBuilt
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Func (bool testConds, bool runActions) {
@@ -10985,6 +11056,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Init();
     libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors_Init();
     libABFE498B_gt_AP_Triggers_Debug_resetBase_Init();
+    libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
 }
