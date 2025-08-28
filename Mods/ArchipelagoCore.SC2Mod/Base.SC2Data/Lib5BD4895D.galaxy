@@ -44,10 +44,10 @@ void lib5BD4895D_InitVariables () {
     lib5BD4895D_gv_aP_Core_Faction_NOVA = "nova";
     lib5BD4895D_gv_aP_Core_blackScreen_dialog = c_invalidDialogId;
     lib5BD4895D_gv_aP_Core_blackScreen = c_invalidDialogControlId;
-    lib5BD4895D_gv_chatbox.lv_maxmessages = 50;
-    lib5BD4895D_gv_chatbox.lv_mainframe = c_invalidDialogControlId;
-    lib5BD4895D_gv_chatbox.lv_chatlabel = c_invalidDialogControlId;
-    lib5BD4895D_gv_chatbox.lv_countlabel = c_invalidDialogControlId;
+    lib5BD4895D_gv_aP_Core_chatbox.lv_maxmessages = 50;
+    lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe = c_invalidDialogControlId;
+    lib5BD4895D_gv_aP_Core_chatbox.lv_chatlabel = c_invalidDialogControlId;
+    lib5BD4895D_gv_aP_Core_chatbox.lv_countlabel = c_invalidDialogControlId;
     for (init_i = 0; init_i <= 7; init_i += 1) {
         lib5BD4895D_gv_aP_Core_rainbowColors[init_i] = 1;
     }
@@ -189,7 +189,7 @@ void lib5BD4895D_gf_AP_Core_refreshController () {
     UnitSetPropertyFixed(lib5BD4895D_gv_aP_Core_controller2, c_unitPropLife, (UnitGetPropertyInt(lib5BD4895D_gv_aP_Core_controller2, c_unitPropLife, c_unitPropCurrent) - lib5BD4895D_gv_aP_Core_controller2Status));
 }
 
-text lib5BD4895D_gf_getchatboxcontent () {
+text lib5BD4895D_gf_AP_Core_getChatboxContent () {
     // Variable Declarations
     int lv_index;
     text lv_tmptext;
@@ -197,17 +197,17 @@ text lib5BD4895D_gf_getchatboxcontent () {
     // Automatic Variable Declarations
     // Variable Initialization
     lv_index = 1;
-    lv_tmptext = lib5BD4895D_gv_chatbox.lv_chatmessage[0];
+    lv_tmptext = lib5BD4895D_gv_aP_Core_chatbox.lv_chatmessage[0];
 
     // Implementation
-    while ((lv_index < MinI(lib5BD4895D_gv_chatbox.lv_maxmessages, lib5BD4895D_gv_chatbox.lv_messagecount))) {
-        lv_tmptext = (lib5BD4895D_gv_chatbox.lv_chatmessage[lv_index] + StringExternal("Param/Value/lib_5BD4895D_C38FCBB5") + lv_tmptext);
+    while ((lv_index < MinI(lib5BD4895D_gv_aP_Core_chatbox.lv_maxmessages, lib5BD4895D_gv_aP_Core_chatbox.lv_messagecount))) {
+        lv_tmptext = (lib5BD4895D_gv_aP_Core_chatbox.lv_chatmessage[lv_index] + StringExternal("Param/Value/lib_5BD4895D_C38FCBB5") + lv_tmptext);
         lv_index += 1;
     }
     return lv_tmptext;
 }
 
-void lib5BD4895D_gf_initchatbox (int lp_anchor, int lp_sizex, int lp_sizey, int lp_offsetx, int lp_offsety) {
+void lib5BD4895D_gf_AP_Core_initChatbox (int lp_anchor, int lp_sizex, int lp_sizey, int lp_offsetx, int lp_offsety) {
     // Variable Declarations
     int lv_btnsize;
     int lv_btnxoffset;
@@ -221,17 +221,17 @@ void lib5BD4895D_gf_initchatbox (int lp_anchor, int lp_sizex, int lp_sizey, int 
 
     // Implementation
     DialogControlHookupStandard(c_triggerControlTypePanel, "$ap_Chatbox");
-    lib5BD4895D_gv_chatbox.lv_mainframe = DialogControlLastCreated();
-    DialogControlSetPosition(lib5BD4895D_gv_chatbox.lv_mainframe, PlayerGroupAll(), lp_anchor, lp_offsetx, lp_offsety);
-    DialogControlHookup(lib5BD4895D_gv_chatbox.lv_mainframe, c_triggerControlTypeLabel, "ChatboxContainer/ScrollableFrame/ContainerFrame/Label");
-    lib5BD4895D_gv_chatbox.lv_chatlabel = DialogControlLastCreated();
-    DialogControlHookup(lib5BD4895D_gv_chatbox.lv_mainframe, c_triggerControlTypeLabel, "ChatboxContainer/TotalLabel");
-    lib5BD4895D_gv_chatbox.lv_countlabel = DialogControlLastCreated();
+    lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe = DialogControlLastCreated();
+    DialogControlSetPosition(lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe, PlayerGroupAll(), lp_anchor, lp_offsetx, lp_offsety);
+    DialogControlHookup(lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe, c_triggerControlTypeLabel, "ChatboxContainer/ScrollableFrame/ContainerFrame/Label");
+    lib5BD4895D_gv_aP_Core_chatbox.lv_chatlabel = DialogControlLastCreated();
+    DialogControlHookup(lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe, c_triggerControlTypeLabel, "ChatboxContainer/TotalLabel");
+    lib5BD4895D_gv_aP_Core_chatbox.lv_countlabel = DialogControlLastCreated();
     DialogControlHookupStandard(c_triggerControlTypePanel, "$ap_Chatbox/$parent/VisibilityButtonContainer/HideButton");
     DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupAll(), lp_anchor, 15, 15);
 }
 
-void lib5BD4895D_gf_showhidechatbox (int lp_player, bool lp_visible) {
+void lib5BD4895D_gf_AP_Core_showHideChatbox (int lp_player, bool lp_visible) {
     // Variable Declarations
     playergroup lv_pg;
 
@@ -240,27 +240,27 @@ void lib5BD4895D_gf_showhidechatbox (int lp_player, bool lp_visible) {
     lv_pg = PlayerGroupSingle(lp_player);
 
     // Implementation
-    DialogControlSetVisible(lib5BD4895D_gv_chatbox.lv_mainframe, lv_pg, true);
+    DialogControlSetVisible(lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe, lv_pg, true);
 }
 
-void lib5BD4895D_gf_sendchatmessage (int lp_fromplayer, string lp_message) {
+void lib5BD4895D_gf_AP_Core_sendChatMessage (int lp_fromplayer, string lp_message) {
     // Variable Declarations
     int lv_index;
 
     // Automatic Variable Declarations
     // Variable Initialization
-    lv_index = (lib5BD4895D_gv_chatbox.lv_maxmessages - 1);
+    lv_index = (lib5BD4895D_gv_aP_Core_chatbox.lv_maxmessages - 1);
 
     // Implementation
     while ((lv_index > 0)) {
-        lib5BD4895D_gv_chatbox.lv_chatmessage[lv_index] = lib5BD4895D_gv_chatbox.lv_chatmessage[(lv_index - 1)];
+        lib5BD4895D_gv_aP_Core_chatbox.lv_chatmessage[lv_index] = lib5BD4895D_gv_aP_Core_chatbox.lv_chatmessage[(lv_index - 1)];
         lv_index -= 1;
     }
-    lib5BD4895D_gv_chatbox.lv_messagecount += 1;
-    lib5BD4895D_gv_chatbox.lv_chatmessage[0] = StringToText(((IntToString(lib5BD4895D_gv_chatbox.lv_messagecount) + ": ") + lp_message));
-    libNtve_gf_SetDialogItemText(lib5BD4895D_gv_chatbox.lv_chatlabel, lib5BD4895D_gf_getchatboxcontent(), PlayerGroupAll());
-    libNtve_gf_SetDialogItemText(lib5BD4895D_gv_chatbox.lv_countlabel, StringToText((IntToString(lib5BD4895D_gv_chatbox.lv_messagecount) + " Total")), PlayerGroupAll());
-    DialogControlSendAnimationEvent(lib5BD4895D_gv_chatbox.lv_chatlabel, PlayerGroupAll(), "TextChanged");
+    lib5BD4895D_gv_aP_Core_chatbox.lv_messagecount += 1;
+    lib5BD4895D_gv_aP_Core_chatbox.lv_chatmessage[0] = StringToText(((IntToString(lib5BD4895D_gv_aP_Core_chatbox.lv_messagecount) + ": ") + lp_message));
+    libNtve_gf_SetDialogItemText(lib5BD4895D_gv_aP_Core_chatbox.lv_chatlabel, lib5BD4895D_gf_AP_Core_getChatboxContent(), PlayerGroupAll());
+    libNtve_gf_SetDialogItemText(lib5BD4895D_gv_aP_Core_chatbox.lv_countlabel, StringToText((IntToString(lib5BD4895D_gv_aP_Core_chatbox.lv_messagecount) + " Total")), PlayerGroupAll());
+    DialogControlSendAnimationEvent(lib5BD4895D_gv_aP_Core_chatbox.lv_chatlabel, PlayerGroupAll(), "TextChanged");
 }
 
 trigger auto_lib5BD4895D_gf_AP_Core_rainbowController_Trigger = null;
@@ -401,13 +401,13 @@ void lib5BD4895D_gf_AP_Core_onLoadFinished () {
     // Variable Initialization
 
     // Implementation
-    lib5BD4895D_gf_initchatbox(lib5BD4895D_gv_aP_Core_chatboxAnchor, lib5BD4895D_gv_aP_Core_chatbox_x, lib5BD4895D_gv_aP_Core_chatbox_y, lib5BD4895D_gv_aP_Core_chatbox_offsetX, lib5BD4895D_gv_aP_Core_chatbox_offsetY);
+    lib5BD4895D_gf_AP_Core_initChatbox(lib5BD4895D_gv_aP_Core_chatboxAnchor, lib5BD4895D_gv_aP_Core_chatbox_x, lib5BD4895D_gv_aP_Core_chatbox_y, lib5BD4895D_gv_aP_Core_chatbox_offsetX, lib5BD4895D_gv_aP_Core_chatbox_offsetY);
     auto78288737_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
     lv_currentPlayer = -1;
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(auto78288737_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        lib5BD4895D_gf_showhidechatbox(lv_currentPlayer, true);
+        lib5BD4895D_gf_AP_Core_showHideChatbox(lv_currentPlayer, true);
     }
     TriggerExecute(lib5BD4895D_gv_aP_Core_mapInit, true, false);
     lib5BD4895D_gv_aP_Core_initFinished = true;
@@ -1659,7 +1659,7 @@ bool lib5BD4895D_gt_AP_Core_mapLoadStart_Func (bool testConds, bool runActions) 
     DialogSetVisible(lib5BD4895D_gv_aP_Core_blackScreen_dialog, PlayerGroupAll(), true);
     if ((GameIsTestMap(false) == true)) {
         Wait(0.0625, c_timeGame);
-        TriggerExecute(lib5BD4895D_gt_AP_Triggers_loadFinished, true, false);
+        TriggerExecute(lib5BD4895D_gt_AP_Core_loadFinished, true, false);
     }
 
     return true;
@@ -1797,23 +1797,23 @@ void lib5BD4895D_gt_AP_Core_keepControllerAlive_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: update chatbox
+// Trigger: AP_Core_updateChatbox
 //--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_updatechatbox_Func (bool testConds, bool runActions) {
+bool lib5BD4895D_gt_AP_Core_updateChatbox_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Actions
     if (!runActions) {
         return true;
     }
 
-    lib5BD4895D_gf_sendchatmessage(EventPlayer(), StringSub(EventChatMessage(false), 13, StringLength(EventChatMessage(false))));
+    lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), StringSub(EventChatMessage(false), 13, StringLength(EventChatMessage(false))));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_updatechatbox_Init () {
-    lib5BD4895D_gt_updatechatbox = TriggerCreate("lib5BD4895D_gt_updatechatbox_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_updatechatbox, c_playerAny, "?SendMessage", false);
+void lib5BD4895D_gt_AP_Core_updateChatbox_Init () {
+    lib5BD4895D_gt_AP_Core_updateChatbox = TriggerCreate("lib5BD4895D_gt_AP_Core_updateChatbox_Func");
+    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_updateChatbox, c_playerAny, "?SendMessage", false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1891,7 +1891,7 @@ bool lib5BD4895D_gt_AP_Core_tradeFail_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    lib5BD4895D_gf_sendchatmessage(EventPlayer(), StringSub(EventChatMessage(false), 11, StringLength(EventChatMessage(false))));
+    lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), StringSub(EventChatMessage(false), 11, StringLength(EventChatMessage(false))));
     if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
         UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
     }
@@ -1924,7 +1924,7 @@ bool lib5BD4895D_gt_AP_Core_tradeSendSuccess_Func (bool testConds, bool runActio
         return true;
     }
 
-    lib5BD4895D_gf_sendchatmessage(EventPlayer(), StringSub(EventChatMessage(false), 14, StringLength(EventChatMessage(false))));
+    lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), StringSub(EventChatMessage(false), 14, StringLength(EventChatMessage(false))));
     if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
         autoE5F28EA7_g = UnitCargoGroup(lib5BD4895D_gv_aP_Core_tradeUnit);
         autoE5F28EA7_u = UnitGroupCount(autoE5F28EA7_g, c_unitCountAll);
@@ -1985,19 +1985,19 @@ bool lib5BD4895D_gt_AP_Core_tradeReceiveSuccess_Func (bool testConds, bool runAc
         PlayerModifyPropertyInt(UnitGetOwner(lib5BD4895D_gv_aP_Core_tradeUnit), c_playerPropVespene, c_playerPropOperSubtract, (lv_vespeneCost * lv_totalCount));
         lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges((0 - lv_totalCount));
         if ((lv_totalCount == 0)) {
-            lib5BD4895D_gf_sendchatmessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " failed: No units were found. Trade cost refunded."));
+            lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " failed: No units were found. Trade cost refunded."));
         }
         else {
             if ((lv_refunds > 0)) {
-                lib5BD4895D_gf_sendchatmessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " partially successful: " + IntToString(lv_totalCount) + " units received, " + IntToString(lv_refunds) + " refunded."));
+                lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " partially successful: " + IntToString(lv_totalCount) + " units received, " + IntToString(lv_refunds) + " refunded."));
             }
             else {
-                lib5BD4895D_gf_sendchatmessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful: Units received!"));
+                lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful: Units received!"));
             }
         }
     }
     else {
-        lib5BD4895D_gf_sendchatmessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful, but the trading structure couldn't be found. The received units are lost to the void..."));
+        lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful, but the trading structure couldn't be found. The received units are lost to the void..."));
     }
     return true;
 }
@@ -2085,9 +2085,9 @@ void lib5BD4895D_gt_AP_Core_setFactionColorHandler_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_loadFinished
+// Trigger: AP_Core_loadFinished
 //--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Triggers_loadFinished_Func (bool testConds, bool runActions) {
+bool lib5BD4895D_gt_AP_Core_loadFinished_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Actions
     if (!runActions) {
@@ -2099,15 +2099,15 @@ bool lib5BD4895D_gt_AP_Triggers_loadFinished_Func (bool testConds, bool runActio
 }
 
 //--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Triggers_loadFinished_Init () {
-    lib5BD4895D_gt_AP_Triggers_loadFinished = TriggerCreate("lib5BD4895D_gt_AP_Triggers_loadFinished_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Triggers_loadFinished, c_playerAny, "?LoadFinished", false);
+void lib5BD4895D_gt_AP_Core_loadFinished_Init () {
+    lib5BD4895D_gt_AP_Core_loadFinished = TriggerCreate("lib5BD4895D_gt_AP_Core_loadFinished_Func");
+    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_loadFinished, c_playerAny, "?LoadFinished", false);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_uncollectedLocations
+// Trigger: AP_Core_uncollectedLocations
 //--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Triggers_uncollectedLocations_Func (bool testConds, bool runActions) {
+bool lib5BD4895D_gt_AP_Core_uncollectedLocations_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_index;
     string lv_word;
@@ -2142,9 +2142,9 @@ bool lib5BD4895D_gt_AP_Triggers_uncollectedLocations_Func (bool testConds, bool 
 }
 
 //--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Triggers_uncollectedLocations_Init () {
-    lib5BD4895D_gt_AP_Triggers_uncollectedLocations = TriggerCreate("lib5BD4895D_gt_AP_Triggers_uncollectedLocations_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Triggers_uncollectedLocations, c_playerAny, "?UncollectedLocations", false);
+void lib5BD4895D_gt_AP_Core_uncollectedLocations_Init () {
+    lib5BD4895D_gt_AP_Core_uncollectedLocations = TriggerCreate("lib5BD4895D_gt_AP_Core_uncollectedLocations_Func");
+    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_uncollectedLocations, c_playerAny, "?UncollectedLocations", false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2216,7 +2216,7 @@ void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_controllerInit_Init();
     lib5BD4895D_gt_AP_Core_dontHideController_Init();
     lib5BD4895D_gt_AP_Core_keepControllerAlive_Init();
-    lib5BD4895D_gt_updatechatbox_Init();
+    lib5BD4895D_gt_AP_Core_updateChatbox_Init();
     lib5BD4895D_gt_AP_Core_rainbowColorsInit_Init();
     lib5BD4895D_gt_AP_Core_tradeStart_Init();
     lib5BD4895D_gt_AP_Core_tradeFail_Init();
@@ -2224,8 +2224,8 @@ void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_tradeReceiveSuccess_Init();
     lib5BD4895D_gt_AP_Core_giveStartingResources_Init();
     lib5BD4895D_gt_AP_Core_setFactionColorHandler_Init();
-    lib5BD4895D_gt_AP_Triggers_loadFinished_Init();
-    lib5BD4895D_gt_AP_Triggers_uncollectedLocations_Init();
+    lib5BD4895D_gt_AP_Core_loadFinished_Init();
+    lib5BD4895D_gt_AP_Core_uncollectedLocations_Init();
     lib5BD4895D_gt_AP_Core_clearChat_Init();
     lib5BD4895D_gt_AP_Core_objectiveTimerUpdate_Init();
 }
