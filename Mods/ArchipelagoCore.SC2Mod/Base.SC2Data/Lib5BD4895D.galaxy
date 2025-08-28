@@ -1657,6 +1657,11 @@ bool lib5BD4895D_gt_AP_Core_mapLoadStart_Func (bool testConds, bool runActions) 
     libNtve_gf_SetDialogItemImage(lib5BD4895D_gv_aP_Core_blackScreen, "Assets\\Textures\\ui_ingame_blackmask.dds", PlayerGroupAll());
     libNtve_gf_SetDialogItemBlendMode(lib5BD4895D_gv_aP_Core_blackScreen, c_triggerBlendModeAlpha, PlayerGroupAll());
     DialogSetVisible(lib5BD4895D_gv_aP_Core_blackScreen_dialog, PlayerGroupAll(), true);
+    if ((GameIsTestMap(false) == true)) {
+        Wait(0.0625, c_timeGame);
+        TriggerExecute(lib5BD4895D_gt_AP_Triggers_loadFinished, true, false);
+    }
+
     return true;
 }
 
@@ -1693,6 +1698,10 @@ bool lib5BD4895D_gt_AP_Core_mapLoadEnd_Func (bool testConds, bool runActions) {
     DialogControlFadeTransparency(lib5BD4895D_gv_aP_Core_blackScreen, PlayerGroupAll(), lv_duration, 0.0);
     Wait(lv_duration, c_timeReal);
     DialogDestroy(lib5BD4895D_gv_aP_Core_blackScreen_dialog);
+    if ((GameIsTestMap(false) == true)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/lib_5BD4895D_FD3A182F"), true);
+    }
+
     return true;
 }
 
