@@ -7723,4 +7723,18 @@
         <Find value="1"/>
         <Value value="AP_HaveZergCreepStomach"/>
     </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="AP_NotSpawningVanillaMutantLarva">
+        <Behavior value="QueenSpawnLarvaTimer"/>
+        <ResultFailed value="AlreadySpawningLarva"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_NotSpawningAPMutantLarva">
+        <Behavior value="AP_QueenSpawnLarvaTimer"/>
+        <ResultFailed value="AlreadySpawningLarva"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorCombine id="NotSpawningMutantLarva" parent="CValidatorCombine">
+        <Type value="And"/>
+        <CombineArray value="AP_NotSpawningVanillaMutantLarva"/>
+        <CombineArray value="AP_NotSpawningAPMutantLarva"/>
+        <ResultFailed value="AlreadySpawningLarva"/>
+    </CValidatorCombine>
 </Catalog>

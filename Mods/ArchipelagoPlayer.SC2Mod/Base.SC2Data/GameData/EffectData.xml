@@ -16844,7 +16844,7 @@
     </CEffectDamage>
     <CEffectApplyBehavior id="AP_SpawnMutantLarvaApplyTimerBehavior">
         <ValidatorArray index="0" value="IsHatcheryLairOrHive"/>
-        <ValidatorArray value="AP_NotSpawningMutantLarva"/>
+        <ValidatorArray value="NotSpawningMutantLarva"/>
         <ValidatorArray value="NotContaminated"/>
         <EditorCategories value="Race:Zerg"/>
         <Behavior value="AP_QueenSpawnLarvaTimer"/>
@@ -24548,4 +24548,16 @@
         <Upgrades Upgrade="AP_CellDivisionToggleOff" Count="-1"/>
         <Upgrades Upgrade="AP_CellDivisionToggle" Count="1"/>
     </CEffectModifyPlayer>
+    <CEffectSet id="AP_LarvaRelease">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_SpawnMutantLarvaRemoveSpawnBehavior"/>
+        <EffectArray value="AP_LarvaReleaseLM"/>
+        <EffectArray value="MakePrecursor"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_LarvaReleaseLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="RemovePrecursor"/>
+        <AmmoUnit value="AP_LarvaReleaseMissile"/>
+        <LaunchLocation Value="CasterUnit"/>
+    </CEffectLaunchMissile>
 </Catalog>

@@ -1549,6 +1549,11 @@
         <On Terms="TimerExpired; TimerName KnockbackDelay" Target="_Unit" Send="AnimClear PsionicLiftKnockback"/>
         <On Terms="TimerExpired; TimerName KnockbackDelay" Send="Destroy"/>
     </CActorSimple>
+    <CActorModel default="1" id="AP_SpawningMutantLarva" parent="ModelAddition">
+        <Model value="LarvaSuperEgg"/>
+        <On Terms="Behavior.AP_QueenSpawnLarvaTimer.On" Send="Create"/>
+        <On Terms="Behavior.AP_QueenSpawnLarvaTimer.Off" Send="AnimBracketStop BSD"/>
+    </CActorModel>
     <CActorSound id="AP_NydusWormTransportLoadSound" parent="SoundOneShot">
         <On Terms="AbilTransport.AP_NydusWormTransport.TransportLoad" Send="Create"/>
         <On Terms="AbilTransport.AP_NydusWormTransport.TransportUnload" Send="Create"/>
@@ -24104,7 +24109,7 @@
         <Model value="RoachWarrenBuild"/>
     </CActorModel>
     <CActorSound id="AP_QueenSpawnLarvaLarvaLandSound" parent="SoundOneShot">
-        <On Terms="UnitDeath.LarvaReleaseMissile" Send="Create"/>
+        <On Terms="UnitDeath.AP_LarvaReleaseMissile" Send="Create"/>
         <Sound value="Queen_SpawnLarvaLarvaLand"/>
     </CActorSound>
     <CActorModel id="AP_SOAAutomatedAssimilatorBeam" parent="ModelAnimationStyleContinuous">
@@ -45247,5 +45252,24 @@
         <Up value="0.000000,0.000000,1.000000"/>
         <IsLocal value="1"/>
     </CActorSiteOpRotationExplicit>
-    
+    <CActorModel id="AP_SpawningMutantLarva1" parent="AP_SpawningMutantLarva">
+        <HostSiteOps Ops="SOpAttachHardPoint01"/>
+    </CActorModel>
+    <CActorModel id="AP_SpawningMutantLarva2" parent="AP_SpawningMutantLarva">
+        <HostSiteOps Ops="SOpAttachHardPoint02"/>
+    </CActorModel>
+    <CActorModel id="AP_SpawningMutantLarva3" parent="AP_SpawningMutantLarva">
+        <HostSiteOps Ops="SOpAttachHardPoint03"/>
+    </CActorModel>
+    <CActorModel id="AP_SpawningMutantLarva4" parent="AP_SpawningMutantLarva">
+        <HostSiteOps Ops="SOpAttachHardPoint04"/>
+    </CActorModel>
+    <CActorSound id="AP_QueenSpawnLarvaLaunchSound" parent="SoundOneShot">
+        <Sound value="Queen_SpawnLarvaLaunch"/>
+        <On Terms="Effect.AP_SpawnMutantLarvaApplyTimerBehavior.Start" Send="Create"/>
+    </CActorSound>
+    <CActorSound id="AP_QueenSpawnLarvaLarvaBirthSound" parent="SoundOneShot">
+        <Sound value="Queen_SpawnLarvaLarvaBirth"/>
+        <On Terms="Behavior.AP_QueenSpawnLarva.Create" Send="Create"/>
+    </CActorSound>
 </Catalog>
