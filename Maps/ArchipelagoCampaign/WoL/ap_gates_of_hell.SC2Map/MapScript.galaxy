@@ -1452,19 +1452,7 @@ void gt_ArchInit_Init () {
 // Trigger: Faction Swap Init
 //--------------------------------------------------------------------------------------------------
 bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_bunkersize;
-    unit lv_bunkerunit;
-
     // Automatic Variable Declarations
-    unitgroup autoB60DE566_g;
-    int autoB60DE566_u;
-    unit autoB60DE566_var;
-    unitgroup autoC3737AAA_g;
-    int autoC3737AAA_u;
-
-    // Variable Initialization
-
     // Actions
     if (!runActions) {
         return true;
@@ -1480,26 +1468,8 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionEntireMap(), gv_p01_USER);
         if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
             PlayerSetRace(gv_p01_USER, "Zerg");
+            lib15EF4C78_gf_AP_Player_initInitialInfestedBunkersForPlayer(gv_p01_USER);
             lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_p01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
-            lv_bunkersize = CatalogFieldValueGetAsInt(c_gameCatalogAbil, "AP_SIInfestedBunkerTransport", "TotalCargoSpace", gv_p01_USER);
-            autoB60DE566_g = UnitGroup("AP_SIInfestedBunker", gv_p01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-            autoB60DE566_u = UnitGroupCount(autoB60DE566_g, c_unitCountAll);
-            for (;; autoB60DE566_u -= 1) {
-                autoB60DE566_var = UnitGroupUnitFromEnd(autoB60DE566_g, autoB60DE566_u);
-                if (autoB60DE566_var == null) { break; }
-                if ((lv_bunkersize > 0)) {
-                    UnitCargoCreate(autoB60DE566_var, "AP_SIInfestedTrooper", lv_bunkersize);
-                    autoC3737AAA_g = UnitCargoLastCreatedGroup();
-                    autoC3737AAA_u = UnitGroupCount(autoC3737AAA_g, c_unitCountAll);
-                    for (;; autoC3737AAA_u -= 1) {
-                        lv_bunkerunit = UnitGroupUnitFromEnd(autoC3737AAA_g, autoC3737AAA_u);
-                        if (lv_bunkerunit == null) { break; }
-                        lib15EF4C78_gf_Stukov_NewBunkerUnitProcess(autoB60DE566_var, lv_bunkerunit);
-                    }
-                }
-
-                ActorSend(libNtve_gf_MainActorofUnit(autoB60DE566_var), "CreepEngulfmentStartTransition");
-            }
         }
         else {
             if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) {

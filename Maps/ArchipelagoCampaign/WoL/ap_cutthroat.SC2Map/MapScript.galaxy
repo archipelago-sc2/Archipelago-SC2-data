@@ -6663,12 +6663,12 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
             libNtve_gf_SetBehaviorCount(libNtve_gf_LastReplacedUnit(), "AP_StukovInfestedSiegeTankAmmo", UnitFromId(427618918), 8);
             libNtve_gf_ReplaceUnit(UnitFromId(1646), "AP_StukovInfestedSiegeTankUprooted", libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
             libNtve_gf_SetBehaviorCount(libNtve_gf_LastReplacedUnit(), "AP_StukovInfestedSiegeTankAmmo", UnitFromId(427618918), 8);
+            lib15EF4C78_gf_AP_Player_initInitialInfestedBunkersForPlayer(gv_p03_MIRA_HAN);
             auto4BC47FA2_g = UnitGroup("AP_SIInfestedBunker", gv_p03_MIRA_HAN, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
             auto4BC47FA2_u = UnitGroupCount(auto4BC47FA2_g, c_unitCountAll);
             for (;; auto4BC47FA2_u -= 1) {
                 auto4BC47FA2_var = UnitGroupUnitFromEnd(auto4BC47FA2_g, auto4BC47FA2_u);
                 if (auto4BC47FA2_var == null) { break; }
-                UnitCargoCreate(auto4BC47FA2_var, "AP_SIInfestedTrooper", 4);
                 UnitIssueOrder(auto4BC47FA2_var, OrderSetAutoCast(AbilityCommand("AP_SIInfestedBunkerTrainMarine", 0), false), c_orderQueueReplace);
             }
         }
