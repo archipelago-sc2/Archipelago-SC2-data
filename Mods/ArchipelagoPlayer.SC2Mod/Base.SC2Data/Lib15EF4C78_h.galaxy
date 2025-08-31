@@ -88,8 +88,8 @@ const fixed lib15EF4C78_gv_zS_SwarmHeroUIUpdateFrequency = 0.25;
 const string lib15EF4C78_gv_zSC_HeroReviveLinkKerrigan = "Abil/AP_KerriganRevive";
 const int lib15EF4C78_gv_zSC_KERRIGANMAXLEVEL = 70;
 const int lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE = 22;
-const int lib15EF4C78_gv_aP_Player_MercInstantUsesLevel2 = 3;
 const int lib15EF4C78_gv_aP_Player_MercInstantUsesLevel1 = 1;
+const int lib15EF4C78_gv_aP_Player_MercInstantUsesLevel2 = 3;
 const string lib15EF4C78_gv_aP_PLAYER_TRANSFORMER_LAND_EVENT = "AP_PLAYER_TRANSFORMER_LAND";
 
 // Variable Declarations
@@ -183,6 +183,8 @@ bool lib15EF4C78_gv_pC_TimeMissionPaused;
 fixed lib15EF4C78_gv_supplicantWarpTrainActualUnitCost;
 abilcmd lib15EF4C78_gv_supplicantWarpTrainActualCommand;
 unit[21] lib15EF4C78_gv_aP_Player_PrimaryTownHall;
+unitgroup[21] lib15EF4C78_gv_aP_Player_TownHalls;
+bool[21] lib15EF4C78_gv_aP_Player_HasTownHall;
 point[21] lib15EF4C78_gv_aP_Player_PrimaryTownHallPreferredLocation;
 string[lib15EF4C78_gv_aP_Player_TOWN_HALL_ID_COUNT + 1] lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS;
 bool lib15EF4C78_gv_aP_Player_PRIMARY_TOWN_HALL_DYNAMIC_SWAP;
@@ -277,10 +279,12 @@ int[lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE + 1] lib15EF4C78_gv_aP_Play
 int[lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE + 1] lib15EF4C78_gv_aP_Player_MercType;
 int lib15EF4C78_gv_aP_Player_MercInstantUsesUsed;
 int[lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE + 1] lib15EF4C78_gv_aP_Player_MercInstantUseIndex;
+int[21][lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE + 1] lib15EF4C78_gv_aP_Player_MercReadyCount;
+string[lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE + 1] lib15EF4C78_gv_aP_Player_MercReadyCountUpgrades;
+string[lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE + 1] lib15EF4C78_gv_aP_Player_MercReadyCountUpgradesEmpty;
 unit lib15EF4C78_gv_aP_PlayerTransformerLandTriggeringUnit;
 
 // Function Declarations
-void lib15EF4C78_gf_AP_Player_initInitialInfestedBunkersForPlayer (int lp_player);
 void lib15EF4C78_gf_Stukov_NewBunkerUnitProcess (unit lp_bunker, unit lp_newUnit);
 void lib15EF4C78_gf_Stukov_SingleUnitGoToRally (unit lp_rallyingUnit, bool lp_overrideExistingOrders, point lp_overrideRallyPoint);
 void lib15EF4C78_gf_Stukov_HordeGoToRally (int lp_player);
@@ -405,6 +409,7 @@ void lib15EF4C78_gf_AP_Player_MercApplySelfSufficientFix (int lp_player);
 int lib15EF4C78_gf_AP_Player_MercCompoundGetInstantUses (int lp_player);
 bool lib15EF4C78_gf_AP_Player_MercCompoundNoChargeLimit (int lp_player, int lp_mercenaryClass);
 void lib15EF4C78_gf_AP_Player_MercCompoundUpdateAvailableCount (int lp_player);
+void lib15EF4C78_gf_AP_Player_MercCompoundUpdateCountUpgrade (int lp_player, int lp_mercType, int lp_readyCount);
 void lib15EF4C78_gf_AP_Player_ResetMercenaryCooldowns (int lp_player);
 void lib15EF4C78_gf_AP_Player_ResetMercenaryCooldownsTerranRespectStart (int lp_player);
 void lib15EF4C78_gf_AP_Player_ResetMercenaryCooldownsSingle (int lp_player, int lp_paramIndex);
@@ -560,6 +565,7 @@ trigger lib15EF4C78_gt_AP_Player_onAdvancedLaserTechnologyUpgradeGiven;
 trigger lib15EF4C78_gt_AP_Player_onNightHawkTrained;
 trigger lib15EF4C78_gt_AP_Player_Merc_ArrayInit;
 trigger lib15EF4C78_gt_AP_Player_MercCompoundUpdateCounts;
+trigger lib15EF4C78_gt_AP_Player_MercCompoundSetupCounts;
 trigger lib15EF4C78_gt_AP_Player_MercCompoundOnMercUse;
 trigger lib15EF4C78_gt_AP_Player_Terran_MercCompoundTabSetInfantry;
 trigger lib15EF4C78_gt_AP_Player_Terran_MercCompoundTabSetVehicles;
