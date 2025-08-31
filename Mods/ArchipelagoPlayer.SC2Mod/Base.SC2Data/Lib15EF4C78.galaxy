@@ -266,6 +266,41 @@ void lib15EF4C78_InitCustomScript () {
 
 // Presets
 // Functions
+void lib15EF4C78_gf_AP_Player_initInitialInfestedBunkersForPlayer (int lp_player) {
+    // Variable Declarations
+    unit lv_cargoUnit;
+    unitgroup lv_unitGroup;
+
+    // Automatic Variable Declarations
+    unitgroup auto30739062_g;
+    int auto30739062_u;
+    unit auto30739062_var;
+    unitgroup autoC10D933C_g;
+    int autoC10D933C_u;
+
+    // Variable Initialization
+    lv_unitGroup = UnitGroupEmpty();
+
+    // Implementation
+    lv_unitGroup = UnitGroup("AP_SIInfestedBunker", lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    UnitGroupAddUnitGroup(lv_unitGroup, UnitGroup("AP_SIInfestedBunkerUprooted", lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
+    auto30739062_g = lv_unitGroup;
+    auto30739062_u = UnitGroupCount(auto30739062_g, c_unitCountAll);
+    for (;; auto30739062_u -= 1) {
+        auto30739062_var = UnitGroupUnitFromEnd(auto30739062_g, auto30739062_u);
+        if (auto30739062_var == null) { break; }
+        UnitCargoCreate(auto30739062_var, "AP_SIInfestedTrooper", 6);
+        autoC10D933C_g = UnitCargoLastCreatedGroup();
+        autoC10D933C_u = UnitGroupCount(autoC10D933C_g, c_unitCountAll);
+        for (;; autoC10D933C_u -= 1) {
+            lv_cargoUnit = UnitGroupUnitFromEnd(autoC10D933C_g, autoC10D933C_u);
+            if (lv_cargoUnit == null) { break; }
+            lib15EF4C78_gf_Stukov_NewBunkerUnitProcess(auto30739062_var, lv_cargoUnit);
+        }
+        ActorSend(libNtve_gf_MainActorofUnit(auto30739062_var), "CreepEngulfmentStartTransition");
+    }
+}
+
 void lib15EF4C78_gf_Stukov_NewBunkerUnitProcess (unit lp_bunker, unit lp_newUnit) {
     // Variable Declarations
     unit lv_unit;
