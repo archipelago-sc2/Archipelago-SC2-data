@@ -942,6 +942,10 @@
         <Value value="AP_Larva"/>
         <ResultFailed value="Error,Error/CantTargetLarva"/>
     </CValidatorUnitType>
+    <CValidatorUnitType id="AP_IsMothershipPylonPowerUnit">
+        <Value value="AP_MothershipPylonPowerUnit"/>
+        <ResultFailed value="Error,Error/CantTargetLarva"/>
+    </CValidatorUnitType>
     <CValidatorCombine id="IsLair" parent="CValidatorCombine">
         <!-- Override -->
         <CombineArray value="AP_IsVanillaLair"/>
@@ -3358,9 +3362,9 @@
         <Behavior value="AP_OverloadWeaponSystems"/>
         <Compare value="GT"/>
     </CValidatorUnitCompareBehaviorCount>
-    <CValidatorPlayerRequirement id="AP_HavePurifiedEmbers">
+    <CValidatorPlayerRequirement id="AP_HavePurifierMothershipDebuff">
         <Find value="1"/>
-        <Value value="AP_HavePurifiedEmbers"/>
+        <Value value="AP_HavePurifierMothershipDebuff"/>
     </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HaveMothershipAiurShieldArmorAura">
         <Find value="1"/>
@@ -3390,6 +3394,10 @@
         <WhichUnit Value="Caster"/>
         <Value value="AP_MothershipAiur"/>
     </CValidatorUnitType>
+    <CValidatorCombine id="AP_CasterIsPurifierMothershipOrCore">
+        <CombineArray value="AP_CasterIsPurifierMothership"/>
+        <CombineArray value="AP_CasterIsPurifierMothershipCore"/>
+    </CValidatorCombine>
     <CValidatorCombine id="AP_CasterIsPurifierMothership">
         <CombineArray value="AP_CasterIsPurifierMothershipUpgraded"/>
         <CombineArray value="AP_CasterIsPurifierMothershipBase"/>
@@ -3411,20 +3419,24 @@
         <CombineArray value="AP_CasterIsAiurMothership"/>
         <CombineArray value="AP_CasterIsPurifierMothership"/>
     </CValidatorCombine>
-    <CValidatorPlayerRequirement id="AP_HaveHarmonizedFeedbackConductors">
+    <CValidatorPlayerRequirement id="AP_CanInstallAiurMothershipFeedback">
         <Find value="1"/>
-        <Value value="AP_HaveHarmonizedFeedbackConductors"/>
+        <Value value="AP_CanInstallAiurMothershipFeedback"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_HaveKhalaiShieldRechargers">
+    <CValidatorPlayerRequirement id="AP_HaveAiurMothershipFeedback">
         <Find value="1"/>
-        <Value value="AP_HaveKhalaiShieldRechargers"/>
+        <Value value="AP_HaveAiurMothershipFeedback"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_HaveBloodFusedParticles">
+    <CValidatorPlayerRequirement id="AP_HaveAiurMothershipShieldRestore">
         <Find value="1"/>
-        <Value value="AP_HaveBloodFusedParticles"/>
+        <Value value="AP_HaveAiurMothershipShieldRestore"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_NotHaveBloodFusedParticles">
-        <Value value="AP_HaveBloodFusedParticles"/>
+    <CValidatorPlayerRequirement id="AP_HaveTaldarimMothershipFastAttack">
+        <Find value="1"/>
+        <Value value="AP_HaveTaldarimMothershipFastAttack"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_NotHaveTaldarimMothershipFastAttack">
+        <Value value="AP_HaveTaldarimMothershipFastAttack"/>
     </CValidatorPlayerRequirement>
     <CValidatorUnitCompareBehaviorCount id="AP_MothershipTaldarimBaseAttackSwap">
         <Behavior value="AP_EnableMothershipTaldarimAttackSwap"/>
@@ -4060,9 +4072,6 @@
     <CValidatorUnitType id="AP_IsScoutPurifier">
         <Value value="AP_ScoutPurifier"/>
     </CValidatorUnitType>
-    <CValidatorUnitType id="AP_IsVoidRayPurifier">
-        <Value value="AP_VoidRayPurifier"/>
-    </CValidatorUnitType>
     <CValidatorUnitType id="AP_IsStalkerPurifier">
         <Value value="AP_StalkerPurifier"/>
     </CValidatorUnitType>
@@ -4215,7 +4224,7 @@
         <CombineArray value="AP_IsAiurMothershipCore"/>
     </CValidatorCombine>
     <CValidatorUnitCompareVital id="AP_ShieldsEqual0">
-        <Compare value="Equal"/>
+        <Compare value="Eq"/>
         <Vital value="Shields"/>
     </CValidatorUnitCompareVital>
     <CValidatorCombine id="AP_IsPurifierUnitOrNoShields">
@@ -4497,13 +4506,9 @@
         <Find value="1"/>
         <Value value="AP_HaveSiegeTankSiegeModeProgressiveRangeIncease"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_HaveSymbolOfUnity">
+    <CValidatorPlayerRequirement id="AP_HaveAiurMothershipEnergyRegenAura">
         <Find value="1"/>
-        <Value value="AP_HaveSymbolOfUnity"/>
-    </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_HaveKhalaiShieldRechargers">
-        <Find value="1"/>
-        <Value value="AP_HaveKhalaiShieldRechargers"/>
+        <Value value="AP_HaveAiurMothershipEnergyRegenAura"/>
     </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HHWidowMineAttackRangeUpgraded">
         <Find value="1"/>
@@ -7990,8 +7995,8 @@
         <CombineArray value="AP_CasterHasMaxShields40"/>
         <CombineArray value="AP_CasterNotWorker"/>
     </CValidatorCombine>
-    <CValidatorUnitCompareBehaviorCount id="AP_AmplifiedPowerRerouterBuffEmpoweredNotActive">
-        <Behavior value="AP_AmplifiedPowerRerouterBuffEmpowered"/>
+    <CValidatorUnitCompareBehaviorCount id="AP_PurifierMothershipAttackSpeedBoostBuffEmpoweredNotActive">
+        <Behavior value="AP_PurifierMothershipAttackSpeedBoostBuffEmpowered"/>
     </CValidatorUnitCompareBehaviorCount>
     <CValidatorCombine id="AP_SILiberatorAGMorphValidatorCombine">
         <Type value="And"/>
