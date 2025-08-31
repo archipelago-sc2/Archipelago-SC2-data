@@ -18450,6 +18450,8 @@
         <On Terms="AbilMorph.*.Cancel; MorphTo AP_ImpalerDen" Send="AnimPlay Rebirth Build,D,Start 0 0.000000 0.000000 0.300000 AsDuration"/>
         <On Terms="Effect.HydraliskDenMorphFinishDummy.Start" Send="StatusSet MorphAnim 1"/>
         <On Terms="Effect.HydraliskDenMorphFinishDummy.Start" Send="AnimClear Waiting"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_LurkerDen; AnimPlaying Morph" Send="Create AP_LurkerDen"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_LurkerDen; AnimPlaying Morph" Send="Destroy"/>
         <Model value="HydraliskDen"/>
         <BuildModel value="HydraliskDen"/>
         <DeathArray index="Normal" ModelLink="HydraliskDenDeath" SoundLink="HydraliskDen_Explode"/>
