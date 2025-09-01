@@ -1418,6 +1418,7 @@ void lib15EF4C78_gf_PU_GPSetUnit (unit lp_casterUnit) {
     UnitGroupAdd(lib15EF4C78_gv_pU_GPCasterGroup, lp_casterUnit);
     libNtve_gf_SetDialogItemUnitGroup(lib15EF4C78_gv_pU_GPCmdPanel, lib15EF4C78_gv_pU_GPCasterGroup, PlayerGroupAll());
     lib15EF4C78_gf_PU_GPVitalsUpdate();
+    TriggerEnable(lib15EF4C78_gt_PU_GPVitalChanges, true);
 }
 
 void lib15EF4C78_gf_ShowSpearofAdunUI (bool lp_showHide, fixed lp_duration) {
@@ -6671,6 +6672,13 @@ void lib15EF4C78_gt_PU_GPInit_Init () {
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_PU_GPVitalChanges_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitIsValid(lib15EF4C78_gv_pU_GPUnit) == true))) {
+            return false;
+        }
+    }
+
     // Actions
     if (!runActions) {
         return true;
@@ -6683,6 +6691,7 @@ bool lib15EF4C78_gt_PU_GPVitalChanges_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void lib15EF4C78_gt_PU_GPVitalChanges_Init () {
     lib15EF4C78_gt_PU_GPVitalChanges = TriggerCreate("lib15EF4C78_gt_PU_GPVitalChanges_Func");
+    TriggerEnable(lib15EF4C78_gt_PU_GPVitalChanges, false);
     TriggerAddEventUnitProperty(lib15EF4C78_gt_PU_GPVitalChanges, UnitRefFromVariable("lib15EF4C78_gv_pU_GPUnit"), c_unitPropEnergy);
 }
 
