@@ -1798,14 +1798,7 @@ text lib15EF4C78_gf_PC_PerkTargetingText (string lp_campaignPerk, int lp_stage) 
 }
 
 bool lib15EF4C78_gf_AP_Player_isTownHall (unit lp_building) {
-    // Variable Declarations
-    int lv_index;
-    string lv_id;
-
     // Automatic Variable Declarations
-    // Variable Initialization
-    lv_id = "";
-
     // Implementation
     return UnitHasBehavior2(lp_building, "AP_TownHall");
 }
@@ -1920,6 +1913,34 @@ void lib15EF4C78_gf_AP_Player_setPrimaryTownHallPreferredLocation (int lp_player
     // Automatic Variable Declarations
     // Implementation
     lib15EF4C78_gv_aP_Player_PrimaryTownHallPreferredLocation[lp_player] = lp_point;
+}
+
+void lib15EF4C78_gf_AP_Player_updateTownHalls () {
+    // Variable Declarations
+    unitgroup lv_group;
+    int lv_currentPlayer;
+
+    // Automatic Variable Declarations
+    unitgroup auto8BD1D3DD_g;
+    int auto8BD1D3DD_u;
+    unit auto8BD1D3DD_var;
+
+    // Variable Initialization
+    lv_group = UnitGroupEmpty();
+
+    // Implementation
+    lv_group = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto8BD1D3DD_g = lv_group;
+    auto8BD1D3DD_u = UnitGroupCount(auto8BD1D3DD_g, c_unitCountAll);
+    for (;; auto8BD1D3DD_u -= 1) {
+        auto8BD1D3DD_var = UnitGroupUnitFromEnd(auto8BD1D3DD_g, auto8BD1D3DD_u);
+        if (auto8BD1D3DD_var == null) { break; }
+        lv_currentPlayer = UnitGetOwner(auto8BD1D3DD_var);
+        if ((lib15EF4C78_gf_AP_Player_isTownHall(auto8BD1D3DD_var) == true) && (UnitGroupHasUnit(lib15EF4C78_gv_aP_Player_TownHalls[lv_currentPlayer], auto8BD1D3DD_var) != true)) {
+            UnitGroupAdd(lib15EF4C78_gv_aP_Player_TownHalls[lv_currentPlayer], auto8BD1D3DD_var);
+        }
+
+    }
 }
 
 void lib15EF4C78_gf_AP_Player_checkPrimaryTownHall (int lp_player) {
@@ -7025,86 +7046,24 @@ void lib15EF4C78_gt_CreepTumorBuild_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Player_TownHall_ArrayInit
+// Trigger: AP_Player_checkPrimaryTownHallPeriodic
 //--------------------------------------------------------------------------------------------------
-bool lib15EF4C78_gt_AP_Player_TownHall_ArrayInit_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[0] = "AP_CommandCenter";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[1] = "AP_OrbitalCommand";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[2] = "AP_PlanetaryFortress";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[3] = "AP_CommandCenterFlying";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[4] = "AP_OrbitalCommandFlying";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[5] = "AP_PlanetaryFortressFlying";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[6] = "AP_Hatchery";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[7] = "AP_Lair";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[8] = "AP_Hive";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[9] = "AP_Nexus";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[10] = "CommandCenter";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[11] = "OrbitalCommand";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[12] = "PlanetaryFortress";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[13] = "CommandCenterFlying";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[14] = "OrbitalCommandFlying";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[15] = "Hatchery";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[16] = "Lair";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[17] = "Hive";
-    lib15EF4C78_gv_aP_Player_TOWN_HALL_IDS[18] = "Nexus";
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib15EF4C78_gt_AP_Player_TownHall_ArrayInit_Init () {
-    lib15EF4C78_gt_AP_Player_TownHall_ArrayInit = TriggerCreate("lib15EF4C78_gt_AP_Player_TownHall_ArrayInit_Func");
-    TriggerAddEventMapInit(lib15EF4C78_gt_AP_Player_TownHall_ArrayInit);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Player_CheckPrimaryTownHallPeriodic
-//--------------------------------------------------------------------------------------------------
-bool lib15EF4C78_gt_AP_Player_CheckPrimaryTownHallPeriodic_Func (bool testConds, bool runActions) {
+bool lib15EF4C78_gt_AP_Player_checkPrimaryTownHallPeriodic_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_currentPlayer;
-    unitgroup lv_group;
-    unit lv_unit;
 
     // Automatic Variable Declarations
-    unitgroup auto2A210785_g;
-    int auto2A210785_u;
-    unit auto2A210785_var;
     const int auto972048E4_ae = 20;
     const int auto972048E4_ai = 1;
 
     // Variable Initialization
-    lv_group = UnitGroupEmpty();
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    lv_group = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    auto2A210785_g = lv_group;
-    auto2A210785_u = UnitGroupCount(auto2A210785_g, c_unitCountAll);
-    for (;; auto2A210785_u -= 1) {
-        auto2A210785_var = UnitGroupUnitFromEnd(auto2A210785_g, auto2A210785_u);
-        if (auto2A210785_var == null) { break; }
-        lv_currentPlayer = UnitGetOwner(auto2A210785_var);
-        if ((lib15EF4C78_gf_AP_Player_isTownHall(auto2A210785_var) == true) && (UnitGroupHasUnit(lib15EF4C78_gv_aP_Player_TownHalls[lv_currentPlayer], auto2A210785_var) != true)) {
-            UnitGroupAdd(lib15EF4C78_gv_aP_Player_TownHalls[lv_currentPlayer], auto2A210785_var);
-        }
-
-    }
+    lib15EF4C78_gf_AP_Player_updateTownHalls();
     lv_currentPlayer = 1;
     for ( ; ( (auto972048E4_ai >= 0 && lv_currentPlayer <= auto972048E4_ae) || (auto972048E4_ai < 0 && lv_currentPlayer >= auto972048E4_ae) ) ; lv_currentPlayer += auto972048E4_ai ) {
         if ((UnitGroupCount(lib15EF4C78_gv_aP_Player_TownHalls[lv_currentPlayer], c_unitCountAlive) > 0)) {
@@ -7116,9 +7075,9 @@ bool lib15EF4C78_gt_AP_Player_CheckPrimaryTownHallPeriodic_Func (bool testConds,
 }
 
 //--------------------------------------------------------------------------------------------------
-void lib15EF4C78_gt_AP_Player_CheckPrimaryTownHallPeriodic_Init () {
-    lib15EF4C78_gt_AP_Player_CheckPrimaryTownHallPeriodic = TriggerCreate("lib15EF4C78_gt_AP_Player_CheckPrimaryTownHallPeriodic_Func");
-    TriggerAddEventTimePeriodic(lib15EF4C78_gt_AP_Player_CheckPrimaryTownHallPeriodic, 0.5, c_timeGame);
+void lib15EF4C78_gt_AP_Player_checkPrimaryTownHallPeriodic_Init () {
+    lib15EF4C78_gt_AP_Player_checkPrimaryTownHallPeriodic = TriggerCreate("lib15EF4C78_gt_AP_Player_checkPrimaryTownHallPeriodic_Func");
+    TriggerAddEventTimePeriodic(lib15EF4C78_gt_AP_Player_checkPrimaryTownHallPeriodic, 2.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -9628,8 +9587,7 @@ void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_InstigatorReconstructionCooldownRecovery_Init();
     lib15EF4C78_gt_SlayerInit_Init();
     lib15EF4C78_gt_CreepTumorBuild_Init();
-    lib15EF4C78_gt_AP_Player_TownHall_ArrayInit_Init();
-    lib15EF4C78_gt_AP_Player_CheckPrimaryTownHallPeriodic_Init();
+    lib15EF4C78_gt_AP_Player_checkPrimaryTownHallPeriodic_Init();
     lib15EF4C78_gt_AP_Player_MindControlRemoveLeash_Init();
     lib15EF4C78_gt_AP_Player_MindControlRemoveAi_Init();
     lib15EF4C78_gt_AP_Player_MindControlEmitEvent_Init();
