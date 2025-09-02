@@ -189,6 +189,12 @@ trigger gt_Init04Music;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulty;
 trigger gt_Init07Help;
+trigger gt_CheatMidcine;
+trigger gt_CheatVictorycinedoor;
+trigger gt_CheatGiveDrilltoMeQ;
+trigger gt_CheatDoor70;
+trigger gt_CheatDoor33;
+trigger gt_CheatDoor5;
 trigger gt_IntroSequence;
 trigger gt_StartGameTacticalPhase;
 trigger gt_MMDropoff;
@@ -1003,6 +1009,311 @@ bool gt_Init07Help_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_Init07Help_Init () {
     gt_Init07Help = TriggerCreate("gt_Init07Help_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Cheat - Mid cine
+//--------------------------------------------------------------------------------------------------
+bool gt_CheatMidcine_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup autoA4462F39_g;
+    int autoA4462F39_u;
+    unit autoA4462F39_var;
+    unitgroup auto789C869C_g;
+    int auto789C869C_u;
+    unit auto789C869C_var;
+    string auto9C0393D3_val;
+
+    // Conditions
+    if (testConds) {
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/24CAAD0A"), true);
+    TriggerEnable(gt_SiegeTankTutorialQ, false);
+    TriggerEnable(gt_SiegeTankIntroQ, false);
+    TriggerEnable(gt_SiegeTankTipQ, false);
+    UnitRemove(UnitFromId(117));
+    UnitRemove(UnitFromId(130));
+    UnitRemove(UnitFromId(123));
+    UnitRemove(UnitFromId(450));
+    UnitRemove(UnitFromId(451));
+    UnitRemove(UnitFromId(448));
+    UnitRemove(UnitFromId(470));
+    UnitRemove(UnitFromId(520));
+    UnitRemove(UnitFromId(507));
+    UnitRemove(UnitFromId(550));
+    autoA4462F39_g = UnitGroup(null, gv_p6_PROTOSSAir, RegionFromId(9), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoA4462F39_u = UnitGroupCount(autoA4462F39_g, c_unitCountAll);
+    for (;; autoA4462F39_u -= 1) {
+        autoA4462F39_var = UnitGroupUnitFromEnd(autoA4462F39_g, autoA4462F39_u);
+        if (autoA4462F39_var == null) { break; }
+        UnitRemove(autoA4462F39_var);
+    }
+    auto789C869C_g = UnitGroup(null, gv_p1_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto789C869C_u = UnitGroupCount(auto789C869C_g, c_unitCountAll);
+    for (;; auto789C869C_u -= 1) {
+        auto789C869C_var = UnitGroupUnitFromEnd(auto789C869C_g, auto789C869C_u);
+        if (auto789C869C_var == null) { break; }
+        UnitSetPosition(auto789C869C_var, PointFromId(447), false);
+    }
+    if ((TriggerGetExecCount(gt_SiegeTanksComeIn) <= 0)) {
+        auto9C0393D3_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (auto9C0393D3_val == "Zerg") {
+            UnitCreate(2, "AP_Impaler", 0, gv_p1_USER, PointFromId(447), 270.0);
+        }
+        else if (auto9C0393D3_val == "Prot") {
+            UnitCreate(2, "AP_ImmortalAiur", 0, gv_p1_USER, PointFromId(447), 270.0);
+        }
+        else {
+            UnitCreate(2, "AP_SiegeTank", 0, gv_p1_USER, PointFromId(447), 270.0);
+        }
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheatMidcine_Init () {
+    gt_CheatMidcine = TriggerCreate("gt_CheatMidcine_Func");
+    TriggerAddEventChatMessage(gt_CheatMidcine, 1, "-s2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Cheat - Victory cine -door
+//--------------------------------------------------------------------------------------------------
+bool gt_CheatVictorycinedoor_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/1B72BD0F"), true);
+    TriggerExecute(gt_VictoryDestroyDoor, false, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheatVictorycinedoor_Init () {
+    gt_CheatVictorycinedoor = TriggerCreate("gt_CheatVictorycinedoor_Func");
+    TriggerAddEventChatMessage(gt_CheatVictorycinedoor, c_playerAny, "-win", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Cheat - Give Drill to Me Q
+//--------------------------------------------------------------------------------------------------
+bool gt_CheatGiveDrilltoMeQ_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(gt_UseLaserDrillQ360s, false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/A79C3D89"), true);
+    TriggerQueueEnter();
+    gv_playerControlsLaserDrill = true;
+    UnitSetOwner(UnitFromId(409), 1, true);
+    libNtve_gf_MakeUnitUncommandable(gv_tHEONEDRILL, false);
+    libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
+    SoundPlay(SoundLink("TUIWarningPing", -1), PlayerGroupAll(), 100.0, 0.0);
+    TriggerEnable(gt_PingDangerousUnits, true);
+    // Transmission - SoundLink("TTychus02Horner00042", 0)
+    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTychus02Horner00042", -1), c_transmissionDurationAdd, 0.0, true);
+    // Transmission - SoundLink("TTychus02Horner00043", 0)
+    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTychus02Horner00043", -1), c_transmissionDurationAdd, 0.0, true);
+    // Transmission - SoundLink("TTychus02Raynor00016", 0)
+    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTychus02Raynor00016", -1), c_transmissionDurationAdd, 1.0, true);
+    Wait(1.0, c_timeGame);
+    libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
+    libCamp_gf_CreateTipFromConversationState("StoryTips|Tychus02_LaserDrillControl", libNtve_ge_TipType_NormalTip, PlayerGroupAll());
+    Wait(libCamp_gv_campaignHintDelay, c_timeGame);
+    TriggerQueueExit();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheatGiveDrilltoMeQ_Init () {
+    gt_CheatGiveDrilltoMeQ = TriggerCreate("gt_CheatGiveDrilltoMeQ_Func");
+    TriggerAddEventChatMessage(gt_CheatGiveDrilltoMeQ, c_playerAny, "-drill", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Cheat - Door 70%
+//--------------------------------------------------------------------------------------------------
+bool gt_CheatDoor70_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/74662012"), true);
+    UnitSetPropertyFixed(gv_tHEONEDOOR, c_unitPropLifePercent, 70.0);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheatDoor70_Init () {
+    gt_CheatDoor70 = TriggerCreate("gt_CheatDoor70_Func");
+    TriggerAddEventChatMessage(gt_CheatDoor70, 1, "-s3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Cheat - Door 33%
+//--------------------------------------------------------------------------------------------------
+bool gt_CheatDoor33_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/855BB61C"), true);
+    UnitSetPropertyFixed(gv_tHEONEDOOR, c_unitPropLifePercent, 33.0);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheatDoor33_Init () {
+    gt_CheatDoor33 = TriggerCreate("gt_CheatDoor33_Func");
+    TriggerAddEventChatMessage(gt_CheatDoor33, 1, "-s4", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Cheat - Door 5%
+//--------------------------------------------------------------------------------------------------
+bool gt_CheatDoor5_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/CD0B81B7"), true);
+    UnitSetPropertyFixed(gv_tHEONEDOOR, c_unitPropLifePercent, 5.0);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheatDoor5_Init () {
+    gt_CheatDoor5 = TriggerCreate("gt_CheatDoor5_Func");
+    TriggerAddEventChatMessage(gt_CheatDoor5, 1, "-s5", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6623,6 +6934,12 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulty_Init();
     gt_Init07Help_Init();
+    gt_CheatMidcine_Init();
+    gt_CheatVictorycinedoor_Init();
+    gt_CheatGiveDrilltoMeQ_Init();
+    gt_CheatDoor70_Init();
+    gt_CheatDoor33_Init();
+    gt_CheatDoor5_Init();
     gt_IntroSequence_Init();
     gt_StartGameTacticalPhase_Init();
     gt_MMDropoff_Init();
