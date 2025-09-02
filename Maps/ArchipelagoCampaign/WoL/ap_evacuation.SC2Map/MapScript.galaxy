@@ -217,6 +217,8 @@ trigger gt_Init04Music;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulty;
 trigger gt_Init07Help;
+trigger gt_DEBUGSkiptoEscort;
+trigger gt_DEBUGVictory;
 trigger gt_StartGame;
 trigger gt_SwanntalksaboutFirebatQ;
 trigger gt_FirebatDropshipAction;
@@ -1467,6 +1469,91 @@ bool gt_Init07Help_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_Init07Help_Init () {
     gt_Init07Help = TriggerCreate("gt_Init07Help_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Skip to Escort
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSkiptoEscort_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto2CBFF42D_g;
+    int auto2CBFF42D_u;
+    unit auto2CBFF42D_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/7552B9FA"), true);
+    auto2CBFF42D_g = UnitGroup(null, gv_p1_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto2CBFF42D_u = UnitGroupCount(auto2CBFF42D_g, c_unitCountAll);
+    for (;; auto2CBFF42D_u -= 1) {
+        auto2CBFF42D_var = UnitGroupUnitFromEnd(auto2CBFF42D_g, auto2CBFF42D_u);
+        if (auto2CBFF42D_var == null) { break; }
+        UnitSetPosition(auto2CBFF42D_var, PointFromId(1638), false);
+    }
+    TriggerExecute(gt_SwitchtoEscortPhase, false, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSkiptoEscort_Init () {
+    gt_DEBUGSkiptoEscort = TriggerCreate("gt_DEBUGSkiptoEscort_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSkiptoEscort, c_playerAny, "-s2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/DC97A119"), true);
+    gv_colonistsSaved = gv_colonistsSaveQuota;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7334,6 +7421,8 @@ void InitTriggers () {
     gt_Init05Environment_Init();
     gt_Init06Difficulty_Init();
     gt_Init07Help_Init();
+    gt_DEBUGSkiptoEscort_Init();
+    gt_DEBUGVictory_Init();
     gt_StartGame_Init();
     gt_SwanntalksaboutFirebatQ_Init();
     gt_FirebatDropshipAction_Init();
