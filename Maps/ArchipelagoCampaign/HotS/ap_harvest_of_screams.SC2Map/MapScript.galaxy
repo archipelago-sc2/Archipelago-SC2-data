@@ -204,6 +204,7 @@ trigger gt_PlayerIsInCombatIndicatorDiminish;
 trigger gt_CreatedUnit;
 trigger gt_SpineCrawlerTransform;
 trigger gt_DEBUGStage2;
+trigger gt_DEBUGVictory;
 trigger gt_DEBUGStartBlizzard;
 trigger gt_DEBUGStartSnow;
 trigger gt_DEBUGStopSnow;
@@ -1867,20 +1868,17 @@ bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
     unitgroup auto299B9F49_g;
     int auto299B9F49_u;
     unit auto299B9F49_var;
-    unitgroup autoA581D1F8_g;
-    int autoA581D1F8_u;
-    unit autoA581D1F8_var;
     unitgroup autoBD204B07_g;
     int autoBD204B07_u;
     unit autoBD204B07_var;
 
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
             return false;
         }
 
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -1907,38 +1905,71 @@ bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
     UnitKill(UnitFromId(249));
     UnitKill(UnitFromId(251));
     UnitKill(UnitFromId(75));
-    auto299B9F49_g = UnitGroup("Zergling", gv_pLAYER_01_USER, RegionPlayableMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto299B9F49_g = UnitGroup(null, gv_pLAYER_01_USER, RegionPlayableMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     auto299B9F49_u = UnitGroupCount(auto299B9F49_g, c_unitCountAll);
     for (;; auto299B9F49_u -= 1) {
         auto299B9F49_var = UnitGroupUnitFromEnd(auto299B9F49_g, auto299B9F49_u);
         if (auto299B9F49_var == null) { break; }
-        UnitRemove(auto299B9F49_var);
+        UnitSetPosition(auto299B9F49_var, PointFromId(977), false);
+        libNtve_gf_PauseUnit(auto299B9F49_var, false);
+        UnitSetState(auto299B9F49_var, c_unitStateTargetable, true);
+        lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(auto299B9F49_var);
     }
-    autoA581D1F8_g = UnitGroup("Roach", gv_pLAYER_01_USER, RegionPlayableMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    autoA581D1F8_u = UnitGroupCount(autoA581D1F8_g, c_unitCountAll);
-    for (;; autoA581D1F8_u -= 1) {
-        autoA581D1F8_var = UnitGroupUnitFromEnd(autoA581D1F8_g, autoA581D1F8_u);
-        if (autoA581D1F8_var == null) { break; }
-        UnitRemove(autoA581D1F8_var);
-    }
-    autoBD204B07_g = UnitGroup("Roach", gv_pLAYER_02_RESCUE_ZERG, RegionPlayableMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoBD204B07_g = UnitGroup(null, gv_pLAYER_02_RESCUE_ZERG, RegionFromId(32), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoBD204B07_u = UnitGroupCount(autoBD204B07_g, c_unitCountAll);
     for (;; autoBD204B07_u -= 1) {
         autoBD204B07_var = UnitGroupUnitFromEnd(autoBD204B07_g, autoBD204B07_u);
         if (autoBD204B07_var == null) { break; }
-        UnitRemove(autoBD204B07_var);
+        if ((libNtve_gf_UnitInRegion(autoBD204B07_var, RegionFromId(3)) == false)) {
+            UnitSetPosition(autoBD204B07_var, PointFromId(977), false);
+            UnitSetOwner(autoBD204B07_var, gv_pLAYER_01_USER, true);
+            libNtve_gf_PauseUnit(autoBD204B07_var, false);
+            UnitSetState(autoBD204B07_var, c_unitStateTargetable, true);
+            lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(autoBD204B07_var);
+        }
+
     }
-    UnitSetPosition(gv_kerrigan, PointFromId(977), false);
-    UnitCreate(4, "Roach", 0, gv_pLAYER_01_USER, PointFromId(551), 270.0);
-    UnitCreate(4, "Zergling", 0, gv_pLAYER_01_USER, PointFromId(551), 270.0);
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStage2_Init () {
     gt_DEBUGStage2 = TriggerCreate("gt_DEBUGStage2_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "Stage2", true);
-    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "S2", true);
+    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "-Stage2", true);
+    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "-s2", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/11E56265"), true);
+    TriggerExecute(gt_VictoryPsiLinkSpiresDestroyed, false, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1948,7 +1979,7 @@ bool gt_DEBUGStartBlizzard_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -1969,7 +2000,7 @@ bool gt_DEBUGStartBlizzard_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStartBlizzard_Init () {
     gt_DEBUGStartBlizzard = TriggerCreate("gt_DEBUGStartBlizzard_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStartBlizzard, c_playerAny, "blizzardgo", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartBlizzard, c_playerAny, "-blizzardgo", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1979,7 +2010,7 @@ bool gt_DEBUGStartSnow_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -2000,7 +2031,7 @@ bool gt_DEBUGStartSnow_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStartSnow_Init () {
     gt_DEBUGStartSnow = TriggerCreate("gt_DEBUGStartSnow_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStartSnow, c_playerAny, "snowgo", true);
+    TriggerAddEventChatMessage(gt_DEBUGStartSnow, c_playerAny, "-snowgo", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2010,7 +2041,7 @@ bool gt_DEBUGStopSnow_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
     }
@@ -2029,7 +2060,7 @@ bool gt_DEBUGStopSnow_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGStopSnow_Init () {
     gt_DEBUGStopSnow = TriggerCreate("gt_DEBUGStopSnow_Func");
-    TriggerAddEventChatMessage(gt_DEBUGStopSnow, c_playerAny, "snowdie", true);
+    TriggerAddEventChatMessage(gt_DEBUGStopSnow, c_playerAny, "-snowdie", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -9582,6 +9613,7 @@ void InitTriggers () {
     gt_CreatedUnit_Init();
     gt_SpineCrawlerTransform_Init();
     gt_DEBUGStage2_Init();
+    gt_DEBUGVictory_Init();
     gt_DEBUGStartBlizzard_Init();
     gt_DEBUGStartSnow_Init();
     gt_DEBUGStopSnow_Init();
