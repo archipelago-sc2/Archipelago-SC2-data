@@ -2527,10 +2527,10 @@
     <CActorUnit id="AP_InfestedMedic" parent="AP_MedicBase" unitName="AP_InfestedMedic">
         <On Terms="Behavior.AP_MercGroundDrop.Create" Send="Create AP_MercMedicDropModel"/>
         <On Terms="ActorCreation" Send="SetScale 1.100000"/>
-        <On Terms="Abil.AP_MercMedicHeal.SourceChannelStart" Send="$Spell PlayForever"/>
-        <On Terms="Abil.AP_MercMedicHeal.SourceChannelStop" Send="AnimClear Spell"/>
-        <On Terms="Abil.AP_MercMedicHealPlusMech.SourceChannelStart" Send="$Spell PlayForever"/>
-        <On Terms="Abil.AP_MercMedicHealPlusMech.SourceChannelStop" Send="AnimClear Spell"/>
+        <On Terms="Abil.AP_InfestedMedicMercHeal.SourceChannelStart" Send="AnimPlay Spell Attack PlayForever -1.000000 -1.000000 0.300000 AsTimeScale"/>
+        <On Terms="Abil.AP_InfestedMedicMercHeal.SourceChannelStop" Send="AnimClear Spell"/>
+        <On Terms="Abil.AP_InfestedMedicMercHealPlusMech.SourceChannelStart" Send="AnimPlay Spell Attack PlayForever -1.000000 -1.000000 0.300000 AsTimeScale"/>
+        <On Terms="Abil.AP_InfestedMedicMercHealPlusMech.SourceChannelStop" Send="AnimClear Spell"/>
         <PortraitModel value="AP_InfestedMedic_Portrait"/>
         <Model value="AP_InfestedMedic"/>
         <DeathArray index="Normal" ModelLink="AP_InfestedMedicDeath" SoundLink="AP_Medic_Explode"/>
@@ -2559,6 +2559,32 @@
         <VitalNames index="Shields" value="Vital/ZergShields"/>
         <WireframeShieldColor value="255,0,128,0"/>
     </CActorUnit>
+    <CActorBeamSimple id="AP_InfestedMedicMercHealBeam" parent="BeamSimpleAnimationStyleContinuous">
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Effect.AP_InfestedMedicMercHeal.TargetStart" Send="Create"/>
+        <On Terms="Effect.AP_InfestedMedicMercHealPlusMech.TargetStart" Send="Create"/>
+        <On Terms="Effect.AP_InfestedMedicMercHeal.TargetStop" Send="Destroy"/>
+        <On Terms="Effect.AP_InfestedMedicMercHealPlusMech.TargetStop" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetTintColor {255,100,0 4.000000}"/>
+        <HostForProps Subject="_Unit" Scope="Caster" Actor="Find"/>
+        <Model value="AP_MedicHealBeam"/>
+        <HostLaunch Subject="_Unit" Scope="Caster" Actor="Find"/>
+        <HostLaunchSiteOps Ops="SOpAttachHardPoint AP_SOpInfestedMedicBeamOffset"/>
+        <HostImpact Subject="_Unit" Scope="Target" Actor="Find"/>
+        <HostImpactSiteOps Ops="SOpAttachCenter"/>
+    </CActorBeamSimple>
+    <CActorModel id="AP_InfestedMedicMercHealModel" parent="ModelAnimationStyleContinuous">
+        <On Terms="ActorCreation" Send="$Birth PlayForever"/>
+        <On Terms="Effect.AP_InfestedMedicMercHeal.TargetStart; At Target" Send="Create"/>
+        <On Terms="Effect.AP_InfestedMedicMercHealPlusMech.TargetStart; At Target" Send="Create"/>
+        <On Terms="Effect.AP_InfestedMedicMercHeal.TargetStop; At Target" Send="Destroy"/>
+        <On Terms="Effect.AP_InfestedMedicMercHealPlusMech.TargetStop; At Target" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetTintColor {255,150,0 3.000000}"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Model value="AP_MedicHealModel"/>
+    </CActorModel>
     <CActorModel id="AP_MercMedicDropModel" parent="AP_MercDropModelBase">
         <On Terms="ActorCreation" Send="SetScale 0.800000"/>
     </CActorModel>
@@ -2807,6 +2833,10 @@
         <On Terms="Abil.AP_MengskMedicHeal.TargetChannelStop" Send="Destroy"/>
         <On Terms="Abil.AP_MengskMedicHealPlusMech.TargetChannelStart" Send="Create"/>
         <On Terms="Abil.AP_MengskMedicHealPlusMech.TargetChannelStop" Send="Destroy"/>
+        <On Terms="Abil.AP_InfestedMedicMercHeal.TargetChannelStart" Send="Create"/>
+        <On Terms="Abil.AP_AP_InfestedMedicMercHeal.TargetChannelStop" Send="Destroy"/>
+        <On Terms="Abil.AP_InfestedMedicMercHealPlusMech.TargetChannelStart" Send="Create"/>
+        <On Terms="Abil.AP_InfestedMedicMercHealPlusMech.TargetChannelStop" Send="Destroy"/>
         <On Terms="ActorOrphan" Send="Destroy"/>
         <On Terms="ActorCreation" Send="Create AP_MedicHealSoundStart"/>
         <On Terms="ActorDestruction" Send="Create AP_MedicHealSoundStop"/>
@@ -45274,4 +45304,8 @@
         <Sound value="Queen_SpawnLarvaLarvaBirth"/>
         <On Terms="Behavior.AP_QueenSpawnLarva.Create" Send="Create"/>
     </CActorSound>
+    <CActorSiteOpLocalOffset id="AP_SOpInfestedMedicBeamOffset">
+        <EditorCategories value=""/>
+        <LocalOffset value="0.600000,-0.300000,0.000000"/>
+    </CActorSiteOpLocalOffset>
 </Catalog>
