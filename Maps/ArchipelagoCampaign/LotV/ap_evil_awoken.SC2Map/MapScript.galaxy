@@ -220,6 +220,7 @@ trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
 trigger gt_DEBUGS2;
 trigger gt_DEBUGS3;
+trigger gt_DEBUGVictory;
 trigger gt_StartAI;
 trigger gt_GeneralAttackAI;
 trigger gt_TaldarimResources;
@@ -1433,7 +1434,7 @@ bool gt_DEBUGS2_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1498,8 +1499,8 @@ bool gt_DEBUGS2_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGS2_Init () {
     gt_DEBUGS2 = TriggerCreate("gt_DEBUGS2_Func");
-    TriggerAddEventChatMessage(gt_DEBUGS2, c_playerAny, "s2", true);
-    TriggerAddEventChatMessage(gt_DEBUGS2, c_playerAny, "stage2", true);
+    TriggerAddEventChatMessage(gt_DEBUGS2, c_playerAny, "-s2", true);
+    TriggerAddEventChatMessage(gt_DEBUGS2, c_playerAny, "-stage2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1509,7 +1510,7 @@ bool gt_DEBUGS3_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((GameCheatsEnabled(c_gameCheatCategoryDevelopment) == true))) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
             return false;
         }
 
@@ -1556,8 +1557,50 @@ bool gt_DEBUGS3_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DEBUGS3_Init () {
     gt_DEBUGS3 = TriggerCreate("gt_DEBUGS3_Func");
-    TriggerAddEventChatMessage(gt_DEBUGS3, c_playerAny, "s3", true);
-    TriggerAddEventChatMessage(gt_DEBUGS3, c_playerAny, "stage3", true);
+    TriggerAddEventChatMessage(gt_DEBUGS3, c_playerAny, "-s3", true);
+    TriggerAddEventChatMessage(gt_DEBUGS3, c_playerAny, "-stage3", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerStop(gt_StartGameSection3Q);
+    TriggerStop(gt_StartGameSection3Q);
+    TriggerExecute(gt_VictoryEscapeComplete, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGVictory_Init () {
+    gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
+    TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -10563,6 +10606,7 @@ void InitTriggers () {
     gt_Init07Help_Init();
     gt_DEBUGS2_Init();
     gt_DEBUGS3_Init();
+    gt_DEBUGVictory_Init();
     gt_StartAI_Init();
     gt_GeneralAttackAI_Init();
     gt_TaldarimResources_Init();
