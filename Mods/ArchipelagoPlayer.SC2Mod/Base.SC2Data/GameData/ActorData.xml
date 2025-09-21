@@ -137,6 +137,12 @@
         <DamageMap index="None" Model="VikingFighterAttackDamage" Sound="VikingFighterAttackDamage" ModelReaction="VikingFighterAttackDamageReaction"/>
         <DamageMap index="Shield" Sound="VikingFighterAttackDamageShield" ModelReaction="VikingFighterAttackDamageReactionShield"/>
     </CActorAction>
+    <CActorAction id="AP_DevastatorTurretAttackBase" default="1" parent="GenericAttackNoCreateBase">
+        <Missile value="AP_DevastatorTurretAttackMissile"/>
+        <ContainerAssets Sound="AP_DevastatorTurret_AttackLaunch"/>
+        <LaunchAssets Sound="AP_DevastatorTurret_AttackLaunch"/>
+        <ImpactMap index="None" Sound="AP_DevastatorTurret_AttackImpact"/>
+    </CActorAction>
     <CActorUnit default="1" id="AP_TechLabBase" parent="TerranBuildingEx">
         <Aliases value="_UnitLarge"/>
         <Macros value="TerranAttachmentAnims"/>
@@ -32134,9 +32140,13 @@
         <On Terms="ActorDestruction" Target="AP_DevastatorTurretProtectRange" Send="Destroy"/>
     </CActorModel>
     <CActorModel id="AP_DevastatorTurretBuild" parent="TerranBuildingBuildSmall"/>
-    <CActorAction id="AP_DevastatorTurretAttack" parent="GenericAttack" effectImpact="AP_DevastatorTurretDamage" effectLaunch="AP_DevastatorTurretLM">
-        <LaunchAssets Sound="AP_DevastatorTurret_AttackLaunch"/>
+    <CActorAction id="AP_DevastatorTurretAttack" parent="AP_DevastatorTurretAttackBase" effectImpact="AP_DevastatorTurretDamage">
+        <On Terms="Effect.AP_DevastatorTurretLM.Start; At Caster; !ValidateEffect AP_HaveDevastatorTurretSlow" Send="Create"/>
         <ImpactMap index="None" Sound="AP_DevastatorTurret_AttackImpact"/>
+    </CActorAction>
+    <CActorAction id="AP_DevastatorTurretAttackUpgraded" parent="AP_DevastatorTurretAttackBase" effectImpact="AP_DevastatorTurretDamage">
+        <On Terms="Effect.AP_DevastatorTurretLM.Start; At Caster; ValidateEffect AP_HaveDevastatorTurretSlow" Send="Create"/>
+        <ImpactMap index="None" Sound="AP_DevastatorTurret_AttackImpact" Model="MarauderUpgradedAttackImpact"/>
     </CActorAction>
     <CActorMissile id="AP_DevastatorTurretAttackMissile" parent="GenericAttackMissile" unitName="AP_DevastatorTurretMissile"/>
     <CActorRange id="AP_DevastatorTurretProtectRange" parent="RangeWeapon" weapon="AP_DevastatorTurretWeapon">
