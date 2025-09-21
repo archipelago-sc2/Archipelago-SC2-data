@@ -918,7 +918,7 @@ Behavior/Tooltip/AP_PsionicLiftRaise=This unit is stunned and taking damage over
 Behavior/Tooltip/AP_PurificationNova=This unit is invulnerable and is able to move through other units.
 Behavior/Tooltip/AP_PurifierMothershipAttackSpeedBoostBuff=Attack speed increased by <d ref="Behavior,AP_PurifierMothershipAttackSpeedBoostBuff,Modification.AttackSpeedMultiplier*100 - 100"/>%.
 Behavior/Tooltip/AP_PurifierMothershipAttackSpeedBoostBuffEmpowered=Attack speed increased by <d ref="Behavior,AP_PurifierMothershipAttackSpeedBoostBuffEmpowered,Modification.AttackSpeedMultiplier*100 - 100"/>%.
-Behavior/Tooltip/AP_PurifierMothershipDebuff=Taking <d ref="Behavior,AP_PurifierMothershipDebuff,Duration/Behavior,AP_PurifierMothershipDebuff,Period * Effect,AP_PurifierMothershipDebuffDOT,Amount" precision="1"/> damage over <d ref="Behavior,AP_PurifierMothershipDebuff,Duration" precision="2"/> seconds.
+Behavior/Tooltip/AP_PurifierMothershipDebuff=Taking <d ref="Behavior,AP_PurifierMothershipDebuff,Duration/Behavior,AP_PurifierMothershipDebuff,Period * Effect,AP_PurifierMothershipDebuffDOT,Amount" precision="1"/> damage over <d ref="Behavior,AP_PurifierMothershipDebuff,Duration" precision="2"/> seconds and armor reduced by <d ref="-1*Behavior,AP_PurifierMothershipDebuff,Modification.LifeArmorBonus"/>.
 Behavior/Tooltip/AP_PurifierMothershipShielding=This unit is taking <d ref="(1-Behavior,AP_PurifierMothershipShielding,DamageResponse.ModifyFraction)*100"/>% reduced damage.
 Behavior/Tooltip/AP_QueenBurstHeal=Regenerating life.
 Behavior/Tooltip/AP_QueenClassicParasite=This unit can detect cloaked or burrowed units and has increased vision.
@@ -953,7 +953,7 @@ Behavior/Tooltip/AP_ScoutPurifierSolariteReactorRecover=Recovering shields quick
 Behavior/Tooltip/AP_ScoutTaldarimVulcanBlaster=The Oppressor has engaged the Vulcan Blasters.
 Behavior/Tooltip/AP_SensorTowerRangeBuff=This structure has increased attack range.
 Behavior/Tooltip/AP_SentryReclamation=This unit is temporarily under Karax's control. It will self-destruct once this effect expires.
-Behavior/Tooltip/AP_TaldarimMothershipGroundSlowDebuff=Attack speed and movement speed reduced by <d ref="(1 - Behavior,AP_TaldarimMothershipGroundSlowDebuff,Modification.MoveSpeedMultiplier) * 100"/>%.
+Behavior/Tooltip/AP_TaldarimMothershipGroundSlowDebuff=Attack and movement speed reduced by <d ref="(1 - Behavior,AP_TaldarimMothershipGroundSlowDebuff,Modification.MoveSpeedMultiplier) * 100"/>%.
 Behavior/Tooltip/AP_SiegeTankMengskSlowHeroic=Target's movement speed is reduced for a short period of time.
 Behavior/Tooltip/AP_SiegeTankMengskStun=Target is stunned.
 Behavior/Tooltip/AP_Slow=Target's movement speed is reduced for a short period of time.
@@ -2368,6 +2368,7 @@ Button/Name/AP_WidowMineDemolitionArmaments=Demolition Payload
 Button/Name/AP_WidowMineUnburrow=Deactivate Mine
 Button/Name/AP_WildMutation=Wild Mutation
 Button/Name/AP_WormholeTransit=Wormhole Transit
+Button/Name/AP_WormholeTransitInstall=Install Wormhole Transit
 Button/Name/AP_Wraith=Build Wraith
 Button/Name/AP_WraithAdvancedLaserTechnology=Advanced Laser Technology
 Button/Name/AP_WraithCloakOff=Decloak
@@ -2546,7 +2547,7 @@ Button/Tooltip/AP_AscendantSacrifice=Reduces target friendly unit to <d ref="Eff
 Button/Tooltip/AP_AssaultModeMengsk=Transforms the Sky Fury to Assault Mode. In this mode Sky Furies move on the ground and can only attack ground targets.
 Button/Tooltip/AP_Assimilator=Warped in over a Vespene Geyser to allow harvesting of vespene gas.
 Button/Tooltip/AP_AssimilatorRich=Warped in over a Vespene Geyser to allow harvesting of vespene gas.
-Button/Tooltip/AP_AstralRestoration=Channel the Astral Winds through the Mothership, increasing the radius of Cloaking Field by 50% and restoring 160 health and 160 shields over 10 seconds to friendly units and structures within the Cloaking Field.
+Button/Tooltip/AP_AstralRestoration=Channel the Astral Winds through the Mothership, increasing the radius of Cloaking Field by 50% and restoring 80 health and 160 shields over 10 seconds to friendly units and structures within the Cloaking Field.
 Button/Tooltip/AP_AstralRestorationInstall=<d ref="Abil,AP_AstralRestoration,Cost[0].Vital"/> Energy<n/><d ref="Abil,AP_AstralRestoration,Cost[0].Cooldown.TimeUse"/> second cooldown<n/>Channel the Astral Winds through the Mothership, increasing the radius of Cloaking Field by 50% and restoring 160 health and 160 shields over 10 seconds to friendly units and structures within the Cloaking Field.
 Button/Tooltip/AP_AttackChampions=Orders selected units to move to the target point, fighting nearby enemies along the way. Targeting a unit with the Attack command orders that it be attacked until it is destroyed.
 Button/Tooltip/AP_AutoTurret=Automated defensive turret. <n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
@@ -3289,11 +3290,11 @@ Button/Tooltip/AP_MorphtoDefiler=Caster
 Button/Tooltip/AP_MorphtoHunter=Hunter Strain<n/><n/>Suicide unit. Deals damage over a small area upon death. Launches toward enemies at range 6.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/AP_MorphtoSplitterling=Splitter Strain<n/><n/>Suicide unit. Deals damage over a small area upon death. Splits into smaller units as it dies. <n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/AP_MothershipAiur=Aiur Faction<n/>Ultimate Aiur vessel. Can use Battery Overcharge, Revitalize Shields, and Black Hole. Cloaks nearby friendly units.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/AP_MothershipAiurShieldArmorAura=Friendly units that are cloaked by the Aiur Mothership's cloaking field gain +<d ref="Behavior,AP_MothershipAiurShieldArmor,Modification.ShieldArmorBonus"/> shield armor.
+Button/Tooltip/AP_MothershipAiurShieldArmorAura=Friendly units that are cloaked by the Aiur Mothership gain +<d ref="Behavior,AP_MothershipAiurShieldArmor,Modification.ShieldArmorBonus"/> shield armor.
 Button/Tooltip/AP_MothershipAuxiliary=Install auxiliary upgrades for the Mothership, which are passive effects that improve the Mothership. These upgrades persist through death.
 Button/Tooltip/AP_MothershipBlackHole=Stuns enemy units in the target area for <d ref="Effect,AP_MothershipBlackHolePersistent,PeriodCount*Effect,AP_MothershipBlackHolePersistent,PeriodicPeriodArray[0]"/> seconds.
 Button/Tooltip/AP_MothershipBlackHoleInstall=<d ref="Abil,AP_VoidSentryBlackHole,Cost[0].Vital"/> Energy<n/>No Cooldown<n/>Stuns enemy units in the target area for <d ref="Effect,AP_VoidSentryBlackHolePersistent ,PeriodCount*Effect,AP_VoidSentryBlackHolePersistent,PeriodicPeriodArray[0]"/> seconds.
-Button/Tooltip/AP_MothershipChronoDrones=Two chrono drones automatically cast Chrono Beam on nearby friendly units near the Mothership, granting <d ref="100*Behavior,AP_VoidSentryChronoBeam,Modification.AdditiveAttackSpeedFactor"/>% attack and <d ref="100*Behavior,AP_VoidSentryChronoBeam,Modification.AdditiveMoveSpeedFactor"/>% movement speed for <d ref="Behavior,AP_VoidSentryChronoBeam,Duration"/> seconds.</n></n><c val="FF4040">The drones can not target the Purifier Mothership.</c>
+Button/Tooltip/AP_MothershipChronoDrones=A chrono drone automatically casts Chrono Beam on nearby friendly units near the Mothership, granting <d ref="100*Behavior,AP_VoidSentryChronoBeam,Modification.AdditiveAttackSpeedFactor"/>% attack and <d ref="100*Behavior,AP_VoidSentryChronoBeam,Modification.AdditiveMoveSpeedFactor"/>% movement speed for <d ref="Behavior,AP_VoidSentryChronoBeam,Duration"/> seconds.</n></n><c val="FF4040">The drone can not target the Purifier Mothership.</c>
 Button/Tooltip/AP_MothershipCloakField=Cloaks friendly units and structures near the Mothership.
 Button/Tooltip/AP_MothershipCoreAiur=Mobile flying caster. Can use Battery Overcharge, Nexus Recall, and Time Warp abilities. Can upgrade into an Aiur Mothership.<n/><n/><c val="#ColorAttackInfo">Can attack air and ground units.</c>
 Button/Tooltip/AP_MothershipCoreAiurQuantumProjection=Battery Overcharge and Deceleration Field gain +<d ref="Upgrade,AP_MothershipCoreAiurQuantumProjection,EffectArray[0].Value"/> cast range, and Nexus Recall gains <d ref="($UpgradeEffectArrayValue:AP_MothershipCoreAiurQuantumProjection:Effect,AP_MothershipCoreNexusRecallSearch,AreaArray[0].Radius$/Effect,AP_MothershipCoreNexusRecallSearch,AreaArray[0].Radius)*100" player="0"/>% increased size.
@@ -3306,7 +3307,7 @@ Button/Tooltip/AP_MothershipMassRecallInstall=<d ref="Abil,AP_MothershipMassReca
 Button/Tooltip/AP_MothershipNexusRecallInstall=<d ref="Abil,AP_MothershipNexusRecall,Cost[0].Vital"/> Energy<n/><d ref="Abil,AP_MothershipNexusRecall,Cost[0].Cooldown.TimeUse"/> second cooldown<n/>Teleports all friendly units near the Mothership to the target Nexus.
 Button/Tooltip/AP_MothershipPowerField=Provides power in a small radius around the Mothership.
 Button/Tooltip/AP_MothershipPurifier=Purifier Faction<n/>Ultimate Purifier vessel. Can use Enhanced Power Redirection, Overload Weapon Systems, and Black Hole. Creates a power field.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/AP_MothershipRepairDrones=Three shield-repair drones automatically restore shields to nearby friendly units near the Mothership.
+Button/Tooltip/AP_MothershipRepairDrones=Two shield-repair drones automatically restore shields to friendly units near the Mothership.
 Button/Tooltip/AP_MothershipTaldarim=Tal'darim Faction<n/>Ultimate Tal'darim vessel. Can use Thermal Lance, Black Hole, and Blink.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
 Button/Tooltip/AP_MothershipTaldarimBaseAttackDisable=Enables the Tal'darim Mothership's upgraded attack, firing at a faster rate but doing less damage per attack.
 Button/Tooltip/AP_MothershipTaldarimBaseAttackEnable=Enables the Tal'darim Mothership's base attack, firing at a slower rate but doing more damage per attack.
@@ -3399,8 +3400,8 @@ Button/Tooltip/AP_OracleWeaponOn=Charges the Oracle's Pulsar Beam and allows it 
 Button/Tooltip/AP_OrbitalCommandFlying=Primary structure. Must land to receive resources, produce units, or use abilities.
 Button/Tooltip/AP_OrbitalCommandUnit=Primary structure. Used to train SCVs and receive gathered resources. Can use the Scanner Sweep ability. Can use the abilities Calldown: MULE and Calldown: Extra Supplies.
 Button/Tooltip/AP_OrganicCarapace=Increases life by 25.
-Button/Tooltip/AP_OverloadWeaponSystems=Disable movements, increases attack speed by <d ref="100*Behavior,AP_OverloadWeaponSystems,Modification.AdditiveAttackSpeedFactor"/>%, and causes the Mothership to hit an additional <d ref="Effect,AP_PurifierMothershipWeaponOverloadSearch,AreaArray[0].MaxCount - Effect,AP_PurifierMothershipWeaponSearch,AreaArray[0].MaxCount"/> targets with its weapon for <d ref="Behavior,AP_OverloadWeaponSystems,Duration"/> seconds. After the overload, the Mothership is stunned for 2.5 seconds.
-Button/Tooltip/AP_OverloadWeaponSystemsInstall=<d ref="Abil,AP_OverloadWeaponSystems,Cost[0].Vital"/> Energy<n/>No Cooldown<n/>Disables movement, increases attack speed by <d ref="100*Behavior,AP_OverloadWeaponSystems,Modification.AdditiveAttackSpeedFactor"/>%, and causes the Mothership to hit an additional <d ref="Effect,AP_PurifierMothershipWeaponOverloadSearch,AreaArray[0].MaxCount - Effect,AP_PurifierMothershipWeaponSearch,AreaArray[0].MaxCount"/> targets with its weapon for <d ref="Behavior,AP_OverloadWeaponSystems,Duration"/> seconds. After the overload, the Mothership is stunned for 2.5 seconds.
+Button/Tooltip/AP_OverloadWeaponSystems=Disable movement, increase attack speed by <d ref="100*Behavior,AP_OverloadWeaponSystems,Modification.AdditiveAttackSpeedFactor"/>%, and cause the Mothership to hit an additional <d ref="Effect,AP_PurifierMothershipWeaponOverloadSearch,AreaArray[0].MaxCount - Effect,AP_PurifierMothershipWeaponSearch,AreaArray[0].MaxCount"/> targets with its weapon for <d ref="Behavior,AP_OverloadWeaponSystems,Duration"/> seconds. After the overload, the Mothership is stunned for <d ref="Behavior,AP_OverloadWeaponSystemsStun,Duration" precision="1"/> seconds.
+Button/Tooltip/AP_OverloadWeaponSystemsInstall=<d ref="Abil,AP_OverloadWeaponSystems,Cost[0].Vital"/> Energy<n/>No Cooldown<n/>Disables movement, increases attack speed by <d ref="100*Behavior,AP_OverloadWeaponSystems,Modification.AdditiveAttackSpeedFactor"/>%, and causes the Mothership to hit an additional <d ref="Effect,AP_PurifierMothershipWeaponOverloadSearch,AreaArray[0].MaxCount - Effect,AP_PurifierMothershipWeaponSearch,AreaArray[0].MaxCount"/> targets with its weapon for <d ref="Behavior,AP_OverloadWeaponSystems,Duration"/> seconds. After the overload, the Mothership is stunned for <d ref="Behavior,AP_OverloadWeaponSystemsStun,Duration" precision="1"/> seconds.
 Button/Tooltip/AP_Overlord=Increases supply. Supply allows you to create more units.<n/><n/><c val="ffff8a">Cannot attack.</c>
 Button/Tooltip/AP_OverlordCocoon=This cocoon contains an Overlord as it is morphing into an Overseer.
 Button/Tooltip/AP_OverlordSightUpgrade=Increases Overlord sight range.
@@ -3439,8 +3440,8 @@ Button/Tooltip/AP_PhoenixPurifier=Purifier Faction<n/>Air superiority starfighte
 Button/Tooltip/AP_PhoenixTaldarim=Tal'darim Faction<n/>Fast skirmish starfighter.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/AP_PhoenixTaldarimAA=Tal'darim Faction<n/>Fast skirmish starfighter.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
 Button/Tooltip/AP_PhotonCannon=Primary defensive structure.<n/><n/><c val="ffff8a">Can attack ground and air units.</c><n/><c val="FFE303">Detector</c>
-Button/Tooltip/AP_PlanetCracker=Teleport to a nearby location and fire the Planet Cracker, dealing <d ref="Behavior,AP_PlanetCracker,Duration/Behavior,AP_PlanetCracker,Period * Effect,AP_PlanetCrackerDamage,Amount"/> damage over <d ref="Behavior,AP_PlanetCracker,Duration"/> seconds ALL UNITS in the area. The radius grows over the course of the duration, and the Mothership is unable to take any other action during this time.
-Button/Tooltip/AP_PlanetCrackerInstall=<d ref="Abil,AP_PlanetCracker,Cost[0].Vital"/> Energy<n/><d ref="Abil,AP_PlanetCracker,Cost[0].Cooldown.TimeUse"/> second cooldown<n/>Teleport to a nearby location and fire the Planet Cracker, dealing <d ref="Behavior,AP_PlanetCracker,Duration/Behavior,AP_PlanetCracker,Period * Effect,AP_PlanetCrackerDamage,Amount"/> damage over <d ref="Behavior,AP_PlanetCracker,Duration"/> seconds ALL UNITS in the area. The radius grows over the course of the duration, and the Mothership is unable to take any other action during this tim
+Button/Tooltip/AP_PlanetCracker=Teleport to a nearby location and fire the Planet Cracker after a <d ref="Behavior,AP_PlanetCrackerChargeUp,Duration"/> charge-up, dealing <d ref="Behavior,AP_PlanetCracker,Duration/Behavior,AP_PlanetCracker,Period * Effect,AP_PlanetCrackerDamage,Amount"/> damage over <d ref="Behavior,AP_PlanetCracker,Duration"/> seconds ALL UNITS in the area. The radius grows over the course of the duration, and the Mothership is unable to take any other action during this time.
+Button/Tooltip/AP_PlanetCrackerInstall=<d ref="Abil,AP_PlanetCracker,Cost[0].Vital"/> Energy<n/><d ref="Abil,AP_PlanetCracker,Cost[0].Cooldown.TimeUse"/> second cooldown<n/>Teleport to a nearby location and fire the Planet Cracker after a <d ref="Behavior,AP_PlanetCrackerChargeUp,Duration"/> charge-up, dealing <d ref="Behavior,AP_PlanetCracker,Duration/Behavior,AP_PlanetCracker,Period * Effect,AP_PlanetCrackerDamage,Amount"/> damage over <d ref="Behavior,AP_PlanetCracker,Duration"/> seconds ALL UNITS in the area. The radius grows over the course of the duration, and the Mothership is unable to take any other action during this tim
 Button/Tooltip/AP_PlanetaryFortress=Primary structure. Used to train SCVs and receive gathered resources. Has exceptional combat capabilities that are extremely potent against swarms of small units.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/AP_PlanetaryFortressAdvancedTargeting=Allows Planetary Fortress to attack air units.
 Button/Tooltip/AP_PlanetaryFortressAttackAirlift=Allows Planetary Fortress to attack while lifted off.
@@ -3500,7 +3501,7 @@ Button/Tooltip/AP_PurificationNovaTargeted=Shoots out a ball of energy that last
 Button/Tooltip/AP_PurificationNovaTargetedUpgrade=Shoots out a ball of energy that lasts <d ref="Behavior,AP_PurificationNovaTargettedTarget,Duration"/> seconds and emits a powerful nova dealing <d ref="Effect,AP_PurificationNovaDamage,Amount"/> splash damage and an additional <d ref="Effect,AP_PurificationNovaDamage,ShieldBonus"/> shield damage to nearby enemy ground units and structures. Friendly ground units take <d ref="Effect,AP_PurificationNovaFriendlyDamage,Amount"/> splash damage.
 Button/Tooltip/AP_PurifierFaction=Produce units from Purifier faction
 Button/Tooltip/AP_PurifierMothershipAttackSpeedBoost=Friendly units near the Purifier Mothership gain <d ref="Behavior,AP_PurifierMothershipAttackSpeedBoostBuff,Modification.AttackSpeedMultiplier*100 - 100"/>% attack speed, increased to <d ref="Behavior,AP_PurifierMothershipAttackSpeedBoostBuffEmpowered,Modification.AttackSpeedMultiplier*100 - 100"/>% when their shields are depleted. Purifier units always gain <d ref="Behavior,AP_PurifierMothershipAttackSpeedBoostBuffEmpowered,Modification.AttackSpeedMultiplier*100 - 100"/>% attack speed.
-Button/Tooltip/AP_PurifierMothershipDebuff=The Mothership deals an additional <d ref="Behavior,AP_PurifierMothershipDebuff,Duration/Behavior,AP_PurifierMothershipDebuff,Period * Effect,AP_PurifierMothershipDebuffDOT,Amount" precision="2"/> damage over <d ref="Behavior,AP_PurifierMothershipDebuff,Duration" precision="2"/> seconds to targets it attacks.
+Button/Tooltip/AP_PurifierMothershipDebuff=The Purifier Mothership's weapon deals an additional <d ref="Behavior,AP_PurifierMothershipDebuff,Duration/Behavior,AP_PurifierMothershipDebuff,Period * Effect,AP_PurifierMothershipDebuffDOT,Amount" precision="2"/> damage over <d ref="Behavior,AP_PurifierMothershipDebuff,Duration" precision="2"/> seconds and have their armor reduced by <d ref="-1*Behavior,AP_PurifierMothershipDebuff,Modification.LifeArmorBonus"/>.
 Button/Tooltip/AP_PurifierMothershipShielding=While charging up and firing the Planet Cracker, or while under the effects of Overload Weapon Systems, the Purifier Mothership takes <d ref="(1-Behavior,AP_PurifierMothershipShielding,DamageResponse.ModifyFraction)*100"/>% reduced damage.<n/><n/>When the Purifier Mothership uses Power Redirection, the friendly structure also takes <d ref="(1-Behavior,AP_PurifierMothershipShielding,DamageResponse.ModifyFraction)*100"/>% reduced damage for the duration.
 Button/Tooltip/AP_Pygalisk=New xenotype created by Dominion scientists.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_PygaliskCombatCarapace=Pygalisks gain +<d ref="$UpgradeEffectArrayValue:AP_PygaliskCombatCarapace:Unit,AP_Pygalisk,LifeMax$"/> maximum health.
@@ -3828,7 +3829,7 @@ Button/Tooltip/AP_SwarmSeeds=The Brood Lord shoots Broodlings at its target. A B
 Button/Tooltip/AP_SwarmlingPassive=Morphs almost instantly. Spawns in groups of three.
 Button/Tooltip/AP_TaldarimFaction=Produce units from Tal'darim faction
 Button/Tooltip/AP_TaldarimMothershipDeathHeal=Friendly non-worker units that die near the Tal'darim Mothership have their souls consumed, restoring <d ref="(Effect,AP_TaldarimMothershipDeathHealMU,VitalArray[Shields].Change)"/> shields and <d ref="(Effect,AP_TaldarimMothershipDeathHealMU,VitalArray[Life].Change)"/> life.</n></n>The souls of friendly Tal'darim units are more potent, instead restoring <d ref="(Effect,AP_TaldarimMothershipDeathHealTaldarimMU,VitalArray[Shields].Change)"/> shields and <d ref="(Effect,AP_TaldarimMothershipDeathHealTaldarimMU,VitalArray[Life].Change)"/> life, as well as <d ref="(Effect,AP_TaldarimMothershipDeathHealTaldarimMU,VitalArray[Energy].Change)"/> energy.
-Button/Tooltip/AP_TaldarimMothershipFastAttack=Increase attack speed of the Mothership's primary weapon by 100% and causes it to deal damage much faster, but reduce it's base damage by 50%.
+Button/Tooltip/AP_TaldarimMothershipFastAttack=Increase attack speed of the Mothership's primary weapon by 121% and causes it to deal damage much faster, but reduce its weapon damage by 50%.<n/><n    /><c val="ffff8a">Can be toggled on and off in the Auxiliary menu.</c>
 Button/Tooltip/AP_TaldarimMothershipGroundSlow=The Tal'darim Mothership becomes a beacon of the Highlord's Will, reducing the attack and movement speed of nearby enemy ground units by <d ref="(1 - Behavior,AP_TaldarimMothershipGroundSlowDebuff,Modification.MoveSpeedMultiplier) * 100"/>%.
 Button/Tooltip/AP_TaldarimWarpConduit=Warp Prisms transform between modes faster and increases power radius in Phasing Mode.
 Button/Tooltip/AP_TargetLock=Increases damage dealt to target enemy unit by <d ref="Behavior,AP_ObserverTargetLock,Modification.DamageTakenFraction[Splash]*100"/>%. Effect lasts as long as the Havoc remains locked onto the target.
@@ -5785,6 +5786,7 @@ Effect/Name/RemoveCoreRecallingBehaviorVikingGround2=Remove Core Recalling Behav
 Effect/Name/RemoveRecallingBehaviorVikingAir2=Remove Recalling Behavior Viking Air
 Effect/Name/RemoveRecallingBehaviorVikingGround2=Remove Recalling Behavior Viking Ground
 Error/AP_AlreadyChronoBoosted=Target is already accelerated
+Error/AP_BuildingIsUnpowered=Building must be powered
 Error/AP_ImpalerBurrowed=Must Burrow to attack.
 Error/AP_LeapAttackError=Too close to leap
 Error/AP_LurkerBurrowed=Must Burrow to attack.
@@ -5792,10 +5794,9 @@ Error/AP_NoBanelingsArmed=No Banelings available
 Error/AP_ShadowFuryCliffLevel=Cannot target different cliff levels
 Error/AP_SupplicantNotInRange=No Supplicant In Range
 Error/AP_SwarmHostBurrowed=Must Root to attack.
-Error/AP_TargetIsUnpowered=Building must be powered.
+Error/AP_TargetIsUnpowered=Must place near a Pylon
 Error/AP_TempestDisintegration=Target is already Disintegrating
 Error/AP_TooManyLockTargets=Cannot Target Lock more than 2 targets
-Error/AP_TargetIsUnpowered=Must place near a Pylon
 Error/AP_ForbiddenByOption=Not allowed by multiworld options
 Param/Expression/lib_15EF4C78_0B6D4AB4=<c val="9BFFBE">Nova's Stasis Shell has been destroyed. She will be ready for action at the Command Center in ~A~ seconds.</c>
 Param/Expression/lib_15EF4C78_1421E6C3=~CurrentEnergy~/~MaxEnergy~
@@ -5921,7 +5922,7 @@ RequirementNode/Tooltip/AP_Eq1667402654CountUnitAP_DukesRevengeQueuedOrBetter0=C
 RequirementNode/Tooltip/AP_Eq777695981SumCountUnitAP_MercUltraliskQueuedOrBetterCountUnitAP_MercUltraliskBurrowedQueuedOrBetterCountUnitAP_MercTorrasqueCorpseQueuedOrBetter0=Can only control one Torrasque
 RequirementNode/Tooltip/AP_EqCountUnitAiurMothershipQueuedOrBetter0=No Aiur Mothership or Mothership Core
 RequirementNode/Tooltip/AP_EqCountUnitPurifierMothershipQueuedOrBetter0=No Purifier Mothership or Mothership Core
-RequirementNode/Tooltip/AP_EqCountUnitTaldarimMothershipQueuedOrBetter0=No Taldarim Mothership
+RequirementNode/Tooltip/AP_EqCountUnitTaldarimMothershipQueuedOrBetter0=No Tal'darim Mothership
 RequirementNode/Tooltip/AP_EqCountUpgradeProtossAirArmorsLevel1CompleteOnly1=Protoss Air Armor Level 1
 RequirementNode/Tooltip/AP_EqCountUpgradeProtossAirArmorsLevel2CompleteOnly1=Protoss Air Armor Level 2
 RequirementNode/Tooltip/AP_EqCountUpgradeProtossAirArmorsLevel3CompleteOnly1=Protoss Air Armor Level 3

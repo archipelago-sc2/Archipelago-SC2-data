@@ -3336,6 +3336,7 @@
         <Behavior value="AP_TargetFire"/>
     </CValidatorUnitCompareBehaviorCount>
     <CValidatorCombine id="AP_IsPhotonOrKhaydarin">
+        <ResultFailed value="Error,e_cmdCantTargetThatUnit"/>
         <CombineArray value="AP_IsAPPhotonCannon"/>
         <CombineArray value="AP_IsKhaydarinMonolith"/>
     </CValidatorCombine>
@@ -3361,6 +3362,10 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_OverloadWeaponSystems"/>
         <Compare value="GT"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_NotCasterOverloadWeaponSystems">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_OverloadWeaponSystems"/>
     </CValidatorUnitCompareBehaviorCount>
     <CValidatorPlayerRequirement id="AP_HavePurifierMothershipDebuff">
         <Find value="1"/>
@@ -5769,6 +5774,7 @@
         <Value value="AP_HaveKaraxInstantStructureWarp"/>
     </CValidatorPlayerRequirement>
     <CValidatorUnitType id="AP_IsAPShieldBattery">
+        <ResultFailed value="CantTargetThatUnit"/>
         <Value value="AP_ShieldBattery"/>
     </CValidatorUnitType>
     <CValidatorCombine id="AP_KaraxInstantWarpStructures">
@@ -8101,6 +8107,11 @@
     </CValidatorCombine>
     <CValidatorLocationComparePower id="AP_HasAtLeastNormalPower">
         <ResultFailed value="Error,Error/AP_TargetIsUnpowered"/>
+        <PowerLink value="PowerSource"/>
+        <Compare value="GT"/>
+    </CValidatorLocationComparePower>
+    <CValidatorLocationComparePower id="AP_BuildingHasAtLeastNormalPower">
+        <ResultFailed value="Error,Error/AP_BuildingIsUnpowered"/>
         <PowerLink value="PowerSource"/>
         <Compare value="GT"/>
     </CValidatorLocationComparePower>

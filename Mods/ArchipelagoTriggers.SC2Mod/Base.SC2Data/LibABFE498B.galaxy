@@ -1420,8 +1420,8 @@ void libABFE498B_gf_AP_Triggers_unlockProtossUnits2 (int lp_player, int lp_bitAr
         libABFE498B_gf_AP_Triggers_Protoss_unlockSkylord, // 12
         libABFE498B_gf_AP_Triggers_Protoss_unlockPurger, // 13
         libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisher, // 14
-        libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothership // 15
-        libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothership // 16
+        libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothership, // 15
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothership, // 16
         libABFE498B_gf_AP_Triggers_Protoss_unlockOppressor, // 17
         libABFE498B_gf_AP_Triggers_Protoss_unlockCaladrius, // 18
         libABFE498B_gf_AP_Triggers_Protoss_unlockMistWing, // 19
@@ -1772,7 +1772,7 @@ void libABFE498B_gf_AP_Triggers_unlockProtossForge5 (int lp_player, int lp_bitAr
         libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipPurifiedEmbers, // 2
         libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipShadowOfDeath, // 3
         libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipSoulForgedConduits, // 4
-        libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipBloodFusedParticles, // 5
+        libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipBloodFusedParticles, // 5    
         ap_triggers_PlayerConsumer_sig, // 6
         ap_triggers_PlayerConsumer_sig, // 7
         ap_triggers_PlayerConsumer_sig, // 8
@@ -1862,11 +1862,11 @@ void libABFE498B_gf_AP_Triggers_unlockProtossWarCouncil2 (int lp_player, int lp_
         libABFE498B_gf_AP_Triggers_Protoss_unlockScoutExpeditionaryHull, // 12
         libABFE498B_gf_AP_Triggers_Protoss_unlockArbiterAbilityEfficiency, // 13
         libABFE498B_gf_AP_Triggers_Protoss_unlockOracleStasisCalibration, // 14
-        libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipTaldarimIntegratedPower, // 15
-        libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipAiurValorousResolve, // 16  
-        libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipCoreAiurQuantumProjection, // 17  
-        libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipPurifierMobilePowerField, // 18  
-        libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipCorePurifierControlledBurn, // 19  
+        libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipIntegratedPower, // 15
+        libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothershipValorousResolve, // 16  
+        libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothershipCoreQuantumProjection, // 17  
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipMobilePowerField, // 18  
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipCoreControlledBurn, // 19 
         libABFE498B_gf_AP_Triggers_Protoss_unlockOppressorVulcanBlaster, // 20
         libABFE498B_gf_AP_Triggers_Protoss_unlockCaladriusCoronaBeam, // 21
         libABFE498B_gf_AP_Triggers_Protoss_unlockMistWingPhantomDash, // 22
@@ -8104,6 +8104,35 @@ void libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothership (int lp_player)
 
 }
 
+void libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothership (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((libABFE498B_gv_aP_Triggers_Protoss_has_AiurMothership[lp_player] == false)) {
+        libABFE498B_gv_aP_Triggers_Protoss_has_AiurMothership[lp_player] = true;
+        libABFE498B_gf_AP_Triggers_Protoss_unlockStargate(lp_player);
+        TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 5), true);
+        TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 14), true);
+        TechTreeUnitAllow(lp_player, "AP_MothershipAiur", true);
+        TechTreeUnitAllow(lp_player, "AP_MothershipCoreAiur", true);
+    }
+
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothership (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((libABFE498B_gv_aP_Triggers_Protoss_has_PurifierMothership[lp_player] == false)) {
+        libABFE498B_gv_aP_Triggers_Protoss_has_PurifierMothership[lp_player] = true;
+        libABFE498B_gf_AP_Triggers_Protoss_unlockStargate(lp_player);
+        TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 5), true);
+        TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 14), true);
+        TechTreeUnitAllow(lp_player, "AP_MothershipPurifier", true);
+        TechTreeUnitAllow(lp_player, "AP_MothershipPurifierPowerSource", true);
+        TechTreeUnitAllow(lp_player, "AP_MothershipCorePurifier", true);
+    }
+
+}
+
 void libABFE498B_gf_AP_Triggers_Protoss_unlockArbiter (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
@@ -9162,10 +9191,124 @@ void libABFE498B_gf_AP_Triggers_Protoss_unlockDisruptorRestructuredThrusters (in
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_DisruptorRestructuredThrusters", 1);
 }
 
-void libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipTaldarimIntegratedPower (int lp_player) {
+void libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipTimeFieldModules (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallTimeField", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipWormholeModules (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallWormholeModule", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockMothershipHangarInstallations (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MothershipHangarInstallation", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipIntegratedPower (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MothershipTaldarimIntegratedPower", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipSummonDeathFleet (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallSummonDeathFleet", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipShadowOfDeath (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallTaldarimMothershipGroundSlow", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipSoulForgedConduits (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallTaldarimMothershipDeathHeal", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockTaldarimMothershipBloodFusedParticles (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallTaldarimMothershipFastAttack", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipMobilePowerField (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MothershipPurifierPowerSource", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipPlanetCracker (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallPlanetCracker", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipPurifiedEmbers (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallPurifierMothershipDebuff", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipCybrosShielding (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallPurifierMothershipShielding", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipAmplifiedPowerRerouter (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallPurifierMothershipAttackSpeedBoost", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierMothershipCoreControlledBurn (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MothershipCorePurifierControlledBurn", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothershipValorousResolve (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MothershipAiurShieldArmor", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothershipAstralRestoration (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallAstralRestoration", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothershipHarmonizedFeedbackConductors (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallAiurMothershipFeedback", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothershipKhalaiShieldRechargers (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallAiurMothershipShieldRestore", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothershipSymbolOfUnity (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_CanInstallAiurMothershipEnergyRegenAura", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockAiurMothershipCoreQuantumProjection (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MothershipCoreAiurQuantumProjection", 1);
 }
 
 void libABFE498B_gf_AP_Triggers_Protoss_unlockChronoSurge (int lp_player) {
@@ -9776,6 +9919,11 @@ void libABFE498B_gf_AP_Triggers_clearProtossTech (int lp_player) {
     TechTreeUnitAllow(lp_player, "AP_SOAMothershipv4", false);
     TechTreeUnitAllow(lp_player, "AP_SOAMothershipv4Placement", false);
     TechTreeUnitAllow(lp_player, "AP_MothershipTaldarim", false);
+    TechTreeUnitAllow(lp_player, "AP_MothershipAiur", false);
+    TechTreeUnitAllow(lp_player, "AP_MothershipCoreAiur", false);
+    TechTreeUnitAllow(lp_player, "AP_MothershipCorePurifier", false);
+    TechTreeUnitAllow(lp_player, "AP_MothershipPurifier", false);
+    TechTreeUnitAllow(lp_player, "AP_MothershipPurifierPowerSource", false);
     TechTreeUnitAllow(lp_player, "AP_TempestPurifier", false);
     TechTreeUnitAllow(lp_player, "AP_ArbiterMP", false);
     TechTreeUnitAllow(lp_player, "AP_Oracle", false);

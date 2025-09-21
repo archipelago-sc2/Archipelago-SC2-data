@@ -5106,6 +5106,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_TaldarimMothershipDeathHeal">
         <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
         <Period value="1"/>
         <PeriodicEffect value="AP_TaldarimMothershipDeathHealSearch"/>
         <Requirements value="AP_HaveTaldarimMothershipDeathHeal"/>
@@ -5113,21 +5114,25 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_TaldarimMothershipDeathHealDebuff">
         <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
         <Duration value="2"/>
         <DamageResponse Chance="1" Fatal="1" Handled="AP_TaldarimMothershipDeathHealLM"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_TaldarimMothershipDeathHealTaldarimDebuff">
         <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
         <Duration value="2"/>
         <DamageResponse Chance="1" Fatal="1" Handled="AP_TaldarimMothershipDeathHealTaldarimLM"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_TaldarimMothershipGroundSlowAura">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Period value="0.2"/>
+        <InfoFlags index="Hidden" value="1"/>
         <PeriodicEffect value="AP_TaldarimMothershipGroundSlowSearch"/>
         <Requirements value="AP_HaveTaldarimMothershipGroundSlow"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_TaldarimMothershipGroundSlowDebuff">
+        <InfoIcon value="Assets\Textures\fearex3_coop.dds"/>
         <Alignment value="Negative"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Duration value="0.4"/>
@@ -5137,7 +5142,7 @@
     <CBehaviorBuff id="AP_PlanetCrackerChargeUp">
         <InfoIcon value="Assets\Textures\btn-ability-spearofadun-purifierbeam.dds"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
-        <Duration value="3"/>
+        <Duration value="2"/>
         <DisplayDuration index="Self" value="1"/>
         <DisplayDuration index="Ally" value="1"/>
         <DisplayDuration index="Enemy" value="1"/>
@@ -6194,10 +6199,11 @@
         <InfoIcon value="Assets\Textures\btn-ability-zeratul-observer-sensorarray.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
         <TimeScaleSource Value="Global"/>
-        <Duration value="15"/>
+        <Duration value="14"/>
         <DisplayDuration index="Self" value="1"/>
         <DisplayDuration index="Ally" value="1"/>
         <DisplayDuration index="Neutral" value="1"/>
+        <InitialEffect value="AP_AiurMothershipFeedbackSearchPoint"/>
         <Modification HealDealtMultiplier="2.0"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_MothershipPylonPowerTimer">
@@ -6248,7 +6254,7 @@
         <Period value="0.1"/>
         <RemoveValidatorArray value="TargetNotDead"/>
         <DisableValidatorArray value="AP_CasterIsPurifierMothershipCore"/>
-        <FinalEffect value="AP_KillMothershipPylonPowerSearchArea"/>
+        <ExpireEffect value="AP_KillMothershipPylonPowerSearchArea"/>
         <DisplayDuration index="Self" value="1"/>
         <DisplayDuration index="Ally" value="1"/>
         <DisplayDuration index="Neutral" value="1"/>
@@ -6303,7 +6309,8 @@
         <DisplayDuration index="Neutral" value="1"/>
         <Modification MoveSpeedMultiplier="0.01">
             <AbilLinkDisableArray value="move"/>
-            <AdditiveAttackSpeedFactor value="0.40"/>
+            <AbilLinkDisableArray value="AP_PurifierMothershipInstalls"/>
+            <AdditiveAttackSpeedFactor value="0.50"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_OverloadWeaponSystemsStun">
@@ -6311,7 +6318,7 @@
         <InfoIcon value="Assets\Textures\BTN-Ability-Protoss-FireBeam.dds"/>
         <BehaviorCategories index="Stun" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
-        <Duration value="2.5"/>
+        <Duration value="1.5"/>
         <DisplayDuration index="Self" value="1"/>
         <DisplayDuration index="Ally" value="1"/>
         <DisplayDuration index="Neutral" value="1"/>
@@ -8558,7 +8565,7 @@
     <CBehaviorBuff id="AP_AiurMothershipEnergyRegenAuraBuffAiur">
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
         <Duration value="0.25"/>
-        <InfoIcon value="AP\Assets\Textures\btn-upgrade-protoss-AiurMothershipEnergyRegenAura.dds"/>
+        <InfoIcon value="AP\Assets\Textures\btn-upgrade-protoss-symbolofunity.dds"/>
         <Requirements value="AP_HaveAiurMothershipEnergyRegenAura"/>
         <Modification>
             <VitalRegenArray index="Energy" value="0.6"/>
