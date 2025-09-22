@@ -14876,7 +14876,9 @@
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
         <AbilSetId value="ULdM"/>
         <CmdButtonArray index="Load" DefaultButtonFace="AP_InfBullfrogLoad"/>
-        <CmdButtonArray index="LoadAll" DefaultButtonFace="AP_BullfrogAllAboard"/>
+        <CmdButtonArray index="LoadAll">
+            <Flags index="Hidden" value="1"/>
+        </CmdButtonArray>
         <CmdButtonArray index="UnloadAll">
             <Flags index="Hidden" value="1"/>
             <Flags index="ToSelection" value="1"/>
@@ -14888,7 +14890,7 @@
         <MaxCargoCount value="8"/>
         <MaxCargoSize value="4"/>
         <TotalCargoSpace value="8"/>
-        <UnloadPeriod value="1"/>
+        <UnloadPeriod value="0.5"/>
         <SearchRadius value="4"/>
         <LoadCargoBehavior value="TransportDummy"/>
         <LoadCargoEffect value="AP_InfBullfrogTransportDamageBuffApply"/>
@@ -14908,7 +14910,6 @@
         <UninterruptibleArray index="Channel" value="1"/>
         <UninterruptibleArray index="Finish" value="1"/>
         <CursorEffect value="AP_InfBullfrogLandingSearch"/>
-        <PlaceUnit value="AP_BullfrogPlaceholder"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_RavagerCorrosiveBile"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_InfBullfrogLeap">
@@ -14923,7 +14924,6 @@
         <UninterruptibleArray index="Cast" value="1"/>
         <UninterruptibleArray index="Channel" value="1"/>
         <UninterruptibleArray index="Finish" value="1"/>
-        <PlaceUnit value="AP_BullfrogPlaceholder"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_RavagerCorrosiveBile"/>
     </CAbilEffectTarget>
     <CAbilTrain id="AP_SIMorphtoInfestedBullfrog">
@@ -15005,4 +15005,10 @@
         <TargetFilters index="0" value="Visible;Self,Enemy,Structure,Missile,UnderConstruction,Dead,Hidden"/>
         <CmdButtonArray index="Execute" Requirements="AP_HaveAdaptiveMedPacks"/>
     </CAbilEffectTarget>
+    <CAbilEffectInstant id="AP_BullfrogAllAboard">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="AP_BullfrogAllAboardSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_BullfrogAllAboard" />
+        <Flags index="Transient" value="1"/>
+    </CAbilEffectInstant>
 </Catalog>

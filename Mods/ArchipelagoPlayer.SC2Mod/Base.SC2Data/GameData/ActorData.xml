@@ -44890,6 +44890,8 @@
         <On Terms="ActorCreation" Send="AnimBracketStart Ready Spell,Alternate,Start Spell,Alternate Spell,Alternate,End"/>
         <On Terms="ActorCreation" Send="Create AP_InfestedBullfrogChassis"/>
         <On Terms="ActorCreation" Send="Create AP_InfestedBullfrogGribblies"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimClear Birth"/>
         <On Terms="UnitBirth.AP_InfestedBullfrog" Send="TerrainSquibActivateGroup RippleStandard"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_SwarmHost_Land"/>
@@ -45308,4 +45310,12 @@
         <EditorCategories value=""/>
         <LocalOffset value="0.600000,-0.300000,0.000000"/>
     </CActorSiteOpLocalOffset>
+    <CActorAction id="AP_BullfrogAttack" parent="GenericAttack" effectImpact="AP_BullfrogSpitSearch" effectLaunch="AP_BullfrogSpitLM">
+        <ImpactMap index="None" Sound="Roach_AttackImpactRanged"/>
+        <LaunchSiteOps Ops="SOpMoveByDot75"/>
+        <AcquisitionYawHalfArc value="10.000000"/>
+        <AcquisitionPitchHalfArc value="15.000000"/>
+        <AccuracyHalfArc value="15.000000"/>
+    </CActorAction>
+    <CActorMissile id="AP_BullfrogAttackMissile" parent="GenericAttackMissile" unitName="AP_BullfrogSpitWeapon"/>
 </Catalog>
