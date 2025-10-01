@@ -51,6 +51,8 @@ const int gv_p10_ABANDONED_STRUCTURES = 10;
 bool gv_gameOver;
 bool gv_inCinematic;
 unit gv_zeratul;
+unit gv_overseer;
+actor gv_overseerTutorial;
 bool gv_rainOn;
 unitgroup gv_stage1InactivesGroup;
 unitgroup gv_overlordWanderGroup;
@@ -156,6 +158,9 @@ trigger gt_IntroSequence;
 trigger gt_StartGameStage1;
 trigger gt_StartGameStage2;
 trigger gt_Stage2Init;
+trigger gt_OverseerTutorial;
+trigger gt_OverseerHighlightOff;
+trigger gt_CreepTumorHighlightOff;
 trigger gt_RainCycling;
 trigger gt_ChangeOwnerofZeratul;
 trigger gt_ZeratulFindsObserver;
@@ -843,6 +848,7 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     UnitSetPropertyFixed(UnitFromId(2045466318), c_unitPropLifePercent, 50.0);
     UnitSetPropertyFixed(UnitFromId(846607238), c_unitPropLifePercent, 50.0);
     UnitSetPropertyFixed(UnitFromId(1764275339), c_unitPropLifePercent, 50.0);
+    gv_overseer = UnitFromId(1542887170);
     UnitBehaviorRemove(UnitFromId(639999698), "AP_ZergBuildingNotOnCreep", c_unitBehaviorCountAll);
     UnitBehaviorRemove(UnitFromId(573290656), "AP_ZergBuildingNotOnCreep", c_unitBehaviorCountAll);
     UnitBehaviorRemove(UnitFromId(451138147), "AP_ZergBuildingNotOnCreep", c_unitBehaviorCountAll);
@@ -1075,6 +1081,7 @@ bool gt_StartGameStage2_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_ZergUpgradesI, true, false);
     TriggerEnable(gt_DefeatBaseDead, true);
     Wait(2.0, c_timeGame);
+    TriggerExecute(gt_OverseerTutorial, true, false);
     TriggerExecute(gt_TipColossusQ, true, false);
     Wait(2.0, c_timeGame);
     VisRevealArea(gv_p01_USER, RegionFromId(3), 0.0, false);
@@ -1168,6 +1175,103 @@ bool gt_Stage2Init_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_Stage2Init_Init () {
     gt_Stage2Init = TriggerCreate("gt_Stage2Init_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Overseer Tutorial
+//--------------------------------------------------------------------------------------------------
+bool gt_OverseerTutorial_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_overseerTutorial = libNtve_gf_AttachModelToUnit(gv_overseer, "BriefingUnitSelectZergGreen", "Ref_Center");
+    UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_OverseerBuild", 0), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_OverseerTutorial_Init () {
+    gt_OverseerTutorial = TriggerCreate("gt_OverseerTutorial_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Overseer Highlight Off
+//--------------------------------------------------------------------------------------------------
+bool gt_OverseerHighlightOff_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+
+        if (!((EventUnit() == UnitFromId(1542887170)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNtve_gf_KillModel(gv_overseerTutorial);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_OverseerHighlightOff_Init () {
+    gt_OverseerHighlightOff = TriggerCreate("gt_OverseerHighlightOff_Func");
+    TriggerAddEventUnitSelected(gt_OverseerHighlightOff, null, gv_p01_USER, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Creep Tumor Highlight Off
+//--------------------------------------------------------------------------------------------------
+bool gt_CreepTumorHighlightOff_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_OverseerBuild", 0), false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CreepTumorHighlightOff_Init () {
+    gt_CreepTumorHighlightOff = TriggerCreate("gt_CreepTumorHighlightOff_Func");
+    TriggerAddEventUnitAbility(gt_CreepTumorHighlightOff, null, AbilityCommand("AP_OverseerBuild", 0), c_unitAbilStageAll, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6865,6 +6969,9 @@ void InitTriggers () {
     gt_StartGameStage1_Init();
     gt_StartGameStage2_Init();
     gt_Stage2Init_Init();
+    gt_OverseerTutorial_Init();
+    gt_OverseerHighlightOff_Init();
+    gt_CreepTumorHighlightOff_Init();
     gt_RainCycling_Init();
     gt_ChangeOwnerofZeratul_Init();
     gt_ZeratulFindsObserver_Init();
