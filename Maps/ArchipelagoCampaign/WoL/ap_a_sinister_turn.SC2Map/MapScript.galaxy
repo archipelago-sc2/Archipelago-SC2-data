@@ -67,6 +67,8 @@ unit gv_libraryAtBridge03;
 unit gv_libraryAtBridge04;
 unit gv_libraryAtBridge05;
 unit gv_stalkerAtBridge;
+unit gv_overseer;
+actor gv_overseerHighlight;
 unitgroup gv_prisonGroup;
 int gv_startingMinerals;
 int gv_startingGas;
@@ -295,6 +297,9 @@ trigger gt_PhotonCannon01Base;
 trigger gt_PhotonCannon02Base;
 trigger gt_Checkifallfivearepowered;
 trigger gt_SecondaryObjectiveRun;
+trigger gt_OverseerTutorial;
+trigger gt_OverseerHighlightOff;
+trigger gt_CreepTumorHighlightOff;
 trigger gt_PlayerBuildingArmyActivatesMidCin;
 trigger gt_PlayerBuildingPhotonCannonsActivatesMidCin;
 trigger gt_PlayerGatheringCashActivatesMidCin;
@@ -2702,6 +2707,7 @@ bool gt_StartGame_Func (bool testConds, bool runActions) {
     TriggerEnable(gt_PlayerGatheringCashActivatesMidCin, true);
     Wait(4.0, c_timeGame);
     TriggerExecute(gt_ObjectivePowerBaseCreateQ, true, false);
+    TriggerExecute(gt_OverseerTutorial, true, false);
     Wait(5.0, c_timeGame);
     TriggerExecute(gt_StorymodeTipsQ, true, false);
     if ((libNtve_gf_DifficultyValueInt(0, 0, 1, 1) == 1)) {
@@ -2958,6 +2964,103 @@ bool gt_SecondaryObjectiveRun_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_SecondaryObjectiveRun_Init () {
     gt_SecondaryObjectiveRun = TriggerCreate("gt_SecondaryObjectiveRun_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Overseer Tutorial
+//--------------------------------------------------------------------------------------------------
+bool gt_OverseerTutorial_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_overseerHighlight = libNtve_gf_AttachModelToUnit(gv_overseer, "BriefingUnitSelectZergGreen", "Ref_Center");
+    UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_OverseerBuild", 0), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_OverseerTutorial_Init () {
+    gt_OverseerTutorial = TriggerCreate("gt_OverseerTutorial_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Overseer Highlight Off
+//--------------------------------------------------------------------------------------------------
+bool gt_OverseerHighlightOff_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+
+        if (!((EventUnit() == gv_overseer))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNtve_gf_KillModel(gv_overseerHighlight);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_OverseerHighlightOff_Init () {
+    gt_OverseerHighlightOff = TriggerCreate("gt_OverseerHighlightOff_Func");
+    TriggerAddEventUnitSelected(gt_OverseerHighlightOff, null, gv_p1_USER, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Creep Tumor Highlight Off
+//--------------------------------------------------------------------------------------------------
+bool gt_CreepTumorHighlightOff_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_OverseerBuild", 0), false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CreepTumorHighlightOff_Init () {
+    gt_CreepTumorHighlightOff = TriggerCreate("gt_CreepTumorHighlightOff_Func");
+    TriggerAddEventUnitAbility(gt_CreepTumorHighlightOff, null, AbilityCommand("AP_OverseerBuild", 0), c_unitAbilStageAll, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7243,7 +7346,8 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     else if (autoC859FE94_val == "Zerg") {
         libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Lair", 0, gv_p1_USER, PointFromId(2));
         lib15EF4C78_gf_AP_Player_SpawnLarvaForHatchery(UnitLastCreated(), 3);
-        libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Overseer", 0, gv_p1_USER, PointFromId(2));
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Overseer", 0, gv_p1_USER, PointFromId(348));
+        gv_overseer = UnitLastCreated();
         libNtve_gf_CreateUnitsAtPoint2(1, "AP_Drone", 0, gv_p1_USER, PointFromId(9));
         libNtve_gf_CreateUnitsAtPoint2(1, "AP_Drone", 0, gv_p1_USER, PointFromId(38));
         libNtve_gf_CreateUnitsAtPoint2(1, "AP_Drone", 0, gv_p1_USER, PointFromId(59));
@@ -8244,6 +8348,9 @@ void InitTriggers () {
     gt_PhotonCannon02Base_Init();
     gt_Checkifallfivearepowered_Init();
     gt_SecondaryObjectiveRun_Init();
+    gt_OverseerTutorial_Init();
+    gt_OverseerHighlightOff_Init();
+    gt_CreepTumorHighlightOff_Init();
     gt_PlayerBuildingArmyActivatesMidCin_Init();
     gt_PlayerBuildingPhotonCannonsActivatesMidCin_Init();
     gt_PlayerGatheringCashActivatesMidCin_Init();
