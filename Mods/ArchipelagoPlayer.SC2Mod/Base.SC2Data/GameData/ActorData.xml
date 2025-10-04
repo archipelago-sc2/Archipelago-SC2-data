@@ -1127,6 +1127,8 @@
         <On Terms="Signal.*.AP_SiegeTankMengskSiegedTransit" Send="RefSetFromMsg ::actor.AP_SiegeTankMengskSieged ::Sender"/>
         <On Terms="AbilTransport.AP_MedivacTransport.PassengerKilled; AbilTransport AP_SiegeTankMengskSiegedTransportable" Target="::actor.AP_SiegeBreakerSieged" Send="Signal Dead"/>
         <On Terms="UnitDeath" Target="::actor.AP_SiegeTankMengskSieged" Send="Signal Dead"/>
+        <On Terms="Signal.*.AP_BlackOpsTank" Target="AP_SiegeTankLoadTransit" Send="Signal AP_BlackOpsTank"/>
+        <On Terms="Signal.*.AP_BlackOpsTank" Target="AP_SiegeBreakerLoadTransit" Send="Signal AP_BlackOpsTank"/>
         <On Terms="ActorCreation; ValidateUnit AP_MedivacUpgrade" Send="ModelSwap AP_MedivacUpgrade"/>
         <On Terms="Upgrade.AP_MedivacRapidDeployment.Add" Send="ModelSwap AP_MedivacUpgrade"/>
         <On Terms="Upgrade.AP_ExpandedHull.Add" Send="ModelSwap AP_MedivacUpgrade"/>
@@ -2834,7 +2836,7 @@
         <On Terms="Abil.AP_MengskMedicHealPlusMech.TargetChannelStart" Send="Create"/>
         <On Terms="Abil.AP_MengskMedicHealPlusMech.TargetChannelStop" Send="Destroy"/>
         <On Terms="Abil.AP_InfestedMedicMercHeal.TargetChannelStart" Send="Create"/>
-        <On Terms="Abil.AP_AP_InfestedMedicMercHeal.TargetChannelStop" Send="Destroy"/>
+        <On Terms="Abil.AP_InfestedMedicMercHeal.TargetChannelStop" Send="Destroy"/>
         <On Terms="Abil.AP_InfestedMedicMercHealPlusMech.TargetChannelStart" Send="Create"/>
         <On Terms="Abil.AP_InfestedMedicMercHealPlusMech.TargetChannelStop" Send="Destroy"/>
         <On Terms="ActorOrphan" Send="Destroy"/>
@@ -3815,8 +3817,9 @@
         <On Terms="AbilTransport.AP_MedivacTransport.TransportUnload;AbilTransport AP_SiegeTankSiegedTransportable" Send="SetVisibility"/>
         <On Terms="Signal.*.Dead" Send="Create ThorTransitDeath"/>
         <On Terms="Signal.*.Dead" Send="Destroy"/>
-        <On Terms="Upgrade.AP_HoverSiegeTank.Add" Send="ModelSwap SiegeTank_BlackOps"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveHoverSiegeTank" Send="ModelSwap SiegeTank_BlackOps"/>
+        <On Terms="Signal.*.AP_BlackOpsTank" Send="ModelSwap AP_SiegeTank_BlackOps"/>
+        <On Terms="Upgrade.AP_HoverSiegeTank.Add" Send="ModelSwap AP_SiegeTank_BlackOps"/>
+        <On Terms="ActorCreation; ValidateUnit AP_HaveHoverSiegeTank" Send="ModelSwap AP_SiegeTank_BlackOps"/>
         <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
         <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
         <Aliases value="_Turret1"/>
@@ -28885,6 +28888,7 @@
         <On Terms="AbilTransport.AP_MedivacTransport.TransportUnload; AbilTransport AP_InfestedSiegeBreakerSiegedTransportable" Send="SetVisibility"/>
         <On Terms="Signal.*.Dead" Send="Create ThorTransitDeath"/>
         <On Terms="Signal.*.Dead" Send="Destroy"/>
+        <On Terms="Signal.*.AP_BlackOpsTank" Send="ModelSwap AP_Merc_SiegeTank_BlackOps"/>
         <On Terms="Upgrade.AP_HoverSiegeTank.Add" Send="ModelSwap AP_Merc_SiegeTank_BlackOps"/>
         <On Terms="ActorCreation; ValidateUnit AP_HaveHoverSiegeTank" Send="ModelSwap AP_Merc_SiegeTank_BlackOps"/>
         <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
@@ -44890,6 +44894,8 @@
         <On Terms="ActorCreation" Send="AnimBracketStart Ready Spell,Alternate,Start Spell,Alternate Spell,Alternate,End"/>
         <On Terms="ActorCreation" Send="Create AP_InfestedBullfrogChassis"/>
         <On Terms="ActorCreation" Send="Create AP_InfestedBullfrogGribblies"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimClear Birth"/>
         <On Terms="UnitBirth.AP_InfestedBullfrog" Send="TerrainSquibActivateGroup RippleStandard"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_SwarmHost_Land"/>
@@ -45308,4 +45314,12 @@
         <EditorCategories value=""/>
         <LocalOffset value="0.600000,-0.300000,0.000000"/>
     </CActorSiteOpLocalOffset>
+    <CActorAction id="AP_BullfrogAttack" parent="GenericAttack" effectImpact="AP_BullfrogSpitSearch" effectLaunch="AP_BullfrogSpitLM">
+        <ImpactMap index="None" Sound="Roach_AttackImpactRanged"/>
+        <LaunchSiteOps Ops="SOpMoveByDot75"/>
+        <AcquisitionYawHalfArc value="10.000000"/>
+        <AcquisitionPitchHalfArc value="15.000000"/>
+        <AccuracyHalfArc value="15.000000"/>
+    </CActorAction>
+    <CActorMissile id="AP_BullfrogAttackMissile" parent="GenericAttackMissile" unitName="AP_BullfrogSpitWeapon"/>
 </Catalog>

@@ -1355,6 +1355,10 @@ bool gt_IntroMedivacsFinished_Func (bool testConds, bool runActions) {
     for (;; autoF6137478_u -= 1) {
         autoF6137478_var = UnitGroupUnitFromEnd(autoF6137478_g, autoF6137478_u);
         if (autoF6137478_var == null) { break; }
+        if ((TechTreeUpgradeCount(gv_p01_USER, "AP_HoverSiegeTank", c_techCountCompleteOnly) >= 1)) {
+            ActorSend(libNtve_gf_MainActorofUnit(autoF6137478_var), "Signal AP_BlackOpsTank");
+        }
+
         libNtve_gf_RescueUnit(autoF6137478_var, gv_p01_USER, true);
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(autoF6137478_var);
     }

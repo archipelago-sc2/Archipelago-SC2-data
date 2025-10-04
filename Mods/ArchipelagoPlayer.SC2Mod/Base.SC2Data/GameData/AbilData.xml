@@ -14890,7 +14890,8 @@
         <MaxCargoCount value="8"/>
         <MaxCargoSize value="4"/>
         <TotalCargoSpace value="8"/>
-        <UnloadPeriod value="1"/>
+        <UnloadPeriod value="0.5"/>
+        <SearchRadius value="4"/>
         <LoadCargoBehavior value="TransportDummy"/>
         <LoadCargoEffect value="AP_InfBullfrogTransportDamageBuffApply"/>
         <UnloadCargoEffect value="AP_InfBullfrogTransportDamageBuffDelay"/>
@@ -14935,7 +14936,7 @@
         <MorphUnit value="AP_SICocoonInfestedBullfrog"/>
         <InfoArray index="Train1" Time="32" Effect="">
             <Resource index="Minerals" value="125"/>
-            <Resource index="Vespene" value="50"/>
+            <Resource index="Vespene" value="75"/>
             <Button DefaultButtonFace="AP_InfestedBullfrog"/>
             <Unit value="AP_InfestedBullfrog"/>
             <Flags index="AutoCast" value="1"/>
@@ -15004,4 +15005,10 @@
         <TargetFilters index="0" value="Visible;Self,Enemy,Structure,Missile,UnderConstruction,Dead,Hidden"/>
         <CmdButtonArray index="Execute" Requirements="AP_HaveAdaptiveMedPacks"/>
     </CAbilEffectTarget>
+    <CAbilEffectInstant id="AP_BullfrogAllAboard">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="AP_BullfrogAllAboardSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_BullfrogAllAboard" />
+        <Flags index="Transient" value="1"/>
+    </CAbilEffectInstant>
 </Catalog>
