@@ -53,6 +53,7 @@ bool gv_inCinematic;
 unit gv_zeratul;
 unit gv_overseer;
 actor gv_overseerTutorial;
+int gv_overseerTutorial2;
 bool gv_rainOn;
 unitgroup gv_stage1InactivesGroup;
 unitgroup gv_overlordWanderGroup;
@@ -102,6 +103,8 @@ unitgroup gv_victoryHiddenUnitGroup;
 int gv_victoryCurrentTransmission;
 
 void InitGlobals () {
+    gv_overseer = UnitFromId(1945346625);
+    gv_overseerTutorial2 = c_textTagNone;
     gv_stage1InactivesGroup = UnitGroupEmpty();
     gv_overlordWanderGroup = UnitGroupEmpty();
     gv_pathingBlockerGroup = UnitGroupEmpty();
@@ -1081,7 +1084,6 @@ bool gt_StartGameStage2_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_ZergUpgradesI, true, false);
     TriggerEnable(gt_DefeatBaseDead, true);
     Wait(2.0, c_timeGame);
-    TriggerExecute(gt_OverseerTutorial, true, false);
     TriggerExecute(gt_TipColossusQ, true, false);
     Wait(2.0, c_timeGame);
     VisRevealArea(gv_p01_USER, RegionFromId(3), 0.0, false);
@@ -1199,6 +1201,9 @@ bool gt_OverseerTutorial_Func (bool testConds, bool runActions) {
     }
 
     gv_overseerTutorial = libNtve_gf_AttachModelToUnit(gv_overseer, "BriefingUnitSelectZergGreen", "Ref_Center");
+    TextTagCreate(StringExternal("Param/Value/ABE56DCE"), 22, UnitGetPosition(gv_overseer), 1.0, true, false, PlayerGroupAll());
+    gv_overseerTutorial2 = TextTagLastCreated();
+    TextTagAttachToUnit(gv_overseerTutorial2, gv_overseer, 4.0);
     UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_OverseerBuild", 0), true);
     return true;
 }
@@ -1223,7 +1228,7 @@ bool gt_OverseerHighlightOff_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((EventUnit() == UnitFromId(1542887170)))) {
+        if (!((EventUnit() == gv_overseer))) {
             return false;
         }
     }
@@ -1234,6 +1239,7 @@ bool gt_OverseerHighlightOff_Func (bool testConds, bool runActions) {
     }
 
     libNtve_gf_KillModel(gv_overseerTutorial);
+    TextTagDestroy(gv_overseerTutorial2);
     return true;
 }
 
@@ -1378,11 +1384,13 @@ bool gt_ZeratulFindsObserver_Func (bool testConds, bool runActions) {
     UnitFlashSelection(UnitFromId(355), 1.0);
     UnitFlashSelection(UnitFromId(1945346625), 1.0);
     UnitFlashSelection(UnitFromId(1427529222), 1.0);
+    gv_overseer = UnitFromId(1945346625);
     UnitBehaviorAdd(UnitFromId(1427529222), "AP_MercAirDrop", UnitFromId(1427529222), 1);
     libNtve_gf_AttachModelToUnit(UnitFromId(355), "BriefingUnitSelectProtossSmall", "Ref_Origin");
     gv_observerPingModel = libNtve_gf_ActorLastCreated();
     UIAlertUnit("Trigger", gv_p01_USER, StringExternal("Param/Value/DFB5B538"), null, UnitFromId(355));
     TriggerExecute(gt_TransmissionZeratulFindsObserverQ, true, false);
+    TriggerExecute(gt_OverseerTutorial, true, false);
     Wait(6.0, c_timeGame);
     libNtve_gf_KillModel(gv_observerPingModel);
     return true;

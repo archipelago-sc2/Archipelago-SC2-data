@@ -69,6 +69,7 @@ unit gv_libraryAtBridge05;
 unit gv_stalkerAtBridge;
 unit gv_overseer;
 actor gv_overseerHighlight;
+int gv_overseerHighlight2;
 unitgroup gv_prisonGroup;
 int gv_startingMinerals;
 int gv_startingGas;
@@ -182,6 +183,7 @@ void InitGlobals () {
     gv_objectiveDestroySouthwest = c_invalidObjectiveId;
     gv_objectiveDefeatMaar = c_invalidObjectiveId;
     gv_libraryHybrid = DoodadFromId(83);
+    gv_overseerHighlight2 = c_textTagNone;
     gv_prisonGroup = UnitGroupEmpty();
     gv_achievementHardTimer = TimerCreate();
     gv_timerStalkerMoveOnHardBrutal = TimerCreate();
@@ -2988,6 +2990,9 @@ bool gt_OverseerTutorial_Func (bool testConds, bool runActions) {
     }
 
     gv_overseerHighlight = libNtve_gf_AttachModelToUnit(gv_overseer, "BriefingUnitSelectZergGreen", "Ref_Center");
+    TextTagCreate(StringExternal("Param/Value/95F33DDA"), 22, UnitGetPosition(gv_overseer), 1.0, true, false, PlayerGroupAll());
+    gv_overseerHighlight2 = TextTagLastCreated();
+    TextTagAttachToUnit(gv_overseerHighlight2, gv_overseer, 4.0);
     UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_OverseerBuild", 0), true);
     return true;
 }
@@ -3023,6 +3028,7 @@ bool gt_OverseerHighlightOff_Func (bool testConds, bool runActions) {
     }
 
     libNtve_gf_KillModel(gv_overseerHighlight);
+    TextTagDestroy(gv_overseerHighlight2);
     return true;
 }
 
