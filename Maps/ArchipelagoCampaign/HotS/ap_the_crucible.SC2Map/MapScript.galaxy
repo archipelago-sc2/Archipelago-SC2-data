@@ -5560,6 +5560,7 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     libNtve_gf_SetAllianceOneWay(gv_pLAYER_01_USER, gv_pLAYER_02_BRAKK, libNtve_ge_AllianceSetting_Enemy);
     UnitGroupAddUnitGroup(lv_startingSelection, gv_swarmHostGroup);
     if (((libABFE498B_gv_aP_Triggers_Option_KerriganPresence == 0) || ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace != "Neut") && (libABFE498B_gv_aP_Triggers_Option_KerriganPresence != 4)))) {
+        TriggerEnable(gt_DefeatKerriganKilled, false);
         libNtve_gf_ShowHideUnit(gv_kerrigan, false);
         UnitBehaviorAdd(gv_kerrigan, "AP_ImmortalShakurasAntiAirMissileDisableAttack", gv_kerrigan, 1);
     }
