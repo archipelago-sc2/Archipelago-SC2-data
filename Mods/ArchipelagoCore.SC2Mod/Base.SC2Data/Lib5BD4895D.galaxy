@@ -1812,6 +1812,73 @@ void lib5BD4895D_gt_AP_Core_keepControllerAlive_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_hideChatboxCinematic
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_indexPlayer;
+
+    // Automatic Variable Declarations
+    playergroup autoA10F8744_g;
+
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((GameGetMissionTime() >= 600.0)) {
+        TriggerEnable(TriggerGetCurrent(), false);
+    }
+
+    autoA10F8744_g = PlayerGroupActive();
+    lv_indexPlayer = -1;
+    while (true) {
+        lv_indexPlayer = PlayerGroupNextPlayer(autoA10F8744_g, lv_indexPlayer);
+        if (lv_indexPlayer < 0) { break; }
+        if ((PlayerType(lv_indexPlayer) != c_playerTypeUser)) {
+            return true;
+        }
+
+        if ((libNtve_gf_PlayerInCinematicMode(lv_indexPlayer) == true) && (lib5BD4895D_gv_aP_Core_chatbox.lv_enteredcinematicmode[lv_indexPlayer] == false)) {
+            lib5BD4895D_gv_aP_Core_chatbox.lv_enteredcinematicmode[lv_indexPlayer] = true;
+            if ((lib5BD4895D_gf_AP_Core_getChatboxHidden(lv_indexPlayer) == true)) {
+                lib5BD4895D_gv_aP_Core_chatbox.lv_toggled[lv_indexPlayer] = true;
+                lib5BD4895D_gf_AP_Core_showHideChatbox(lv_indexPlayer, false);
+            }
+            else {
+                lib5BD4895D_gv_aP_Core_chatbox.lv_toggled[lv_indexPlayer] = false;
+            }
+        }
+
+        if ((libNtve_gf_PlayerInCinematicMode(lv_indexPlayer) == false) && (lib5BD4895D_gv_aP_Core_chatbox.lv_enteredcinematicmode[lv_indexPlayer] == true)) {
+            lib5BD4895D_gv_aP_Core_chatbox.lv_enteredcinematicmode[lv_indexPlayer] = false;
+            if ((lib5BD4895D_gv_aP_Core_chatbox.lv_toggled[lv_indexPlayer] == true) && (lib5BD4895D_gf_AP_Core_getChatboxHidden(lv_indexPlayer) == false)) {
+                lib5BD4895D_gf_AP_Core_showHideChatbox(lv_indexPlayer, true);
+                lib5BD4895D_gv_aP_Core_chatbox.lv_toggled[lv_indexPlayer] = false;
+            }
+
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Init () {
+    lib5BD4895D_gt_AP_Core_hideChatboxCinematic = TriggerCreate("lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Func");
+    TriggerAddEventTimePeriodic(lib5BD4895D_gt_AP_Core_hideChatboxCinematic, 0.0625, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Core_onHideButtonChatbox
 //--------------------------------------------------------------------------------------------------
 bool lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Func (bool testConds, bool runActions) {
@@ -2277,6 +2344,7 @@ void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_controllerInit_Init();
     lib5BD4895D_gt_AP_Core_dontHideController_Init();
     lib5BD4895D_gt_AP_Core_keepControllerAlive_Init();
+    lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Init();
     lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_updateChatbox_Init();

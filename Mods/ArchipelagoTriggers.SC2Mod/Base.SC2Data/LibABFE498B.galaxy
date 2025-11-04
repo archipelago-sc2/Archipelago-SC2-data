@@ -11043,73 +11043,6 @@ void libABFE498B_gt_AP_Triggers_InitSoA_Init () {
     libABFE498B_gt_AP_Triggers_InitSoA = TriggerCreate("libABFE498B_gt_AP_Triggers_InitSoA_Func");
 }
 
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Trigger_hideChatboxCinematic
-//--------------------------------------------------------------------------------------------------
-bool libABFE498B_gt_AP_Trigger_hideChatboxCinematic_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_indexPlayer;
-
-    // Automatic Variable Declarations
-    playergroup auto2BB0EB85_g;
-
-    // Variable Initialization
-
-    // Conditions
-    if (testConds) {
-        if (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((GameGetMissionTime() >= 600.0)) {
-        TriggerEnable(TriggerGetCurrent(), false);
-    }
-
-    auto2BB0EB85_g = PlayerGroupActive();
-    lv_indexPlayer = -1;
-    while (true) {
-        lv_indexPlayer = PlayerGroupNextPlayer(auto2BB0EB85_g, lv_indexPlayer);
-        if (lv_indexPlayer < 0) { break; }
-        if ((PlayerType(lv_indexPlayer) != c_playerTypeUser)) {
-            return true;
-        }
-
-        if ((libNtve_gf_PlayerInCinematicMode(lv_indexPlayer) == true) && (libABFE498B_gv_aP_Trigger_enteredCinematicMode[lv_indexPlayer] == false)) {
-            libABFE498B_gv_aP_Trigger_enteredCinematicMode[lv_indexPlayer] = true;
-            if ((lib5BD4895D_gf_AP_Core_getChatboxHidden(lv_indexPlayer) == true)) {
-                libABFE498B_gv_aP_Trigger_toggledChatBox[lv_indexPlayer] = true;
-                lib5BD4895D_gf_AP_Core_showHideChatbox(lv_indexPlayer, false);
-            }
-            else {
-                libABFE498B_gv_aP_Trigger_toggledChatBox[lv_indexPlayer] = false;
-            }
-        }
-
-        if ((libNtve_gf_PlayerInCinematicMode(lv_indexPlayer) == false) && (libABFE498B_gv_aP_Trigger_enteredCinematicMode[lv_indexPlayer] == true)) {
-            libABFE498B_gv_aP_Trigger_enteredCinematicMode[lv_indexPlayer] = false;
-            if ((libABFE498B_gv_aP_Trigger_toggledChatBox[lv_indexPlayer] == true) && (lib5BD4895D_gf_AP_Core_getChatboxHidden(lv_indexPlayer) == false)) {
-                lib5BD4895D_gf_AP_Core_showHideChatbox(lv_indexPlayer, true);
-                libABFE498B_gv_aP_Trigger_toggledChatBox[lv_indexPlayer] = false;
-            }
-
-        }
-
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libABFE498B_gt_AP_Trigger_hideChatboxCinematic_Init () {
-    libABFE498B_gt_AP_Trigger_hideChatboxCinematic = TriggerCreate("libABFE498B_gt_AP_Trigger_hideChatboxCinematic_Func");
-    TriggerAddEventTimePeriodic(libABFE498B_gt_AP_Trigger_hideChatboxCinematic, 0.0625, c_timeGame);
-}
-
 void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_PatchesInit_Init();
     libABFE498B_gt_AP_Triggers_setOptions_Init();
@@ -11128,7 +11061,6 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
-    libABFE498B_gt_AP_Trigger_hideChatboxCinematic_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
