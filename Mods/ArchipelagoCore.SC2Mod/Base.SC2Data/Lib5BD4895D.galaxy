@@ -48,6 +48,11 @@ void lib5BD4895D_InitVariables () {
     lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe = c_invalidDialogControlId;
     lib5BD4895D_gv_aP_Core_chatbox.lv_chatlabel = c_invalidDialogControlId;
     lib5BD4895D_gv_aP_Core_chatbox.lv_countlabel = c_invalidDialogControlId;
+    lib5BD4895D_gv_aP_Core_chatbox.lv_showbutton = c_invalidDialogControlId;
+    lib5BD4895D_gv_aP_Core_chatbox.lv_hidebutton = c_invalidDialogControlId;
+    for (init_i1 = 0; init_i1 <= 20; init_i1 += 1) {
+        lib5BD4895D_gv_aP_Core_chatbox.lv_hidden[init_i1] = true;
+    }
     for (init_i = 0; init_i <= 7; init_i += 1) {
         lib5BD4895D_gv_aP_Core_rainbowColors[init_i] = 1;
     }
@@ -207,6 +212,12 @@ text lib5BD4895D_gf_AP_Core_getChatboxContent () {
     return lv_tmptext;
 }
 
+bool lib5BD4895D_gf_AP_Core_getChatboxHidden (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    return lib5BD4895D_gv_aP_Core_chatbox.lv_hidden[lp_player];
+}
+
 void lib5BD4895D_gf_AP_Core_initChatbox (int lp_anchor, int lp_sizex, int lp_sizey, int lp_offsetx, int lp_offsety) {
     // Variable Declarations
     int lv_btnsize;
@@ -227,7 +238,10 @@ void lib5BD4895D_gf_AP_Core_initChatbox (int lp_anchor, int lp_sizex, int lp_siz
     lib5BD4895D_gv_aP_Core_chatbox.lv_chatlabel = DialogControlLastCreated();
     DialogControlHookup(lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe, c_triggerControlTypeLabel, "ChatboxContainer/TotalLabel");
     lib5BD4895D_gv_aP_Core_chatbox.lv_countlabel = DialogControlLastCreated();
-    DialogControlHookupStandard(c_triggerControlTypePanel, "$ap_Chatbox/$parent/VisibilityButtonContainer/HideButton");
+    DialogControlHookupStandard(c_triggerControlTypeButton, "$ap_Chatbox/$parent/VisibilityButtonContainer/ShowButton");
+    lib5BD4895D_gv_aP_Core_chatbox.lv_showbutton = DialogControlLastCreated();
+    DialogControlHookupStandard(c_triggerControlTypeButton, "$ap_Chatbox/$parent/VisibilityButtonContainer/HideButton");
+    lib5BD4895D_gv_aP_Core_chatbox.lv_hidebutton = DialogControlLastCreated();
     DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupAll(), lp_anchor, 15, 15);
 }
 
@@ -240,7 +254,8 @@ void lib5BD4895D_gf_AP_Core_showHideChatbox (int lp_player, bool lp_visible) {
     lv_pg = PlayerGroupSingle(lp_player);
 
     // Implementation
-    DialogControlSetVisible(lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe, lv_pg, true);
+    lib5BD4895D_gv_aP_Core_chatbox.lv_hidden[lp_player] = lp_visible;
+    DialogControlSetVisible(lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe, lv_pg, lp_visible);
 }
 
 void lib5BD4895D_gf_AP_Core_sendChatMessage (int lp_fromplayer, string lp_message) {
@@ -1797,6 +1812,52 @@ void lib5BD4895D_gt_AP_Core_keepControllerAlive_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_onHideButtonChatbox
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((EventDialogControl() == lib5BD4895D_gv_aP_Core_chatbox.lv_hidebutton)) {
+        lib5BD4895D_gv_aP_Core_chatbox.lv_hidden[EventPlayer()] = false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Init () {
+    lib5BD4895D_gt_AP_Core_onHideButtonChatbox = TriggerCreate("lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Func");
+    TriggerAddEventDialogControl(lib5BD4895D_gt_AP_Core_onHideButtonChatbox, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_onShowButtonChatbox
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((EventDialogControl() == lib5BD4895D_gv_aP_Core_chatbox.lv_showbutton)) {
+        lib5BD4895D_gv_aP_Core_chatbox.lv_hidden[EventPlayer()] = true;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Init () {
+    lib5BD4895D_gt_AP_Core_onShowButtonChatbox = TriggerCreate("lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Func");
+    TriggerAddEventDialogControl(lib5BD4895D_gt_AP_Core_onShowButtonChatbox, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Core_updateChatbox
 //--------------------------------------------------------------------------------------------------
 bool lib5BD4895D_gt_AP_Core_updateChatbox_Func (bool testConds, bool runActions) {
@@ -2216,6 +2277,8 @@ void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_controllerInit_Init();
     lib5BD4895D_gt_AP_Core_dontHideController_Init();
     lib5BD4895D_gt_AP_Core_keepControllerAlive_Init();
+    lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Init();
+    lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_updateChatbox_Init();
     lib5BD4895D_gt_AP_Core_rainbowColorsInit_Init();
     lib5BD4895D_gt_AP_Core_tradeStart_Init();
