@@ -11067,6 +11067,10 @@ bool libABFE498B_gt_AP_Trigger_hideChatboxCinematic_Func (bool testConds, bool r
         return true;
     }
 
+    if ((GameGetMissionTime() >= 600.0)) {
+        TriggerEnable(TriggerGetCurrent(), false);
+    }
+
     auto2BB0EB85_g = PlayerGroupActive();
     lv_indexPlayer = -1;
     while (true) {
