@@ -25,6 +25,11 @@ struct lib5BD4895D_gs_AP_Core_chatbox {
     int lv_mainframe;
     int lv_chatlabel;
     int lv_countlabel;
+    int lv_showbutton;
+    int lv_hidebutton;
+    bool[21] lv_hidden;
+    bool[21] lv_toggled;
+    bool[21] lv_enteredcinematicmode;
 };
 
 struct lib5BD4895D_gs_APObjective {
@@ -117,6 +122,7 @@ void lib5BD4895D_gf_AP_Core_sendLocationLocal (int lp_locationIdLocal);
 bool lib5BD4895D_gf_AP_Core_isLocationSent (int lp_locationIdLocal);
 void lib5BD4895D_gf_AP_Core_refreshController ();
 text lib5BD4895D_gf_AP_Core_getChatboxContent ();
+bool lib5BD4895D_gf_AP_Core_getChatboxHidden (int lp_player);
 void lib5BD4895D_gf_AP_Core_initChatbox (int lp_anchor, int lp_sizex, int lp_sizey, int lp_offsetx, int lp_offsety);
 void lib5BD4895D_gf_AP_Core_showHideChatbox (int lp_player, bool lp_visible);
 void lib5BD4895D_gf_AP_Core_sendChatMessage (int lp_fromplayer, string lp_message);
@@ -173,6 +179,9 @@ trigger lib5BD4895D_gt_AP_Core_mapLoadEnd;
 trigger lib5BD4895D_gt_AP_Core_controllerInit;
 trigger lib5BD4895D_gt_AP_Core_dontHideController;
 trigger lib5BD4895D_gt_AP_Core_keepControllerAlive;
+trigger lib5BD4895D_gt_AP_Core_hideChatboxCinematic;
+trigger lib5BD4895D_gt_AP_Core_onHideButtonChatbox;
+trigger lib5BD4895D_gt_AP_Core_onShowButtonChatbox;
 trigger lib5BD4895D_gt_AP_Core_updateChatbox;
 trigger lib5BD4895D_gt_AP_Core_rainbowColorsInit;
 trigger lib5BD4895D_gt_AP_Core_tradeStart;
