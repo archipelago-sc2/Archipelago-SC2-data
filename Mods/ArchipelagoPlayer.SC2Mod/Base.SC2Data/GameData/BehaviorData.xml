@@ -4805,7 +4805,6 @@
         <InfoIcon value="Assets\Textures\btn-ability-stetmann-stetzonegenerator-energy.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
         <DisableValidatorArray value="AP_NotHaveMothershipTaldarimIntegratedPower"/>
-        <DisableValidatorArray value="AP_NotInTimeFieldTaldarim"/>
         <DisableValidatorArray value="AP_CasterLocationNotHasPower"/>
         <Modification MoveSpeedMultiplier="0.2"/>
     </CBehaviorBuff>
@@ -5154,7 +5153,7 @@
             <AbilLinkDisableArray value="attack"/>
             <AbilLinkDisableArray value="AP_PurifierMothershipInstalls"/> 
             <AbilLinkDisableArray value="AP_MothershipCoreMassRecall"/>
-            <AbilLinkDisableArray value="AP_MothershipPurifierBlackHole"/>
+            <AbilLinkDisableArray value="AP_PurifierMothershipBlackHole"/>
             <AbilLinkDisableArray value="AP_TimeFieldPurifier"/>
         </Modification>
     </CBehaviorBuff>
@@ -5261,15 +5260,7 @@
         <DisableValidatorArray value="AP_IsNotFriendly"/>
         <DisableValidatorArray value="AP_NotTimeFieldTaldarimConfusion"/>
         <Duration value="0.125"/>
-        <Modification MoveSpeedMultiplier="0.35"/>
-        <Modification AttackSpeedMultiplier="0.35"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_TimeFieldTaldarimCaster">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-timewarp.dds"/>
-        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="AP_IsTaldarimMothership"/>
-        <Duration value="0.125"/>
+        <Modification AttackSpeedMultiplier="0.30"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_TimeFieldTaldarimConfusion">
         <Alignment value="Negative"/>
@@ -5281,8 +5272,7 @@
         <InitialEffect value="AP_DarkArchonConfusionStopInitialSet"/>
         <PeriodicEffect value="AP_DarkArchonConfusionAttackSearch"/>
         <ExpireEffect value="AP_DarkArchonConfusionEndSet"/>
-        <Modification MoveSpeedMultiplier="1.65"/>
-        <Modification AttackSpeedMultiplier="1.65"/>
+        <Modification AttackSpeedMultiplier="1.70"/>
         <Modification>
             <StateFlags index="Passive" value="1"/>
             <StateFlags index="IgnorePlayerAlliedFlags" value="1"/>
@@ -6270,7 +6260,6 @@
         </Modification>
     </CBehaviorBuff>
     <CBehaviorPowerSource id="AP_PowerRedirectionPowerSource">
-        <InfoFlags index="Hidden" value="0"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Structures"/>
         <Radius value="0.5"/>
         <PowerLink value="PowerSource"/>
@@ -6286,7 +6275,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_AstralRestorationCaster">
         <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronobeam.dds"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-astralwind.dds"/>
         <TimeScaleSource Value="Global"/>
         <DisableValidatorArray value="AP_CasterAstralRestoration"/>
         <Duration value="10"/>
@@ -6295,6 +6284,30 @@
         <DisplayDuration index="Ally" value="1"/>
         <DisplayDuration index="Neutral" value="1"/>
         <PeriodicEffect value="AP_MothershipAstralRestorationSearch"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_AstralRestorationCooldown">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Duration value="180"/>
+        <Cost>
+            <Cooldown TimeStart="180"/>
+        </Cost>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SummonDeathFleetCooldown">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Duration value="240"/>
+        <Cost>
+            <Cooldown TimeStart="240"/>
+        </Cost>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_PlanetCrackerCooldown">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Duration value="300"/>
+        <Cost>
+            <Cooldown TimeStart="300"/>
+        </Cost>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_OverloadWeaponSystems">
         <Alignment value="Positive"/>

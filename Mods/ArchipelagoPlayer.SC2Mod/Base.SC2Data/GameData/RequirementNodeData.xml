@@ -4862,6 +4862,18 @@
     <CRequirementNot id="AP_NotCountBehaviorAstralRestorationInstalledCompleteOnlyAtUnit">
         <OperandArray index="0" value="AP_CountBehaviorAstralRestorationInstalledCompleteOnlyAtUnit"/>
     </CRequirementNot>
+    <CRequirementCountBehavior id="AP_CountBehaviorAstralRestorationCooldownCompleteOnlyAtUnit">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_AstralRestorationCooldown" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="AP_CountBehaviorSummonDeathFleetCooldownCompleteOnlyAtUnit">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_SummonDeathFleetCooldown" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="AP_CountBehaviorPlanetCrackerCooldownCompleteOnlyAtUnit">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_PlanetCrackerCooldown" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
     <CRequirementCountBehavior id="AP_CountBehaviorBlackHoleInstalledCompleteOnlyAtUnit">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="AP_BlackHoleInstalled" State="CompleteOnlyAtUnit"/>
@@ -4990,14 +5002,6 @@
         <Count Link="AP_CanInstallMothershipRecall" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
     </CRequirementCountUpgrade>
-    <CRequirementAnd id="AP_AndCanInstallMassRecallCompleteOnly">
-        <OperandArray value="AP_CountUpgradeCanInstallMothershipRecallCompleteOnly"/>
-        <OperandArray value="AP_NotCountBehaviorMassRecallInstalledCompleteOnlyAtUnit"/>
-    </CRequirementAnd>
-    <CRequirementAnd id="AP_AndCanInstallNexusRecallCompleteOnly">
-        <OperandArray value="AP_CountUpgradeCanInstallMothershipRecallCompleteOnly"/>
-        <OperandArray value="AP_NotCountBehaviorNexusRecallInstalledCompleteOnlyAtUnit"/>
-    </CRequirementAnd>
     <CRequirementCountUpgrade id="AP_CountUpgradeCanInstallAiurMothershipEnergyRegenAuraCompleteOnly">
         <Count Link="AP_CanInstallAiurMothershipEnergyRegenAura" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
@@ -5040,14 +5044,6 @@
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="AP_CountUpgradeMothershipAiurShieldArmorCompleteOnly">
         <Count Link="AP_MothershipAiurShieldArmor" State="CompleteOnly"/>
-        <Flags index="TechTreeCheat" value="0"/>
-    </CRequirementCountUpgrade>
-    <CRequirementCountUpgrade id="AP_CountUpgradeMothershipCoreAiurQuantumProjectionCompleteOnly">
-        <Count Link="AP_MothershipCoreAiurQuantumProjection" State="CompleteOnly"/>
-        <Flags index="TechTreeCheat" value="0"/>
-    </CRequirementCountUpgrade>
-    <CRequirementCountUpgrade id="AP_CountUpgradeMothershipCorePurifierControlledBurnCompleteOnly">
-        <Count Link="AP_MothershipCorePurifierControlledBurn" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="AP_CountUpgradeSOADragoonReviveCompleteOnly">

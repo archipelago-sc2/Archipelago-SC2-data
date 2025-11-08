@@ -12054,6 +12054,11 @@
         <EditorCategories value="Race:Protoss"/>
         <VitalArray index="Shields" Change="80"/>
     </CEffectModifyUnit>
+    <CEffectSet id="AP_SummonDeathFleetSet">
+        <EditorCategories value="Race:Protoss"/>
+        <EffectArray value="AP_SummonDeathFleet"/>
+        <EffectArray value="AP_SummonDeathFleetCooldownAB"/>
+    </CEffectSet>
     <CEffectCreatePersistent id="AP_SummonDeathFleet">
         <EditorCategories value="Race:Protoss"/>
         <TimeScaleSource Value="Caster"/>
@@ -12085,6 +12090,10 @@
     <CEffectApplyBehavior id="AP_SummonDeathFleetInitialAB">
         <EditorCategories value="Race:Protoss"/>
         <Behavior value="AP_SummonDeathFleetInitial"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_SummonDeathFleetCooldownAB">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="AP_SummonDeathFleetCooldown"/>
     </CEffectApplyBehavior>
     <CEffectApplyBehavior id="AP_SummonDeathFleetTimerAB">
         <EditorCategories value="Race:Protoss"/>
@@ -12338,6 +12347,11 @@
         <Behavior value="AP_PlanetCrackerChargeUp"/>
         <EditorCategories value="Race:Protoss"/>
     </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_PlanetCrackerCooldownAB">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_PlanetCrackerCooldown"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CEffectApplyBehavior>
     <CEffectDamage id="AP_PlanetCrackerDamage">
         <EditorCategories value="Race:Protoss"/>
         <Visibility value="Visible"/>
@@ -12351,6 +12365,7 @@
     <CEffectSet id="AP_PlanetCrackerSet">
         <EditorCategories value="Race:Protoss"/>
         <EffectArray value="AP_PlanetCrackerTeleport"/>
+        <EffectArray value="AP_PlanetCrackerCooldownAB"/>
         <EffectArray value="AP_PlanetCrackerChargeUpAB"/>
         <EffectArray value="AP_PurifierMothershipShieldingAB"/>
         <TargetLocationType value="Point"/>
@@ -12405,12 +12420,18 @@
     <CEffectSet id="AP_AstralRestorationInitialSet">
         <EditorCategories value="Race:Protoss"/>
         <EffectArray value="AP_AstralRestorationABCaster"/>
+        <EffectArray value="AP_AstralRestorationABCooldown"/>
         <EffectArray value="AP_AiurMothershipFeedbackAuraAB"/>
     </CEffectSet>
     <CEffectApplyBehavior id="AP_AstralRestorationABCaster">
         <WhichUnit Value="Caster"/>
         <EditorCategories value=""/>
         <Behavior value="AP_AstralRestorationCaster"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_AstralRestorationABCooldown">
+        <WhichUnit Value="Caster"/>
+        <EditorCategories value=""/>
+        <Behavior value="AP_AstralRestorationCooldown"/>
     </CEffectApplyBehavior>
     <CEffectModifyUnit id="AP_AstralRestorationHeal">
         <EditorCategories value="Race:Protoss"/>
@@ -18178,27 +18199,17 @@
     <CEffectEnumArea id="AP_TimeFieldTaldarimSearchArea">
         <EditorCategories value="Race:Protoss"/>
         <SearchFilters value="-;Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="5.2" Effect="AP_TimeFieldTaldarimABSet"/>
+        <AreaArray Radius="5.2" Effect="AP_TimeFieldTaldarimApplyBehavior"/>
     </CEffectEnumArea>
-    <CEffectSet id="AP_TimeFieldTaldarimABSet">
-        <EditorCategories value="Race:Protoss"/>
-        <EffectArray value="AP_TimeFieldTaldarimApplyBehavior"/>
-        <EffectArray value="AP_TimeFieldTaldarimApplyBehaviorCaster"/>
-    </CEffectSet>
     <CEffectApplyBehavior id="AP_TimeFieldTaldarimApplyBehavior">
         <EditorCategories value="Race:Protoss"/>
         <Behavior value="AP_TimeFieldTaldarim"/>
     </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="AP_TimeFieldTaldarimApplyBehaviorCaster">
-        <EditorCategories value="Race:Protoss"/>
-        <Behavior value="AP_TimeFieldTaldarimCaster"/>
-    </CEffectApplyBehavior>
     <CEffectEnumArea id="AP_TimeFieldTaldarimConfusionSearch">
         <EditorCategories value="Race:Protoss"/>
         <SearchFilters value="-;Player,Ally,Neutral,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="1.5" Effect="AP_TimeFieldTaldarimConfusionAB"/>
+        <AreaArray Radius="1.75" Effect="AP_TimeFieldTaldarimConfusionAB"/>
         <ImpactLocation Value="TargetUnit"/>
-        <ValidatorArray value="AP_CasterInTimeFieldTaldarim"/>
     </CEffectEnumArea>
     <CEffectApplyBehavior id="AP_TimeFieldTaldarimConfusionAB">
         <EditorCategories value="Race:Protoss"/>
@@ -18228,7 +18239,7 @@
         <EffectArray value="AP_MothershipCoreNexusRecallSearch"/>
     </CEffectSet>
     <CEffectEnumArea id="AP_MothershipCoreNexusRecallSearch">
-        <AreaArray Radius="5.5" Effect="AP_MothershipCoreNexusRecallApplyBehavior"/>
+        <AreaArray Radius="7.5" Effect="AP_MothershipCoreNexusRecallApplyBehavior"/>
         <EditorCategories value="Race:Protoss"/>
         <ImpactLocation Value="CasterPoint"/>
         <MinCount value="1"/>

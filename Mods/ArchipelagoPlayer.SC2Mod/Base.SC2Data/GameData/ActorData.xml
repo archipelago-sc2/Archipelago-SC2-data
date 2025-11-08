@@ -22097,6 +22097,14 @@
         <On Terms="Behavior.AP_BatteryOvercharge.On" Send="Create"/>
         <Sound value="Mothership_PhotonOverchargeActivate"/>
     </CActorSound>
+    <CActorRange id="AP_BatteryOverchargeRange" parent="RangeAbil" abil="AP_BatteryOvercharge">
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.250000"/>
+    </CActorRange>
+    <CActorRange id="AP_BatteryOverchargeUpgradeRange" parent="RangeAbil" abil="AP_BatteryOverchargeUpgrade">
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.250000"/>
+    </CActorRange>
     <CActorSplat id="AP_MothershipMassRecallCursorSplat" parent="ProtossCursorSplat" abil="AP_MothershipMassRecall"/>
     <CActorSplat id="AP_MothershipCoreMassRecallCursorSplat" parent="ProtossCursorSplat" abil="AP_MothershipCoreMassRecall"/>
     <CActorRange id="AP_MothershipMassRecallRange" parent="RangeAbil" abil="AP_MothershipMassRecall">
@@ -22420,7 +22428,7 @@
     <CActorRange id="AP_MothershipCoreNexusRecallRange">
         <On Terms="Abil.AP_MothershipCoreNexusRecall.TargetOn" Send="Create"/>
         <On Terms="Abil.AP_MothershipCoreNexusRecall.TargetOff" Send="Destroy"/>
-        <Range value="5.500000"/>
+        <Range value="7.500000"/>
         <Icon value="Assets\Textures\radaricon2.dds"/>
     </CActorRange>
     <CActorRange id="AP_MothershipNexusRecallRange">
@@ -24611,8 +24619,6 @@
         <PortraitModel value="AP_MothershipAiurPortrait"/>
         <On Terms="Behavior.AP_MothershipCoreWeapon.On" Send="AnimGroupApply Work Stand,Work,Start Stand,Work,End"/>
         <On Terms="Behavior.AP_MothershipCoreWeapon.Off" Send="AnimGroupRemove Work"/>
-        <On Terms="Abil.AP_MothershipCorePhotonOvercharge.SourceCastStart" Send="AnimPlay Burrow Stand,Work,End"/>
-        <!--On Terms="Abil.NexusInvulnerability.SourceCastStart" Send="$Spell"/-->
         <On Terms="Abil.AP_MothershipCoreNexusRecall.SourceCastStart" Send="$Spell"/>
         <On Terms="Abil.AP_TimeField.SourceCastStart" Send="$Spell"/>
         <On Terms="UnitBirth.AP_MothershipCoreAiur.Normal" Send="AnimPlay MorphStart Morph,End,A"/>
@@ -24688,9 +24694,6 @@
         <PortraitModel value="AP_MothershipPurifierPortrait"/>
         <On Terms="Behavior.AP_MothershipCoreWeapon.On" Send="AnimGroupApply Work Stand,Work,Start Stand,Work,End"/>
         <On Terms="Behavior.AP_MothershipCoreWeapon.Off" Send="AnimGroupRemove Work"/>
-        <On Terms="Abil.AP_MothershipCorePhotonOvercharge.SourceCastStart" Send="AnimPlay Burrow Stand,Work,End"/>
-        <!--On Terms="Abil.NexusInvulnerability.SourceCastStart" Send="$Spell"/-->
-        <On Terms="Abil.AP_MothershipCoreNexusRecall.SourceCastStart" Send="$Spell"/>
         <On Terms="Abil.AP_TimeField.SourceCastStart" Send="$Spell"/>
         <On Terms="Effect.AP_PowerRedirectionCP.Start" Send="AnimBracketStart PR Stand,Work,Start Stand,Work Stand,Work,End"/>
         <On Terms="Effect.AP_PowerRedirectionCP.Stop" Send="AnimBracketStop PR"/>
@@ -24947,7 +24950,7 @@
         <On Terms="Effect.AP_PurifierMothershipBeamPersistent.Start" Send="SetTintColor {255,197,60 3.000000}"/>
         <On Terms="Effect.AP_PurifierMothershipBeamPersistent.Start" Send="SetScale 2.0"/>
         <LaunchAttachQuery Methods="AMFilterWeaponSetA0 AMClosest2ToTarget AP_AMPatternSOAMothershipv4Beam"/>
-        <LaunchAssets Sound="AP_MothershipVoid_AttackLaunch"/>
+        <LaunchAssets Sound="Mothership_AttackLaunch"/>
         <ImpactMap index="None" Sound="Colossus_AttackImpact"/>
         <ActionFlags index="AlignedImpactsAndDamages" value="1"/>
         <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
@@ -24986,7 +24989,7 @@
         <On Terms="Effect.AP_AiurMothershipBeamPersistent.Stop" Send="Destroy WhenReady"/>
         <!-- <On Terms="Effect.AP_AiurMothershipBeamPersistent.Start" Send="SetTintColor {255,197,60 3.000000}"/> -->
         <LaunchAttachQuery Methods="AMFilterWeaponSetA0 AMClosest2ToTarget AP_AMPatternSOAMothershipv4Beam"/>
-        <LaunchAssets Sound="AP_MothershipVoid_AttackLaunch"/>
+        <LaunchAssets Sound="Mothership_AttackLaunch"/>
         <ImpactMap index="None" Sound="Colossus_AttackImpact"/>
         <ActionFlags index="AlignedImpactsAndDamages" value="1"/>
         <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
