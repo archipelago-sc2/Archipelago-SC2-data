@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CActorUnit id="AP_CommandCenter">
+        <Macros index="1" value="BuildAnim"/>
+        <Macros index="2" value="TerrainSquibAnimations"/>
+        <Macros index="3" value="SnowVisualUnitMacroMP"/>
+        <Macros index="4" value="MacroTownhallDeco_Terran"/>
+        <Macros index="5" value="TerranCommandCenterPlayerDecalMacro"/>
+        <Macros index="6" value="SprayHelperMacro"/>
+        <Macros index="7" removed="1"/>
+    </CActorUnit>
+    <CActorUnit id="AP_Mira" parent="GenericUnitMinimal" unitName="AP_Mira">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime HappyEyes PlayForever,ForceLooping"/>
+        <HostSiteOps Ops="SOpForwardSouth"/>
+        <Scale value="20.000000"/>
+        <HighlightTooltip value="Unit/Name/Bogus"/>
+    </CActorUnit>
+    <CActorModel id="AP_SpawningPoolHealAttachmentUltra" parent="ModelAdditionNoAnims">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <EditorCategories value=""/>
+        <On Terms="Behavior.AP_SpawningPoolHeal.On; !ScopeContains AP_SpawningPoolHealAttachment" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Unload Walk Load 0 0.400000 AsTimeScale"/>
+        <On Terms="Behavior.AP_SpawningPoolHeal.Off" Send="AnimBracketStop BSD"/>
+        <On Terms="UnitBirth.AP_SpawningPool.EditorPlaced" Send="Create"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="ModelSwap SpawningPoolDeath"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="$Death 0 -1.000000 -1.000000 0.800000 AsTimeScale"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="SetScale 1.800000,1.800000,1.500000 1.000000"/>
+        <On Terms="ActorCreation" Send="TimerSet 1.000000 Start"/>
+        <On Terms="TimerExpired; TimerName Start" Target="_Selectable" Send="ModelSwap SpawningPool"/>
+        <On Terms="TimerExpired; TimerName Start" Target="_Selectable" Send="AnimClear Death"/>
+        <On Terms="TimerExpired; TimerName Start" Target="_Selectable" Send="SetScale 2.000000,2.000000,1.500000"/>
+        <On Terms="TimerExpired; TimerName Start" Target="_Selectable" Send="AnimPlay AP_Work Stand,Work PlayForever,ForceLooping"/>
+        <On Terms="ActorDestruction" Target="_Selectable" Send="SetScale 1.000000 1.000000"/>
+        <On Terms="ActorDestruction" Target="_Selectable" Send="AnimClear AP_Work"/>
+        <On Terms="ActorCreation" Send="TimerSet 4.000000 dive"/>
+        <On Terms="TimerExpired; TimerName dive" Send="TimerSet 10.000000 dive"/>
+        <On Terms="TimerExpired; TimerName dive" Send="AnimBracketStart AP_Dive Burrow {} Unburrow ContentPlayOnce"/>
+        <On Terms="ActorDestruction" Target="_Selectable" Send="ModelSwap SpawningPool"/>
+        <On Terms="TimerExpired; TimerName Start" Target="AP_SpawningPoolHydralisk" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName Start" Target="AP_SpawningPoolZergling" Send="Destroy"/>
+        <HostSiteOps Ops="SOpAttachOrigin SOp180"/>
+        <Model value="Ultralisk"/>
+    </CActorModel>
+    <CActorSiteOpRotator id="AP_SpawningPoolZerglinRotator">
+        <EditorCategories value=""/>
+        <LocalAxis value="0.000000,0.000000,-1.000000"/>
+        <Rate value="100.000000"/>
+    </CActorSiteOpRotator>
+    <CActorModel id="AP_SpawningPoolZergling" parent="ModelAddition">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <EditorCategories value=""/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Birth Walk,01 Death"/>
+        <HostSiteOps Ops="SOpMoveUpByDot25 AP_SpawningPoolZerglinRotator SOpMoveBackByDot5 SOp90"/>
+        <Model value="ZerglingXPR"/>
+        <Scale value="0.700000"/>
+    </CActorModel>
+    <CActorModel id="AP_SpawningPoolHydralisk" parent="ModelAddition">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <EditorCategories value=""/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Unburrow Dance,00 Burrow ContentPlayOnce"/>
+        <On index="2" Terms="UnitBirth.SpawningPool.EditorPlaced" Send="Create"/>
+        <On Terms="ActorCreation" Target="_Selectable" Send="SetScale 1.500000,1.500000,0.900000"/>
+        <On Terms="AnimBracketState.*.AfterClosing" Send="AnimBracketStart Death Unburrow Walk,00 Burrow OpeningPlayForever"/>
+        <On Terms="ActorCreation" Send="Create AP_SpawningPoolZergling"/>
+        <On Terms="ActorCreation; IsInEditor" Send="TimerSet 5.000000"/>
+        <On Terms="TimerExpired; IsInEditor" Send="Create AP_SpawningPoolHealAttachmentUltra"/>
+        <HostSiteOps Ops="SOpMoveUpByDot25"/>
+        <Model value="Hydralisk"/>
+        <Scale value="0.800000"/>
+    </CActorModel>
+    <CActorModel id="WarpInVoid">
+        <On Terms="Abil.StargateWarpTrainAI.TargetStop" Send="AnimBracketStop BSD"/>
+    </CActorModel>
+</Catalog>
