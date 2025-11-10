@@ -6696,8 +6696,8 @@ void gt_ObjectiveDestroyXanthosSubsystemsUpdate_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ObjectiveDestroyXanthosSubsystemsComplete_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_ebmdjrtbyldpsced;
-    int lv_mtwibcdauwtlwima;
+    int lv_suekcybejyhnrnph;
+    int lv_bqvtlpghqrjxntsf;
 
     // Automatic Variable Declarations
     const int auto04D9BCA5_ae = 3;
@@ -6722,9 +6722,9 @@ bool gt_ObjectiveDestroyXanthosSubsystemsComplete_Func (bool testConds, bool run
         Wait(1.0, c_timeGame);
     }
     TriggerExecute(gt_ObjectiveDestroyXanthosSubsystemsCreate, true, false);
-    lv_ebmdjrtbyldpsced = 0;
-    for ( ; ( (auto04D9BCA5_ai >= 0 && lv_ebmdjrtbyldpsced <= auto04D9BCA5_ae) || (auto04D9BCA5_ai < 0 && lv_ebmdjrtbyldpsced >= auto04D9BCA5_ae) ) ; lv_ebmdjrtbyldpsced += auto04D9BCA5_ai ) {
-        lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_xanthosSubsystemLocations[lv_ebmdjrtbyldpsced]);
+    lv_suekcybejyhnrnph = 0;
+    for ( ; ( (auto04D9BCA5_ai >= 0 && lv_suekcybejyhnrnph <= auto04D9BCA5_ae) || (auto04D9BCA5_ai < 0 && lv_suekcybejyhnrnph >= auto04D9BCA5_ae) ) ; lv_suekcybejyhnrnph += auto04D9BCA5_ai ) {
+        lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_xanthosSubsystemLocations[lv_suekcybejyhnrnph]);
     }
     lib5BD4895D_gf_AP_Core_setObjectiveCounter(gv_objectiveDestroyXanthosSubsystems, 4);
     lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveDestroyXanthosSubsystems);
@@ -6775,7 +6775,7 @@ void gt_ObjectiveProtectHyperionCreate_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ObjectiveProtectHyperionAttackStart_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_fkqallccrbcktvjw;
+    int lv_dylsotxbnkieiivn;
 
     // Automatic Variable Declarations
     // Variable Initialization
@@ -6886,6 +6886,8 @@ bool gt_ObjectiveProtectHyperionComplete_Func (bool testConds, bool runActions) 
     libNtve_gf_StopTimer(gv_hyperionTimer);
     lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_lOCATION_ID_PROTECT_HYPERION);
     lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveProtectHyperion);
+    Wait(20.0, c_timeReal);
+    lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveProtectHyperion, false);
     return true;
 }
 
@@ -7005,6 +7007,8 @@ bool gt_ObjectiveDestroyOrbitalCommandsComplete_Func (bool testConds, bool runAc
     TriggerExecute(gt_ObjectiveDestroyOrbitalCommandsCreate, true, false);
     lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveDestroyOrbitalCommands);
     lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_lOCATION_ID_DESTROY_ORBITALS);
+    Wait(20.0, c_timeReal);
+    lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveDestroyOrbitalCommands, false);
     return true;
 }
 
