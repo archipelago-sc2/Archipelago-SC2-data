@@ -7907,10 +7907,10 @@ bool gt_IntroQ_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueEnter();
-    TriggerExecute(gt_IntroSetup, true, true);
     while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
         Wait(0.0625, c_timeGame);
     }
+    TriggerExecute(gt_IntroSetup, true, true);
     if ((libABFE498B_gv_aP_Triggers_skipCutscenes == false)) {
         TriggerExecute(gt_IntroCinematic, true, true);
         TriggerExecute(gt_IntroCinematicEnd, true, true);
