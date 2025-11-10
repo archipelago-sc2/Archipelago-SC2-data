@@ -1858,7 +1858,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = false;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
-        gv_novaEnabled = true;
+        libABFE498B_gv_aP_Triggers_Option_enableNova = true;
         TriggerExecute(gt_onDifficultyBrutal, true, false);
         gf_APtech(1, 4);
     }
@@ -1898,6 +1898,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     unitgroup auto5E8D29DF_g;
     int auto5E8D29DF_u;
     unit auto5E8D29DF_var;
+    unitgroup autoFF0ABC10_g;
+    int autoFF0ABC10_u;
+    unit autoFF0ABC10_var;
     unitgroup auto22F63574_g;
     int auto22F63574_u;
     unit auto22F63574_var;
@@ -1955,6 +1958,26 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         UnitRemove(UnitFromId(702844370));
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+    gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_enableNova;
+    if ((gv_novaEnabled == true)) {
+        libNCMI_gf_SetNovaHeroUnit(gv_nova);
+        libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
+        libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(gv_nova);
+        autoFF0ABC10_g = UnitGroupFromId(8);
+        autoFF0ABC10_u = UnitGroupCount(autoFF0ABC10_g, c_unitCountAll);
+        for (;; autoFF0ABC10_u -= 1) {
+            autoFF0ABC10_var = UnitGroupUnitFromEnd(autoFF0ABC10_g, autoFF0ABC10_u);
+            if (autoFF0ABC10_var == null) { break; }
+            UnitRemove(autoFF0ABC10_var);
+        }
+    }
+    else {
+        libNtve_gf_ShowHideUnit(gv_nova, false);
+        libNtve_gf_PauseUnit(gv_nova, true);
+        libNtve_gf_SendActorMessageToUnit(gv_nova, "SetOpacity");
+        UnitBehaviorAddPlayer(gv_nova, "DragStun", 1, 1);
+        TriggerEnable(gt_S1TacNukeStrikeOnlineQ, false);
+    }
     while (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
         Wait(0.25, c_timeGame);
     }
@@ -2163,9 +2186,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     unitgroup lv_turrets;
 
     // Automatic Variable Declarations
-    unitgroup autoFF0ABC10_g;
-    int autoFF0ABC10_u;
-    unit autoFF0ABC10_var;
     unitgroup auto75A0AC31_g;
     int auto75A0AC31_u;
     unit auto75A0AC31_var;
@@ -2244,26 +2264,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((gv_novaEnabled == true)) {
-        libNCMI_gf_SetNovaHeroUnit(gv_nova);
-        libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
-        libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(gv_nova);
-        autoFF0ABC10_g = UnitGroupFromId(8);
-        autoFF0ABC10_u = UnitGroupCount(autoFF0ABC10_g, c_unitCountAll);
-        for (;; autoFF0ABC10_u -= 1) {
-            autoFF0ABC10_var = UnitGroupUnitFromEnd(autoFF0ABC10_g, autoFF0ABC10_u);
-            if (autoFF0ABC10_var == null) { break; }
-            UnitRemove(autoFF0ABC10_var);
-        }
-    }
-    else {
-        libNtve_gf_ShowHideUnit(gv_nova, false);
-        libNtve_gf_PauseUnit(gv_nova, true);
-        libNtve_gf_SendActorMessageToUnit(gv_nova, "SetOpacity");
-        UnitBehaviorAddPlayer(gv_nova, "DragStun", 1, 1);
-        libNCMI_gf_SetNovaHeroUnit(lv_unit);
-        TriggerEnable(gt_S1TacNukeStrikeOnlineQ, false);
-    }
     TriggerExecute(gt_S1GarrisonSpotsInit, true, false);
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     auto75A0AC31_g = UnitGroup(null, gv_pLAYER_03_FERALZERG_MIDDLEBULLIES, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -10900,6 +10900,9 @@ bool gt_IntroQ_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueEnter();
+    while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
+        Wait(0.0625, c_timeGame);
+    }
     TriggerExecute(gt_IntroSetup, true, true);
     if ((libABFE498B_gv_aP_Triggers_skipCutscenes == false)) {
         TriggerExecute(gt_IntroCinematic, true, true);

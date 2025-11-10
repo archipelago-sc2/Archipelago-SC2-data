@@ -1598,6 +1598,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     unitgroup autoCB87C7B0_g;
     int autoCB87C7B0_u;
     unit autoCB87C7B0_var;
+    unitgroup auto08424CC9_g;
+    int auto08424CC9_u;
+    unit auto08424CC9_var;
     unitgroup autoB0BEDE1C_g;
     int autoB0BEDE1C_u;
     unit autoB0BEDE1C_var;
@@ -1648,6 +1651,26 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(6), "Terr", false);
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+    gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_enableNova;
+    if ((gv_novaEnabled == true)) {
+        libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
+        libNCMI_gf_SetNovaHeroUnit(gv_nova);
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
+        auto08424CC9_g = UnitGroupFromId(5);
+        auto08424CC9_u = UnitGroupCount(auto08424CC9_g, c_unitCountAll);
+        for (;; auto08424CC9_u -= 1) {
+            auto08424CC9_var = UnitGroupUnitFromEnd(auto08424CC9_g, auto08424CC9_u);
+            if (auto08424CC9_var == null) { break; }
+            UnitBehaviorRemoveCategory(auto08424CC9_var, c_unitBehaviorFlagPermanent);
+            UnitBehaviorRemove(auto08424CC9_var, "AP_BanelingExplode", c_unitBehaviorCountAll);
+            UnitRemove(auto08424CC9_var);
+        }
+    }
+    else {
+        lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_01_USER);
+        libNtve_gf_ShowHideUnit(gv_nova, false);
+        libNtve_gf_PauseUnit(gv_nova, true);
+    }
     autoB0BEDE1C_g = gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2;
     autoB0BEDE1C_u = UnitGroupCount(autoB0BEDE1C_g, c_unitCountAll);
     for (;; autoB0BEDE1C_u -= 1) {
@@ -1790,9 +1813,6 @@ void gt_Init02Players_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_Init03Units_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
-    unitgroup auto08424CC9_g;
-    int auto08424CC9_u;
-    unit auto08424CC9_var;
     unitgroup auto50032268_g;
     int auto50032268_u;
     unit auto50032268_var;
@@ -1825,25 +1845,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     SoundChannelMute(PlayerGroupAll(), c_soundCategorySpell, true);
     SoundChannelMute(PlayerGroupAll(), c_soundCategoryOther, true);
     gv_nova = UnitFromId(588);
-    if ((gv_novaEnabled == true)) {
-        libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
-        libNCMI_gf_SetNovaHeroUnit(gv_nova);
-        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
-        auto08424CC9_g = UnitGroupFromId(5);
-        auto08424CC9_u = UnitGroupCount(auto08424CC9_g, c_unitCountAll);
-        for (;; auto08424CC9_u -= 1) {
-            auto08424CC9_var = UnitGroupUnitFromEnd(auto08424CC9_g, auto08424CC9_u);
-            if (auto08424CC9_var == null) { break; }
-            UnitBehaviorRemoveCategory(auto08424CC9_var, c_unitBehaviorFlagPermanent);
-            UnitBehaviorRemove(auto08424CC9_var, "AP_BanelingExplode", c_unitBehaviorCountAll);
-            UnitRemove(auto08424CC9_var);
-        }
-    }
-    else {
-        lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_01_USER);
-        libNtve_gf_ShowHideUnit(gv_nova, false);
-        libNtve_gf_PauseUnit(gv_nova, true);
-    }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     TriggerExecute(gt_XanthosInit, true, false);
     gv_dominionGorgons[1] = UnitFromId(453805648);
@@ -6695,8 +6696,8 @@ void gt_ObjectiveDestroyXanthosSubsystemsUpdate_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ObjectiveDestroyXanthosSubsystemsComplete_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_mufbbtjktkenwbdr;
-    int lv_swqgbtqhghuhxary;
+    int lv_ebmdjrtbyldpsced;
+    int lv_mtwibcdauwtlwima;
 
     // Automatic Variable Declarations
     const int auto04D9BCA5_ae = 3;
@@ -6721,9 +6722,9 @@ bool gt_ObjectiveDestroyXanthosSubsystemsComplete_Func (bool testConds, bool run
         Wait(1.0, c_timeGame);
     }
     TriggerExecute(gt_ObjectiveDestroyXanthosSubsystemsCreate, true, false);
-    lv_mufbbtjktkenwbdr = 0;
-    for ( ; ( (auto04D9BCA5_ai >= 0 && lv_mufbbtjktkenwbdr <= auto04D9BCA5_ae) || (auto04D9BCA5_ai < 0 && lv_mufbbtjktkenwbdr >= auto04D9BCA5_ae) ) ; lv_mufbbtjktkenwbdr += auto04D9BCA5_ai ) {
-        lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_xanthosSubsystemLocations[lv_mufbbtjktkenwbdr]);
+    lv_ebmdjrtbyldpsced = 0;
+    for ( ; ( (auto04D9BCA5_ai >= 0 && lv_ebmdjrtbyldpsced <= auto04D9BCA5_ae) || (auto04D9BCA5_ai < 0 && lv_ebmdjrtbyldpsced >= auto04D9BCA5_ae) ) ; lv_ebmdjrtbyldpsced += auto04D9BCA5_ai ) {
+        lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_xanthosSubsystemLocations[lv_ebmdjrtbyldpsced]);
     }
     lib5BD4895D_gf_AP_Core_setObjectiveCounter(gv_objectiveDestroyXanthosSubsystems, 4);
     lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveDestroyXanthosSubsystems);
@@ -6774,7 +6775,7 @@ void gt_ObjectiveProtectHyperionCreate_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ObjectiveProtectHyperionAttackStart_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_vjbmennvhkahuupi;
+    int lv_fkqallccrbcktvjw;
 
     // Automatic Variable Declarations
     // Variable Initialization

@@ -682,6 +682,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     unitgroup auto29E82DDA_g;
     int auto29E82DDA_u;
     unit auto29E82DDA_var;
+    unitgroup auto20C81495_g;
+    int auto20C81495_u;
+    unit auto20C81495_var;
     unitgroup auto1917BB37_g;
     int auto1917BB37_u;
     unit auto1917BB37_var;
@@ -731,6 +734,26 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2, "Terr", false);
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+    gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_enableNova;
+    if ((gv_novaEnabled == true)) {
+        libNCMI_gf_SetNovaHeroUnit(gv_nova);
+        libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
+        auto20C81495_g = UnitGroupFromId(1);
+        auto20C81495_u = UnitGroupCount(auto20C81495_g, c_unitCountAll);
+        for (;; auto20C81495_u -= 1) {
+            auto20C81495_var = UnitGroupUnitFromEnd(auto20C81495_g, auto20C81495_u);
+            if (auto20C81495_var == null) { break; }
+            UnitBehaviorRemoveCategory(auto20C81495_var, c_unitBehaviorFlagPermanent);
+            UnitBehaviorRemove(auto20C81495_var, "AP_BanelingExplode", c_unitBehaviorCountAll);
+            UnitRemove(auto20C81495_var);
+        }
+    }
+    else {
+        lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_01_USER);
+        libNtve_gf_ShowHideUnit(gv_nova, false);
+        libNtve_gf_PauseUnit(gv_nova, true);
+    }
     auto1917BB37_g = gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2;
     auto1917BB37_u = UnitGroupCount(auto1917BB37_g, c_unitCountAll);
     for (;; auto1917BB37_u -= 1) {
@@ -894,9 +917,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     point lv_tempPoint;
 
     // Automatic Variable Declarations
-    unitgroup auto20C81495_g;
-    int auto20C81495_u;
-    unit auto20C81495_var;
     unitgroup auto18F4B303_g;
     int auto18F4B303_u;
     unit auto18F4B303_var;
@@ -916,25 +936,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
 
     libNtve_gf_CreateUnitsAtPoint2(1, "AP_NovaHero", 0, gv_pLAYER_01_USER, PointFromId(1));
     gv_nova = UnitLastCreated();
-    if ((gv_novaEnabled == true)) {
-        libNCMI_gf_SetNovaHeroUnit(gv_nova);
-        libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
-        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
-        auto20C81495_g = UnitGroupFromId(1);
-        auto20C81495_u = UnitGroupCount(auto20C81495_g, c_unitCountAll);
-        for (;; auto20C81495_u -= 1) {
-            auto20C81495_var = UnitGroupUnitFromEnd(auto20C81495_g, auto20C81495_u);
-            if (auto20C81495_var == null) { break; }
-            UnitBehaviorRemoveCategory(auto20C81495_var, c_unitBehaviorFlagPermanent);
-            UnitBehaviorRemove(auto20C81495_var, "AP_BanelingExplode", c_unitBehaviorCountAll);
-            UnitRemove(auto20C81495_var);
-        }
-    }
-    else {
-        lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_01_USER);
-        libNtve_gf_ShowHideUnit(gv_nova, false);
-        libNtve_gf_PauseUnit(gv_nova, true);
-    }
     UnitRemove(UnitFromId(1633443306));
     UnitRemove(UnitFromId(1684455484));
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
@@ -6861,6 +6862,9 @@ bool gt_IntroQ_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueEnter();
+    while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
+        Wait(0.0625, c_timeGame);
+    }
     TriggerExecute(gt_IntroSetup, true, true);
     if ((libABFE498B_gv_aP_Triggers_skipCutscenes == false)) {
         TriggerExecute(gt_IntroCinematic, true, true);

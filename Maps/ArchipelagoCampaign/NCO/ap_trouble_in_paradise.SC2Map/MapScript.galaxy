@@ -1857,6 +1857,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(lv_group, "Terr", false);
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+    gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_enableNova;
     return true;
 }
 
@@ -1903,6 +1904,9 @@ bool gt_FactionSwapStartingUnits_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
+        Wait(0.0625, c_timeGame);
+    }
     auto54C815B4_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto54C815B4_val == "Zerg") {
         CreepModify(PointFromId(270), 6.0, true, false);
@@ -7904,6 +7908,9 @@ bool gt_IntroQ_Func (bool testConds, bool runActions) {
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueEnter();
     TriggerExecute(gt_IntroSetup, true, true);
+    while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
+        Wait(0.0625, c_timeGame);
+    }
     if ((libABFE498B_gv_aP_Triggers_skipCutscenes == false)) {
         TriggerExecute(gt_IntroCinematic, true, true);
         TriggerExecute(gt_IntroCinematicEnd, true, true);

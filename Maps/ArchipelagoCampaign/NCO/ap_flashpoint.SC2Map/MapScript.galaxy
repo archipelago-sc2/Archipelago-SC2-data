@@ -1980,6 +1980,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     unitgroup auto72CDCE5C_g;
     int auto72CDCE5C_u;
     unit auto72CDCE5C_var;
+    unitgroup autoD6EF89A7_g;
+    int autoD6EF89A7_u;
+    unit autoD6EF89A7_var;
     unitgroup autoFEFE7E94_g;
     int autoFEFE7E94_u;
     unit autoFEFE7E94_var;
@@ -2041,6 +2044,24 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(lv_group, "Terr", false);
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+    gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_enableNova;
+    if ((gv_novaEnabled == true)) {
+        libNCMI_gf_SetNovaHeroUnit(gv_artanis);
+        libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
+        autoD6EF89A7_g = UnitGroupFromId(5);
+        autoD6EF89A7_u = UnitGroupCount(autoD6EF89A7_g, c_unitCountAll);
+        for (;; autoD6EF89A7_u -= 1) {
+            autoD6EF89A7_var = UnitGroupUnitFromEnd(autoD6EF89A7_g, autoD6EF89A7_u);
+            if (autoD6EF89A7_var == null) { break; }
+            UnitBehaviorRemoveCategory(autoD6EF89A7_var, c_unitBehaviorFlagPermanent);
+            UnitBehaviorRemove(autoD6EF89A7_var, "AP_BanelingExplode", c_unitBehaviorCountAll);
+            UnitRemove(autoD6EF89A7_var);
+        }
+    }
+    else {
+        libNtve_gf_ShowHideUnit(gv_artanis, false);
+        libNtve_gf_PauseUnit(gv_artanis, true);
+    }
     while (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
         Wait(0.25, c_timeGame);
     }
@@ -2182,9 +2203,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     text lv_text;
 
     // Automatic Variable Declarations
-    unitgroup autoD6EF89A7_g;
-    int autoD6EF89A7_u;
-    unit autoD6EF89A7_var;
     unitgroup auto47F8335C_g;
     int auto47F8335C_u;
     unit auto47F8335C_var;
@@ -2201,23 +2219,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
 
     UnitCreate(1, "AP_NovaHero", 0, gv_pLAYER_01_USER, PointFromId(7), 45.0);
     gv_artanis = UnitLastCreated();
-    if ((gv_novaEnabled == true)) {
-        libNCMI_gf_SetNovaHeroUnit(gv_artanis);
-        libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
-        autoD6EF89A7_g = UnitGroupFromId(5);
-        autoD6EF89A7_u = UnitGroupCount(autoD6EF89A7_g, c_unitCountAll);
-        for (;; autoD6EF89A7_u -= 1) {
-            autoD6EF89A7_var = UnitGroupUnitFromEnd(autoD6EF89A7_g, autoD6EF89A7_u);
-            if (autoD6EF89A7_var == null) { break; }
-            UnitBehaviorRemoveCategory(autoD6EF89A7_var, c_unitBehaviorFlagPermanent);
-            UnitBehaviorRemove(autoD6EF89A7_var, "AP_BanelingExplode", c_unitBehaviorCountAll);
-            UnitRemove(autoD6EF89A7_var);
-        }
-    }
-    else {
-        libNtve_gf_ShowHideUnit(gv_artanis, false);
-        libNtve_gf_PauseUnit(gv_artanis, true);
-    }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     gv_zergStructuresRemaining = UnitGroupCount(UnitGroup(null, gv_pLAYER_02_ZERG, RegionEntireMap(), UnitFilter((1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive);
     gv_zergStructuresRemaining += UnitGroupCount(UnitGroup(null, gv_pLAYER_03_ZERG_BULLIES, RegionEntireMap(), UnitFilter((1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive);
@@ -6703,6 +6704,9 @@ bool gt_IntroQ_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueEnter();
+    while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
+        Wait(0.0625, c_timeGame);
+    }
     TriggerExecute(gt_IntroSetup, true, true);
     if ((libABFE498B_gv_aP_Triggers_skipCutscenes == false)) {
         TriggerExecute(gt_IntroCinematic, true, true);

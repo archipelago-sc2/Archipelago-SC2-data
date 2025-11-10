@@ -1205,7 +1205,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
-        gv_novaEnabled = false;
+        libABFE498B_gv_aP_Triggers_Option_enableNova = false;
         gf_APtech(1, 4);
     }
 
@@ -1232,6 +1232,9 @@ void gt_ArchInit_Init () {
 bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     string autoF6E2C1E9_val;
+    unitgroup auto2499E917_g;
+    int auto2499E917_u;
+    unit auto2499E917_var;
 
     // Actions
     if (!runActions) {
@@ -1257,6 +1260,24 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(1), "Terr", false);
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+    gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_enableNova;
+    if ((gv_novaEnabled == true)) {
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
+        auto2499E917_g = UnitGroupFromId(2);
+        auto2499E917_u = UnitGroupCount(auto2499E917_g, c_unitCountAll);
+        for (;; auto2499E917_u -= 1) {
+            auto2499E917_var = UnitGroupUnitFromEnd(auto2499E917_g, auto2499E917_u);
+            if (auto2499E917_var == null) { break; }
+            UnitRemove(auto2499E917_var);
+        }
+    }
+    else {
+        libNtve_gf_ShowHideUnit(gv_nova, false);
+        libNtve_gf_PauseUnit(gv_nova, true);
+        UnitBehaviorAdd(gv_nova, "DragStun", gv_nova, 1);
+        libNtve_gf_SendActorMessageToUnit(gv_nova, "SetOpacity");
+        lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_01_USER);
+    }
     return true;
 }
 
@@ -1610,9 +1631,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     unitgroup lv_cinematicSceneSettingUnits;
 
     // Automatic Variable Declarations
-    unitgroup auto2499E917_g;
-    int auto2499E917_u;
-    unit auto2499E917_var;
     unitgroup autoB5C31E77_g;
     int autoB5C31E77_u;
     unit autoB5C31E77_var;
@@ -1634,23 +1652,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     gv_nova = UnitFromId(395);
     libNCMI_gf_SetNovaHeroUnit(gv_nova);
     libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);
-    if ((gv_novaEnabled == true)) {
-        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
-        auto2499E917_g = UnitGroupFromId(2);
-        auto2499E917_u = UnitGroupCount(auto2499E917_g, c_unitCountAll);
-        for (;; auto2499E917_u -= 1) {
-            auto2499E917_var = UnitGroupUnitFromEnd(auto2499E917_g, auto2499E917_u);
-            if (auto2499E917_var == null) { break; }
-            UnitRemove(auto2499E917_var);
-        }
-    }
-    else {
-        libNtve_gf_ShowHideUnit(gv_nova, false);
-        libNtve_gf_PauseUnit(gv_nova, true);
-        UnitBehaviorAdd(gv_nova, "DragStun", gv_nova, 1);
-        libNtve_gf_SendActorMessageToUnit(gv_nova, "SetOpacity");
-        lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_01_USER);
-    }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     UnitGroupAdd(gv_outerBunkers, UnitFromId(340));
     UnitGroupAdd(gv_outerBunkers, UnitFromId(363));
@@ -6866,6 +6867,9 @@ bool gt_IntroQ_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueEnter();
+    while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
+        Wait(0.0625, c_timeGame);
+    }
     TriggerExecute(gt_IntroSetup, true, true);
     if ((libABFE498B_gv_aP_Triggers_skipCutscenes == false)) {
         TriggerExecute(gt_IntroCinematic, true, true);
@@ -7125,14 +7129,6 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     else {
         UnitIssueOrder(gv_nova, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
         UnitSetPosition(gv_nova, PointFromId(427), false);
-        if ((gv_novaEnabled == false)) {
-            libNtve_gf_ShowHideUnit(gv_nova, false);
-            libNtve_gf_PauseUnit(gv_nova, true);
-            UnitBehaviorAdd(gv_nova, "DragStun", gv_nova, 1);
-            libNtve_gf_SendActorMessageToUnit(gv_nova, "SetOpacity");
-            lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_01_USER);
-        }
-
         lv_fadeDuration = 1.0;
         CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoDefault(), 0.0, -1, 10, false);
         libNtve_gf_SwooshCamera(gv_pLAYER_01_USER, ((CameraInfoGetValue(CameraInfoDefault(), c_cameraValueDistance)) + 8.0), CameraInfoGetValue(CameraInfoDefault(), c_cameraValueDistance), PointFromId(426), lv_fadeDuration);
