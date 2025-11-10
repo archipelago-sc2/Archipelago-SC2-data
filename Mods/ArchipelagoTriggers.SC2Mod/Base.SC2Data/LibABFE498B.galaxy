@@ -26,6 +26,7 @@ void libABFE498B_InitVariables () {
     libABFE498B_InitVariables_completed = true;
 
     libABFE498B_gv_aP_Triggers_Option_gameSpeed = c_gameSpeedNormal;
+    libABFE498B_gv_aP_Triggers_Option_enableNova = true;
     libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Neut";
     libABFE498B_gv_aP_Triggers_isBuild = true;
     libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss = libABFE498B_gv_aP_Triggers_MapConfig_MISSION_NOT_PROTOSS;
@@ -9921,6 +9922,175 @@ void libABFE498B_gf_AP_Triggers_giveResearchCost (int lp_player, int lp_level) {
     }
 }
 
+void libABFE498B_gf_AP_Triggers_Debug_Tech (int lp_player, int lp_level) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((GameIsTestMap(false) == true)) {
+        TriggerExecute(libABFE498B_gt_AP_Triggers_techTreeInit, true, true);
+    }
+
+    if ((lp_level >= 0)) {
+        libABFE498B_gf_AP_Triggers_Terran_unlockMarine(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockZergling(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockAiurZealot(lp_player);
+    }
+
+    if ((lp_level >= 1)) {
+        libABFE498B_gf_AP_Triggers_Terran_unlockMarineProgressiveStimpack(lp_player, 1);
+        libABFE498B_gf_AP_Triggers_Terran_unlockMarauder(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockMedic(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockGoliath(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockNovaWeaponC20ACanisterRifle(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_ZerglingMetabolicBoost(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockRoach(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockHydralisk(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockSwarmQueen(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_KerriganKinteticBlast(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockZealotWhirlwind(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockStalkerShakuras(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSentryAiur(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockImmortalAiur(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockProgressiveProxyPylon(lp_player, 1);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockOrbitalStrike(lp_player);
+    }
+
+    if ((lp_level >= 2)) {
+        libABFE498B_gf_AP_Triggers_Terran_unlockThor(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockViking(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockVikingRipwaveMissiles(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockBanshee(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockBansheeShockwaveMissileBattery(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockAutomatedRefinery(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockOrbitalDepots(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockCommandCenterScannerSweep(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockNovaGadgetPulseGrenades(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockNovaApolloSuit(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockNovaBlink(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_RoachVile(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_RoachAdaptivePlating(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_HydraliskGroovedSpines(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_HydraliskResourceEfficiency(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_SwarmQueenResourceEfficiency(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockAberration(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockOverseer(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_AutomatedExtractor(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_OverlordImprovedOverlord(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockMutalisk(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_MutaliskViciousGlave(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_KerriganLeapingStrike(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_KerriganMend(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_KerriganSpawnBanelings(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSentinel(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSentinelResourceEfficiency(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockInstigator(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockInstigatorModernizedServos(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockEnergizer(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSentryFamilyCloakingModule(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockObserver(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockImmortalImprovedBarrier(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockOrbitalAssimilators(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockKhalaiIngenuity(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockReconstructionBeam(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockChronoSurge(lp_player);
+    }
+
+    if ((lp_level >= 3)) {
+        libABFE498B_gf_AP_Triggers_Terran_unlockBattlecruiser(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockSiegeTank(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockThorProgressiveHighImpactPayload(0, 0);
+        libABFE498B_gf_AP_Triggers_Terran_unlockMarineProgressiveStimpack(lp_player, 2);
+        libABFE498B_gf_AP_Triggers_Terran_unlockHellion(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockHellionHellbatAspect(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockHellbatProgressiveStimpack(lp_player, 2);
+        libABFE498B_gf_AP_Triggers_Terran_unlockMedicStabilizerMedpacks(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockMedicNanoProjectors(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockMedicAdaptiveMedpacks(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockCommandCenterReactor(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockCommandCenterMULE(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockTechReactor(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockMedivac(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockProgressiveRegenerativeBioSteel(lp_player, 2);
+        libABFE498B_gf_AP_Triggers_Terran_unlockNovaWeaponPlasmaRifle(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockNovaGadgetStimInfusion(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockNovaProgressiveCloak(lp_player, 2);
+        libABFE498B_gf_AP_Triggers_Zerg_ZerglingRaptor(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_ZerglingAdrenalOverload(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_ZerglingReconstitution(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockLurker(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_LurkerSeismicSpines(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_AberrationProgressiveBanelingLaunch(lp_player, 1);
+        libABFE498B_gf_AP_Triggers_Zerg_AberrationBanelingIncubation(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockUltralisk(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockInfestedMedic(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_TwinDrones(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_MalignantCreep(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_VespeneEfficiency(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_OverlordVentralSacs(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_KerriganChainReaction(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_KerriganHeroicFortitude(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_KerriganCrushingGrip(lp_player);
+        libABFE498B_gf_AP_Triggers_setKerriganPrimal(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockColossusPurifier(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockCarrierAiur(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockVoidRayShakuras(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockProbeWarpin(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockElderProbes(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockInstigatorReconstruction(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockEnergizerMobileChronoBeam(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockImmortalFamilySingularityCharge(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockColossusFireLance(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSentryFamilyShieldBatteryRapidRecharging(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockWarpPrism(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockProgressiveProxyPylon(lp_player, 2);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPurifierBeam(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockGuardianShell(lp_player);
+    }
+
+    if ((lp_level >= 4)) {
+        libABFE498B_gf_AP_Triggers_Terran_unlockBattlecruiserATXLaserBattery(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockSiegeTankGraduatingRange(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockSiegeTankShapedBlast(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockSiegeTankMaelstromRounds(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockMercenaryMunitions(lp_player);
+        libABFE498B_gf_AP_Triggers_Terran_unlockProgressiveRegenerativeBioSteel(lp_player, 3);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockTyrannozor(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_TyrannozorBarrageofSpikes(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_TyrannozorTyrantsProtection(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_TyrannozorHealingAdaptation(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_UltraliskTorrasque(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_ZerglingShreddingClaws(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_unlockEchidnaWorm(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_EchidnaWormOuroborosStrain(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_NydusWormFamilyJormungandrStrain(lp_player);
+        libABFE498B_gf_AP_Triggers_Zerg_NydusWormFamilyResourceEfficiency(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockImmortalFamilyAdvancedTargetingMechanics(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockVoidRayPrismaticRange(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockCarrierAiurRepairDrones(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockColossusPacificationProtocols(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockNexusOvercharge(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockMatrixOverload(lp_player);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockQuatro(lp_player);
+    }
+
+    libABFE498B_gf_AP_Triggers_Terran_unlockInfantryWeapon(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Terran_unlockInfantryArmor(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Terran_unlockShipWeapon(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Terran_unlockShipArmor(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Terran_unlockVehicleWeapon(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Terran_unlockVehicleArmor(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Zerg_unlockMeleeAttacks(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Zerg_unlockMissileAttacks(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Zerg_unlockGroundCarapace(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Zerg_unlockFlyerAttacks(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Zerg_unlockFlyerCarapace(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Protoss_unlockGroundWeapons(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Protoss_unlockGroundArmor(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Protoss_unlockAirWeapons(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Protoss_unlockAirArmor(lp_player, lp_level);
+    libABFE498B_gf_AP_Triggers_Protoss_unlockShields(lp_player, lp_level);
+    lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(lp_player, (lp_level * 10));
+}
+
 void libABFE498B_gf_AP_Triggers_Debug_reviveKerrigan (int lp_player) {
     // Variable Declarations
     unit lv_unit;
@@ -10186,7 +10356,7 @@ bool libABFE498B_gt_AP_Triggers_setOptions_Func (bool testConds, bool runActions
     string lv_takeOverAIAllies;
     string lv_soaOptions;
     string lv_missionOrder;
-    string lv_novaFallback;
+    string lv_novaEnabled;
     string lv_storyLevels;
     string lv_enableMorphling;
     string lv_overrideRace;
@@ -10212,7 +10382,7 @@ bool libABFE498B_gt_AP_Triggers_setOptions_Func (bool testConds, bool runActions
     lv_takeOverAIAllies = "";
     lv_soaOptions = "";
     lv_missionOrder = "";
-    lv_novaFallback = "";
+    lv_novaEnabled = "";
     lv_storyLevels = "";
     lv_enableMorphling = "";
     lv_overrideRace = "";
@@ -10239,7 +10409,7 @@ bool libABFE498B_gt_AP_Triggers_setOptions_Func (bool testConds, bool runActions
     lv_takeOverAIAllies = StringWord(EventChatMessage(false), 10);
     lv_soaOptions = StringWord(EventChatMessage(false), 11);
     lv_missionOrder = StringWord(EventChatMessage(false), 12);
-    lv_novaFallback = StringWord(EventChatMessage(false), 13);
+    lv_novaEnabled = StringWord(EventChatMessage(false), 13);
     lv_storyLevels = StringWord(EventChatMessage(false), 14);
     lv_enableMorphling = StringWord(EventChatMessage(false), 15);
     lv_overrideRace = StringWord(EventChatMessage(false), 16);
@@ -10259,7 +10429,7 @@ bool libABFE498B_gt_AP_Triggers_setOptions_Func (bool testConds, bool runActions
     libABFE498B_gv_aP_Triggers_Option_grantStoryTechAllowSubstitutes = StringEqual(lv_storyTech, "2", c_stringCase);
     libABFE498B_gv_aP_Triggers_Option_takeOverAIAllies = StringEqual(lv_takeOverAIAllies, "1", c_stringCase);
     libABFE498B_gv_aP_Triggers_Option_missionOrder = StringToInt(lv_missionOrder);
-    libABFE498B_gv_aP_Triggers_Option_novaFallback = StringEqual(lv_novaFallback, "1", c_stringCase);
+    libABFE498B_gv_aP_Triggers_Option_enableNova = StringEqual(lv_novaEnabled, "1", c_stringCase);
     libABFE498B_gv_aP_Triggers_Option_grantStoryLevels = StringToInt(lv_storyLevels);
     libABFE498B_gf_AP_Triggers_setRaceOverride(lv_overrideRace);
     libABFE498B_gf_AP_Triggers_setSoAOptions(StringToInt(lv_soaOptions));
@@ -10936,6 +11106,41 @@ void libABFE498B_gt_AP_Triggers_Debug_resetBase_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_grantTech
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_grantTech_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_level;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_level = StringToInt(StringWord(EventChatMessage(false), 2));
+    TextExpressionSetToken("Param/Expression/lib_ABFE498B_720449CE", "A", IntToText(lv_level));
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_720449CE"), true);
+    libABFE498B_gf_AP_Triggers_Debug_Tech(EventPlayer(), lv_level);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_grantTech_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_grantTech = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_grantTech_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_grantTech, c_playerAny, "-tech ", false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_Debug_reviveHeroes
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Func (bool testConds, bool runActions) {
@@ -11058,6 +11263,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Init();
     libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors_Init();
     libABFE498B_gt_AP_Triggers_Debug_resetBase_Init();
+    libABFE498B_gt_AP_Triggers_Debug_grantTech_Init();
     libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
