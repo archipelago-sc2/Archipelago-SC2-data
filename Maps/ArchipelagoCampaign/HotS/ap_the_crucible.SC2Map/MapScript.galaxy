@@ -4593,6 +4593,10 @@ bool gt_DefeatKerriganKilled_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut"))) {
+            return false;
+        }
+
         if (!((gv_gameOver == false))) {
             return false;
         }
@@ -5565,6 +5569,7 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
         UnitBehaviorAdd(gv_kerrigan, "AP_ImmortalShakurasAntiAirMissileDisableAttack", gv_kerrigan, 1);
     }
     else {
+        TriggerEnable(gt_DefeatKerriganKilled, true);
         UnitGroupAdd(lv_startingSelection, gv_kerrigan);
         lib15EF4C78_gf_SetHeroPanelUnit(1, gv_kerrigan, gv_pLAYER_01_USER);
     }
@@ -6533,6 +6538,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerEnable(gt_DefeatKerriganKilled, false);
     TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);
