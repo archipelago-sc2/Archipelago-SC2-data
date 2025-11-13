@@ -542,7 +542,7 @@ bool auto_gf_RescueDiamondback_TriggerFunc (bool testConds, bool runActions) {
     Wait(1.5, c_timeGame);
     UIAlertUnit("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/8DAA5783"), null, lp_diamondback);
     libNtve_gf_RescueUnit(lp_diamondback, gv_pLAYER_01_USER, true);
-    if ((TechTreeUpgradeCount(gv_pLAYER_01_USER, "AP_BurstCapacitors", c_techCountCompleteOnly) >= 1) && (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
+    if ((TechTreeUpgradeCount(gv_pLAYER_01_USER, "AP_BurstCapacitors", c_techCountCompleteOnly) >= 1)) {
         UnitBehaviorAdd(lp_diamondback, "AP_BurstCapacitorsDamageBuff", lp_diamondback, 1);
     }
 
@@ -3580,7 +3580,7 @@ bool gt_DiamondbackRescue_Func (bool testConds, bool runActions) {
         for (;; auto4AA30F92_u -= 1) {
             auto4AA30F92_var = UnitGroupUnitFromEnd(auto4AA30F92_g, auto4AA30F92_u);
             if (auto4AA30F92_var == null) { break; }
-            if ((UnitGroupCount(UnitGroup(null, gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(auto4AA30F92_var), 3.0), UnitFilter(0, 0, (1 << c_targetFilterAir) | (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) > 0)) {
+            if (((UnitGroupCount(UnitGroup(null, gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(auto4AA30F92_var), 3.0), UnitFilter((1 << c_targetFilterGround), 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) > 0))) {
                 if ((UnitGetCustomValue(auto4AA30F92_var, 0) < 1.0)) {
                     UnitSetCustomValue(auto4AA30F92_var, 0, 2.0);
                     gf_AwakenProtoss(auto4AA30F92_var);
