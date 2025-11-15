@@ -12632,6 +12632,21 @@
         <SubgroupPriority value="4"/>
         <EditorCategories value="ObjectType:Unit,ObjectFamily:Campaign"/>
     </CUnit>
+    <CUnit id="AP_MothershipRepairDrone" parent="AP_CarrierRepairDrone">
+        <AbilArray index="4" Link="AP_VoidSentryShieldRepair"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <EnergyRegenRate value="5.5625"/>
+    </CUnit>
+    <CUnit id="AP_ChronoDrone" parent="AP_CarrierRepairDrone">
+        <AbilArray index="4" Link="AP_ChronoDroneChronoBeam"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <EnergyRegenRate value="5.5625"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="AP_ChronoDroneChronoBeam" Type="AbilCmd" AbilCmd="AP_ChronoDroneChronoBeam,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+    </CUnit>
     <CUnit id="AP_Interceptor">
         <Description value="Button/Tooltip/AP_InterceptorUnit"/>
         <DeathRevealRadius value="3"/>
@@ -15985,8 +16000,8 @@
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="AP_RallyNexus,0" Row="1" Column="4"/>
             <LayoutButtons Face="AP_TimeWarp" Type="AbilCmd" AbilCmd="AP_TimeWarp,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_TimeWarp" Type="AbilCmd" AbilCmd="AP_TimeWarp,0" Row="2" Column="0"/>
-<!--            <LayoutButtons Face="AP_Mothership" Type="AbilCmd" AbilCmd="AP_NexusTrainMothership,0" Row="1" Column="0"/>-->
-<!--            <LayoutButtons Face="AP_MothershipCore" Type="AbilCmd" AbilCmd="AP_NexusTrainMothershipCore,0" Row="1" Column="0"/>-->
+            <LayoutButtons Face="AP_MothershipCoreAiur" Type="AbilCmd" AbilCmd="AP_NexusTrainMothershipCore,0" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_MothershipCorePurifier" Type="AbilCmd" AbilCmd="AP_NexusTrainMothershipCore,1" Row="1" Column="1"/>
             <LayoutButtons Face="AttackBuildingPFort" Type="AbilCmd" AbilCmd="AP_attackProtossBuilding,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="AP_stopProtossBuilding,Stop" Row="0" Column="3"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="AP_RallyNexus,1" Row="1" Column="4"/>
@@ -16024,6 +16039,25 @@
     <CUnit id="AP_MothershipCoreWeaponWeapon" parent="MISSILE">
         <Race value="Prot"/>
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+   <CUnit id="AP_RepulsorCannonWeapon" parent="MISSILE">
+        <Race value="Prot"/>
+        <Mover value="AP_MothershipCoreWeapon"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CUnit id="AP_MothershipPylonPowerUnit">
+        <BehaviorArray Link="AP_PowerRedirectionPowerSource"/>
+        <BehaviorArray Link="Unrepairable"/>
+        <BehaviorArray Link="Unmoved"/>
+        <BehaviorArray Link="AP_MothershipPylonPowerTimer"/>
+        <MinimapRadius value="0"/>
+        <Sight value="0"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <FlagArray index="Unstoppable" value="1"/>
     </CUnit>
     <CUnit id="AP_ArbiterMP">
         <Description value="Button/Tooltip/AP_Arbiter"/>
@@ -21444,6 +21478,7 @@
         <EditorCategories value="ObjectFamily:Campaign,ObjectType:Projectile"/>
     </CUnit>
     <CUnit id="AP_SOAMothershipv4">
+        <Subtitle value="UnitSubtitle/AP_SOAMothershipv4"/>
         <Description value="Button/Tooltip/AP_MothershipTaldarim"/>
         <DeathRevealRadius value="3"/>
         <Facing value="94.9987"/>
@@ -21490,25 +21525,76 @@
         <AbilArray Link="AP_SOAMothershipLineAttack"/>
         <AbilArray Link="AP_VoidSentryBlackHole"/>
         <AbilArray Link="AP_SOAMothershipBlink"/>
+        <AbilArray Link="AP_SummonDeathFleet"/>
+        <AbilArray Link="AP_MothershipTaldarimHangar"/>
+        <!--- Note: War Council Nerf relies on AP_AutoMorphToMothershipTaldarim to be index 8 and AP_DisplayPowerFieldMothership to be index 0 -->
+        <AbilArray Link="AP_AutoMorphToMothershipTaldarim"/>
+        <AbilArray Link="AP_HangarQueue5"/>
         <AbilArray Link="Warpable"/>
         <AbilArray Link="ProgressRally"/>
-        <AbilArray Link="AP_AutoMorphToMothershipTaldarim"/>
+        <AbilArray Link="AP_TimeFieldTaldarim"/>
+        <AbilArray Link="AP_SOAMothershipBlinkGlobal"/>
+        <AbilArray Link="AP_MothershipTaldarimAuxiliaryOneTimeInstall"/>
+        <AbilArray Link="AP_TaldarimMothershipInstalls"/>
+        <AbilArray Link="AP_MothershipTaldarimBaseAttackSwap"/>
         <BehaviorArray Link="AP_DisplayPowerFieldMothership"/>
         <BehaviorArray Link="AP_MothershipTaldarimTurretDisabler"/>
         <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
         <BehaviorArray Link="AP_MothershipTaldarimMovementNerfOutsidePower"/>
-        <WeaponArray Link="AP_SOAMothershipv4Weapon" Turret="FreeRotate"/>
+        <BehaviorArray Link="AP_ThermalLanceInstalled"/>
+        <BehaviorArray Link="AP_BlackHoleInstalled"/>
+        <BehaviorArray Link="AP_EnableMothershipTaldarimAttack"/>
+        <BehaviorArray Link="AP_EnableUpgradedMothershipTaldarimAttack"/>
+        <BehaviorArray Link="AP_TaldarimMothershipDeathHeal"/>
+        <BehaviorArray Link="AP_TaldarimMothershipGroundSlowAura"/>
         <WeaponArray Turret="AP_MothershipRotate"/>
+        <WeaponArray Link="AP_MothershipTaldarimInterceptorLaunch"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
-            <LayoutButtons Face="AP_MothershipTaldarimIntegratedPower" Type="Passive" Requirements="AP_HaveMothershipTaldarimIntegratedPower" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_SOAMothershipLineAttack" Type="AbilCmd" AbilCmd="AP_SOAMothershipLineAttack,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_SummonDeathFleet" Type="AbilCmd" AbilCmd="AP_SummonDeathFleet,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_MothershipTaldarimIntegratedPower" Type="Passive" Requirements="AP_HaveMothershipTaldarimIntegratedPower" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_FrontloadedPower" Type="Passive" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_InterceptorMothershipTaldarim" Type="AbilCmd" AbilCmd="AP_MothershipTaldarimHangar,0" Row="2" Column="3"/>
+            <LayoutButtons Face="AP_HangarInstallTaldarim" Type="AbilCmd" AbilCmd="AP_MothershipAuxiliaryOneTimeInstall,3" Row="2" Column="3"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_HangarQueue5,0" Row="2" Column="4"/>
             <LayoutButtons Face="AP_VoidSentryBlackHole" Type="AbilCmd" AbilCmd="AP_VoidSentryBlackHole,0" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_SOAMothershipLineAttack" Type="AbilCmd" AbilCmd="AP_SOAMothershipLineAttack,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_TimeFieldTaldarim" Type="AbilCmd" AbilCmd="AP_TimeFieldTaldarim,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_WormholeTransit" Type="AbilCmd" AbilCmd="AP_SOAMothershipBlinkGlobal,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_SOAMothershipBlink" Type="AbilCmd" AbilCmd="AP_SOAMothershipBlink,0" Row="2" Column="2"/>
+            <LayoutButtons Face="AP_MothershipDamageTaldarim" Type="Submenu" SubmenuCardId="MD" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_MothershipUtilityTaldarim" Type="Submenu" SubmenuCardId="MU" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_MothershipAuxiliaryTaldarim" Type="Submenu" SubmenuCardId="MA" SubmenuIsSticky="1" Row="1" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MD">
+            <LayoutButtons Face="AP_SOAMothershipLineAttackInstall" Type="AbilCmd" AbilCmd="AP_TaldarimMothershipInstalls,0" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_SummonDeathFleetInstall" Type="AbilCmd" AbilCmd="AP_TaldarimMothershipInstalls,1" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_SummonDeathFleet" Type="Passive" Requirements="AP_SummonDeathFleetCooldown" Behavior="AP_SummonDeathFleetCooldown" Row="1" Column="1"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MA">
+            <LayoutButtons Face="AP_InterceptorMothershipTaldarim" Type="AbilCmd" AbilCmd="AP_MothershipTaldarimHangar,0" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_HangarInstallTaldarim" Type="AbilCmd" AbilCmd="AP_MothershipTaldarimAuxiliaryOneTimeInstall,3" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_TaldarimMothershipFastAttack" Type="Passive" Requirements="AP_HaveTaldarimMothershipFastAttack" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_TaldarimMothershipFastAttackInstall" Type="AbilCmd" AbilCmd="AP_MothershipTaldarimAuxiliaryOneTimeInstall,1" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_TaldarimMothershipGroundSlow" Type="Passive" Requirements="AP_HaveTaldarimMothershipGroundSlow" Row="0" Column="2"/>
+            <LayoutButtons Face="AP_TaldarimMothershipGroundSlowInstall" Type="AbilCmd" AbilCmd="AP_MothershipTaldarimAuxiliaryOneTimeInstall,0" Row="0" Column="2"/>
+            <LayoutButtons Face="AP_TaldarimMothershipDeathHeal" Type="Passive" Requirements="AP_HaveTaldarimMothershipDeathHeal" Row="0" Column="3"/>
+            <LayoutButtons Face="AP_TaldarimMothershipDeathHealInstall" Type="AbilCmd" AbilCmd="AP_MothershipTaldarimAuxiliaryOneTimeInstall,2" Row="0" Column="3"/>
+            <LayoutButtons Face="AP_MothershipTaldarimBaseAttackEnable" Type="AbilCmd" AbilCmd="AP_MothershipTaldarimBaseAttackSwap,On" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_MothershipTaldarimBaseAttackDisable" Type="AbilCmd" AbilCmd="AP_MothershipTaldarimBaseAttackSwap,Off" Row="1" Column="1"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MU">
+            <LayoutButtons Face="AP_VoidSentryBlackHoleInstall" Type="AbilCmd" AbilCmd="AP_TaldarimMothershipInstalls,2" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_TimeFieldTaldarimInstall" Type="AbilCmd" AbilCmd="AP_TaldarimMothershipInstalls,3" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_WormholeTransitInstall" Type="AbilCmd" AbilCmd="AP_TaldarimMothershipInstalls,4" Row="0" Column="2"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="1.375"/>
         <SeparationRadius value="1.375"/>
@@ -21536,6 +21622,441 @@
     <CUnit id="AP_MothershipTaldarim" parent="AP_SOAMothershipv4">
         <AbilArray index="8" Link=""/>
         <BehaviorArray index="0" Link=""/>
+    </CUnit>
+    <CUnit id="AP_MothershipAiur">
+        <Subtitle value="UnitSubtitle/AP_MothershipAiur"/>
+        <Description value="Button/Tooltip/AP_MothershipAiur"/>
+        <DeathRevealRadius value="3"/>
+        <Facing value="94.9987"/>
+        <Race value="Prot"/>
+        <Mob value="Campaign"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <PlaneArray index="Air" value="1"/>
+        <Collide index="Flying" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Psionic" value="1"/>
+        <Attributes index="Massive" value="1"/>
+        <LifeStart value="350"/>
+        <LifeMax value="350"/>
+        <LifeArmor value="2"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossBuildingPlating"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <EnergyRegenRate value="0.5625"/>
+        <ShieldsStart value="350"/>
+        <ShieldsMax value="350"/>
+        <ShieldRegenDelay value="10"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Mover value="Fly"/>
+        <Speed value="1.4062"/>
+        <Acceleration value="1.375"/>
+        <Deceleration value="1"/>
+        <Sight value="14"/>
+        <Height value="3.75"/>
+        <VisionHeight value="4"/>
+        <Food value="-8"/>
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="400"/>
+        <CostResource index="Vespene" value="400"/>
+        <AttackTargetPriority value="20"/>
+        <KillXP value="50"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="ProgressRally"/>
+        <AbilArray Link="AP_RevitalizeShields"/>
+        <AbilArray Link="AP_MothershipDummyHangar"/>
+        <AbilArray Link="AP_BatteryOverchargeUpgrade"/>
+        <AbilArray Link="AP_AstralRestoration"/>
+        <AbilArray Link="AP_AiurMothershipBlackHole"/>
+        <AbilArray Link="AP_TimeFieldAiur"/>
+        <AbilArray Link="AP_MothershipNexusRecall"/>
+        <AbilArray Link="AP_MothershipAiurHangar"/>
+        <AbilArray Link="AP_AiurMothershipInstalls"/>
+        <AbilArray Link="AP_HangarQueue5"/>
+        <AbilArray Link="AP_MothershipAiurAuxiliaryOneTimeInstall"/>
+        <BehaviorArray Link="AP_MothershipTaldarimTurretDisabler"/>
+        <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
+        <BehaviorArray Link="AP_MothershipAiurCloakingField"/>
+        <BehaviorArray Link="AP_BatteryOverchargeInstalled"/>
+        <BehaviorArray Link="AP_BlackHoleInstalled"/>
+        <WeaponArray Link="AP_AiurMothershipWeapon" Turret="FreeRotate"/>
+        <WeaponArray Turret="AP_MothershipRotate"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_AiurMothershipBlackHole" Type="AbilCmd" AbilCmd="AP_AiurMothershipBlackHole,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_AstralRestoration" Type="AbilCmd" AbilCmd="AP_AstralRestoration,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_MothershipAiurShieldArmorAura" Type="Passive" Requirements="AP_HaveMothershipAiurShieldArmorAura" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_TimeFieldAiur" Type="AbilCmd" AbilCmd="AP_TimeFieldAiur,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_RevitalizeShields" Type="AbilCmd" AbilCmd="AP_RevitalizeShields,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_BatteryOvercharge" Type="AbilCmd" AbilCmd="AP_BatteryOverchargeUpgrade,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_HangarInstallAiur" Type="AbilCmd" AbilCmd="AP_MothershipAiurAuxiliaryOneTimeInstall,5" Row="2" Column="3"/>
+            <LayoutButtons Face="AP_MothershipCoreNexusRecall" Type="AbilCmd" AbilCmd="AP_MothershipNexusRecall,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_MothershipCoreMassRecall" Type="AbilCmd" AbilCmd="AP_MothershipMassRecall,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_CloakingFieldMothership" Type="Passive" Row="2" Column="2"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_HangarQueue5,0" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_MothershipDamageAiur" Type="Submenu" SubmenuCardId="MD" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_MothershipUtilityAiur" Type="Submenu" SubmenuCardId="MU" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_MothershipAuxiliaryAiur" Type="Submenu" SubmenuCardId="MA" SubmenuIsSticky="1" Row="1" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MD">
+            <LayoutButtons Face="AP_RevitalizeShieldsInstall" Type="AbilCmd" AbilCmd="AP_AiurMothershipInstalls,0" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_BatteryOverchargeInstall" Type="AbilCmd" AbilCmd="AP_AiurMothershipInstalls,1" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_AstralRestorationInstall" Type="AbilCmd" AbilCmd="AP_AiurMothershipInstalls,2" Row="0" Column="2"/>
+            <LayoutButtons Face="AP_AstralRestoration" Type="Passive" Requirements="AP_AstralRestorationCooldown" Behavior="AP_AstralRestorationCooldown" Row="1" Column="2"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MA">
+            <LayoutButtons Face="AP_MothershipRepairDrones" Type="Passive" Requirements="AP_HaveMothershipHangarAiurInstalled" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_MothershipRepairDronesInstall" Type="AbilCmd" AbilCmd="AP_MothershipAiurAuxiliaryOneTimeInstall,3" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_AiurMothershipShieldRestore" Type="Passive" Requirements="AP_HaveAiurMothershipShieldRestore" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_AiurMothershipShieldRestoreInstall" Type="AbilCmd" AbilCmd="AP_MothershipAiurAuxiliaryOneTimeInstall,1" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_AiurMothershipFeedback" Type="Passive" Requirements="AP_HaveAiurMothershipFeedback" Row="0" Column="2"/>
+            <LayoutButtons Face="AP_AiurMothershipFeedbackInstall" Type="AbilCmd" AbilCmd="AP_MothershipAiurAuxiliaryOneTimeInstall,0" Row="0" Column="2"/>
+            <LayoutButtons Face="AP_AiurMothershipEnergyRegenAura" Type="Passive" Requirements="AP_HaveAiurMothershipEnergyRegenAura" Row="0" Column="3"/>
+            <LayoutButtons Face="AP_AiurMothershipEnergyRegenAuraInstall" Type="AbilCmd" AbilCmd="AP_MothershipAiurAuxiliaryOneTimeInstall,2" Row="0" Column="3"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MU">
+            <LayoutButtons Face="AP_MothershipAiurBlackHoleInstall" Type="AbilCmd" AbilCmd="AP_AiurMothershipInstalls,3" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_TimeFieldAiurInstall" Type="AbilCmd" AbilCmd="AP_AiurMothershipInstalls,4" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_MothershipNexusRecallInstall" Type="AbilCmd" AbilCmd="AP_AiurMothershipInstalls,5" Row="0" Column="2"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <Radius value="1.375"/>
+        <SeparationRadius value="1.375"/>
+        <ScoreMake value="800"/>
+        <ScoreKill value="800"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="50"/>
+        <MinimapRadius value="1.375"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:Campaign"/>
+        <GlossaryCategory value="Unit/Category/ProtossUnits"/>
+        <GlossaryPriority value="190"/>
+        <GlossaryStrongArray value="Marauder"/>
+        <GlossaryStrongArray value="Roach"/>
+        <GlossaryStrongArray value="Zealot"/>
+        <GlossaryWeakArray value="VikingFighter"/>
+        <GlossaryWeakArray value="Corruptor"/>
+        <GlossaryWeakArray value="VoidRay"/>
+        <HotkeyCategory value="Unit/Category/AP_ProtossUnitsAir"/>
+    </CUnit>
+    <CUnit id="AP_MothershipPurifier">
+        <Subtitle value="UnitSubtitle/AP_MothershipPurifier"/>
+        <Description value="Button/Tooltip/AP_MothershipPurifier"/>
+        <DeathRevealRadius value="3"/>
+        <Facing value="94.9987"/>
+        <Race value="Prot"/>
+        <Mob value="Campaign"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <PlaneArray index="Air" value="1"/>
+        <Collide index="Flying" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Psionic" value="1"/>
+        <Attributes index="Massive" value="1"/>
+        <LifeStart value="575"/>
+        <LifeMax value="575"/>
+        <LifeArmor value="2"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossBuildingPlating"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <EnergyRegenRate value="0.5625"/>
+        <ShieldsStart value="575"/>
+        <ShieldsMax value="575"/>
+        <ShieldRegenDelay value="10"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Mover value="Fly"/>
+        <Speed value="1.4062"/>
+        <Acceleration value="1.375"/>
+        <Deceleration value="1"/>
+        <Sight value="14"/>
+        <Height value="3.75"/>
+        <VisionHeight value="4"/>
+        <Food value="-9"/>
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="650"/>
+        <CostResource index="Vespene" value="650"/>
+        <AttackTargetPriority value="20"/>
+        <KillXP value="50"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="AP_PlanetCracker"/>
+        <AbilArray Link="AP_OverloadWeaponSystems"/>
+        <AbilArray Link="AP_PurifierMothershipBlackHole"/>
+        <AbilArray Link="AP_MothershipDummyHangar"/>
+        <AbilArray Link="AP_MothershipPurifierHangar"/>
+        <AbilArray Link="AP_AutoMorphToMothershipPurifierPowerSource"/>
+        <AbilArray Link="AP_PurifierMothershipBlackHole"/>
+        <AbilArray Link="AP_PurifierMothershipInstalls"/>
+        <AbilArray Link="AP_MothershipPurifierAuxiliaryOneTimeInstall"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="AP_PowerRedirectionUpgrade"/>
+        <AbilArray Link="ProgressRally"/>
+        <AbilArray Link="AP_TimeFieldPurifier"/>
+        <AbilArray Link="AP_HangarQueue5"/>
+        <AbilArray Link="AP_MothershipMassRecall"/>
+        <BehaviorArray Link="AP_MothershipTaldarimTurretDisabler"/>
+        <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
+        <BehaviorArray Link="AP_PurifierMothershipAttackSpeedBoostAura"/>
+        <BehaviorArray Link="AP_PowerRedirectionInstalled"/>
+        <BehaviorArray Link="AP_BlackHoleInstalled"/>
+        <WeaponArray Link="AP_PurifierMothershipWeapon" Turret="FreeRotate"/>
+        <WeaponArray Turret="AP_MothershipRotate"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_PurifierMothershipBlackHole" Type="AbilCmd" AbilCmd="AP_PurifierMothershipBlackHole,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_TimeFieldPurifier" Type="AbilCmd" AbilCmd="AP_TimeFieldPurifier,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_HangarInstallPurifier" Type="AbilCmd" AbilCmd="AP_MothershipAuxAP_HaveAiurMothershipEnergyRegenAuraiaryOneTimeInstall,4" Row="2" Column="3"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_HangarQueue5,0" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_MothershipCoreMassRecall" Type="AbilCmd" AbilCmd="AP_MothershipMassRecall,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_PlanetCracker" Type="AbilCmd" AbilCmd="AP_PlanetCracker,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_PowerRedirectionUpgrade" Type="AbilCmd" AbilCmd="AP_PowerRedirectionUpgrade,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_MobilePowerField" Type="Passive" Requirements="AP_HaveMothershipPurifierPowerSource" Row="2" Column="2"/>
+            <LayoutButtons Face="AP_OverloadWeaponSystems" Type="AbilCmd" AbilCmd="AP_OverloadWeaponSystems,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_MothershipUtilityPurifier" Type="Submenu" SubmenuCardId="MU" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_MothershipDamagePurifier" Type="Submenu" SubmenuCardId="MD" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_MothershipAuxiliaryPurifier" Type="Submenu" SubmenuCardId="MA" SubmenuIsSticky="1" Row="1" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MD">
+            <LayoutButtons Face="AP_OverloadWeaponSystemsInstall" Type="AbilCmd" AbilCmd="AP_PurifierMothershipInstalls,0" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_PlanetCrackerInstall" Type="AbilCmd" AbilCmd="AP_PurifierMothershipInstalls,2" Row="0" Column="2"/>
+            <LayoutButtons Face="AP_PlanetCracker" Type="Passive" Requirements="AP_PlanetCrackerCooldown" Behavior="AP_PlanetCrackerCooldown" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_PowerRedirectionInstall" Type="AbilCmd" AbilCmd="AP_PurifierMothershipInstalls,1" Row="0" Column="0"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MA">
+            <LayoutButtons Face="AP_MothershipChronoDrones" Type="Passive" Requirements="AP_HaveMothershipHangarPurifierInstalled" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_MothershipChronoDronesInstall" Type="AbilCmd" AbilCmd="AP_MothershipPurifierAuxiliaryOneTimeInstall,3" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_PurifierMothershipDebuff" Type="Passive" Requirements="AP_HavePurifierMothershipDebuff" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_PurifierMothershipDebuffInstall" Type="AbilCmd" AbilCmd="AP_MothershipPurifierAuxiliaryOneTimeInstall,0" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_PurifierMothershipShielding" Type="Passive" Requirements="AP_HavePurifierMothershipShielding" Row="0" Column="2"/>
+            <LayoutButtons Face="AP_PurifierMothershipShieldingInstall" Type="AbilCmd" AbilCmd="AP_MothershipPurifierAuxiliaryOneTimeInstall,1" Row="0" Column="2"/>
+            <LayoutButtons Face="AP_PurifierMothershipAttackSpeedBoost" Type="Passive" Requirements="AP_HavePurifierMothershipAttackSpeedBoost" Row="0" Column="3"/>
+            <LayoutButtons Face="AP_PurifierMothershipAttackSpeedBoostInstall" Type="AbilCmd" AbilCmd="AP_MothershipPurifierAuxiliaryOneTimeInstall,2" Row="0" Column="3"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <CardLayouts CardId="MU">
+            <LayoutButtons Face="AP_MothershipPurifierBlackHoleInstall" Type="AbilCmd" AbilCmd="AP_PurifierMothershipInstalls,3" Row="0" Column="0"/>
+            <LayoutButtons Face="AP_TimeFieldPurifierInstall" Type="AbilCmd" AbilCmd="AP_PurifierMothershipInstalls,4" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_MothershipMassRecallInstall" Type="AbilCmd" AbilCmd="AP_PurifierMothershipInstalls,5" Row="0" Column="2"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <Radius value="1.375"/>
+        <SeparationRadius value="1.375"/>
+        <ScoreMake value="800"/>
+        <ScoreKill value="800"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="50"/>
+        <MinimapRadius value="1.375"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:Campaign"/>
+        <GlossaryCategory value="Unit/Category/ProtossUnits"/>
+        <GlossaryPriority value="190"/>
+        <GlossaryStrongArray value="Marauder"/>
+        <GlossaryStrongArray value="Roach"/>
+        <GlossaryStrongArray value="Zealot"/>
+        <GlossaryWeakArray value="VikingFighter"/>
+        <GlossaryWeakArray value="Corruptor"/>
+        <GlossaryWeakArray value="VoidRay"/>
+        <HotkeyCategory value="Unit/Category/AP_ProtossUnitsAir"/>
+    </CUnit>
+    <CUnit id="AP_MothershipPurifierPowerSource" parent="AP_MothershipPurifier">
+        <AbilArray index="8" Link=""/>
+        <BehaviorArray Link="AP_MothershipPurifierPowerSource"/>
+        <BehaviorArray Link="AP_MatrixOverload"/>
+    </CUnit>
+    <CUnit id="AP_MothershipCoreAiur">
+        <Subtitle value="UnitSubtitle/AP_MothershipAiur"/>
+        <Description value="Button/Tooltip/AP_MothershipCoreAiur"/>
+        <DeathRevealRadius value="3"/>
+        <Facing value="94.9987"/>
+        <Race value="Prot"/>
+        <Mob value="Campaign"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <PlaneArray index="Air" value="1"/>
+        <Collide index="Flying" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Psionic" value="1"/>
+        <LifeStart value="120"/>
+        <LifeMax value="120"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossBuildingPlating"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <EnergyRegenRate value="0.5625"/>
+        <ShieldsStart value="60"/>
+        <ShieldsMax value="60"/>
+        <ShieldRegenDelay value="10"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Mover value="Fly"/>
+        <Speed value="2.25"/>
+        <Acceleration value="2"/>
+        <Deceleration value="2"/>
+        <Sight value="11"/>
+        <Height value="3.75"/>
+        <VisionHeight value="4"/>
+        <Food value="-2"/>
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Vespene" value="100"/>
+        <AttackTargetPriority value="20"/>
+        <KillXP value="50"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="AP_TimeFieldAiurCore"/>
+        <AbilArray Link="AP_BatteryOvercharge"/>
+        <AbilArray Link="AP_MothershipCoreNexusRecall"/>
+        <AbilArray Link="AP_MorphToMothershipAiur"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="ProgressRally"/>
+        <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
+        <WeaponArray Link="AP_RepulsorCannon" Turret="AP_MothershipCoreTurret"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_MothershipAiur" Type="AbilCmd" AbilCmd="AP_MorphToMothershipAiur,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_MorphToMothershipAiur,Cancel" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_TimeFieldAiurCore" Type="AbilCmd" AbilCmd="AP_TimeFieldAiurCore,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_BatteryOvercharge" Type="AbilCmd" AbilCmd="AP_BatteryOvercharge,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_MothershipCoreNexusRecall" Type="AbilCmd" AbilCmd="AP_MothershipCoreNexusRecall,Execute" Row="2" Column="2"/>
+        </CardLayouts>
+        <Radius value="0.75"/>
+        <SeparationRadius value="0.75"/>
+        <ScoreMake value="800"/>
+        <ScoreKill value="800"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="44"/>
+        <MinimapRadius value="0.75"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:Campaign"/>
+        <GlossaryCategory value="Unit/Category/ProtossUnits"/>
+        <GlossaryPriority value="190"/>
+        <GlossaryStrongArray value="Marauder"/>
+        <GlossaryStrongArray value="Roach"/>
+        <GlossaryStrongArray value="Zealot"/>
+        <GlossaryWeakArray value="VikingFighter"/>
+        <GlossaryWeakArray value="Corruptor"/>
+        <GlossaryWeakArray value="VoidRay"/>
+        <HotkeyCategory value="Unit/Category/AP_ProtossUnitsAir"/>
+    </CUnit>
+    <CUnit id="AP_MothershipCorePurifier">
+        <Subtitle value="UnitSubtitle/AP_MothershipPurifier"/>
+        <Description value="Button/Tooltip/AP_MothershipCorePurifier"/>
+        <DeathRevealRadius value="3"/>
+        <Facing value="94.9987"/>
+        <Race value="Prot"/>
+        <Mob value="Campaign"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <PlaneArray index="Air" value="1"/>
+        <Collide index="Flying" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Psionic" value="1"/>
+        <LifeStart value="120"/>
+        <LifeMax value="120"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossBuildingPlating"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <EnergyRegenRate value="0.5625"/>
+        <ShieldsStart value="120"/>
+        <ShieldsMax value="120"/>
+        <ShieldRegenDelay value="10"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Mover value="Fly"/>
+        <Speed value="2.25"/>
+        <Acceleration value="2"/>
+        <Deceleration value="2"/>
+        <Sight value="11"/>
+        <Height value="3.75"/>
+        <VisionHeight value="4"/>
+        <Food value="-3"/>
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="150"/>
+        <AttackTargetPriority value="20"/>
+        <KillXP value="50"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="AP_TimeFieldPurifierCore"/>
+        <AbilArray Link="AP_PowerRedirection"/>
+        <AbilArray Link="AP_MothershipCoreMassRecall"/>
+        <AbilArray Link="AP_MorphToMothershipPurifier"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="ProgressRally"/>
+        <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
+        <WeaponArray Link="AP_MothershipCorePurifierWeapon" Turret="AP_MothershipCoreTurret"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_MothershipPurifier" Type="AbilCmd" AbilCmd="AP_MorphToMothershipPurifier,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_MorphToMothershipPurifier,Cancel" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_TimeFieldPurifierCore" Type="AbilCmd" AbilCmd="AP_TimeFieldPurifierCore,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_PowerRedirection" Type="AbilCmd" AbilCmd="AP_PowerRedirection,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_MothershipCoreMassRecall" Type="AbilCmd" AbilCmd="AP_MothershipCoreMassRecall,Execute" Row="2" Column="2"/>
+        </CardLayouts>
+        <Radius value="0.75"/>
+        <SeparationRadius value="0.75"/>
+        <ScoreMake value="800"/>
+        <ScoreKill value="800"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="44"/>
+        <MinimapRadius value="0.75"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:Campaign"/>
+        <GlossaryCategory value="Unit/Category/ProtossUnits"/>
+        <GlossaryPriority value="190"/>
+        <GlossaryStrongArray value="Marauder"/>
+        <GlossaryStrongArray value="Roach"/>
+        <GlossaryStrongArray value="Zealot"/>
+        <GlossaryWeakArray value="VikingFighter"/>
+        <GlossaryWeakArray value="Corruptor"/>
+        <GlossaryWeakArray value="VoidRay"/>
+        <HotkeyCategory value="Unit/Category/AP_ProtossUnitsAir"/>
+    </CUnit>
+    <CUnit id="AP_TaldarimMothershipDeathHealMissle" parent="MISSILE">
+        <Race value="Prot"/>
+        <Mover value="AP_AlarakSoulAbsorptionDummyAttackMissile"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Campaign"/>
+        <FlagArray index="Invulnerable" value="1"/>
+    </CUnit>
+    <CUnit id="AP_TaldarimMothershipDeathHealDummyAttackMissile" parent="MISSILE_INVULNERABLE">
+        <Race value="Prot"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Campaign"/>
     </CUnit>
     <CUnit id="AP_Reaver">
         <DeathRevealRadius value="3"/>
