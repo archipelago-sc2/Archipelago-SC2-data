@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
     <CActorAction id="NovaWeaponCanisterRifleAttackCloaked">
         <LaunchSound value="Nova_SniperRifle_AttackLaunch_BoomySweetenerTailSound"/>
@@ -9,4 +9,75 @@
     <CActorAction id="NovaWeaponCanisterRifleSnipeAttack">
         <LaunchSound value="Nova_Snipe_TailExterior"/>
     </CActorAction>
+    <CActorModel id="AP_ZerglingNibbleFire" parent="ModelAddition">
+        <EditorCategories value=""/>
+        <On index="1" Terms="ActorOrphan" Send="TimerSet 5.000000"/>
+        <On Terms="TimerExpired" Send="Destroy"/>
+        <Scale value="2.000000,2.000000,0.700000"/>
+    </CActorModel>
+    <CActorMissile id="AP_ZerglingNibbleMissile" parent="GenericAttackMissile" unitName="AP_ZerglingNibbleMissile">
+        <EditorCategories value=""/>
+        <On index="1" Terms="UnitBirth" Send="AnimBracketStart Lifetime IGNORE Walk"/>
+        <On Terms="ActorCreation; PassChance 20.000000" Send="HostSiteOpsAdd ::Host AP_ZerglingNibbleRotator1"/>
+        <On Terms="ActorCreation; PassChance 10.000000" Send="HostSiteOpsAdd ::Host AP_ZerglingNibbleRotator2"/>
+        <Model value="AP_HotSRaptor"/>
+        <Scale value="0.700000"/>
+    </CActorMissile>
+    <CActorModel id="AP_ZerglingNibbleModel" parent="ModelAddition">
+        <EditorCategories value=""/>
+        <Supporter Subject="::Creator"/>
+        <On index="0" Terms="ActorCreation" Send="AnimPlay Lifetime Attack PlayForever,ForceLooping,RandomStartOffset"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.300000,0.200000 Attack"/>
+        <On Terms="TimerExpired; TimerName Attack" Send="TimerSet 0.300000,0.200000 Attack"/>
+        <On Terms="TimerExpired; TimerName Attack" Send="Create AP_ZerglingNibbleSound"/>
+        <HostSiteOps Ops="SOpAttachHarness SOpRotationRandomDisc"/>
+        <Model value="AP_HotSRaptor"/>
+    </CActorModel>
+    <CActorAction id="AP_ZerglingNibble" parent="GenericAttack" effectImpact="AP_ZerglingNibbleImpact" effectLaunch="AP_ZerglingNibbleLaunch">
+        <EditorCategories value=""/>
+        <LaunchAssets Sound=""/>
+        <ImpactMap index="None" Model="ZerglingDeath" Sound="Zergling_Explode"/>
+        <ShieldFlashType value="None"/>
+    </CActorAction>
+    <CActorModel id="AP_ZerglingNibbleModelDeath" parent="ModelAddition">
+        <EditorCategories value=""/>
+        <Supporter Subject="::Creator"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On index="1" Terms="AnimBracketState.*.AfterClosing; !AnimBracketExitReason ModelSwap; AnimName BSD" Send="Destroy"/>
+        <On index="2" removed="1"/>
+        <HostSiteOps Ops="SOpAttachHarness SOpRotationRandomDisc"/>
+        <Model value="ZergSmallTriggeredExplosion"/>
+    </CActorModel>
+    <CActorSetQueried id="AP_ZerglingNibbleQueryDeath" parent="ProtossFlameSet" type="FireLarge">
+        <AttachQuery Methods="AMFilterDamage AMRandomUniformAll"/>
+        <SpawnTarget value="AP_ZerglingNibbleModelDeath"/>
+    </CActorSetQueried>
+    <CActorSiteOpRotator id="AP_ZerglingNibbleRotator1">
+        <EditorCategories value=""/>
+        <LocalAxis value="1.000000,0.000000,0.000000"/>
+        <Rate value="360.000000"/>
+    </CActorSiteOpRotator>
+    <CActorSiteOpRotator id="AP_ZerglingNibbleRotator">
+        <EditorCategories value=""/>
+        <LocalAxis value="1.000000,1.000000,0.000000"/>
+        <Rate value="10.000000"/>
+    </CActorSiteOpRotator>
+    <CActorSiteOpRotator id="AP_ZerglingNibbleRotator2">
+        <EditorCategories value=""/>
+        <LocalAxis value="-1.000000,0.000000,0.000000"/>
+        <Rate value="360.000000"/>
+    </CActorSiteOpRotator>
+    <CActorSound id="AP_ZerglingNibbleSound" parent="SoundOneShot">
+        <Flags index="SuppressSaveLoad" value="0"/>
+    </CActorSound>
+    <CActorCutscene id="CutsceneTest" parent="CutsceneOneShot">
+        <FilePath value="Marine.SC2Cutscene"/>
+        <On index="1" Terms="ActorCreation" Send="Print Create"/>
+        <On Terms="Cutscene" Send="Print Destroy"/>
+        <On Terms="Cutscene.*.Stop" Send="Destroy"/>
+    </CActorCutscene>
+    <CActorSetQueried id="AP_ZerglingNibbleQuery" parent="ProtossFlameSet" type="FireLarge">
+        <AttachQuery Methods="AMFilterDamage AMRandomUniformAll"/>
+        <SpawnTarget value="AP_ZerglingNibbleModel"/>
+    </CActorSetQueried>
 </Catalog>

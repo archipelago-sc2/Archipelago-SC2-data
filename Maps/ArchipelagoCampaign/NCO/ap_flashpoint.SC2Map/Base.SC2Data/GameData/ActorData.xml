@@ -1,5 +1,9 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CActorModel id="AP_WarpInVoid">
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStart" Send="Create"/>
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStop" Send="AnimBracketStop BSD"/>
+    </CActorModel>
     <CActorSound id="Ambience_Nova06_City" parent="SoundContinuous"/>
     <CActorAction id="NovaWeaponCanisterRifleAttackCloaked">
         <LaunchSound value="Nova_SniperRifle_AttackLaunch_BoomySweetenerTailSound"/>
@@ -11,7 +15,6 @@
         <LaunchSound value="Nova_Snipe_TailExterior"/>
     </CActorAction>
     <CActorSound id="PortCity_CarTraffic_DrivebySound" parent="SoundOneShot">
-        <Flags index="SuppressSaveLoad" value="1"/>
         <On Terms="ActorCreation; ValidateUnit IsHidden" Send="Destroy"/>
         <Sound value="PortCity_CarTraffic_Driveby"/>
         <HostForProps Subject="_Doodad"/>
@@ -48,4 +51,21 @@
     <CActorDoodad id="PortCity_Fountain">
         <On Terms="ActorCreation" Send="Create SoundEmitter Doodad_Nova06_FlashbackWaterFountainBird"/>
     </CActorDoodad>
+    <CActorProgress id="ProtossWarpIn">
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStart" Send="Create"/>
+    </CActorProgress>
+    <CActorSound id="WarpTrainLoop">
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStart" Send="Create"/>
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStart" Send="Destroy"/>
+    </CActorSound>
+    <CActorModel id="WarpTrainModel">
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStart" Send="Create"/>
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStop" Send="AnimBracketStop BSD"/>
+    </CActorModel>
+    <CActorSound id="WarpTrainStart">
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStart" Send="Create"/>
+    </CActorSound>
+    <CActorSound id="WarpTrainStop">
+        <On Terms="Abil.SuperWarpGateTrainVoid2.TargetStop" Send="Create"/>
+    </CActorSound>
 </Catalog>

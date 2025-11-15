@@ -1,47 +1,160 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CActorModel id="AP_LurkerAttackSpikes9">
+        <Model value="LurkerAttackSpike"/>
+    </CActorModel>
+    <CActorUnit id="AP_PhotonCannonGarrison" parent="ProtossBuildingEx" unitName="AP_PhotonCannonGarrison">
+        <Aliases value="_UnitLarge"/>
+        <Macros value="ProtossBuildingPowerUp"/>
+        <Macros value="VoidMPUnpoweredAnim"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit CasterIsUnpoweredAndNotUnderConstruction" Send="DeathCustomize Variation2"/>
+        <On Terms="ActorCreation" Send="Create AP_PhotonCannonTurretLookAt"/>
+        <On Terms="Abil.attack.ReadyStart" Target="AP_PhotonCannonTurretLookAt" Send="LookAtEngage"/>
+        <On Terms="Abil.attack.ReadyStop" Target="AP_PhotonCannonTurretLookAt" Send="LookAtDisengage"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById PhotonCannonDarkDiffuse"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById PhotonCannonDarkSpecular"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById PhotonCannonDarkEmissive"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById PhotonCannonBaseDarkDiffuse"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById PhotonCannonBaseDarkSpecular"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById PhotonCannonBaseDarkEmissive"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById LazerBoltGreen"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById GradRaysGreen"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById TronSquareGreen"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="TextureSelectById WarpLineGreen"/>
+        <On Terms="ActorCreation; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById PhotonCannonDarkDiffuse"/>
+        <On Terms="ActorCreation; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById PhotonCannonDarkSpecular"/>
+        <On Terms="ActorCreation; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById PhotonCannonDarkEmissive"/>
+        <On Terms="ActorCreation; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById PhotonCannonBaseDarkDiffuse"/>
+        <On Terms="ActorCreation; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById PhotonCannonBaseDarkSpecular"/>
+        <On Terms="ActorCreation; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById PhotonCannonBaseDarkEmissive"/>
+        <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById LazerBoltGreen"/>
+        <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById GradRaysGreen"/>
+        <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById TronSquareGreen"/>
+        <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="TextureSelectById WarpLineGreen"/>
+        <On Terms="UnitBirth; ValidateUnit AP_HasPurifierProtoss" Send="TextureSelectById PurifierHackDiffuse"/>
+        <On Terms="Upgrade.AP_PurifierProtoss.Add" Send="TextureSelectById PurifierHackDiffuse"/>
+        <On Terms="Signal.*.PurifierHack" Send="TextureSelectById PurifierHackDiffuse"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_PhotonCannon" Send="Create"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom AP_PhotonCannon" Send="Destroy"/>
+        <On Terms="Effect.AP_PhotonCannonTeleportBuildStartCP.Start; At Caster" Send="Create AP_PhotonCannonTeleportOutModel"/>
+        <On Terms="Effect.AP_PhotonCannonTeleportBuildFinishSet.Start; At Caster" Target="AP_PhotonCannonTeleportOutModel" Send="Destroy"/>
+        <On Terms="Upgrade.AP_DarkProtoss.Add" Send="ModelSwap PhotonCannonTaldarim"/>
+        <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap PhotonCannonTaldarim"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomize DarkProtoss"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit AP_CasterIsUnpoweredAndNotUnderConstructionAndHasDarkProtoss" Send="DeathCustomize Variation3"/>
+        <On Terms="Behavior.AP_PhaseCannonInitialStun.On" Send="ModelSwap PhotonCannonBirth"/>
+        <On Terms="Behavior.AP_PhaseCannonInitialStun.On" Send="AnimPlay Birth Stand,Build,End"/>
+        <On Terms="Behavior.AP_PhaseCannonInitialStun.On" Send="AnimSetTime Birth 5.000000"/>
+        <On Terms="Behavior.AP_PhaseCannonInitialStun.On" Send="AnimSetTimeScale Birth 2.000000"/>
+        <On Terms="AnimDone; AnimPlaying Birth" Send="ModelSwap PhotonCannon"/>
+        <On Terms="AnimDone; AnimPlaying Birth" Send="AnimPlay Creation Stand,Unpowered,End"/>
+        <On Terms="AnimDone; AnimPlaying Birth" Send="AnimSetTimeScale Creation 2.000000"/>
+        <On Terms="UnitConstruction.AP_PhotonCannonGarrison; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="AnimPlay BSD Stand,Build,End 0 -1.000000 -1.000000 1.500000 AsDuration 0.000000 60"/>
+        <Model value="PhotonCannon"/>
+        <Scale value="0.600000"/>
+        <CreepHeightClass value="Tiny"/>
+        <BuildModel value="PhotonCannonBirth"/>
+        <DeathArray index="Normal" ModelLink="PhotonCannonDeath" SoundLink="PhotonCannon_Explode"/>
+        <DeathArray index="Timeout" AnimProps="Birth" ModelLink="PhaseCannonWarpOut"/>
+        <DeathArray index="UnderConstruction" ModelLink="PhotonCannonDeathUnderConstruction" SoundLink="PhotonCannon_Explode"/>
+        <DeathCustoms ModelLink="PhotonCannonDeathUnpowered" SoundLink="PhotonCannon_Explode" Name="Variation2"/>
+        <DeathCustoms ModelLink="PhotonCannonTaldarimDeath" Name="DarkProtoss"/>
+        <DeathCustoms ModelLink="PhotonCannonTaldarimDeathUnpowered" Name="Variation3"/>
+        <PlacementModel value="PhotonCannonPlacement"/>
+        <PlacementSound value="Protoss_BuildingPlacementSmall"/>
+        <PlacementActorModel value="PhotonCannonPlacementModel"/>
+        <PortraitModel value="PhotonCannonPortrait"/>
+        <BarOffset value="60"/>
+        <BarWidth value="75"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Protoss-PhotonCannon.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-building-protoss-PhotonCannon.dds"/>
+        <SoundArray index="Ready" value="PhotonCannon_Ready"/>
+        <SoundArray index="What" value="PhotonCannon_What"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Textures\btn-building-protoss-PhotonCannon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Protoss-PhotonCannon.dds"/>
+        </Wireframe>
+        <WireframeShield>
+            <Image value="Assets\Textures\Wireframe-Protoss-PhotonCannon-Shield01.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-PhotonCannon-Shield02.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-PhotonCannon-Shield03.dds"/>
+        </WireframeShield>
+    </CActorUnit>
+    <CActorAction id="AP_PhotonCannonGarrisonAttack" parent="GenericAttack" effectImpact="AP_PhotonCannonGarrisonU" effectLaunch="AP_PhotonCannonGarrisonLM">
+        <LaunchAssets Sound="PhotonCannon_AttackLaunch"/>
+        <Missile value="AP_PhotonCannonAttackMissile"/>
+        <ImpactMap index="None" Model="PhotonCannonAttackImpact" Sound="PhotonCannon_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="PhotonCannonImpact" MatchKeys="Basic" Physics="PhotonCannonAttackDeathForce"/>
+    </CActorAction>
+    <CActorModel id="DehakaDragStunModel">
+        <Inherits index="Opacity" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+    </CActorModel>
     <CActorSound id="Nova_SniperRifle_AttackLaunch_Boomy">
-        <Layers index="2">
+        <Layers/>
+        <Layers/>
+        <Layers>
             <Sound value="Nova_SniperRifleTailLeft"/>
             <PitchSource value="Actor"/>
             <PlayDelaySource value="Actor"/>
             <VolumeSource value="Actor"/>
-            <Chance index="0" value="100"/>
-            <Pitch index="0" value="2.000000,4.000000"/>
-            <PlayDelay index="0" value="60,125"/>
-            <Volume index="0" value="-15.000000,-15.000000"/>
+            <Chance value="100"/>
+            <Pitch value="2.000000,4.000000"/>
+            <PlayDelay value="60,125"/>
+            <Volume value="-15.000000,-15.000000"/>
         </Layers>
-        <Layers index="3">
+        <Layers>
             <Sound value="Nova_SniperRifleTailRight"/>
             <PitchSource value="Actor"/>
             <PlayDelaySource value="Actor"/>
             <VolumeSource value="Actor"/>
-            <Chance index="0" value="100"/>
-            <Pitch index="0" value="2.000000,4.000000"/>
-            <PlayDelay index="0" value="60,125"/>
-            <Volume index="0" value="-15.000000,-15.000000"/>
+            <Chance value="100"/>
+            <Pitch value="2.000000,4.000000"/>
+            <PlayDelay value="60,125"/>
+            <Volume value="-15.000000,-15.000000"/>
         </Layers>
     </CActorSound>
     <CActorSound id="Nova_SniperRifle_AttackLaunch_Mechy">
-        <Layers index="2">
+        <Layers/>
+        <Layers/>
+        <Layers>
             <Sound value="Nova_SniperRifleTailLeft"/>
             <PitchSource value="Actor"/>
             <PlayDelaySource value="Actor"/>
             <VolumeSource value="Actor"/>
-            <Chance index="0" value="100"/>
-            <Pitch index="0" value="3.000000,5.000000"/>
-            <PlayDelay index="0" value="60,125"/>
-            <Volume index="0" value="-22.000000,-22.000000"/>
+            <Chance value="100"/>
+            <Pitch value="3.000000,5.000000"/>
+            <PlayDelay value="60,125"/>
+            <Volume value="-22.000000,-22.000000"/>
         </Layers>
-        <Layers index="3">
+        <Layers>
             <Sound value="Nova_SniperRifleTailRight"/>
             <PitchSource value="Actor"/>
             <PlayDelaySource value="Actor"/>
             <VolumeSource value="Actor"/>
-            <Chance index="0" value="100"/>
-            <Pitch index="0" value="3.000000,5.000000"/>
-            <PlayDelay index="0" value="60,125"/>
-            <Volume index="0" value="-22.000000,-22.000000"/>
+            <Chance value="100"/>
+            <Pitch value="3.000000,5.000000"/>
+            <PlayDelay value="60,125"/>
+            <Volume value="-22.000000,-22.000000"/>
         </Layers>
     </CActorSound>
+    <!--                                                                                         -->
+    <!-- Virophage .................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="Plaguebringer">
+        <Scale value="0.250000"/>
+    </CActorUnit>
+    <CActorAction id="VileStream">
+        <ImpactMap index="None" Scale="0.400000"/>
+    </CActorAction>
+    <CActorModel id="VileStreamImpact">
+        <Scale value="0.400000"/>
+    </CActorModel>
+    <CActorMissile id="VileStreamMissile">
+        <Scale value="0.400000"/>
+    </CActorMissile>
 </Catalog>
