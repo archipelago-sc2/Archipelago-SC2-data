@@ -12,7 +12,9 @@ const int lib5BD4895D_ge_APObjectiveCategory_Mastery = 4;
 
 // Constants
 const int lib5BD4895D_gv_aP_Core_LOCATIONS_PER_MAP = 28;
-const string lib5BD4895D_gv_aP_Core_LOCATION_BANK_NAME = "ArchipelagoLocations";
+const string lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_NAME = "ArchipelagoCoreOptions";
+const string lib5BD4895D_gv_aP_Core_BANK_MESSAGE_NAME = "ArchipelagoMessages";
+const string lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_NAME = "ArchipelagoLocations";
 const int lib5BD4895D_gv_aP_Core_locationVictory = 0;
 const int lib5BD4895D_gv_aP_Core_locationInit = -1;
 const fixed lib5BD4895D_gv_aP_Core_rainbowCyclePeriod = 0.5;
@@ -91,13 +93,11 @@ string lib5BD4895D_gv_aP_Core_Faction_DAELAAM;
 string lib5BD4895D_gv_aP_Core_Faction_NOVA;
 int lib5BD4895D_gv_aP_Core_blackScreen_dialog;
 int lib5BD4895D_gv_aP_Core_blackScreen;
-unit lib5BD4895D_gv_aP_Core_controller;
-unit lib5BD4895D_gv_aP_Core_controller2;
+bank lib5BD4895D_gv_aP_Core_bankCoreOptions;
+bank lib5BD4895D_gv_aP_Core_bankMessage;
+bank lib5BD4895D_gv_aP_Core_bankLocations;
 bool[lib5BD4895D_gv_aP_Core_LOCATIONS_PER_MAP + 1] lib5BD4895D_gv_aP_Core_locations_sent;
-bank lib5BD4895D_gv_aP_Core_locationBank;
 int lib5BD4895D_gv_aP_Core_gameState;
-int lib5BD4895D_gv_aP_Core_controllerStatus;
-int lib5BD4895D_gv_aP_Core_controller2Status;
 lib5BD4895D_gs_AP_Core_chatbox lib5BD4895D_gv_aP_Core_chatbox;
 int[8] lib5BD4895D_gv_aP_Core_rainbowColors;
 bool[21] lib5BD4895D_gv_aP_Core_rainbowKiller;
@@ -120,10 +120,10 @@ void lib5BD4895D_gf_AP_Core_MapConfig_setAffectedPlayers (playergroup lp_players
 void lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction (int lp_player, string lp_faction);
 void lib5BD4895D_gf_AP_Core_MapConfig_setChatboxPosition (int lp_anchor, int lp_x, int lp_y, int lp_offsetX, int lp_offsetY);
 void lib5BD4895D_gf_AP_Core_MapConfig_setMapInit (trigger lp_initTrigger);
-bool lib5BD4895D_gf_AP_Core_IsControllerNotInitialized ();
-void lib5BD4895D_gf_AP_Core_sendLocationLocal (int lp_locationIdLocal);
+void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead ();
+void lib5BD4895D_gf_AP_Core_bankMessageRead ();
 bool lib5BD4895D_gf_AP_Core_isLocationSent (int lp_locationIdLocal);
-void lib5BD4895D_gf_AP_Core_refreshController ();
+void lib5BD4895D_gf_AP_Core_sendLocationLocal (int lp_locationIdLocal);
 text lib5BD4895D_gf_AP_Core_getChatboxContent ();
 bool lib5BD4895D_gf_AP_Core_getChatboxHidden (int lp_player);
 void lib5BD4895D_gf_AP_Core_initChatbox (int lp_anchor, int lp_sizex, int lp_sizey, int lp_offsetx, int lp_offsety);
@@ -137,6 +137,9 @@ int lib5BD4895D_gf_AP_Core_getPlayerColorByIndex (int lp_colorIndex);
 void lib5BD4895D_gf_AP_Core_giveBonusSupplies (int lp_player, int lp_amount);
 void lib5BD4895D_gf_AP_Core_setFactionColor (string lp_faction, int lp_colorIndex);
 void lib5BD4895D_gf_AP_Core_onLoadFinished ();
+void lib5BD4895D_gf_AP_Core_giveStartingResources (string lp_inputString);
+void lib5BD4895D_gf_AP_Core_setFactionColorHandler (string lp_inputString);
+void lib5BD4895D_gf_AP_Core_uncollectedLocations (string lp_inputString);
 void lib5BD4895D_gf_AP_Core_SwitchKerriganSwarmToPrimalZerg ();
 void lib5BD4895D_gf_AP_Core_initObjectivePanel ();
 void lib5BD4895D_gf_AP_Core_addObjective (int lp_objective, int lp_category, bool lp_hasCounter, string lp_counterSuffix, int lp_counterValue, int lp_counterMax, bool lp_hasTimer, timer lp_timer, bool lp_hideIfNoLocs);
@@ -179,9 +182,11 @@ void lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap (int lp_player)
 // Trigger Declarations
 trigger lib5BD4895D_gt_AP_Core_mapLoadStart;
 trigger lib5BD4895D_gt_AP_Core_mapLoadEnd;
-trigger lib5BD4895D_gt_AP_Core_controllerInit;
-trigger lib5BD4895D_gt_AP_Core_dontHideController;
-trigger lib5BD4895D_gt_AP_Core_keepControllerAlive;
+trigger lib5BD4895D_gt_AP_Core_bankCoreOptionsInit;
+trigger lib5BD4895D_gt_AP_Core_bankCoreOptionsLoop;
+trigger lib5BD4895D_gt_AP_Core_bankMessageInit;
+trigger lib5BD4895D_gt_AP_Core_bankMessageLoop;
+trigger lib5BD4895D_gt_AP_Core_bankLocationsInit;
 trigger lib5BD4895D_gt_AP_Core_hideChatboxCinematic;
 trigger lib5BD4895D_gt_AP_Core_onHideButtonChatbox;
 trigger lib5BD4895D_gt_AP_Core_onShowButtonChatbox;
@@ -193,9 +198,8 @@ trigger lib5BD4895D_gt_AP_Core_tradeSendSuccess;
 trigger lib5BD4895D_gt_AP_Core_tradeReceiveSuccess;
 trigger lib5BD4895D_gt_AP_Core_giveStartingResources;
 trigger lib5BD4895D_gt_AP_Core_setFactionColorHandler;
-trigger lib5BD4895D_gt_AP_Core_loadFinished;
 trigger lib5BD4895D_gt_AP_Core_uncollectedLocations;
-trigger lib5BD4895D_gt_AP_Core_clearChat;
+trigger lib5BD4895D_gt_AP_Core_loadFinished;
 trigger lib5BD4895D_gt_AP_Core_objectiveTimerUpdate;
 
 // Library Initialization
