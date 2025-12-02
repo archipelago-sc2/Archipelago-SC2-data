@@ -161,7 +161,7 @@ void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
     }
 
     lv_key = "LoadFinished";
-    if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true)) {
+    if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true) && (lib5BD4895D_gv_aP_Core_initFinished == false)) {
         lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key);
         lib5BD4895D_gf_AP_Core_onLoadFinished();
     }
@@ -222,9 +222,6 @@ void lib5BD4895D_gf_AP_Core_sendLocationLocal (int lp_locationIdLocal) {
         lib5BD4895D_gv_aP_Core_gameState = (lib5BD4895D_gv_aP_Core_gameState | Pow2I(lv_value));
         BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankLocations, "Locations", "GameState", IntToString(lib5BD4895D_gv_aP_Core_gameState));
         BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
-        if ((lp_locationIdLocal == -1)) {
-        }
-
         if ((lp_locationIdLocal >= 0)) {
             lib5BD4895D_gv_aP_Core_locations_sent[lp_locationIdLocal] = true;
         }
@@ -461,11 +458,11 @@ void lib5BD4895D_gf_AP_Core_onLoadFinished () {
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(auto78288737_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        lib5BD4895D_gf_AP_Core_showHideChatbox(lv_currentPlayer, true);
+        lib5BD4895D_gf_AP_Core_showHideChatbox(lv_currentPlayer, false);
     }
-    lib5BD4895D_gf_AP_Core_sendLocationLocal(lib5BD4895D_gv_aP_Core_locationInit);
-    lib5BD4895D_gv_aP_Core_initFinished = true;
     Wait(0.0625, c_timeGame);
+    lib5BD4895D_gv_aP_Core_initFinished = true;
+    lib5BD4895D_gf_AP_Core_sendLocationLocal(lib5BD4895D_gv_aP_Core_locationInit);
     TriggerExecute(lib5BD4895D_gv_aP_Core_mapInit, true, false);
     TriggerSendEvent(lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
@@ -1798,6 +1795,7 @@ bool lib5BD4895D_gt_AP_Core_mapLoadStart_Func (bool testConds, bool runActions) 
         return true;
     }
 
+    UISetFrameVisible(PlayerGroupAll(), c_syncFrameTypeObjectivePanel, false);
     DialogCreate(4000, 3000, c_anchorCenter, 0, 0, true);
     lib5BD4895D_gv_aP_Core_blackScreen_dialog = DialogLastCreated();
     DialogSetImageVisible(lib5BD4895D_gv_aP_Core_blackScreen_dialog, false);
@@ -1968,13 +1966,10 @@ bool lib5BD4895D_gt_AP_Core_bankMessageLoop_Func (bool testConds, bool runAction
 
     BankBackupLoopBegin(lib5BD4895D_gv_aP_Core_bankMessage,false);
     for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
-        TextExpressionSetToken("Param/Expression/lib_5BD4895D_FDCDDC93", "A", IntToText(BankBackupGetId(BankBackupLoopCurrent())));
-        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_5BD4895D_FDCDDC93"), true);
         lv_bankchange = true;
     }
     BankBackupLoopEnd();
     if ((lv_bankchange == true)) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/lib_5BD4895D_AE34B00F"), true);
         BankRestore(lib5BD4895D_gv_aP_Core_bankMessage, 1, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage));
         BankBackupRemove(lib5BD4895D_gv_aP_Core_bankMessage, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage), 1);
         lib5BD4895D_gf_AP_Core_bankMessageRead();
@@ -2000,9 +1995,10 @@ bool lib5BD4895D_gt_AP_Core_bankLocationsInit_Func (bool testConds, bool runActi
     }
 
     BankLoad(lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_NAME, 1);
-    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankLocations, "Locations");
-    BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
     lib5BD4895D_gv_aP_Core_bankLocations = BankLastCreated();
+    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankLocations, "Locations");
+    BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankLocations, "Locations", "GameState", IntToString(lib5BD4895D_gv_aP_Core_gameState));
+    BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
     return true;
 }
 
@@ -2013,19 +2009,23 @@ void lib5BD4895D_gt_AP_Core_bankLocationsInit_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_hideChatboxCinematic
+// Trigger: AP_Core_showChatboxCinematic
 //--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Func (bool testConds, bool runActions) {
+bool lib5BD4895D_gt_AP_Core_showChatboxCinematic_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_indexPlayer;
 
     // Automatic Variable Declarations
-    playergroup autoA10F8744_g;
+    playergroup autoEF928640_g;
 
     // Variable Initialization
 
     // Conditions
     if (testConds) {
+        if (!((GameGetMissionTime() >= 2.0))) {
+            return false;
+        }
+
         if (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
             return false;
         }
@@ -2036,37 +2036,18 @@ bool lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Func (bool testConds, bool runA
         return true;
     }
 
-    if ((GameGetMissionTime() >= 600.0)) {
-        TriggerEnable(TriggerGetCurrent(), false);
-    }
-
-    autoA10F8744_g = PlayerGroupActive();
+    autoEF928640_g = PlayerGroupActive();
     lv_indexPlayer = -1;
     while (true) {
-        lv_indexPlayer = PlayerGroupNextPlayer(autoA10F8744_g, lv_indexPlayer);
+        lv_indexPlayer = PlayerGroupNextPlayer(autoEF928640_g, lv_indexPlayer);
         if (lv_indexPlayer < 0) { break; }
         if ((PlayerType(lv_indexPlayer) != c_playerTypeUser)) {
-            return true;
+            break;
         }
 
-        if ((libNtve_gf_PlayerInCinematicMode(lv_indexPlayer) == true) && (lib5BD4895D_gv_aP_Core_chatbox.lv_enteredcinematicmode[lv_indexPlayer] == false)) {
-            lib5BD4895D_gv_aP_Core_chatbox.lv_enteredcinematicmode[lv_indexPlayer] = true;
-            if ((lib5BD4895D_gf_AP_Core_getChatboxHidden(lv_indexPlayer) == true)) {
-                lib5BD4895D_gv_aP_Core_chatbox.lv_toggled[lv_indexPlayer] = true;
-                lib5BD4895D_gf_AP_Core_showHideChatbox(lv_indexPlayer, false);
-            }
-            else {
-                lib5BD4895D_gv_aP_Core_chatbox.lv_toggled[lv_indexPlayer] = false;
-            }
-        }
-
-        if ((libNtve_gf_PlayerInCinematicMode(lv_indexPlayer) == false) && (lib5BD4895D_gv_aP_Core_chatbox.lv_enteredcinematicmode[lv_indexPlayer] == true)) {
-            lib5BD4895D_gv_aP_Core_chatbox.lv_enteredcinematicmode[lv_indexPlayer] = false;
-            if ((lib5BD4895D_gv_aP_Core_chatbox.lv_toggled[lv_indexPlayer] == true) && (lib5BD4895D_gf_AP_Core_getChatboxHidden(lv_indexPlayer) == false)) {
-                lib5BD4895D_gf_AP_Core_showHideChatbox(lv_indexPlayer, true);
-                lib5BD4895D_gv_aP_Core_chatbox.lv_toggled[lv_indexPlayer] = false;
-            }
-
+        if ((libNtve_gf_PlayerInCinematicMode(lv_indexPlayer) == false)) {
+            lib5BD4895D_gf_AP_Core_showHideChatbox(lv_indexPlayer, true);
+            TriggerEnable(TriggerGetCurrent(), false);
         }
 
     }
@@ -2074,9 +2055,9 @@ bool lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Func (bool testConds, bool runA
 }
 
 //--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Init () {
-    lib5BD4895D_gt_AP_Core_hideChatboxCinematic = TriggerCreate("lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Func");
-    TriggerAddEventTimePeriodic(lib5BD4895D_gt_AP_Core_hideChatboxCinematic, 0.0625, c_timeGame);
+void lib5BD4895D_gt_AP_Core_showChatboxCinematic_Init () {
+    lib5BD4895D_gt_AP_Core_showChatboxCinematic = TriggerCreate("lib5BD4895D_gt_AP_Core_showChatboxCinematic_Func");
+    TriggerAddEventTimePeriodic(lib5BD4895D_gt_AP_Core_showChatboxCinematic, 0.0625, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2527,7 +2508,7 @@ void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_bankMessageInit_Init();
     lib5BD4895D_gt_AP_Core_bankMessageLoop_Init();
     lib5BD4895D_gt_AP_Core_bankLocationsInit_Init();
-    lib5BD4895D_gt_AP_Core_hideChatboxCinematic_Init();
+    lib5BD4895D_gt_AP_Core_showChatboxCinematic_Init();
     lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_updateChatbox_Init();
