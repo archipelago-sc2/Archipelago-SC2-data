@@ -114,12 +114,12 @@ bool[21] libABFE498B_gv_aP_Triggers_Protoss_has_AiurMothership;
 bool[21] libABFE498B_gv_aP_Triggers_Protoss_has_PurifierMothership;
 bool[21] libABFE498B_gv_aP_Triggers_Protoss_has_Arbiter;
 bool[21] libABFE498B_gv_aP_Triggers_Protoss_has_Oracle;
-bool libABFE498B_gv_aP_Triggers_DebugMode;
-bool libABFE498B_gv_aP_Triggers_IsNoBuild;
 bank libABFE498B_gv_aP_Triggers_bankOptions;
 bool libABFE498B_gv_aP_Triggers_bankOptionsInitialized;
 bank libABFE498B_gv_aP_Triggers_bankItems;
 bool libABFE498B_gv_aP_Triggers_bankItemsInitialized;
+bool libABFE498B_gv_aP_Triggers_DebugMode;
+bool libABFE498B_gv_aP_Triggers_IsNoBuild;
 
 // Function Declarations
 void libABFE498B_gf_AP_Triggers_MapConfig_setMissionBuild (bool lp_build);
@@ -1054,18 +1054,15 @@ void libABFE498B_gf_AP_Triggers_startNoBuild (int lp_player);
 void libABFE498B_gf_AP_Triggers_pauseBuild (int lp_player, bool lp_pauseunpause);
 void libABFE498B_gf_AP_Triggers_resetBase (int lp_player);
 void libABFE498B_gf_AP_Triggers_replaceUpgrade (int lp_player, string lp_oldUpgrade, string lp_newUpgrade);
-void libABFE498B_gf_AP_Triggers_bankOptionsRead ();
-void libABFE498B_gf_AP_Triggers_bankItemsRead ();
 
 // Trigger Declarations
 trigger libABFE498B_gt_AP_Triggers_PatchesInit;
-trigger libABFE498B_gt_AP_Triggers_setOptions;
-trigger libABFE498B_gt_AP_Triggers_giveTerranTech;
-trigger libABFE498B_gt_AP_Triggers_giveZergTech;
-trigger libABFE498B_gt_AP_Triggers_giveProtossTech;
-trigger libABFE498B_gt_AP_Triggers_giveMiscTech;
 trigger libABFE498B_gt_AP_Triggers_techTreeInit;
 trigger libABFE498B_gt_UpgradeProtossStructures;
+trigger libABFE498B_gt_AP_Triggers_bankOptionsInit;
+trigger libABFE498B_gt_AP_Triggers_bankOptionsLoop;
+trigger libABFE498B_gt_AP_Triggers_bankItemsInit;
+trigger libABFE498B_gt_AP_Triggers_bankItemsLoop;
 trigger libABFE498B_gt_AP_Triggers_Debug_activateDebugMode;
 trigger libABFE498B_gt_AP_Triggers_Debug_takeControl;
 trigger libABFE498B_gt_AP_Triggers_Debug_clearQueue;
@@ -1077,10 +1074,6 @@ trigger libABFE498B_gt_AP_Triggers_Debug_grantChecks;
 trigger libABFE498B_gt_AP_Triggers_Debug_reviveHeroes;
 trigger libABFE498B_gt_AP_Triggers_tradeStructureBuilt;
 trigger libABFE498B_gt_AP_Triggers_InitSoA;
-trigger libABFE498B_gt_AP_Triggers_bankOptionsInit;
-trigger libABFE498B_gt_AP_Triggers_bankOptionsLoop;
-trigger libABFE498B_gt_AP_Triggers_bankItemsInit;
-trigger libABFE498B_gt_AP_Triggers_bankItemsLoop;
 
 // Library Initialization
 void libABFE498B_InitVariables ();

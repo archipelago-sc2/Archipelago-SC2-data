@@ -26,7 +26,7 @@ void lib5BD4895D_InitVariables () {
 
     lib5BD4895D_InitVariables_completed = true;
 
-    lib5BD4895D_gv_aP_Core_affectedPlayers = PlayerGroupSingle(1);
+    lib5BD4895D_gv_aP_Core_affectedPlayers = PlayerGroupSingle(lib5BD4895D_gf_AP_Core_getUser());
     for (init_i = 0; init_i <= 20; init_i += 1) {
         lib5BD4895D_gv_aP_Core_playerFactions[init_i] = "";
     }
@@ -156,7 +156,6 @@ string lib5BD4895D_gf_AP_Core_getUserFaction () {
 
 void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
     // Variable Declarations
-    string lv_receivedString;
     int lv_index;
     string lv_section;
     string lv_key;
@@ -165,7 +164,6 @@ void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
 
     // Automatic Variable Declarations
     // Variable Initialization
-    lv_receivedString = "";
     lv_section = "";
     lv_key = "";
     lv_value = "";
@@ -215,7 +213,6 @@ void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
 
 void lib5BD4895D_gf_AP_Core_bankMessageRead () {
     // Variable Declarations
-    string lv_receivedString;
     int lv_index;
     string lv_section;
     string lv_key;
@@ -226,7 +223,6 @@ void lib5BD4895D_gf_AP_Core_bankMessageRead () {
     const int autoE8B54C42_ai = 1;
 
     // Variable Initialization
-    lv_receivedString = "";
     lv_section = "";
     lv_key = "";
     lv_value = "";
