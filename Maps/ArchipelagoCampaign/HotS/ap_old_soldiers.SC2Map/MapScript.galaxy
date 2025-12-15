@@ -6723,7 +6723,10 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
     for (;; auto979BD12E_u -= 1) {
         auto979BD12E_var = UnitGroupUnitFromEnd(auto979BD12E_g, auto979BD12E_u);
         if (auto979BD12E_var == null) { break; }
-        UnitSetPropertyFixed(auto979BD12E_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(auto979BD12E_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(auto979BD12E_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     libABFE498B_gf_AP_Triggers_resetBase(gv_pLAYER_01_USER);
     TriggerExecute(gt_StartAIAttackWaves, true, false);

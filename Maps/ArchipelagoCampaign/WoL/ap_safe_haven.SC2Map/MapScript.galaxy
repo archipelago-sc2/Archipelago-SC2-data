@@ -2428,7 +2428,7 @@ bool gt_TerrorFleetHandleMindControl_Func (bool testConds, bool runActions) {
 
     lv_targetUnit = lib15EF4C78_gf_AP_Player_UnitMindControlledEventTarget();
     UnitGroupRemove(gv_terrorFleetGroup, lv_targetUnit);
-    if ((gv_gameOver == false) && (gv_inCinematic == false) && (UnitGroupCount(gv_terrorFleetGroup, c_unitCountAlive) == 0) && (UnitGetOwner(lv_targetUnit) == gv_pLAYER06_TERRORFLEET)) {
+    if ((gv_gameOver == false) && (gv_inCinematic == false) && (UnitGroupCount(gv_terrorFleetGroup, c_unitCountAlive) == 0)) {
         if ((TriggerIsEnabled(gt_TerrorFleetBetaDestroyed) == true)) {
             TriggerExecute(gt_TerrorFleetBetaDestroyed, false, false);
         }

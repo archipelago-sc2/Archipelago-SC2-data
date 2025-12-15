@@ -1074,6 +1074,8 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(5), "Terr", false);
+        libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionEntireMap(), gv_p4_COLONISTS);
+        lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_p4_COLONISTS);
     }
     else {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
@@ -1761,7 +1763,7 @@ bool gt_ZealotPhasePrismAction_Func (bool testConds, bool runActions) {
     gv_dropship = libNtve_gf_LastReplacedUnit();
     UnitCargoCreate(lv_prism, "AP_ZealotShakuras", 2);
     libNtve_gf_AddUnitGroupToUnitGroup(UnitCargoLastCreatedGroup(), gv_firebatCargoUnits);
-    UnitCargoCreate(lv_prism, "AP_SentryPurifier", 1);
+    UnitCargoCreate(lv_prism, "AP_SentryAiur", 1);
     auto412C6DA6_g = UnitCargoLastCreatedGroup();
     auto412C6DA6_u = UnitGroupCount(auto412C6DA6_g, c_unitCountAll);
     for (;; auto412C6DA6_u -= 1) {
@@ -1803,11 +1805,10 @@ void gt_ZealotPhasePrismAction_Init () {
 bool gt_FirebatMove_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     int auto256F7B23_val;
-    int auto0C0AB8E0_val;
 
     // Conditions
     if (testConds) {
-        if (!(((UnitGetType(EventUnitCargo()) == "AP_Firebat") || (UnitGetType(EventUnitCargo()) == "AP_ZealotShakuras") || (UnitGetType(EventUnitCargo()) == "AP_FirebatOptimizedLogistics") || (UnitGetType(EventUnitCargo()) == "AP_Medic") || (UnitGetType(EventUnitCargo()) == "AP_SentryPurifier")))) {
+        if (!(((UnitGetType(EventUnitCargo()) == "AP_Firebat") || (UnitGetType(EventUnitCargo()) == "AP_ZealotShakuras") || (UnitGetType(EventUnitCargo()) == "AP_FirebatOptimizedLogistics") || (UnitGetType(EventUnitCargo()) == "AP_Medic") || (UnitGetType(EventUnitCargo()) == "AP_SentryAiur")))) {
             return false;
         }
     }
@@ -1817,7 +1818,7 @@ bool gt_FirebatMove_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if (((UnitGetType(EventUnitCargo()) == "AP_Firebat") || (UnitGetType(EventUnitCargo()) == "AP_FirebatOptimizedLogistics") || (UnitGetType(EventUnitCargo()) == "AP_ZealotShakuras"))) {
+    if (((UnitGetType(EventUnitCargo()) == "AP_Firebat") || (UnitGetType(EventUnitCargo()) == "AP_FirebatOptimizedLogistics") || (UnitGetType(EventUnitCargo()) == "AP_ZealotShakuras") || (UnitGetType(EventUnitCargo()) == "AP_Medic") || (UnitGetType(EventUnitCargo()) == "AP_SentryAiur"))) {
         Wait(0.2, c_timeGame);
         auto256F7B23_val = gv_firebatMove;
         if (auto256F7B23_val == 1) {
@@ -1827,31 +1828,16 @@ bool gt_FirebatMove_Func (bool testConds, bool runActions) {
             UnitIssueOrder(EventUnitCargo(), OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(1647)), c_orderQueueReplace);
         }
         else if (auto256F7B23_val == 3) {
-            UnitIssueOrder(EventUnitCargo(), OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(1648)), c_orderQueueReplace);
-        }
-        else {
-        }
-        UnitIssueOrder(EventUnitCargo(), OrderTargetingPoint(AbilityCommand("move", 4), PointFromId(1653)), c_orderQueueAddToEnd);
-        UnitIssueOrder(EventUnitCargo(), Order(AbilityCommand("move", 2)), c_orderQueueAddToEnd);
-        gv_firebatMove += 1;
-        return true;
-    }
-
-    if ((UnitGetType(EventUnitCargo()) == "AP_Medic") && (UnitGetType(EventUnitCargo()) == "AP_SentryPurifier")) {
-        Wait(0.2, c_timeGame);
-        auto0C0AB8E0_val = gv_medicMove;
-        if (auto0C0AB8E0_val == 1) {
             UnitIssueOrder(EventUnitCargo(), OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(1650)), c_orderQueueReplace);
         }
-        else if (auto0C0AB8E0_val == 2) {
+        else if (auto256F7B23_val == 4) {
             UnitIssueOrder(EventUnitCargo(), OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(2150)), c_orderQueueReplace);
         }
         else {
         }
         UnitIssueOrder(EventUnitCargo(), OrderTargetingPoint(AbilityCommand("move", 4), PointFromId(1653)), c_orderQueueAddToEnd);
         UnitIssueOrder(EventUnitCargo(), Order(AbilityCommand("move", 2)), c_orderQueueAddToEnd);
-        gv_medicMove += 1;
-        return true;
+        gv_firebatMove += 1;
     }
 
     return true;
@@ -2315,6 +2301,7 @@ bool gt_SwitchtoEscortPhase_Func (bool testConds, bool runActions) {
         if (autoEAEE2387_var == null) { break; }
         if (((UnitGetType(autoEAEE2387_var) == "AP_SCV") || (UnitGetType(autoEAEE2387_var) == "AP_CommandCenter") || (UnitGetType(autoEAEE2387_var) == "AP_Refinery") || (UnitGetType(autoEAEE2387_var) == "AP_SupplyDepot") || (UnitGetType(autoEAEE2387_var) == "AP_SupplyDepotLowered") || (UnitGetType(autoEAEE2387_var) == "AP_Barracks") || (UnitGetType(autoEAEE2387_var) == "AP_BarracksTechLab") || (UnitGetType(autoEAEE2387_var) == "AP_MercCompound") || (UnitGetType(autoEAEE2387_var) == "AP_MercCompound") || (CatalogFieldValueGet(c_gameCatalogUnit, UnitGetType(autoEAEE2387_var), "Race", c_playerAny) == CatalogFieldValueGet(c_gameCatalogRace, "Zerg", "AttributeId", c_playerAny)) || (CatalogFieldValueGet(c_gameCatalogUnit, UnitGetType(autoEAEE2387_var), "Race", c_playerAny) == CatalogFieldValueGet(c_gameCatalogRace, "Prot", "AttributeId", c_playerAny)))) {
             libNtve_gf_RescueUnit(autoEAEE2387_var, gv_p1_USER, true);
+            libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionEntireMap(), gv_p1_USER);
         }
 
     }
