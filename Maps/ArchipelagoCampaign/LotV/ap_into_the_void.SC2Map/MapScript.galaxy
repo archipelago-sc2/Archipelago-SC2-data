@@ -2949,8 +2949,7 @@ bool gt_TakeOverTerranBase_Func (bool testConds, bool runActions) {
             libNtve_gf_ReplaceUnit(lv_unit, "AP_CommandCenter", libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
             lv_unit = libNtve_gf_LastReplacedUnit();
             lv_hyperion = lv_unit;
-            libNtve_gf_SendActorMessageToUnit(lv_unit, "ModelSwap HyperionKorhal");
-            libNtve_gf_SendActorMessageToUnit(lv_unit, "AnimPlay Lifetime GLstand PlayForever -1.000000 -1.000000 -1.000000 AsAutomatic 0.000000 60");
+            UnitBehaviorAdd(lv_hyperion, "AP_FakeHyperion", lv_hyperion, 1);
             UnitSetFacing(lv_unit, 45.0, 0.0);
             UnitSetHeight(lv_unit, 1.3, 0.0);
         }
@@ -2965,7 +2964,6 @@ bool gt_TakeOverTerranBase_Func (bool testConds, bool runActions) {
         libNtve_gf_RescueUnit(lv_unit, gv_pLAYER_01_USER, true);
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
     }
-    UnitBehaviorAdd(lv_hyperion, "AP_FakeHyperion", lv_hyperion, 1);
     return true;
 }
 
