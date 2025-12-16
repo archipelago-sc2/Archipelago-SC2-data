@@ -5582,15 +5582,12 @@ void gt_AIIdleWorkers_Init () {
 bool gt_AIDisjointedUnits_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unitgroup lv_aIunits;
-    string lv_type;
     int lv_player;
-    point lv_point;
 
     // Automatic Variable Declarations
     unitgroup auto905B5D58_g;
     int auto905B5D58_u;
     unit auto905B5D58_var;
-    string auto6EA09989_val;
 
     // Variable Initialization
     lv_aIunits = UnitGroupEmpty();
@@ -5618,38 +5615,14 @@ bool gt_AIDisjointedUnits_Func (bool testConds, bool runActions) {
     UnitGroupAddUnitGroup(lv_aIunits, UnitGroup(null, gv_pLAYER_02_DOMINION, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     UnitGroupAddUnitGroup(lv_aIunits, UnitGroup(null, gv_pLAYER_02_DOMINION2, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     UnitGroupAddUnitGroup(lv_aIunits, UnitGroup(null, gv_pLAYER_02_DOMINION8, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
-    UnitGroupRemove(lv_aIunits, gv_zAGARA);
-    UnitGroupRemove(lv_aIunits, gv_aRTANIS);
-    UnitGroupRemove(lv_aIunits, gv_zAGARA2);
     auto905B5D58_g = lv_aIunits;
     auto905B5D58_u = UnitGroupCount(auto905B5D58_g, c_unitCountAll);
     for (;; auto905B5D58_u -= 1) {
         auto905B5D58_var = UnitGroupUnitFromEnd(auto905B5D58_g, auto905B5D58_u);
         if (auto905B5D58_var == null) { break; }
-        lv_type = UnitGetType(auto905B5D58_var);
-        auto6EA09989_val = lv_type;
-        if (auto6EA09989_val == "Egg") {
-        }
-        else if (auto6EA09989_val == "Refinery") {
-        }
-        else if (auto6EA09989_val == "AutomatedRefinery") {
-        }
-        else if (auto6EA09989_val == "Extractor") {
-        }
-        else if (auto6EA09989_val == "AutomatedExtractor") {
-        }
-        else if (auto6EA09989_val == "Assimilator") {
-        }
-        else if (auto6EA09989_val == "AutomatedAssimilator") {
-        }
-        else if (auto6EA09989_val == "AutomatedAssimilator") {
-        }
-        else {
-            lv_player = UnitGetOwner(auto905B5D58_var);
-            lv_point = UnitGetPosition(auto905B5D58_var);
-            UnitRemove(auto905B5D58_var);
-            UnitCreate(1, lv_type, c_unitCreateIgnorePlacement, lv_player, lv_point, 270.0);
-        }
+        lv_player = UnitGetOwner(auto905B5D58_var);
+        UnitSetOwner(auto905B5D58_var, 0, false);
+        UnitSetOwner(auto905B5D58_var, lv_player, false);
     }
     return true;
 }
