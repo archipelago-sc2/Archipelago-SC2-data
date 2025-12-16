@@ -7,30 +7,34 @@
         <AttributeBonus index="Massive" value="5"/>
     </CEffectDamage>
     <CEffectApplyBehavior id="KerriganEpilogue03CreepTeleportApplyBehavior">
+        <!-- Override -->
         <ValidatorArray value="AP_NotWorker"/>
     </CEffectApplyBehavior>
-    <CEffectSet id="KerriganEpilogue03CreepTeleportPrepareTerran">
+    <CEffectSet id="AP_erriganEpilogue03CreepTeleportPrepareTerran">
         <ValidatorArray value="AP_TargetPointHasNearbyTerranBuilding"/>
-        <EditorCategories value=""/>
+        <EditorCategories value="Race:Terran"/>
         <EffectArray value="KerriganEpilogue03CreepTeleportSearch"/>
         <TargetLocationType value="Point"/>
     </CEffectSet>
-    <CEffectSet id="KerriganEpilogue03CreepTeleportPrepareProtoss">
+    <CEffectSet id="AP_KerriganEpilogue03CreepTeleportPrepareProtoss">
         <ValidatorArray value="AP_TargetLocationHasPower"/>
-        <EditorCategories value=""/>
+        <EditorCategories value="Race:Protoss"/>
         <EffectArray value="KerriganEpilogue03CreepTeleportSearch"/>
         <TargetLocationType value="Point"/>
     </CEffectSet>
     <CEffectEnumArea id="KerriganEpilogue03HealSearch">
+        <!-- Override -->
         <AreaArray index="0" Effect="KerriganEpilogue03HealSmallSet"/>
     </CEffectEnumArea>
     <CEffectModifyUnit id="KerriganEpilogue03HealSmall">
+        <!-- Override -->
         <ValidatorArray value="ShieldsFull"/>
     </CEffectModifyUnit>
     <CEffectSet id="KerriganEpilogue03HealSmallSet">
-        <EffectArray index="1" value="KerriganEpilogue03HealSmallShields"/>
+        <!-- Override -->
+        <EffectArray index="1" value="AP_KerriganEpilogue03HealSmallShields"/>
     </CEffectSet>
-    <CEffectModifyUnit id="KerriganEpilogue03HealSmallShields">
+    <CEffectModifyUnit id="AP_KerriganEpilogue03HealSmallShields">
         <ValidatorArray value="ShieldsNotFull"/>
         <EditorCategories value="Race:Zerg"/>
         <VitalArray index="Life">
