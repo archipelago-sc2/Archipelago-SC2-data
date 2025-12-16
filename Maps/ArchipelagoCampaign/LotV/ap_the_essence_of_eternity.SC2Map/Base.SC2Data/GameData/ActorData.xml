@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
     <CActorModel id="AP_SuperStimpackStartImpact">
+        <!-- Override -->
         <On Terms="Abil.AP_SuperStimpackRaynor.SourceCastStart" Send="Create"/>
     </CActorModel>
     <CActorSound id="AP_SuperStimpackStartImpactActorSound">
+        <!-- Override -->
         <On Terms="Abil.AP_SuperStimpackRaynor.SourceCastStart" Send="Create"/>
     </CActorSound>
     <CActorSound id="AP_SuperStimpackSweetenerStartImpactActorSound">
+        <!-- Override -->
         <On Terms="Abil.AP_SuperStimpackRaynor.SourceCastStart" Send="Create"/>
     </CActorSound>
-    <!-- Artanis Ulnar02 version -->
     <CActorMissile id="ArtanisVoid">
+        <!-- Override -->
         <StatusBarFlags index="Shields" value="0"/>
         <StatusBarFlags index="Life" value="0"/>
         <StatusBarFlags index="Energy" value="0"/>
@@ -20,15 +23,8 @@
         <StatusBarFlags index="Magazine" value="0"/>
         <StatusBarFlags index="Workers" value="0"/>
     </CActorMissile>
-    <CActorSiteOpRotator id="ImmortalRotator">
-        <EditorCategories value=""/>
-        <LocalAxis value="1.000000,0.000000,0.000000"/>
-        <Rate value="120.000000"/>
-    </CActorSiteOpRotator>
-    <!--                                                                                         -->
-    <!-- Raynor Commando ....................................................................... -->
-    <!--                                                                                         -->
     <CActorUnit id="RaynorCommando">
+        <!-- Override -->
         <On Terms="ActorCreation" Send="Create SwarmHeroGlow"/>
         <DeathArray index="Normal" AnimProps="Stand,Unpowered,Start"/>
         <CustomUnitStatusFrame value="LotV_UnitStatus/HeroUnitEnergyStatusFrameTemplate"/>
@@ -43,7 +39,6 @@
         <StatusBarOn index="Custom" value="1"/>
     </CActorUnit>
     <CActorModelMaterial id="AP_HeroStasisShellGlaze" parent="BehaviorGlaze" buff="AP_HeroReviving">
-        <EditorCategories value=""/>
         <On Terms="ActorCreation; ValidateUnitType AP_IsRaynorSniper" Target="_Selectable" Send="AnimBracketStart AP_HeroReviving Stand,Work,Start Stand,Work Stand,Work,End"/>
         <On Terms="ActorCreation; ValidateUnitType AP_IsArtanisVoid" Target="_Selectable" Send="AnimBracketStart AP_HeroReviving Spell,F,Start Spell,F Spell,F,End"/>
         <On Terms="ActorDestruction" Target="_Selectable" Send="AnimBracketStop AP_HeroReviving"/>
@@ -56,15 +51,18 @@
         <Inherits index="LocalTintColor" value="1"/>
         <Inherits index="ModelMaterials" value="0"/>
         <Inherits index="Scale" value="0"/>
-        <EditorCategories value=""/>
         <On Terms="Behavior.AP_HeroReviving.On" Send="Create"/>
         <On Terms="Behavior.AP_HeroReviving.Off" Send="AnimBracketStop BSD"/>
         <On Terms="UnitBirth.RaynorCommando.EditorPlaced" Send="Create"/>
         <On Terms="UnitBirth.ArtanisVoid.EditorPlaced" Send="Create"/>
         <Model value="AP_NovaReviveCocoon"/>
     </CActorModel>
+    <CActorSiteOpRotator id="AP_ImmortalRotator">
+        <LocalAxis value="1.000000,0.000000,0.000000"/>
+        <Rate value="120.000000"/>
+    </CActorSiteOpRotator>
     <CActorSound id="VoidVortex_ActorSoundLoop">
-        <Layers index="0">
+        <Layers index="0" Sound="VoidVortexSweeteners1_DelayedLoop">
             <Chance value="0"/>
             <Pitch value="0.000000,0.000000"/>
             <PlayDelay value="0,0"/>
