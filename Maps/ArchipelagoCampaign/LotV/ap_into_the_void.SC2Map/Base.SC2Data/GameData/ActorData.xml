@@ -10,18 +10,15 @@
         <Macros index="7" removed="1"/>
     </CActorUnit>
     <CActorUnit id="AP_Mira" parent="GenericUnitMinimal" unitName="AP_Mira">
-        <EditorCategories value=""/>
         <On Terms="ActorCreation" Send="AnimPlay Lifetime HappyEyes PlayForever,ForceLooping"/>
         <HostSiteOps Ops="SOpForwardSouth"/>
         <Scale value="20.000000"/>
-        <HighlightTooltip value="Unit/Name/Bogus"/>
     </CActorUnit>
     <CActorModel id="AP_SpawningPoolHealAttachmentUltra" parent="ModelAdditionNoAnims">
         <Inherits index="BaseModelScale" value="0"/>
         <Inherits index="Opacity" value="0"/>
         <Inherits index="Scale" value="0"/>
         <Inherits index="Visibility" value="0"/>
-        <EditorCategories value=""/>
         <On Terms="Behavior.AP_SpawningPoolHeal.On; !ScopeContains AP_SpawningPoolHealAttachment" Send="Create"/>
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Unload Walk Load 0 0.400000 AsTimeScale"/>
         <On Terms="Behavior.AP_SpawningPoolHeal.Off" Send="AnimBracketStop BSD"/>
@@ -46,28 +43,25 @@
         <HostSiteOps Ops="SOpAttachOrigin SOp180"/>
         <Model value="Ultralisk"/>
     </CActorModel>
-    <CActorSiteOpRotator id="AP_SpawningPoolZerglinRotator">
-        <EditorCategories value=""/>
+    <CActorSiteOpRotator id="AP_SpawningPoolZerglingRotator">
         <LocalAxis value="0.000000,0.000000,-1.000000"/>
         <Rate value="100.000000"/>
     </CActorSiteOpRotator>
-    <CActorModel id="AP_SpawningPoolZergling" parent="ModelAddition">
+    <CActorModel id="AP_SpawningPoolZergling" parent="ModelAdditionNoAnims">
         <Inherits index="BaseModelScale" value="0"/>
         <Inherits index="Opacity" value="0"/>
         <Inherits index="Scale" value="0"/>
-        <EditorCategories value=""/>
-        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Birth Walk,01 Death"/>
-        <HostSiteOps Ops="SOpMoveUpByDot25 AP_SpawningPoolZerglinRotator SOpMoveBackByDot5 SOp90"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Walk,01 Death"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <HostSiteOps Ops="SOpMoveUpByDot25 AP_SpawningPoolZerglingRotator SOpMoveBackByDot5 SOp90"/>
         <Model value="ZerglingXPR"/>
         <Scale value="0.700000"/>
     </CActorModel>
-    <CActorModel id="AP_SpawningPoolHydralisk" parent="ModelAddition">
+    <CActorModel id="AP_SpawningPoolHydralisk" parent="ModelAdditionNoAnims">
         <Inherits index="BaseModelScale" value="0"/>
         <Inherits index="Opacity" value="0"/>
         <Inherits index="Scale" value="0"/>
-        <EditorCategories value=""/>
-        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Unburrow Dance,00 Burrow ContentPlayOnce"/>
-        <On index="2" Terms="UnitBirth.SpawningPool.EditorPlaced" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Unburrow Dance,00 Burrow ContentPlayOnce"/>
         <On Terms="ActorCreation" Target="_Selectable" Send="SetScale 1.500000,1.500000,0.900000"/>
         <On Terms="AnimBracketState.*.AfterClosing" Send="AnimBracketStart Death Unburrow Walk,00 Burrow OpeningPlayForever"/>
         <On Terms="ActorCreation" Send="Create AP_SpawningPoolZergling"/>
@@ -78,6 +72,7 @@
         <Scale value="0.800000"/>
     </CActorModel>
     <CActorModel id="WarpInVoid">
+        <!-- Override -->
         <On Terms="Abil.StargateWarpTrainAI.TargetStop" Send="AnimBracketStop BSD"/>
     </CActorModel>
 </Catalog>
