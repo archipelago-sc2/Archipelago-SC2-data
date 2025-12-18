@@ -33,13 +33,6 @@ void InitLibs () {
 //--------------------------------------------------------------------------------------------------
 // Constants
 //--------------------------------------------------------------------------------------------------
-const int gv_pLAYER_01_USER = 1;
-const int gv_pLAYER_02_DOMINION = 2;
-const int gv_pLAYER_02_DOMINION2 = 3;
-const int gv_pLAYER_02_DOMINION22 = 4;
-const int gv_pLAYER_02_DOMINION222 = 5;
-const int gv_pLAYER_02_DOMINION2222 = 6;
-const int gv_sPORE_RAY_MAX_COUNT = 2;
 const int gv_LOCATION_ID_FIRST_RELIC = 1;
 const int gv_LOCATION_ID_SECOND_RELIC = 2;
 const int gv_LOCATION_ID_THIRD_RELIC = 3;
@@ -47,6 +40,13 @@ const int gv_LOCATION_ID_FOURTH_RELIC = 4;
 const int gv_LOCATION_ID_YAGDRA = 5;
 const int gv_LOCATION_ID_KRAITH = 6;
 const int gv_LOCATION_ID_SLIVAN = 7;
+const int gv_pLAYER_01_USER = 1;
+const int gv_pLAYER_02_DOMINION = 2;
+const int gv_pLAYER_02_DOMINION2 = 3;
+const int gv_pLAYER_02_DOMINION22 = 4;
+const int gv_pLAYER_02_DOMINION222 = 5;
+const int gv_pLAYER_02_DOMINION2222 = 6;
+const int gv_sPORE_RAY_MAX_COUNT = 2;
 
 //--------------------------------------------------------------------------------------------------
 // Global Structures
@@ -249,6 +249,17 @@ void gf_KraithEarthquakeIntro (point lp_crashingChargePoint);
 //--------------------------------------------------------------------------------------------------
 // Trigger Variables
 //--------------------------------------------------------------------------------------------------
+trigger gt_onDifficultyCasual;
+trigger gt_onDifficultyNormal;
+trigger gt_onDifficultyHard;
+trigger gt_onDifficultyBrutal;
+trigger gt_ArchInit;
+trigger gt_EnableReplacements;
+trigger gt_SetMineralCount;
+trigger gt_XelNagaRelicPickupsFirst;
+trigger gt_XelNagaRelicPickupsSecond;
+trigger gt_XelNagaRelicPickupsThird;
+trigger gt_XelNagaRelicPickupsFourth;
 trigger gt_Initialization;
 trigger gt_Init01Technology;
 trigger gt_Init02Players;
@@ -262,6 +273,7 @@ trigger gt_DEBUGKraithBoss;
 trigger gt_DEBUGSlivanBoss;
 trigger gt_DEBUGZurvanBoss;
 trigger gt_DEBUGVictory;
+trigger gt_DEBUGEnableReplacements;
 trigger gt_StartGameQ;
 trigger gt_UnitTakesDamage;
 trigger gt_AttackedUnitCountdowns;
@@ -435,17 +447,6 @@ trigger gt_ZurvanIntroCleanupSkipped;
 trigger gt_ZurvanIntroMusic;
 trigger gt_ZurvanReinforcements;
 trigger gt_VictoryQ;
-trigger gt_onDifficultyCasual;
-trigger gt_onDifficultyNormal;
-trigger gt_onDifficultyHard;
-trigger gt_onDifficultyBrutal;
-trigger gt_ArchInit;
-trigger gt_EnableReplacements;
-trigger gt_SetMineralCount;
-trigger gt_XelNagaRelicPickupsFirst;
-trigger gt_XelNagaRelicPickupsSecond;
-trigger gt_XelNagaRelicPickupsThird;
-trigger gt_XelNagaRelicPickupsFourth;
 
 //--------------------------------------------------------------------------------------------------
 // Global Functions
@@ -1800,6 +1801,336 @@ bool auto_gf_KraithEarthquakeIntro_TriggerFunc (bool testConds, bool runActions)
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyCasual
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyCasual_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup auto0B14C30E_g;
+    int auto0B14C30E_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto0B14C30E_g = UnitGroupFromId(1);
+    auto0B14C30E_u = UnitGroupCount(auto0B14C30E_g, c_unitCountAll);
+    for (;; auto0B14C30E_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(auto0B14C30E_g, auto0B14C30E_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyCasual_Init () {
+    gt_onDifficultyCasual = TriggerCreate("gt_onDifficultyCasual_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyNormal
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyNormal_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup auto3CCE52F9_g;
+    int auto3CCE52F9_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto3CCE52F9_g = UnitGroupFromId(2);
+    auto3CCE52F9_u = UnitGroupCount(auto3CCE52F9_g, c_unitCountAll);
+    for (;; auto3CCE52F9_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(auto3CCE52F9_g, auto3CCE52F9_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyNormal_Init () {
+    gt_onDifficultyNormal = TriggerCreate("gt_onDifficultyNormal_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyHard
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyHard_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyHard_Init () {
+    gt_onDifficultyHard = TriggerCreate("gt_onDifficultyHard_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyBrutal
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyBrutal_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyBrutal_Init () {
+    gt_onDifficultyBrutal = TriggerCreate("gt_onDifficultyBrutal_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Arch Init
+//--------------------------------------------------------------------------------------------------
+bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    timer lv_testtimer;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_testtimer = TimerCreate();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
+    TriggerExecute(gt_Init02Players, true, false);
+    TriggerExecute(gt_Init03Units, true, false);
+    libABFE498B_gf_AP_Triggers_MapConfig_setMissionBuild(false);
+    libABFE498B_gf_AP_Triggers_MapConfig_setKerriganOptions(true, true);
+    libABFE498B_gf_AP_Triggers_MapConfig_setKerriganStoryTechMinLevel(35);
+    libABFE498B_gf_AP_Triggers_MapConfig_setDifficultySetup(gt_onDifficultyCasual, gt_onDifficultyNormal, gt_onDifficultyHard, gt_onDifficultyBrutal);
+    lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_PRIMAL_ZERG);
+    lib5BD4895D_gf_AP_Core_initObjectivePanel();
+    lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ArchInit_Init () {
+    gt_ArchInit = TriggerCreate("gt_ArchInit_Func");
+    TriggerAddEventMapInit(gt_ArchInit);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Enable Replacements
+//--------------------------------------------------------------------------------------------------
+bool gt_EnableReplacements_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TechTreeUpgradeAddLevel(gv_pLAYER_01_USER, "AP_AllowSwarmAssistance", 1);
+    HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/2C3D467D"), libNtve_ge_TipType_MissionStrategy), StringExternal("Param/Value/AA0C7F87"), StringExternal("Param/Value/D68C7FF9"), "AP\\Assets\\Textures\\AP_icon.dds");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_EnableReplacements_Init () {
+    gt_EnableReplacements = TriggerCreate("gt_EnableReplacements_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Set Mineral Count
+//--------------------------------------------------------------------------------------------------
+bool gt_SetMineralCount_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((libNtve_gf_DifficultyValueInt(0, 0, 1, 1) == 1)) {
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_SetMineralCount_Init () {
+    gt_SetMineralCount = TriggerCreate("gt_SetMineralCount_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Xel'Naga Relic Pickups First
+//--------------------------------------------------------------------------------------------------
+bool gt_XelNagaRelicPickupsFirst_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_tempUnit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventUnit()) == "PickupChronoRiftChargeSwarm"))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_UnitInRegion(gv_kerrigan, RegionCircle(UnitGetPosition(EventUnit()), 3.0)) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_FIRST_RELIC);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_XelNagaRelicPickupsFirst_Init () {
+    gt_XelNagaRelicPickupsFirst = TriggerCreate("gt_XelNagaRelicPickupsFirst_Func");
+    TriggerAddEventUnitAbility(gt_XelNagaRelicPickupsFirst, UnitRefFromUnit(UnitFromId(534)), AbilityCommand("Pickup", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Xel'Naga Relic Pickups Second
+//--------------------------------------------------------------------------------------------------
+bool gt_XelNagaRelicPickupsSecond_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_tempUnit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventUnit()) == "PickupChronoRiftChargeSwarm"))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_UnitInRegion(gv_kerrigan, RegionCircle(UnitGetPosition(EventUnit()), 3.0)) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_SECOND_RELIC);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_XelNagaRelicPickupsSecond_Init () {
+    gt_XelNagaRelicPickupsSecond = TriggerCreate("gt_XelNagaRelicPickupsSecond_Func");
+    TriggerAddEventUnitAbility(gt_XelNagaRelicPickupsSecond, UnitRefFromUnit(UnitFromId(1648)), AbilityCommand("Pickup", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Xel'Naga Relic Pickups Third
+//--------------------------------------------------------------------------------------------------
+bool gt_XelNagaRelicPickupsThird_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_tempUnit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventUnit()) == "PickupChronoRiftChargeSwarm"))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_UnitInRegion(gv_kerrigan, RegionCircle(UnitGetPosition(EventUnit()), 3.0)) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_THIRD_RELIC);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_XelNagaRelicPickupsThird_Init () {
+    gt_XelNagaRelicPickupsThird = TriggerCreate("gt_XelNagaRelicPickupsThird_Func");
+    TriggerAddEventUnitAbility(gt_XelNagaRelicPickupsThird, UnitRefFromUnit(UnitFromId(1280)), AbilityCommand("Pickup", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Xel'Naga Relic Pickups Fourth
+//--------------------------------------------------------------------------------------------------
+bool gt_XelNagaRelicPickupsFourth_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_tempUnit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventUnit()) == "PickupChronoRiftChargeSwarm"))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_UnitInRegion(gv_kerrigan, RegionCircle(UnitGetPosition(EventUnit()), 3.0)) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_FOURTH_RELIC);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_XelNagaRelicPickupsFourth_Init () {
+    gt_XelNagaRelicPickupsFourth = TriggerCreate("gt_XelNagaRelicPickupsFourth_Func");
+    TriggerAddEventUnitAbility(gt_XelNagaRelicPickupsFourth, UnitRefFromUnit(UnitFromId(2603)), AbilityCommand("Pickup", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Initialization
 //--------------------------------------------------------------------------------------------------
 bool gt_Initialization_Func (bool testConds, bool runActions) {
@@ -2648,6 +2979,44 @@ bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
 void gt_DEBUGVictory_Init () {
     gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
     TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG - Enable Replacements
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGEnableReplacements_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/8B52990B"), true);
+    TechTreeUpgradeAddLevel(gv_pLAYER_01_USER, "AP_AllowSwarmAssistance", 1);
+    HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/F13E7FDB"), libNtve_ge_TipType_MissionStrategy), StringExternal("Param/Value/844F33E9"), StringExternal("Param/Value/D8D90E3A"), "AP\\Assets\\Textures\\AP_icon.dds");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGEnableReplacements_Init () {
+    gt_DEBUGEnableReplacements = TriggerCreate("gt_DEBUGEnableReplacements_Func");
+    TriggerAddEventChatMessage(gt_DEBUGEnableReplacements, c_playerAny, "-r", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -11045,7 +11414,6 @@ bool gt_YagdraIntroCleanupNotSkipped_Func (bool testConds, bool runActions) {
     libNtve_gf_CinematicMode(false, PlayerGroupAll(), 1.5);
     libNtve_gf_GlobalCinematicSetting(false);
     SoundChannelSetVolume(PlayerGroupAll(), c_soundCategoryMusic, 100.0, 0.1);
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     Wait(1.5, c_timeGame);
     gv_inCinematic = false;
     TriggerExecute(gt_YagdraBossFightController, true, false);
@@ -11130,7 +11498,6 @@ bool gt_YagdraIntroCleanupSkipped_Func (bool testConds, bool runActions) {
     libNtve_gf_SwooshCamera(gv_pLAYER_01_USER, (CameraInfoGetValue(CameraInfoFromId(3687), c_cameraValueDistance) + 8.0), CameraInfoGetValue(CameraInfoFromId(3687), c_cameraValueDistance), CameraInfoGetTarget(CameraInfoFromId(3687)), lv_fadeDuration);
     SoundChannelSetVolume(PlayerGroupAll(), c_soundCategoryMusic, 100.0, 0.1);
     CinematicFade(true, lv_fadeDuration, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, true);
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     gv_inCinematic = false;
     UnitIssueOrder(gv_yagdra, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
     TriggerExecute(gt_YagdraBossFightController, true, false);
@@ -11519,7 +11886,6 @@ bool gt_KraithIntroCleanupNotSkipped_Func (bool testConds, bool runActions) {
         if (auto683DB9FF_var == null) { break; }
         libNtve_gf_MakeUnitInvulnerable(auto683DB9FF_var, false);
     }
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     TriggerExecute(gt_KraithBossFightController, true, false);
     return true;
 }
@@ -11628,7 +11994,6 @@ bool gt_KraithIntroCleanupSkipped_Func (bool testConds, bool runActions) {
         if (autoA53DF74A_var == null) { break; }
         libNtve_gf_MakeUnitInvulnerable(autoA53DF74A_var, false);
     }
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     TriggerExecute(gt_KraithBossFightController, true, false);
     return true;
 }
@@ -12045,7 +12410,6 @@ bool gt_SlivanIntroCleanupNotSkipped_Func (bool testConds, bool runActions) {
         if (auto514076E9_var == null) { break; }
         libNtve_gf_MakeUnitInvulnerable(auto514076E9_var, false);
     }
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     TriggerExecute(gt_SlivanBossFightController, true, false);
     return true;
 }
@@ -12151,7 +12515,6 @@ bool gt_SlivanIntroCleanupSkipped_Func (bool testConds, bool runActions) {
         if (autoF0C7E048_var == null) { break; }
         libNtve_gf_MakeUnitInvulnerable(autoF0C7E048_var, false);
     }
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     TriggerExecute(gt_SlivanBossFightController, true, false);
     return true;
 }
@@ -12572,7 +12935,6 @@ bool gt_ZurvanIntroCleanupNotSkipped_Func (bool testConds, bool runActions) {
     libNtve_gf_CinematicMode(false, PlayerGroupAll(), 1.5);
     libNtve_gf_GlobalCinematicSetting(false);
     SoundChannelSetVolume(PlayerGroupAll(), c_soundCategoryMusic, 100.0, 0.1);
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     Wait(1.5, c_timeGame);
     gv_inCinematic = false;
     libNtve_gf_SetAlliance(gv_pLAYER_01_USER, gv_pLAYER_02_DOMINION222, libNtve_ge_AllianceSetting_Enemy);
@@ -12683,7 +13045,6 @@ bool gt_ZurvanIntroCleanupSkipped_Func (bool testConds, bool runActions) {
     libNtve_gf_SwooshCamera(gv_pLAYER_01_USER, (CameraInfoGetValue(CameraInfoFromId(3483), c_cameraValueDistance) + 8.0), CameraInfoGetValue(CameraInfoFromId(3483), c_cameraValueDistance), CameraInfoGetTarget(CameraInfoFromId(3483)), lv_fadeDuration);
     SoundChannelSetVolume(PlayerGroupAll(), c_soundCategoryMusic, 100.0, 0.1);
     CinematicFade(true, lv_fadeDuration, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, true);
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     gv_inCinematic = false;
     libNtve_gf_SetAlliance(gv_pLAYER_01_USER, gv_pLAYER_02_DOMINION222, libNtve_ge_AllianceSetting_Enemy);
     TriggerExecute(gt_ZurvanInitQ, true, false);
@@ -12888,339 +13249,20 @@ void gt_VictoryQ_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyCasual
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyCasual_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup auto0B14C30E_g;
-    int auto0B14C30E_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto0B14C30E_g = UnitGroupFromId(1);
-    auto0B14C30E_u = UnitGroupCount(auto0B14C30E_g, c_unitCountAll);
-    for (;; auto0B14C30E_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(auto0B14C30E_g, auto0B14C30E_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyCasual_Init () {
-    gt_onDifficultyCasual = TriggerCreate("gt_onDifficultyCasual_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyNormal
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyNormal_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup auto3CCE52F9_g;
-    int auto3CCE52F9_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto3CCE52F9_g = UnitGroupFromId(2);
-    auto3CCE52F9_u = UnitGroupCount(auto3CCE52F9_g, c_unitCountAll);
-    for (;; auto3CCE52F9_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(auto3CCE52F9_g, auto3CCE52F9_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyNormal_Init () {
-    gt_onDifficultyNormal = TriggerCreate("gt_onDifficultyNormal_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyHard
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyHard_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyHard_Init () {
-    gt_onDifficultyHard = TriggerCreate("gt_onDifficultyHard_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyBrutal
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyBrutal_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyBrutal_Init () {
-    gt_onDifficultyBrutal = TriggerCreate("gt_onDifficultyBrutal_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Arch Init
-//--------------------------------------------------------------------------------------------------
-bool gt_ArchInit_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    timer lv_testtimer;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_testtimer = TimerCreate();
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
-    TriggerExecute(gt_Init02Players, true, false);
-    TriggerExecute(gt_Init03Units, true, false);
-    libABFE498B_gf_AP_Triggers_MapConfig_setMissionBuild(false);
-    libABFE498B_gf_AP_Triggers_MapConfig_setKerriganOptions(true, true);
-    libABFE498B_gf_AP_Triggers_MapConfig_setKerriganStoryTechMinLevel(35);
-    libABFE498B_gf_AP_Triggers_MapConfig_setDifficultySetup(gt_onDifficultyCasual, gt_onDifficultyNormal, gt_onDifficultyHard, gt_onDifficultyBrutal);
-    lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_PRIMAL_ZERG);
-    lib5BD4895D_gf_AP_Core_initObjectivePanel();
-    lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ArchInit_Init () {
-    gt_ArchInit = TriggerCreate("gt_ArchInit_Func");
-    TriggerAddEventMapInit(gt_ArchInit);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Enable Replacements
-//--------------------------------------------------------------------------------------------------
-bool gt_EnableReplacements_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerEnable(TriggerGetCurrent(), false);
-    TechTreeUpgradeAddLevel(gv_pLAYER_01_USER, "AP_AllowSwarmAssistance", 1);
-    HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/2C3D467D"), libNtve_ge_TipType_MissionStrategy), StringExternal("Param/Value/AA0C7F87"), StringExternal("Param/Value/D68C7FF9"), "AP\\Assets\\Textures\\AP_icon.dds");
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_EnableReplacements_Init () {
-    gt_EnableReplacements = TriggerCreate("gt_EnableReplacements_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Set Mineral Count
-//--------------------------------------------------------------------------------------------------
-bool gt_SetMineralCount_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((libNtve_gf_DifficultyValueInt(0, 0, 1, 1) == 1)) {
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_SetMineralCount_Init () {
-    gt_SetMineralCount = TriggerCreate("gt_SetMineralCount_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Xel'Naga Relic Pickups First
-//--------------------------------------------------------------------------------------------------
-bool gt_XelNagaRelicPickupsFirst_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_tempUnit;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitGetType(EventUnit()) == "PickupChronoRiftChargeSwarm"))) {
-            return false;
-        }
-
-        if (!((libNtve_gf_UnitInRegion(gv_kerrigan, RegionCircle(UnitGetPosition(EventUnit()), 3.0)) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_FIRST_RELIC);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_XelNagaRelicPickupsFirst_Init () {
-    gt_XelNagaRelicPickupsFirst = TriggerCreate("gt_XelNagaRelicPickupsFirst_Func");
-    TriggerAddEventUnitAbility(gt_XelNagaRelicPickupsFirst, UnitRefFromUnit(UnitFromId(534)), AbilityCommand("Pickup", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Xel'Naga Relic Pickups Second
-//--------------------------------------------------------------------------------------------------
-bool gt_XelNagaRelicPickupsSecond_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_tempUnit;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitGetType(EventUnit()) == "PickupChronoRiftChargeSwarm"))) {
-            return false;
-        }
-
-        if (!((libNtve_gf_UnitInRegion(gv_kerrigan, RegionCircle(UnitGetPosition(EventUnit()), 3.0)) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_SECOND_RELIC);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_XelNagaRelicPickupsSecond_Init () {
-    gt_XelNagaRelicPickupsSecond = TriggerCreate("gt_XelNagaRelicPickupsSecond_Func");
-    TriggerAddEventUnitAbility(gt_XelNagaRelicPickupsSecond, UnitRefFromUnit(UnitFromId(1648)), AbilityCommand("Pickup", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Xel'Naga Relic Pickups Third
-//--------------------------------------------------------------------------------------------------
-bool gt_XelNagaRelicPickupsThird_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_tempUnit;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitGetType(EventUnit()) == "PickupChronoRiftChargeSwarm"))) {
-            return false;
-        }
-
-        if (!((libNtve_gf_UnitInRegion(gv_kerrigan, RegionCircle(UnitGetPosition(EventUnit()), 3.0)) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_THIRD_RELIC);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_XelNagaRelicPickupsThird_Init () {
-    gt_XelNagaRelicPickupsThird = TriggerCreate("gt_XelNagaRelicPickupsThird_Func");
-    TriggerAddEventUnitAbility(gt_XelNagaRelicPickupsThird, UnitRefFromUnit(UnitFromId(1280)), AbilityCommand("Pickup", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Xel'Naga Relic Pickups Fourth
-//--------------------------------------------------------------------------------------------------
-bool gt_XelNagaRelicPickupsFourth_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_tempUnit;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitGetType(EventUnit()) == "PickupChronoRiftChargeSwarm"))) {
-            return false;
-        }
-
-        if (!((libNtve_gf_UnitInRegion(gv_kerrigan, RegionCircle(UnitGetPosition(EventUnit()), 3.0)) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_FOURTH_RELIC);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_XelNagaRelicPickupsFourth_Init () {
-    gt_XelNagaRelicPickupsFourth = TriggerCreate("gt_XelNagaRelicPickupsFourth_Func");
-    TriggerAddEventUnitAbility(gt_XelNagaRelicPickupsFourth, UnitRefFromUnit(UnitFromId(2603)), AbilityCommand("Pickup", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger Initialization
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
+    gt_onDifficultyCasual_Init();
+    gt_onDifficultyNormal_Init();
+    gt_onDifficultyHard_Init();
+    gt_onDifficultyBrutal_Init();
+    gt_ArchInit_Init();
+    gt_EnableReplacements_Init();
+    gt_SetMineralCount_Init();
+    gt_XelNagaRelicPickupsFirst_Init();
+    gt_XelNagaRelicPickupsSecond_Init();
+    gt_XelNagaRelicPickupsThird_Init();
+    gt_XelNagaRelicPickupsFourth_Init();
     gt_Initialization_Init();
     gt_Init01Technology_Init();
     gt_Init02Players_Init();
@@ -13234,6 +13276,7 @@ void InitTriggers () {
     gt_DEBUGSlivanBoss_Init();
     gt_DEBUGZurvanBoss_Init();
     gt_DEBUGVictory_Init();
+    gt_DEBUGEnableReplacements_Init();
     gt_StartGameQ_Init();
     gt_UnitTakesDamage_Init();
     gt_AttackedUnitCountdowns_Init();
@@ -13407,17 +13450,6 @@ void InitTriggers () {
     gt_ZurvanIntroMusic_Init();
     gt_ZurvanReinforcements_Init();
     gt_VictoryQ_Init();
-    gt_onDifficultyCasual_Init();
-    gt_onDifficultyNormal_Init();
-    gt_onDifficultyHard_Init();
-    gt_onDifficultyBrutal_Init();
-    gt_ArchInit_Init();
-    gt_EnableReplacements_Init();
-    gt_SetMineralCount_Init();
-    gt_XelNagaRelicPickupsFirst_Init();
-    gt_XelNagaRelicPickupsSecond_Init();
-    gt_XelNagaRelicPickupsThird_Init();
-    gt_XelNagaRelicPickupsFourth_Init();
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -8357,7 +8357,6 @@ bool gt_CinematicLowerDeckTransitionMidQ_Func (bool testConds, bool runActions) 
     }
     else {
         CinematicFade(false, 1.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, false);
-        UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     }
     TriggerExecute(gt_CinematicLowerDeckTransitionMidCleanup, true, true);
     TriggerQueueExit();
@@ -8414,7 +8413,6 @@ bool gt_CinematicLowerDeckTransitionMidSetup_Func (bool testConds, bool runActio
             libNtve_gf_MakeUnitFacePoint(auto9952AB9E_var, PointFromId(1479), 0.0);
         }
     }
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     UnitGroupAdd(gv_cinematicHiddenUnits, gv_kerrigan);
     UnitGroupRemove(gv_cinematicHiddenUnits, UnitFromId(769));
     UnitGroupRemoveUnitGroup(gv_cinematicHiddenUnits, gv__2AfterBridgeDominion);
@@ -8635,7 +8633,6 @@ bool gt_CinematicLowerDeckTransitionMidCleanup_Func (bool testConds, bool runAct
         UnitSetPosition(auto7ED1D1CE_var, RegionRandomPoint(RegionFromId(60)), false);
         UnitIssueOrder(auto7ED1D1CE_var, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
     }
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     auto57CC9E48_g = UnitGroup("CreepTumorBurrowed", gv_p01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterHeroic) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
     auto57CC9E48_u = UnitGroupCount(auto57CC9E48_g, c_unitCountAll);
     for (;; auto57CC9E48_u -= 1) {
