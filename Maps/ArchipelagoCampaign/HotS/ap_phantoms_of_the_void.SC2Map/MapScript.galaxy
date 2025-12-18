@@ -33,13 +33,6 @@ void InitLibs () {
 //--------------------------------------------------------------------------------------------------
 // Constants
 //--------------------------------------------------------------------------------------------------
-const int gv_pLAYER_01_USER = 1;
-const int gv_pLAYER_02_DOMINION = 2;
-const int gv_pLAYER_02_DOMINION2 = 3;
-const int gv_pLAYER_02_DOMINION22 = 4;
-const int gv_pLAYER_02_DOMINION222 = 5;
-const int gv_pLAYER_02_DOMINION2222 = 6;
-const int gv_pLAYER_02_DOMINION22222 = 7;
 const int gv_LOCATION_ID_NORTHWEST_CRYSTAL = 1;
 const int gv_LOCATION_ID_NORTHEAST_CRYSTAL = 2;
 const int gv_LOCATION_ID_SOUTH_CRYSTAL = 3;
@@ -51,6 +44,13 @@ const int gv_LOCATION_ID_NORTHEAST_TEMPLE = 8;
 const int gv_LOCATION_ID_NORTHWEST_TEMPLE = 9;
 const int gv_tEMPLE_LOCATION_OFFSET = 5;
 const int gv_tEMPLE_COUNT = 5;
+const int gv_pLAYER_01_USER = 1;
+const int gv_pLAYER_02_DOMINION = 2;
+const int gv_pLAYER_02_DOMINION2 = 3;
+const int gv_pLAYER_02_DOMINION22 = 4;
+const int gv_pLAYER_02_DOMINION222 = 5;
+const int gv_pLAYER_02_DOMINION2222 = 6;
+const int gv_pLAYER_02_DOMINION22222 = 7;
 
 //--------------------------------------------------------------------------------------------------
 // Global Preset Declarations
@@ -62,6 +62,9 @@ const int ge_PRESET_MovementDirection_Reverse = 2;
 //--------------------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------------------
+bool gv_victorySent;
+bool[6] gv_templeSent;
+bool gv_aPIntro;
 playergroup gv_protossPlayers;
 bool gv_gameOver;
 bool gv_inCinematic;
@@ -157,13 +160,11 @@ bool gv_midMusicCompleted;
 sound gv_victoryStinger;
 sound gv_victoryNarudDeath;
 unit gv_victoryStukov;
-bool gv_victorySent;
-bool[6] gv_templeSent;
-bool gv_aPIntro;
 
 void InitGlobals () {
     int init_i;
 
+    gv_aPIntro = true;
     gv_protossPlayers = PlayerGroupEmpty();
     gv_startingUnits = UnitGroupEmpty();
     gv_introGasPickups = UnitGroupEmpty();
@@ -198,12 +199,12 @@ void InitGlobals () {
     gv_cinematicHiddenUnits = UnitGroupEmpty();
     gv_cinematicTempUnits = UnitGroupEmpty();
     gv_startingBase = UnitGroupEmpty();
-    gv_aPIntro = true;
 }
 
 //--------------------------------------------------------------------------------------------------
 // Global Function Declarations
 //--------------------------------------------------------------------------------------------------
+void gf_StartKerriganReviveCooldown2 ();
 void gf_TeachCorrosiveBlast (unit lp_hybrid);
 void gf_SetNullZoneDirection (int lp_direction);
 fixed gf_NullZonePercentage ();
@@ -214,11 +215,22 @@ void gf_SpawnHybridforTemple (point lp_spawnPoint, point lp_templePoint);
 void gf_CreatePingforHybrid (unit lp_hybrid);
 void gf_CreatePingforTemple (region lp_templeRegion);
 void gf_KillTemple (point lp_templePoint);
-void gf_StartKerriganReviveCooldown2 ();
 
 //--------------------------------------------------------------------------------------------------
 // Trigger Variables
 //--------------------------------------------------------------------------------------------------
+trigger gt_FactionSwapInit;
+trigger gt_Stukov_HeroReviveOnBehaviorExpiry;
+trigger gt_onDifficultyCasual;
+trigger gt_onDifficultyNormal;
+trigger gt_onDifficultyHard;
+trigger gt_onDifficultyBrutal;
+trigger gt_ArchInit;
+trigger gt_IntroUltralisks;
+trigger gt_SetMineralCount;
+trigger gt_CrystalDestroyedNorthwest;
+trigger gt_CrystalDestroyedNortheast;
+trigger gt_CrystalDestroyedSouth;
 trigger gt_Initialization;
 trigger gt_Init01Technology;
 trigger gt_Init02Players;
@@ -324,18 +336,6 @@ trigger gt_VictoryCinematic;
 trigger gt_VictoryCinematicEnd;
 trigger gt_VictoryCleanup;
 trigger gt_VictoryKillNarud;
-trigger gt_FactionSwapInit;
-trigger gt_Stukov_HeroReviveOnBehaviorExpiry;
-trigger gt_onDifficultyCasual;
-trigger gt_onDifficultyNormal;
-trigger gt_onDifficultyHard;
-trigger gt_onDifficultyBrutal;
-trigger gt_ArchInit;
-trigger gt_IntroUltralisks;
-trigger gt_SetMineralCount;
-trigger gt_CrystalDestroyedNorthwest;
-trigger gt_CrystalDestroyedNortheast;
-trigger gt_CrystalDestroyedSouth;
 
 //--------------------------------------------------------------------------------------------------
 // Global Presets
@@ -344,6 +344,38 @@ trigger gt_CrystalDestroyedSouth;
 //--------------------------------------------------------------------------------------------------
 // Global Functions
 //--------------------------------------------------------------------------------------------------
+void gf_StartKerriganReviveCooldown2 () {
+    // Variable Declarations
+    unit lv_reviveSpot;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_reviveSpot = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(gv_pLAYER_01_USER);
+    if (((lv_reviveSpot == null) || (UnitIsAlive(lv_reviveSpot) == false))) {
+        libSwaC_gf_DisplayCampaignMessage(PlayerGroupAll(), libSwaC_ge_CampaignMessageType_Warning, StringExternal("Param/Value/7ADB544F"), libSwaC_ge_CampaignMessageFormatNotFormat_FormatMessage);
+    }
+    else {
+        TextExpressionSetToken("Param/Expression/B08709DE", "A", IntToText(FixedToInt(libSwaC_gv_zS_ReviveCooldownTimeStukov)));
+        libSwaC_gf_DisplayCampaignMessage(PlayerGroupAll(), libSwaC_ge_CampaignMessageType_Warning, TextExpressionAssemble("Param/Expression/B08709DE"), libSwaC_ge_CampaignMessageFormatNotFormat_FormatMessage);
+    }
+    libNtve_gf_PlayerRemoveCooldown(1, libSwaC_gv_zSC_HeroReviveLinkStukov);
+    Wait(6.6, c_timeGame);
+    while (((lv_reviveSpot == null) || (UnitIsAlive(lv_reviveSpot) == false))) {
+        Wait(1.0, c_timeGame);
+        lv_reviveSpot = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(gv_pLAYER_01_USER);
+    }
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "StukovReviveCocoon", 0, 1, UnitGetPosition(lv_reviveSpot));
+    libSwaC_gv_zS_HeroReviverStukov = UnitLastCreated();
+    UnitCreateEffectUnit(lv_reviveSpot, "CopyHatcheryRally", libSwaC_gv_zS_HeroReviverStukov);
+    UnitIssueOrder(libSwaC_gv_zS_HeroReviverStukov, OrderTargetingUnit(AbilityCommand("RallyHatchery", 1), libSwaC_gv_zS_HeroReviverStukov), c_orderQueueReplace);
+    UnitSetPosition(libSwaC_gv_zS_Stukov, UnitGetPosition(libSwaC_gv_zS_HeroReviverStukov), false);
+    libNtve_gf_PlayerRemoveCooldown(1, libSwaC_gv_zSC_HeroReviveLinkStukov);
+    PlayerAddCooldown(1, libSwaC_gv_zSC_HeroReviveLinkStukov, libSwaC_gv_zS_ReviveCooldownTimeStukov);
+    TriggerEnable(libSwaC_gt_ZS_ReviveCooldownReadyStukov, true);
+}
+
 trigger auto_gf_TeachCorrosiveBlast_Trigger = null;
 unit auto_gf_TeachCorrosiveBlast_lp_hybrid;
 
@@ -684,36 +716,424 @@ bool auto_gf_KillTemple_TriggerFunc (bool testConds, bool runActions) {
     return true;
 }
 
-void gf_StartKerriganReviveCooldown2 () {
+//--------------------------------------------------------------------------------------------------
+// Trigger: Faction Swap Init
+//--------------------------------------------------------------------------------------------------
+bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto0FA74069_g;
+    int auto0FA74069_u;
+    unit auto0FA74069_var;
+    unitgroup auto2241A4A2_g;
+    int auto2241A4A2_u;
+    unit auto2241A4A2_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
+        lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(7), "Zerg", false);
+    }
+    else {
+        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(7), libABFE498B_gv_aP_Triggers_Option_overridePlayerRace, true);
+        if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr")) {
+            PlayerSetRace(gv_pLAYER_01_USER, "Terr");
+            lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
+            libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HaveGhostMengsk", 1);
+            libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HaveGhostOrSpectreOrThorNuke", 1);
+        }
+        else {
+            if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) {
+                PlayerSetRace(gv_pLAYER_01_USER, "Prot");
+                lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_DAELAAM);
+            }
+
+        }
+        lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
+        lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+        auto0FA74069_g = UnitGroup("AP_Larva", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        auto0FA74069_u = UnitGroupCount(auto0FA74069_g, c_unitCountAll);
+        for (;; auto0FA74069_u -= 1) {
+            auto0FA74069_var = UnitGroupUnitFromEnd(auto0FA74069_g, auto0FA74069_u);
+            if (auto0FA74069_var == null) { break; }
+            UnitRemove(auto0FA74069_var);
+        }
+        UnitGroupAddUnitGroup(gv_startingBase, UnitGroup(null, gv_pLAYER_01_USER, RegionFromId(20), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
+        auto2241A4A2_g = gv_startingBase;
+        auto2241A4A2_u = UnitGroupCount(auto2241A4A2_g, c_unitCountAll);
+        for (;; auto2241A4A2_u -= 1) {
+            auto2241A4A2_var = UnitGroupUnitFromEnd(auto2241A4A2_g, auto2241A4A2_u);
+            if (auto2241A4A2_var == null) { break; }
+            libNtve_gf_ShowHideUnit(auto2241A4A2_var, false);
+            libNtve_gf_PauseUnit(auto2241A4A2_var, true);
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_FactionSwapInit_Init () {
+    gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
+    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Stukov_HeroReviveOnBehaviorExpiry
+//--------------------------------------------------------------------------------------------------
+bool gt_Stukov_HeroReviveOnBehaviorExpiry_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventUnit()) == "StukovReviveCocoon"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libSwaC_gf_ReviveHeroInstantly(libSwaC_ge_HeroUnit_Stukov, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Stukov_HeroReviveOnBehaviorExpiry_Init () {
+    gt_Stukov_HeroReviveOnBehaviorExpiry = TriggerCreate("gt_Stukov_HeroReviveOnBehaviorExpiry_Func");
+    TriggerAddEventUnitBehaviorChange(gt_Stukov_HeroReviveOnBehaviorExpiry, null, "CocoonReviveTimer", c_unitBehaviorChangeDeactivate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyCasual
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyCasual_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    unit lv_reviveSpot;
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup autoF14A76E5_g;
+    int autoF14A76E5_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoF14A76E5_g = UnitGroupFromId(1);
+    autoF14A76E5_u = UnitGroupCount(autoF14A76E5_g, c_unitCountAll);
+    for (;; autoF14A76E5_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(autoF14A76E5_g, autoF14A76E5_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyCasual_Init () {
+    gt_onDifficultyCasual = TriggerCreate("gt_onDifficultyCasual_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyNormal
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyNormal_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup auto2A9FACBA_g;
+    int auto2A9FACBA_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto2A9FACBA_g = UnitGroupFromId(3);
+    auto2A9FACBA_u = UnitGroupCount(auto2A9FACBA_g, c_unitCountAll);
+    for (;; auto2A9FACBA_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(auto2A9FACBA_g, auto2A9FACBA_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyNormal_Init () {
+    gt_onDifficultyNormal = TriggerCreate("gt_onDifficultyNormal_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyHard
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyHard_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup autoB9AD2C12_g;
+    int autoB9AD2C12_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoB9AD2C12_g = UnitGroupFromId(2);
+    autoB9AD2C12_u = UnitGroupCount(autoB9AD2C12_g, c_unitCountAll);
+    for (;; autoB9AD2C12_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(autoB9AD2C12_g, autoB9AD2C12_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyHard_Init () {
+    gt_onDifficultyHard = TriggerCreate("gt_onDifficultyHard_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyBrutal
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyBrutal_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup autoFCCDC07C_g;
+    int autoFCCDC07C_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoFCCDC07C_g = UnitGroupFromId(4);
+    autoFCCDC07C_u = UnitGroupCount(autoFCCDC07C_g, c_unitCountAll);
+    for (;; autoFCCDC07C_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(autoFCCDC07C_g, autoFCCDC07C_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyBrutal_Init () {
+    gt_onDifficultyBrutal = TriggerCreate("gt_onDifficultyBrutal_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Arch Init
+//--------------------------------------------------------------------------------------------------
+bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    playergroup lv_playerGroup;
 
     // Automatic Variable Declarations
     // Variable Initialization
+    lv_playerGroup = PlayerGroupEmpty();
 
-    // Implementation
-    lv_reviveSpot = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(gv_pLAYER_01_USER);
-    if (((lv_reviveSpot == null) || (UnitIsAlive(lv_reviveSpot) == false))) {
-        libSwaC_gf_DisplayCampaignMessage(PlayerGroupAll(), libSwaC_ge_CampaignMessageType_Warning, StringExternal("Param/Value/7ADB544F"), libSwaC_ge_CampaignMessageFormatNotFormat_FormatMessage);
+    // Actions
+    if (!runActions) {
+        return true;
     }
-    else {
-        TextExpressionSetToken("Param/Expression/B08709DE", "A", IntToText(FixedToInt(libSwaC_gv_zS_ReviveCooldownTimeStukov)));
-        libSwaC_gf_DisplayCampaignMessage(PlayerGroupAll(), libSwaC_ge_CampaignMessageType_Warning, TextExpressionAssemble("Param/Expression/B08709DE"), libSwaC_ge_CampaignMessageFormatNotFormat_FormatMessage);
+
+    TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
+    TriggerExecute(gt_Init02Players, true, false);
+    TriggerExecute(gt_Init03Units, true, false);
+    libABFE498B_gf_AP_Triggers_MapConfig_setKerriganOptions(true, true);
+    libABFE498B_gf_AP_Triggers_MapConfig_setDifficultySetup(gt_onDifficultyCasual, gt_onDifficultyNormal, gt_onDifficultyHard, gt_onDifficultyBrutal);
+    lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM_SWITCHABLE_TO_PRIMAL_ZERG);
+    lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
+    lv_playerGroup = PlayerGroupSingle(gv_pLAYER_01_USER);
+    PlayerGroupAdd(lv_playerGroup, gv_pLAYER_02_DOMINION22222);
+    lib5BD4895D_gf_AP_Core_MapConfig_setAffectedPlayers(lv_playerGroup);
+    lib5BD4895D_gf_AP_Core_initObjectivePanel();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ArchInit_Init () {
+    gt_ArchInit = TriggerCreate("gt_ArchInit_Func");
+    TriggerAddEventMapInit(gt_ArchInit);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Intro Ultralisks
+//--------------------------------------------------------------------------------------------------
+bool gt_IntroUltralisks_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto343B0AB0_g;
+    int auto343B0AB0_u;
+    unit auto343B0AB0_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((gv_aPIntro == true))) {
+            return false;
+        }
     }
-    libNtve_gf_PlayerRemoveCooldown(1, libSwaC_gv_zSC_HeroReviveLinkStukov);
-    Wait(6.6, c_timeGame);
-    while (((lv_reviveSpot == null) || (UnitIsAlive(lv_reviveSpot) == false))) {
-        Wait(1.0, c_timeGame);
-        lv_reviveSpot = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(gv_pLAYER_01_USER);
+
+    // Actions
+    if (!runActions) {
+        return true;
     }
-    libNtve_gf_CreateUnitsWithDefaultFacing(1, "StukovReviveCocoon", 0, 1, UnitGetPosition(lv_reviveSpot));
-    libSwaC_gv_zS_HeroReviverStukov = UnitLastCreated();
-    UnitCreateEffectUnit(lv_reviveSpot, "CopyHatcheryRally", libSwaC_gv_zS_HeroReviverStukov);
-    UnitIssueOrder(libSwaC_gv_zS_HeroReviverStukov, OrderTargetingUnit(AbilityCommand("RallyHatchery", 1), libSwaC_gv_zS_HeroReviverStukov), c_orderQueueReplace);
-    UnitSetPosition(libSwaC_gv_zS_Stukov, UnitGetPosition(libSwaC_gv_zS_HeroReviverStukov), false);
-    libNtve_gf_PlayerRemoveCooldown(1, libSwaC_gv_zSC_HeroReviveLinkStukov);
-    PlayerAddCooldown(1, libSwaC_gv_zSC_HeroReviveLinkStukov, libSwaC_gv_zS_ReviveCooldownTimeStukov);
-    TriggerEnable(libSwaC_gt_ZS_ReviveCooldownReadyStukov, true);
+
+    auto343B0AB0_g = UnitGroup(null, gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto343B0AB0_u = UnitGroupCount(auto343B0AB0_g, c_unitCountAll);
+    for (;; auto343B0AB0_u -= 1) {
+        auto343B0AB0_var = UnitGroupUnitFromEnd(auto343B0AB0_g, auto343B0AB0_u);
+        if (auto343B0AB0_var == null) { break; }
+        if (((UnitGetType(auto343B0AB0_var) == "AP_Ultralisk") || (UnitGetType(auto343B0AB0_var) == "AP_UltraliskBurrowed") || (UnitGetType(auto343B0AB0_var) == "AP_Thor") || (UnitGetType(auto343B0AB0_var) == "AP_ThorAP") || (UnitGetType(auto343B0AB0_var) == "AP_ColossusTaldarim"))) {
+            if ((UnitIsAlive(gv_ultra1) == false)) {
+                gv_ultra1 = auto343B0AB0_var;
+            }
+            else {
+                if ((UnitIsAlive(gv_ultra2) == false)) {
+                    gv_ultra2 = auto343B0AB0_var;
+                }
+
+            }
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_IntroUltralisks_Init () {
+    gt_IntroUltralisks = TriggerCreate("gt_IntroUltralisks_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Set Mineral Count
+//--------------------------------------------------------------------------------------------------
+bool gt_SetMineralCount_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((libNtve_gf_DifficultyValueInt(0, 0, 1, 1) == 1)) {
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_SetMineralCount_Init () {
+    gt_SetMineralCount = TriggerCreate("gt_SetMineralCount_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Crystal Destroyed Northwest
+//--------------------------------------------------------------------------------------------------
+bool gt_CrystalDestroyedNorthwest_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_NORTHWEST_CRYSTAL);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CrystalDestroyedNorthwest_Init () {
+    gt_CrystalDestroyedNorthwest = TriggerCreate("gt_CrystalDestroyedNorthwest_Func");
+    TriggerAddEventUnitDied(gt_CrystalDestroyedNorthwest, UnitRefFromUnit(UnitFromId(773)));
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Crystal Destroyed Northeast
+//--------------------------------------------------------------------------------------------------
+bool gt_CrystalDestroyedNortheast_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_NORTHEAST_CRYSTAL);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CrystalDestroyedNortheast_Init () {
+    gt_CrystalDestroyedNortheast = TriggerCreate("gt_CrystalDestroyedNortheast_Func");
+    TriggerAddEventUnitDied(gt_CrystalDestroyedNortheast, UnitRefFromUnit(UnitFromId(778)));
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Crystal Destroyed South
+//--------------------------------------------------------------------------------------------------
+bool gt_CrystalDestroyedSouth_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_SOUTH_CRYSTAL);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CrystalDestroyedSouth_Init () {
+    gt_CrystalDestroyedSouth = TriggerCreate("gt_CrystalDestroyedSouth_Func");
+    TriggerAddEventUnitDied(gt_CrystalDestroyedSouth, UnitRefFromUnit(UnitFromId(749)));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5659,7 +6079,6 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
         UnitSetPropertyFixed(auto3C6CB8F5_var, c_unitPropEnergyPercent, 100.0);
     }
     libABFE498B_gf_AP_Triggers_resetBase(gv_pLAYER_01_USER);
-    UnitSetPosition(lib5BD4895D_gv_aP_Core_controller, Point(0.0, 0.0), false);
     gv_aPIntro = false;
     CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoDefault(), 0.0, -1, 10, false);
     VisExploreArea(gv_pLAYER_01_USER, RegionEntireMap(), false, false);
@@ -5977,429 +6396,21 @@ void gt_VictoryKillNarud_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Faction Swap Init
-//--------------------------------------------------------------------------------------------------
-bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    unitgroup auto0FA74069_g;
-    int auto0FA74069_u;
-    unit auto0FA74069_var;
-    unitgroup auto2241A4A2_g;
-    int auto2241A4A2_u;
-    unit auto2241A4A2_var;
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
-        lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(7), "Zerg", false);
-    }
-    else {
-        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
-        lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(7), libABFE498B_gv_aP_Triggers_Option_overridePlayerRace, true);
-        if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr")) {
-            PlayerSetRace(gv_pLAYER_01_USER, "Terr");
-            lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
-            libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HaveGhostMengsk", 1);
-            libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HaveGhostOrSpectreOrThorNuke", 1);
-        }
-        else {
-            if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) {
-                PlayerSetRace(gv_pLAYER_01_USER, "Prot");
-                lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_DAELAAM);
-            }
-
-        }
-        lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
-        lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
-        auto0FA74069_g = UnitGroup("AP_Larva", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-        auto0FA74069_u = UnitGroupCount(auto0FA74069_g, c_unitCountAll);
-        for (;; auto0FA74069_u -= 1) {
-            auto0FA74069_var = UnitGroupUnitFromEnd(auto0FA74069_g, auto0FA74069_u);
-            if (auto0FA74069_var == null) { break; }
-            UnitRemove(auto0FA74069_var);
-        }
-        UnitGroupAddUnitGroup(gv_startingBase, UnitGroup(null, gv_pLAYER_01_USER, RegionFromId(20), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
-        auto2241A4A2_g = gv_startingBase;
-        auto2241A4A2_u = UnitGroupCount(auto2241A4A2_g, c_unitCountAll);
-        for (;; auto2241A4A2_u -= 1) {
-            auto2241A4A2_var = UnitGroupUnitFromEnd(auto2241A4A2_g, auto2241A4A2_u);
-            if (auto2241A4A2_var == null) { break; }
-            libNtve_gf_ShowHideUnit(auto2241A4A2_var, false);
-            libNtve_gf_PauseUnit(auto2241A4A2_var, true);
-        }
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_FactionSwapInit_Init () {
-    gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Stukov_HeroReviveOnBehaviorExpiry
-//--------------------------------------------------------------------------------------------------
-bool gt_Stukov_HeroReviveOnBehaviorExpiry_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((UnitGetType(EventUnit()) == "StukovReviveCocoon"))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libSwaC_gf_ReviveHeroInstantly(libSwaC_ge_HeroUnit_Stukov, false);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_Stukov_HeroReviveOnBehaviorExpiry_Init () {
-    gt_Stukov_HeroReviveOnBehaviorExpiry = TriggerCreate("gt_Stukov_HeroReviveOnBehaviorExpiry_Func");
-    TriggerAddEventUnitBehaviorChange(gt_Stukov_HeroReviveOnBehaviorExpiry, null, "CocoonReviveTimer", c_unitBehaviorChangeDeactivate);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyCasual
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyCasual_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup autoF14A76E5_g;
-    int autoF14A76E5_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoF14A76E5_g = UnitGroupFromId(1);
-    autoF14A76E5_u = UnitGroupCount(autoF14A76E5_g, c_unitCountAll);
-    for (;; autoF14A76E5_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(autoF14A76E5_g, autoF14A76E5_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyCasual_Init () {
-    gt_onDifficultyCasual = TriggerCreate("gt_onDifficultyCasual_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyNormal
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyNormal_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup auto2A9FACBA_g;
-    int auto2A9FACBA_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto2A9FACBA_g = UnitGroupFromId(3);
-    auto2A9FACBA_u = UnitGroupCount(auto2A9FACBA_g, c_unitCountAll);
-    for (;; auto2A9FACBA_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(auto2A9FACBA_g, auto2A9FACBA_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyNormal_Init () {
-    gt_onDifficultyNormal = TriggerCreate("gt_onDifficultyNormal_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyHard
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyHard_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup autoB9AD2C12_g;
-    int autoB9AD2C12_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoB9AD2C12_g = UnitGroupFromId(2);
-    autoB9AD2C12_u = UnitGroupCount(autoB9AD2C12_g, c_unitCountAll);
-    for (;; autoB9AD2C12_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(autoB9AD2C12_g, autoB9AD2C12_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyHard_Init () {
-    gt_onDifficultyHard = TriggerCreate("gt_onDifficultyHard_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyBrutal
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyBrutal_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup autoFCCDC07C_g;
-    int autoFCCDC07C_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoFCCDC07C_g = UnitGroupFromId(4);
-    autoFCCDC07C_u = UnitGroupCount(autoFCCDC07C_g, c_unitCountAll);
-    for (;; autoFCCDC07C_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(autoFCCDC07C_g, autoFCCDC07C_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyBrutal_Init () {
-    gt_onDifficultyBrutal = TriggerCreate("gt_onDifficultyBrutal_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Arch Init
-//--------------------------------------------------------------------------------------------------
-bool gt_ArchInit_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    playergroup lv_playerGroup;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_playerGroup = PlayerGroupEmpty();
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
-    TriggerExecute(gt_Init02Players, true, false);
-    TriggerExecute(gt_Init03Units, true, false);
-    libABFE498B_gf_AP_Triggers_MapConfig_setKerriganOptions(true, true);
-    libABFE498B_gf_AP_Triggers_MapConfig_setDifficultySetup(gt_onDifficultyCasual, gt_onDifficultyNormal, gt_onDifficultyHard, gt_onDifficultyBrutal);
-    lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM_SWITCHABLE_TO_PRIMAL_ZERG);
-    lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
-    lv_playerGroup = PlayerGroupSingle(gv_pLAYER_01_USER);
-    PlayerGroupAdd(lv_playerGroup, gv_pLAYER_02_DOMINION22222);
-    lib5BD4895D_gf_AP_Core_MapConfig_setAffectedPlayers(lv_playerGroup);
-    lib5BD4895D_gf_AP_Core_initObjectivePanel();
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ArchInit_Init () {
-    gt_ArchInit = TriggerCreate("gt_ArchInit_Func");
-    TriggerAddEventMapInit(gt_ArchInit);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Intro Ultralisks
-//--------------------------------------------------------------------------------------------------
-bool gt_IntroUltralisks_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    unitgroup auto343B0AB0_g;
-    int auto343B0AB0_u;
-    unit auto343B0AB0_var;
-
-    // Conditions
-    if (testConds) {
-        if (!((gv_aPIntro == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto343B0AB0_g = UnitGroup(null, gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    auto343B0AB0_u = UnitGroupCount(auto343B0AB0_g, c_unitCountAll);
-    for (;; auto343B0AB0_u -= 1) {
-        auto343B0AB0_var = UnitGroupUnitFromEnd(auto343B0AB0_g, auto343B0AB0_u);
-        if (auto343B0AB0_var == null) { break; }
-        if (((UnitGetType(auto343B0AB0_var) == "AP_Ultralisk") || (UnitGetType(auto343B0AB0_var) == "AP_UltraliskBurrowed") || (UnitGetType(auto343B0AB0_var) == "AP_Thor") || (UnitGetType(auto343B0AB0_var) == "AP_ThorAP") || (UnitGetType(auto343B0AB0_var) == "AP_ColossusTaldarim"))) {
-            if ((UnitIsAlive(gv_ultra1) == false)) {
-                gv_ultra1 = auto343B0AB0_var;
-            }
-            else {
-                if ((UnitIsAlive(gv_ultra2) == false)) {
-                    gv_ultra2 = auto343B0AB0_var;
-                }
-
-            }
-        }
-
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_IntroUltralisks_Init () {
-    gt_IntroUltralisks = TriggerCreate("gt_IntroUltralisks_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Set Mineral Count
-//--------------------------------------------------------------------------------------------------
-bool gt_SetMineralCount_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((libNtve_gf_DifficultyValueInt(0, 0, 1, 1) == 1)) {
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_SetMineralCount_Init () {
-    gt_SetMineralCount = TriggerCreate("gt_SetMineralCount_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Crystal Destroyed Northwest
-//--------------------------------------------------------------------------------------------------
-bool gt_CrystalDestroyedNorthwest_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_gameOver == false))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_NORTHWEST_CRYSTAL);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_CrystalDestroyedNorthwest_Init () {
-    gt_CrystalDestroyedNorthwest = TriggerCreate("gt_CrystalDestroyedNorthwest_Func");
-    TriggerAddEventUnitDied(gt_CrystalDestroyedNorthwest, UnitRefFromUnit(UnitFromId(773)));
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Crystal Destroyed Northeast
-//--------------------------------------------------------------------------------------------------
-bool gt_CrystalDestroyedNortheast_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_gameOver == false))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_NORTHEAST_CRYSTAL);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_CrystalDestroyedNortheast_Init () {
-    gt_CrystalDestroyedNortheast = TriggerCreate("gt_CrystalDestroyedNortheast_Func");
-    TriggerAddEventUnitDied(gt_CrystalDestroyedNortheast, UnitRefFromUnit(UnitFromId(778)));
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Crystal Destroyed South
-//--------------------------------------------------------------------------------------------------
-bool gt_CrystalDestroyedSouth_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_gameOver == false))) {
-            return false;
-        }
-
-        if (!((gv_inCinematic == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_SOUTH_CRYSTAL);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_CrystalDestroyedSouth_Init () {
-    gt_CrystalDestroyedSouth = TriggerCreate("gt_CrystalDestroyedSouth_Func");
-    TriggerAddEventUnitDied(gt_CrystalDestroyedSouth, UnitRefFromUnit(UnitFromId(749)));
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger Initialization
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
+    gt_FactionSwapInit_Init();
+    gt_Stukov_HeroReviveOnBehaviorExpiry_Init();
+    gt_onDifficultyCasual_Init();
+    gt_onDifficultyNormal_Init();
+    gt_onDifficultyHard_Init();
+    gt_onDifficultyBrutal_Init();
+    gt_ArchInit_Init();
+    gt_IntroUltralisks_Init();
+    gt_SetMineralCount_Init();
+    gt_CrystalDestroyedNorthwest_Init();
+    gt_CrystalDestroyedNortheast_Init();
+    gt_CrystalDestroyedSouth_Init();
     gt_Initialization_Init();
     gt_Init01Technology_Init();
     gt_Init02Players_Init();
@@ -6505,18 +6516,6 @@ void InitTriggers () {
     gt_VictoryCinematicEnd_Init();
     gt_VictoryCleanup_Init();
     gt_VictoryKillNarud_Init();
-    gt_FactionSwapInit_Init();
-    gt_Stukov_HeroReviveOnBehaviorExpiry_Init();
-    gt_onDifficultyCasual_Init();
-    gt_onDifficultyNormal_Init();
-    gt_onDifficultyHard_Init();
-    gt_onDifficultyBrutal_Init();
-    gt_ArchInit_Init();
-    gt_IntroUltralisks_Init();
-    gt_SetMineralCount_Init();
-    gt_CrystalDestroyedNorthwest_Init();
-    gt_CrystalDestroyedNortheast_Init();
-    gt_CrystalDestroyedSouth_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
