@@ -284,8 +284,11 @@
         <SearchFilters value="Ground;Self,Player,Ally,Massive,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray Radius="1" Effect="AP_PunisherGrenadesSlow"/>
     </CEffectEnumArea>
-    <CEffectEnumArea id="AP_BansheeMengskSlowAOE" parent="AP_MarauderSlowAOE">
+    <CEffectEnumArea id="AP_BansheeMengskSlowAOE">
         <ValidatorArray index="0" value="AP_CasterLevelGTE3"/>
+        <EditorCategories value="Race:Terran"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Massive,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1" Effect="AP_BansheeMengskSlow"/>
     </CEffectEnumArea>
     <CEffectEnumArea id="AP_MarauderMengskSlowAOE">
         <ValidatorArray value="AP_PunisherGrenadesResearched"/>
@@ -314,7 +317,7 @@
         <Behavior value="AP_Slow"/>
     </CEffectApplyBehavior>
     <CEffectApplyBehavior id="AP_BansheeMengskSlow" parent="AP_PunisherGrenadesSlow">
-        <ValidatorArray index="0" value="AP_CasterLevelGTE3"/>
+        <ValidatorArray index="0" value=""/>
     </CEffectApplyBehavior>
     <CEffectDamage id="AP_PunisherGrenadesU" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
