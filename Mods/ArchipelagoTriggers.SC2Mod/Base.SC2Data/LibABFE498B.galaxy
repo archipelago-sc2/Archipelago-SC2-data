@@ -2277,7 +2277,6 @@ void libABFE498B_gf_AP_Triggers_Terran_unlockEmperorsShadow (int lp_player) {
     TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 27), true);
     TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 9), true);
     TechTreeUnitAllow(lp_player, "AP_GhostMengsk", true);
-    TechTreeUnitAllow(lp_player, "AP_GhostMengskResourceEfficiency", true);
 }
 
 void libABFE498B_gf_AP_Triggers_Terran_unlockSonOfKorhal (int lp_player) {
@@ -5242,7 +5241,6 @@ void libABFE498B_gf_AP_Triggers_clearTerranTech (int lp_player) {
     TechTreeUnitAllow(lp_player, "AP_ThorMengsk", false);
     TechTreeUnitAllow(lp_player, "AP_MarauderMengsk", false);
     TechTreeUnitAllow(lp_player, "AP_GhostMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_GhostMengskResourceEfficiency", false);
     TechTreeUnitAllow(lp_player, "AP_TrooperMengsk", false);
     TechTreeUnitAllow(lp_player, "AP_MarineMengsk", false);
     TechTreeUnitAllow(lp_player, "AP_GoliathMengsk", false);
@@ -10770,7 +10768,7 @@ void libABFE498B_gt_AP_Triggers_giveProtossTech_Init () {
 bool libABFE498B_gt_AP_Triggers_giveMiscTech_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_currentPlayer;
-    string lv_buildingSpeedValue;
+    int lv_buildingSpeedValue;
     string lv_researchSpeedValue;
     string lv_researchCostValue;
 
@@ -10778,7 +10776,6 @@ bool libABFE498B_gt_AP_Triggers_giveMiscTech_Func (bool testConds, bool runActio
     playergroup autoA7A687E2_g;
 
     // Variable Initialization
-    lv_buildingSpeedValue = "";
     lv_researchSpeedValue = "";
     lv_researchCostValue = "";
 
@@ -10787,7 +10784,11 @@ bool libABFE498B_gt_AP_Triggers_giveMiscTech_Func (bool testConds, bool runActio
         return true;
     }
 
-    lv_buildingSpeedValue = StringWord(EventChatMessage(false), 2);
+    lv_buildingSpeedValue = StringToInt(StringWord(EventChatMessage(false), 2));
+    if ((lv_buildingSpeedValue > 150)) {
+        lv_buildingSpeedValue = 150;
+    }
+
     lv_researchSpeedValue = StringWord(EventChatMessage(false), 3);
     lv_researchCostValue = StringWord(EventChatMessage(false), 4);
     autoA7A687E2_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
@@ -10795,7 +10796,7 @@ bool libABFE498B_gt_AP_Triggers_giveMiscTech_Func (bool testConds, bool runActio
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(autoA7A687E2_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        libABFE498B_gf_AP_Triggers_giveBuildingSpeed(lv_currentPlayer, StringToInt(lv_buildingSpeedValue));
+        libABFE498B_gf_AP_Triggers_giveBuildingSpeed(lv_currentPlayer, lv_buildingSpeedValue);
         libABFE498B_gf_AP_Triggers_giveResearchSpeed(lv_currentPlayer, StringToInt(lv_researchSpeedValue));
         libABFE498B_gf_AP_Triggers_giveResearchCost(lv_currentPlayer, StringToInt(lv_researchCostValue));
     }

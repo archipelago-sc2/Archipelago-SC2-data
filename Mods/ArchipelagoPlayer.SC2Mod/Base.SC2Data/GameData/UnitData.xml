@@ -1242,14 +1242,7 @@
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons>
-                <Face value="AP_MultiLockTargetingSystem"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseMultilockTargetingSystems"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
+            <LayoutButtons Face="AP_MultiLockTargetingSystem" Type="Passive" Requirements="AP_UseMultilockTargetingSystems" Row="1" Column="0"/>
             <LayoutButtons>
                 <Face value="AP_AresClassWeaponsSystem"/>
                 <Type value="Passive"/>
@@ -1668,7 +1661,7 @@
         <BehaviorArray Link="AP_ScavengingSystemsMechDeath"/>
         <BehaviorArray Link="AP_MedivacPermanentCloak"/>
         <BehaviorArray Link="AP_MedivacRapidReignitionSystemIndicator"/>
-        <BehaviorArray Link="AP_MedivacRangeBonus"/>
+        <BehaviorArray Link="AP_SiegeTankMengskRangeBonus"/>
         <WeaponArray Link="AP_MedivacSiegeTankAirlift" Turret="AP_MedivacSiegeTankAirliftTurret"/>
         <WeaponArray Link="AP_MedivacMercSiegeTankAirlift" Turret="AP_MedivacMercSiegeTankAirliftTurret"/>
         <WeaponArray Link="AP_MedivacInfestedSiegeBreakerAirlift" Turret="AP_MedivacMercSiegeTankAirliftTurret"/>
@@ -1754,23 +1747,9 @@
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="AP_WraithCloakOn" Type="AbilCmd" AbilCmd="AP_WraithCloak,0" Row="2" Column="0"/>
             <LayoutButtons Face="CloakOff" Type="AbilCmd" AbilCmd="AP_WraithCloak,1" Row="2" Column="1"/>
-            <LayoutButtons>
-                <Face value="AP_DisplacementField"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_CloakDistortionFieldResearched"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
+            <LayoutButtons Face="AP_DisplacementField" Type="Passive" Requirements="AP_CloakDistortionFieldResearched" Row="1" Column="0"/>
             <LayoutButtons Face="AP_PermanentCloakWraith" Type="Passive" Requirements="AP_HavePermanentCloakWraith" Row="1" Column="1"/>
-            <LayoutButtons>
-                <Face value="AP_SingularityAnchor"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_DynamicPowerRoutingResearched"/>
-                <Row value="1"/>
-                <Column value="1"/>
-            </LayoutButtons>
+            <LayoutButtons Face="AP_SingularityAnchor" Type="Passive" Requirements="AP_DynamicPowerRoutingResearched" Row="1" Column="1"/>
             <LayoutButtons Face="AP_WraithAdvancedLaserTechnology" Type="Passive" Requirements="AP_HaveWraithAdvancedLaserTechnology" Row="1" Column="2"/>
             <LayoutButtons Face="AP_HHWraithFury" Type="Passive" Requirements="AP_HaveHHWraithFury" Row="1" Column="3"/>
         </CardLayouts>
@@ -7848,20 +7827,20 @@
         <WeaponArray Link="AP_TwinIbiksCannon" Turret="AP_PlanetaryFortress"/>
         <WeaponArray Link="AP_TwinIbiksCannonAir" Turret="AP_PlanetaryFortress"/>
         <CardLayouts>
-            <LayoutButtons Face="Lift" Type="AbilCmd" AbilCmd="AP_PlanetaryFortressLiftOff,0" Row="2" Column="3"/>
-            <LayoutButtons Face="AP_PlanetaryFortressLoad" Type="AbilCmd" AbilCmd="AP_CommandCenterTransport,4" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_CommandCenterUnloadAll" Type="AbilCmd" AbilCmd="AP_CommandCenterTransport,1" Row="2" Column="1"/>
+            <LayoutButtons Face="SCV" Type="AbilCmd" AbilCmd="AP_CommandCenterTrain,0" Row="0" Column="0"/>
             <LayoutButtons Face="AP_StopPlanetaryFortress" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="3"/>
             <LayoutButtons Face="AP_AttackBuildingPFort" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_SupplyDrop" Type="AbilCmd" AbilCmd="AP_SupplyDrop,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="Scan" Type="AbilCmd" AbilCmd="AP_ScannerSweep,Execute" Row="1" Column="1"/>
+            <LayoutButtons Face="CalldownMULE" Type="AbilCmd" AbilCmd="AP_CalldownMULE,Execute" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_PlanetaryFortressAdvancedTargeting" Type="Passive" Requirements="AP_HavePlanetaryFortressAirAttack" Row="1" Column="3"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="AP_RallyCommand,0" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_PlanetaryFortressLoad" Type="AbilCmd" AbilCmd="AP_CommandCenterTransport,4" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_CommandCenterUnloadAll" Type="AbilCmd" AbilCmd="AP_CommandCenterTransport,1" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_PlanetaryFortressAttackAirlift" Type="Passive" Requirements="AP_HavePlanetaryFortressWeaponLand" Row="2" Column="2"/>
+            <LayoutButtons Face="Lift" Type="AbilCmd" AbilCmd="AP_PlanetaryFortressLiftOff,0" Row="2" Column="3"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
-            <LayoutButtons Face="SCV" Type="AbilCmd" AbilCmd="AP_CommandCenterTrain,0" Row="0" Column="0"/>
-            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="AP_RallyCommand,0" Row="1" Column="4"/>
-            <LayoutButtons Face="AP_PlanetaryFortressAttackAirlift" Type="Passive" Requirements="AP_HavePlanetaryFortressWeaponLand" Row="2" Column="2"/>
-            <LayoutButtons Face="AP_PlanetaryFortressAdvancedTargeting" Type="Passive" Requirements="AP_HavePlanetaryFortressAirAttack" Row="1" Column="3"/>
-            <LayoutButtons Face="CalldownMULE" Type="AbilCmd" AbilCmd="AP_CalldownMULE,Execute" Row="1" Column="2"/>
-            <LayoutButtons Face="Scan" Type="AbilCmd" AbilCmd="AP_ScannerSweep,Execute" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_SupplyDrop" Type="AbilCmd" AbilCmd="AP_SupplyDrop,Execute" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="2.5"/>
         <SeparationRadius value="2.5"/>
@@ -10480,9 +10459,10 @@
         <EffectArray index="Birth" value="AP_CCBirthSet"/>
         <CardLayouts>
             <LayoutButtons Face="SCV" Type="AbilCmd" AbilCmd="AP_CommandCenterTrain,Train1" Row="0" Column="0"/>
-            <LayoutButtons Face="AP_SupplyDrop" Type="AbilCmd" AbilCmd="AP_SupplyDrop,Execute" Row="1" Column="0"/>
-            <LayoutButtons Face="CalldownMULE" Type="AbilCmd" AbilCmd="AP_CalldownMULE,Execute" Row="1" Column="2"/>
             <LayoutButtons Face="AP_UpgradeToPlanetaryFortress" Type="AbilCmd" AbilCmd="AP_UpgradeToPlanetaryFortress,0" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_SupplyDrop" Type="AbilCmd" AbilCmd="AP_SupplyDrop,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="Scan" Type="AbilCmd" AbilCmd="AP_ScannerSweep,Execute" Row="1" Column="1"/>
+            <LayoutButtons Face="CalldownMULE" Type="AbilCmd" AbilCmd="AP_CalldownMULE,Execute" Row="1" Column="2"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="AP_RallyCommand,Rally1" Row="1" Column="4"/>
             <LayoutButtons Face="CommandCenterLoad" Type="AbilCmd" AbilCmd="AP_CommandCenterTransport,LoadAll" Row="2" Column="0"/>
             <LayoutButtons Face="CommandCenterUnloadAll" Type="AbilCmd" AbilCmd="AP_CommandCenterTransport,UnloadAll" Row="2" Column="1"/>
@@ -10493,7 +10473,6 @@
             <LayoutButtons Face="CancelUpgradeMorph" Type="AbilCmd" AbilCmd="AP_UpgradeToOrbital,1" Row="2" Column="4"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="SelectBuilder" Type="SelectBuilder" AbilCmd="AP_CommandCenterTrain,Train1" Row="1" Column="3"/>
-            <LayoutButtons Face="Scan" Type="AbilCmd" AbilCmd="AP_ScannerSweep,Execute" Row="1" Column="1"/>
         </CardLayouts>
         <Radius value="2.5"/>
         <SeparationRadius value="2.5"/>
@@ -15993,7 +15972,7 @@
             <LayoutButtons Face="AP_SOARadarNexus" Type="Passive" Requirements="AP_HaveSOARadar" Row="2" Column="3"/>
             <LayoutButtons Face="AP_KaraxTurretRange" Type="Passive" Requirements="AP_HaveSOARadarAndKaraxTurretRange" Row="2" Column="1"/>
             <LayoutButtons Face="AP_KaraxTurretAttackSpeed" Type="Passive" Requirements="AP_HaveSOARadarAndKaraxTurretAttackSpeed" Row="2" Column="2"/>
-            <LayoutButtons Face="AP_WarpRelocate" Type="AbilCmd" AbilCmd="AP_WarpRelocate,Build1" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_WarpRelocateNexus" Type="AbilCmd" AbilCmd="AP_WarpRelocate,Build1" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="2"/>
         <SeparationRadius value="2"/>
@@ -26866,7 +26845,7 @@
         <VisionHeight value="4"/>
         <Food value="-10"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="400"/>
+        <CostResource index="Minerals" value="800"/>
         <CostResource index="Vespene" value="900"/>
         <RepairTime value="90"/>
         <AttackTargetPriority value="20"/>
@@ -26902,17 +26881,6 @@
         <BehaviorArray Link="AP_BattlecruiserMengskCloakEnergyDrainL2"/>
         <BehaviorArray Link="AP_BattlecruiserMengskCloakEnergyDrainL3"/>
         <BehaviorArray Link="AP_BattlecruiserMengskCloakEnergyDrainL4"/>
-        <WeaponArray Link="AP_ATSLaserBatteryMengskL1Fake"/>
-        <WeaponArray Link="AP_ATALaserBatteryMengskL1Fake"/>
-        <WeaponArray Link="AP_ATSLaserBatteryMengskL2Fake"/>
-        <WeaponArray Link="AP_ATALaserBatteryMengskL2Fake"/>
-        <WeaponArray Link="AP_ATSLaserBatteryMengskL3Fake"/>
-        <WeaponArray Link="AP_ATALaserBatteryMengskL3Fake"/>
-        <WeaponArray Link="AP_ATSLaserBatteryMengskL4Fake"/>
-        <WeaponArray Link="AP_ATALaserBatteryMengskL4Fake"/>
-<!--        <WeaponArray Link="AP_ATXLaserBatteryMengskL1Fake"/>-->
-        <WeaponArray Link="AP_ATSLaserBatteryMengsk" Turret="AP_Battlecruiser"/>
-        <WeaponArray Link="AP_ATALaserBatteryMengsk" Turret="AP_Battlecruiser"/>
         <WeaponArray Link="AP_ATXLaserBatteryMengsk" Turret="AP_Battlecruiser"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
         <CardLayouts>
@@ -26934,7 +26902,6 @@
             <LayoutButtons Face="CloakOff" Type="AbilCmd" AbilCmd="AP_BattlecruiserCloak,1" Row="1" Column="1"/>
             <LayoutButtons Face="AP_BattlecruiserCovertOpsEngines" Type="Passive" Requirements="AP_HaveBattlecruiserCovertOpsEngines" Row="1" Column="2"/>
             <LayoutButtons Face="AP_BehemothPlating" Type="Passive" Requirements="AP_HaveBattlecruiserBehemothPlating" Row="1" Column="3"/>
-            <LayoutButtons Face="AP_AllPurposeLaserBattery" Type="Passive" Requirements="AP_HaveAdvancedWeaponryBattlecruiser" Row="1" Column="4"/>
         </CardLayouts>
         <Radius value="1.25"/>
         <SeparationRadius value="2.5"/>
@@ -28111,7 +28078,7 @@
         <Sight value="10"/>
         <Food value="-4"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Minerals" value="300"/>
         <CostResource index="Vespene" value="375"/>
         <RepairTime value="42"/>
         <AttackTargetPriority value="20"/>
@@ -28139,8 +28106,6 @@
             <LayoutButtons Face="AP_HHVikingRockets" Type="Passive" Requirements="AP_HaveHHVikingRocketsAssault" Row="2" Column="2"/>
             <LayoutButtons Face="AP_AresClassWeaponsSystemviking" Type="Passive" Requirements="AP_PhobusClassWeaponSystemsResearched" Row="1" Column="0"/>
             <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosViking" Row="1" Column="2"/>
-            <LayoutButtons Face="AP_MagrailMunitionsViking" Type="Passive" Requirements="AP_HaveVikingMagWeapon" Row="2" Column="3"/>
-            <LayoutButtons Face="AP_HHVikingPiercingAttacks" Type="Passive" Requirements="AP_HaveHHVikingPiercingAttack" Row="1" Column="1"/>
             <LayoutButtons Face="AP_VikingMengskVeterancy" Type="Passive" Row="2" Column="4"/>
             <LayoutButtons>
                 <Face value="AP_VikingMengskCheatDeath"/>
@@ -28215,7 +28180,7 @@
         <VisionHeight value="4"/>
         <Food value="-4"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Minerals" value="300"/>
         <CostResource index="Vespene" value="375"/>
         <RepairTime value="42"/>
         <AttackTargetPriority value="20"/>
@@ -28305,7 +28270,7 @@
         <Sight value="11"/>
         <Food value="-6"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Minerals" value="300"/>
         <CostResource index="Vespene" value="425"/>
         <RepairTime value="43"/>
         <AttackTargetPriority value="20"/>
@@ -28336,22 +28301,6 @@
             <LayoutButtons Face="AP_SiegeModeMengsk" Type="AbilCmd" AbilCmd="AP_SiegeModeMengsk,Execute" Row="2" Column="0"/>
             <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_SiegeTankJumpJet,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_DeploySpiderMines" Type="AbilCmd" AbilCmd="AP_DeploySpiderMinesMengsk,Execute" Row="2" Column="3"/>
-            <LayoutButtons>
-                <Face value="AP_MaelstromRounds"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseMaelstromRoundsReq"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons>
-                <Face value="AP_ShapedBlast"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseShapedBlastReq"/>
-                <Row value="1"/>
-                <Column value="1"/>
-            </LayoutButtons>
             <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosSiegeTank" Row="1" Column="2"/>
             <LayoutButtons Face="AP_SiegeModeProgressiveRangeIncrease" Type="Passive" Requirements="AP_TankModeHaveSiegeTankSiegeModeProgressiveRangeIncease" Row="1" Column="3"/>
             <LayoutButtons Face="AP_SiegeTankMengskVeterancy" Type="Passive" Row="2" Column="4"/>
@@ -28407,7 +28356,7 @@
         <Sight value="11"/>
         <Food value="-6"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Minerals" value="300"/>
         <CostResource index="Vespene" value="425"/>
         <RepairTime value="43"/>
         <AttackTargetPriority value="20"/>
@@ -28438,22 +28387,6 @@
             <LayoutButtons Face="AP_UnsiegeMengsk" Type="AbilCmd" AbilCmd="AP_UnsiegeMengsk,Execute" Row="2" Column="1"/>
             <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_SiegeTankSiegedJumpJet,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_DeploySpiderMines" Type="AbilCmd" AbilCmd="AP_DeploySpiderMinesMengsk,Execute" Row="2" Column="3"/>
-            <LayoutButtons>
-                <Face value="AP_MaelstromRounds"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseMaelstromRounds"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons>
-                <Face value="AP_ShapedBlast"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseShapedBlast"/>
-                <Row value="1"/>
-                <Column value="1"/>
-            </LayoutButtons>
             <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosSiegeTank" Row="1" Column="2"/>
             <LayoutButtons Face="AP_SiegeModeProgressiveRangeIncrease" Type="Passive" Requirements="AP_HaveSiegeTankSiegeModeProgressiveRangeIncease" Row="1" Column="3"/>
             <LayoutButtons Face="AP_SiegeTankMengskVeterancy" Type="Passive" Row="2" Column="4"/>
@@ -28524,7 +28457,7 @@
         <Sight value="11"/>
         <Food value="-8"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Minerals" value="600"/>
         <CostResource index="Vespene" value="600"/>
         <RepairTime value="60"/>
         <AttackTargetPriority value="20"/>
@@ -28551,11 +28484,9 @@
         <BehaviorArray Link="AP_MengskVeteranL4Tracker"/>
         <BehaviorArray Link="AP_NovaMultiTaskMAFServosThorIndicator"/>
         <BehaviorArray Link="AP_ThorMengskDontDie"/>
-<!--        <WeaponArray Link="AP_ThorMengskBaseModeL1Fake"/>-->
-<!--        <WeaponArray Link="AP_JavelinMissileLaunchersMengsk"/>-->
+        <WeaponArray Link="AP_JavelinMissileLaunchersMengsk"/>
         <WeaponArray Link="AP_ThorsHammerMengsk"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
-        <EffectArray index="Birth" value="AP_ThorMengskWeaponChange"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
@@ -28644,7 +28575,7 @@
         <Sight value="11"/>
         <Food value="-8"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Minerals" value="600"/>
         <CostResource index="Vespene" value="600"/>
         <RepairTime value="60"/>
         <AttackTargetPriority value="20"/>
@@ -28670,11 +28601,9 @@
         <BehaviorArray Link="AP_MengskVeteranL4Tracker"/>
         <BehaviorArray Link="AP_NovaMultiTaskMAFServosThorIndicator"/>
         <BehaviorArray Link="AP_ThorMengskAPDontDie"/>
-<!--        <WeaponArray Link="AP_ThorMengskAPModeL1Fake"/>-->
-<!--        <WeaponArray Link="AP_LanceMissileLaunchersMengsk"/>-->
+        <WeaponArray Link="AP_LanceMissileLaunchersMengsk"/>
         <WeaponArray Link="AP_ThorsHammerMengsk"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
-        <EffectArray index="Birth" value="AP_ThorMengskWeaponChange"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
@@ -28767,7 +28696,7 @@
         <Sight value="11"/>
         <Food value="-8"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Minerals" value="600"/>
         <CostResource index="Vespene" value="600"/>
         <RepairTime value="60"/>
         <AttackTargetPriority value="20"/>
@@ -28868,7 +28797,7 @@
         <Sight value="11"/>
         <Food value="-8"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Minerals" value="600"/>
         <RepairTime value="60"/>
         <AttackTargetPriority value="18"/>
         <DamageDealtXP value="1"/>
@@ -28943,8 +28872,8 @@
         <Sight value="10"/>
         <Food value="-4"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="125"/>
-        <CostResource index="Vespene" value="350"/>
+        <CostResource index="Minerals" value="250"/>
+        <CostResource index="Vespene" value="600"/>
         <RepairTime value="25"/>
         <AttackTargetPriority value="20"/>
         <AbilArray Link="stop"/>
@@ -28960,7 +28889,7 @@
         <BehaviorArray Link="AP_MengskVeteranL3Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranL4Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranTrigger"/>
-        <EffectArray index="Birth" value="AP_MarauderMengskWeaponChange"/>
+        <WeaponArray Link="AP_PunisherGrenadesMengsk"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -29087,7 +29016,7 @@
         <Sight value="11"/>
         <Food value="-4"/>
         <CostCategory value="Army"/>
-        <CostResource index="Minerals" value="200"/>
+        <CostResource index="Minerals" value="400"/>
         <CostResource index="Vespene" value="500"/>
         <RepairTime value="40"/>
         <AttackTargetPriority value="20"/>
@@ -29103,7 +29032,6 @@
         <AbilArray Link="AP_GhostMengskEMPLongStun"/>
         <AbilArray Link="AP_GhostMengskIrradiateBigDamage"/>
         <AbilArray Link="AP_GhostSCBWLockdown"/>
-        <AbilArray Link="AP_GhostMengskResourceEfficiencyMorph"/>
         <BehaviorArray Link="AP_MengskVeterancyGhostMengsk"/>
         <BehaviorArray Link="AP_MengskVeteranL1Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranL2Tracker"/>
@@ -29112,7 +29040,7 @@
         <BehaviorArray Link="AP_MengskVeteranTrigger"/>
         <BehaviorArray Link="AP_OcularImplantsIndicator"/>
         <BehaviorArray Link="AP_GhostPermanentCloak"/>
-        <EffectArray index="Birth" value="AP_GhostMengskWeaponChange"/>
+        <WeaponArray Link="AP_C10CanisterRifleMengsk"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -29161,10 +29089,6 @@
             <Charge Link="Ghost/Revive"/>
             <Cooldown Link="Ghost/Revive"/>
         </ReviveInfoBase>
-    </CUnit>
-    <CUnit id="AP_GhostMengskResourceEfficiency" parent="AP_GhostMengsk">
-        <AbilArray index="12" Link=""/>
-        <CargoSize value="1"/>
     </CUnit>
     <CUnit id="AP_TrooperMengsk">
         <DeathRevealRadius value="3"/>
@@ -29567,11 +29491,12 @@
     </CUnit>
     <CUnit id="AP_MarineMengsk" parent="AP_Marine">
         <Name value="Unit/Name/AP_MarineMengsk"/>
-        <LifeStart value="100"/>
-        <LifeMax value="100"/>
+        <LifeStart value="75"/>
+        <LifeMax value="75"/>
         <LifeArmor value="1"/>
         <Food value="-2"/>
         <CostResource index="Minerals" value="175"/>
+        <CostResource index="Vespene" value="25"/>
         <AbilArray Link="AP_MarineMengskSpiderMines"/>
         <BehaviorArray Link="AP_MengskVeterancyMarineMengsk"/>
         <BehaviorArray Link="AP_MengskVeteranL1Tracker"/>
@@ -29579,9 +29504,8 @@
         <BehaviorArray Link="AP_MengskVeteranL3Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranL4Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranTrigger"/>
-        <EffectArray index="Birth" value="AP_MarineMengskWeaponChange"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
-        <WeaponArray index="0" removed="1"/>
+        <WeaponArray index="0" Link="AP_GaussRifleMengsk"/>
         <LeaderAlias value="AP_MarineMengsk"/>
         <SelectAlias value="AP_MarineMengsk"/>
         <SubgroupAlias value="AP_MarineMengsk"/>
@@ -29595,13 +29519,12 @@
     </CUnit>
     <CUnit id="AP_GoliathMengsk" parent="AP_Goliath">
         <Name value="Unit/Name/AP_GoliathMengsk"/>
-        <LifeStart value="250"/>
-        <LifeMax value="250"/>
+        <LifeStart value="200"/>
+        <LifeMax value="200"/>
         <Food value="-5"/>
-        <CostResource index="Minerals" value="150"/>
-        <CostResource index="Vespene" value="325"/>
-<!--        <AbilArray Link="AP_GoliathMengskBlink"/>-->
-<!--        <BehaviorArray index="2" Link=""/>-->
+        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Vespene" value="400"/>
+        <AbilArray Link="AP_GoliathMengskBlink"/>
         <BehaviorArray Link="AP_MengskVeterancyGoliathMengsk"/>
         <BehaviorArray Link="AP_MengskVeteranL1Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranL2Tracker"/>
@@ -29610,17 +29533,18 @@
         <BehaviorArray Link="AP_MengskVeteranTrigger"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
         <WeaponArray index="0" removed="1"/>
-        <WeaponArray Link="AP_GoliathMengskAL1Fake"/>
         <WeaponArray Link="AP_GoliathMengskA" Turret="AP_Goliath"/>
         <WeaponArray Link="AP_GoliathMengskG" Turret="AP_Goliath"/>
         <WeaponArray Link="AP_GoliathMengskAUpgraded" Turret="FreeRotate"/>
         <WeaponArray Link="AP_GoliathMengskGUpgraded" Turret="AP_Goliath"/>
+        <WeaponArray Link="AP_GoliathMengskADisplay"/>
+        <WeaponArray Link="AP_GoliathMengskGDisplay"/>
         <LeaderAlias value="AP_GoliathMengsk"/>
         <SelectAlias value="AP_GoliathMengsk"/>
         <SubgroupAlias value="AP_GoliathMengsk"/>
         <CardLayouts index="0">
-<!--            <LayoutButtons index="7" Face="AP_SiegeTankMengskBlink" Type="AbilCmd" AbilCmd="AP_GoliathMengskBlink,Execute" Row="2" Column="0"/>-->
-            <LayoutButtons Face="AP_HHVikingPiercingAttacksGoliath" Type="Passive" Requirements="AP_HaveGoliathMengskVeterancyLevel3" Row="2" Column="3"/>
+            <LayoutButtons Face="AP_GoliathMengskBlink" Type="AbilCmd" AbilCmd="AP_GoliathMengskBlink,Execute" Row="2" Column="0"/>
+            <LayoutButtons index="5" Face="AP_GoliathMengskMultilock" Type="Passive" Requirements="AP_HaveGoliathMengskVeterancyLevel3" Row="1" Column="0"/>
             <LayoutButtons Face="AP_NovaUnitLockdown" Type="Passive" Requirements="AP_HaveGoliathMengskVeterancyLevel4" Row="1" Column="4"/>
             <LayoutButtons Face="AP_GoliathMengskVeterancy" Type="Passive" Row="2" Column="4"/>
         </CardLayouts>
@@ -29632,7 +29556,7 @@
         <LifeMax value="120"/>
         <Food value="-3"/>
         <EnergyRegenRate value="1.125"/>
-        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Minerals" value="200"/>
         <CostResource index="Vespene" value="225"/>
         <AbilArray index="2" Link="AP_MengskMedicHeal"/>
         <AbilArray index="3" Link="AP_MengskMedicHealPlusMech"/>
@@ -29667,6 +29591,7 @@
         <LifeMax value="400"/>
         <LifeArmor value="1"/>
         <Food value="-6"/>
+        <CostResource index="Minerals" value="300"/>
         <CostResource index="Vespene" value="450"/>
         <AbilArray index="3" Link="AP_LiberatorMengskMorphtoAG"/>
         <AbilArray index="4" Link="AP_LiberatorMengskAGTarget"/>
@@ -29703,6 +29628,7 @@
         <LifeMax value="400"/>
         <LifeArmor value="1"/>
         <Food value="-6"/>
+        <CostResource index="Minerals" value="300"/>
         <CostResource index="Vespene" value="450"/>
         <AbilArray index="2" Link="AP_LiberatorMengskMorphtoAA"/>
         <AbilArray index="3" Link="AP_LiberatorMengskMorphtoAG"/>
@@ -29732,16 +29658,47 @@
         <HotkeyAlias value="AP_LiberatorMengsk"/>
         <SubgroupAlias value="AP_LiberatorMengsk"/>
     </CUnit>
-    <CUnit id="AP_WraithMengsk" parent="AP_Wraith">
-        <Name value="Unit/Name/AP_WraithMengsk"/>
+    <CUnit id="AP_WraithMengsk">
+        <DeathRevealRadius value="3"/>
+        <Race value="Terr"/>
+        <Mob value="Campaign"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <PlaneArray index="Air" value="1"/>
+        <Collide index="Flying" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
         <LifeStart value="270"/>
         <LifeMax value="270"/>
         <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranShipPlating"/>
         <Food value="-4"/>
         <EnergyRegenRate value="1.125"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <Mover value="Fly"/>
+        <Speed value="3.75"/>
+        <Acceleration value="2.625"/>
+        <Sight value="8"/>
+        <Height value="3.75"/>
+        <VisionHeight value="4"/>
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="300"/>
         <CostResource index="Vespene" value="450"/>
+        <RepairTime value="42"/>
+        <AttackTargetPriority value="20"/>
+        <DamageDealtXP value="1"/>
+        <DamageTakenXP value="1"/>
+        <KillXP value="50"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="AP_WraithCloak"/>
         <AbilArray Link="AP_WraithMengskResonatingFeedbackInterference"/>
         <AbilArray Link="AP_WraithMengskDisruptionWeb"/>
+        <BehaviorArray Link="AP_ScavengingSystemsMechDeath"/>
+        <BehaviorArray Link="AP_CloakDistortionField"/>
+        <BehaviorArray Link="AP_WraithPermanentCloak"/>
         <BehaviorArray Link="AP_MengskVeterancyWraithMengsk"/>
         <BehaviorArray Link="AP_MengskVeteranL1Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranL2Tracker"/>
@@ -29754,18 +29711,41 @@
         <BehaviorArray Link="AP_WraithMengskCloakEnergyDrainL3"/>
         <BehaviorArray Link="AP_WraithMengskCloakEnergyDrainL4"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
-        <WeaponArray index="0" removed="1"/>
-        <WeaponArray Link="AP_WraithMengskAL1Fake"/>
-        <WeaponArray Link="AP_WraithMengskGL1Fake"/>
         <WeaponArray Link="AP_WraithMengskA"/>
         <WeaponArray Link="AP_WraithMengskG"/>
-        <WeaponArray Link="AP_WraithMengskALongRange"/>
-        <WeaponArray Link="AP_WraithMengskGLongRange"/>
-        <CardLayouts index="0">
+        <WeaponArray Link="AP_WraithMengskAG"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="AP_DisplacementField" Type="Passive" Requirements="AP_CloakDistortionFieldResearched" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_PermanentCloakWraith" Type="Passive" Requirements="AP_HavePermanentCloakWraith" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_SingularityAnchor" Type="Passive" Requirements="AP_DynamicPowerRoutingResearched" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_WraithAdvancedLaserTechnology" Type="Passive" Requirements="AP_HaveWraithAdvancedLaserTechnology" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_WraithCloakOn" Type="AbilCmd" AbilCmd="AP_WraithCloak,0" Row="2" Column="0"/>
+            <LayoutButtons Face="CloakOff" Type="AbilCmd" AbilCmd="AP_WraithCloak,1" Row="2" Column="1"/>
             <LayoutButtons Face="AP_WraithMengskResonatingFeedbackInterference" Type="AbilCmd" AbilCmd="AP_WraithMengskResonatingFeedbackInterference,0" Row="2" Column="2"/>
             <LayoutButtons Face="AP_WraithMengskDisruptionWeb" Type="AbilCmd" AbilCmd="AP_WraithMengskDisruptionWeb,0" Row="2" Column="3"/>
             <LayoutButtons Face="AP_WraithMengskVeterancy" Type="Passive" Row="2" Column="4"/>
         </CardLayouts>
+        <Radius value="0.625"/>
+        <SeparationRadius value="0.625"/>
+        <ScoreMake value="400"/>
+        <ScoreKill value="800"/>
+        <SubgroupPriority value="21"/>
+        <MinimapRadius value="0.625"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:Campaign"/>
+        <GlossaryCategory value="Unit/Category/AP_TerranUnitsAir"/>
+        <GlossaryPriority value="160"/>
+        <GlossaryStrongArray value="Mutalisk"/>
+        <GlossaryStrongArray value="VoidRay"/>
+        <GlossaryStrongArray value="Battlecruiser"/>
+        <GlossaryWeakArray value="SporeCrawler"/>
+        <GlossaryWeakArray value="PhotonCannon"/>
+        <GlossaryWeakArray value="MissileTurret"/>
+        <HotkeyCategory value="Unit/Category/AP_TerranUnitsAir"/>
         <LeaderAlias value="AP_WraithMengsk"/>
         <SelectAlias value="AP_WraithMengsk"/>
         <SubgroupAlias value="AP_WraithMengsk"/>
@@ -29790,6 +29770,7 @@
         <LifeMax value="280"/>
         <Food value="-5"/>
         <EnergyRegenRate value="1.125"/>
+        <CostResource index="Minerals" value="300"/>
         <CostResource index="Vespene" value="300"/>
         <AbilArray index="3" Link="AP_BansheeMengskCloak"/>
         <AbilArray Link="AP_BansheeMengskRecharge"/>

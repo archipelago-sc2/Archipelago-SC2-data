@@ -5643,6 +5643,9 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     unitgroup auto46CEFFB8_g;
     int auto46CEFFB8_u;
     unit auto46CEFFB8_var;
+    unitgroup auto2DF4BE33_g;
+    int auto2DF4BE33_u;
+    unit auto2DF4BE33_var;
 
     // Variable Initialization
 
@@ -5736,6 +5739,14 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
             UnitSetPropertyFixed(auto46CEFFB8_var, c_unitPropResources, 11353.0);
         }
 
+    }
+    auto2DF4BE33_g = UnitGroup("AP_SwarmHost", gv_pLAYER_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
+    auto2DF4BE33_u = UnitGroupCount(auto2DF4BE33_g, c_unitCountAll);
+    for (;; auto2DF4BE33_u -= 1) {
+        auto2DF4BE33_var = UnitGroupUnitFromEnd(auto2DF4BE33_g, auto2DF4BE33_u);
+        if (auto2DF4BE33_var == null) { break; }
+        UnitIssueOrder(auto2DF4BE33_var, Order(AbilityCommand("AP_MorphToSwarmHostBurrowed", 0)), c_orderQueueReplace);
+        UnitIssueOrder(auto2DF4BE33_var, Order(AbilityCommand("AP_MorphToSwarmHostRooted", 0)), c_orderQueueReplace);
     }
     if ((gv_introCinematicCompleted == true)) {
         lv_fadeDuration = 1.5;
