@@ -2330,7 +2330,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         GameSetSpeedValue(c_gameSpeedFaster);
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         gf_APtech(gv_pLAYER_01_USER, 4);
     }
@@ -2381,8 +2381,8 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
         TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03CreepTeleport", 0), false);
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03StructureTeleport", 0), true);
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03PowerTeleport", 0), false);
+        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03StructureTeleport", 0), true);
+        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03PowerTeleport", 0), false);
     }
     else if (auto973AFC8F_val == "Prot") {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
@@ -2390,13 +2390,13 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_DAELAAM);
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
         TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03CreepTeleport", 0), false);
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03StructureTeleport", 0), false);
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03PowerTeleport", 0), true);
+        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03StructureTeleport", 0), false);
+        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03PowerTeleport", 0), true);
     }
     else {
         TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03CreepTeleport", 0), true);
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03StructureTeleport", 0), false);
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03PowerTeleport", 0), false);
+        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03StructureTeleport", 0), false);
+        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03PowerTeleport", 0), false);
     }
     if ((libABFE498B_gv_aP_Triggers_Option_takeOverAIAllies == true)) {
         lv_remove = UnitGroup(null, gv_pLAYER_06_KERRIGAN_AI, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -5808,7 +5808,7 @@ bool gt_StructureTeleportTargetOn_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_StructureTeleportTargetOn_Init () {
     gt_StructureTeleportTargetOn = TriggerCreate("gt_StructureTeleportTargetOn_Func");
-    TriggerAddEventTargetModeUpdate(gt_StructureTeleportTargetOn, gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03StructureTeleport", 0), c_targetModeStateOn);
+    TriggerAddEventTargetModeUpdate(gt_StructureTeleportTargetOn, gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03StructureTeleport", 0), c_targetModeStateOn);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5838,7 +5838,7 @@ bool gt_StructureTeleportTargetOff_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_StructureTeleportTargetOff_Init () {
     gt_StructureTeleportTargetOff = TriggerCreate("gt_StructureTeleportTargetOff_Func");
-    TriggerAddEventTargetModeUpdate(gt_StructureTeleportTargetOff, gv_pLAYER_01_USER, AbilityCommand("KerriganEpilogue03StructureTeleport", 0), c_targetModeStateOff);
+    TriggerAddEventTargetModeUpdate(gt_StructureTeleportTargetOff, gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03StructureTeleport", 0), c_targetModeStateOff);
 }
 
 //--------------------------------------------------------------------------------------------------

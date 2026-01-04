@@ -9,13 +9,15 @@
         <PlacementModel value="Invisible"/>
     </CActorUnit>
     <CActorMissile id="KerriganEpilogue03">
-        <On Terms="Abil.KerriganEpilogue03PowerTeleport.SourceCastStart" Send="$Spell,A 0 -1.000000 -1.000000 1.000000 AsTimeScale"/>
-        <On Terms="Abil.KerriganEpilogue03StructureTeleport.SourceCastStart" Send="$Spell,A 0 -1.000000 -1.000000 1.000000 AsTimeScale"/>
+        <!-- Override -->
+        <On Terms="Abil.AP_KerriganEpilogue03PowerTeleport.SourceCastStart" Send="$Spell,A 0 -1.000000 -1.000000 1.000000 AsTimeScale"/>
+        <On Terms="Abil.AP_KerriganEpilogue03StructureTeleport.SourceCastStart" Send="$Spell,A 0 -1.000000 -1.000000 1.000000 AsTimeScale"/>
     </CActorMissile>
     <CActorRange id="KerriganEpilogue03CreepTeleportRangeSplat">
-        <On Terms="Abil.KerriganEpilogue03PowerTeleport.TargetOn" Send="Create"/>
-        <On Terms="Abil.KerriganEpilogue03PowerTeleport.TargetOff" Send="Destroy"/>
-        <On Terms="Abil.KerriganEpilogue03StructureTeleport.TargetOn" Send="Create"/>
-        <On Terms="Abil.KerriganEpilogue03StructureTeleport.TargetOff" Send="Destroy"/>
+        <!-- Override -->
+        <On Terms="Abil.AP_KerriganEpilogue03PowerTeleport.TargetOn" Send="Create"/>
+        <On Terms="Abil.AP_KerriganEpilogue03PowerTeleport.TargetOff" Send="Destroy"/>
+        <On Terms="Abil.AP_KerriganEpilogue03StructureTeleport.TargetOn" Send="Create"/>
+        <On Terms="Abil.AP_KerriganEpilogue03StructureTeleport.TargetOff" Send="Destroy"/>
     </CActorRange>
 </Catalog>
