@@ -1858,7 +1858,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = false;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
-        libABFE498B_gv_aP_Triggers_Option_novaFallback = true;
+        libABFE498B_gv_aP_Triggers_Option_enableNova = true;
         TriggerExecute(gt_onDifficultyBrutal, true, false);
         gf_APtech(1, 4);
     }
@@ -1958,7 +1958,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         UnitRemove(UnitFromId(702844370));
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
-    gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_novaFallback;
+    gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_enableNova;
     if ((gv_novaEnabled == true)) {
         libNCMI_gf_SetNovaHeroUnit(gv_nova);
         libNCMI_gf_EnableDisableHeroReviveSystem(true, gv_pLAYER_01_USER);

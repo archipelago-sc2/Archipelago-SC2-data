@@ -247,6 +247,7 @@ trigger gt_ObjectiveDefeattheDeathFleetComplete;
 trigger gt_ObjectiveScienceFacilityCreate;
 trigger gt_ObjectiveScienceFacilityComplete;
 trigger gt_ObjectiveScienceFacilityFailed;
+trigger gt_ObjectiveScienceFacilityDeactivate;
 trigger gt_BriefingQ;
 trigger gt_BriefingSurrounded01;
 trigger gt_BriefingSurrounded02;
@@ -6595,6 +6596,36 @@ void gt_ObjectiveScienceFacilityFailed_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Objective - Science Facility - Deactivate
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveScienceFacilityDeactivate_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((lib5BD4895D_gv_aP_Core_locationCollectable[gv_LOCATION_ID_SCIENCE_FACILITY] == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerEnable(gt_ScienceFacilityDiesQ, false);
+    TriggerEnable(gt_ObjectiveScienceFacilityCreate, false);
+    TriggerEnable(gt_ObjectiveScienceFacilityComplete, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveScienceFacilityDeactivate_Init () {
+    gt_ObjectiveScienceFacilityDeactivate = TriggerCreate("gt_ObjectiveScienceFacilityDeactivate_Func");
+    TriggerAddEventGeneric(gt_ObjectiveScienceFacilityDeactivate, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Briefing Q
 //--------------------------------------------------------------------------------------------------
 bool gt_BriefingQ_Func (bool testConds, bool runActions) {
@@ -7722,6 +7753,7 @@ void InitTriggers () {
     gt_ObjectiveScienceFacilityCreate_Init();
     gt_ObjectiveScienceFacilityComplete_Init();
     gt_ObjectiveScienceFacilityFailed_Init();
+    gt_ObjectiveScienceFacilityDeactivate_Init();
     gt_BriefingQ_Init();
     gt_BriefingSurrounded01_Init();
     gt_BriefingSurrounded02_Init();
