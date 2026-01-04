@@ -4015,8 +4015,6 @@ bool gt_DEBUGBonusObjectives_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, StringExternal("Param/Value/AED3515C"), true);
-    TriggerExecute(gt_RevealBonusObjectiveQ, true, false);
     autoD534BB89_val = EventChatMessage(false);
     if (autoD534BB89_val == "-b1") {
         lv_kill = RegionFromId(40);
@@ -4031,7 +4029,10 @@ bool gt_DEBUGBonusObjectives_Func (bool testConds, bool runActions) {
         lv_kill = RegionFromId(43);
     }
     else {
+        return true;
     }
+    TriggerDebugOutput(1, StringExternal("Param/Value/AED3515C"), true);
+    TriggerExecute(gt_RevealBonusObjectiveQ, true, false);
     autoFF95BD8C_g = libNtve_gf_UnitsInRegionWithAllianceToPlayerMatchingCondition(null, "", "", gv_pLAYER_01_USER, c_unitAllianceEnemy, lv_kill, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoFF95BD8C_u = UnitGroupCount(autoFF95BD8C_g, c_unitCountAll);
     for (;; autoFF95BD8C_u -= 1) {
