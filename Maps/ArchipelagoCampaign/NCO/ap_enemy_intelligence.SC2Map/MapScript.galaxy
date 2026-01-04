@@ -4523,7 +4523,6 @@ bool gt_S1GarrisonsAllFilledUp_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerExecute(gt_ObjectiveRecoverDownedForcesCreate, true, true);
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_ALL_GARRISONS);
     TriggerExecute(gt_ObjectiveFillGarrisonsComplete, true, false);
     libNtve_gf_ChangeUnitDamage(gv_nova, libNtve_ge_UnitDamageTakenDealt_Damage_Take, libNtve_ge_UnitDamageChangeOption_No);
     if ((gv_achievement_PlayerSupplyExceeded35 == false) && (libLotv_gf_DifficultyValueInt2(0, 0, 1, 1) == 1)) {
@@ -4536,6 +4535,7 @@ bool gt_S1GarrisonsAllFilledUp_Func (bool testConds, bool runActions) {
         TriggerExecute(gt_StartGame02QReachCommsHub, true, false);
     }
     else {
+        TriggerExecute(gt_ObjectiveReachCommunicationsHubComplete, true, false);
         lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_COMMUNICATIONS_HUB);
         TriggerExecute(gt_VictorySequence, true, true);
     }
