@@ -3947,6 +3947,8 @@ bool gt_S1GarrisonSpotsInit_Func (bool testConds, bool runActions) {
     string lv_type;
 
     // Automatic Variable Declarations
+    const int auto9AE265B2_ae = 0;
+    const int auto9AE265B2_ai = -1;
     string auto71F0FF5F_val;
     const int auto71137309_ae = 0;
     const int auto71137309_ai = -1;
@@ -4061,6 +4063,14 @@ bool gt_S1GarrisonSpotsInit_Func (bool testConds, bool runActions) {
     libNtve_gf_ShowHideUnit(gv_s1_GarrisonSpots[gv_s1_GarrisonSpotsCount].lv_beaconUnit, false);
     UnitSetFacing(gv_s1_GarrisonSpots[gv_s1_GarrisonSpotsCount].lv_garrisonTurret, 45.0, 0.0);
     UnitSetState(gv_s1_GarrisonSpots[gv_s1_GarrisonSpotsCount].lv_garrisonTurret, c_unitStateTurnSuppressed, false);
+    lv_iter = gv_s1_GarrisonSpotsCount;
+    for ( ; ( (auto9AE265B2_ai >= 0 && lv_iter <= auto9AE265B2_ae) || (auto9AE265B2_ai < 0 && lv_iter >= auto9AE265B2_ae) ) ; lv_iter += auto9AE265B2_ai ) {
+        lv_unit = gv_s1_GarrisonSpots[lv_iter].lv_garrisonTurret;
+        UnitSetState(lv_unit, c_unitStateInvulnerable, true);
+        UnitSetState(lv_unit, c_unitStateHighlightable, false);
+        UnitSetState(lv_unit, c_unitStateTargetable, false);
+        UnitSetOwner(lv_unit, 0, true);
+    }
     gv_objectiveFillGarrisonsMax = gv_s1_GarrisonSpotsCount;
     while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
         Wait(0.0625, c_timeGame);
@@ -4522,13 +4532,14 @@ bool gt_S1GarrisonsAllFilledUp_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    TriggerExecute(gt_ObjectiveRecoverDownedForcesCreate, true, true);
-    TriggerExecute(gt_ObjectiveFillGarrisonsComplete, true, false);
+    TriggerExecute(gt_ObjectiveRecoverDownedForcesCreate, true, false);
+    TriggerExecute(gt_ObjectiveFillGarrisonsComplete, true, true);
     libNtve_gf_ChangeUnitDamage(gv_nova, libNtve_ge_UnitDamageTakenDealt_Damage_Take, libNtve_ge_UnitDamageChangeOption_No);
     if ((gv_achievement_PlayerSupplyExceeded35 == false) && (libLotv_gf_DifficultyValueInt2(0, 0, 1, 1) == 1)) {
     }
 
     Wait(6.0, c_timeGame);
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_ALL_GARRISONS);
     TriggerExecute(gt_S1CleanUpSection01, true, true);
     if ((gv_novaEnabled == true)) {
         TriggerExecute(gt_MidQ, true, true);
@@ -9992,8 +10003,8 @@ bool gt_ObjectiveFillGarrisonsComplete_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    while (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
-        Wait(1.0, c_timeGame);
+    while (!(((libNCMI_gf_PlayerInCinematicModeCampaign() == false) || (libNCMI_gf_GameIsOver() == true)))) {
+        Wait(0.25, c_timeGame);
     }
     TriggerExecute(gt_ObjectiveFillGarrisonsCreate, true, false);
     lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveFillGarrisons);
