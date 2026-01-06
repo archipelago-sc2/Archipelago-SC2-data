@@ -29,21 +29,24 @@ void InitLibs () {
 //--------------------------------------------------------------------------------------------------
 // Constants
 //--------------------------------------------------------------------------------------------------
+const int gv_LOCATION_ID_TERRAZINE_TANK = 1;
+const int gv_LOCATION_ID_JORIUM_STOCKPILE = 2;
+const int gv_LOCATION_ID_FIRST_ISLAND_SPECTRES = 3;
+const int gv_LOCATION_ID_SECOND_ISLAND_SPECTRES = 4;
+const int gv_LOCATION_ID_THIRD_ISLAND_SPECTRES = 5;
 const int gv_pLAYER01_USER = 1;
 const int gv_pLAYER02_TOSH = 2;
 const int gv_pLAYER03_DROPSHIPS = 3;
 const int gv_pLAYER04_NOVA = 4;
 const int gv_pLAYER05_ULTRA = 5;
 const int gv_pLAYER06_THOR = 6;
-const int gv_LOCATION_ID_TERRAZINE_TANK = 1;
-const int gv_LOCATION_ID_JORIUM_STOCKPILE = 2;
-const int gv_LOCATION_ID_FIRST_ISLAND_SPECTRES = 3;
-const int gv_LOCATION_ID_SECOND_ISLAND_SPECTRES = 4;
-const int gv_LOCATION_ID_THIRD_ISLAND_SPECTRES = 5;
 
 //--------------------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------------------
+bool gv_firstSpectreIsland;
+bool gv_secondSpectreIsland;
+bool gv_thirdSpectreIsland;
 bool gv_gameOver;
 bool gv_inCinematic;
 int gv_platform;
@@ -143,9 +146,6 @@ bool gv_p1DoneCompleted;
 unitgroup gv_p1DoneOldUnits;
 bool gv_p2DoneCompleted;
 unitgroup gv_p2DoneOldUnits;
-bool gv_firstSpectreIsland;
-bool gv_secondSpectreIsland;
-bool gv_thirdSpectreIsland;
 
 void InitGlobals () {
     int init_i;
@@ -198,6 +198,16 @@ void gf_SpawnMove (string lp_unitType, int lp_player, point lp_spawnLoc, point l
 //--------------------------------------------------------------------------------------------------
 // Trigger Variables
 //--------------------------------------------------------------------------------------------------
+trigger gt_onDifficultyCasual;
+trigger gt_onDifficultyNormal;
+trigger gt_onDifficultyHard;
+trigger gt_onDifficultyBrutal;
+trigger gt_JoriumStockpile;
+trigger gt_TerrazineTank;
+trigger gt_FirstSpectreIsland;
+trigger gt_SecondSpectreIsland;
+trigger gt_ThirdSpectreIsland;
+trigger gt_ArchInit;
 trigger gt_Initialization;
 trigger gt_Init01Technology;
 trigger gt_Init02Players;
@@ -355,16 +365,6 @@ trigger gt_P2DoneCleanup;
 trigger gt_P2DoneSwitchtoPlatform3;
 trigger gt_P2DoneDropPodExit;
 trigger gt_VictoryQ;
-trigger gt_onDifficultyCasual;
-trigger gt_onDifficultyNormal;
-trigger gt_onDifficultyHard;
-trigger gt_onDifficultyBrutal;
-trigger gt_JoriumStockpile;
-trigger gt_TerrazineTank;
-trigger gt_FirstSpectreIsland;
-trigger gt_SecondSpectreIsland;
-trigger gt_ThirdSpectreIsland;
-trigger gt_ArchInit;
 
 //--------------------------------------------------------------------------------------------------
 // Global Functions
@@ -460,6 +460,381 @@ void gf_SpawnMove (string lp_unitType, int lp_player, point lp_spawnLoc, point l
     UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), lp_moveTarget), c_orderQueueReplace);
     UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 4), lv_pointBeyond), c_orderQueueAddToEnd);
     UnitSetPropertyFixed(UnitLastCreated(), c_unitPropEnergyPercent, 100.0);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyCasual
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyCasual_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup auto2043A6D5_g;
+    int auto2043A6D5_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto2043A6D5_g = UnitGroupFromId(1);
+    auto2043A6D5_u = UnitGroupCount(auto2043A6D5_g, c_unitCountAll);
+    for (;; auto2043A6D5_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(auto2043A6D5_g, auto2043A6D5_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyCasual_Init () {
+    gt_onDifficultyCasual = TriggerCreate("gt_onDifficultyCasual_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyNormal
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyNormal_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup auto2C664001_g;
+    int auto2C664001_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto2C664001_g = UnitGroupFromId(2);
+    auto2C664001_u = UnitGroupCount(auto2C664001_g, c_unitCountAll);
+    for (;; auto2C664001_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(auto2C664001_g, auto2C664001_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyNormal_Init () {
+    gt_onDifficultyNormal = TriggerCreate("gt_onDifficultyNormal_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyHard
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyHard_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup auto37402654_g;
+    int auto37402654_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto37402654_g = UnitGroupFromId(3);
+    auto37402654_u = UnitGroupCount(auto37402654_g, c_unitCountAll);
+    for (;; auto37402654_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(auto37402654_g, auto37402654_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyHard_Init () {
+    gt_onDifficultyHard = TriggerCreate("gt_onDifficultyHard_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: onDifficultyBrutal
+//--------------------------------------------------------------------------------------------------
+bool gt_onDifficultyBrutal_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_currentUnit;
+
+    // Automatic Variable Declarations
+    unitgroup autoFA2C69CC_g;
+    int autoFA2C69CC_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoFA2C69CC_g = UnitGroupFromId(4);
+    autoFA2C69CC_u = UnitGroupCount(autoFA2C69CC_g, c_unitCountAll);
+    for (;; autoFA2C69CC_u -= 1) {
+        lv_currentUnit = UnitGroupUnitFromEnd(autoFA2C69CC_g, autoFA2C69CC_u);
+        if (lv_currentUnit == null) { break; }
+        UnitRemove(lv_currentUnit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_onDifficultyBrutal_Init () {
+    gt_onDifficultyBrutal = TriggerCreate("gt_onDifficultyBrutal_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Jorium Stockpile
+//--------------------------------------------------------------------------------------------------
+bool gt_JoriumStockpile_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((EventUnit() == UnitFromId(235)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_JORIUM_STOCKPILE);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_JoriumStockpile_Init () {
+    gt_JoriumStockpile = TriggerCreate("gt_JoriumStockpile_Func");
+    TriggerAddEventUnitDied(gt_JoriumStockpile, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Terrazine Tank
+//--------------------------------------------------------------------------------------------------
+bool gt_TerrazineTank_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((EventUnit() == UnitFromId(96)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_TERRAZINE_TANK);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_TerrazineTank_Init () {
+    gt_TerrazineTank = TriggerCreate("gt_TerrazineTank_Func");
+    TriggerAddEventUnitDied(gt_TerrazineTank, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: First Spectre Island
+//--------------------------------------------------------------------------------------------------
+bool gt_FirstSpectreIsland_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    bool lv_everyoneDead;
+
+    // Automatic Variable Declarations
+    unitgroup autoC2BF2B55_g;
+    int autoC2BF2B55_u;
+    unit autoC2BF2B55_var;
+
+    // Variable Initialization
+    lv_everyoneDead = true;
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGroupHasUnit(UnitGroupFromId(5), EventUnit()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoC2BF2B55_g = UnitGroupFromId(5);
+    autoC2BF2B55_u = UnitGroupCount(autoC2BF2B55_g, c_unitCountAll);
+    for (;; autoC2BF2B55_u -= 1) {
+        autoC2BF2B55_var = UnitGroupUnitFromEnd(autoC2BF2B55_g, autoC2BF2B55_u);
+        if (autoC2BF2B55_var == null) { break; }
+        if ((UnitIsAlive(autoC2BF2B55_var) == true)) {
+            lv_everyoneDead = false;
+        }
+
+    }
+    if ((lv_everyoneDead == true)) {
+        if ((gv_firstSpectreIsland == false)) {
+            gv_firstSpectreIsland = true;
+            lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_FIRST_ISLAND_SPECTRES);
+        }
+
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_FirstSpectreIsland_Init () {
+    gt_FirstSpectreIsland = TriggerCreate("gt_FirstSpectreIsland_Func");
+    TriggerAddEventUnitDied(gt_FirstSpectreIsland, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Second Spectre Island
+//--------------------------------------------------------------------------------------------------
+bool gt_SecondSpectreIsland_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    bool lv_everyoneDead;
+
+    // Automatic Variable Declarations
+    unitgroup autoB874DC99_g;
+    int autoB874DC99_u;
+    unit autoB874DC99_var;
+
+    // Variable Initialization
+    lv_everyoneDead = true;
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGroupHasUnit(UnitGroupFromId(6), EventUnit()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoB874DC99_g = UnitGroupFromId(6);
+    autoB874DC99_u = UnitGroupCount(autoB874DC99_g, c_unitCountAll);
+    for (;; autoB874DC99_u -= 1) {
+        autoB874DC99_var = UnitGroupUnitFromEnd(autoB874DC99_g, autoB874DC99_u);
+        if (autoB874DC99_var == null) { break; }
+        if ((UnitIsAlive(autoB874DC99_var) == true)) {
+            lv_everyoneDead = false;
+        }
+
+    }
+    if ((lv_everyoneDead == true)) {
+        if ((gv_secondSpectreIsland == false)) {
+            gv_secondSpectreIsland = true;
+            lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_SECOND_ISLAND_SPECTRES);
+        }
+
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_SecondSpectreIsland_Init () {
+    gt_SecondSpectreIsland = TriggerCreate("gt_SecondSpectreIsland_Func");
+    TriggerAddEventUnitDied(gt_SecondSpectreIsland, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Third Spectre Island
+//--------------------------------------------------------------------------------------------------
+bool gt_ThirdSpectreIsland_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    bool lv_everyoneDead;
+
+    // Automatic Variable Declarations
+    unitgroup autoE5BD5554_g;
+    int autoE5BD5554_u;
+    unit autoE5BD5554_var;
+
+    // Variable Initialization
+    lv_everyoneDead = true;
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGroupHasUnit(UnitGroupFromId(7), EventUnit()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoE5BD5554_g = UnitGroupFromId(7);
+    autoE5BD5554_u = UnitGroupCount(autoE5BD5554_g, c_unitCountAll);
+    for (;; autoE5BD5554_u -= 1) {
+        autoE5BD5554_var = UnitGroupUnitFromEnd(autoE5BD5554_g, autoE5BD5554_u);
+        if (autoE5BD5554_var == null) { break; }
+        if ((UnitIsAlive(autoE5BD5554_var) == true)) {
+            lv_everyoneDead = false;
+        }
+
+    }
+    if ((lv_everyoneDead == true)) {
+        if ((gv_thirdSpectreIsland == false)) {
+            gv_thirdSpectreIsland = true;
+            lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_THIRD_ISLAND_SPECTRES);
+        }
+
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ThirdSpectreIsland_Init () {
+    gt_ThirdSpectreIsland = TriggerCreate("gt_ThirdSpectreIsland_Func");
+    TriggerAddEventUnitDied(gt_ThirdSpectreIsland, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Arch Init
+//--------------------------------------------------------------------------------------------------
+bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
+    TriggerExecute(gt_Init02Players, true, false);
+    libABFE498B_gf_AP_Triggers_MapConfig_setMissionBuild(false);
+    lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
+    lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
+    libABFE498B_gf_AP_Triggers_MapConfig_setDifficultySetup(gt_onDifficultyCasual, gt_onDifficultyNormal, gt_onDifficultyHard, gt_onDifficultyBrutal);
+    lib5BD4895D_gf_AP_Core_MapConfig_setChatboxPosition(c_anchorTopRight, 500, 350, 0, 140);
+    lib5BD4895D_gf_AP_Core_initObjectivePanel();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ArchInit_Init () {
+    gt_ArchInit = TriggerCreate("gt_ArchInit_Func");
+    TriggerAddEventMapInit(gt_ArchInit);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -611,13 +986,13 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
         ActorSend(gv_outhouse, "Destroy");
     }
 
-    if ((libABFE498B_gv_aP_Triggers_Option_novaFallback == true)) {
-        gv_nova = UnitFromId(402);
-    }
-    else {
+    if ((libABFE498B_gv_aP_Triggers_Option_enableNova == true)) {
         libNtve_gf_ReplaceUnit(UnitFromId(402), "AP_NovaHero", libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
         gv_nova = libNtve_gf_LastReplacedUnit();
         lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER01_USER);
+    }
+    else {
+        gv_nova = UnitFromId(402);
     }
     UnitGroupAdd(gv_novaGroup, gv_nova);
     UnitSetPropertyFixed(gv_nova, c_unitPropEnergyPercent, 100.0);
@@ -6802,384 +7177,19 @@ void gt_VictoryQ_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyCasual
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyCasual_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup auto2043A6D5_g;
-    int auto2043A6D5_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto2043A6D5_g = UnitGroupFromId(1);
-    auto2043A6D5_u = UnitGroupCount(auto2043A6D5_g, c_unitCountAll);
-    for (;; auto2043A6D5_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(auto2043A6D5_g, auto2043A6D5_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyCasual_Init () {
-    gt_onDifficultyCasual = TriggerCreate("gt_onDifficultyCasual_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyNormal
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyNormal_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup auto2C664001_g;
-    int auto2C664001_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto2C664001_g = UnitGroupFromId(2);
-    auto2C664001_u = UnitGroupCount(auto2C664001_g, c_unitCountAll);
-    for (;; auto2C664001_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(auto2C664001_g, auto2C664001_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyNormal_Init () {
-    gt_onDifficultyNormal = TriggerCreate("gt_onDifficultyNormal_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyHard
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyHard_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup auto37402654_g;
-    int auto37402654_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto37402654_g = UnitGroupFromId(3);
-    auto37402654_u = UnitGroupCount(auto37402654_g, c_unitCountAll);
-    for (;; auto37402654_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(auto37402654_g, auto37402654_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyHard_Init () {
-    gt_onDifficultyHard = TriggerCreate("gt_onDifficultyHard_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: onDifficultyBrutal
-//--------------------------------------------------------------------------------------------------
-bool gt_onDifficultyBrutal_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_currentUnit;
-
-    // Automatic Variable Declarations
-    unitgroup autoFA2C69CC_g;
-    int autoFA2C69CC_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoFA2C69CC_g = UnitGroupFromId(4);
-    autoFA2C69CC_u = UnitGroupCount(autoFA2C69CC_g, c_unitCountAll);
-    for (;; autoFA2C69CC_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(autoFA2C69CC_g, autoFA2C69CC_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_onDifficultyBrutal_Init () {
-    gt_onDifficultyBrutal = TriggerCreate("gt_onDifficultyBrutal_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Jorium Stockpile
-//--------------------------------------------------------------------------------------------------
-bool gt_JoriumStockpile_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((EventUnit() == UnitFromId(235)))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_JORIUM_STOCKPILE);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_JoriumStockpile_Init () {
-    gt_JoriumStockpile = TriggerCreate("gt_JoriumStockpile_Func");
-    TriggerAddEventUnitDied(gt_JoriumStockpile, null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Terrazine Tank
-//--------------------------------------------------------------------------------------------------
-bool gt_TerrazineTank_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((EventUnit() == UnitFromId(96)))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_TERRAZINE_TANK);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_TerrazineTank_Init () {
-    gt_TerrazineTank = TriggerCreate("gt_TerrazineTank_Func");
-    TriggerAddEventUnitDied(gt_TerrazineTank, null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: First Spectre Island
-//--------------------------------------------------------------------------------------------------
-bool gt_FirstSpectreIsland_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    bool lv_everyoneDead;
-
-    // Automatic Variable Declarations
-    unitgroup autoC2BF2B55_g;
-    int autoC2BF2B55_u;
-    unit autoC2BF2B55_var;
-
-    // Variable Initialization
-    lv_everyoneDead = true;
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitGroupHasUnit(UnitGroupFromId(5), EventUnit()) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoC2BF2B55_g = UnitGroupFromId(5);
-    autoC2BF2B55_u = UnitGroupCount(autoC2BF2B55_g, c_unitCountAll);
-    for (;; autoC2BF2B55_u -= 1) {
-        autoC2BF2B55_var = UnitGroupUnitFromEnd(autoC2BF2B55_g, autoC2BF2B55_u);
-        if (autoC2BF2B55_var == null) { break; }
-        if ((UnitIsAlive(autoC2BF2B55_var) == true)) {
-            lv_everyoneDead = false;
-        }
-
-    }
-    if ((lv_everyoneDead == true)) {
-        if ((gv_firstSpectreIsland == false)) {
-            gv_firstSpectreIsland = true;
-            lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_FIRST_ISLAND_SPECTRES);
-        }
-
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_FirstSpectreIsland_Init () {
-    gt_FirstSpectreIsland = TriggerCreate("gt_FirstSpectreIsland_Func");
-    TriggerAddEventUnitDied(gt_FirstSpectreIsland, null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Second Spectre Island
-//--------------------------------------------------------------------------------------------------
-bool gt_SecondSpectreIsland_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    bool lv_everyoneDead;
-
-    // Automatic Variable Declarations
-    unitgroup autoB874DC99_g;
-    int autoB874DC99_u;
-    unit autoB874DC99_var;
-
-    // Variable Initialization
-    lv_everyoneDead = true;
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitGroupHasUnit(UnitGroupFromId(6), EventUnit()) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoB874DC99_g = UnitGroupFromId(6);
-    autoB874DC99_u = UnitGroupCount(autoB874DC99_g, c_unitCountAll);
-    for (;; autoB874DC99_u -= 1) {
-        autoB874DC99_var = UnitGroupUnitFromEnd(autoB874DC99_g, autoB874DC99_u);
-        if (autoB874DC99_var == null) { break; }
-        if ((UnitIsAlive(autoB874DC99_var) == true)) {
-            lv_everyoneDead = false;
-        }
-
-    }
-    if ((lv_everyoneDead == true)) {
-        if ((gv_secondSpectreIsland == false)) {
-            gv_secondSpectreIsland = true;
-            lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_SECOND_ISLAND_SPECTRES);
-        }
-
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_SecondSpectreIsland_Init () {
-    gt_SecondSpectreIsland = TriggerCreate("gt_SecondSpectreIsland_Func");
-    TriggerAddEventUnitDied(gt_SecondSpectreIsland, null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Third Spectre Island
-//--------------------------------------------------------------------------------------------------
-bool gt_ThirdSpectreIsland_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    bool lv_everyoneDead;
-
-    // Automatic Variable Declarations
-    unitgroup autoE5BD5554_g;
-    int autoE5BD5554_u;
-    unit autoE5BD5554_var;
-
-    // Variable Initialization
-    lv_everyoneDead = true;
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitGroupHasUnit(UnitGroupFromId(7), EventUnit()) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoE5BD5554_g = UnitGroupFromId(7);
-    autoE5BD5554_u = UnitGroupCount(autoE5BD5554_g, c_unitCountAll);
-    for (;; autoE5BD5554_u -= 1) {
-        autoE5BD5554_var = UnitGroupUnitFromEnd(autoE5BD5554_g, autoE5BD5554_u);
-        if (autoE5BD5554_var == null) { break; }
-        if ((UnitIsAlive(autoE5BD5554_var) == true)) {
-            lv_everyoneDead = false;
-        }
-
-    }
-    if ((lv_everyoneDead == true)) {
-        if ((gv_thirdSpectreIsland == false)) {
-            gv_thirdSpectreIsland = true;
-            lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_THIRD_ISLAND_SPECTRES);
-        }
-
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ThirdSpectreIsland_Init () {
-    gt_ThirdSpectreIsland = TriggerCreate("gt_ThirdSpectreIsland_Func");
-    TriggerAddEventUnitDied(gt_ThirdSpectreIsland, null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Arch Init
-//--------------------------------------------------------------------------------------------------
-bool gt_ArchInit_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
-    TriggerExecute(gt_Init02Players, true, false);
-    libABFE498B_gf_AP_Triggers_MapConfig_setMissionBuild(false);
-    lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
-    lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
-    libABFE498B_gf_AP_Triggers_MapConfig_setDifficultySetup(gt_onDifficultyCasual, gt_onDifficultyNormal, gt_onDifficultyHard, gt_onDifficultyBrutal);
-    lib5BD4895D_gf_AP_Core_MapConfig_setChatboxPosition(c_anchorTopRight, 500, 350, 0, 140);
-    lib5BD4895D_gf_AP_Core_initObjectivePanel();
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ArchInit_Init () {
-    gt_ArchInit = TriggerCreate("gt_ArchInit_Func");
-    TriggerAddEventMapInit(gt_ArchInit);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger Initialization
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
+    gt_onDifficultyCasual_Init();
+    gt_onDifficultyNormal_Init();
+    gt_onDifficultyHard_Init();
+    gt_onDifficultyBrutal_Init();
+    gt_JoriumStockpile_Init();
+    gt_TerrazineTank_Init();
+    gt_FirstSpectreIsland_Init();
+    gt_SecondSpectreIsland_Init();
+    gt_ThirdSpectreIsland_Init();
+    gt_ArchInit_Init();
     gt_Initialization_Init();
     gt_Init01Technology_Init();
     gt_Init02Players_Init();
@@ -7337,16 +7347,6 @@ void InitTriggers () {
     gt_P2DoneSwitchtoPlatform3_Init();
     gt_P2DoneDropPodExit_Init();
     gt_VictoryQ_Init();
-    gt_onDifficultyCasual_Init();
-    gt_onDifficultyNormal_Init();
-    gt_onDifficultyHard_Init();
-    gt_onDifficultyBrutal_Init();
-    gt_JoriumStockpile_Init();
-    gt_TerrazineTank_Init();
-    gt_FirstSpectreIsland_Init();
-    gt_SecondSpectreIsland_Init();
-    gt_ThirdSpectreIsland_Init();
-    gt_ArchInit_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
