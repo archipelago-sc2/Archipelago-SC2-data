@@ -11325,7 +11325,7 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
         UnitRemove(auto7D010C87_var);
     }
     libABFE498B_gf_AP_Triggers_resetBase(gv_pLAYER_01_USER);
-    auto2333845E_g = UnitGroup("AP_Larva", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), 0), 0);
+    auto2333845E_g = UnitGroup("AP_Larva", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, (1 << (c_targetFilterDead - 32)), (1 << c_targetFilterMissile), 0), 0);
     auto2333845E_u = UnitGroupCount(auto2333845E_g, c_unitCountAll);
     for (;; auto2333845E_u -= 1) {
         auto2333845E_var = UnitGroupUnitFromEnd(auto2333845E_g, auto2333845E_u);
