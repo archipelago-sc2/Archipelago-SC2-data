@@ -11278,6 +11278,48 @@ void libABFE498B_gt_AP_Triggers_Debug_grantTech_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_grantChecks
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_grantChecks_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_location;
+
+    // Automatic Variable Declarations
+    const int auto6278BB88_ae = lib5BD4895D_gv_aP_Core_LOCATIONS_PER_MAP;
+    const int auto6278BB88_ai = 1;
+
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, (StringExternal("Param/Value/lib_ABFE498B_29577962")), true);
+    lv_location = 1;
+    for ( ; ( (auto6278BB88_ai >= 0 && lv_location <= auto6278BB88_ae) || (auto6278BB88_ai < 0 && lv_location >= auto6278BB88_ae) ) ; lv_location += auto6278BB88_ai ) {
+        if ((lib5BD4895D_gf_AP_Core_isLocationCollectable(lv_location) == true) && (lib5BD4895D_gf_AP_Core_isLocationSent(lv_location) == false)) {
+            lib5BD4895D_gf_AP_Core_sendLocationLocal(lv_location);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_grantChecks_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_grantChecks = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_grantChecks_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_grantChecks, c_playerAny, "-checks", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_Debug_reviveHeroes
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Func (bool testConds, bool runActions) {
@@ -11401,6 +11443,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_reapplyDefaultBehaviors_Init();
     libABFE498B_gt_AP_Triggers_Debug_resetBase_Init();
     libABFE498B_gt_AP_Triggers_Debug_grantTech_Init();
+    libABFE498B_gt_AP_Triggers_Debug_grantChecks_Init();
     libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
