@@ -46305,9 +46305,10 @@
     </CActorSound>
     <CActorModel id="AP_LurkerWeaponImpact" parent="ModelAnimationStyleOneShot">
         <EditorCategories value=""/>
-        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Birth Attack Death ContentPlayOnce"/>
+        <Remove Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Attack Death ContentPlayOnce"/>
         <On Terms="Effect.AP_LurkerWeaponSearch.Start; At Effect" Send="Create"/>
-        <HostSiteOps Ops="SOpShadow SOpForwardCasterPoint AP_LurkerSOpAoEVariancer"/>
+        <HostSiteOps Ops="SOpShadow SOpForwardCasterPoint"/>
         <Model value="AP_LurkerAttackSpikeAC"/>
     </CActorModel>
 </Catalog>
