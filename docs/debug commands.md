@@ -19,6 +19,8 @@ Generic: These commands can be used in any Archipelago SC2 mission
 -resetbase, -reset: Resets many aspects of your main base, including Spear of Adun energy/cooldown and Merc cooldown
 -skip, -s: Skips all transmissions currently playing, and allows other triggers queued after these transmissions to progress the mission state
 -clear, -c: Clears the action queue, retaining the one action currently running. WARNING: This can soft-lock your game!
+-tech x: Grant tech level x (0-4). Unlocks AP items for the mission only. Level 0 unlocks a basic unit, Level 1-4 unlock units and upgrades to handle mission of the respective difficulty (easy, medium, hard, very hard)
+-checks: Grants all checks you can get for the current mission, except Victory (use -win to get Victory checks)
 
 -win: Ends the mission in victory, granting the victory location (intended to work in all missions, does not work for all missions at this time)
 -revive, -r: Revives your heroes instantly (currently only works with Kerrigan, intended to work with other heroes like Nova)
@@ -34,13 +36,51 @@ This is intended to be a prototype for the future implementation of a Checkpoint
 
 Map Specific: These commands only work for one (or a few) specific missions, usually to test a mechanic only used in that mission.
 
+
+Zero Hour:
+
+-spawn: Make the next rescues appear on the Map.
+-flank: Trigger a flank attack.
+-drop: Trigger a Zerg drop pod.
+-color: Make the different zerg players use different colors.
+
+The Dig:
+
+-s2: Start Drill phase
+-s3, -s4, -s5: Set the door to 70%, 33%, 5% hp
+-drill: Get control of the Drill
+
+Breakout:
+
+-freeX: Complete bonus objective X, freeing the prisoners.
+
+Piercing the Shroud:
+
+-ammo: Replenish your abilities.
+
+Gates of Hell
+
+-drop: Spawn the next drop pod. Currently only works for the very first drop pod.
+
+
 Rendezvous:
 
 -fenix: Spawns Fenix in the enemy base (test for the final reinforcement wave for Protoss raceswap)
 
+Harvest of Screams:
+
+-snowdie: Stop the snowfall visuals 
+-snowgo: Restart snow
+-blizzardgo: Start a flash freeze
+
+Enemy Within:
+
+-units: Unlock a set of basic units for this mission only
+
 With Friends like these:
 
 -FullPower: All Hyperion upgrades.
+
 
 Templar's Return:
 
@@ -50,40 +90,6 @@ The Infinite Cycle:
 
 -holdoutX, -hX: Skips to the specified "holdout" sections. The semi-generic -sX command skips to after the holdouts instead.
 
-The Escape:
-
--s3: This skips to the Vulture freeway escape section, which is normally not accessible in Archipelago.
-
-Breakout:
-
--freeX: Complete bonus objective X, freeing the prisoners.
-
-Gates of Hell
-
--drop: Spawn the next drop pod. Currently only works for the very first drop pod.
-
-Piercing the Shroud:
-
--ammo: Replenish your abilities.
-
-Zero Hour:
-
--spawn: Make the next rescues appear on the Map.
--flank: Trigger a flank attack.
--drop: Trigger a Zerg drop pod.
--color: Make the different zerg players use different colors.
-
-Harvest of Screams:
-
--snowdie: Stop the snowfall visuals 
--snowgo: Restart snow
--blizzardgo: Start a flash freeze
-
-The Dig:
-
--s2: Start Drill phase
--s3, -s4, -s5: Set the door to 70%, 33%, 5% hp
--drill: Get control of the Drill
 
 Into the Void:
 
@@ -98,3 +104,31 @@ The Essence of Eternity
 Amon's Fall:
 
 -eat: Trigger Amon to destroy the next base in the cycle.
+
+
+The Escape:
+
+-s3: This skips to the Vulture freeway escape section, which is normally not accessible in Archipelago.
+
+Sudden Strike:
+
+-bonus1: Spawn first bonus objective
+-bonus2: Spawn second bonus objective
+
+Enemy Intelligence:
+
+-bonus: Spawn the bonus objective
+
+Trouble in Paradise:
+
+-hatcheries, -hatch: Kill all Zerg Hatcheries
+
+Night Terrors:
+
+-mine: Enter the Mine (if novaless, your current selection is moved to the mine)
+-facility: Enter Science Facility (if novaless, your current selection is moved to the facility)
+-outpost: Take control of the outpost
+
+Flashpoint:
+
+-memory: Trigger next memory sequence
