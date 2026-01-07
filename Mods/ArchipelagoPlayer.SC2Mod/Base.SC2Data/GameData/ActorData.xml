@@ -10230,67 +10230,6 @@
         <DamageModelReaction value="AP_LurkerAttackDamageModelReaction"/>
         <Lifetime value="2.600000"/>
     </CActorAction>
-    <CActorSound id="AP_LurkerAttackSpikeSound" parent="SoundOneShot">
-        <On Terms="Effect.AP_LurkerE.Start" Send="Create"/>
-        <HostSiteOps Ops="SOpTargetPoint SOpShadow SOpForwardCasterPoint"/>
-        <Sound value="Lurker_AttackLaunch"/>
-    </CActorSound>
-    <CActorModel id="AP_LurkerAttackSpikes">
-        <Model value="AP_LurkerAttackSpike"/>
-        <HostSiteOps Ops="SOpCasterPoint SOpForwardTargetPointInverted AP_LurkerSOpOffset SOp2DRotation AP_LurkerSOpShadowAllSpines" HoldPosition="1" HoldRotation="1"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 1" Send="AttachSetBearingsFrom {Weapon 0} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 2" Send="AttachSetBearingsFrom {Weapon 1} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 3" Send="AttachSetBearingsFrom {Weapon 2} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 4" Send="AttachSetBearingsFrom {Weapon 3} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 5" Send="AttachSetBearingsFrom {Weapon 4} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 6" Send="AttachSetBearingsFrom {Weapon 5} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 7" Send="AttachSetBearingsFrom {Weapon 6} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 8" Send="AttachSetBearingsFrom {Weapon 7} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 9" Send="AttachSetBearingsFrom {Weapon 8} {} $AP_LurkerSpineSiteOps"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 10" Send="AttachSetBearingsFrom {Weapon 9} {} $AP_LurkerSpineSiteOps"/>
-        <!--        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 11" Send="AttachSetBearingsFrom {Weapon 10} {} $AP_LurkerSpineSiteOps"/>-->
-        <!--        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 12" Send="AttachSetBearingsFrom {Weapon 11} {} $AP_LurkerSpineSiteOps"/>-->
-        <!--        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 13" Send="AttachSetBearingsFrom {Weapon 12} {} $AP_LurkerSpineSiteOps"/>-->
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 1" Send="AnimPlay Attack00 Attack,00"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 2" Send="AnimPlay Attack01 Attack,01"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 3" Send="AnimPlay Attack02 Attack,02"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 4" Send="AnimPlay Attack03 Attack,03"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 5" Send="AnimPlay Attack04 Attack,04"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 6" Send="AnimPlay Attack05 Attack,05"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 7" Send="AnimPlay Attack06 Attack,06"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 8" Send="AnimPlay Attack07 Attack,07"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 9" Send="AnimPlay Attack08 Attack,08"/>
-        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 10" Send="AnimPlay Attack09 Attack,09"/>
-        <!--        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 11" Send="AnimPlay Attack10 Attack,10"/>-->
-        <!--        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 12" Send="AnimPlay Attack11 Attack,11"/>-->
-        <!--        <On Terms="Effect.AP_LurkerE.Start; EffectExecuteIndex 13" Send="AnimPlay Attack12 Attack,12"/>-->
-        <On Terms="Effect.AP_LurkerCP.Stop" Send="TimerSet 1.500000 DelayDestroy"/>
-        <On Terms="Effect.AP_LurkerCP1BonusRange.Stop" Send="TimerSet 1.500000 DelayDestroy"/>
-        <On Terms="Effect.AP_LurkerCP2BonusRange.Stop" Send="TimerSet 1.500000 DelayDestroy"/>
-        <On Terms="Effect.AP_LurkerCP3BonusRange.Stop" Send="TimerSet 1.500000 DelayDestroy"/>
-        <On Terms="Effect.AP_LurkerExtended.Stop" Send="TimerSet 1.500000 DelayDestroy"/>
-        <On Terms="TimerExpired; TimerName DelayDestroy" Send="Destroy"/>
-    </CActorModel>
-    <CActorModel id="AP_LurkerAttackSpikeAC" parent="ModelAnimationStyleOneShot">
-        <On Terms="Effect.AP_LurkerE.Start; ValidatePlayer AP_HaveLurkerRange" Send="Create"/>
-        <!--        <On Terms="Effect.LurkerCoopSearch.Start" Send="Create"/>-->
-        <On Terms="ActorCreation" Send="AnimPlay Attack Attack"/>
-        <On Terms="ActorCreation" Send="Create AP_LurkerAttackSpikeSound"/>
-        <On Terms="ActorCreation" Send="TimerSet 1.500000 DelayDestroy"/>
-        <On Terms="TimerExpired; TimerName DelayDestroy" Send="Destroy"/>
-        <!--        <HostSiteOps Ops="SOpSourcePoint AP_LurkerSOpAoEVariancer SOpShadow SOpForwardCasterPoint SOp2DRotation AP_LurkerSOpShadowSpine SOpRotVariancerUp15"/>-->
-    </CActorModel>
-    <CActorModel id="AP_LurkerAttackSpikes6" parent="AP_LurkerAttackSpikes">
-        <On Terms="Effect.AP_LurkerCP.Start; !ValidatePlayer AP_HaveLurkerRange" Send="Create"/>
-        <On Terms="Effect.AP_LurkerCP1BonusRange.Start; !ValidatePlayer AP_HaveLurkerRange" Send="Create"/>
-        <On Terms="Effect.AP_LurkerCP2BonusRange.Start; !ValidatePlayer AP_HaveLurkerRange" Send="Create"/>
-        <LocalOffsetFor2ndVisibilityTest value="0.000000,6.000000,0.000000"/>
-    </CActorModel>
-    <CActorModel id="AP_LurkerAttackSpikes9">
-        <On Terms="Effect.AP_LurkerExtended.Start" Send="Create"/>
-        <On Terms="Effect.AP_LurkerCP3BonusRange.Start; !ValidatePlayer AP_HaveLurkerRange" Send="Create"/>
-        <LocalOffsetFor2ndVisibilityTest value="0.000000,9.000000,0.000000"/>
-    </CActorModel>
     <CActorSound id="AP_Lurker_Death" parent="SoundOneShot">
         <On Terms="UnitDeath.AP_Lurker; PassChance 25.000000" Send="Create"/>
         <Sound value="Lurker_Death"/>
@@ -10307,29 +10246,10 @@
         <ModelFlags index="AllowHitTest" value="0"/>
     </CActorModel>
     <CActorSiteOpRandomPointInCircle id="AP_LurkerSOpAoEVariancer">
-        <Radius value="0.625000"/>
+        <Radius value="0.2"/>
         <Distribution value="Exponential"/>
-        <Mean value="0.200000"/>
+        <Mean value="0.2"/>
     </CActorSiteOpRandomPointInCircle>
-    <CActorSiteOpLocalOffset id="AP_LurkerSOpOffset">
-        <LocalOffset value="0.000000,0.100000,0.000000"/>
-    </CActorSiteOpLocalOffset>
-    <CActorSiteOpShadow id="AP_LurkerSOpShadowAllSpines">
-        <HeightOffset value="-12.000000"/>
-    </CActorSiteOpShadow>
-    <CActorSiteOpShadow id="AP_LurkerSOpShadowSpine">
-        <HeightSourceType value="AsyncPrecise"/>
-        <HeightOffsetOnCliff value="-12.000000"/>
-        <CliffTests value="0.000000,-0.100000"/>
-        <CliffTests value="0.000000,0.100000"/>
-        <CliffTests value="-0.100000,0.000000"/>
-        <CliffTests value="0.100000,0.000000"/>
-    </CActorSiteOpShadow>
-    <CActorSiteOpShadow id="AP_LurkerSOpShadowSpineHide" parent="AP_LurkerSOpShadowAllSpines"/>
-    <CActorModel id="AP_ExplosiveSpinesModel" parent="ModelAnimationStyleOneShot">
-        <On Terms="Effect.AP_ExplosiveSpinesDamage.Start; At Target" Send="Create"/>
-        <On Terms="ActorCreation" Send="SetTintColor 64,255,64"/>
-    </CActorModel>
     <CActorSound id="AP_HunterKiller_Death" parent="SoundOneShot">
         <On Terms="UnitDeathCustomize.AP_Hydralisk; PassChance 25.000000" Send="Create"/>
     </CActorSound>
@@ -46356,4 +46276,38 @@
         <AccuracyHalfArc value="15.000000"/>
     </CActorAction>
     <CActorMissile id="AP_BullfrogAttackMissile" parent="GenericAttackMissile" unitName="AP_BullfrogSpitWeapon"/>
+    <CActorAction id="AP_LurkerWeapon" parent="AoEAttackBase">
+        <On Terms="Effect.AP_LurkerWeaponU.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.AP_LurkerWeaponU.Start; At Effect" Send="ActionDamage"/>
+        <On Terms="Effect.AP_LurkerWeaponU.Stop; At Effect" Send="Destroy"/>
+        <LaunchAssets Model="AP_LurkerAttackSpikeLaunch" Sound="AP_LurkerAttackSpikeLaunch"/>
+        <DamageSiteOps Ops="SOpAttachHarness SOpShadow" HoldPosition="1" HoldRotation="1"/>
+        <DamageAttachQuery Methods="AMFilterTarget AMProximityAll"/>
+        <DamageMap index="None" Sound="AP_LurkerAttackSpikeDamage" ModelReaction="AP_LurkerAttackSpikeDamageReaction"/>
+        <DamageMap index="Dirt" Sound="AP_LurkerAttackSpikeDamageDirt" ModelReaction="AP_LurkerAttackSpikeDamageReactionDirt"/>
+        <DamageMap index="Rock" Sound="AP_LurkerAttackSpikeDamageRock" ModelReaction="AP_LurkerAttackSpikeDamageReactionRock"/>
+        <DamageMap index="Snow" Sound="AP_LurkerAttackSpikeDamageSnow" ModelReaction="AP_LurkerAttackSpikeDamageReactionSnow"/>
+        <DamageMap index="Sand" Sound="AP_LurkerAttackSpikeDamageSand" ModelReaction="AP_LurkerAttackSpikeDamageReactionSand"/>
+        <DamageMap index="Water" Sound="AP_LurkerAttackSpikeDamageWater" ModelReaction="AP_LurkerAttackSpikeDamageReactionWater"/>
+        <DamageMap index="Flesh" Sound="AP_LurkerAttackSpikeDamageFlesh" ModelReaction="AP_LurkerAttackDeathBloodGeyser"/>
+        <DamageMap index="Metal" Sound="AP_LurkerAttackSpikeDamageMetal" ModelReaction="AP_LurkerAttackSpikeDamageReactionMetal"/>
+        <DamageMap index="Shield" Sound="AP_LurkerAttackSpikeDamageShield" ModelReaction="AP_LurkerAttackSpikeDamageReactionShield"/>
+        <DamageModelReaction value="AP_LurkerAttackDamageModelReaction"/>
+        <Lifetime value="2.600000"/>
+    </CActorAction>
+    <CActorMissile id="AP_LurkerWeaponMissile" parent="GenericAttackMissile" unitName="AP_LurkerWeaponMissile">
+        <EditorCategories value=""/>
+        <Model value="Invisible"/>
+    </CActorMissile>
+    <CActorSound id="AP_LurkerWeaponSound" parent="SoundOneShot">
+        <On Terms="Effect.AP_LurkerWeaponCP.Start" Send="Create"/>
+        <Sound value="Lurker_AttackLaunch2"/>
+    </CActorSound>
+    <CActorModel id="AP_LurkerWeaponImpact" parent="ModelAnimationStyleOneShot">
+        <EditorCategories value=""/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Birth Attack Death ContentPlayOnce"/>
+        <On Terms="Effect.AP_LurkerWeaponSearch.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpShadow SOpForwardCasterPoint AP_LurkerSOpAoEVariancer"/>
+        <Model value="AP_LurkerAttackSpikeAC"/>
+    </CActorModel>
 </Catalog>

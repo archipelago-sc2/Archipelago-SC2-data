@@ -5425,58 +5425,64 @@
     <CEffectEnumArea id="AP_ImpalerDummySearch">
         <ImpactLocation Value="CasterPoint"/>
     </CEffectEnumArea>
-    <CEffectSwitch id="AP_Lurker">
-        <CaseArray Validator="AP_Have1BonusRangeBehavior" Effect="AP_LurkerCP1BonusRange"/>
-        <CaseArray Validator="AP_Have2BonusRangeBehavior" Effect="AP_LurkerCP2BonusRange"/>
-        <CaseArray Validator="AP_Have3BonusRangeBehavior" Effect="AP_LurkerCP3BonusRange"/>
-        <CaseDefault value="AP_LurkerCP"/>
-    </CEffectSwitch>
-    <CEffectCreatePersistent id="AP_LurkerCP">
+    <CEffectSet id="AP_LurkerWeapon">
+        <EditorCategories value=""/>
+        <EffectArray value="AP_LurkerWeaponLaunchOffset"/>
+        <TargetLocationType value="Point"/>
         <ValidatorArray value="TargetNotAcrossChasm"/>
         <ValidatorArray value="AP_LurkerIsBurrowed"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="AP_LurkerWeaponCP">
         <EditorCategories value="Race:Zerg"/>
-        <WhichLocation Value="SourcePoint"/>
+        <WhichLocation Value="SourceUnit"/>
+        <PeriodCount value="20"/>
+        <PeriodicEffectArray value="AP_LurkerWeaponOffset"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <ValidatorArray value="TargetNotAcrossChasm"/>
+        <ValidatorArray value="AP_LurkerIsBurrowed"/>
         <TimeScaleSource Value="Caster"/>
         <Flags index="Channeled" value="1"/>
         <Flags index="EffectFailure" value="1"/>
-        <PeriodCount value="7"/>
-        <PeriodicEffectArray value="AP_LurkerE"/>
-        <PeriodicOffsetArray value="0,-1,0"/>
-        <PeriodicOffsetArray value="0,-2,0"/>
-        <PeriodicOffsetArray value="0,-3,0"/>
-        <PeriodicOffsetArray value="0,-4,0"/>
-        <PeriodicOffsetArray value="0,-5,0"/>
-        <PeriodicOffsetArray value="0,-6,0"/>
-        <PeriodicOffsetArray value="0,-7,0"/>
-        <PeriodicOffsetArray value="0,-8,0"/>
-        <PeriodicOffsetArray value="0,-9,0"/>
-        <PeriodicOffsetArray value="0,-10,0"/>
-        <PeriodicOffsetArray value="0,-11,0"/>
-        <PeriodicOffsetArray value="0,-12,0"/>
-        <PeriodicOffsetArray value="0,-13,0"/>
-        <PeriodicOffsetArray value="0,-14,0"/>
-        <PeriodicOffsetArray value="0,-15,0"/>
-        <PeriodicOffsetArray value="0,-16,0"/>
-        <PeriodicPeriodArray value="0.0625"/>
     </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="AP_LurkerCP1BonusRange" parent="AP_LurkerCP">
-        <PeriodCount value="8"/>
+    <CEffectLaunchMissile id="AP_LurkerWeaponLM">
+        <EditorCategories value=""/>
+        <ImpactLocation Value="TargetPoint"/>
+        <LaunchEffect value="AP_LurkerWeaponCP"/>
+        <AmmoUnit value="AP_LurkerWeaponMissile"/>
+        <Movers Link="AP_LurkerWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="AP_LurkerWeaponLaunchOffset">
+        <EditorCategories value=""/>
+        <OffsetVectorStartLocation Value="SourcePoint"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_LurkerWeaponLM"/>
+        <PeriodicOffsetArray value="0,-20,0"/>
+        <PeriodicPeriodArray value="0.125"/>
     </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="AP_LurkerCP2BonusRange" parent="AP_LurkerCP">
-        <PeriodCount value="9"/>
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="AP_LurkerCP3BonusRange" parent="AP_LurkerCP">
-        <PeriodCount value="10"/>
-    </CEffectCreatePersistent>
-    <CEffectEnumArea id="AP_LurkerE">
+    <CEffectCreatePersistent id="AP_LurkerWeaponOffset">
+        <ValidatorArray value="TargetInWeaponRange"/>
         <ValidatorArray value="CliffLevelGE1"/>
-        <EditorCategories value="Race:Zerg"/>
-        <IncludeArray Effect="AP_Lurker" Value="Target"/>
-        <IncludeArray Effect="AP_LurkerExtended" Value="Target"/>
-        <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <EditorCategories value=""/>
+        <WhichLocation Value="SourceUnit"/>
+        <OffsetVectorStartLocation Value="CasterPoint"/>
+        <OffsetVectorEndLocation Effect="AP_LurkerWeaponLM"/>
+        <OffsetFacingFallback Value="CasterUnit"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_LurkerWeaponSearch"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="AP_LurkerWeaponSearch">
+        <EditorCategories value=""/>
+        <SearchFilters value="Ground;Player,Ally,Missile,Item,Stasis,Hidden,Invulnerable"/>
         <AreaArray Radius="0.625" Effect="AP_LurkerU"/>
+        <IncludeArray Effect="AP_LurkerWeapon" Value="Target"/>
         <SearchFlags index="CallForHelp" value="1"/>
     </CEffectEnumArea>
+    <CEffectSet id="AP_LurkerWeaponSet">
+        <EditorCategories value=""/>
+        <EffectArray value="AP_LurkerWeaponSearch"/>
+        <EffectArray value="AP_KillRemove"/>
+    </CEffectSet>
     <CEffectDamage id="AP_LurkerU" parent="DU_WEAP_SPLASH">
         <ValidatorArray value="noMarkers"/>
         <EditorCategories value="Race:Zerg"/>
@@ -5492,25 +5498,6 @@
         <Death value="Blast"/>
         <SearchFlags index="SameCliff" value="0"/>
     </CEffectDamage>
-    <CEffectCreatePersistent id="AP_LurkerExtended">
-        <EditorCategories value="Race:Zerg"/>
-        <WhichLocation Value="SourcePoint"/>
-        <TimeScaleSource Value="Caster"/>
-        <Flags index="Channeled" value="1"/>
-        <PeriodCount value="10"/>
-        <PeriodicEffectArray value="AP_LurkerE"/>
-        <PeriodicOffsetArray value="0,-1,0"/>
-        <PeriodicOffsetArray value="0,-2,0"/>
-        <PeriodicOffsetArray value="0,-3,0"/>
-        <PeriodicOffsetArray value="0,-4,0"/>
-        <PeriodicOffsetArray value="0,-5,0"/>
-        <PeriodicOffsetArray value="0,-6,0"/>
-        <PeriodicOffsetArray value="0,-7,0"/>
-        <PeriodicOffsetArray value="0,-8,0"/>
-        <PeriodicOffsetArray value="0,-9,0"/>
-        <PeriodicOffsetArray value="0,-10,0"/>
-        <PeriodicPeriodArray value="0.125"/>
-    </CEffectCreatePersistent>
     <CEffectDamage id="AP_ExplosiveSpinesDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
         <Kind value="Splash"/>
