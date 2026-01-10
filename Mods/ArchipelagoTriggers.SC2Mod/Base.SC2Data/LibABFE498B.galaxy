@@ -2306,7 +2306,7 @@ void libABFE498B_gf_AP_Triggers_bankOptionsRead () {
         libABFE498B_gv_aP_Triggers_bankOptionsInitialized = true;
         lib5BD4895D_gv_aP_Core_banksLoadedCount += 1;
         TextExpressionSetToken("Param/Expression/lib_ABFE498B_9FD2030F", "A", FixedToText(GameGetMissionTime(), 3));
-        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_9FD2030F"), true);
+        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_9FD2030F"), false);
         if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace != "Neut")) {
             libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         }
@@ -2329,6 +2329,9 @@ void libABFE498B_gf_AP_Triggers_bankItemsRead () {
     lv_value = "";
 
     // Implementation
+    while (!((libABFE498B_gv_aP_Triggers_bankOptionsInitialized == true))) {
+        Wait(0.0625, c_timeGame);
+    }
     lv_section = "Items";
     lv_key = "TerranItems";
     if ((BankKeyExists(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key) == true)) {
@@ -2358,7 +2361,7 @@ void libABFE498B_gf_AP_Triggers_bankItemsRead () {
         libABFE498B_gv_aP_Triggers_bankItemsInitialized = true;
         lib5BD4895D_gv_aP_Core_banksLoadedCount += 1;
         TextExpressionSetToken("Param/Expression/lib_ABFE498B_8CEF283A", "A", FixedToText(GameGetMissionTime(), 3));
-        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_8CEF283A"), true);
+        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_8CEF283A"), false);
     }
 
 }
@@ -11021,6 +11024,7 @@ void libABFE498B_gt_AP_Triggers_bankOptionsInit_Init () {
 bool libABFE498B_gt_AP_Triggers_bankOptionsLoop_Func (bool testConds, bool runActions) {
     // Variable Declarations
     bool lv_bankchange;
+    int lv_bankbackupid;
     int lv_user;
 
     // Automatic Variable Declarations
@@ -11031,15 +11035,11 @@ bool libABFE498B_gt_AP_Triggers_bankOptionsLoop_Func (bool testConds, bool runAc
         return true;
     }
 
-    lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankBackupLoopBegin(libABFE498B_gv_aP_Triggers_bankOptions,false);
-    for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
-        lv_bankchange = true;
-    }
-    BankBackupLoopEnd();
-    if ((lv_bankchange == true)) {
-        BankRestore(libABFE498B_gv_aP_Triggers_bankOptions, lv_user, BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankOptions));
-        BankBackupRemove(libABFE498B_gv_aP_Triggers_bankOptions, BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankOptions), lv_user);
+    lv_bankbackupid = BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankOptions);
+    if ((lv_bankbackupid > 0)) {
+        lv_user = lib5BD4895D_gf_AP_Core_getUser();
+        BankRestore(libABFE498B_gv_aP_Triggers_bankOptions, lv_user, lv_bankbackupid);
+        BankBackupRemove(libABFE498B_gv_aP_Triggers_bankOptions, lv_bankbackupid, lv_user);
         libABFE498B_gf_AP_Triggers_bankOptionsRead();
     }
 
@@ -11091,6 +11091,7 @@ void libABFE498B_gt_AP_Triggers_bankItemsInit_Init () {
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_bankItemsLoop_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    int lv_bankbackupid;
     bool lv_bankchange;
     int lv_user;
 
@@ -11102,15 +11103,11 @@ bool libABFE498B_gt_AP_Triggers_bankItemsLoop_Func (bool testConds, bool runActi
         return true;
     }
 
-    lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankBackupLoopBegin(libABFE498B_gv_aP_Triggers_bankItems,false);
-    for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
-        lv_bankchange = true;
-    }
-    BankBackupLoopEnd();
-    if ((lv_bankchange == true)) {
-        BankRestore(libABFE498B_gv_aP_Triggers_bankItems, lv_user, BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankItems));
-        BankBackupRemove(libABFE498B_gv_aP_Triggers_bankItems, BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankItems), lv_user);
+    lv_bankbackupid = BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankItems);
+    if ((lv_bankbackupid > 0)) {
+        lv_user = lib5BD4895D_gf_AP_Core_getUser();
+        BankRestore(libABFE498B_gv_aP_Triggers_bankItems, lv_user, lv_bankbackupid);
+        BankBackupRemove(libABFE498B_gv_aP_Triggers_bankItems, lv_bankbackupid, lv_user);
         libABFE498B_gf_AP_Triggers_bankItemsRead();
     }
 
