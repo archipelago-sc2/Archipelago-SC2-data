@@ -2238,7 +2238,7 @@ void lib5BD4895D_gt_AP_Core_bankMessageInit_Init () {
 //--------------------------------------------------------------------------------------------------
 bool lib5BD4895D_gt_AP_Core_bankMessageLoop_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    bool lv_bankchange;
+    int lv_bankbackupid;
     int lv_user;
 
     // Automatic Variable Declarations
@@ -2249,16 +2249,9 @@ bool lib5BD4895D_gt_AP_Core_bankMessageLoop_Func (bool testConds, bool runAction
         return true;
     }
 
-    lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    if (true) {
-    }
-
-    BankBackupLoopBegin(lib5BD4895D_gv_aP_Core_bankMessage,false);
-    for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
-        lv_bankchange = true;
-    }
-    BankBackupLoopEnd();
-    if ((lv_bankchange == true)) {
+    lv_bankbackupid = BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage);
+    if ((lv_bankbackupid > 0)) {
+        lv_user = lib5BD4895D_gf_AP_Core_getUser();
         BankRestore(lib5BD4895D_gv_aP_Core_bankMessage, lv_user, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage));
         BankBackupRemove(lib5BD4895D_gv_aP_Core_bankMessage, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage), lv_user);
         lib5BD4895D_gf_AP_Core_bankMessageRead();
