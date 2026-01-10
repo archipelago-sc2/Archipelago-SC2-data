@@ -21,6 +21,8 @@ Generic: These commands can be used in any Archipelago SC2 mission
 -clear, -c: Clears the action queue, retaining the one action currently running. WARNING: This can soft-lock your game!
 -tech x: Grant tech level x (0-4). Unlocks AP items for the mission only. Level 0 unlocks a basic unit, Level 1-4 unlock units and upgrades to handle mission of the respective difficulty (easy, medium, hard, very hard)
 -checks: Grants all checks you can get for the current mission, except Victory (use -win to get Victory checks)
+-update, -u: Prompts an update from the server. Will re-send all items and options to the game. Can sometimes fix connection issues
+-affect x: Make player x affected by AP items. Will have mostly no effect, since most AI players never use AP units. Potentially useful for some specific missions where they do (Breakout), and for future content
 
 -win: Ends the mission in victory, granting the victory location (intended to work in all missions, does not work for all missions at this time)
 -revive, -r: Revives your heroes instantly (currently only works with Kerrigan, intended to work with other heroes like Nova)
