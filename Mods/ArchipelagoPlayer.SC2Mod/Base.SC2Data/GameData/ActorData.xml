@@ -3383,16 +3383,13 @@
         <On Terms="WeaponStop.AP_GoliathAUpgraded.AttackStop" Send="AnimBracketStop Spell"/>
         <On Terms="ActorCreation" Send="TextureSelectBySlot main {RequireAll diffuse}"/>
         <On Terms="ActorCreation" Send="TextureSelectByMatch main.specular main"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="AnimBlendTimeApply 0.100000"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimBracketStop Jump"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimBlendTimeApply"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimBracketStop Jump"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimBlendTimeApply"/>
-        <On Terms="Upgrade.AP_GoliathJumpJet.Add" Send="ModelSwap AP_Goliath_BlackOps"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveGoliathJumpJets" Send="ModelSwap AP_Goliath_BlackOps"/>
-        <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveGoliathJumpJets" Send="DeathCustomize BlackOps"/>
-        <DeathCustoms ModelLink="AP_Goliath_BlackOps_Death" Name="BlackOps"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="AnimPlay AP_JumpStart Unload PlayForever 0.300000 -1.000000 0.500000 AsTimeScale"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimClear AP_JumpStart"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimClear AP_JumpStart"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimPlay AP_Jump Unload,End"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimPlay AP_Jump Unload,End"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUpDone" Send="AnimClear AP_Jump 1.000000"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDownDone" Send="AnimClear AP_Jump 1.000000"/>
     </CActorUnit>
     <CActorModel id="AP_GoliathDeath" parent="UnitDeathModel">
         <AcceptedTransfers index="Textures" value="1"/>
@@ -46311,4 +46308,31 @@
         <Forward value="0.000000,0.000000,-1.000000"/>
         <Up value="0.000000,1.000000,0.000000"/>
     </CActorSiteOpRotationExplicit>
+        <CActorModel id="AP_GoliathCliffJumpFlameLeft" parent="ModelAddition">
+        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="Create"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDownDone" Send="AnimBracketStop BSD"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUpDone" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="SOpAttachTarget AP_GoliathCliffJumpFlameRotation AP_GoliathCliffJumpFlameOffsetLeft"/>
+        <Model value="AP_InfestedBullfrogFlameJets"/>
+        <Scale value="3.000000,1.500000,3.000000"/>
+    </CActorModel>
+    <CActorModel id="AP_GoliathCliffJumpFlameRight" parent="ModelAddition">
+        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="Create"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDownDone" Send="AnimBracketStop BSD"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUpDone" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="SOpAttachTarget AP_GoliathCliffJumpFlameRotation AP_GoliathCliffJumpFlameOffsetRight"/>
+        <Model value="AP_InfestedBullfrogFlameJets"/>
+        <Scale value="3.000000,1.500000,3.000000"/>
+    </CActorModel>
+    <CActorSiteOpRotationExplicit id="AP_GoliathCliffJumpFlameRotation">
+        <Forward value="0.000000,0.400000,-1.000000"/>
+        <Up value="0.000000,0.000000,1.000000"/>
+        <IsLocal value="1"/>
+    </CActorSiteOpRotationExplicit>
+    <CActorSiteOpLocalOffset id="AP_GoliathCliffJumpFlameOffsetLeft">
+        <LocalOffset value="-0.300000,-0.200000,0.200000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpLocalOffset id="AP_GoliathCliffJumpFlameOffsetRight">
+        <LocalOffset value="0.300000,-0.200000,0.200000"/>
+    </CActorSiteOpLocalOffset>
 </Catalog>
