@@ -29644,17 +29644,13 @@
         <On Terms="WeaponStart.AP_SpartanCompanyAUpgraded.AttackStart" Send="AnimBracketStart Spell Spell"/>
         <On Terms="WeaponStop.AP_SpartanCompanyAUpgraded.AttackStop" Send="AnimBracketStop Spell"/>
         <On Terms="Behavior.AP_MercGroundDrop.Create" Send="Create AP_SpartanCompanyDropModel"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="AnimBlendTimeApply 0.100000"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimBracketStop Jump"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimBlendTimeApply"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimBracketStop Jump"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimBlendTimeApply"/>
-        <On Terms="Upgrade.AP_GoliathJumpJet.Add" Send="ModelSwap AP_MercGoliath_BlackOps"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveGoliathJumpJets" Send="ModelSwap AP_MercGoliath_BlackOps"/>
-        <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveGoliathJumpJets" Send="DeathCustomize BlackOps"/>
-        <DeathArray index="Normal" ModelLink="AP_SpartanCompanyDeath" SoundLink="Goliath_Explode"/>
-        <DeathCustoms ModelLink="AP_MercGoliath_BlackOps_Death" Name="BlackOps"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="AnimPlay AP_JumpStart Unload PlayForever 0.300000 -1.000000 0.500000 AsTimeScale"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimClear AP_JumpStart"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimClear AP_JumpStart"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimPlay AP_Jump Unload,End"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimPlay AP_Jump Unload,End"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUpDone" Send="AnimClear AP_Jump 1.000000"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDownDone" Send="AnimClear AP_Jump 1.000000"/>
         <PortraitModel value="AP_GoliathMercenaryPortrait"/>
         <StandAnimTurnTime value="4"/>
         <WalkAnimMoveSpeed value="3.6093"/>
@@ -42643,37 +42639,18 @@
         <On Terms="WeaponStop.AP_GoliathMengskA.AttackStop" Send="AnimBracketStop Spell"/>
         <On Terms="WeaponStart.AP_GoliathMengskAUpgraded.AttackStart" Send="AnimBracketStart Spell Spell"/>
         <On Terms="WeaponStop.AP_GoliathMengskAUpgraded.AttackStop" Send="AnimBracketStop Spell"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="Create AP_GoliathMengskJumpJet"/>
-<!--        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="AnimBlendTimeApply 0.100000"/>-->
-<!--        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimBracketStop Jump"/>-->
-<!--        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimBlendTimeApply"/>-->
-<!--        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimBracketStop Jump"/>-->
-<!--        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimBlendTimeApply"/>-->
+        <On Terms="Behavior.AP_GoliathCliffJump.Launch" Send="AnimPlay AP_JumpStart Unload PlayForever 0.300000 -1.000000 0.500000 AsTimeScale"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimClear AP_JumpStart"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimClear AP_JumpStart"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="AnimPlay AP_Jump Unload,End"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="AnimPlay AP_Jump Unload,End"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandUpDone" Send="AnimClear AP_Jump 1.000000"/>
+        <On Terms="Behavior.AP_GoliathCliffJump.LandDownDone" Send="AnimClear AP_Jump 1.000000"/>
         <Model value="AP_GoliathMengsk"/>
         <DeathActorModel value="AP_GoliathMengskDeath"/>
         <HeroIcon value="AP\Assets\Textures\btn-unit-terran-goliath-mengsk.dds"/>
         <UnitIcon value="AP\Assets\Textures\btn-unit-terran-goliath-mengsk.dds"/>
     </CActorUnit>
-    <CActorModel id="AP_GoliathMengskJumpJetBase" parent="ModelAddition">
-        <Model value="AP_FirebatAttackLaunch"/>
-        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
-<!--        <On Terms="ActorCreation" Send="SetScale 2.250000,1.000000,1.000000"/>-->
-<!--        <On Terms="ActorCreation" Send="SetScale 4.50000,0.500000,1.000000"/>-->
-        <On Terms="ActorCreation" Send="SetScale 3.15,0.25,1"/>
-        <On Terms="ActorOrphan" Send="Destroy"/>
-        <!--        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/> -->
-        <On Terms="AnimBracketState.*.AfterClosing; !AnimBracketExitReason ModelSwap; AnimName BSD" Send="Destroy"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandDown" Send="Destroy"/>
-        <On Terms="Behavior.AP_GoliathCliffJump.LandUp" Send="Destroy"/>
-    </CActorModel>
-    <CActorModel id="AP_GoliathMengskJumpJet" parent="AP_GoliathMengskJumpJetBase">
-        <HostSiteOps Ops="SOpAttachCenter AP_GoliathMengskJumpJetRotation"/>
-    </CActorModel>
-    <CActorSiteOpRotator id="AP_GoliathMengskJumpJetRotation">
-        <HoldRotation value="1"/>
-        <LocalAxis value="1.000000,0.000000,0.000000"/>
-        <InitialAngle value="90.000000"/>
-    </CActorSiteOpRotator>
     <CActorModel id="AP_GoliathMengskDeath" parent="UnitDeathModel">
         <AcceptedTransfers index="Textures" value="1"/>
         <CopySource value="AP_GoliathMengsk"/>
