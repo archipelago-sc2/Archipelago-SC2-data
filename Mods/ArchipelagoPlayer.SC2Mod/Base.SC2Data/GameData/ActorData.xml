@@ -3500,21 +3500,17 @@
         <Macros value="UnloadDropAnim"/>
         <Model value="SiegeTank"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_SiegeTank_Land"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetCreateCP.Start" Send="AnimPlay JumpStart Jump,Start"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetCreateCP.Start" Send="TimerSet 0.500000 JumpStart"/>
-        <On Terms="TimerExpired; TimerName JumpStart" Send="AnimClear JumpStart"/>
-        <On Terms="TimerExpired; TimerName JumpStart" Send="AnimPlay Jump Jump"/>
-        <On Terms="MotionPhaseStart; MotionPhase 2" Send="AnimClear Jump"/>
-        <On Terms="MotionPhaseStart; MotionPhase 2" Send="AnimPlay JumpEnd Jump,End 0 -1.000000 -1.000000 4.000000 AsDuration"/>
-        <On Terms="UnitMovementUpdate; AnimPlaying JumpEnd" Send="AnimClear JumpEnd"/>
-        <On Terms="WeaponStart.*.AttackStart; AnimPlaying JumpEnd" Send="AnimClear JumpEnd"/>
-        <On Terms="Upgrade.AP_HoverSiegeTank.Add; ValidateUnit NotWarpingIn" Send="ModelSwap SiegeTank_BlackOps_Tank"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveHoverSiegeTankAndNotWarpingIn" Send="ModelSwap SiegeTank_BlackOps_Tank"/>
-        <On Terms="Behavior.PowerUserWarpable.Off; ValidateUnit AP_HaveHoverSiegeTank" Send="ModelSwap SiegeTank_BlackOps_Tank"/>
-        <On Terms="Upgrade.AP_WarperPlayer.Remove; ValidateUnit AP_HaveHoverSiegeTank" Send="ModelSwap SiegeTank_BlackOps_Tank"/>
-        <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_SiegeTank_BlackOps_JumpJets_Land"/>
         <On Terms="ButtonHover.SiegeMode.On; ButtonEnabled" Send="Create AP_SiegeTankMengskSiegeModeRange"/>
         <On Terms="ButtonHover.SiegeMode.Off; ButtonEnabled" Target="AP_SiegeTankMengskSiegeModeRange" Send="Destroy"/>
+        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="AnimPlay AP_JumpStart Unload PlayForever 1.700000"/>
+        <On Terms="UnitMovementUpdate.*.Walk; AnimPlaying AP_Jump" Send="AnimClear AP_Jump 0.500000"/>
+        <On Terms="WeaponStart.*.AttackStart; AnimPlaying AP_Jump" Send="AnimClear AP_Jump 0.500000"/>
+        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="TimerSet 1.700000 AP_JumpEnd"/>
+        <On Terms="TimerExpired; TimerName AP_JumpEnd" Send="AnimClear AP_JumpStart 0.500000"/>
+        <On Terms="TimerExpired; TimerName AP_JumpEnd" Send="AnimPlay AP_Jump Unload,End NonLooping 0.500000"/>
+        <CreepHeightClass value="Medium"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
         <BuildModel value="ProtossUnitBirth"/>
         <DeathArray index="Normal" ModelLink="SiegeTankDeath" SoundLink="SiegeTank_Explode"/>
         <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
@@ -3581,13 +3577,24 @@
         <StatusBarFlags index="Duration" value="0"/>
         <Model value="Invisible"/>
         <On Terms="ActorCreation" Send="Create AP_SiegeTankJumpJetPlaceholderAttachment"/>
+        <BuildModel value="SiegeTank"/>
+        <PlacementModel value="SiegeTank"/>
         <PlacementActorModel value="AP_SiegeTankJumpJetPlaceholderPlacementModel"/>
     </CActorUnit>
-    <CActorModel id="AP_SiegeTankJumpJetPlaceholderPlacementModel" parent="PlacementModel"/>
+    <CActorModel id="AP_SiegeTankJumpJetPlaceholderPlacementModel" parent="PlacementModel">
+        <On Terms="ActorCreation" Send="SetOpacity 0.300000 0.000000 AP_SiegeTankPlacement"/>
+        <On Terms="ActorCreation" Send="SetTintColor 0,0,255 0.000000 OneShot AP_SiegeTankPlacement"/>
+        <On Terms="ActorCreation" Send="SetTintColor {0,0,255 2.000000} 2.000000 Bounce AP_SiegeTankPlacement"/>
+        <On Terms="ActorCreation" Send="SetTeamColor 128,128,255 128,128,255"/>
+        <HostSiteOps Ops="SOpUpDefault"/>
+    </CActorModel>
     <CActorModel id="AP_SiegeTankJumpJetPlaceholderAttachment">
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
         <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
         <On Terms="AnimBracketState.*.AfterClosing; !AnimBracketExitReason ModelSwap; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetOpacity 0.500000"/>
+        <On Terms="ActorCreation" Send="SetTintColor {50,50,255 1.300000}"/>
+        <On Terms="ActorCreation" Send="SetTintColor {50,50,255 2.000000} 2.000000 Cycle"/>
         <ModelFlags index="AllowHitTest" value="0"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModel>
@@ -3648,8 +3655,10 @@
         <On Terms="AbilMorph.*.Finish; MorphFrom AP_SiegeTank" Send="Destroy"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom AP_SiegeTankSieged" Send="Destroy"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom AP_SiegeTankSiegedTransportable" Send="Destroy"/>
-        <On Terms="Upgrade.AP_HoverSiegeTank.Add" Send="ModelSwap SiegeTankMorph_BlackOps"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveHoverSiegeTank" Send="ModelSwap SiegeTankMorph_BlackOps"/>
+        <On Terms="ActorCreation; CreepEngulfs" Send="CreepEngulfmentStopTransition"/>
+        <CreepHeightClass value="Medium"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
         <DeathArray index="Normal" ModelLink="TerranLargeUnitDeath" SoundLink="SiegeTank_Explode"/>
         <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
         <BarWidth value="102"/>
@@ -3683,8 +3692,9 @@
         <On Terms="AbilMorph.*.Finish; MorphFrom AP_SiegeTankSieged" Send="Destroy"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom AP_SiegeTankSiegedTransportable" Send="Destroy"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom AP_SiegeTank" Send="Destroy"/>
-        <On Terms="Upgrade.AP_HoverSiegeTank.Add" Send="ModelSwap SiegeTankMorph_BlackOps"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveHoverSiegeTank" Send="ModelSwap SiegeTankMorph_BlackOps"/>
+        <CreepHeightClass value="Medium"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
         <DeathArray index="Normal" ModelLink="TerranLargeUnitDeath" SoundLink="SiegeTank_Explode"/>
         <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
         <BarWidth value="102"/>
@@ -3772,16 +3782,17 @@
         <On Terms="Effect.AP_SiegeTankJumpJetLM.Start; CreepIntersects" Send="CreepEngulfmentStop"/>
         <On Terms="Effect.AP_RemoveSiegeTankJumpJetPlaceholderSet.Start; CreepEngulfs" Send="CreepEngulfmentStartTransition"/>
         <On Terms="Effect.AP_RemoveSiegeTankJumpJetPlaceholderSet.Start; CreepIntersects" Send="CreepEngulfmentStartTransition"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetCreateCP.Start" Send="AnimPlay JumpStart Jump,Start"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetCreateCP.Start" Send="TimerSet 0.500000 JumpStart"/>
-        <On Terms="TimerExpired; TimerName JumpStart" Send="AnimClear JumpStart"/>
-        <On Terms="TimerExpired; TimerName JumpStart" Send="AnimPlay Jump Jump"/>
-        <On Terms="MotionPhaseStart; MotionPhase 2" Send="AnimClear Jump"/>
-        <On Terms="MotionPhaseStart; MotionPhase 2" Send="AnimPlay JumpEnd Jump,End 0 -1.000000 -1.000000 6.000000 AsDuration"/>
-        <On Terms="WeaponStart.*.AttackStart; AnimPlaying JumpEnd" Send="AnimClear JumpEnd"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_SiegeTank_BlackOps_JumpJets_Land"/>
-        <On Terms="Upgrade.AP_HoverSiegeTank.Add" Send="ModelSwap AP_SiegeTank_BlackOps"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveHoverSiegeTank" Send="ModelSwap AP_SiegeTank_BlackOps"/>
+        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="AnimPlay AP_JumpStart Unload PlayForever 1.700000"/>
+        <On Terms="UnitMovementUpdate.*.Walk; AnimPlaying AP_Jump" Send="AnimClear AP_Jump 0.500000"/>
+        <On Terms="WeaponStart.*.AttackStart; AnimPlaying AP_Jump" Send="AnimClear AP_Jump 0.500000"/>
+        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="TimerSet 1.700000 AP_JumpEnd"/>
+        <On Terms="TimerExpired; TimerName AP_JumpEnd" Send="AnimClear AP_JumpStart 0.500000"/>
+        <On Terms="TimerExpired; TimerName AP_JumpEnd" Send="AnimPlay AP_Jump Unload,End NonLooping 0.500000"/>
+        <On Terms="ActorCreation; CreepIntersects" Send="CreepEngulfmentStartTransition"/>
+        <CreepHeightClass value="Medium"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
         <BuildModel value="SiegeTankSieged"/>
         <DeathArray index="Normal" ModelLink="SiegeTankSiegedDeath" SoundLink="SiegeTank_Explode"/>
         <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
@@ -46311,4 +46322,21 @@
         <HostSiteOps Ops="SOpShadow SOpForwardCasterPoint"/>
         <Model value="AP_LurkerAttackSpikeAC"/>
     </CActorModel>
+    <CActorModel id="AP_SiegeTankJumpFlame" parent="ModelAddition">
+        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="Create"/>
+        <On Terms="Effect.AP_RemoveSiegeTankJumpJetPlaceholderSet.Start" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="AP_SOpAttachTurretZ AP_SiegeTankJumpFlameRotation AP_SiegeTankJumpFlameOffset"/>
+        <Model value="AP_FirebatBunkerAttackLaunch"/>
+        <Scale value="6.000000,1.000000,6.000000"/>
+    </CActorModel>
+    <CActorSiteOpLocalOffset id="AP_SiegeTankJumpFlameOffset">
+        <EditorCategories value=""/>
+        <LocalOffset value="0.000000,-0.500000,0.000000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpRotationExplicit id="AP_SiegeTankJumpFlameRotation">
+        <EditorCategories value=""/>
+        <IsLocal value="1"/>
+        <Forward value="0.000000,0.000000,-1.000000"/>
+        <Up value="0.000000,1.000000,0.000000"/>
+    </CActorSiteOpRotationExplicit>
 </Catalog>
