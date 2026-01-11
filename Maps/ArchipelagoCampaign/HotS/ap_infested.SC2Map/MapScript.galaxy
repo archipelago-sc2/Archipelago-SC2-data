@@ -1857,10 +1857,6 @@ bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
-            return false;
-        }
-
         if (!((gv_gameOver == false))) {
             return false;
         }
@@ -1876,28 +1872,44 @@ bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    TriggerDebugOutput(1, StringExternal("Param/Value/4C58D3E7"), true);
-    TriggerEnable(gt_TransmissionMissionStartQ, false);
-    TriggerStop(gt_TransmissionMissionStartQ);
-    TriggerEnable(gt_TransmissionUseFungalGrowthQ, false);
-    TriggerEnable(gt_TransmissionFungalGrowthUsedQ, false);
-    TriggerEnable(gt_TransmissionUseDominationQ, false);
-    TriggerEnable(gt_ParasticDominationReminderQ, false);
-    TriggerEnable(gt_TransmissionUseConsumptionQ, false);
-    TriggerEnable(gt_TransmissionFirstVirophageSpawnedQ, false);
-    TriggerEnable(gt_TransmissionThirdVirophageSpawnedQ, false);
-    TriggerEnable(gt_TransmissionStukovBanterKillDominionQ, false);
-    TriggerEnable(gt_TransmissionStukovBanterKillDominionQ, false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/86C0EFB8"), true);
     gv_sneakAttackDone = true;
-    gv_consumptionUsed = true;
-    gv_parasiticDominationUsed = true;
     TriggerExecute(gt_ObjectiveInfestGarrisonsComplete, true, false);
-    TransmissionClearAll();
     auto2DE18B12_var = 1;
     for ( ; auto2DE18B12_var <= auto2DE18B12_ae; auto2DE18B12_var += 1 ) {
-        auto81D16141_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
-        if (auto81D16141_val == "Terr") {
-            lv_type = "AP_Ghost";
+        UnitCreate(1, "AP_Infestor", 0, gv_pLAYER_01_USER, UnitGetPosition(gv_virophageRecord[auto2DE18B12_var].lv_beacon), 270.0);
+        while (!((gv_virophageRecord[auto2DE18B12_var].lv_virophage != null))) {
+            Wait(0.1, c_timeGame);
+        }
+        UnitBehaviorAddPlayer(gv_virophageRecord[auto2DE18B12_var].lv_virophage, "FastBuild", UnitGetOwner(gv_virophageRecord[auto2DE18B12_var].lv_virophage), 1);
+        UnitRemove(UnitLastCreated());
+        auto39735217_g = UnitGroup("Bunker", gv_pLAYER_02_DOMINION_BULLIES, RegionFromId(22), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        auto39735217_u = UnitGroupCount(auto39735217_g, c_unitCountAll);
+        for (;; auto39735217_u -= 1) {
+            auto39735217_var = UnitGroupUnitFromEnd(auto39735217_g, auto39735217_u);
+            if (auto39735217_var == null) { break; }
+            UnitKill(auto39735217_var);
+        }
+        auto8B88287A_g = UnitGroup("Bunker", gv_pLAYER_04_DOMINION_CLEANSERS, RegionFromId(22), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        auto8B88287A_u = UnitGroupCount(auto8B88287A_g, c_unitCountAll);
+        for (;; auto8B88287A_u -= 1) {
+            auto8B88287A_var = UnitGroupUnitFromEnd(auto8B88287A_g, auto8B88287A_u);
+            if (auto8B88287A_var == null) { break; }
+            UnitKill(auto8B88287A_var);
+        }
+        autoB34ADE11_g = UnitGroup(null, gv_pLAYER_02_DOMINION_BULLIES, RegionFromId(22), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        autoB34ADE11_u = UnitGroupCount(autoB34ADE11_g, c_unitCountAll);
+        for (;; autoB34ADE11_u -= 1) {
+            autoB34ADE11_var = UnitGroupUnitFromEnd(autoB34ADE11_g, autoB34ADE11_u);
+            if (autoB34ADE11_var == null) { break; }
+            UnitKill(autoB34ADE11_var);
+        }
+        auto703ADC12_g = UnitGroup(null, gv_pLAYER_04_DOMINION_CLEANSERS, RegionFromId(22), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        auto703ADC12_u = UnitGroupCount(auto703ADC12_g, c_unitCountAll);
+        for (;; auto703ADC12_u -= 1) {
+            auto703ADC12_var = UnitGroupUnitFromEnd(auto703ADC12_g, auto703ADC12_u);
+            if (auto703ADC12_var == null) { break; }
+            UnitKill(auto703ADC12_var);
         }
         else if (auto81D16141_val == "Terr") {
             lv_type = "AP_HighArchonTemplar";
@@ -1912,36 +1924,6 @@ bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
         UnitBehaviorAddPlayer(gv_virophageRecord[auto2DE18B12_var].lv_virophage, "FastBuild", UnitGetOwner(gv_virophageRecord[auto2DE18B12_var].lv_virophage), 1);
         UnitRemove(UnitLastCreated());
     }
-    auto39735217_g = UnitGroup("Bunker", gv_pLAYER_02_DOMINION_BULLIES, RegionFromId(22), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    auto39735217_u = UnitGroupCount(auto39735217_g, c_unitCountAll);
-    for (;; auto39735217_u -= 1) {
-        auto39735217_var = UnitGroupUnitFromEnd(auto39735217_g, auto39735217_u);
-        if (auto39735217_var == null) { break; }
-        UnitKill(auto39735217_var);
-    }
-    auto8B88287A_g = UnitGroup("Bunker", gv_pLAYER_04_DOMINION_CLEANSERS, RegionFromId(22), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    auto8B88287A_u = UnitGroupCount(auto8B88287A_g, c_unitCountAll);
-    for (;; auto8B88287A_u -= 1) {
-        auto8B88287A_var = UnitGroupUnitFromEnd(auto8B88287A_g, auto8B88287A_u);
-        if (auto8B88287A_var == null) { break; }
-        UnitKill(auto8B88287A_var);
-    }
-    autoB34ADE11_g = UnitGroup(null, gv_pLAYER_02_DOMINION_BULLIES, RegionFromId(22), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    autoB34ADE11_u = UnitGroupCount(autoB34ADE11_g, c_unitCountAll);
-    for (;; autoB34ADE11_u -= 1) {
-        autoB34ADE11_var = UnitGroupUnitFromEnd(autoB34ADE11_g, autoB34ADE11_u);
-        if (autoB34ADE11_var == null) { break; }
-        UnitKill(autoB34ADE11_var);
-    }
-    auto703ADC12_g = UnitGroup(null, gv_pLAYER_04_DOMINION_CLEANSERS, RegionFromId(22), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    auto703ADC12_u = UnitGroupCount(auto703ADC12_g, c_unitCountAll);
-    for (;; auto703ADC12_u -= 1) {
-        auto703ADC12_var = UnitGroupUnitFromEnd(auto703ADC12_g, auto703ADC12_u);
-        if (auto703ADC12_var == null) { break; }
-        UnitKill(auto703ADC12_var);
-    }
-    TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("NPSwarm", 0), true);
-    TransmissionClearAll();
     return true;
 }
 
@@ -1949,7 +1931,6 @@ bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
 void gt_DEBUGStage2_Init () {
     gt_DEBUGStage2 = TriggerCreate("gt_DEBUGStage2_Func");
     TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "-s2", true);
-    TriggerAddEventChatMessage(gt_DEBUGStage2, c_playerAny, "-section 2", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1967,10 +1948,6 @@ bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
-            return false;
-        }
-
         if (!((gv_gameOver == false))) {
             return false;
         }
@@ -1982,7 +1959,7 @@ bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    TriggerDebugOutput(1, StringExternal("Param/Value/5D702A17"), true);
+    TriggerDebugOutput(1, StringExternal("Param/Value/525BCB5A"), true);
     UnitKill(UnitFromId(212));
     return true;
 }
