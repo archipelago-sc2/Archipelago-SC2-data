@@ -868,7 +868,7 @@
     </CEffectCreateUnit>
     <CEffectCreateUnit id="AP_MercSiegeTankSiegedJumpJetCreatePlaceholder">
         <SpawnEffect value="AP_MercSiegeTankJumpJetCreateCP"/>
-        <SpawnUnit value="AP_SiegeTankSiegedJumpJetPlaceholder"/>
+        <SpawnUnit value="AP_MercSiegeTankSiegedJumpJetPlaceholder"/>
         <SpawnRange value="0"/>
         <WhichLocation Value="TargetPoint"/>
         <CreateFlags index="Birth" value="0"/>
@@ -888,7 +888,7 @@
     </CEffectCreateUnit>
     <CEffectCreateUnit id="AP_MercSiegeTankJumpJetCreatePlaceholder">
         <SpawnEffect value="AP_MercSiegeTankJumpJetCreateCP"/>
-        <SpawnUnit value="AP_SiegeTankJumpJetPlaceholder"/>
+        <SpawnUnit value="AP_MercSiegeTankJumpJetPlaceholder"/>
         <SpawnRange value="0"/>
         <WhichLocation Value="TargetPoint"/>
         <CreateFlags index="Birth" value="0"/>
@@ -24841,4 +24841,90 @@
         <KindSplash value="Splash"/>
         <SearchFilters value="Ground;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CEffectDamage>
+    <CEffectApplyBehavior id="AP_MengskSiegeTankSiegedJumpJetAB">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichUnit Effect="AP_MengskSiegeTankSiegedJumpJetCP"/>
+        <Behavior value="AP_SiegeTankJumpJetCreateTimeOut"/>
+        <Count value="5"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="AP_MengskSiegeTankJumpJetCP">
+        <Flags index="Channeled" value="1"/>
+        <InitialEffect value="AP_MengskSiegeTankJumpJetAB"/>
+        <PeriodCount value="1"/>
+        <PeriodicValidator value="NotDead"/>
+        <PeriodicEffectArray value="AP_MengskSiegeTankJumpJetLM"/>
+        <PeriodicPeriodArray value="0"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="AP_MengskSiegeTankSiegedJumpJetCP">
+        <Flags index="Channeled" value="1"/>
+        <InitialEffect value="AP_MengskSiegeTankSiegedJumpJetAB"/>
+        <PeriodCount value="1"/>
+        <PeriodicValidator value="NotDead"/>
+        <PeriodicEffectArray value="AP_MengskSiegeTankSiegedJumpJetLM"/>
+        <PeriodicPeriodArray value="0"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_MengskSiegeTankSiegedJumpJetCU">
+        <WhichLocation Value="TargetPoint"/>
+        <CreateFlags index="Birth" value="0"/>
+        <CreateFlags index="ProvideFood" value="0"/>
+        <CreateFlags index="SetFacing" value="1"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnEffect value="AP_MengskSiegeTankSiegedJumpJetCP"/>
+        <SpawnUnit value="AP_MengskSiegeTankSiegedJumpJetPlaceholder"/>
+        <SpawnRange value="0"/>
+    </CEffectCreateUnit>
+    <CEffectLaunchMissile id="AP_MengskSiegeTankSiegedJumpJetLM">
+        <LaunchLocation Value="CasterUnit"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="AP_MengskSiegeTankSiegedJumpJetSet"/>
+        <FinishEffect value="AP_MengskSiegeTankSiegedJumpJetSet"/>
+        <Flags index="ValidateWeapon" value="0"/>
+        <Movers Link="AP_SiegeTankJumpJet"/>
+        <DeathType value="Unknown"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="AP_MengskSiegeTankSiegedJumpJetRU">
+        <ImpactLocation Effect="AP_MengskSiegeTankSiegedJumpJetCP" Value="TargetOuterUnit"/>
+        <Visibility value="Hidden"/>
+        <Flags index="Kill" value="1"/>
+        <Flags index="NoKillCredit" value="1"/>
+        <Death value="Remove"/>
+    </CEffectDamage>
+    <CEffectSet id="AP_MengskSiegeTankSiegedJumpJetSet">
+        <EffectArray value="AP_MengskSiegeTankSiegedJumpJetRU"/>
+    </CEffectSet>
+    <CEffectCreateUnit id="AP_MengskSiegeTankJumpJetCU">
+        <WhichLocation Value="TargetPoint"/>
+        <CreateFlags index="Birth" value="0"/>
+        <CreateFlags index="ProvideFood" value="0"/>
+        <CreateFlags index="SetFacing" value="1"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnEffect value="AP_MengskSiegeTankJumpJetCP"/>
+        <SpawnUnit value="AP_MengskSiegeTankJumpJetPlaceholder"/>
+        <SpawnRange value="0"/>
+    </CEffectCreateUnit>
+    <CEffectApplyBehavior id="AP_MengskSiegeTankJumpJetAB">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichUnit Effect="AP_MengskSiegeTankJumpJetCP"/>
+        <Behavior value="AP_SiegeTankJumpJetCreateTimeOut"/>
+        <Count value="5"/>
+    </CEffectApplyBehavior>
+    <CEffectLaunchMissile id="AP_MengskSiegeTankJumpJetLM">
+        <LaunchLocation Value="CasterUnit"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="AP_MengskSiegeTankJumpJetSet"/>
+        <FinishEffect value="AP_MengskSiegeTankJumpJetSet"/>
+        <Flags index="ValidateWeapon" value="0"/>
+        <Movers Link="AP_SiegeTankJumpJet"/>
+        <DeathType value="Unknown"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="AP_MengskSiegeTankJumpJetRU">
+        <ImpactLocation Effect="AP_MengskSiegeTankJumpJetCP" Value="TargetOuterUnit"/>
+        <Visibility value="Hidden"/>
+        <Flags index="Kill" value="1"/>
+        <Flags index="NoKillCredit" value="1"/>
+        <Death value="Remove"/>
+    </CEffectDamage>
+    <CEffectSet id="AP_MengskSiegeTankJumpJetSet">
+        <EffectArray value="AP_MengskSiegeTankJumpJetRU"/>
+    </CEffectSet>
 </Catalog>

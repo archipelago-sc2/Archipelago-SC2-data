@@ -28802,7 +28802,7 @@
         <AbilArray Link="attack"/>
         <AbilArray Link="move"/>
         <AbilArray Link="AP_SiegeModeMengsk"/>
-        <AbilArray Link="AP_SiegeTankJumpJet"/>
+        <AbilArray Link="AP_MengskSiegeTankJumpJet"/>
         <AbilArray Link="AP_DeploySpiderMinesMengsk"/>
         <BehaviorArray Link="AP_MengskVeteranTrigger"/>
         <BehaviorArray Link="AP_MengskVeterancySiegeTankMengsk"/>
@@ -28823,7 +28823,7 @@
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="AP_SiegeModeMengsk" Type="AbilCmd" AbilCmd="AP_SiegeModeMengsk,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_SiegeTankJumpJet,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_MengskSiegeTankJumpJet,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_DeploySpiderMines" Type="AbilCmd" AbilCmd="AP_DeploySpiderMinesMengsk,Execute" Row="2" Column="3"/>
             <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosSiegeTank" Row="1" Column="2"/>
             <LayoutButtons Face="AP_SiegeModeProgressiveRangeIncrease" Type="Passive" Requirements="AP_TankModeHaveSiegeTankSiegeModeProgressiveRangeIncease" Row="1" Column="3"/>
@@ -28887,7 +28887,7 @@
         <AbilArray Link="stop"/>
         <AbilArray Link="attack"/>
         <AbilArray Link="AP_UnsiegeMengsk"/>
-        <AbilArray Link="AP_SiegeTankSiegedJumpJet"/>
+        <AbilArray Link="AP_MengskSiegeTankSiegedJumpJet"/>
         <AbilArray Link="AP_SiegeTankMengskSiegedTransportableMorph"/>
         <AbilArray Link="AP_DeploySpiderMinesMengsk"/>
         <BehaviorArray Link="AP_MengskVeteranTrigger"/>
@@ -28909,7 +28909,7 @@
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="AP_UnsiegeMengsk" Type="AbilCmd" AbilCmd="AP_UnsiegeMengsk,Execute" Row="2" Column="1"/>
-            <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_SiegeTankSiegedJumpJet,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_MengskSiegeTankSiegedJumpJet,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_DeploySpiderMines" Type="AbilCmd" AbilCmd="AP_DeploySpiderMinesMengsk,Execute" Row="2" Column="3"/>
             <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosSiegeTank" Row="1" Column="2"/>
             <LayoutButtons Face="AP_SiegeModeProgressiveRangeIncrease" Type="Passive" Requirements="AP_HaveSiegeTankSiegeModeProgressiveRangeIncease" Row="1" Column="3"/>
@@ -31385,5 +31385,85 @@
     <CUnit id="AP_BullfrogSpitWeapon" parent="MISSILE">
         <Race value="Zerg"/>
         <EditorCategories value="ObjectFamily:Campaign,ObjectType:Projectile"/>
+    </CUnit>
+    <CUnit id="AP_MengskSiegeTankSiegedJumpJetPlaceholder">
+        <Facing value="45"/>
+        <Race value="Terr"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Unradarable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Small" value="1"/>
+        <LifeStart value="10000"/>
+        <LifeMax value="10000"/>
+        <Radius value="0.4375"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.4375"/>
+        <MinimapRadius value="0"/>
+        <HotkeyAlias value=""/>
+    </CUnit>
+    <CUnit id="AP_MercSiegeTankJumpJetPlaceholder">
+        <Race value="Terr"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Unradarable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Small" value="1"/>
+        <LifeStart value="10000"/>
+        <LifeMax value="10000"/>
+        <Radius value="0.4375"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.4375"/>
+        <MinimapRadius value="0"/>
+        <HotkeyAlias value=""/>
+    </CUnit>
+    <CUnit id="AP_MercSiegeTankSiegedJumpJetPlaceholder">
+        <Facing value="45"/>
+        <Race value="Terr"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Unradarable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Small" value="1"/>
+        <LifeStart value="10000"/>
+        <LifeMax value="10000"/>
+        <Radius value="0.4375"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.4375"/>
+        <MinimapRadius value="0"/>
+        <HotkeyAlias value=""/>
+    </CUnit>
+    <CUnit id="AP_MengskSiegeTankJumpJetPlaceholder">
+        <Race value="Terr"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Unradarable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Small" value="1"/>
+        <LifeStart value="10000"/>
+        <LifeMax value="10000"/>
+        <Radius value="0.4375"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.4375"/>
+        <MinimapRadius value="0"/>
+        <HotkeyAlias value=""/>
     </CUnit>
 </Catalog>

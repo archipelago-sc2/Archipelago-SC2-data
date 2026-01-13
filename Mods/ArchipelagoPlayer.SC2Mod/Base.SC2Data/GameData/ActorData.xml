@@ -3579,19 +3579,14 @@
         <PlacementActorModel value="AP_SiegeTankJumpJetPlaceholderPlacementModel"/>
     </CActorUnit>
     <CActorModel id="AP_SiegeTankJumpJetPlaceholderPlacementModel" parent="PlacementModel">
-        <On Terms="ActorCreation" Send="SetOpacity 0.300000 0.000000 AP_SiegeTankPlacement"/>
-        <On Terms="ActorCreation" Send="SetTintColor 0,0,255 0.000000 OneShot AP_SiegeTankPlacement"/>
-        <On Terms="ActorCreation" Send="SetTintColor {0,0,255 2.000000} 2.000000 Bounce AP_SiegeTankPlacement"/>
-        <On Terms="ActorCreation" Send="SetTeamColor 128,128,255 128,128,255"/>
+        <On Terms="ActorCreation" Send="Create AP_SiegeTankGlaze"/>
         <HostSiteOps Ops="SOpUpDefault"/>
     </CActorModel>
     <CActorModel id="AP_SiegeTankJumpJetPlaceholderAttachment">
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
         <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
         <On Terms="AnimBracketState.*.AfterClosing; !AnimBracketExitReason ModelSwap; AnimName BSD" Send="Destroy"/>
-        <On Terms="ActorCreation" Send="SetOpacity 0.500000"/>
-        <On Terms="ActorCreation" Send="SetTintColor {50,50,255 1.300000}"/>
-        <On Terms="ActorCreation" Send="SetTintColor {50,50,255 2.000000} 2.000000 Cycle"/>
+        <On Terms="ActorCreation" Send="Create AP_SiegeTankGlaze"/>
         <ModelFlags index="AllowHitTest" value="0"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModel>
@@ -3604,6 +3599,7 @@
         <StatusBarFlags index="Duration" value="0"/>
         <Model value="Invisible"/>
         <On Terms="ActorCreation" Send="Create AP_SiegeTankSiegedJumpJetPlaceholderAttachment"/>
+        <PlacementActorModel value="AP_SiegeTankJumpJetPlaceholderPlacementModel"/>
     </CActorUnit>
     <CActorModel id="AP_SiegeTankSiegedJumpJetPlaceholderAttachment">
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
@@ -3611,6 +3607,7 @@
         <On Terms="AnimBracketState.*.AfterClosing; !AnimBracketExitReason ModelSwap; AnimName BSD" Send="Destroy"/>
         <ModelFlags index="AllowHitTest" value="0"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <On Terms="ActorCreation" Send="Create AP_SiegeTankGlaze"/>
     </CActorModel>
     <CActorModel id="AP_SiegeTankJumpJetLandingModel">
         <Model value="UnloadFX"/>
@@ -40064,10 +40061,10 @@
         <On Terms="ButtonHover.AP_SiegeModeMengsk.Off; ButtonEnabled" Target="AP_SiegeTankMengskSiegeModeRange" Send="Destroy"/>
         <On Terms="ButtonHover.AP_SiegeModeMengsk.On; ButtonEnabled" Send="Create AP_SiegeTankMengskSiegeModeBonusRange"/>
         <On Terms="ButtonHover.AP_SiegeModeMengsk.Off; ButtonEnabled" Target="AP_SiegeTankMengskSiegeModeBonusRange" Send="Destroy"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="AnimPlay AP_JumpStart Unload PlayForever 1.700000"/>
+        <On Terms="Effect.AP_MengskSiegeTankJumpJetLM.Start" Send="AnimPlay AP_JumpStart Unload PlayForever 1.700000"/>
         <On Terms="UnitMovementUpdate.*.Walk; AnimPlaying AP_Jump" Send="AnimClear AP_Jump 0.500000"/>
         <On Terms="WeaponStart.*.AttackStart; AnimPlaying AP_Jump" Send="AnimClear AP_Jump 0.500000"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="TimerSet 1.700000 AP_JumpEnd"/>
+        <On Terms="Effect.AP_MengskSiegeTankJumpJetLM.Start" Send="TimerSet 1.700000 AP_JumpEnd"/>
         <On Terms="TimerExpired; TimerName AP_JumpEnd" Send="AnimClear AP_JumpStart 0.500000"/>
         <On Terms="TimerExpired; TimerName AP_JumpEnd" Send="AnimPlay AP_Jump Unload,End NonLooping 0.500000"/>
         <CreepHeightClass value="Medium"/>
@@ -40280,15 +40277,15 @@
         <On Terms="ButtonHover.AP_SiegeMode.Off; ButtonEnabled" Target="AP_SiegeTankMengskSiegeModeRange" Send="Destroy"/>
         <On Terms="ButtonHover.AP_SiegeMode.On; ButtonEnabled" Send="Create AP_SiegeTankMengskSiegeModeBonusRange"/>
         <On Terms="ButtonHover.AP_SiegeMode.Off; ButtonEnabled" Target="AP_SiegeTankMengskSiegeModeBonusRange" Send="Destroy"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start; CreepEngulfs" Send="CreepEngulfmentStop"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start; CreepIntersects" Send="CreepEngulfmentStop"/>
+        <On Terms="Effect.AP_MengskSiegeTankSiegedJumpJetLM.Start; CreepEngulfs" Send="CreepEngulfmentStop"/>
+        <On Terms="Effect.AP_MengskSiegeTankSiegedJumpJetLM.Start; CreepIntersects" Send="CreepEngulfmentStop"/>
         <On Terms="Effect.AP_RemoveSiegeTankJumpJetPlaceholderSet.Start; CreepEngulfs" Send="CreepEngulfmentStartTransition"/>
         <On Terms="Effect.AP_RemoveSiegeTankJumpJetPlaceholderSet.Start; CreepIntersects" Send="CreepEngulfmentStartTransition"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_SiegeTank_BlackOps_JumpJets_Land"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="AnimPlay AP_JumpStart Unload PlayForever 1.700000"/>
+        <On Terms="Effect.AP_MengskSiegeTankSiegedJumpJetLM.Start" Send="AnimPlay AP_JumpStart Unload PlayForever 1.700000"/>
         <On Terms="UnitMovementUpdate.*.Walk; AnimPlaying AP_Jump" Send="AnimClear AP_Jump 0.500000"/>
         <On Terms="WeaponStart.*.AttackStart; AnimPlaying AP_Jump" Send="AnimClear AP_Jump 0.500000"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="TimerSet 1.700000 AP_JumpEnd"/>
+        <On Terms="Effect.AP_MengskSiegeTankSiegedJumpJetLM.Start" Send="TimerSet 1.700000 AP_JumpEnd"/>
         <On Terms="TimerExpired; TimerName AP_JumpEnd" Send="AnimClear AP_JumpStart 0.500000"/>
         <On Terms="TimerExpired; TimerName AP_JumpEnd" Send="AnimPlay AP_Jump Unload,End NonLooping 0.500000"/>
         <On Terms="ActorCreation; CreepIntersects" Send="CreepEngulfmentStartTransition"/>
@@ -46268,7 +46265,8 @@
     <CActorModel id="AP_SiegeTankJumpFlame" parent="ModelAddition">
         <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="Create"/>
         <On Terms="Effect.AP_MercSiegeTankJumpJetLM.Start" Send="Create"/>
-        <On Terms="Effect.AP_SiegeTankJumpJetLM.Start" Send="Create"/>
+        <On Terms="Effect.AP_MengskSiegeTankJumpJetLM.Start" Send="Create"/>
+        <On Terms="Effect.AP_MengskSiegeTankSiegedJumpJetLM.Start" Send="Create"/>
         <On Terms="Effect.AP_RemoveSiegeTankJumpJetPlaceholderSet.Start" Send="AnimBracketStop BSD"/>
         <On Terms="Effect.AP_RemoveMercSiegeTankJumpJetPlaceholderSet.Start" Send="AnimBracketStop BSD"/>
         <HostSiteOps Ops="AP_SOpAttachTurretZ AP_SiegeTankJumpFlameRotation AP_SiegeTankJumpFlameOffset"/>
@@ -46312,4 +46310,97 @@
     <CActorSiteOpLocalOffset id="AP_GoliathCliffJumpFlameOffsetRight">
         <LocalOffset value="0.300000,-0.200000,0.200000"/>
     </CActorSiteOpLocalOffset>
+    <CActorModel id="AP_MengskSiegeTankSiegedJumpJetPlaceholderAttachment" parent="ModelAddition">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="Create AP_SiegeTankGlaze"/>
+        <Model value="AP_SiegeTank_Mengsk_COOP_Sieged"/>
+    </CActorModel>
+    <CActorRange id="AP_MengskSiegeTankSiegedJumpJetRange" parent="RangeAbil" abil="AP_MengskSiegeTankSiegedJumpJet"/>
+    <CActorUnit id="AP_MengskSiegeTankSiegedJumpJetPlaceholder" parent="GenericUnitMinimal" unitName="AP_MengskSiegeTankSiegedJumpJetPlaceholder">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="Create AP_MengskSiegeTankSiegedJumpJetPlaceholderAttachment"/>
+        <Model value="Invisible"/>
+        <BuildModel value="AP_SiegeTank_Mengsk_COOP_Sieged"/>
+        <PlacementModel value="AP_SiegeTank_Mengsk_COOP_Sieged"/>
+        <PlacementActorModel value="AP_SiegeTankJumpJetPlaceholderPlacementModel"/>
+        <HighlightTooltip value=""/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Duration" value="0"/>
+    </CActorUnit>
+    <CActorUnit id="AP_MercSiegeTankJumpJetPlaceholder" parent="GenericUnitMinimal" unitName="AP_MercSiegeTankJumpJetPlaceholder">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="Create AP_MercSiegeTankJumpJetPlaceholderAttachment"/>
+        <Model value="Invisible"/>
+        <BuildModel value="AP_SiegeBreaker"/>
+        <PlacementModel value="AP_SiegeBreaker"/>
+        <PlacementActorModel value="AP_SiegeTankJumpJetPlaceholderPlacementModel"/>
+        <HighlightTooltip value=""/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Duration" value="0"/>
+    </CActorUnit>
+    <CActorRange id="AP_MengskSiegeTankJumpJetRange" parent="RangeAbil" abil="AP_MengskSiegeTankJumpJet"/>
+    <CActorUnit id="AP_MengskSiegeTankJumpJetPlaceholder" parent="GenericUnitMinimal" unitName="AP_MengskSiegeTankJumpJetPlaceholder">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="Create AP_MengskSiegeTankJumpJetPlaceholderAttachment"/>
+        <Model value="Invisible"/>
+        <BuildModel value="AP_SiegeTank_Mengsk_COOP"/>
+        <PlacementModel value="AP_SiegeTank_Mengsk_COOP"/>
+        <PlacementActorModel value="AP_SiegeTankJumpJetPlaceholderPlacementModel"/>
+        <HighlightTooltip value=""/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Duration" value="0"/>
+    </CActorUnit>
+    <CActorModel id="AP_MengskSiegeTankJumpJetPlaceholderAttachment" parent="ModelAddition">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="Create AP_SiegeTankGlaze"/>
+        <Model value="AP_SiegeTank_Mengsk_COOP"/>
+    </CActorModel>
+    <CActorUnit id="AP_MercSiegeTankSiegedJumpJetPlaceholder" parent="GenericUnitMinimal" unitName="AP_MercSiegeTankSiegedJumpJetPlaceholder">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="Create AP_MercSiegeTankSiegedJumpJetPlaceholderAttachment"/>
+        <Model value="Invisible"/>
+        <BuildModel value="AP_SiegeBreakerSieged"/>
+        <PlacementModel value="AP_SiegeBreakerSieged"/>
+        <PlacementActorModel value="AP_SiegeTankJumpJetPlaceholderPlacementModel"/>
+        <HighlightTooltip value=""/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Duration" value="0"/>
+    </CActorUnit>
+    <CActorModel id="AP_MercSiegeTankSiegedJumpJetPlaceholderAttachment" parent="ModelAddition">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="Create AP_SiegeTankGlaze"/>
+        <Model value="AP_SiegeBreakerSieged"/>
+    </CActorModel>
+    <CActorModel id="AP_MercSiegeTankJumpJetPlaceholderAttachment" parent="ModelAddition">
+        <EditorCategories value=""/>
+        <On Terms="ActorCreation" Send="Create AP_SiegeTankGlaze"/>
+        <Model value="AP_SiegeBreaker"/>
+    </CActorModel>
+    <CActorModelMaterial id="AP_SiegeTankGlaze" parent="GlazeParent" buff="">
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD IGNORE Stand Death"/>
+        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Creator"/>
+        <On Terms="ActorCreation" Send="TimerSet"/>
+        <On Terms="ActorCreation" Target="::Creator" Send="SetTeamColor 255,255,255 255,255,255"/>
+        <On Terms="ActorCreation" Send="AnimSetTimeScaleGlobal 0.300000 Lifetime"/>
+        <On Terms="ActorCreation" Target="::Creator" Send="SetTintColor {255,255,255 1.500000}"/>
+        <On Terms="ActorCreation" Target="::Creator" Send="SetOpacity 0.500000"/>
+        <Model value="GlazeTimeStop"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModelMaterial>
 </Catalog>
