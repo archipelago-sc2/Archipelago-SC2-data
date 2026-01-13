@@ -3020,6 +3020,7 @@
         <AbilArray Link="AP_BuildRailGunTurret"/>
         <AbilArray Link="AP_RavenScramblerMissile"/>
         <AbilArray Link="AP_RavenShredderMissile"/>
+        <AbilArray Link="AP_SurveillanceMode"/>
         <WeaponArray Link="AP_NovaRavenSeekerMissile"/>
         <BehaviorArray Link="Detector11"/>
         <CardLayouts>
@@ -3030,6 +3031,8 @@
             <LayoutButtons Face="AP_BuildAutoTurret" Type="AbilCmd" AbilCmd="AP_BuildAutoTurret,0" Row="2" Column="0"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_SurveillanceModeRavenOn" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,On" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_SurveillanceModeRavenOff" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,Off" Row="1" Column="4"/>
             <LayoutButtons Face="Detector" Type="Passive" Row="1" Column="4"/>
             <LayoutButtons Face="AP_HunterSeekerMissile" Type="AbilCmd" AbilCmd="AP_SeekerMissile,0" Row="2" Column="2"/>
             <LayoutButtons Face="AP_BuildPointDefenseDrone" Type="AbilCmd" AbilCmd="AP_PlacePointDefenseDrone,0" Row="2" Column="1"/>
@@ -3109,6 +3112,7 @@
         <AbilArray Link="AP_ScienceVesselSCBWEMPShockwave"/>
         <AbilArray Link="AP_ScienceVesselSCBWDefensiveMatrix"/>
         <AbilArray Link="AP_ScienceVesselTacticalJump"/>
+        <AbilArray Link="AP_SurveillanceMode"/>
         <BehaviorArray Link="Detector11"/>
         <WeaponArray Turret="AP_ScienceVesselRotate"/>
         <CardLayouts>
@@ -3118,7 +3122,7 @@
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
-            <LayoutButtons Face="Detector" Type="Passive" Row="1" Column="4"/>
+            <LayoutButtons Face="Detector" Type="Passive" Row="1" Column="3"/>
             <LayoutButtons Face="AP_Irradiate" Type="AbilCmd" AbilCmd="AP_Irradiate,0" Row="2" Column="1"/>
             <LayoutButtons Face="AP_NanoRepair" Type="AbilCmd" AbilCmd="AP_ScienceVesselNanoRepairDouble,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_NanoRepair" Type="AbilCmd" AbilCmd="AP_NanoRepair,0" Row="2" Column="0"/>
@@ -3127,6 +3131,8 @@
             <LayoutButtons Face="AP_FleetwideJump" Type="AbilCmd" AbilCmd="AP_ScienceVesselTacticalJump,0" Row="2" Column="4"/>
             <LayoutButtons Face="AP_ImprovedNanoRepair" Type="Passive" Requirements="AP_HaveScienceVesselFreeRepair" Row="1" Column="0"/>
             <LayoutButtons Face="AP_AdvancedAISystems" Type="Passive" Requirements="AP_ScienceVesselNanoRepairDoubleUse" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_SurveillanceModeRavenOn" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,On" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_SurveillanceModeScienceVesselOff" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,Off" Row="1" Column="4"/>
         </CardLayouts>
         <Radius value="0.625"/>
         <SeparationRadius value="0.625"/>
@@ -14125,6 +14131,7 @@
         <AbilArray Link="move"/>
         <AbilArray Link="Warpable"/>
         <AbilArray Link="AP_InduceScopophobia"/>
+        <AbilArray Link="AP_SurveillanceMode"/>
         <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
         <BehaviorArray Link="Detector11"/>
         <BehaviorArray Link="AP_DetectorRadar"/>
@@ -14140,6 +14147,8 @@
             <LayoutButtons Face="Detector" Type="Passive" Row="2" Column="3"/>
             <LayoutButtons Face="AP_HaveGraviticBoosters" Type="Passive" Requirements="AP_HaveObserverGraviticBooster" Row="1" Column="0"/>
             <LayoutButtons Face="AP_ObserverSensorArray" Type="Passive" Requirements="AP_HaveObserverSightUpgrade" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_SurveillanceModeObserverOn" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,On" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_SurveillanceModeObserverOff" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,Off" Row="1" Column="4"/>
         </CardLayouts>
         <ScoreMake value="100"/>
         <ScoreKill value="100"/>
@@ -16347,6 +16356,7 @@
         <AbilArray Link="ProgressRally"/>
         <AbilArray Link="AP_OracleWeapon"/>
         <AbilArray Link="AP_OracleStasisTrapBuild"/>
+        <AbilArray Link="AP_SurveillanceMode"/>
         <BehaviorArray Link="Detector11"/>
         <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
         <BehaviorArray Link="AP_OraclePermanentCloak"/>
@@ -16369,6 +16379,8 @@
             <LayoutButtons Face="AP_OracleSustainablePulsarBeam" Type="Passive" Requirements="AP_HaveOracleSustainablePulsarBeam" Row="2" Column="2"/>
             <LayoutButtons Face="AP_OracleStasisWardAir" Type="Passive" Requirements="AP_HaveOracleStasisWardAir" Row="1" Column="3"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_SurveillanceModeOracleOn" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,On" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_SurveillanceModeOracleOff" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,Off" Row="1" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -26305,6 +26317,7 @@
         <AbilArray Link="move"/>
         <AbilArray Link="AP_OverseerBuild"/>
         <AbilArray Link="AP_Contaminate"/>
+        <AbilArray Link="AP_SurveillanceMode"/>
         <BehaviorArray Link="Detector11"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -26315,10 +26328,12 @@
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="AP_BuildCreepTumor" Type="AbilCmd" AbilCmd="AP_OverseerBuild,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_Contaminate" Type="AbilCmd" AbilCmd="AP_Contaminate,Execute" Row="2" Column="1"/>
-            <LayoutButtons Face="AP_K5ImprovedOverlords" Type="Passive" Requirements="AP_HaveK5ImprovedOverlords" Row="1" Column="4"/>
-            <LayoutButtons Face="AP_OverlordSpeed" Type="Passive" Requirements="AP_HaveOverlordSpeed" Row="1" Column="3"/>
-            <LayoutButtons Face="AP_OverlordSightUpgrade" Type="Passive" Requirements="AP_HaveOverlordSightUpgrade" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_K5ImprovedOverlords" Type="Passive" Requirements="AP_HaveK5ImprovedOverlords" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_OverlordSpeed" Type="Passive" Requirements="AP_HaveOverlordSpeed" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_OverlordSightUpgrade" Type="Passive" Requirements="AP_HaveOverlordSightUpgrade" Row="1" Column="1"/>
             <LayoutButtons Face="Detector" Type="Passive" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_SurveillanceModeOverseerOn" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,On" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_SurveillanceModeOverseerOff" Type="AbilCmd" AbilCmd="AP_SurveillanceMode,Off" Row="1" Column="4"/>
         </CardLayouts>
         <EnergyRegenRate value="0.5625"/>
         <EnergyMax value="200"/>

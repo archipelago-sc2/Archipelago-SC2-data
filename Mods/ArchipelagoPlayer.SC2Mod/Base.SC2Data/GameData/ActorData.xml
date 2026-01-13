@@ -15191,12 +15191,13 @@
         <On Terms="Behavior.WarpInEffect15.On" Send="$Birth"/>
         <On Terms="Behavior.WarpInEffect15.Off" Send="ModelSwap Observer"/>
         <On Terms="Behavior.WarpInEffect15.Off" Send="AnimBaselineStart"/>
-        <On Terms="UnitHeightUpdate.*.Land" Send="Create Observer_Land"/>
         <On Terms="Upgrade.AP_DarkProtoss.Add" Send="DeathCustomsEnablePhysics 0"/>
         <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomsEnablePhysics 0"/>
         <On Terms="Upgrade.AP_DarkProtoss.Add" Send="ModelSwap DarkObserver"/>
         <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap DarkObserver"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomize DarkProtoss"/>
+        <On Terms="Behavior.AP_SurveillanceMode.On" Send="AnimBracketStart Work Work,Start Work Work,End"/>
+        <On Terms="Behavior.AP_SurveillanceMode.Off" Send="AnimBracketStop Work"/>
         <Model value="Observer"/>
         <AnimBlendTime value="1.200000"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
@@ -17493,6 +17494,8 @@
         <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap Oracle_Taldarim"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomize DarkProtoss"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_NoDarkProtoss; UnitWalking" Send="DeathCustomize Variation2"/>
+        <On Terms="Behavior.AP_SurveillanceMode.On" Send="AnimBracketStart Work IGNORE Dance IGNORE"/>
+        <On Terms="Behavior.AP_SurveillanceMode.Off" Send="AnimBracketStop Work"/>
         <Model value="Oracle"/>
         <AnimBlendTime value="0.400000"/>
         <ModelFlags index="AutomateGlobalLoops" value="0"/>
@@ -27389,6 +27392,26 @@
         <On Terms="Abil.AP_RavenDeploySpiderMines.SourceCastStart" Send="$Spell"/>
         <On Terms="Abil.AP_BuildRailGunTurret.SourceCastStart" Send="$Spell"/>
         <On Terms="Abil.attack.SourceCastStart" Send="$Spell"/>
+        <On Terms="ActorCreation; IsInEditor" Send="Signal SurveillanceStart"/>
+        <On Terms="Signal.*.SurveillanceTop" Send="AnimBracketStart Work IGNORE Fidget,01 IGNORE"/>
+        <On Terms="Signal.*.SurveillanceStart" Send="TimerSet 2.000000 1"/>
+        <On Terms="TimerExpired; TimerName 1; IsInEditor" Send="TimerSet 10.000000 2"/>
+        <On Terms="TimerExpired; TimerName 1" Send="Signal SurveillanceTop"/>
+        <On Terms="Signal.*.SurveillanceTop" Send="HostSiteOpsRemove ::Host AP_RavenSurveillanceModeRotatorStart Head"/>
+        <On Terms="Signal.*.SurveillanceTop" Send="HostSiteOpsAdd ::Host AP_RavenSurveillanceModeRotator Head"/>
+        <On Terms="Signal.*.SurveillanceTop" Send="HostSiteOpsAdd ::Host AP_RavenSurveillanceModeRotation Head"/>
+        <On Terms="TimerExpired; TimerName 2" Send="Signal SurveillanceEnd"/>
+        <On Terms="Signal.*.SurveillanceEnd" Send="HostSiteOpsRemove ::Host AP_RavenSurveillanceModeRotation Head"/>
+        <On Terms="Signal.*.SurveillanceEnd" Send="HostSiteOpsRemove ::Host AP_RavenSurveillanceModeRotator Head"/>
+        <On Terms="Signal.*.SurveillanceEnd" Send="HostSiteOpsAdd ::Host AP_RavenSurveillanceModeRotatorEnd Head"/>
+        <On Terms="Signal.*.SurveillanceEnd" Send="TimerSet 1.000000 3"/>
+        <On Terms="TimerExpired; TimerName 3" Send="HostSiteOpsRemove ::Host AP_RavenSurveillanceModeRotatorEnd Head"/>
+        <On Terms="Signal.*.SurveillanceEnd" Send="AnimBracketStop Work"/>
+        <On Terms="Behavior.AP_SurveillanceMode.On" Send="Signal SurveillanceStart"/>
+        <On Terms="Behavior.AP_SurveillanceMode.Off" Send="Signal SurveillanceEnd"/>
+        <On Terms="TimerExpired; TimerName 3" Send="HostSiteOpsAdd ::Host SOpBankerRaven Head"/>
+        <On Terms="Signal.*.SurveillanceStart" Send="HostSiteOpsRemove ::Host SOpBankerRaven Head"/>
+        <On Terms="Signal.*.SurveillanceStart" Send="HostSiteOpsAdd ::Host AP_RavenSurveillanceModeRotatorStart Head"/>
         <HostSiteOps Ops="SOpBankerRaven"/>
         <Model value="Raven"/>
         <BuildModel value="Raven"/>
@@ -27613,6 +27636,10 @@
     <CActorUnit id="AP_ScienceVessel" parent="GenericUnitBase" unitName="AP_ScienceVessel">
         <Aliases value="_UnitHuge"/>
         <On Terms="Abil.AP_Irradiate.SourceCastStart" Send="$Spell"/>
+        <On Terms="Behavior.AP_SurveillanceMode.On" Send="$Spell PlayForever,ForceLooping -1.000000 -1.000000 0.500000 AsTimeScale"/>
+        <On Terms="Behavior.AP_SurveillanceMode.Off" Send="AnimClear Spell"/>
+        <On Terms="Behavior.AP_SurveillanceMode.On" Send="HostSiteOpsAdd ::Host AP_ScienceVesselSurveillanceModeRotator"/>
+        <On Terms="Behavior.AP_SurveillanceMode.Off" Send="HostSiteOpsRemove ::Host AP_ScienceVesselSurveillanceModeRotator"/>
         <DeathArray index="Normal" ModelLink="AP_ScienceVesselDeath" SoundLink=""/>
         <DeathActorModel value="AP_ScienceVesselDeathModel"/>
         <PortraitModel value="AP_ScienceVesselPortrait"/>
@@ -35989,6 +36016,8 @@
         <On Terms="Abil.AP_OverseerBuild.WorkerStart" Send="TimerSet 1.000000 CreepTumorAnimClear"/>
         <On Terms="TimerExpired; TimerName CreepTumorAnimClear" Target="AP_OverlordGenerateCreepModel" Send="Destroy"/>
         <On Terms="TimerExpired; TimerName CreepTumorAnimClear" Target="AP_OverlordGenerateCreepSound" Send="Destroy"/>
+        <On Terms="Behavior.AP_SurveillanceMode.On" Send="Create AP_OverseerOversightEyeStalkAddition"/>
+        <On Terms="Behavior.AP_SurveillanceMode.Off" Target="AP_OverseerOversightEyeStalkAddition" Send="AnimBracketStop BSD"/>
         <Model value="Overseer"/>
         <DeathArray index="Normal" ModelLink="OverseerDeath" SoundLink="Overseer_Death_Splat"/>
         <PortraitModel value="OverseerPortrait"/>
@@ -46413,4 +46442,31 @@
         <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModelMaterial>
+    <CActorSiteOpRotationExplicit id="AP_RavenSurveillanceModeRotation">
+        <EditorCategories value=""/>
+        <Forward value="0.000000,0.000000,1.000000"/>
+        <Up value="0.000000,1.000000,0.000000"/>
+        <IsLocal value="1"/>
+    </CActorSiteOpRotationExplicit>
+    <CActorSiteOpRotator id="AP_ScienceVesselSurveillanceModeRotator">
+        <EditorCategories value=""/>
+        <LocalAxis value="0.000000,0.000000,1.000000"/>
+        <Rate value="30.000000"/>
+    </CActorSiteOpRotator>
+    <CActorSiteOpRotator id="AP_RavenSurveillanceModeRotatorStart">
+        <EditorCategories value=""/>
+        <LocalAxis value="-1.000000,0.000000,0.000000"/>
+        <Rate value="45.000000"/>
+    </CActorSiteOpRotator>
+    <CActorSiteOpRotator id="AP_RavenSurveillanceModeRotator">
+        <EditorCategories value=""/>
+        <LocalAxis value="0.000000,1.000000,0.000000"/>
+        <Rate value="30.000000"/>
+    </CActorSiteOpRotator>
+    <CActorSiteOpRotator id="AP_RavenSurveillanceModeRotatorEnd">
+        <EditorCategories value=""/>
+        <LocalAxis value="1.000000,0.000000,0.000000"/>
+        <Rate value="90.000000"/>
+        <InitialAngle value="270.000000"/>
+    </CActorSiteOpRotator>
 </Catalog>
