@@ -46393,7 +46393,8 @@
         <Model value="AP_SiegeBreaker"/>
     </CActorModel>
     <CActorModelMaterial id="AP_SiegeTankGlaze" parent="GlazeParent" buff="">
-        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD IGNORE Stand Death"/>
+        <Remove Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death">
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD IGNORE Stand Death"/>
         <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Creator"/>
         <On Terms="ActorCreation" Send="TimerSet"/>
         <On Terms="ActorCreation" Target="::Creator" Send="SetTeamColor 255,255,255 255,255,255"/>
@@ -46401,6 +46402,7 @@
         <On Terms="ActorCreation" Target="::Creator" Send="SetTintColor {255,255,255 1.500000}"/>
         <On Terms="ActorCreation" Target="::Creator" Send="SetOpacity 0.500000"/>
         <Model value="GlazeTimeStop"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModelMaterial>
     <CActorModelMaterial id="AP_InfestedMercenaryGlaze" parent="GlazeParent">
         <On Terms="UnitBirth.AP_InfestedSiegeBreaker" Send="Create"/>
