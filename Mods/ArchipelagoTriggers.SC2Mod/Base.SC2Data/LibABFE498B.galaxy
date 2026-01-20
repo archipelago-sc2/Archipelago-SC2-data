@@ -2300,7 +2300,17 @@ void libABFE498B_gf_AP_Triggers_bankOptionsLoop () {
 
 }
 
+trigger auto_libABFE498B_gf_AP_Triggers_bankOptionsRead_Trigger = null;
+
 void libABFE498B_gf_AP_Triggers_bankOptionsRead () {
+    if (auto_libABFE498B_gf_AP_Triggers_bankOptionsRead_Trigger == null) {
+        auto_libABFE498B_gf_AP_Triggers_bankOptionsRead_Trigger = TriggerCreate("auto_libABFE498B_gf_AP_Triggers_bankOptionsRead_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libABFE498B_gf_AP_Triggers_bankOptionsRead_Trigger, false, false);
+}
+
+bool auto_libABFE498B_gf_AP_Triggers_bankOptionsRead_TriggerFunc (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_index;
     string lv_section;
@@ -2314,8 +2324,8 @@ void libABFE498B_gf_AP_Triggers_bankOptionsRead () {
     lv_value = "";
 
     // Implementation
-    lv_section = "GameOptions";
-    lv_key = "Options";
+    lv_section = libABFE498B_gv_aP_Triggers_BANK_OPTIONS_SECTION_OPTIONS;
+    lv_key = libABFE498B_gv_aP_Triggers_BANK_OPTIONS_KEY_OPTIONS;
     if ((BankKeyExists(libABFE498B_gv_aP_Triggers_bankOptions, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(libABFE498B_gv_aP_Triggers_bankOptions, lv_section, lv_key);
         libABFE498B_gf_AP_Triggers_setOptions(lv_value);
@@ -2332,6 +2342,7 @@ void libABFE498B_gf_AP_Triggers_bankOptionsRead () {
 
     }
 
+    return true;
 }
 
 void libABFE498B_gf_AP_Triggers_bankItemsLoop () {
@@ -2353,7 +2364,17 @@ void libABFE498B_gf_AP_Triggers_bankItemsLoop () {
 
 }
 
+trigger auto_libABFE498B_gf_AP_Triggers_bankItemsRead_Trigger = null;
+
 void libABFE498B_gf_AP_Triggers_bankItemsRead () {
+    if (auto_libABFE498B_gf_AP_Triggers_bankItemsRead_Trigger == null) {
+        auto_libABFE498B_gf_AP_Triggers_bankItemsRead_Trigger = TriggerCreate("auto_libABFE498B_gf_AP_Triggers_bankItemsRead_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libABFE498B_gf_AP_Triggers_bankItemsRead_Trigger, false, false);
+}
+
+bool auto_libABFE498B_gf_AP_Triggers_bankItemsRead_TriggerFunc (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_index;
     string lv_section;
@@ -2370,26 +2391,26 @@ void libABFE498B_gf_AP_Triggers_bankItemsRead () {
     while (!((libABFE498B_gv_aP_Triggers_bankOptionsInitialized == true))) {
         Wait(0.0625, c_timeGame);
     }
-    lv_section = "Items";
-    lv_key = "TerranItems";
+    lv_section = libABFE498B_gv_aP_Triggers_BANK_ITEMS_SECTION_ITEMS;
+    lv_key = libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_TERRAN_ITEMS;
     if ((BankKeyExists(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key);
         libABFE498B_gf_AP_Triggers_giveTerranTech(lv_value);
     }
 
-    lv_key = "ZergItems";
+    lv_key = libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_ZERG_ITEMS;
     if ((BankKeyExists(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key);
         libABFE498B_gf_AP_Triggers_giveZergTech(lv_value);
     }
 
-    lv_key = "ProtossItems";
+    lv_key = libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_PROTOSS_ITEMS;
     if ((BankKeyExists(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key);
         libABFE498B_gf_AP_Triggers_giveProtossTech(lv_value);
     }
 
-    lv_key = "MiscItems";
+    lv_key = libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_MISC_ITEMS;
     if ((BankKeyExists(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key);
         libABFE498B_gf_AP_Triggers_giveMiscTech(lv_value);
@@ -2402,6 +2423,7 @@ void libABFE498B_gf_AP_Triggers_bankItemsRead () {
         TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_8CEF283A"), false);
     }
 
+    return true;
 }
 
 bool libABFE498B_gf_AP_Triggers_isGenericUpgradeAutoUnlock () {

@@ -208,7 +208,17 @@ void lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop () {
 
 }
 
+trigger auto_lib5BD4895D_gf_AP_Core_bankCoreOptionsRead_Trigger = null;
+
 void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
+    if (auto_lib5BD4895D_gf_AP_Core_bankCoreOptionsRead_Trigger == null) {
+        auto_lib5BD4895D_gf_AP_Core_bankCoreOptionsRead_Trigger = TriggerCreate("auto_lib5BD4895D_gf_AP_Core_bankCoreOptionsRead_TriggerFunc");
+    }
+
+    TriggerExecute(auto_lib5BD4895D_gf_AP_Core_bankCoreOptionsRead_Trigger, false, false);
+}
+
+bool auto_lib5BD4895D_gf_AP_Core_bankCoreOptionsRead_TriggerFunc (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_index;
     string lv_section;
@@ -263,6 +273,7 @@ void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
         lib5BD4895D_gf_AP_Core_onLoadFinished();
     }
 
+    return true;
 }
 
 void lib5BD4895D_gf_AP_Core_bankMessageLoop () {
@@ -284,7 +295,17 @@ void lib5BD4895D_gf_AP_Core_bankMessageLoop () {
 
 }
 
+trigger auto_lib5BD4895D_gf_AP_Core_bankMessageRead_Trigger = null;
+
 void lib5BD4895D_gf_AP_Core_bankMessageRead () {
+    if (auto_lib5BD4895D_gf_AP_Core_bankMessageRead_Trigger == null) {
+        auto_lib5BD4895D_gf_AP_Core_bankMessageRead_Trigger = TriggerCreate("auto_lib5BD4895D_gf_AP_Core_bankMessageRead_TriggerFunc");
+    }
+
+    TriggerExecute(auto_lib5BD4895D_gf_AP_Core_bankMessageRead_Trigger, false, false);
+}
+
+bool auto_lib5BD4895D_gf_AP_Core_bankMessageRead_TriggerFunc (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_index;
     string lv_section;
@@ -311,6 +332,7 @@ void lib5BD4895D_gf_AP_Core_bankMessageRead () {
         }
 
     }
+    return true;
 }
 
 void lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveLoop () {
@@ -332,7 +354,17 @@ void lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveLoop () {
 
 }
 
+trigger auto_lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead_Trigger = null;
+
 void lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead () {
+    if (auto_lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead_Trigger == null) {
+        auto_lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead_Trigger = TriggerCreate("auto_lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead_TriggerFunc");
+    }
+
+    TriggerExecute(auto_lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead_Trigger, false, false);
+}
+
+bool auto_lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead_TriggerFunc (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_index;
     string lv_section;
@@ -370,6 +402,7 @@ void lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead () {
         }
     }
 
+    return true;
 }
 
 void lib5BD4895D_gf_AP_Core_bankVoidTradeSendUnits (unit lp_voidTrainUnit) {
