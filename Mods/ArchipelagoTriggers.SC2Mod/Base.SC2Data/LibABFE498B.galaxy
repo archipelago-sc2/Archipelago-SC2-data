@@ -11056,12 +11056,16 @@ bool libABFE498B_gt_AP_Triggers_bankInit_Func (bool testConds, bool runActions) 
 
     TriggerExecute(libABFE498B_gt_AP_Triggers_bankOptionsInit, true, false);
     TriggerExecute(libABFE498B_gt_AP_Triggers_bankItemsInit, true, false);
-    while (true) {
-        Wait(0.0625, c_timeGame);
+    while ((lib5BD4895D_gv_aP_Core_initFinished == false)) {
         libABFE498B_gf_AP_Triggers_bankOptionsLoop();
-        Wait(0.0625, c_timeGame);
         libABFE498B_gf_AP_Triggers_bankItemsLoop();
         Wait(0.0625, c_timeGame);
+    }
+    while (true) {
+        libABFE498B_gf_AP_Triggers_bankOptionsLoop();
+        Wait(0.5, c_timeGame);
+        libABFE498B_gf_AP_Triggers_bankItemsLoop();
+        Wait(0.5, c_timeGame);
     }
     return true;
 }

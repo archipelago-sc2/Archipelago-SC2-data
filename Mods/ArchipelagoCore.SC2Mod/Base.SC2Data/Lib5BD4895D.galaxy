@@ -2238,13 +2238,17 @@ bool lib5BD4895D_gt_AP_Core_bankInit_Func (bool testConds, bool runActions) {
     TriggerExecute(lib5BD4895D_gt_AP_Core_bankUpdateInit, true, false);
     TriggerExecute(lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit, true, false);
     TriggerExecute(lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit, true, false);
-    while (true) {
+    while ((lib5BD4895D_gv_aP_Core_initFinished == false)) {
         lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop();
         Wait(0.0625, c_timeGame);
+    }
+    while (true) {
         lib5BD4895D_gf_AP_Core_bankMessageLoop();
-        Wait(0.0625, c_timeGame);
+        Wait(0.5, c_timeGame);
         lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveLoop();
-        Wait(0.0625, c_timeGame);
+        Wait(0.5, c_timeGame);
+        lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop();
+        Wait(0.5, c_timeGame);
     }
     return true;
 }

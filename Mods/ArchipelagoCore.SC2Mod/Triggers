@@ -2077,6 +2077,7 @@
             <Action Type="FunctionCall" Library="5BD4895D" Id="39F6AE23"/>
             <Action Type="FunctionCall" Library="5BD4895D" Id="99B61B0F"/>
             <Action Type="FunctionCall" Library="5BD4895D" Id="585289F4"/>
+            <Action Type="FunctionCall" Library="5BD4895D" Id="0A0D44ED"/>
             <Action Type="FunctionCall" Library="5BD4895D" Id="D9B432ED"/>
         </Element>
         <Element Type="FunctionCall" Id="7F590486">
@@ -2196,29 +2197,46 @@
             <ValueType Type="trigger"/>
             <ValueElement Type="Trigger" Library="5BD4895D" Id="5DE7B4E5"/>
         </Element>
-        <Element Type="FunctionCall" Id="D9B432ED">
-            <FunctionDef Type="FunctionDef" Library="Ntve" Id="CEDAB9C3"/>
+        <Element Type="FunctionCall" Id="0A0D44ED">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="71596144"/>
             <FunctionCall Type="Comment" Library="5BD4895D" Id="C8E1AC69"/>
+            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="59843C5B"/>
             <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="1AC39345"/>
             <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="4C60162C"/>
-            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="CA21EBCA"/>
-            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="5DF25E57"/>
-            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="05D6C225"/>
-            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="BB49D694"/>
         </Element>
         <Element Type="Comment" Id="C8E1AC69">
             <Comment>
-                Stagger the loop functions and set up a consistent order
+                If initial setup is not done yet, check core options every frame, and ignore messages and void trade
             </Comment>
-            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="A1B37466"/>
+        </Element>
+        <Element Type="FunctionCall" Id="59843C5B">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="20298AEC"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="7773B0CE"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="2AE2E02F"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="ACA77619"/>
+        </Element>
+        <Element Type="Param" Id="7773B0CE">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
+            <Variable Type="Variable" Library="5BD4895D" Id="A93C1313"/>
+        </Element>
+        <Element Type="Param" Id="2AE2E02F">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
+        </Element>
+        <Element Type="Param" Id="ACA77619">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
+            <Value>false</Value>
+            <ValueType Type="bool"/>
         </Element>
         <Element Type="FunctionCall" Id="1AC39345">
             <FunctionDef Type="FunctionDef" Library="5BD4895D" Id="B5DFB158"/>
-            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="A1B37466"/>
         </Element>
         <Element Type="FunctionCall" Id="4C60162C">
             <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000242"/>
-            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="A1B37466"/>
             <Parameter Type="Param" Library="5BD4895D" Id="2615D3DB"/>
             <Parameter Type="Param" Library="5BD4895D" Id="9D83E47D"/>
         </Element>
@@ -2230,6 +2248,22 @@
         <Element Type="Param" Id="9D83E47D">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="00000420"/>
             <Preset Type="PresetValue" Library="Ntve" Id="00000013"/>
+        </Element>
+        <Element Type="FunctionCall" Id="D9B432ED">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="CEDAB9C3"/>
+            <FunctionCall Type="Comment" Library="5BD4895D" Id="324555CB"/>
+            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="CA21EBCA"/>
+            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="5DF25E57"/>
+            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="05D6C225"/>
+            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="72E4FEAA"/>
+            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="F8CED1B9"/>
+            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="63A2BED4"/>
+        </Element>
+        <Element Type="Comment" Id="324555CB">
+            <Comment>
+                after initial setup, a second or 2 of delay is fine
+            </Comment>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
         </Element>
         <Element Type="FunctionCall" Id="CA21EBCA">
             <FunctionDef Type="FunctionDef" Library="5BD4895D" Id="AF79F678"/>
@@ -2243,7 +2277,7 @@
         </Element>
         <Element Type="Param" Id="89953550">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="00000419"/>
-            <Value>0.0625</Value>
+            <Value>0.5</Value>
             <ValueType Type="fixed"/>
         </Element>
         <Element Type="Param" Id="A150134E">
@@ -2254,18 +2288,37 @@
             <FunctionDef Type="FunctionDef" Library="5BD4895D" Id="4CE8936E"/>
             <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
         </Element>
-        <Element Type="FunctionCall" Id="BB49D694">
+        <Element Type="FunctionCall" Id="72E4FEAA">
             <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000242"/>
             <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
-            <Parameter Type="Param" Library="5BD4895D" Id="8C0A4864"/>
-            <Parameter Type="Param" Library="5BD4895D" Id="2DC5744A"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="8D5DF9E8"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="F3AFD719"/>
         </Element>
-        <Element Type="Param" Id="8C0A4864">
+        <Element Type="Param" Id="8D5DF9E8">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="00000419"/>
-            <Value>0.0625</Value>
+            <Value>0.5</Value>
             <ValueType Type="fixed"/>
         </Element>
-        <Element Type="Param" Id="2DC5744A">
+        <Element Type="Param" Id="F3AFD719">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000420"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="00000013"/>
+        </Element>
+        <Element Type="FunctionCall" Id="F8CED1B9">
+            <FunctionDef Type="FunctionDef" Library="5BD4895D" Id="B5DFB158"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+        </Element>
+        <Element Type="FunctionCall" Id="63A2BED4">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000242"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="DEB79A31"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="ACDFC532"/>
+        </Element>
+        <Element Type="Param" Id="DEB79A31">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000419"/>
+            <Value>0.5</Value>
+            <ValueType Type="fixed"/>
+        </Element>
+        <Element Type="Param" Id="ACDFC532">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="00000420"/>
             <Preset Type="PresetValue" Library="Ntve" Id="00000013"/>
         </Element>
