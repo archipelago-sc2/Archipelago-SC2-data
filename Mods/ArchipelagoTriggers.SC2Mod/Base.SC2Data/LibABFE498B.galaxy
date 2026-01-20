@@ -2281,6 +2281,25 @@ void libABFE498B_gf_AP_Triggers_giveMiscTech (string lp_inputString) {
     }
 }
 
+void libABFE498B_gf_AP_Triggers_bankOptionsLoop () {
+    // Variable Declarations
+    int lv_bankbackupid;
+    int lv_user;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_bankbackupid = BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankOptions);
+    if ((lv_bankbackupid > 0)) {
+        lv_user = lib5BD4895D_gf_AP_Core_getUser();
+        BankRestore(libABFE498B_gv_aP_Triggers_bankOptions, lv_user, lv_bankbackupid);
+        BankBackupRemove(libABFE498B_gv_aP_Triggers_bankOptions, lv_bankbackupid, lv_user);
+        libABFE498B_gf_AP_Triggers_bankOptionsRead();
+    }
+
+}
+
 void libABFE498B_gf_AP_Triggers_bankOptionsRead () {
     // Variable Declarations
     int lv_index;
@@ -2311,6 +2330,25 @@ void libABFE498B_gf_AP_Triggers_bankOptionsRead () {
             libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         }
 
+    }
+
+}
+
+void libABFE498B_gf_AP_Triggers_bankItemsLoop () {
+    // Variable Declarations
+    int lv_bankbackupid;
+    int lv_user;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_bankbackupid = BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankItems);
+    if ((lv_bankbackupid > 0)) {
+        lv_user = lib5BD4895D_gf_AP_Core_getUser();
+        BankRestore(libABFE498B_gv_aP_Triggers_bankItems, lv_user, lv_bankbackupid);
+        BankBackupRemove(libABFE498B_gv_aP_Triggers_bankItems, lv_bankbackupid, lv_user);
+        libABFE498B_gf_AP_Triggers_bankItemsRead();
     }
 
 }
@@ -10985,6 +11023,34 @@ void libABFE498B_gt_AP_Triggers_PatchesInit_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_bankInit
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_bankInit_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerExecute(libABFE498B_gt_AP_Triggers_bankOptionsInit, true, false);
+    TriggerExecute(libABFE498B_gt_AP_Triggers_bankItemsInit, true, false);
+    while (true) {
+        Wait(0.0625, c_timeGame);
+        libABFE498B_gf_AP_Triggers_bankOptionsLoop();
+        Wait(0.0625, c_timeGame);
+        libABFE498B_gf_AP_Triggers_bankItemsLoop();
+        Wait(0.0625, c_timeGame);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_bankInit_Init () {
+    libABFE498B_gt_AP_Triggers_bankInit = TriggerCreate("libABFE498B_gt_AP_Triggers_bankInit_Func");
+    TriggerAddEventMapInit(libABFE498B_gt_AP_Triggers_bankInit);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_bankOptionsInit
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_bankOptionsInit_Func (bool testConds, bool runActions) {
@@ -11001,7 +11067,7 @@ bool libABFE498B_gt_AP_Triggers_bankOptionsInit_Func (bool testConds, bool runAc
 
     TriggerDebugSetTypeFile(1, "TriggerDebug.txt");
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(libABFE498B_gv_aP_Triggers_BANK_OPTIONS_NAME, lv_user);
+    BankLoad(libABFE498B_gv_aP_Triggers_BANK_OPTIONS_FILE_NAME, lv_user);
     libABFE498B_gv_aP_Triggers_bankOptions = BankLastCreated();
     BankBackupLoopBegin(libABFE498B_gv_aP_Triggers_bankOptions,false);
     for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
@@ -11015,42 +11081,6 @@ bool libABFE498B_gt_AP_Triggers_bankOptionsInit_Func (bool testConds, bool runAc
 //--------------------------------------------------------------------------------------------------
 void libABFE498B_gt_AP_Triggers_bankOptionsInit_Init () {
     libABFE498B_gt_AP_Triggers_bankOptionsInit = TriggerCreate("libABFE498B_gt_AP_Triggers_bankOptionsInit_Func");
-    TriggerAddEventMapInit(libABFE498B_gt_AP_Triggers_bankOptionsInit);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_bankOptionsLoop
-//--------------------------------------------------------------------------------------------------
-bool libABFE498B_gt_AP_Triggers_bankOptionsLoop_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    bool lv_bankchange;
-    int lv_bankbackupid;
-    int lv_user;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_bankbackupid = BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankOptions);
-    if ((lv_bankbackupid > 0)) {
-        lv_user = lib5BD4895D_gf_AP_Core_getUser();
-        BankRestore(libABFE498B_gv_aP_Triggers_bankOptions, lv_user, lv_bankbackupid);
-        BankBackupRemove(libABFE498B_gv_aP_Triggers_bankOptions, lv_bankbackupid, lv_user);
-        libABFE498B_gf_AP_Triggers_bankOptionsRead();
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libABFE498B_gt_AP_Triggers_bankOptionsLoop_Init () {
-    libABFE498B_gt_AP_Triggers_bankOptionsLoop = TriggerCreate("libABFE498B_gt_AP_Triggers_bankOptionsLoop_Func");
-    TriggerAddEventTimeElapsed(libABFE498B_gt_AP_Triggers_bankOptionsLoop, 0.0, c_timeGame);
-    TriggerAddEventTimePeriodic(libABFE498B_gt_AP_Triggers_bankOptionsLoop, 0.25, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -11069,7 +11099,7 @@ bool libABFE498B_gt_AP_Triggers_bankItemsInit_Func (bool testConds, bool runActi
     }
 
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(libABFE498B_gv_aP_Triggers_BANK_ITEMS_NAME, lv_user);
+    BankLoad(libABFE498B_gv_aP_Triggers_BANK_ITEMS_FILE_NAME, lv_user);
     libABFE498B_gv_aP_Triggers_bankItems = BankLastCreated();
     BankBackupLoopBegin(libABFE498B_gv_aP_Triggers_bankItems,false);
     for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
@@ -11083,42 +11113,6 @@ bool libABFE498B_gt_AP_Triggers_bankItemsInit_Func (bool testConds, bool runActi
 //--------------------------------------------------------------------------------------------------
 void libABFE498B_gt_AP_Triggers_bankItemsInit_Init () {
     libABFE498B_gt_AP_Triggers_bankItemsInit = TriggerCreate("libABFE498B_gt_AP_Triggers_bankItemsInit_Func");
-    TriggerAddEventMapInit(libABFE498B_gt_AP_Triggers_bankItemsInit);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_bankItemsLoop
-//--------------------------------------------------------------------------------------------------
-bool libABFE498B_gt_AP_Triggers_bankItemsLoop_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_bankbackupid;
-    bool lv_bankchange;
-    int lv_user;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_bankbackupid = BankBackupGetLatestId(libABFE498B_gv_aP_Triggers_bankItems);
-    if ((lv_bankbackupid > 0)) {
-        lv_user = lib5BD4895D_gf_AP_Core_getUser();
-        BankRestore(libABFE498B_gv_aP_Triggers_bankItems, lv_user, lv_bankbackupid);
-        BankBackupRemove(libABFE498B_gv_aP_Triggers_bankItems, lv_bankbackupid, lv_user);
-        libABFE498B_gf_AP_Triggers_bankItemsRead();
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libABFE498B_gt_AP_Triggers_bankItemsLoop_Init () {
-    libABFE498B_gt_AP_Triggers_bankItemsLoop = TriggerCreate("libABFE498B_gt_AP_Triggers_bankItemsLoop_Func");
-    TriggerAddEventTimeElapsed(libABFE498B_gt_AP_Triggers_bankItemsLoop, 0.0, c_timeGame);
-    TriggerAddEventTimePeriodic(libABFE498B_gt_AP_Triggers_bankItemsLoop, 0.25, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -11664,10 +11658,9 @@ void libABFE498B_gt_AP_Triggers_InitSoA_Init () {
 
 void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_PatchesInit_Init();
+    libABFE498B_gt_AP_Triggers_bankInit_Init();
     libABFE498B_gt_AP_Triggers_bankOptionsInit_Init();
-    libABFE498B_gt_AP_Triggers_bankOptionsLoop_Init();
     libABFE498B_gt_AP_Triggers_bankItemsInit_Init();
-    libABFE498B_gt_AP_Triggers_bankItemsLoop_Init();
     libABFE498B_gt_AP_Triggers_techTreeInit_Init();
     libABFE498B_gt_UpgradeProtossStructures_Init();
     libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init();

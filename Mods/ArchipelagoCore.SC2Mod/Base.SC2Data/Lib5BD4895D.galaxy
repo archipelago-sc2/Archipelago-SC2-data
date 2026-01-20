@@ -91,6 +91,37 @@ bool lib5BD4895D_gf_AP_Core_isLocationCollectable (int lp_locationIdLocal) {
     return lib5BD4895D_gv_aP_Core_locationCollectable[lp_locationIdLocal];
 }
 
+bool lib5BD4895D_gf_AP_Core_isLocationSent (int lp_locationIdLocal) {
+    // Automatic Variable Declarations
+    // Implementation
+    return lib5BD4895D_gv_aP_Core_locations_sent[lp_locationIdLocal];
+}
+
+void lib5BD4895D_gf_AP_Core_sendLocationLocal (int lp_locationIdLocal) {
+    // Variable Declarations
+    int lv_value;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if ((lp_locationIdLocal >= 0)) {
+        lib5BD4895D_gv_aP_Core_locationCollectable[lp_locationIdLocal] = false;
+    }
+
+    lv_value = lp_locationIdLocal + 1;;
+    if ((lib5BD4895D_gv_aP_Core_initFinished == true)) {
+        lib5BD4895D_gv_aP_Core_gameState = (lib5BD4895D_gv_aP_Core_gameState | Pow2I(lv_value));
+        BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankLocations, "Locations", "GameState", IntToString(lib5BD4895D_gv_aP_Core_gameState));
+        BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
+        if ((lp_locationIdLocal >= 0)) {
+            lib5BD4895D_gv_aP_Core_locations_sent[lp_locationIdLocal] = true;
+        }
+
+    }
+
+}
+
 void lib5BD4895D_gf_AP_Core_MapConfig_setAffectedPlayers (playergroup lp_players) {
     // Automatic Variable Declarations
     // Implementation
@@ -158,6 +189,25 @@ string lib5BD4895D_gf_AP_Core_getUserFaction () {
     return lib5BD4895D_gv_aP_Core_playerFactions[lib5BD4895D_gf_AP_Core_getUser()];
 }
 
+void lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop () {
+    // Variable Declarations
+    int lv_user;
+    int lv_bankbackupid;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_bankbackupid = BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankCoreOptions);
+    if ((lv_bankbackupid > 0)) {
+        lv_user = lib5BD4895D_gf_AP_Core_getUser();
+        BankRestore(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_user, lv_bankbackupid);
+        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_bankbackupid, lv_user);
+        lib5BD4895D_gf_AP_Core_bankCoreOptionsRead();
+    }
+
+}
+
 void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
     // Variable Declarations
     int lv_index;
@@ -173,26 +223,26 @@ void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
     lv_value = "";
 
     // Implementation
-    lv_section = "CoreOptions";
-    lv_key = "StartingResources";
+    lv_section = lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_SECTION_CORE_OPTIONS;
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_KEY_STARTING_RESOURCES;
     if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key);
         lib5BD4895D_gf_AP_Core_giveStartingResources(lv_value);
     }
 
-    lv_key = "FactionColors";
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_KEY_FACTION_COLORS;
     if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key);
         lib5BD4895D_gf_AP_Core_setFactionColorHandler(lv_value);
     }
 
-    lv_key = "UncollectedLocations";
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_KEY_UNCOLLECTED_LOCATIONS;
     if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key);
         lib5BD4895D_gf_AP_Core_uncollectedLocations(lv_value);
     }
 
-    lv_key = "LoadFinished";
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_KEY_LOAD_FINISHED;
     if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true)) {
         lv_loadFinishReceived = true;
     }
@@ -215,6 +265,25 @@ void lib5BD4895D_gf_AP_Core_bankCoreOptionsRead () {
 
 }
 
+void lib5BD4895D_gf_AP_Core_bankMessageLoop () {
+    // Variable Declarations
+    int lv_user;
+    int lv_bankbackupid;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_bankbackupid = BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage);
+    if ((lv_bankbackupid > 0)) {
+        lv_user = lib5BD4895D_gf_AP_Core_getUser();
+        BankRestore(lib5BD4895D_gv_aP_Core_bankMessage, lv_user, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage));
+        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankMessage, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage), lv_user);
+        lib5BD4895D_gf_AP_Core_bankMessageRead();
+    }
+
+}
+
 void lib5BD4895D_gf_AP_Core_bankMessageRead () {
     // Variable Declarations
     int lv_index;
@@ -232,10 +301,10 @@ void lib5BD4895D_gf_AP_Core_bankMessageRead () {
     lv_value = "";
 
     // Implementation
-    lv_section = "Messages";
+    lv_section = lib5BD4895D_gv_aP_Core_BANK_MESSAGES_SECTION_MESSAGES;
     lv_index = 1;
     for ( ; ( (autoE8B54C42_ai >= 0 && lv_index <= autoE8B54C42_ae) || (autoE8B54C42_ai < 0 && lv_index >= autoE8B54C42_ae) ) ; lv_index += autoE8B54C42_ai ) {
-        lv_key = ("Message" + IntToString(lv_index));
+        lv_key = (lib5BD4895D_gv_aP_Core_BANK_MESSAGES_KEY_MESSAGE + IntToString(lv_index));
         if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankMessage, lv_section, lv_key) == true)) {
             lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankMessage, lv_section, lv_key);
             lib5BD4895D_gf_AP_Core_sendChatMessage(1, lv_value);
@@ -244,35 +313,119 @@ void lib5BD4895D_gf_AP_Core_bankMessageRead () {
     }
 }
 
-bool lib5BD4895D_gf_AP_Core_isLocationSent (int lp_locationIdLocal) {
-    // Automatic Variable Declarations
-    // Implementation
-    return lib5BD4895D_gv_aP_Core_locations_sent[lp_locationIdLocal];
-}
-
-void lib5BD4895D_gf_AP_Core_sendLocationLocal (int lp_locationIdLocal) {
+void lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveLoop () {
     // Variable Declarations
-    int lv_value;
+    int lv_user;
+    int lv_bankbackupid;
 
     // Automatic Variable Declarations
     // Variable Initialization
 
     // Implementation
-    if ((lp_locationIdLocal >= 0)) {
-        lib5BD4895D_gv_aP_Core_locationCollectable[lp_locationIdLocal] = false;
+    lv_bankbackupid = BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive);
+    if ((lv_bankbackupid > 0)) {
+        lv_user = lib5BD4895D_gf_AP_Core_getUser();
+        BankRestore(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, lv_user, lv_bankbackupid);
+        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, lv_bankbackupid, lv_user);
+        lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead();
     }
 
-    lv_value = lp_locationIdLocal + 1;;
-    if ((lib5BD4895D_gv_aP_Core_initFinished == true)) {
-        lib5BD4895D_gv_aP_Core_gameState = (lib5BD4895D_gv_aP_Core_gameState | Pow2I(lv_value));
-        BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankLocations, "Locations", "GameState", IntToString(lib5BD4895D_gv_aP_Core_gameState));
-        BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
-        if ((lp_locationIdLocal >= 0)) {
-            lib5BD4895D_gv_aP_Core_locations_sent[lp_locationIdLocal] = true;
+}
+
+void lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead () {
+    // Variable Declarations
+    int lv_index;
+    string lv_section;
+    string lv_key;
+    string lv_value;
+    bool lv_loadFinishReceived;
+
+    // Automatic Variable Declarations
+    string auto7E46BB0C_val;
+
+    // Variable Initialization
+    lv_section = "";
+    lv_key = "";
+    lv_value = "";
+
+    // Implementation
+    lv_section = lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_RECEIVE_SECTION_TRADE;
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_RECEIVE_KEY_TRADE_RESPONSE;
+    if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, lv_section, lv_key) == true)) {
+        lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, lv_section, lv_key);
+        auto7E46BB0C_val = StringWord(lv_value, 1);
+        if (auto7E46BB0C_val == "Success") {
+            lib5BD4895D_gf_AP_Core_Trade_sendSuccess();
         }
-
+        else if (auto7E46BB0C_val == "FailConnection") {
+            lib5BD4895D_gf_AP_Core_Trade_sendFail("Void Trade failed: Could not communicate with server. Your units remain.");
+        }
+        else if (auto7E46BB0C_val == "FailNonAPUnits") {
+            lib5BD4895D_gf_AP_Core_Trade_sendFail("Void Trade rejected: Trade contains invalid units.");
+        }
+        else if (auto7E46BB0C_val == "ReceiveUnits") {
+            lib5BD4895D_gf_AP_Core_tradeReceiveUnit(lib5BD4895D_gf_AP_Core_getUser(), lv_value);
+        }
+        else {
+        }
     }
 
+}
+
+void lib5BD4895D_gf_AP_Core_bankVoidTradeSendUnits (unit lp_voidTrainUnit) {
+    // Variable Declarations
+    string lv_section;
+    string lv_key;
+    string lv_value;
+    unitgroup lv_cargo;
+
+    // Automatic Variable Declarations
+    unitgroup autoF4100BC7_g;
+    int autoF4100BC7_u;
+    unit autoF4100BC7_var;
+
+    // Variable Initialization
+    lv_section = "";
+    lv_key = "";
+    lv_value = "";
+    lv_cargo = UnitGroupEmpty();
+
+    // Implementation
+    lv_section = lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_SEND_SECTION_UNITS;
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_SEND_KEY_UNIT_TYPES;
+    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section);
+    lv_cargo = UnitCargoGroup(lp_voidTrainUnit);
+    autoF4100BC7_g = lv_cargo;
+    autoF4100BC7_u = UnitGroupCount(autoF4100BC7_g, c_unitCountAll);
+    for (;; autoF4100BC7_u -= 1) {
+        autoF4100BC7_var = UnitGroupUnitFromEnd(autoF4100BC7_g, autoF4100BC7_u);
+        if (autoF4100BC7_var == null) { break; }
+        lv_value = (lv_value + " " + (UnitGetType(autoF4100BC7_var)));
+    }
+    BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section, lv_key, lv_value);
+    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeSend);
+    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section);
+}
+
+void lib5BD4895D_gf_AP_Core_bankVoidTradeSendReceiveRequest (unit lp_voidTrainUnit, int lp_amount) {
+    // Variable Declarations
+    string lv_section;
+    string lv_key;
+    string lv_value;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_section = "";
+    lv_key = "";
+    lv_value = "";
+
+    // Implementation
+    lv_section = lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_SEND_SECTION_RECEIVE_REQUESTS;
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_SEND_KEY_RECEIVE_COUNT;
+    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section);
+    BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section, lv_key, IntToString(lp_amount));
+    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeSend);
+    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section);
 }
 
 void lib5BD4895D_gf_AP_Core_bankUpdatePrompt () {
@@ -399,208 +552,6 @@ bool auto_lib5BD4895D_gf_AP_Core_rainbowController_TriggerFunc (bool testConds, 
         lv_colorIndex = ModI((lv_colorIndex + 1), 7);
     }
     return true;
-}
-
-void lib5BD4895D_gf_AP_Core_Trade_setTradeUnit (unit lp_unit) {
-    // Automatic Variable Declarations
-    // Implementation
-    lib5BD4895D_gv_aP_Core_tradeUnit = lp_unit;
-    lib5BD4895D_gf_AP_Core_Trade_updateTradeCharges();
-}
-
-void lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges (int lp_amount) {
-    // Automatic Variable Declarations
-    // Implementation
-    lib5BD4895D_gv_aP_Core_tradeChargeCount = MaxI((lib5BD4895D_gv_aP_Core_tradeChargeCount + lp_amount), 0);
-    lib5BD4895D_gf_AP_Core_Trade_updateTradeCharges();
-}
-
-void lib5BD4895D_gf_AP_Core_Trade_updateTradeCharges () {
-    // Automatic Variable Declarations
-    // Implementation
-    libNtve_gf_SetBehaviorCount(lib5BD4895D_gv_aP_Core_tradeUnit, lib5BD4895D_gv_aP_Core_tradeChargeBehavior, lib5BD4895D_gv_aP_Core_tradeUnit, lib5BD4895D_gv_aP_Core_tradeChargeCount);
-    lib5BD4895D_gv_aP_Core_tradeChargeCount = MinI(lib5BD4895D_gv_aP_Core_tradeChargeCount, UnitBehaviorCount(lib5BD4895D_gv_aP_Core_tradeUnit, lib5BD4895D_gv_aP_Core_tradeChargeBehavior));
-}
-
-void lib5BD4895D_gf_AP_Core_Trade_sendSuccess () {
-    // Variable Declarations
-    fixed lv_totalsupply;
-
-    // Automatic Variable Declarations
-    unitgroup autoF323DC47_g;
-    int autoF323DC47_u;
-    unit autoF323DC47_var;
-
-    // Variable Initialization
-
-    // Implementation
-    lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), "Void Trade successful: Units sent!");
-    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
-        autoF323DC47_g = UnitCargoGroup(lib5BD4895D_gv_aP_Core_tradeUnit);
-        autoF323DC47_u = UnitGroupCount(autoF323DC47_g, c_unitCountAll);
-        for (;; autoF323DC47_u -= 1) {
-            autoF323DC47_var = UnitGroupUnitFromEnd(autoF323DC47_g, autoF323DC47_u);
-            if (autoF323DC47_var == null) { break; }
-            lv_totalsupply = (lv_totalsupply + UnitGetPropertyFixed(autoF323DC47_var, c_unitPropSuppliesUsed, c_unitPropCurrent));
-            UnitRemove(autoF323DC47_var);
-        }
-        lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges(FloorI(lv_totalsupply));
-        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
-    }
-
-}
-
-void lib5BD4895D_gf_AP_Core_Trade_sendFail (string lp_errorMessage) {
-    // Automatic Variable Declarations
-    // Implementation
-    lib5BD4895D_gf_AP_Core_sendChatMessage(lib5BD4895D_gf_AP_Core_getUser(), lp_errorMessage);
-    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
-        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
-    }
-
-}
-
-void lib5BD4895D_gf_AP_Core_tradeReceiveUnit (int lp_player, string lp_receivedString) {
-    // Variable Declarations
-    int lv_refunds;
-    int lv_word;
-    string lv_unitType;
-    int lv_unitCount;
-    int lv_totalCount;
-    int lv_mineralCost;
-    int lv_vespeneCost;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_refunds = StringToInt(StringWord(lp_receivedString, 2));
-    lv_word = 3;
-    lv_mineralCost = UnitTypeGetCost(lib5BD4895D_gv_aP_Core_tradeReceiveUnitType, c_unitCostMinerals);
-    lv_vespeneCost = UnitTypeGetCost(lib5BD4895D_gv_aP_Core_tradeReceiveUnitType, c_unitCostVespene);
-
-    // Implementation
-    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
-        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
-        while ((StringWord(lp_receivedString, lv_word) != null)) {
-            lv_unitType = (StringWord(lp_receivedString, lv_word));
-            lv_unitCount = StringToInt(StringWord(lp_receivedString, (lv_word + 1)));
-            lv_totalCount = (lv_totalCount + lv_unitCount);
-            UnitCargoCreate(lib5BD4895D_gv_aP_Core_tradeUnit, lv_unitType, lv_unitCount);
-            lv_word = (lv_word + 2);
-        }
-        PlayerModifyPropertyInt(UnitGetOwner(lib5BD4895D_gv_aP_Core_tradeUnit), c_playerPropMinerals, c_playerPropOperSubtract, (lv_mineralCost * lv_totalCount));
-        PlayerModifyPropertyInt(UnitGetOwner(lib5BD4895D_gv_aP_Core_tradeUnit), c_playerPropVespene, c_playerPropOperSubtract, (lv_vespeneCost * lv_totalCount));
-        lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges((0 - lv_totalCount));
-        if ((lv_totalCount == 0)) {
-            lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " failed: No units were found. Trade cost refunded."));
-        }
-        else {
-            if ((lv_refunds > 0)) {
-                lib5BD4895D_gf_AP_Core_sendChatMessage(lp_player, (lib5BD4895D_gv_aP_Core_tradeFlavorName + " partially successful: " + IntToString(lv_totalCount) + " units received, " + IntToString(lv_refunds) + " refunded."));
-            }
-            else {
-                lib5BD4895D_gf_AP_Core_sendChatMessage(lp_player, (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful: Units received!"));
-            }
-        }
-    }
-    else {
-        lib5BD4895D_gf_AP_Core_sendChatMessage(lp_player, (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful, but the trading structure couldn't be found. The received units are lost to the void..."));
-    }
-}
-
-void lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead () {
-    // Variable Declarations
-    int lv_index;
-    string lv_section;
-    string lv_key;
-    string lv_value;
-    bool lv_loadFinishReceived;
-
-    // Automatic Variable Declarations
-    string auto7E46BB0C_val;
-
-    // Variable Initialization
-    lv_section = "";
-    lv_key = "";
-    lv_value = "";
-
-    // Implementation
-    lv_section = "VoidTrade";
-    lv_key = "TradeResponse";
-    if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, lv_section, lv_key) == true)) {
-        lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, lv_section, lv_key);
-        auto7E46BB0C_val = StringWord(lv_value, 1);
-        if (auto7E46BB0C_val == "Success") {
-            lib5BD4895D_gf_AP_Core_Trade_sendSuccess();
-        }
-        else if (auto7E46BB0C_val == "FailConnection") {
-            lib5BD4895D_gf_AP_Core_Trade_sendFail("Void Trade failed: Could not communicate with server. Your units remain.");
-        }
-        else if (auto7E46BB0C_val == "FailNonAPUnits") {
-            lib5BD4895D_gf_AP_Core_Trade_sendFail("Void Trade rejected: Trade contains invalid units.");
-        }
-        else if (auto7E46BB0C_val == "ReceiveUnits") {
-            lib5BD4895D_gf_AP_Core_tradeReceiveUnit(lib5BD4895D_gf_AP_Core_getUser(), lv_value);
-        }
-        else {
-        }
-    }
-
-}
-
-void lib5BD4895D_gf_AP_Core_bankVoidTradeSendUnits (unit lp_voidTrainUnit) {
-    // Variable Declarations
-    string lv_section;
-    string lv_key;
-    string lv_value;
-    unitgroup lv_cargo;
-
-    // Automatic Variable Declarations
-    unitgroup autoF4100BC7_g;
-    int autoF4100BC7_u;
-    unit autoF4100BC7_var;
-
-    // Variable Initialization
-    lv_section = "";
-    lv_key = "";
-    lv_value = "";
-    lv_cargo = UnitGroupEmpty();
-
-    // Implementation
-    lv_section = "VoidTradeUnits";
-    lv_key = "UnitTypes";
-    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section);
-    lv_cargo = UnitCargoGroup(lp_voidTrainUnit);
-    autoF4100BC7_g = lv_cargo;
-    autoF4100BC7_u = UnitGroupCount(autoF4100BC7_g, c_unitCountAll);
-    for (;; autoF4100BC7_u -= 1) {
-        autoF4100BC7_var = UnitGroupUnitFromEnd(autoF4100BC7_g, autoF4100BC7_u);
-        if (autoF4100BC7_var == null) { break; }
-        lv_value = (lv_value + " " + (UnitGetType(autoF4100BC7_var)));
-    }
-    BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section, lv_key, lv_value);
-    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeSend);
-    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section);
-}
-
-void lib5BD4895D_gf_AP_Core_bankVoidTradeSendReceiveRequest (unit lp_voidTrainUnit, int lp_amount) {
-    // Variable Declarations
-    string lv_section;
-    string lv_key;
-    string lv_value;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_section = "";
-    lv_key = "";
-    lv_value = "";
-
-    // Implementation
-    lv_section = "VoidTradeReceiveRequest";
-    lv_key = "Count";
-    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section);
-    BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section, lv_key, IntToString(lp_amount));
-    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeSend);
-    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeSend, lv_section);
 }
 
 int lib5BD4895D_gf_AP_Core_getPlayerColorByIndex (int lp_colorIndex) {
@@ -832,6 +783,112 @@ void lib5BD4895D_gf_AP_Core_uncollectedLocations (string lp_inputString) {
 
         }
 
+    }
+}
+
+void lib5BD4895D_gf_AP_Core_Trade_setTradeUnit (unit lp_unit) {
+    // Automatic Variable Declarations
+    // Implementation
+    lib5BD4895D_gv_aP_Core_tradeUnit = lp_unit;
+    lib5BD4895D_gf_AP_Core_Trade_updateTradeCharges();
+}
+
+void lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges (int lp_amount) {
+    // Automatic Variable Declarations
+    // Implementation
+    lib5BD4895D_gv_aP_Core_tradeChargeCount = MaxI((lib5BD4895D_gv_aP_Core_tradeChargeCount + lp_amount), 0);
+    lib5BD4895D_gf_AP_Core_Trade_updateTradeCharges();
+}
+
+void lib5BD4895D_gf_AP_Core_Trade_updateTradeCharges () {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetBehaviorCount(lib5BD4895D_gv_aP_Core_tradeUnit, lib5BD4895D_gv_aP_Core_tradeChargeBehavior, lib5BD4895D_gv_aP_Core_tradeUnit, lib5BD4895D_gv_aP_Core_tradeChargeCount);
+    lib5BD4895D_gv_aP_Core_tradeChargeCount = MinI(lib5BD4895D_gv_aP_Core_tradeChargeCount, UnitBehaviorCount(lib5BD4895D_gv_aP_Core_tradeUnit, lib5BD4895D_gv_aP_Core_tradeChargeBehavior));
+}
+
+void lib5BD4895D_gf_AP_Core_Trade_sendSuccess () {
+    // Variable Declarations
+    fixed lv_totalsupply;
+
+    // Automatic Variable Declarations
+    unitgroup autoF323DC47_g;
+    int autoF323DC47_u;
+    unit autoF323DC47_var;
+
+    // Variable Initialization
+
+    // Implementation
+    lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), "Void Trade successful: Units sent!");
+    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
+        autoF323DC47_g = UnitCargoGroup(lib5BD4895D_gv_aP_Core_tradeUnit);
+        autoF323DC47_u = UnitGroupCount(autoF323DC47_g, c_unitCountAll);
+        for (;; autoF323DC47_u -= 1) {
+            autoF323DC47_var = UnitGroupUnitFromEnd(autoF323DC47_g, autoF323DC47_u);
+            if (autoF323DC47_var == null) { break; }
+            lv_totalsupply = (lv_totalsupply + UnitGetPropertyFixed(autoF323DC47_var, c_unitPropSuppliesUsed, c_unitPropCurrent));
+            UnitRemove(autoF323DC47_var);
+        }
+        lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges(FloorI(lv_totalsupply));
+        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
+    }
+
+}
+
+void lib5BD4895D_gf_AP_Core_Trade_sendFail (string lp_errorMessage) {
+    // Automatic Variable Declarations
+    // Implementation
+    lib5BD4895D_gf_AP_Core_sendChatMessage(lib5BD4895D_gf_AP_Core_getUser(), lp_errorMessage);
+    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
+        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
+    }
+
+}
+
+void lib5BD4895D_gf_AP_Core_tradeReceiveUnit (int lp_player, string lp_receivedString) {
+    // Variable Declarations
+    int lv_refunds;
+    int lv_word;
+    string lv_unitType;
+    int lv_unitCount;
+    int lv_totalCount;
+    int lv_mineralCost;
+    int lv_vespeneCost;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_refunds = StringToInt(StringWord(lp_receivedString, 2));
+    lv_word = 3;
+    lv_mineralCost = UnitTypeGetCost(lib5BD4895D_gv_aP_Core_tradeReceiveUnitType, c_unitCostMinerals);
+    lv_vespeneCost = UnitTypeGetCost(lib5BD4895D_gv_aP_Core_tradeReceiveUnitType, c_unitCostVespene);
+
+    // Implementation
+    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
+        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
+        while ((StringWord(lp_receivedString, lv_word) != null)) {
+            lv_unitType = (StringWord(lp_receivedString, lv_word));
+            lv_unitCount = StringToInt(StringWord(lp_receivedString, (lv_word + 1)));
+            lv_totalCount = (lv_totalCount + lv_unitCount);
+            UnitCargoCreate(lib5BD4895D_gv_aP_Core_tradeUnit, lv_unitType, lv_unitCount);
+            lv_word = (lv_word + 2);
+        }
+        PlayerModifyPropertyInt(UnitGetOwner(lib5BD4895D_gv_aP_Core_tradeUnit), c_playerPropMinerals, c_playerPropOperSubtract, (lv_mineralCost * lv_totalCount));
+        PlayerModifyPropertyInt(UnitGetOwner(lib5BD4895D_gv_aP_Core_tradeUnit), c_playerPropVespene, c_playerPropOperSubtract, (lv_vespeneCost * lv_totalCount));
+        lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges((0 - lv_totalCount));
+        if ((lv_totalCount == 0)) {
+            lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " failed: No units were found. Trade cost refunded."));
+        }
+        else {
+            if ((lv_refunds > 0)) {
+                lib5BD4895D_gf_AP_Core_sendChatMessage(lp_player, (lib5BD4895D_gv_aP_Core_tradeFlavorName + " partially successful: " + IntToString(lv_totalCount) + " units received, " + IntToString(lv_refunds) + " refunded."));
+            }
+            else {
+                lib5BD4895D_gf_AP_Core_sendChatMessage(lp_player, (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful: Units received!"));
+            }
+        }
+    }
+    else {
+        lib5BD4895D_gf_AP_Core_sendChatMessage(lp_player, (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful, but the trading structure couldn't be found. The received units are lost to the void..."));
     }
 }
 
@@ -2080,7 +2137,7 @@ bool lib5BD4895D_gt_AP_Core_mapLoadStart_Func (bool testConds, bool runActions) 
     DialogSetVisible(lib5BD4895D_gv_aP_Core_blackScreen_dialog, PlayerGroupAll(), true);
     if ((GameIsTestMap(false) == true)) {
         Wait(0.0625, c_timeGame);
-        TriggerExecute(lib5BD4895D_gt_AP_Core_loadFinished, true, false);
+        lib5BD4895D_gf_AP_Core_onLoadFinished();
     }
 
     return true;
@@ -2133,6 +2190,39 @@ void lib5BD4895D_gt_AP_Core_mapLoadEnd_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_bankInit
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_bankInit_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerExecute(lib5BD4895D_gt_AP_Core_bankCoreOptionsInit, true, false);
+    TriggerExecute(lib5BD4895D_gt_AP_Core_bankMessageInit, true, false);
+    TriggerExecute(lib5BD4895D_gt_AP_Core_bankLocationsInit, true, false);
+    TriggerExecute(lib5BD4895D_gt_AP_Core_bankUpdateInit, true, false);
+    TriggerExecute(lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit, true, false);
+    TriggerExecute(lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit, true, false);
+    while (true) {
+        lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop();
+        Wait(0.0625, c_timeGame);
+        lib5BD4895D_gf_AP_Core_bankMessageLoop();
+        Wait(0.0625, c_timeGame);
+        lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveLoop();
+        Wait(0.0625, c_timeGame);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_bankInit_Init () {
+    lib5BD4895D_gt_AP_Core_bankInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankInit_Func");
+    TriggerAddEventMapInit(lib5BD4895D_gt_AP_Core_bankInit);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Core_bankCoreOptionsInit
 //--------------------------------------------------------------------------------------------------
 bool lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Func (bool testConds, bool runActions) {
@@ -2149,7 +2239,7 @@ bool lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Func (bool testConds, bool runAc
 
     TriggerDebugSetTypeFile(1, "TriggerDebug.txt");
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_NAME, lv_user);
+    BankLoad(lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankCoreOptions = BankLastCreated();
     BankBackupLoopBegin(lib5BD4895D_gv_aP_Core_bankCoreOptions,false);
     for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
@@ -2164,40 +2254,6 @@ bool lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Func (bool testConds, bool runAc
 void lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Init () {
     lib5BD4895D_gt_AP_Core_bankCoreOptionsInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Func");
     TriggerAddEventMapInit(lib5BD4895D_gt_AP_Core_bankCoreOptionsInit);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_bankCoreOptionsLoop
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_bankCoreOptionsLoop_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_user;
-    int lv_bankbackupid;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_bankbackupid = BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankCoreOptions);
-    if ((lv_bankbackupid > 0)) {
-        lv_user = lib5BD4895D_gf_AP_Core_getUser();
-        BankRestore(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_user, lv_bankbackupid);
-        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_bankbackupid, lv_user);
-        lib5BD4895D_gf_AP_Core_bankCoreOptionsRead();
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_bankCoreOptionsLoop_Init () {
-    lib5BD4895D_gt_AP_Core_bankCoreOptionsLoop = TriggerCreate("lib5BD4895D_gt_AP_Core_bankCoreOptionsLoop_Func");
-    TriggerAddEventTimeElapsed(lib5BD4895D_gt_AP_Core_bankCoreOptionsLoop, 0.0, c_timeGame);
-    TriggerAddEventTimePeriodic(lib5BD4895D_gt_AP_Core_bankCoreOptionsLoop, 0.25, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2216,7 +2272,7 @@ bool lib5BD4895D_gt_AP_Core_bankMessageInit_Func (bool testConds, bool runAction
     }
 
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(lib5BD4895D_gv_aP_Core_BANK_MESSAGE_NAME, lv_user);
+    BankLoad(lib5BD4895D_gv_aP_Core_BANK_MESSAGES_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankMessage = BankLastCreated();
     BankBackupLoopBegin(lib5BD4895D_gv_aP_Core_bankMessage,false);
     for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
@@ -2234,47 +2290,18 @@ void lib5BD4895D_gt_AP_Core_bankMessageInit_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_bankMessageLoop
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_bankMessageLoop_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_bankbackupid;
-    int lv_user;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_bankbackupid = BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage);
-    if ((lv_bankbackupid > 0)) {
-        lv_user = lib5BD4895D_gf_AP_Core_getUser();
-        BankRestore(lib5BD4895D_gv_aP_Core_bankMessage, lv_user, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage));
-        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankMessage, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage), lv_user);
-        lib5BD4895D_gf_AP_Core_bankMessageRead();
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_bankMessageLoop_Init () {
-    lib5BD4895D_gt_AP_Core_bankMessageLoop = TriggerCreate("lib5BD4895D_gt_AP_Core_bankMessageLoop_Func");
-    TriggerAddEventTimePeriodic(lib5BD4895D_gt_AP_Core_bankMessageLoop, 0.25, c_timeGame);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Core_bankLocationsInit
 //--------------------------------------------------------------------------------------------------
 bool lib5BD4895D_gt_AP_Core_bankLocationsInit_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_user;
+    string lv_section;
+    string lv_key;
 
     // Automatic Variable Declarations
     // Variable Initialization
+    lv_section = "";
+    lv_key = "";
 
     // Actions
     if (!runActions) {
@@ -2282,10 +2309,12 @@ bool lib5BD4895D_gt_AP_Core_bankLocationsInit_Func (bool testConds, bool runActi
     }
 
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_NAME, lv_user);
+    BankLoad(lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankLocations = BankLastCreated();
-    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankLocations, "Locations");
-    BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankLocations, "Locations", "GameState", IntToString(lib5BD4895D_gv_aP_Core_gameState));
+    lv_section = lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_SECTION_LOCATIONS;
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_KEY_GAME_STATE;
+    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankLocations, lv_section);
+    BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankLocations, lv_section, lv_key, IntToString(lib5BD4895D_gv_aP_Core_gameState));
     BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
     return true;
 }
@@ -2312,7 +2341,7 @@ bool lib5BD4895D_gt_AP_Core_bankUpdateInit_Func (bool testConds, bool runActions
     }
 
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(lib5BD4895D_gv_aP_Core_BANK_UPDATE_NAME, lv_user);
+    BankLoad(lib5BD4895D_gv_aP_Core_BANK_UPDATE_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankUpdate = BankLastCreated();
     return true;
 }
@@ -2321,6 +2350,67 @@ bool lib5BD4895D_gt_AP_Core_bankUpdateInit_Func (bool testConds, bool runActions
 void lib5BD4895D_gt_AP_Core_bankUpdateInit_Init () {
     lib5BD4895D_gt_AP_Core_bankUpdateInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankUpdateInit_Func");
     TriggerAddEventMapInit(lib5BD4895D_gt_AP_Core_bankUpdateInit);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_bankVoidTradeSendInit
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_user;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_user = lib5BD4895D_gf_AP_Core_getUser();
+    BankLoad(lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_SEND_NAME, lv_user);
+    lib5BD4895D_gv_aP_Core_bankVoidTradeSend = BankLastCreated();
+    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeSend);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Init () {
+    lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Func");
+    TriggerAddEventMapInit(lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_bankVoidTradeReceiveInit
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_user;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_user = lib5BD4895D_gf_AP_Core_getUser();
+    BankLoad(lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_RECEIVE_FILE_NAME, lv_user);
+    lib5BD4895D_gv_aP_Core_bankVoidTradeReceive = BankLastCreated();
+    BankBackupLoopBegin(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive,false);
+    for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
+        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, BankBackupGetId(BankBackupLoopCurrent()), lv_user);
+    }
+    BankBackupLoopEnd();
+    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Init () {
+    lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Func");
+    TriggerAddEventMapInit(lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2511,372 +2601,6 @@ void lib5BD4895D_gt_AP_Core_tradeStart_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_tradeReceiveSuccess
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_tradeReceiveSuccess_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_refunds;
-    int lv_word;
-    string lv_unitType;
-    int lv_unitCount;
-    int lv_totalCount;
-    int lv_mineralCost;
-    int lv_vespeneCost;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_refunds = StringToInt(StringWord(EventChatMessage(false), 2));
-    lv_word = 3;
-    lv_mineralCost = UnitTypeGetCost(lib5BD4895D_gv_aP_Core_tradeReceiveUnitType, c_unitCostMinerals);
-    lv_vespeneCost = UnitTypeGetCost(lib5BD4895D_gv_aP_Core_tradeReceiveUnitType, c_unitCostVespene);
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
-        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
-        while ((StringWord(EventChatMessage(false), lv_word) != null)) {
-            lv_unitType = (StringWord(EventChatMessage(false), lv_word));
-            lv_unitCount = StringToInt(StringWord(EventChatMessage(false), (lv_word + 1)));
-            lv_totalCount = (lv_totalCount + lv_unitCount);
-            UnitCargoCreate(lib5BD4895D_gv_aP_Core_tradeUnit, lv_unitType, lv_unitCount);
-            lv_word = (lv_word + 2);
-        }
-        PlayerModifyPropertyInt(UnitGetOwner(lib5BD4895D_gv_aP_Core_tradeUnit), c_playerPropMinerals, c_playerPropOperSubtract, (lv_mineralCost * lv_totalCount));
-        PlayerModifyPropertyInt(UnitGetOwner(lib5BD4895D_gv_aP_Core_tradeUnit), c_playerPropVespene, c_playerPropOperSubtract, (lv_vespeneCost * lv_totalCount));
-        lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges((0 - lv_totalCount));
-        if ((lv_totalCount == 0)) {
-            lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " failed: No units were found. Trade cost refunded."));
-        }
-        else {
-            if ((lv_refunds > 0)) {
-                lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " partially successful: " + IntToString(lv_totalCount) + " units received, " + IntToString(lv_refunds) + " refunded."));
-            }
-            else {
-                lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful: Units received!"));
-            }
-        }
-    }
-    else {
-        lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), (lib5BD4895D_gv_aP_Core_tradeFlavorName + " successful, but the trading structure couldn't be found. The received units are lost to the void..."));
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_tradeReceiveSuccess_Init () {
-    lib5BD4895D_gt_AP_Core_tradeReceiveSuccess = TriggerCreate("lib5BD4895D_gt_AP_Core_tradeReceiveSuccess_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_tradeReceiveSuccess, c_playerAny, "?Trade ", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_tradeSendSuccess
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_tradeSendSuccess_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    fixed lv_totalsupply;
-
-    // Automatic Variable Declarations
-    unitgroup autoE5F28EA7_g;
-    int autoE5F28EA7_u;
-    unit autoE5F28EA7_var;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), StringSub(EventChatMessage(false), 14, StringLength(EventChatMessage(false))));
-    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
-        autoE5F28EA7_g = UnitCargoGroup(lib5BD4895D_gv_aP_Core_tradeUnit);
-        autoE5F28EA7_u = UnitGroupCount(autoE5F28EA7_g, c_unitCountAll);
-        for (;; autoE5F28EA7_u -= 1) {
-            autoE5F28EA7_var = UnitGroupUnitFromEnd(autoE5F28EA7_g, autoE5F28EA7_u);
-            if (autoE5F28EA7_var == null) { break; }
-            lv_totalsupply = (lv_totalsupply + UnitGetPropertyFixed(autoE5F28EA7_var, c_unitPropSuppliesUsed, c_unitPropCurrent));
-            UnitRemove(autoE5F28EA7_var);
-        }
-        lib5BD4895D_gf_AP_Core_Trade_changeTradeCharges(FloorI(lv_totalsupply));
-        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_tradeSendSuccess_Init () {
-    lib5BD4895D_gt_AP_Core_tradeSendSuccess = TriggerCreate("lib5BD4895D_gt_AP_Core_tradeSendSuccess_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_tradeSendSuccess, c_playerAny, "?TradeSuccess", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_tradeFail
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_tradeFail_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    string lv_message;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_message = StringSub(EventChatMessage(false), 11, StringLength(EventChatMessage(false)));
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_sendChatMessage(EventPlayer(), StringSub(EventChatMessage(false), 11, StringLength(EventChatMessage(false))));
-    if ((lib5BD4895D_gv_aP_Core_tradeUnit != null) && (UnitIsAlive(lib5BD4895D_gv_aP_Core_tradeUnit) == true) && (UnitOrder(lib5BD4895D_gv_aP_Core_tradeUnit, 0) != null)) {
-        UnitIssueOrder(lib5BD4895D_gv_aP_Core_tradeUnit, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_tradeFail_Init () {
-    lib5BD4895D_gt_AP_Core_tradeFail = TriggerCreate("lib5BD4895D_gt_AP_Core_tradeFail_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_tradeFail, c_playerAny, "?TradeFail", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_bankVoidTradeReceiveInit
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_user;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_RECEIVE_NAME, lv_user);
-    lib5BD4895D_gv_aP_Core_bankVoidTradeReceive = BankLastCreated();
-    BankBackupLoopBegin(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive,false);
-    for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
-        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, BankBackupGetId(BankBackupLoopCurrent()), lv_user);
-    }
-    BankBackupLoopEnd();
-    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Init () {
-    lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Func");
-    TriggerAddEventMapInit(lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_bankVoidTradeReceiveLoop
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveLoop_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_user;
-    int lv_bankbackupid;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_bankbackupid = BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive);
-    if ((lv_bankbackupid > 0)) {
-        lv_user = lib5BD4895D_gf_AP_Core_getUser();
-        BankRestore(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, lv_user, lv_bankbackupid);
-        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankVoidTradeReceive, lv_bankbackupid, lv_user);
-        lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveRead();
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveLoop_Init () {
-    lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveLoop = TriggerCreate("lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveLoop_Func");
-    TriggerAddEventTimePeriodic(lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveLoop, 0.25, c_timeGame);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_bankVoidTradeSendInit
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_user;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_SEND_NAME, lv_user);
-    lib5BD4895D_gv_aP_Core_bankVoidTradeSend = BankLastCreated();
-    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeSend);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Init () {
-    lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Func");
-    TriggerAddEventMapInit(lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_giveStartingResources
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_giveStartingResources_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_oldStartingMinerals;
-    int lv_oldStartingVespene;
-    int lv_oldBonusMaxSupply;
-    int lv_supplyAmount;
-    int lv_currentPlayer;
-
-    // Automatic Variable Declarations
-    playergroup autoED0BFB0D_g;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_oldStartingMinerals = lib5BD4895D_gv_aP_Core_BonusMinerals;
-    lv_oldStartingVespene = lib5BD4895D_gv_aP_Core_BonusVespene;
-    lv_oldBonusMaxSupply = lib5BD4895D_gv_aP_Core_BonusMaxSupply;
-    lib5BD4895D_gv_aP_Core_BonusMinerals = StringToInt(StringWord(EventChatMessage(false), 2));
-    lib5BD4895D_gv_aP_Core_BonusVespene = StringToInt(StringWord(EventChatMessage(false), 3));
-    lv_supplyAmount = StringToInt(StringWord(EventChatMessage(false), 4));
-    lib5BD4895D_gv_aP_Core_BonusMaxSupply = StringToInt(StringWord(EventChatMessage(false), 5));
-    autoED0BFB0D_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
-    lv_currentPlayer = -1;
-    while (true) {
-        lv_currentPlayer = PlayerGroupNextPlayer(autoED0BFB0D_g, lv_currentPlayer);
-        if (lv_currentPlayer < 0) { break; }
-        PlayerModifyPropertyInt(lv_currentPlayer, c_playerPropMinerals, c_playerPropOperAdd, (lib5BD4895D_gv_aP_Core_BonusMinerals - lv_oldStartingMinerals));
-        PlayerModifyPropertyInt(lv_currentPlayer, c_playerPropVespene, c_playerPropOperAdd, (lib5BD4895D_gv_aP_Core_BonusVespene - lv_oldStartingVespene));
-        lib5BD4895D_gf_AP_Core_giveBonusSupplies(lv_currentPlayer, lv_supplyAmount);
-        PlayerModifyPropertyInt(lv_currentPlayer, c_playerPropSuppliesLimit, c_playerPropOperAdd, (lib5BD4895D_gv_aP_Core_BonusMaxSupply - lv_oldBonusMaxSupply));
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_giveStartingResources_Init () {
-    lib5BD4895D_gt_AP_Core_giveStartingResources = TriggerCreate("lib5BD4895D_gt_AP_Core_giveStartingResources_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_giveStartingResources, c_playerAny, "?GiveResources", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_setFactionColorHandler
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_setFactionColorHandler_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    string lv_faction;
-    int lv_color;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_faction = "";
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_faction = StringWord(EventChatMessage(false), 2);
-    lv_color = StringToInt(StringWord(EventChatMessage(false), 3));
-    lib5BD4895D_gf_AP_Core_setFactionColor(lv_faction, lv_color);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_setFactionColorHandler_Init () {
-    lib5BD4895D_gt_AP_Core_setFactionColorHandler = TriggerCreate("lib5BD4895D_gt_AP_Core_setFactionColorHandler_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_setFactionColorHandler, c_playerAny, "?SetColor", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_uncollectedLocations
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_uncollectedLocations_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_index;
-    string lv_word;
-    int lv_locationIdLocal;
-
-    // Automatic Variable Declarations
-    int auto515366FE_ae;
-    const int auto515366FE_ai = 1;
-
-    // Variable Initialization
-    lv_word = "";
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto515366FE_ae = (2 + lib5BD4895D_gv_aP_Core_LOCATIONS_PER_MAP);
-    lv_index = 2;
-    for ( ; ( (auto515366FE_ai >= 0 && lv_index <= auto515366FE_ae) || (auto515366FE_ai < 0 && lv_index >= auto515366FE_ae) ) ; lv_index += auto515366FE_ai ) {
-        lv_word = StringWord(EventChatMessage(false), lv_index);
-        if ((lv_word != null) && (lv_word != "") && (lv_word != " ")) {
-            lv_locationIdLocal = StringToInt(lv_word);
-            if ((lv_locationIdLocal <= lib5BD4895D_gv_aP_Core_LOCATIONS_PER_MAP)) {
-                lib5BD4895D_gv_aP_Core_locationCollectable[lv_locationIdLocal] = true;
-            }
-
-        }
-
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_uncollectedLocations_Init () {
-    lib5BD4895D_gt_AP_Core_uncollectedLocations = TriggerCreate("lib5BD4895D_gt_AP_Core_uncollectedLocations_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_uncollectedLocations, c_playerAny, "?UncollectedLocations", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Core_loadFinished
-//--------------------------------------------------------------------------------------------------
-bool lib5BD4895D_gt_AP_Core_loadFinished_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lib5BD4895D_gf_AP_Core_onLoadFinished();
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib5BD4895D_gt_AP_Core_loadFinished_Init () {
-    lib5BD4895D_gt_AP_Core_loadFinished = TriggerCreate("lib5BD4895D_gt_AP_Core_loadFinished_Func");
-    TriggerAddEventChatMessage(lib5BD4895D_gt_AP_Core_loadFinished, c_playerAny, "?LoadFinished", false);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Core_objectiveTimerUpdate
 //--------------------------------------------------------------------------------------------------
 bool lib5BD4895D_gt_AP_Core_objectiveTimerUpdate_Func (bool testConds, bool runActions) {
@@ -2922,28 +2646,19 @@ void lib5BD4895D_gt_AP_Core_objectiveTimerUpdate_Init () {
 void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_mapLoadStart_Init();
     lib5BD4895D_gt_AP_Core_mapLoadEnd_Init();
+    lib5BD4895D_gt_AP_Core_bankInit_Init();
     lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Init();
-    lib5BD4895D_gt_AP_Core_bankCoreOptionsLoop_Init();
     lib5BD4895D_gt_AP_Core_bankMessageInit_Init();
-    lib5BD4895D_gt_AP_Core_bankMessageLoop_Init();
     lib5BD4895D_gt_AP_Core_bankLocationsInit_Init();
     lib5BD4895D_gt_AP_Core_bankUpdateInit_Init();
+    lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Init();
+    lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Init();
     lib5BD4895D_gt_AP_Core_showChatboxCinematic_Init();
     lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_updateChatbox_Init();
     lib5BD4895D_gt_AP_Core_rainbowColorsInit_Init();
     lib5BD4895D_gt_AP_Core_tradeStart_Init();
-    lib5BD4895D_gt_AP_Core_tradeReceiveSuccess_Init();
-    lib5BD4895D_gt_AP_Core_tradeSendSuccess_Init();
-    lib5BD4895D_gt_AP_Core_tradeFail_Init();
-    lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Init();
-    lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveLoop_Init();
-    lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Init();
-    lib5BD4895D_gt_AP_Core_giveStartingResources_Init();
-    lib5BD4895D_gt_AP_Core_setFactionColorHandler_Init();
-    lib5BD4895D_gt_AP_Core_uncollectedLocations_Init();
-    lib5BD4895D_gt_AP_Core_loadFinished_Init();
     lib5BD4895D_gt_AP_Core_objectiveTimerUpdate_Init();
 }
 
