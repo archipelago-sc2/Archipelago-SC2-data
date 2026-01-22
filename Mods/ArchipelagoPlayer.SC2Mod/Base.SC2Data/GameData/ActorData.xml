@@ -7830,6 +7830,8 @@
         <On Terms="WeaponStart.AP_PsionicShockwaveUpgrade.AttackStart; WeaponTargetElevation GE 20.000000" Send="AnimBracketStart Attack Attack,Superior,01"/>
         <On Terms="WeaponStart.AP_PsionicShockwaveUpgrade.AttackStart; WeaponTargetElevation LE -20.000000" Send="AnimBracketStart Attack Attack,Inferior,01"/>
         <On Terms="WeaponStart.AP_PsionicShockwaveUpgrade.AttackStart" Send="AnimBracketStart Attack Attack,01"/>
+        <Remove Terms="UnitDeathCustomize; ValidateUnit NotStructure; IsStatus InAir 1" Send="DeathCustomize AntiGravGeneric"/>
+        <Remove Terms="UnitDeathCustomize; ValidateUnit IsProtossUnit; IsStatus InAir 1" Send="DeathCustomize AntiGravProtoss"/>
         <Model value="Archon"/>
         <BuildModel value="Archon"/>
         <DeathArray index="Normal" ModelLink="ArchonDeath" SoundLink="Archon_Explode"/>
