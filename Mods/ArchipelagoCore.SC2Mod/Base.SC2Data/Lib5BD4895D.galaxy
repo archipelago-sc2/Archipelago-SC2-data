@@ -44,6 +44,9 @@ void lib5BD4895D_InitVariables () {
     lib5BD4895D_gv_aP_Core_Faction_NOVA = "nova";
     lib5BD4895D_gv_aP_Core_blackScreen_dialog = c_invalidDialogId;
     lib5BD4895D_gv_aP_Core_blackScreen = c_invalidDialogControlId;
+    for (init_i = 0; init_i <= lib5BD4895D_gv_aP_Core_BANK_MESSAGES_KEY_LIMIT; init_i += 1) {
+        lib5BD4895D_gv_aP_Core_bankMessageBuffer[init_i] = "";
+    }
     lib5BD4895D_gv_aP_Core_chatbox.lv_maxmessages = 50;
     lib5BD4895D_gv_aP_Core_chatbox.lv_mainframe = c_invalidDialogControlId;
     lib5BD4895D_gv_aP_Core_chatbox.lv_chatlabel = c_invalidDialogControlId;
@@ -189,6 +192,22 @@ string lib5BD4895D_gf_AP_Core_getUserFaction () {
     return lib5BD4895D_gv_aP_Core_playerFactions[lib5BD4895D_gf_AP_Core_getUser()];
 }
 
+int lib5BD4895D_gf_AP_Core_bankGetOldestBankBackupId (bank lp_bank) {
+    // Variable Declarations
+    int lv_id;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    BankBackupLoopBegin(lp_bank,true);
+    for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
+        lv_id = BankBackupGetId(BankBackupLoopCurrent());
+    }
+    BankBackupLoopEnd();
+    return lv_id;
+}
+
 void lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop () {
     // Variable Declarations
     int lv_user;
@@ -285,11 +304,24 @@ void lib5BD4895D_gf_AP_Core_bankMessageLoop () {
     // Variable Initialization
 
     // Implementation
-    lv_bankbackupid = BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage);
+    if ((lib5BD4895D_gv_aP_Core_bankMessageSkipReading == true)) {
+        return ;
+    }
+
+    lv_bankbackupid = lib5BD4895D_gf_AP_Core_bankGetOldestBankBackupId(lib5BD4895D_gv_aP_Core_bankMessage);
     if ((lv_bankbackupid > 0)) {
         lv_user = lib5BD4895D_gf_AP_Core_getUser();
-        BankRestore(lib5BD4895D_gv_aP_Core_bankMessage, lv_user, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage));
-        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankMessage, BankBackupGetLatestId(lib5BD4895D_gv_aP_Core_bankMessage), lv_user);
+        BankSectionRemove(lib5BD4895D_gv_aP_Core_bankMessage, lib5BD4895D_gv_aP_Core_BANK_MESSAGES_SECTION_MESSAGES);
+        BankRestore(lib5BD4895D_gv_aP_Core_bankMessage, lv_user, lv_bankbackupid);
+        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankMessage, lv_bankbackupid, lv_user);
+        if ((lib5BD4895D_gv_aP_Core_bankMessagePauseReading == true)) {
+            lib5BD4895D_gv_aP_Core_bankMessageSkipReading = true;
+            while (!((lib5BD4895D_gv_aP_Core_bankMessagePauseReading == false))) {
+                Wait(0.0625, c_timeGame);
+            }
+            lib5BD4895D_gv_aP_Core_bankMessageSkipReading = false;
+        }
+
         lib5BD4895D_gf_AP_Core_bankMessageRead();
     }
 
@@ -313,8 +345,10 @@ bool auto_lib5BD4895D_gf_AP_Core_bankMessageRead_TriggerFunc (bool testConds, bo
     string lv_value;
 
     // Automatic Variable Declarations
-    const int autoE8B54C42_ae = 50;
+    int autoE8B54C42_ae;
     const int autoE8B54C42_ai = 1;
+    int auto45070F65_ae;
+    const int auto45070F65_ai = 1;
 
     // Variable Initialization
     lv_section = "";
@@ -322,16 +356,31 @@ bool auto_lib5BD4895D_gf_AP_Core_bankMessageRead_TriggerFunc (bool testConds, bo
     lv_value = "";
 
     // Implementation
+    lib5BD4895D_gv_aP_Core_bankMessageBufferIndex = 0;
     lv_section = lib5BD4895D_gv_aP_Core_BANK_MESSAGES_SECTION_MESSAGES;
-    lv_index = 1;
+    autoE8B54C42_ae = (lib5BD4895D_gv_aP_Core_BANK_MESSAGES_KEY_LIMIT-0);
+    lv_index = 0;
     for ( ; ( (autoE8B54C42_ai >= 0 && lv_index <= autoE8B54C42_ae) || (autoE8B54C42_ai < 0 && lv_index >= autoE8B54C42_ae) ) ; lv_index += autoE8B54C42_ai ) {
         lv_key = (lib5BD4895D_gv_aP_Core_BANK_MESSAGES_KEY_MESSAGE + IntToString(lv_index));
         if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankMessage, lv_section, lv_key) == true)) {
             lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankMessage, lv_section, lv_key);
-            lib5BD4895D_gf_AP_Core_sendChatMessage(1, lv_value);
+            lib5BD4895D_gv_aP_Core_bankMessageBuffer[lib5BD4895D_gv_aP_Core_bankMessageBufferIndex] = lv_value;
+            lib5BD4895D_gv_aP_Core_bankMessageBufferIndex += 1;
         }
 
     }
+    if ((lib5BD4895D_gv_aP_Core_bankMessageBufferIndex <= 0)) {
+        return true;
+    }
+
+    lib5BD4895D_gv_aP_Core_bankMessagePauseReading = true;
+    auto45070F65_ae = (lib5BD4895D_gv_aP_Core_bankMessageBufferIndex-1);
+    lv_index = 0;
+    for ( ; ( (auto45070F65_ai >= 0 && lv_index <= auto45070F65_ae) || (auto45070F65_ai < 0 && lv_index >= auto45070F65_ae) ) ; lv_index += auto45070F65_ai ) {
+        lib5BD4895D_gf_AP_Core_sendChatMessage(1, lib5BD4895D_gv_aP_Core_bankMessageBuffer[lv_index]);
+        Wait(0.0625, c_timeGame);
+    }
+    lib5BD4895D_gv_aP_Core_bankMessagePauseReading = false;
     return true;
 }
 
