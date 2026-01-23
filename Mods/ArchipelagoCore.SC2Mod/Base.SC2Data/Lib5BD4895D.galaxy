@@ -200,9 +200,12 @@ int lib5BD4895D_gf_AP_Core_bankGetOldestBankBackupId (bank lp_bank) {
     // Variable Initialization
 
     // Implementation
-    BankBackupLoopBegin(lp_bank,true);
+    BankBackupLoopBegin(lp_bank,false);
     for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
-        lv_id = BankBackupGetId(BankBackupLoopCurrent());
+        if ((lv_id == 0)) {
+            lv_id = BankBackupGetId(BankBackupLoopCurrent());
+        }
+
     }
     BankBackupLoopEnd();
     return lv_id;
