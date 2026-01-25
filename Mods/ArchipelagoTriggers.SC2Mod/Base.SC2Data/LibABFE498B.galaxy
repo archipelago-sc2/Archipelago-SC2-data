@@ -31,6 +31,7 @@ void libABFE498B_InitVariables () {
     libABFE498B_gv_aP_Triggers_isBuild = true;
     libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss = libABFE498B_gv_aP_Triggers_MapConfig_MISSION_NOT_PROTOSS;
     libABFE498B_gv_aP_Triggers_MapConfig_SoAControllingPlayers = PlayerGroupSingle(1);
+    libABFE498B_gv_aP_Triggers_lastWarpedUnits = UnitGroupEmpty();
 }
 
 // Custom Script
@@ -11022,6 +11023,65 @@ void libABFE498B_gf_AP_Triggers_replaceUpgrade (int lp_player, string lp_oldUpgr
 
 }
 
+abilcmd libABFE498B_gf_AP_Triggers_getWarpAbilcmd (string lp_type) {
+    // Automatic Variable Declarations
+    // Implementation
+    return DataTableGetAbilCmd(true, ("AP_WarpInUnitType:" + (lp_type)));
+}
+
+unit libABFE498B_gf_AP_Triggers_getLastWarpedUnit () {
+    // Automatic Variable Declarations
+    // Implementation
+    return libABFE498B_gv_aP_Triggers_lastWarpedUnit;
+}
+
+unitgroup libABFE498B_gf_AP_Triggers_getLastWarpedUnits () {
+    // Automatic Variable Declarations
+    // Implementation
+    return UnitGroupCopy(libABFE498B_gv_aP_Triggers_lastWarpedUnits);
+}
+
+void libABFE498B_gf_AP_Triggers_warpInSetup (int lp_player, unit lp_warpGate) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((UnitIsValid(lp_warpGate) == true) && (UnitGetType(lp_warpGate) == "AP_SuperWarpGate")) {
+        libABFE498B_gv_aP_Triggers_warpInSuperWarpGate[lp_player] = lp_warpGate;
+    }
+    else {
+        UnitCreate(1, "AP_SuperWarpGate", c_unitCreateIgnorePlacement, lp_player, Point(0.0, 0.0), 270.0);
+        lp_warpGate = UnitLastCreated();
+        libABFE498B_gv_aP_Triggers_warpInSuperWarpGate[lp_player] = lp_warpGate;
+    }
+    libNtve_gf_MakeUnitUncommandable(lp_warpGate, true);
+    libNtve_gf_MakeUnitInvulnerable(lp_warpGate, true);
+    UnitSetState(lp_warpGate, c_unitStateHidden, true);
+    UnitSetState(lp_warpGate, c_unitStateSelectable, false);
+    UnitSetState(lp_warpGate, c_unitStateTargetable, false);
+}
+
+void libABFE498B_gf_AP_Triggers_warpInUnit (string lp_type, int lp_player, point lp_location, bool lp_providePower) {
+    // Automatic Variable Declarations
+    // Implementation
+    libABFE498B_gf_AP_Triggers_warpInAbilcmd(libABFE498B_gf_AP_Triggers_getWarpAbilcmd(lp_type), lp_player, lp_location, lp_providePower);
+}
+
+void libABFE498B_gf_AP_Triggers_warpInAbilcmd (abilcmd lp_warp, int lp_player, point lp_location, bool lp_providePower) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((UnitIsAlive(libABFE498B_gv_aP_Triggers_warpInSuperWarpGate[lp_player]) == false)) {
+        libABFE498B_gf_AP_Triggers_warpInSetup(lp_player, null);
+    }
+
+    TechTreeAbilityAllow(lp_player, lp_warp, true);
+    libNtve_gf_PauseUnit(libABFE498B_gv_aP_Triggers_warpInSuperWarpGate[lp_player], false);
+    if ((lp_providePower == true)) {
+        UnitCreate(1, "AP_PowerRadius1", c_unitCreateIgnorePlacement, lp_player, lp_location, 270.0);
+        UnitBehaviorAdd(UnitLastCreated(), "AP_TimedLife6s", UnitLastCreated(), 1);
+    }
+
+    UnitIssueOrder(libABFE498B_gv_aP_Triggers_warpInSuperWarpGate[lp_player], OrderTargetingPoint(lp_warp, lp_location), c_orderQueueReplace);
+}
+
 // Triggers
 //--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_PatchesInit
@@ -11682,6 +11742,79 @@ void libABFE498B_gt_AP_Triggers_InitSoA_Init () {
     libABFE498B_gt_AP_Triggers_InitSoA = TriggerCreate("libABFE498B_gt_AP_Triggers_InitSoA_Func");
 }
 
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_warpInInit
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_warpInInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    abilcmd lv_warp;
+    string lv_abil;
+    string lv_unitType;
+    int lv_abilIndex;
+    int lv_abilCmdIndex;
+
+    // Automatic Variable Declarations
+    const int auto0A2D3F3D_ae = libABFE498B_gv_aP_Triggers_warpInTrainAbilCount;
+    const int auto0A2D3F3D_ai = 1;
+    const int auto9905A330_ae = 19;
+    const int auto9905A330_ai = 1;
+
+    // Variable Initialization
+    lv_unitType = "";
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_abilIndex = 1;
+    for ( ; ( (auto0A2D3F3D_ai >= 0 && lv_abilIndex <= auto0A2D3F3D_ae) || (auto0A2D3F3D_ai < 0 && lv_abilIndex >= auto0A2D3F3D_ae) ) ; lv_abilIndex += auto0A2D3F3D_ai ) {
+        lv_abil = (StringWord(libABFE498B_gv_aP_Triggers_WARPIN_TRAIN_ABIL_IDs, lv_abilIndex));
+        TriggerAddEventUnitCreated(libABFE498B_gt_AP_Triggers_setLastWarpedUnit,null,lv_abil,null);
+        lv_abilCmdIndex = 0;
+        for ( ; ( (auto9905A330_ai >= 0 && lv_abilCmdIndex <= auto9905A330_ae) || (auto9905A330_ai < 0 && lv_abilCmdIndex >= auto9905A330_ae) ) ; lv_abilCmdIndex += auto9905A330_ai ) {
+            lv_warp = AbilityCommand(lv_abil, lv_abilCmdIndex);
+            lv_unitType = CatalogFieldValueGet(c_gameCatalogAbil, lv_abil, "InfoArray[" + IntToString(lv_abilCmdIndex) + "].Unit", c_playerAny);
+            if ((lv_unitType != "")) {
+                DataTableSetAbilCmd(true, ("AP_WarpInUnitType:" + lv_unitType), lv_warp);
+            }
+
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_warpInInit_Init () {
+    libABFE498B_gt_AP_Triggers_warpInInit = TriggerCreate("libABFE498B_gt_AP_Triggers_warpInInit_Func");
+    TriggerAddEventMapInit(libABFE498B_gt_AP_Triggers_warpInInit);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_setLastWarpedUnit
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((GameGetMissionTime() > libABFE498B_gv_aP_Triggers_lastWarpedTime)) {
+        libABFE498B_gv_aP_Triggers_lastWarpedTime = GameGetMissionTime();
+        libABFE498B_gv_aP_Triggers_lastWarpedUnits = UnitGroupEmpty();
+    }
+
+    libABFE498B_gv_aP_Triggers_lastWarpedUnit = EventUnitCreatedUnit();
+    UnitGroupAdd(libABFE498B_gv_aP_Triggers_lastWarpedUnits, EventUnitCreatedUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init () {
+    libABFE498B_gt_AP_Triggers_setLastWarpedUnit = TriggerCreate("libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Func");
+}
+
 void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_PatchesInit_Init();
     libABFE498B_gt_AP_Triggers_bankInit_Init();
@@ -11702,6 +11835,8 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
+    libABFE498B_gt_AP_Triggers_warpInInit_Init();
+    libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init();
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -19,6 +19,8 @@ const string libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_TERRAN_ITEMS = "TerranIte
 const string libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_ZERG_ITEMS = "ZergItems";
 const string libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_PROTOSS_ITEMS = "ProtossItems";
 const string libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_MISC_ITEMS = "MiscItems";
+const string libABFE498B_gv_aP_Triggers_WARPIN_TRAIN_ABIL_IDs = "AP_SuperWarpGateTrain AP_SuperWarpGateTrainRobotics AP_SuperWarpGateTrainStargate AP_SuperWarpGateTrainOther AP_SuperWarpGateTrainVanilla AP_SuperWarpGateTrainVanillaVoid";
+const int libABFE498B_gv_aP_Triggers_warpInTrainAbilCount = 6;
 
 // Variable Declarations
 int libABFE498B_gv_aP_Triggers_Option_genericUpgradeResearch;
@@ -127,6 +129,10 @@ bool[21] libABFE498B_gv_aP_Triggers_Protoss_has_Arbiter;
 bool[21] libABFE498B_gv_aP_Triggers_Protoss_has_Oracle;
 bool libABFE498B_gv_aP_Triggers_DebugMode;
 bool libABFE498B_gv_aP_Triggers_IsNoBuild;
+unit[21] libABFE498B_gv_aP_Triggers_warpInSuperWarpGate;
+unit libABFE498B_gv_aP_Triggers_lastWarpedUnit;
+unitgroup libABFE498B_gv_aP_Triggers_lastWarpedUnits;
+fixed libABFE498B_gv_aP_Triggers_lastWarpedTime;
 
 // Function Declarations
 void libABFE498B_gf_AP_Triggers_MapConfig_setMissionBuild (bool lp_build);
@@ -1066,6 +1072,12 @@ void libABFE498B_gf_AP_Triggers_startNoBuild (int lp_player);
 void libABFE498B_gf_AP_Triggers_pauseBuild (int lp_player, bool lp_pauseunpause);
 void libABFE498B_gf_AP_Triggers_resetBase (int lp_player);
 void libABFE498B_gf_AP_Triggers_replaceUpgrade (int lp_player, string lp_oldUpgrade, string lp_newUpgrade);
+abilcmd libABFE498B_gf_AP_Triggers_getWarpAbilcmd (string lp_type);
+unit libABFE498B_gf_AP_Triggers_getLastWarpedUnit ();
+unitgroup libABFE498B_gf_AP_Triggers_getLastWarpedUnits ();
+void libABFE498B_gf_AP_Triggers_warpInSetup (int lp_player, unit lp_warpGate);
+void libABFE498B_gf_AP_Triggers_warpInUnit (string lp_type, int lp_player, point lp_location, bool lp_providePower);
+void libABFE498B_gf_AP_Triggers_warpInAbilcmd (abilcmd lp_warp, int lp_player, point lp_location, bool lp_providePower);
 
 // Trigger Declarations
 trigger libABFE498B_gt_AP_Triggers_PatchesInit;
@@ -1087,6 +1099,8 @@ trigger libABFE498B_gt_AP_Triggers_Debug_updatePrompt;
 trigger libABFE498B_gt_AP_Triggers_Debug_reviveHeroes;
 trigger libABFE498B_gt_AP_Triggers_tradeStructureBuilt;
 trigger libABFE498B_gt_AP_Triggers_InitSoA;
+trigger libABFE498B_gt_AP_Triggers_warpInInit;
+trigger libABFE498B_gt_AP_Triggers_setLastWarpedUnit;
 
 // Library Initialization
 void libABFE498B_InitVariables ();
