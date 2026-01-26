@@ -27640,6 +27640,8 @@
         <On Terms="Behavior.AP_SurveillanceMode.Off" Send="AnimClear Spell"/>
         <On Terms="Behavior.AP_SurveillanceMode.On" Send="HostSiteOpsAdd ::Host AP_ScienceVesselSurveillanceModeRotator"/>
         <On Terms="Behavior.AP_SurveillanceMode.Off" Send="HostSiteOpsRemove ::Host AP_ScienceVesselSurveillanceModeRotator"/>
+        <On Terms="Behavior.AP_SurveillanceMode.On" Send="Create AP_ScienceVesselSurveillanceModeAttachment"/>
+        <On Terms="Behavior.AP_SurveillanceMode.Off" Target="AP_ScienceVesselSurveillanceModeAttachment" Send="AnimBracketStop BSD"/>
         <DeathArray index="Normal" ModelLink="AP_ScienceVesselDeath" SoundLink=""/>
         <DeathActorModel value="AP_ScienceVesselDeathModel"/>
         <PortraitModel value="AP_ScienceVesselPortrait"/>
@@ -46448,6 +46450,12 @@
         <Up value="0.000000,1.000000,0.000000"/>
         <IsLocal value="1"/>
     </CActorSiteOpRotationExplicit>
+    <CActorModel id="AP_ScienceVesselSurveillanceModeAttachment" parent="ModelAddition">
+        <On Terms="ActorCreation" Send="SetTintColor 50,255,50"/>
+        <On Terms="UnitBirth.AP_ScienceVessel.EditorPlaced" Send="Create"/>
+        <HostSiteOps Ops="SOpAttachTarget SOpMoveDownBy2"/>
+        <Scale value="0.300000"/>
+    </CActorModel>
     <CActorSiteOpRotator id="AP_ScienceVesselSurveillanceModeRotator">
         <EditorCategories value=""/>
         <LocalAxis value="0.000000,0.000000,1.000000"/>
