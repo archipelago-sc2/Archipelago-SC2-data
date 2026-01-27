@@ -11044,11 +11044,11 @@ unitgroup libABFE498B_gf_AP_Triggers_getLastWarpedUnits () {
 void libABFE498B_gf_AP_Triggers_warpInSetup (int lp_player, unit lp_warpGate) {
     // Automatic Variable Declarations
     // Implementation
-    if ((UnitIsValid(lp_warpGate) == true) && (UnitGetType(lp_warpGate) == "AP_SuperWarpGate")) {
+    if ((UnitIsValid(lp_warpGate) == true) && (UnitGetType(lp_warpGate) == "AP_SuperWarpGateSystem")) {
         libABFE498B_gv_aP_Triggers_warpInSuperWarpGate[lp_player] = lp_warpGate;
     }
     else {
-        UnitCreate(1, "AP_SuperWarpGate", c_unitCreateIgnorePlacement, lp_player, Point(0.0, 0.0), 270.0);
+        UnitCreate(1, "AP_SuperWarpGateSystem", c_unitCreateIgnorePlacement, lp_player, Point(0.0, 0.0), 270.0);
         lp_warpGate = UnitLastCreated();
         libABFE498B_gv_aP_Triggers_warpInSuperWarpGate[lp_player] = lp_warpGate;
     }
