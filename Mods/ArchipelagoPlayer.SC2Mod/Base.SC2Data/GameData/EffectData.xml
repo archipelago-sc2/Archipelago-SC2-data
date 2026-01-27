@@ -23533,45 +23533,39 @@
     </CEffectDamage>
     <CEffectSet id="AP_VoidRayAiurChronoBeamSlowSet">
         <EditorCategories value="Race:Protoss"/>
-        <EffectArray value="AP_VoidRayAiurChronoBeamStackingSlowSwitch"/>
-        <EffectArray value="AP_VoidRayAiurChronoBeamStackingSlowIterateTransport"/>
+        <EffectArray value="AP_VoidRayAiurChronoBeamSlowSwitch"/>
+        <EffectArray value="AP_VoidRayAiurChronoBeamSlowIterateTransport"/>
         <EffectArray value="AP_VoidRayAiurChronoShearAB"/>
         <EffectArray value="AP_VoidRayAiurChronoclysm"/>
     </CEffectSet>
-    <CEffectSwitch id="AP_VoidRayAiurChronoBeamStackingSlowSwitch">
+    <CEffectSwitch id="AP_VoidRayAiurChronoBeamSlowSwitch">
         <EditorCategories value="Race:Protoss"/>
-        <CaseArray Validator="AP_IsHeroic" Effect="AP_VoidRayAiurStackingSlowHeroicAB"/>
-        <CaseDefault value="AP_VoidRayAiurStackingSlowAB"/>
+        <CaseArray Validator="AP_IsHeroic" Effect="AP_VoidRayAiurSlowHeroicAB"/>
+        <CaseDefault value="AP_VoidRayAiurSlowAB"/>
     </CEffectSwitch>
-    <CEffectEnumTransport id="AP_VoidRayAiurChronoBeamStackingSlowIterateTransport">
+    <CEffectEnumTransport id="AP_VoidRayAiurChronoBeamSlowIterateTransport">
         <ValidatorArray value="AP_IsAnyBunker"/>
         <EditorCategories value="Race:Protoss"/>
-        <Effect value="AP_VoidRayAiurStackingSlowAB"/>
+        <Effect value="AP_VoidRayAiurSlowSwitch"/>
     </CEffectEnumTransport>
-    <CEffectApplyBehavior id="AP_VoidRayAiurStackingSlowAB">
+    <CEffectApplyBehavior id="AP_VoidRayAiurSlowAB">
         <EditorCategories value="Race:Protoss"/>
-        <Count value="2"/>
-        <Behavior value="AP_VoidRayAiurStackingSlow"/>
+        <Behavior value="AP_VoidRayAiurSlow"/>
     </CEffectApplyBehavior>
-    <CEffectRemoveBehavior id="AP_VoidRayAiurStackingSlowRB">
+    <CEffectApplyBehavior id="AP_VoidRayAiurSlowHeroicAB">
         <EditorCategories value="Race:Protoss"/>
-        <BehaviorLink value="AP_VoidRayAiurStackingSlow"/>
-    </CEffectRemoveBehavior>
-    <CEffectApplyBehavior id="AP_VoidRayAiurStackingSlowHeroicAB">
-        <EditorCategories value="Race:Protoss"/>
-        <Behavior value="AP_VoidRayAiurStackingSlowHeroic"/>
+        <Behavior value="AP_VoidRayAiurSlowHeroic"/>
     </CEffectApplyBehavior>
-    <CEffectRemoveBehavior id="AP_VoidRayAiurStackingSlowHeroicRB">
+    <CEffectApplyBehavior id="AP_VoidRayAiurChronoclysmSlowAB">
         <EditorCategories value="Race:Protoss"/>
-        <BehaviorLink value="AP_VoidRayAiurStackingSlowHeroic"/>
-    </CEffectRemoveBehavior>
-    <CEffectSet id="AP_VoidRayAiurRemoveStackingSlowSet">
+        <Behavior value="AP_VVoidRayAiurChronoclysmSlow"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_VoidRayAiurChronoclysmSlowHeroicAB">
         <EditorCategories value="Race:Protoss"/>
-        <EffectArray value="AP_VoidRayAiurStackingSlowRB"/>
-        <EffectArray value="AP_VoidRayAiurStackingSlowHeroicRB"/>
-    </CEffectSet>
+        <Behavior value="AP_VoidRayAiurChronoclysmSlowHeroic"/>
+    </CEffectApplyBehavior>
     <CEffectApplyBehavior id="AP_VoidRayAiurChronoShearAB">
-        <ValidatorArray index="0" value="AP_HaveVoidRayAiurChronoShearAndTargetHasGE24ChronoBeamStacks"/>
+        <ValidatorArray index="0" value="AP_HaveVoidRayAiurChronoShearAndTargetIsStructure"/>
         <EditorCategories value="Race:Protoss"/>
         <Behavior value="AP_VoidRayAiurChronoShear"/>
     </CEffectApplyBehavior>
@@ -23585,19 +23579,19 @@
     </CEffectEnumArea>
     <CEffectSet id="AP_VoidRayAiurChronoclysmSlowSet">
         <EditorCategories value="Race:Protoss"/>
-        <ValidatorArray value="AP_NotHeroic"/>
-        <EffectArray value="AP_VoidRayAiurStackingSlowHalfRateAB"/>
-        <EffectArray value="AP_VoidRayAiurChronoBeamStackingSlowHalfRateIterateTransport"/>
+        <EffectArray value="AP_VoidRayAiurChronoclysmSlowSwitch"/>
+        <EffectArray value="AP_VoidRayAiurChronoclysmSlowIterateTransport"/>
         <EffectArray value="AP_VoidRayAiurChronoShearAB"/>
     </CEffectSet>
-    <CEffectApplyBehavior id="AP_VoidRayAiurStackingSlowHalfRateAB">
+    <CEffectSwitch id="AP_VoidRayAiurChronoclysmSlowSwitch">
         <EditorCategories value="Race:Protoss"/>
-        <Behavior value="AP_VoidRayAiurStackingSlow"/>
-    </CEffectApplyBehavior>
-    <CEffectEnumTransport id="AP_VoidRayAiurChronoBeamStackingSlowHalfRateIterateTransport">
+        <CaseArray Validator="AP_IsHeroic" Effect="AP_VoidRayAiurChronoclysmSlowHeroicAB"/>
+        <CaseDefault value="AP_VoidRayAiurChronoclysmSlowAB"/>
+    </CEffectSwitch>
+    <CEffectEnumTransport id="AP_VoidRayAiurChronoclysmSlowIterateTransport">
         <ValidatorArray value="AP_IsAnyBunker"/>
         <EditorCategories value="Race:Protoss"/>
-        <Effect value="AP_VoidRayAiurStackingSlowHalfRateAB"/>
+        <Effect value="AP_VoidRayAiurChronoclysmSlowSwitch"/>
     </CEffectEnumTransport>
     <CEffectSwitch id="AP_TradeStructureHideExtrasSet">
         <CaseArray Validator="AP_IsBroodlord" Effect="AP_BroodlordHideExtras"/>

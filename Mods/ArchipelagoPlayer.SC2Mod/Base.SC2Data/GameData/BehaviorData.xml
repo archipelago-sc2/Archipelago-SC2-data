@@ -10441,38 +10441,38 @@
         <Requirements value="AP_HaveArchonSuicide"/>
         <FinalEffect value="AP_ArchonSuicideSearch"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_VoidRayAiurStackingSlow">
+    <CBehaviorBuff id="AP_VoidRayAiurSlow">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-protoss-timebomb.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
-        <Duration value="3"/>
-        <BuffFlags index="RefreshStack" value="1"/>
-        <MaxStackCount value="24"/>
-        <Modification MoveSpeedMultiplier="0.95" AttackSpeedMultiplier="0.97">
-            <RateMultiplierArray index="Charge" value="0.95"/>
-            <RateMultiplierArray index="Cooldown" value="0.95"/>
-            <RateMultiplierArray index="Morph" value="0.95"/>
-            <RateMultiplierArray index="Progress" value="0.95"/>
-            <RateMultiplierArray index="Queueable" value="0.95"/>
-            <RateMultiplierArray index="Spawn" value="0.95"/>
-            <RateMultiplierArray index="Creep" value="0.95"/>
-        </Modification>
+        <Duration value="1"/>
+        <MaxStackCount value="1"/>
+        <Modification TimeScale="0.5"/>
+        <StackAlias value="AP_VoidRayAiurSlow"/>
+        <StackAliasPriority value="3"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_VoidRayAiurStackingSlowHeroic" parent="AP_VoidRayAiurStackingSlow">
-        <MaxStackCount value="12"/>
+    <CBehaviorBuff id="AP_VoidRayAiurSlowHeroic" parent="AP_VoidRayAiurSlow">
+        <Modification TimeScale="0.7"/>
+        <StackAliasPriority value="2"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_VoidRayAiurChronoclysmSlow" parent="AP_VoidRayAiurSlow">
+        <Modification TimeScale="0.75"/>
+        <StackAliasPriority value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_VoidRayAiurChronoclysmSlowHeroic" parent="AP_VoidRayAiurSlow">
+        <Modification TimeScale="0.85"/>
+        <StackAliasPriority value="0"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_VoidRayAiurChronoShear">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-protoss-oracle-stasiscalibration.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
-        <Duration value="5"/>
-        <Period value="0.6"/>
-        <PeriodicEffect value="AP_VoidRayAiurChronoBeamStackingSlowSwitch"/>
-        <Modification AttackSpeedMultiplier="0.75" />
+        <Duration value="1"/>
+        <MaxStackCount value="1"/>
         <DamageResponse ModifyFraction="1.5">
             <Chance value="1"/>
         </DamageResponse>
-        <ExpireEffect value="AP_VoidRayAiurRemoveStackingSlowSet"/>
+        <RemoveValidatorArray value="IsStructure"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_TradeCharge">
         <InfoIcon value="Assets\Textures\btn-tips-credit.dds"/>
