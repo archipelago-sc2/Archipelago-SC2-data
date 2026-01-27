@@ -44469,17 +44469,22 @@
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
         <Model value="AP_FenixWarbringerColossusSlowModelStructure"/>
     </CActorModel>
-    <CActorModel id="AP_VoidRayAiurChronoShearModel" parent="ModelAnimationStyleContinuous">
+    <CActorModel id="AP_VoidRayAiurSlowModel" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.AP_VoidRayAiurSlow.On" Send="Create"/>
         <On Terms="Behavior.AP_VoidRayAiurSlowHeroic.On" Send="Create"/>
-        <On Terms="Behavior.AP_VoidRayAiurChronoclysmSlow.On" Send="Create"/>
-        <On Terms="Behavior.AP_VoidRayAiurChronoclysmSlowHeroic.On" Send="Create"/>
-        <On Terms="BehaviorLevel.AP_VoidRayAiurSlow.Start" Send="SetOpacity 1.0000"/>
-        <On Terms="BehaviorLevel.AP_VoidRayAiurSlowHeroic.Start" Send="SetOpacity 1.0000"/>
-        <On Terms="BehaviorLevel.AP_VoidRayAiurChronoclysmSlow.Start" Send="SetOpacity 0.5000"/>
-        <On Terms="BehaviorLevel.AP_VoidRayAiurChronoclysmSlowHeroic.Start" Send="SetOpacity 0.5000"/>
         <On Terms="Behavior.AP_VoidRayAiurSlow.Off" Send="AnimBracketStop BSD"/>
         <On Terms="Behavior.AP_VoidRayAiurSlowHeroic.Off" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <AutoScaleFactor value="1.000000"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <Model value="AP_FenixWarbringerColossusSlowModel"/>
+    </CActorModel>
+    <CActorModel id="AP_VoidRayAiurChronoclysmSlowModel" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.AP_VoidRayAiurChronoclysmSlow.On" Send="Create"/>
+        <On Terms="Behavior.AP_VoidRayAiurChronoclysmSlowHeroic.On" Send="Create"/>
         <On Terms="Behavior.AP_VoidRayAiurChronoclysmSlow.Off" Send="AnimBracketStop BSD"/>
         <On Terms="Behavior.AP_VoidRayAiurChronoclysmSlowHeroic.Off" Send="AnimBracketStop BSD"/>
         <Host Subject="_Selectable"/>
