@@ -437,7 +437,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Zerg";
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
         TriggerExecute(gt_onDifficultyBrutal, true, false);
         libABFE498B_gf_AP_Triggers_giveTerranDefaultTech(gv_p1_USER);
     }
@@ -1166,6 +1166,7 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     UnitSetInfoText(UnitFromId(105), StringExternal("Param/Value/109B7653"), StringToText(""), StringToText(""));
     UnitSetInfoText(UnitFromId(110), StringExternal("Param/Value/92F9BC44"), StringToText(""), StringToText(""));
     UnitSetInfoText(UnitFromId(158), StringExternal("Param/Value/0EE513C6"), StringExternal("Param/Value/63EABF07"), StringToText(""));
+    libABFE498B_gf_AP_Triggers_warpInSetup(gv_p1_USER, UnitFromId(951815910));
     return true;
 }
 
@@ -2672,11 +2673,13 @@ bool gt_RiksvilleTownSquareDropPods_Func (bool testConds, bool runActions) {
     }
     else if (auto22CE558E_val == "Prot") {
         Wait(0.1, c_timeGame);
-        UnitIssueOrder(UnitFromId(455823782), OrderTargetingPoint(AbilityCommand("AP_SuperWarpGateTrain", 1), PointFromId(113)), c_orderQueueReplace);
-        Wait(0.5, c_timeGame);
-        UnitIssueOrder(UnitFromId(455823782), OrderTargetingPoint(AbilityCommand("AP_SuperWarpGateTrain", 1), PointFromId(1671)), c_orderQueueReplace);
+        libABFE498B_gf_AP_Triggers_warpInUnit("AP_StalkerShakuras", gv_p1_USER, PointFromId(113), false);
         Wait(0.0625, c_timeGame);
-        UnitGroupAddUnitGroup(gv_dropGroup, UnitGroup("AP_StalkerShakuras", gv_p1_USER, RegionEntireMap(), UnitFilter(0, (1 << (c_targetFilterUnderConstruction - 32)), (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
+        UnitGroupAdd(gv_dropGroup, libABFE498B_gf_AP_Triggers_getLastWarpedUnit());
+        Wait(0.5, c_timeGame);
+        libABFE498B_gf_AP_Triggers_warpInUnit("AP_StalkerShakuras", gv_p1_USER, PointFromId(1671), false);
+        Wait(0.0625, c_timeGame);
+        UnitGroupAdd(gv_dropGroup, libABFE498B_gf_AP_Triggers_getLastWarpedUnit());
         if (((PlayerDifficulty(1) == 1) == true)) {
             auto2C4D6763_g = gv_dropGroup;
             auto2C4D6763_u = UnitGroupCount(auto2C4D6763_g, c_unitCountAll);
@@ -6155,9 +6158,6 @@ void gt_IntroDropshipcleanup_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_IntroWarpIn_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
-    unitgroup auto98CD5D68_g;
-    int auto98CD5D68_u;
-    unit auto98CD5D68_var;
     unitgroup autoC0408354_g;
     int autoC0408354_u;
     unit autoC0408354_var;
@@ -6169,31 +6169,20 @@ bool gt_IntroWarpIn_Func (bool testConds, bool runActions) {
 
     VisRevealArea(gv_p1_USER, RegionFromId(7), 5.0, false);
     Wait(2.0, c_timeGame);
-    UnitIssueOrder(UnitFromId(455823782), OrderTargetingPoint(AbilityCommand("AP_SuperWarpGateTrain", 1), PointFromId(415)), c_orderQueueReplace);
+    libABFE498B_gf_AP_Triggers_warpInUnit("AP_StalkerShakuras", gv_p1_USER, PointFromId(415), false);
     Wait(0.0625, c_timeGame);
-    UnitGroupAddUnitGroup(gv_raynorsMarines, UnitGroup("AP_StalkerShakuras", gv_p1_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
-    auto98CD5D68_g = gv_raynorsMarines;
-    auto98CD5D68_u = UnitGroupCount(auto98CD5D68_g, c_unitCountAll);
-    for (;; auto98CD5D68_u -= 1) {
-        auto98CD5D68_var = UnitGroupUnitFromEnd(auto98CD5D68_g, auto98CD5D68_u);
-        if (auto98CD5D68_var == null) { break; }
-        UnitSetFacing(auto98CD5D68_var, -25.0, 0.0);
-        if (((PlayerDifficulty(1) == 1) == true)) {
-            UnitSetInfoText(auto98CD5D68_var, StringToText(""), StringExternal("Param/Value/A846EABC"), StringToText(""));
-            UnitSetState(auto98CD5D68_var, c_unitStateTooltipable, true);
-        }
-
-    }
+    UnitGroupAdd(gv_raynorsMarines, libABFE498B_gf_AP_Triggers_getLastWarpedUnit());
+    UnitSetFacing(libABFE498B_gf_AP_Triggers_getLastWarpedUnit(), -25.0, 0.0);
     Wait(0.5, c_timeGame);
-    UnitIssueOrder(UnitFromId(455823782), OrderTargetingPoint(AbilityCommand("AP_SuperWarpGateTrain", 1), PointFromId(581)), c_orderQueueReplace);
+    libABFE498B_gf_AP_Triggers_warpInUnit("AP_StalkerShakuras", gv_p1_USER, PointFromId(581), false);
     Wait(0.0625, c_timeGame);
-    UnitGroupAddUnitGroup(gv_raynorsMarines, UnitGroup("AP_StalkerShakuras", gv_p1_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
+    UnitGroupAdd(gv_raynorsMarines, libABFE498B_gf_AP_Triggers_getLastWarpedUnit());
+    UnitSetFacing(libABFE498B_gf_AP_Triggers_getLastWarpedUnit(), -25.0, 0.0);
     autoC0408354_g = gv_raynorsMarines;
     autoC0408354_u = UnitGroupCount(autoC0408354_g, c_unitCountAll);
     for (;; autoC0408354_u -= 1) {
         autoC0408354_var = UnitGroupUnitFromEnd(autoC0408354_g, autoC0408354_u);
         if (autoC0408354_var == null) { break; }
-        UnitSetFacing(autoC0408354_var, -25.0, 0.0);
         if (((PlayerDifficulty(1) == 1) == true)) {
             UnitSetInfoText(autoC0408354_var, StringToText(""), StringExternal("Param/Value/B0D6BAD9"), StringToText(""));
             UnitSetState(autoC0408354_var, c_unitStateTooltipable, true);
@@ -6201,9 +6190,9 @@ bool gt_IntroWarpIn_Func (bool testConds, bool runActions) {
 
     }
     Wait(0.5, c_timeGame);
-    UnitIssueOrder(UnitFromId(455823782), OrderTargetingPoint(AbilityCommand("AP_SuperWarpGateTrain", 4), PointFromId(737)), c_orderQueueReplace);
+    libABFE498B_gf_AP_Triggers_warpInUnit("AP_StalkerShakurasHero", gv_p1_USER, PointFromId(737), false);
     Wait(0.0625, c_timeGame);
-    gv_raynor = UnitGroupUnit(UnitGroup("AP_StalkerShakurasHero", gv_p1_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), 1);
+    gv_raynor = libABFE498B_gf_AP_Triggers_getLastWarpedUnit();
     UnitSetFacing(gv_raynor, -25.0, 0.0);
     if (((PlayerDifficulty(1) == 1) == true)) {
         UnitSetInfoText(gv_raynor, StringToText(""), StringExternal("Param/Value/BEC56A19"), StringToText(""));
