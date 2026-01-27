@@ -31,6 +31,7 @@ void libABFE498B_InitVariables () {
     libABFE498B_gv_aP_Triggers_isBuild = true;
     libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss = libABFE498B_gv_aP_Triggers_MapConfig_MISSION_NOT_PROTOSS;
     libABFE498B_gv_aP_Triggers_MapConfig_SoAControllingPlayers = PlayerGroupSingle(1);
+    libABFE498B_gv_aP_Triggers_warpInSuperWarpGates = UnitGroupEmpty();
     libABFE498B_gv_aP_Triggers_lastWarpedUnits = UnitGroupEmpty();
 }
 
@@ -11054,9 +11055,13 @@ void libABFE498B_gf_AP_Triggers_warpInSetup (int lp_player, unit lp_warpGate) {
     }
     libNtve_gf_MakeUnitUncommandable(lp_warpGate, true);
     libNtve_gf_MakeUnitInvulnerable(lp_warpGate, true);
+    libNtve_gf_ShowHideUnit(lp_warpGate, false);
     UnitSetState(lp_warpGate, c_unitStateHidden, true);
     UnitSetState(lp_warpGate, c_unitStateSelectable, false);
     UnitSetState(lp_warpGate, c_unitStateTargetable, false);
+    libNtve_gf_SendActorMessageToUnit(lp_warpGate, "ModelSwap Invisible");
+    UnitGroupAdd(libABFE498B_gv_aP_Triggers_warpInSuperWarpGates, lp_warpGate);
+    TriggerEnable(libABFE498B_gt_AP_Triggers_warpGateSafety, true);
 }
 
 void libABFE498B_gf_AP_Triggers_warpInUnit (string lp_type, int lp_player, point lp_location, bool lp_providePower) {
@@ -11774,6 +11779,7 @@ bool libABFE498B_gt_AP_Triggers_warpInInit_Func (bool testConds, bool runActions
         lv_abilCmdIndex = 0;
         for ( ; ( (auto9905A330_ai >= 0 && lv_abilCmdIndex <= auto9905A330_ae) || (auto9905A330_ai < 0 && lv_abilCmdIndex >= auto9905A330_ae) ) ; lv_abilCmdIndex += auto9905A330_ai ) {
             lv_warp = AbilityCommand(lv_abil, lv_abilCmdIndex);
+            TechTreeAbilityAllow(lib5BD4895D_gf_AP_Core_getUser(), lv_warp, true);
             lv_unitType = CatalogFieldValueGet(c_gameCatalogAbil, lv_abil, "InfoArray[" + IntToString(lv_abilCmdIndex) + "].Unit", c_playerAny);
             if ((lv_unitType != "")) {
                 DataTableSetAbilCmd(true, ("AP_WarpInUnitType:" + lv_unitType), lv_warp);
@@ -11815,6 +11821,40 @@ void libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init () {
     libABFE498B_gt_AP_Triggers_setLastWarpedUnit = TriggerCreate("libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Func");
 }
 
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_warpGateSafety
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_warpGateSafety_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto66BFACB4_g;
+    int auto66BFACB4_u;
+    unit auto66BFACB4_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto66BFACB4_g = libABFE498B_gv_aP_Triggers_warpInSuperWarpGates;
+    auto66BFACB4_u = UnitGroupCount(auto66BFACB4_g, c_unitCountAll);
+    for (;; auto66BFACB4_u -= 1) {
+        auto66BFACB4_var = UnitGroupUnitFromEnd(auto66BFACB4_g, auto66BFACB4_u);
+        if (auto66BFACB4_var == null) { break; }
+        if ((libNtve_gf_UnitIsHidden(auto66BFACB4_var) == false)) {
+            libNtve_gf_ShowHideUnit(auto66BFACB4_var, false);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_warpGateSafety_Init () {
+    libABFE498B_gt_AP_Triggers_warpGateSafety = TriggerCreate("libABFE498B_gt_AP_Triggers_warpGateSafety_Func");
+    TriggerEnable(libABFE498B_gt_AP_Triggers_warpGateSafety, false);
+    TriggerAddEventTimePeriodic(libABFE498B_gt_AP_Triggers_warpGateSafety, 1.0, c_timeGame);
+}
+
 void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_PatchesInit_Init();
     libABFE498B_gt_AP_Triggers_bankInit_Init();
@@ -11837,6 +11877,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
     libABFE498B_gt_AP_Triggers_warpInInit_Init();
     libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init();
+    libABFE498B_gt_AP_Triggers_warpGateSafety_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
