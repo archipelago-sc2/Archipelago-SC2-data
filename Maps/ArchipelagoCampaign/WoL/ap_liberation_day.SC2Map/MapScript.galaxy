@@ -2621,6 +2621,9 @@ bool gt_RiksvilleTownSquareDropPods_Func (bool testConds, bool runActions) {
     unitgroup auto2C4D6763_g;
     int auto2C4D6763_u;
     unit auto2C4D6763_var;
+    unitgroup autoCC5535C4_g;
+    int autoCC5535C4_u;
+    unit autoCC5535C4_var;
 
     // Variable Initialization
     lv_group = UnitGroupEmpty();
@@ -2675,10 +2678,12 @@ bool gt_RiksvilleTownSquareDropPods_Func (bool testConds, bool runActions) {
         Wait(0.1, c_timeGame);
         libABFE498B_gf_AP_Triggers_warpInUnit("AP_StalkerShakuras", gv_p1_USER, PointFromId(113), false);
         Wait(0.0625, c_timeGame);
+        libNtve_gf_MakeUnitInvulnerable(libABFE498B_gf_AP_Triggers_getLastWarpedUnit(), true);
         UnitGroupAdd(gv_dropGroup, libABFE498B_gf_AP_Triggers_getLastWarpedUnit());
         Wait(0.5, c_timeGame);
         libABFE498B_gf_AP_Triggers_warpInUnit("AP_StalkerShakuras", gv_p1_USER, PointFromId(1671), false);
         Wait(0.0625, c_timeGame);
+        libNtve_gf_MakeUnitInvulnerable(libABFE498B_gf_AP_Triggers_getLastWarpedUnit(), true);
         UnitGroupAdd(gv_dropGroup, libABFE498B_gf_AP_Triggers_getLastWarpedUnit());
         if (((PlayerDifficulty(1) == 1) == true)) {
             auto2C4D6763_g = gv_dropGroup;
@@ -2691,6 +2696,14 @@ bool gt_RiksvilleTownSquareDropPods_Func (bool testConds, bool runActions) {
             }
         }
 
+        Wait(4.0, c_timeGame);
+        autoCC5535C4_g = gv_dropGroup;
+        autoCC5535C4_u = UnitGroupCount(autoCC5535C4_g, c_unitCountAll);
+        for (;; autoCC5535C4_u -= 1) {
+            autoCC5535C4_var = UnitGroupUnitFromEnd(autoCC5535C4_g, autoCC5535C4_u);
+            if (autoCC5535C4_var == null) { break; }
+            libNtve_gf_MakeUnitInvulnerable(autoCC5535C4_var, false);
+        }
     }
     else {
         Wait(0.1, c_timeGame);
