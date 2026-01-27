@@ -1893,6 +1893,7 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     gv_selectLarva_OriginalTooltip = CatalogFieldValueGet(c_gameCatalogButton, "Larva", "Tooltip", gv_pLAYER_01_USER);
     gv_overlord_OriginalTooltip = CatalogFieldValueGet(c_gameCatalogButton, "Overlord", "Tooltip", gv_pLAYER_01_USER);
     gv_drone_OriginalTooltip = CatalogFieldValueGet(c_gameCatalogButton, "Drone", "Tooltip", gv_pLAYER_01_USER);
+    libABFE498B_gf_AP_Triggers_warpInSetup(gv_pLAYER_02_RESCUEZERG, UnitFromId(2123057208));
     return true;
 }
 
@@ -6678,6 +6679,7 @@ bool gt_ReinforcementsProtoss3_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit[11] lv_warpPrism;
     unitgroup[11] lv_warpPrismCargo;
+    unitgroup lv_warps;
     unit lv_unit;
     int lv_index;
     int lv_index2;
@@ -6707,6 +6709,7 @@ bool gt_ReinforcementsProtoss3_Func (bool testConds, bool runActions) {
     for (init_i = 0; init_i <= 10; init_i += 1) {
         lv_warpPrismCargo[init_i] = UnitGroupEmpty();
     }
+    lv_warps = UnitGroupEmpty();
     lv_count = libNtve_gf_DifficultyValueInt(4, 3, 3, 2);
     lv_count2 = libNtve_gf_DifficultyValueInt(2, 2, 1, 1);
 
@@ -6771,8 +6774,10 @@ bool gt_ReinforcementsProtoss3_Func (bool testConds, bool runActions) {
         lv_index = 0;
         for ( ; ( (autoA92D52AE_ai >= 0 && lv_index <= autoA92D52AE_ae) || (autoA92D52AE_ai < 0 && lv_index >= autoA92D52AE_ae) ) ; lv_index += autoA92D52AE_ai ) {
             lv_unit = lv_warpPrism[lv_index];
-            UnitGroupIssueOrder(UnitGroup("AP_WarpGate", gv_pLAYER_02_RESCUEZERG, RegionEntireMap(), UnitFilter(0, 0, 0, 0), 0), OrderTargetingPoint(AbilityCommand("AP_WarpGateTrainRedirect", 0), PointWithOffset(UnitGetPosition(lv_unit), (-1.0+lv_index2), 0.0)), c_orderQueueReplace);
+            libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_02_RESCUEZERG, PointWithOffset(UnitGetPosition(lv_unit), (-1.0+lv_index2), 0.0), false);
         }
+        Wait(0.0625, c_timeGame);
+        UnitGroupAddUnitGroup(lv_warps, libABFE498B_gf_AP_Triggers_getLastWarpedUnits());
     }
     Wait(1.0, c_timeGame);
     lv_index = 0;
@@ -6782,7 +6787,7 @@ bool gt_ReinforcementsProtoss3_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
         libNtve_gf_RescueUnit2(lv_warpPrismCargo[lv_index], gv_pLAYER_01_USER, true);
     }
-    libNtve_gf_RescueUnit2(UnitGroup("AP_ZealotAiur", gv_pLAYER_02_RESCUEZERG, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), 1, true);
+    libNtve_gf_RescueUnit2(lv_warps, gv_pLAYER_01_USER, true);
     return true;
 }
 
@@ -7008,6 +7013,7 @@ bool gt_ReinforcementsProtoss4_Func (bool testConds, bool runActions) {
     unit[11] lv_warpPrism;
     unitgroup[11] lv_warpPrismCargo;
     unit lv_unit;
+    unitgroup lv_warps;
     int lv_index;
     int lv_index2;
     int lv_count;
@@ -7036,6 +7042,7 @@ bool gt_ReinforcementsProtoss4_Func (bool testConds, bool runActions) {
     for (init_i = 0; init_i <= 10; init_i += 1) {
         lv_warpPrismCargo[init_i] = UnitGroupEmpty();
     }
+    lv_warps = UnitGroupEmpty();
     lv_count = libNtve_gf_DifficultyValueInt(4, 3, 3, 2);
     lv_count2 = libNtve_gf_DifficultyValueInt(2, 2, 1, 1);
 
@@ -7100,8 +7107,10 @@ bool gt_ReinforcementsProtoss4_Func (bool testConds, bool runActions) {
         lv_index = 0;
         for ( ; ( (auto0400F8FB_ai >= 0 && lv_index <= auto0400F8FB_ae) || (auto0400F8FB_ai < 0 && lv_index >= auto0400F8FB_ae) ) ; lv_index += auto0400F8FB_ai ) {
             lv_unit = lv_warpPrism[lv_index];
-            UnitGroupIssueOrder(UnitGroup("AP_WarpGate", gv_pLAYER_02_RESCUEZERG, RegionEntireMap(), UnitFilter(0, 0, 0, 0), 0), OrderTargetingPoint(AbilityCommand("AP_WarpGateTrainRedirect", 0), PointWithOffset(UnitGetPosition(lv_unit), (-1.0+lv_index2), 0.0)), c_orderQueueReplace);
+            libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_02_RESCUEZERG, PointWithOffset(UnitGetPosition(lv_unit), (-1.0+lv_index2), 0.0), false);
         }
+        Wait(0.0625, c_timeGame);
+        UnitGroupAddUnitGroup(lv_warps, libABFE498B_gf_AP_Triggers_getLastWarpedUnits());
     }
     Wait(1.0, c_timeGame);
     lv_index = 0;
@@ -7111,7 +7120,7 @@ bool gt_ReinforcementsProtoss4_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(lv_unit);
         libNtve_gf_RescueUnit2(lv_warpPrismCargo[lv_index], gv_pLAYER_01_USER, true);
     }
-    libNtve_gf_RescueUnit2(UnitGroup("AP_ZealotAiur", gv_pLAYER_02_RESCUEZERG, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), 1, true);
+    libNtve_gf_RescueUnit2(lv_warps, gv_pLAYER_01_USER, true);
     return true;
 }
 
@@ -10882,6 +10891,7 @@ bool gt_MidReinforcementsProtoss12_Func (bool testConds, bool runActions) {
     unit[11] lv_warpPrism;
     unitgroup[11] lv_warpPrismCargo;
     unit lv_unit;
+    unitgroup lv_warps;
     int lv_index;
     int lv_index2;
     int lv_count1;
@@ -10913,6 +10923,7 @@ bool gt_MidReinforcementsProtoss12_Func (bool testConds, bool runActions) {
     for (init_i = 0; init_i <= 10; init_i += 1) {
         lv_warpPrismCargo[init_i] = UnitGroupEmpty();
     }
+    lv_warps = UnitGroupEmpty();
     lv_count1 = libNtve_gf_DifficultyValueInt(2, 2, 2, 1);
     lv_count2 = libNtve_gf_DifficultyValueInt(3, 2, 2, 2);
     lv_count3 = libNtve_gf_DifficultyValueInt(4, 4, 3, 3);
@@ -11000,17 +11011,18 @@ bool gt_MidReinforcementsProtoss12_Func (bool testConds, bool runActions) {
         lv_index = 0;
         for ( ; ( (auto240B5BC3_ai >= 0 && lv_index <= auto240B5BC3_ae) || (auto240B5BC3_ai < 0 && lv_index >= auto240B5BC3_ae) ) ; lv_index += auto240B5BC3_ai ) {
             lv_unit = lv_warpPrism[lv_index];
-            UnitGroupIssueOrder(UnitGroup("AP_WarpGate", gv_pLAYER_02_RESCUEZERG, RegionEntireMap(), UnitFilter(0, 0, 0, 0), 0), OrderTargetingPoint(AbilityCommand("AP_WarpGateTrainRedirect", 0), PointWithOffset(UnitGetPosition(lv_unit), (-1.0+lv_index2), 0.0)), c_orderQueueReplace);
+            libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_02_RESCUEZERG, PointWithOffset(UnitGetPosition(lv_unit), (-1.0+lv_index2), 0.0), false);
         }
+        Wait(0.0625, c_timeGame);
+        UnitGroupAddUnitGroup(lv_warps, libABFE498B_gf_AP_Triggers_getLastWarpedUnits());
     }
-    Wait(1.0, c_timeGame);
     lv_index = 0;
     for ( ; ( (auto8D03AC14_ai >= 0 && lv_index <= auto8D03AC14_ae) || (auto8D03AC14_ai < 0 && lv_index >= auto8D03AC14_ae) ) ; lv_index += auto8D03AC14_ai ) {
         lv_unit = lv_warpPrism[lv_index];
         libNtve_gf_RescueUnit(lv_unit, gv_pLAYER_01_USER, true);
         libNtve_gf_RescueUnit2(lv_warpPrismCargo[lv_index], gv_pLAYER_01_USER, true);
     }
-    libNtve_gf_RescueUnit2(UnitGroup("AP_ZealotAiur", gv_pLAYER_02_RESCUEZERG, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), 1, true);
+    libNtve_gf_RescueUnit2(lv_warps, gv_pLAYER_01_USER, true);
     return true;
 }
 
