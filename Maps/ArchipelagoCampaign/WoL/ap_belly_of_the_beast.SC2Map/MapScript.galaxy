@@ -3948,7 +3948,6 @@ bool gt__1BroodchamberTriggerHoldoutStart_Func (bool testConds, bool runActions)
         libNtve_gf_ChangeUnitDamage(autoFC32028A_var, libNtve_ge_UnitDamageTakenDealt_Damage_Take, libNtve_ge_UnitDamageChangeOption_No);
     }
     TriggerExecute(gt_CinematicFinishedHoldout1Q, true, false);
-    lib5BD4895D_gf_AP_Core_refreshController();
     return true;
 }
 
@@ -4194,7 +4193,6 @@ bool gt__2StartGame_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    lib5BD4895D_gf_AP_Core_refreshController();
     VisExploreArea(gv_p1_USER, RegionFromId(10), false, false);
     gv_limitNydusWormSpawnsInHoldout = false;
     gv__2BroodchamberNuke = UnitFromId(1887);
@@ -5858,7 +5856,6 @@ bool gt__2BroodchamberTriggerHoldoutStart_Func (bool testConds, bool runActions)
         libNtve_gf_ChangeUnitDamage(auto49807F1C_var, libNtve_ge_UnitDamageTakenDealt_Damage_Take, libNtve_ge_UnitDamageChangeOption_No);
     }
     TriggerExecute(gt_MidBroodChamber2Q, true, false);
-    lib5BD4895D_gf_AP_Core_refreshController();
     return true;
 }
 
@@ -6141,7 +6138,6 @@ bool gt__3StartGame_Func (bool testConds, bool runActions) {
     CreepSetSpeed(c_creepSpeedGrowth, 1000.0);
     Wait(3.0, c_timeGame);
     CreepSetSpeed(c_creepSpeedGrowth, 100.0);
-    lib5BD4895D_gf_AP_Core_refreshController();
     return true;
 }
 
@@ -7504,7 +7500,6 @@ bool gt__3QueenAIPhase1_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    lib5BD4895D_gf_AP_Core_refreshController();
     TriggerEnable(gt_SeismicChargeAtHalfHealthQ, true);
     UnitSetPropertyFixed(gv_tHEONEBROODMOTHER, c_unitPropLifeMax, gv_queenHP);
     UnitSetPropertyFixed(gv_tHEONEBROODMOTHER, c_unitPropLifePercent, 100.0);
@@ -8030,7 +8025,6 @@ bool gt__4InitBroodchamber_Func (bool testConds, bool runActions) {
         UnitSetPropertyFixed(autoA454EC07_var, c_unitPropLifePercent, 100.0);
         UnitSetPropertyFixed(autoA454EC07_var, c_unitPropEnergyPercent, 100.0);
     }
-    lib5BD4895D_gf_AP_Core_refreshController();
     auto2EFD0992_g = UnitGroup(null, gv_p1_USER, RegionFromId(14), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     auto2EFD0992_u = UnitGroupCount(auto2EFD0992_g, c_unitCountAll);
     for (;; auto2EFD0992_u -= 1) {
@@ -8096,7 +8090,6 @@ bool gt__4StartGame_Func (bool testConds, bool runActions) {
     CreepSetSpeed(c_creepSpeedGrowth, 1000.0);
     Wait(3.0, c_timeGame);
     CreepSetSpeed(c_creepSpeedGrowth, 100.0);
-    lib5BD4895D_gf_AP_Core_refreshController();
     return true;
 }
 
