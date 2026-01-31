@@ -2220,10 +2220,10 @@ bool lib5BD4895D_gt_AP_Core_mapLoadStart_Func (bool testConds, bool runActions) 
     libNtve_gf_SetDialogItemImage(lib5BD4895D_gv_aP_Core_blackScreen, "Assets\\Textures\\ui_ingame_blackmask.dds", PlayerGroupAll());
     libNtve_gf_SetDialogItemBlendMode(lib5BD4895D_gv_aP_Core_blackScreen, c_triggerBlendModeAlpha, PlayerGroupAll());
     DialogSetVisible(lib5BD4895D_gv_aP_Core_blackScreen_dialog, PlayerGroupAll(), true);
-    if ((GameIsTestMap(false) == true)) {
-        Wait(0.0625, c_timeGame);
-        lib5BD4895D_gf_AP_Core_onLoadFinished();
-    }
+    // if ((GameIsTestMap(false) == true)) {
+    //     Wait(0.0625, c_timeGame);
+    //     lib5BD4895D_gf_AP_Core_onLoadFinished();
+    // }
 
     return true;
 }
@@ -2261,9 +2261,9 @@ bool lib5BD4895D_gt_AP_Core_mapLoadEnd_Func (bool testConds, bool runActions) {
     DialogControlFadeTransparency(lib5BD4895D_gv_aP_Core_blackScreen, PlayerGroupAll(), lv_duration, 0.0);
     Wait(lv_duration, c_timeReal);
     DialogDestroy(lib5BD4895D_gv_aP_Core_blackScreen_dialog);
-    if ((GameIsTestMap(false) == true)) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/lib_5BD4895D_FD3A182F"), true);
-    }
+    // if ((GameIsTestMap(false) == true)) {
+    //     TriggerDebugOutput(1, StringExternal("Param/Value/lib_5BD4895D_FD3A182F"), true);
+    // }
 
     return true;
 }
@@ -2330,11 +2330,12 @@ bool lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Func (bool testConds, bool runAc
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
     BankLoad(lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankCoreOptions = BankLastCreated();
-    BankBackupLoopBegin(lib5BD4895D_gv_aP_Core_bankCoreOptions,false);
-    for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
-        BankBackupRemove(lib5BD4895D_gv_aP_Core_bankCoreOptions, BankBackupGetId(BankBackupLoopCurrent()), lv_user);
-    }
-    BankBackupLoopEnd();
+    lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop();
+    // BankBackupLoopBegin(lib5BD4895D_gv_aP_Core_bankCoreOptions,false);
+    // for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
+    //     BankBackupRemove(lib5BD4895D_gv_aP_Core_bankCoreOptions, BankBackupGetId(BankBackupLoopCurrent()), lv_user);
+    // }
+    // BankBackupLoopEnd();
     BankSave(lib5BD4895D_gv_aP_Core_bankCoreOptions);
     return true;
 }
