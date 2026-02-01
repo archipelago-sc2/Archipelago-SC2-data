@@ -254,6 +254,8 @@ trigger gt_ObjectiveNorthResourceCacheCreate;
 trigger gt_ObjectiveNorthResourceCacheComplete;
 trigger gt_ObjectiveBunkerCreate;
 trigger gt_ObjectiveBunkerComplete;
+trigger gt_RebelBaseLeashInit;
+trigger gt_RebelBaseLeash;
 trigger gt_ArchInit;
 trigger gt_FactionSwapInit;
 trigger gt_onDifficultyCasual;
@@ -5355,6 +5357,64 @@ void gt_ObjectiveBunkerComplete_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Rebel Base Leash Init
+//--------------------------------------------------------------------------------------------------
+bool gt_RebelBaseLeashInit_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup autoA212B6B6_g;
+    int autoA212B6B6_u;
+    unit autoA212B6B6_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoA212B6B6_g = UnitGroup(null, gv_pLAYER_04_REBELS, RegionFromId(32), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoA212B6B6_u = UnitGroupCount(autoA212B6B6_g, c_unitCountAll);
+    for (;; autoA212B6B6_u -= 1) {
+        autoA212B6B6_var = UnitGroupUnitFromEnd(autoA212B6B6_g, autoA212B6B6_u);
+        if (autoA212B6B6_var == null) { break; }
+        UnitSetCustomValue(autoA212B6B6_var, 1, PointGetX(UnitGetPosition(autoA212B6B6_var)));
+        UnitSetCustomValue(autoA212B6B6_var, 2, PointGetY(UnitGetPosition(autoA212B6B6_var)));
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_RebelBaseLeashInit_Init () {
+    gt_RebelBaseLeashInit = TriggerCreate("gt_RebelBaseLeashInit_Func");
+    TriggerAddEventMapInit(gt_RebelBaseLeashInit);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Rebel Base Leash
+//--------------------------------------------------------------------------------------------------
+bool gt_RebelBaseLeash_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetOwner(EventUnit()) == gv_pLAYER_04_REBELS))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(EventUnit(), OrderTargetingPoint(AbilityCommand("move", 0), Point(UnitGetCustomValue(EventUnit(), 1), UnitGetCustomValue(EventUnit(), 2))), c_orderQueueReplace);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_RebelBaseLeash_Init () {
+    gt_RebelBaseLeash = TriggerCreate("gt_RebelBaseLeash_Func");
+    TriggerAddEventUnitRegion(gt_RebelBaseLeash, null, RegionFromId(32), false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Arch Init
 //--------------------------------------------------------------------------------------------------
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
@@ -5696,6 +5756,8 @@ void InitTriggers () {
     gt_ObjectiveNorthResourceCacheComplete_Init();
     gt_ObjectiveBunkerCreate_Init();
     gt_ObjectiveBunkerComplete_Init();
+    gt_RebelBaseLeashInit_Init();
+    gt_RebelBaseLeash_Init();
     gt_ArchInit_Init();
     gt_FactionSwapInit_Init();
     gt_onDifficultyCasual_Init();
