@@ -59,6 +59,7 @@ const int gv_objectiveDestroyZergHiveMax = 4;
 // Global Variables
 //--------------------------------------------------------------------------------------------------
 unitgroup gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2;
+string gv_pLAYER_02_NAME;
 playergroup gv_enemyPlayerGroup;
 playergroup gv_alliedPlayerGroup;
 string gv_mapMusicTrack;
@@ -110,6 +111,7 @@ bool gv_introMusicCompleted;
 
 void InitGlobals () {
     gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2 = UnitGroupEmpty();
+    gv_pLAYER_02_NAME = "Daelaam Protoss";
     gv_enemyPlayerGroup = PlayerGroupEmpty();
     gv_alliedPlayerGroup = PlayerGroupEmpty();
     gv_conduit01_Ping = c_invalidPingId;
@@ -145,6 +147,8 @@ void InitGlobals () {
 //--------------------------------------------------------------------------------------------------
 void gf_APtech (int lp_player, int lp_difficulty);
 void gf_CreateInfoText (unit lp_cHOSEN_UNIT);
+void gf_MedivacUnload (unitgroup lp_medivacs);
+void gf_YggdrasilUnload (unitgroup lp_yggdrasils);
 void gf_WarpInProtossReinforcements (point lp_point, int lp_count, string lp_unitType);
 void gf_DropInTerranReinforcements (point lp_point, int lp_count, string lp_unitType, int lp_count2, string lp_unitType2);
 void gf_NydusInZergReinforcements (point lp_nydusPoint, point lp_rallyPoint, int lp_count, string lp_unitType, int lp_count2, string lp_unitType2);
@@ -436,6 +440,63 @@ void gf_CreateInfoText (unit lp_cHOSEN_UNIT) {
     UnitSetState(lp_cHOSEN_UNIT, c_unitStateTooltipable, true);
 }
 
+trigger auto_gf_MedivacUnload_Trigger = null;
+unitgroup auto_gf_MedivacUnload_lp_medivacs;
+
+void gf_MedivacUnload (unitgroup lp_medivacs) {
+    auto_gf_MedivacUnload_lp_medivacs = lp_medivacs;
+
+    if (auto_gf_MedivacUnload_Trigger == null) {
+        auto_gf_MedivacUnload_Trigger = TriggerCreate("auto_gf_MedivacUnload_TriggerFunc");
+    }
+
+    TriggerExecute(auto_gf_MedivacUnload_Trigger, false, false);
+}
+
+bool auto_gf_MedivacUnload_TriggerFunc (bool testConds, bool runActions) {
+    unitgroup lp_medivacs = auto_gf_MedivacUnload_lp_medivacs;
+
+    // Automatic Variable Declarations
+    // Implementation
+    while (((UnitGroupCount(UnitCargoGroup(UnitFromId(866062925)), c_unitCountAlive) > 0) || (UnitGroupCount(UnitCargoGroup(UnitFromId(1637456627)), c_unitCountAlive) > 0) || (UnitGroupCount(UnitCargoGroup(UnitFromId(773618479)), c_unitCountAlive) > 0) || (UnitGroupCount(UnitCargoGroup(UnitFromId(1514091423)), c_unitCountAlive) > 0))) {
+        UnitIssueOrder(UnitFromId(866062925), OrderTargetingPoint(AbilityCommand("AP_MedivacTransport", 2), PointFromId(740)), c_orderQueueReplace);
+        UnitIssueOrder(UnitFromId(1637456627), OrderTargetingPoint(AbilityCommand("AP_MedivacTransport", 2), PointFromId(967)), c_orderQueueReplace);
+        UnitIssueOrder(UnitFromId(773618479), OrderTargetingPoint(AbilityCommand("AP_MedivacTransport", 2), PointFromId(968)), c_orderQueueReplace);
+        UnitIssueOrder(UnitFromId(1514091423), OrderTargetingPoint(AbilityCommand("AP_MedivacTransport", 2), PointFromId(969)), c_orderQueueReplace);
+        Wait(3.0, c_timeAI);
+    }
+    UnitGroupIssueOrder(lp_medivacs, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(75)), c_orderQueueAddToEnd);
+    return true;
+}
+
+trigger auto_gf_YggdrasilUnload_Trigger = null;
+unitgroup auto_gf_YggdrasilUnload_lp_yggdrasils;
+
+void gf_YggdrasilUnload (unitgroup lp_yggdrasils) {
+    auto_gf_YggdrasilUnload_lp_yggdrasils = lp_yggdrasils;
+
+    if (auto_gf_YggdrasilUnload_Trigger == null) {
+        auto_gf_YggdrasilUnload_Trigger = TriggerCreate("auto_gf_YggdrasilUnload_TriggerFunc");
+    }
+
+    TriggerExecute(auto_gf_YggdrasilUnload_Trigger, false, false);
+}
+
+bool auto_gf_YggdrasilUnload_TriggerFunc (bool testConds, bool runActions) {
+    unitgroup lp_yggdrasils = auto_gf_YggdrasilUnload_lp_yggdrasils;
+
+    // Automatic Variable Declarations
+    // Implementation
+    while (((UnitGroupCount(UnitCargoGroup(UnitFromId(215418927)), c_unitCountAlive) > 0) || (UnitGroupCount(UnitCargoGroup(UnitFromId(1623767475)), c_unitCountAlive) > 0) || (UnitGroupCount(UnitCargoGroup(UnitFromId(88441030)), c_unitCountAlive) > 0))) {
+        UnitIssueOrder(UnitFromId(215418927), OrderTargetingPoint(AbilityCommand("AP_YggdrasilTransport", 2), PointFromId(740)), c_orderQueueReplace);
+        UnitIssueOrder(UnitFromId(1623767475), OrderTargetingPoint(AbilityCommand("AP_YggdrasilTransport", 2), PointFromId(967)), c_orderQueueReplace);
+        UnitIssueOrder(UnitFromId(88441030), OrderTargetingPoint(AbilityCommand("AP_YggdrasilTransport", 2), PointFromId(968)), c_orderQueueReplace);
+        Wait(3.0, c_timeAI);
+    }
+    UnitGroupIssueOrder(lp_yggdrasils, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(75)), c_orderQueueAddToEnd);
+    return true;
+}
+
 trigger auto_gf_WarpInProtossReinforcements_Trigger = null;
 point auto_gf_WarpInProtossReinforcements_lp_point;
 int auto_gf_WarpInProtossReinforcements_lp_count;
@@ -548,8 +609,10 @@ bool auto_gf_DropInTerranReinforcements_TriggerFunc (bool testConds, bool runAct
 
     UnitIssueOrder(lv_dropship, OrderTargetingPoint(AbilityCommand("AP_HyperjumpHercules", 0), lp_point), c_orderQueueReplace);
     Wait(7.0, c_timeGame);
-    UnitIssueOrder(lv_dropship, OrderTargetingUnit(AbilityCommand("AP_HerculesTransport", 2), lv_dropship), c_orderQueueAddToEnd);
-    Wait(2.0, c_timeGame);
+    while ((UnitGroupCount(UnitCargoGroup(lv_dropship), c_unitCountAlive) > 0)) {
+        UnitIssueOrder(lv_dropship, OrderTargetingUnit(AbilityCommand("AP_HerculesTransport", 2), lv_dropship), c_orderQueueAddToEnd);
+        Wait(4.0, c_timeGame);
+    }
     UnitIssueOrder(lv_dropship, OrderTargetingPoint(AbilityCommand("AP_HyperjumpHercules", 0), PointFromId(75)), c_orderQueueAddToEnd);
     return true;
 }
@@ -1365,6 +1428,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Zerg";
         TriggerExecute(gt_onDifficultyBrutal, true, false);
         libABFE498B_gf_AP_Triggers_giveProtossDefaultTech(gv_pLAYER_01_USER);
     }
@@ -1419,6 +1483,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     autoB8A51516_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (autoB8A51516_val == "Terr") {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        gv_pLAYER_02_NAME = "Raynor's Raiders";
         lib15EF4C78_gf_RemoveUnusedStartingUnits(gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2, "Terr", false);
         PlayerSetRace(gv_pLAYER_01_USER, "Terr");
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
@@ -1426,6 +1491,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
     else if (autoB8A51516_val == "Zerg") {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        gv_pLAYER_02_NAME = "Kerrigan's Swarm";
         lib15EF4C78_gf_RemoveUnusedStartingUnits(gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2, "Zerg", false);
         PlayerSetRace(gv_pLAYER_01_USER, "Zerg");
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
@@ -3267,11 +3333,7 @@ bool gt_ColossusIntro_Func (bool testConds, bool runActions) {
             UnitGroupAdd(lv_aP_ColossusPurifierGroup, auto3C904F34_var);
             UnitCargoCreate(auto3C904F34_var, "AP_Thor", 1);
         }
-        UnitIssueOrder(UnitFromId(866062925), OrderTargetingPoint(AbilityCommand("AP_MedivacTransport", 2), PointFromId(740)), c_orderQueueReplace);
-        UnitIssueOrder(UnitFromId(1637456627), OrderTargetingPoint(AbilityCommand("AP_MedivacTransport", 2), PointFromId(967)), c_orderQueueReplace);
-        UnitIssueOrder(UnitFromId(773618479), OrderTargetingPoint(AbilityCommand("AP_MedivacTransport", 2), PointFromId(968)), c_orderQueueReplace);
-        UnitIssueOrder(UnitFromId(1514091423), OrderTargetingPoint(AbilityCommand("AP_MedivacTransport", 2), PointFromId(969)), c_orderQueueReplace);
-        UnitGroupIssueOrder(lv_aP_ColossusPurifierGroup, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(75)), c_orderQueueAddToEnd);
+        gf_MedivacUnload(lv_aP_ColossusPurifierGroup);
         Wait(3.0, c_timeAI);
         libVCMI_gf_PingMinimapCampaign(PlayerGroupAll(), RegionGetCenter(RegionFromId(4)), 3.0, Color(0.00, 100.00, 0.00));
         UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/F66B8CDB"), null, PointFromId(968));
@@ -3287,10 +3349,7 @@ bool gt_ColossusIntro_Func (bool testConds, bool runActions) {
             UnitGroupAdd(lv_aP_ColossusPurifierGroup, auto420EF61F_var);
             UnitCargoCreate(auto420EF61F_var, "AP_Tyrannozor", 1);
         }
-        UnitIssueOrder(UnitFromId(215418927), OrderTargetingPoint(AbilityCommand("AP_YggdrasilTransport", 2), PointFromId(740)), c_orderQueueReplace);
-        UnitIssueOrder(UnitFromId(1623767475), OrderTargetingPoint(AbilityCommand("AP_YggdrasilTransport", 2), PointFromId(967)), c_orderQueueReplace);
-        UnitIssueOrder(UnitFromId(88441030), OrderTargetingPoint(AbilityCommand("AP_YggdrasilTransport", 2), PointFromId(968)), c_orderQueueReplace);
-        UnitGroupIssueOrder(lv_aP_ColossusPurifierGroup, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(75)), c_orderQueueAddToEnd);
+        gf_YggdrasilUnload(lv_aP_ColossusPurifierGroup);
         Wait(3.0, c_timeAI);
         libVCMI_gf_PingMinimapCampaign(PlayerGroupAll(), RegionGetCenter(RegionFromId(4)), 3.0, Color(0.00, 100.00, 0.00));
         UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/54D8FBC4"), null, PointFromId(968));
