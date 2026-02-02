@@ -15411,12 +15411,18 @@
         <Flags index="AutoCast" value="1"/>
         <Flags index="AutoCastOn" value="1"/>
         <Cost>
-            <Charge CountMax="5" CountUse="1" Location="Player"/>
-            <Cooldown TimeStart="20" TimeUse="20"/>
+            <Charge>
+                <CountMax value="1"/>
+                <CountStart value="1"/>
+                <CountUse value="1"/>
+                <HideCount value="1"/>
+                <TimeUse value="20"/>
+            </Charge>
+            <Cooldown Location="Player" TimeUse="0.5"/>
         </Cost>
         <AutoCastRange value="1"/>
         <ProducedUnitArray value="AP_ElderProbe"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ReconstructElderProbe" Requirements="AP_HaveSummonedElderProbes"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ReconstructElderProbe" Requirements="AP_ElderProbesReconstruction"/>
     </CAbilEffectInstant>
     <CAbilWarpTrain id="AP_ProbeWarpin">
         <EditorCategories value="AbilityorEffectType:Units"/>
