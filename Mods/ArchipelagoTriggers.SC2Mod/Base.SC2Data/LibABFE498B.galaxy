@@ -11372,24 +11372,13 @@ bool libABFE498B_gt_AP_Triggers_bankInit_Func (bool testConds, bool runActions) 
     TriggerDebugSetTypeFile(1, "TriggerDebug.txt");
     TriggerExecute(libABFE498B_gt_AP_Triggers_bankOptionsInit, true, false);
     TriggerExecute(libABFE498B_gt_AP_Triggers_bankItemsInit, true, false);
-    while ((lib5BD4895D_gv_aP_Core_initFinished == false)) {
-        libABFE498B_gf_AP_Triggers_bankOptionsLoop();
-        libABFE498B_gf_AP_Triggers_bankItemsLoop();
-        Wait(0.0625, c_timeGame);
-    }
-    while (true) {
-        libABFE498B_gf_AP_Triggers_bankOptionsLoop();
-        Wait(0.5, c_timeGame);
-        libABFE498B_gf_AP_Triggers_bankItemsLoop();
-        Wait(0.5, c_timeGame);
-    }
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void libABFE498B_gt_AP_Triggers_bankInit_Init () {
     libABFE498B_gt_AP_Triggers_bankInit = TriggerCreate("libABFE498B_gt_AP_Triggers_bankInit_Func");
-    TriggerAddEventTimeElapsed(libABFE498B_gt_AP_Triggers_bankInit, 0.0, c_timeGame);
+    TriggerAddEventMapInit(libABFE498B_gt_AP_Triggers_bankInit);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -11410,6 +11399,7 @@ bool libABFE498B_gt_AP_Triggers_bankOptionsInit_Func (bool testConds, bool runAc
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
     BankLoad(libABFE498B_gv_aP_Triggers_BANK_OPTIONS_FILE_NAME, lv_user);
     libABFE498B_gv_aP_Triggers_bankOptions = BankLastCreated();
+    BankSave(BankLastCreated());
     return true;
 }
 
@@ -11436,12 +11426,43 @@ bool libABFE498B_gt_AP_Triggers_bankItemsInit_Func (bool testConds, bool runActi
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
     BankLoad(libABFE498B_gv_aP_Triggers_BANK_ITEMS_FILE_NAME, lv_user);
     libABFE498B_gv_aP_Triggers_bankItems = BankLastCreated();
+    BankSave(BankLastCreated());
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void libABFE498B_gt_AP_Triggers_bankItemsInit_Init () {
     libABFE498B_gt_AP_Triggers_bankItemsInit = TriggerCreate("libABFE498B_gt_AP_Triggers_bankItemsInit_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_bankStartLoop
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_bankStartLoop_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    while ((lib5BD4895D_gv_aP_Core_initFinished == false)) {
+        libABFE498B_gf_AP_Triggers_bankOptionsLoop();
+        libABFE498B_gf_AP_Triggers_bankItemsLoop();
+        Wait(0.0625, c_timeGame);
+    }
+    while (true) {
+        libABFE498B_gf_AP_Triggers_bankOptionsLoop();
+        Wait(0.5, c_timeGame);
+        libABFE498B_gf_AP_Triggers_bankItemsLoop();
+        Wait(0.5, c_timeGame);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_bankStartLoop_Init () {
+    libABFE498B_gt_AP_Triggers_bankStartLoop = TriggerCreate("libABFE498B_gt_AP_Triggers_bankStartLoop_Func");
+    TriggerAddEventTimeElapsed(libABFE498B_gt_AP_Triggers_bankStartLoop, 0.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -12098,6 +12119,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_bankInit_Init();
     libABFE498B_gt_AP_Triggers_bankOptionsInit_Init();
     libABFE498B_gt_AP_Triggers_bankItemsInit_Init();
+    libABFE498B_gt_AP_Triggers_bankStartLoop_Init();
     libABFE498B_gt_AP_Triggers_techTreeInit_Init();
     libABFE498B_gt_UpgradeProtossStructures_Init();
     libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init();

@@ -2325,25 +2325,13 @@ bool lib5BD4895D_gt_AP_Core_bankInit_Func (bool testConds, bool runActions) {
     TriggerExecute(lib5BD4895D_gt_AP_Core_bankUpdateInit, true, false);
     TriggerExecute(lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit, true, false);
     TriggerExecute(lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit, true, false);
-    while ((lib5BD4895D_gv_aP_Core_initFinished == false)) {
-        lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop();
-        Wait(0.0625, c_timeGame);
-    }
-    while (true) {
-        lib5BD4895D_gf_AP_Core_bankMessageLoop();
-        Wait(0.5, c_timeGame);
-        lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveLoop();
-        Wait(0.5, c_timeGame);
-        lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop();
-        Wait(0.5, c_timeGame);
-    }
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void lib5BD4895D_gt_AP_Core_bankInit_Init () {
     lib5BD4895D_gt_AP_Core_bankInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankInit_Func");
-    TriggerAddEventTimeElapsed(lib5BD4895D_gt_AP_Core_bankInit, 0.0, c_timeGame);
+    TriggerAddEventMapInit(lib5BD4895D_gt_AP_Core_bankInit);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2365,6 +2353,7 @@ bool lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Func (bool testConds, bool runAc
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
     BankLoad(lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankCoreOptions = BankLastCreated();
+    BankSave(BankLastCreated());
     return true;
 }
 
@@ -2391,6 +2380,7 @@ bool lib5BD4895D_gt_AP_Core_bankMessageInit_Func (bool testConds, bool runAction
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
     BankLoad(lib5BD4895D_gv_aP_Core_BANK_MESSAGES_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankMessage = BankLastCreated();
+    BankSave(BankLastCreated());
     return true;
 }
 
@@ -2478,7 +2468,6 @@ bool lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Func (bool testConds, bool run
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
     BankLoad(lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_SEND_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankVoidTradeSend = BankLastCreated();
-    BankSave(lib5BD4895D_gv_aP_Core_bankVoidTradeSend);
     return true;
 }
 
@@ -2505,12 +2494,44 @@ bool lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Func (bool testConds, bool 
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
     BankLoad(lib5BD4895D_gv_aP_Core_BANK_VOID_TRADE_RECEIVE_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankVoidTradeReceive = BankLastCreated();
+    BankSave(BankLastCreated());
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Init () {
     lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit = TriggerCreate("lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_bankStartLoop
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_bankStartLoop_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    while ((lib5BD4895D_gv_aP_Core_initFinished == false)) {
+        lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop();
+        Wait(0.0625, c_timeGame);
+    }
+    while (true) {
+        lib5BD4895D_gf_AP_Core_bankMessageLoop();
+        Wait(0.5, c_timeGame);
+        lib5BD4895D_gf_AP_Core_bankVoidTradeReceiveLoop();
+        Wait(0.5, c_timeGame);
+        lib5BD4895D_gf_AP_Core_bankCoreOptionsLoop();
+        Wait(0.5, c_timeGame);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_bankStartLoop_Init () {
+    lib5BD4895D_gt_AP_Core_bankStartLoop = TriggerCreate("lib5BD4895D_gt_AP_Core_bankStartLoop_Func");
+    TriggerAddEventTimeElapsed(lib5BD4895D_gt_AP_Core_bankStartLoop, 0.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2754,6 +2775,7 @@ void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_bankUpdateInit_Init();
     lib5BD4895D_gt_AP_Core_bankVoidTradeSendInit_Init();
     lib5BD4895D_gt_AP_Core_bankVoidTradeReceiveInit_Init();
+    lib5BD4895D_gt_AP_Core_bankStartLoop_Init();
     lib5BD4895D_gt_AP_Core_showChatboxCinematic_Init();
     lib5BD4895D_gt_AP_Core_onHideButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Init();
