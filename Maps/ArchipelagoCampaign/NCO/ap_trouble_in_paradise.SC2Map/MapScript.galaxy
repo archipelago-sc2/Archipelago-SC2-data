@@ -139,6 +139,7 @@ bool gv_cinematicCompleted;
 unit gv_cinematicBileLauncher;
 unit gv_cinematicNova;
 unitgroup gv_introBanshees;
+unitgroup gv_introBansheesOld;
 unit gv_introNova;
 bool gv_introSound;
 int gv_introBansheesArrived;
@@ -184,6 +185,7 @@ void InitGlobals () {
     gv_cinematicPausedUnits = UnitGroupEmpty();
     gv_cinematicTempUnits = UnitGroupEmpty();
     gv_introBanshees = UnitGroupEmpty();
+    gv_introBansheesOld = UnitGroupEmpty();
     gv_midGoliaths = UnitGroupEmpty();
     gv_midMarines = UnitGroupEmpty();
 }
@@ -1858,13 +1860,15 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     gv_novaEnabled = libABFE498B_gv_aP_Triggers_Option_enableNova;
+    TriggerExecute(gt_FactionSwapStartingUnits, true, true);
+    TriggerExecute(gt_IntroQ, true, true);
+    TriggerExecute(gt_Stage1Start, true, false);
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1904,9 +1908,6 @@ bool gt_FactionSwapStartingUnits_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
-        Wait(0.0625, c_timeGame);
-    }
     auto54C815B4_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto54C815B4_val == "Zerg") {
         CreepModify(PointFromId(270), 6.0, true, false);
@@ -1984,14 +1985,12 @@ bool gt_FactionSwapStartingUnits_Func (bool testConds, bool runActions) {
         UnitSetPropertyFixed(autoC51E47B7_var, c_unitPropEnergyPercent, 100.0);
     }
     CatalogFieldValueSet(c_gameCatalogUnit, "Banshee", "TurningRate", gv_pLAYER_01_USER, "1499.941");
-    if ((gv_cinematicCompleted == false)) {
-        UnitCreate(1, "AP_NovaHero", 0, gv_pLAYER_01_USER, PointFromId(270), 135.0);
-        gv_nova = UnitLastCreated();
+    UnitCreate(1, "AP_NovaHero", 0, gv_pLAYER_01_USER, PointFromId(270), 135.0);
+    gv_nova = UnitLastCreated();
+    if ((gv_novaEnabled == true)) {
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
     }
     else {
-        gv_nova = gv_introNova;
-    }
-    if ((gv_novaEnabled == false)) {
         lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_01_USER);
         libNtve_gf_PauseUnit(gv_nova, true);
         libNtve_gf_ShowHideUnit(gv_nova, false);
@@ -1999,7 +1998,6 @@ bool gt_FactionSwapStartingUnits_Func (bool testConds, bool runActions) {
         TriggerEnable(gt_ObjectiveNovaMustSurviveComplete, false);
         TriggerEnable(gt_ObjectiveNovaMustSurviveFailed, false);
     }
-
     return true;
 }
 
@@ -2257,8 +2255,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
         ConsoleCommand("exit", true, true);
     }
 
-    TriggerExecute(gt_IntroQ, true, true);
-    TriggerExecute(gt_Stage1Start, true, false);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     return true;
 }
 
@@ -7907,9 +7904,6 @@ bool gt_IntroQ_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueEnter();
-    while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
-        Wait(0.0625, c_timeGame);
-    }
     TriggerExecute(gt_IntroSetup, true, true);
     if ((libABFE498B_gv_aP_Triggers_skipCutscenes == false)) {
         TriggerExecute(gt_IntroCinematic, true, true);
@@ -7976,6 +7970,7 @@ bool gt_IntroSetup_Func (bool testConds, bool runActions) {
         }
 
     }
+    gv_introBansheesOld = UnitGroupCopy(gv_introBanshees);
     if ((TechTreeUpgradeCount(gv_pLAYER_01_USER, "AP_NovaArmorJumpSuit", c_techCountCompleteOnly) >= 1)) {
         UnitCreate(1, "AP_NovaHero", 0, gv_pLAYER_01_USER, PointFromId(102), 90.0);
     }
@@ -8123,6 +8118,9 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     point lv_point;
 
     // Automatic Variable Declarations
+    unitgroup auto30C43FF7_g;
+    int auto30C43FF7_u;
+    unit auto30C43FF7_var;
     unitgroup auto2A55C006_g;
     int auto2A55C006_u;
     unit auto2A55C006_var;
@@ -8147,9 +8145,19 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     libNCMI_gf_StopCinematicSounds();
     if ((gv_cinematicCompleted == true)) {
         UnitGroupRemoveUnitGroup(gv_cinematicTempUnits, gv_introBanshees);
+        UnitGroupAdd(gv_cinematicTempUnits, gv_nova);
         UnitGroupRemove(gv_cinematicTempUnits, gv_introNova);
+        gv_nova = gv_introNova;
+        auto30C43FF7_g = gv_introBansheesOld;
+        auto30C43FF7_u = UnitGroupCount(auto30C43FF7_g, c_unitCountAll);
+        for (;; auto30C43FF7_u -= 1) {
+            auto30C43FF7_var = UnitGroupUnitFromEnd(auto30C43FF7_g, auto30C43FF7_u);
+            if (auto30C43FF7_var == null) { break; }
+            UnitRemove(auto30C43FF7_var);
+        }
     }
 
+    lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
     auto2A55C006_g = gv_cinematicTempUnits;
     auto2A55C006_u = UnitGroupCount(auto2A55C006_g, c_unitCountAll);
     for (;; auto2A55C006_u -= 1) {
@@ -8158,7 +8166,6 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
         UnitRemove(auto2A55C006_var);
     }
     libABFE498B_gf_AP_Triggers_startNoBuild(gv_pLAYER_01_USER);
-    TriggerExecute(gt_FactionSwapStartingUnits, true, true);
     autoF5157F6F_g = gv_cinematicHiddenUnits;
     autoF5157F6F_u = UnitGroupCount(autoF5157F6F_g, c_unitCountAll);
     for (;; autoF5157F6F_u -= 1) {
