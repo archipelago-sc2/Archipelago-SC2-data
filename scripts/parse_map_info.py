@@ -12,14 +12,17 @@ import json
 
 map_info_files = glob.glob("Maps/ArchipelagoCampaign/*/ap_*.SC2Map/MapInfo", recursive=True)
 
+
 def unpack_string(contents: bytes, offset: int) -> tuple[str, int]:
     parts = contents[offset:].split(b'\0', 1)
     return parts[0].decode('utf-8'), len(parts[0]) + (len(parts) > 1)
+
 
 def prettyhex(num: int) -> str:
     if num < 0x10:
         return "0" + hex(num)[2:]
     return hex(num)[2:]
+
 
 class Player(NamedTuple):
     player_id: int
@@ -30,6 +33,7 @@ class Player(NamedTuple):
     start_point: int
     ai: int
     decal: str
+
 
 class MapInfo(NamedTuple):
     map_version: int
@@ -79,6 +83,10 @@ class Reader:
         result = b''.join(struct.unpack_from('cccc', self.contents, self.offset)).decode('utf-8')
         self.offset += 4
         return result
+    def f32(self) -> float:
+        struct.unpack_from('f', self.contents, self.offset)
+        self.offset += 4
+        return result
     def cstring(self) -> str:
         result, increment = unpack_string(self.contents, self.offset)
         self.offset += increment
@@ -87,6 +95,7 @@ class Reader:
         result = self.contents[self.offset:self.offset + n]
         self.offset += n
         return result
+
 
 def parse_player(reader: Reader) -> Player:
     player_id = reader.i8()
@@ -99,10 +108,14 @@ def parse_player(reader: Reader) -> Player:
     decal = reader.cstring()
     return Player(player_id, control, colour, faction, unknown, start_point, ai, decal)
 
+
 # Roughly following along view-source:
 # (seems old and not very workable) https://repos.sc2mapster.com/sc2/sc2-map-analyzer/trunk/read.cpp
 # https://github.com/ggtracker/sc2reader/blob/upstream/sc2reader/objects.py
 def process_map_info(filename:str, contents: bytes):
+    # Confirmed not in MapInfo:
+    # * Suggested Players
+    # * Game Minimap Image
     reader = Reader(contents)
     magic = reader.c4()
     assert magic == 'IpaM', (filename, magic)
@@ -148,7 +161,8 @@ def process_map_info(filename:str, contents: bytes):
     reader.offset += 4
 
     load_screen_type = reader.i32()
-    assert load_screen_type == 1
+    # 0 = melee, 1 = custom
+    assert load_screen_type == 1, f'load screen type {load_screen_type} != 1'
 
     load_screen_path_offset = reader.offset
     load_screen_path = reader.cstring()
@@ -168,19 +182,26 @@ def process_map_info(filename:str, contents: bytes):
     load_text_position_type = reader.i32()
 
     load_text_offset_x, load_text_offset_y, load_text_size_x, load_text_size_y = reader.fmt('<IIII', 4*4)
+    if map_version >= 39:
+        load_screen_custom_layout_file = reader.cstring()
+        load_screen_custom_layout_length = reader.i16()
+        load_screen_custom_layout_template = reader.nbytes(load_screen_custom_layout_length)
+        reader.offset += 2
+    elif map_version == 38:
+        reader.offset += 3
 
     data_flags_offset = reader.offset
     data_flags = reader.i32()
     # 0x21 means you don't need to press anything after loading to start
-    # print(f"{hex(data_flags):>8} | {filename}")
+    # print(f"{hex(data_flags):>8} | v{map_version} | {filename}")
 
-    unknown_int = reader.i32()
+    unknown_int1 = reader.i32()  # Usually 1
+    unknown_int2 = reader.i32()  # Usually 2
     # print(f"v{map_version} | {unknown_int} | {filename}")
-    unknown_range = reader.nbytes(17)  # version >= 0x1f according to sc2reader
+    unknown_range = reader.nbytes(13)  # version >= 0x1f according to sc2reader
     # print(f"v{map_version} | {' '.join(prettyhex(x) for x in unknown_range)} | {filename}")
     # Measurements from last 'Zerg', 'Prot', 'Terr'
     # we are at: 3 * 16 + 1
-    mystery_5b = b''
     if map_version == 0x1f:
         # see prophecy missions
         # 5 * 16 + 5 to player race
@@ -204,7 +225,6 @@ def process_map_info(filename:str, contents: bytes):
         # see steps of the rite
         # possible string at 3*16 + 8, controlled by int(1) immediately preceding it
         # See templar's return for an example of 3 strings/structs preceded by int(3)
-        reader.offset += 3
 
         num_strings = reader.i32()
         mystery_strings = []
@@ -223,7 +243,6 @@ def process_map_info(filename:str, contents: bytes):
         # normally 6 * 16
 
         # string in Brothers in Arms at 3*16+10, immediately preceded by int(1)
-        mystery_5b = reader.nbytes(5)
         num_strings = reader.i32()
         mystery_strings = []
         for _ in range(num_strings):
@@ -273,13 +292,36 @@ def process_map_info(filename:str, contents: bytes):
         [x._asdict() for x in players],
     )
 
+
+class MapFlag:
+    DISABLE_REPLAY_RECORDING = 0x1
+    LOADING_SCREEN_WAIT_FOR_KEY = 0x2
+    DISABLE_TRIGGER_PRELOADING = 0x4
+    ENABLE_STORY_MODE_PRELOADING = 0x8
+    USE_HORIZONTAL_FIELD_OF_VIEW = 0x10
+    HIDE_ERRORS_DURING_TEST_DOCUMENT = 0x20
+    DISABLE_OBSERVERS = 0x40
+    # unknown = 0x80
+    # unknown = 0x100
+    STAGGER_PERIODIC_TRIGGER_EVENTS = 0x200
+    # unknown = 0x400
+    # unknown = 0x800
+    HIDE_ERRORS_DURING_ONLINE_GAME = 0x1000
+    SHOW_GAME_START_COOLDOWN = 0x2000
+    ALL_UNITS_USE_BASE_HEIGHT = 0x4000
+    DISABLE_VIEW_EVERYONE = 0x8000
+    DISABLE_TAKE_COMMAND = 0x10000
+    DISABLE_RECOVER_GAME = 0x20000
+
+
 def analyze_file(filename: str) -> dict:
     with open(filename, 'rb') as fp:
         contents = fp.read()
     map_info = process_map_info(filename, contents)
     return map_info._asdict()
 
-def modify_file(filename: str, new_bg: str) -> None:
+
+def update_loading_screen_image(filename: str, new_bg: str) -> None:
     filename = f"Maps/ArchipelagoCampaign/{filename}"
     if not new_bg.lower().startswith("assets"):
         new_bg = f"Assets\\Textures\\{new_bg}"
@@ -308,43 +350,52 @@ def modify_file(filename: str, new_bg: str) -> None:
     with open(filename, 'wb') as fp:
         fp.write(new_contents)
 
+
+def set_map_info_flag(filename: str, flag: int) -> None:
+    with open(filename, 'rb') as fp:
+        contents = fp.read()
+    map_info = process_map_info(filename, contents)
+    flags = map_info.data_flags
+    # if (flags & flag) == flag:
+    #     return
+    flags |= flag
+    result_bytes = (
+        contents[:map_info.data_flags_offset]
+        + flags.to_bytes(4, 'little')
+        + contents[map_info.data_flags_offset+4:]
+    )
+    assert len(result_bytes) == len(contents)
+    assert contents[:map_info.data_flags_offset] == result_bytes[:map_info.data_flags_offset]
+    assert contents[map_info.data_flags_offset+4] == result_bytes[map_info.data_flags_offset+4]
+    with open(filename, 'wb') as fp:
+        fp.write(result_bytes)
+
+
+def print_binary_file(filename: str, output_filename: str) -> None:
+    with open(filename, 'rb') as fp:
+        contents = fp.read()
+    with open(output_filename, 'w') as fp:
+        for index, byte in enumerate(contents):
+            if index % 16 == 0:
+                fp.write(f'{hex(index)[2:]:>4} | ')
+            fp.write(f'{prettyhex(byte)}')
+            if index % 16 == 15:
+                fp.write('\n')
+            else:
+                fp.write(' ')
+
+
 if __name__ == '__main__':
     result = {}
-    # modify_file("HotS\\ap_rendezvous.SC2Map\\MapInfo", "ui_hots_loading_missionselect_zlab03.dds")
-    # modify_file("HotS\\ap_harvest_of_screams.SC2Map\\MapInfo", "ui_hots_loading_missionselect_zkaldir01.dds")
-    # modify_file("HotS\\ap_shoot_the_messenger.SC2Map\\MapInfo", "ui_hots_loading_missionselect_zkaldir01.dds")
-    # modify_file("HotS\\ap_back_in_the_saddle.SC2Map\\MapInfo", "ui_hots_loading_missionselect_zlab02a.dds")
-    # modify_file("HotS\\ap_lab_rat.SC2Map\\MapInfo", "ui_hots_loading_missionselect_zlab01.dds")
-    # modify_file("WoL\\ap_zero_hour.SC2Map\\MapInfo", "loading-terran05.dds")
-    # modify_file("WoL\\ap_the_outlaws.SC2Map\\MapInfo", "loading-marsarabarexterior.dds")
-    # modify_file("WoL\\ap_all_in.SC2Map\\MapInfo", "loading-charbattlezone.dds")
-    # modify_file("WoL\\ap_whispers_of_doom.SC2Map\\MapInfo", "loading-ulaan.dds")
-    # modify_file("WoL\\ap_a_sinister_turn.SC2Map\\MapInfo", "loading-zhakuldas.dds")
-    # modify_file("WoL\\ap_echoes_of_the_future.SC2Map\\MapInfo", "loading-aiur.dds")
-    # modify_file("WoL\\ap_in_utter_darkness.SC2Map\\MapInfo", "loading-ulnar.dds")
-    # modify_file("LotV\\ap_evil_awoken.SC2Map\\MapInfo", "ui_void_loading_prologue03.dds")
-    # modify_file("LotV\\ap_the_growing_shadow.SC2Map\\MapInfo", "ui_void_loading_aiur02.dds")
-    # modify_file("LotV\\ap_the_spear_of_adun.SC2Map\\MapInfo", "ui_void_loading_aiur03.dds")
-    # modify_file("LotV\\ap_amon_s_reach.SC2Map\\MapInfo", "ui_void_loading_shakuras01.dds")
-    # modify_file("LotV\\ap_last_stand.SC2Map\\MapInfo", "ui_void_loading_shakuras02.dds")
-    # modify_file("LotV\\ap_forbidden_weapon.SC2Map\\MapInfo", "ui_void_loading_purifier01.dds")
-    # modify_file("LotV\\ap_sky_shield.SC2Map\\MapInfo", "ui_void_loading_korhal01.dds")
-    # modify_file("LotV\\ap_brothers_in_arms.SC2Map\\MapInfo", "ui_void_loading_korhal02.dds")
-    # modify_file("LotV\\ap_the_infinite_cycle.SC2Map\\MapInfo", "ui_void_loading_ulnar02.dds")
-    # modify_file("LotV\\ap_harbinger_of_oblivion.SC2Map\\MapInfo", "ui_void_loading_ulnar03.dds")
-    # modify_file("LotV\\ap_steps_of_the_rite.SC2Map\\MapInfo", "ui_void_loading_taldarim01.dds")
-    # modify_file("LotV\\ap_rak_shir.SC2Map\\MapInfo", "ui_void_loading_taldarim02.dds")
-    # modify_file("LotV\\ap_unsealing_the_past.SC2Map\\MapInfo", "ui_void_loading_purifier02.dds")
-    # modify_file("LotV\\ap_purification.SC2Map\\MapInfo", "ui_void_loading_purifier03.dds")
-    # modify_file("LotV\\ap_templar_s_charge.SC2Map\\MapInfo", "ui_void_loading_alpha02.dds")
-    # modify_file("LotV\\ap_templar_s_return.SC2Map\\MapInfo", "ui_void_loading_aiur04.dds")
-    # modify_file("LotV\\ap_the_host.SC2Map\\MapInfo", "ui_void_loading_aiur05.dds")
-    # modify_file("LotV\\ap_salvation.SC2Map\\MapInfo", "ui_void_loading_aiur06.dds")
-    # modify_file("LotV\\ap_into_the_void.SC2Map\\MapInfo", "ui_void_loading_epilogue01.dds")
-    # modify_file("LotV\\ap_the_essence_of_eternity.SC2Map\\MapInfo", "ui_void_loading_epilogue02.dds")
-    # modify_file("LotV\\ap_amon_s_fall.SC2Map\\MapInfo", "ui_void_loading_epilogue03.dds")
+    # for file in map_info_files:
+    #     set_map_info_flag(file, MapFlag.HIDE_ERRORS_DURING_TEST_DOCUMENT)
     for file in map_info_files:
-        result[file] = analyze_file(file)
+        map_result = analyze_file(file)
+        result[file] = map_result
+        # if 'ap_the_outlaws' in file:
+        #     print_binary_file(file, 'map_info.txt')
+        #     print_binary_file(file.replace('MapInfo', 'DocumentHeader'), 'document_header.txt')
+        print(f"v{map_result['map_version']} | {hex(map_result['data_flags']):>6} | {file}")
     with open("mapinfos.json", 'w') as fp:
         json.dump(result, fp, indent=2)
 
