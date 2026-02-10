@@ -24,6 +24,12 @@ def prettyhex(num: int) -> str:
     return hex(num)[2:]
 
 
+def printable_chr(num: int) -> str:
+    if chr(num).isprintable():
+        return chr(num)
+    return '.'
+
+
 class Player(NamedTuple):
     player_id: int
     control: int
@@ -37,7 +43,7 @@ class Player(NamedTuple):
 
 class MapInfo(NamedTuple):
     map_version: int
-    noise: int
+    checksum: int
     width: int
     height: int
     small_preview_path: str
@@ -124,7 +130,7 @@ def process_map_info(filename:str, contents: bytes):
 
     # unknown 2 words
     assert map_version >= 0x18
-    noise, unknown0 = reader.fmt('<II', 8)
+    checksum, unknown0 = reader.fmt('<II', 8)
     assert unknown0 == 0
 
     width, height = reader.fmt('<II', 8)
@@ -270,7 +276,7 @@ def process_map_info(filename:str, contents: bytes):
 
     return MapInfo(
         map_version,
-        noise,
+        checksum,
         width,
         height,
         small_preview_path,
@@ -314,6 +320,11 @@ class MapFlag:
     DISABLE_RECOVER_GAME = 0x20000
 
 
+CHECKSUM_DIFFERENCE = {
+    MapFlag.HIDE_ERRORS_DURING_TEST_DOCUMENT: -1,
+}
+
+
 def analyze_file(filename: str) -> dict:
     with open(filename, 'rb') as fp:
         contents = fp.read()
@@ -351,21 +362,45 @@ def update_loading_screen_image(filename: str, new_bg: str) -> None:
         fp.write(new_contents)
 
 
-def set_map_info_flag(filename: str, flag: int) -> None:
+def set_map_info_flag(filename: str, flag: int, checksum_diff: int) -> None:
     with open(filename, 'rb') as fp:
         contents = fp.read()
     map_info = process_map_info(filename, contents)
     flags = map_info.data_flags
-    # if (flags & flag) == flag:
-    #     return
+    if (flags & flag) == flag:
+        return
     flags |= flag
+    checksum = map_info.checksum + checksum_diff
     result_bytes = (
-        contents[:map_info.data_flags_offset]
+        contents[:8]
+        + checksum.to_bytes(4, 'little')
+        + contents[12:map_info.data_flags_offset]
         + flags.to_bytes(4, 'little')
         + contents[map_info.data_flags_offset+4:]
     )
     assert len(result_bytes) == len(contents)
-    assert contents[:map_info.data_flags_offset] == result_bytes[:map_info.data_flags_offset]
+    assert contents[map_info.data_flags_offset+4] == result_bytes[map_info.data_flags_offset+4]
+    with open(filename, 'wb') as fp:
+        fp.write(result_bytes)
+
+
+def unset_map_info_flag(filename: str, flag: int, checksum_diff: int) -> None:
+    with open(filename, 'rb') as fp:
+        contents = fp.read()
+    map_info = process_map_info(filename, contents)
+    flags = map_info.data_flags
+    if (flags & flag) == 0:
+        return
+    flags &= ~flag
+    checksum = map_info.checksum - checksum_diff
+    result_bytes = (
+        contents[:8]
+        + checksum.to_bytes(4, 'little')
+        + contents[12:map_info.data_flags_offset]
+        + flags.to_bytes(4, 'little')
+        + contents[map_info.data_flags_offset+4:]
+    )
+    assert len(result_bytes) == len(contents)
     assert contents[map_info.data_flags_offset+4] == result_bytes[map_info.data_flags_offset+4]
     with open(filename, 'wb') as fp:
         fp.write(result_bytes)
@@ -375,26 +410,23 @@ def print_binary_file(filename: str, output_filename: str) -> None:
     with open(filename, 'rb') as fp:
         contents = fp.read()
     with open(output_filename, 'w') as fp:
-        for index, byte in enumerate(contents):
-            if index % 16 == 0:
-                fp.write(f'{hex(index)[2:]:>4} | ')
-            fp.write(f'{prettyhex(byte)}')
-            if index % 16 == 15:
-                fp.write('\n')
-            else:
-                fp.write(' ')
+        for offset in range(0, len(contents), 16):
+            line = contents[offset:offset+16]
+            fp.write(f'{hex(offset)[2:]:>4} | {" ".join(map(prettyhex, line))} | {" ".join(map(printable_chr, line))}\n')
 
 
 if __name__ == '__main__':
     result = {}
-    # for file in map_info_files:
-    #     set_map_info_flag(file, MapFlag.HIDE_ERRORS_DURING_TEST_DOCUMENT)
+    for file in map_info_files:
+        set_map_info_flag(
+            file,
+            MapFlag.HIDE_ERRORS_DURING_TEST_DOCUMENT,
+            CHECKSUM_DIFFERENCE[MapFlag.HIDE_ERRORS_DURING_TEST_DOCUMENT],
+        )
+    SUFFIX = '_updated'
     for file in map_info_files:
         map_result = analyze_file(file)
         result[file] = map_result
-        # if 'ap_the_outlaws' in file:
-        #     print_binary_file(file, 'map_info.txt')
-        #     print_binary_file(file.replace('MapInfo', 'DocumentHeader'), 'document_header.txt')
         print(f"v{map_result['map_version']} | {hex(map_result['data_flags']):>6} | {file}")
     with open("mapinfos.json", 'w') as fp:
         json.dump(result, fp, indent=2)
