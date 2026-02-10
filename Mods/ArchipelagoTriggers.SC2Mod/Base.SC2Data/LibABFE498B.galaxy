@@ -12114,6 +12114,52 @@ void libABFE498B_gt_AP_Triggers_warpGateSafety_Init () {
     TriggerAddEventTimePeriodic(libABFE498B_gt_AP_Triggers_warpGateSafety, 1.0, c_timeGame);
 }
 
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_ObjectGroupFix
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_ObjectGroupFix_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup auto5D97A46C_g;
+    unitgroup autoEE68A004_g;
+    int autoEE68A004_u;
+    unit autoEE68A004_var;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto5D97A46C_g = PlayerGroupActive();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto5D97A46C_g, lv_player);
+        if (lv_player < 0) { break; }
+        if ((PlayerType(lv_player) == c_playerTypeComputer)) {
+            autoEE68A004_g = UnitGroup(null, lv_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
+            autoEE68A004_u = UnitGroupCount(autoEE68A004_g, c_unitCountAll);
+            for (;; autoEE68A004_u -= 1) {
+                autoEE68A004_var = UnitGroupUnitFromEnd(autoEE68A004_g, autoEE68A004_u);
+                if (autoEE68A004_var == null) { break; }
+                UnitSetOwner(autoEE68A004_var, 0, false);
+                UnitSetOwner(autoEE68A004_var, lv_player, false);
+            }
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_ObjectGroupFix_Init () {
+    libABFE498B_gt_AP_Triggers_ObjectGroupFix = TriggerCreate("libABFE498B_gt_AP_Triggers_ObjectGroupFix_Func");
+    TriggerAddEventTimeElapsed(libABFE498B_gt_AP_Triggers_ObjectGroupFix, 0.0, c_timeGame);
+}
+
 void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_PatchesInit_Init();
     libABFE498B_gt_AP_Triggers_bankInit_Init();
@@ -12138,6 +12184,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_warpInInit_Init();
     libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init();
     libABFE498B_gt_AP_Triggers_warpGateSafety_Init();
+    libABFE498B_gt_AP_Triggers_ObjectGroupFix_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
