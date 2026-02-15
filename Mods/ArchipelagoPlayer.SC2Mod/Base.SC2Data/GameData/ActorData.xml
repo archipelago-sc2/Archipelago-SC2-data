@@ -19337,7 +19337,7 @@
     </CActorModel>
     <CActorModel id="AP_QueenDeathRagdoll" parent="UnitDeathRagdoll">
         <Model value="QueenDeathRagdoll"/>
-        <On Terms="ActorCreation" Send="Create QueenDeathRagdollDetonationForce"/>
+        <On Terms="ActorCreation" Send="Create AP_HiveQueenDeathRagdollDetonationForce"/>
     </CActorModel>
     <CActorAction id="AP_QueenAttack" parent="GenericAttack" effectAttack="AP_Talons">
         <LaunchAssets Model="QueenAttackLaunch" Sound="Queen_AttackLaunch"/>
@@ -19366,16 +19366,10 @@
     <CActorSound id="AP_Queen_Death" parent="SoundOneShot">
         <On Terms="UnitDeath.AP_Queen; PassChance 25.000000" Send="Create"/>
         <On Terms="UnitDeath.AP_QueenBurrowed; PassChance 25.000000" Send="Create"/>
+        <On Terms="UnitDeath.AP_HiveQueen; PassChance 25.000000" Send="Create"/>
+        <On Terms="UnitDeath.AP_HiveQueenBurrowed; PassChance 25.000000" Send="Create"/>
         <Sound value="Queen_Death"/>
     </CActorSound>
-    <CActorModel id="AP_SquibTransfusion" parent="ModelAnimationStyleOneShot">
-        <Inherits index="CloakEffect" value="1"/>
-        <Inherits index="Visibility" value="1"/>
-        <On Terms="Effect.Transfusion.Start; At Target" Send="Create"/>
-        <Host Subject="_Selectable"/>
-        <HostSiteOps Ops="SOpAttachCenter"/>
-        <Model value="SquibTransfusion"/>
-    </CActorModel>
     <CActorAction id="AP_TalonsLMAttack" parent="GenericAttack" effectImpact="AP_TalonsMissileDamage" effectLaunch="AP_TalonsLM">
         <LaunchAttachQuery Methods="Weapon"/>
         <LaunchAssets Sound="AcidSpines_AttackLaunch"/>
@@ -19387,12 +19381,182 @@
     <CActorMissile id="AP_TalonsLMAttackMissile" parent="GenericAttackMissile" unitName="AP_TalonsMissileWeapon">
         <Model value="TalonsMissileWeapon"/>
     </CActorMissile>
-    <CActorRange id="AP_TransfusionRange" parent="RangeAbil" abil="AP_Transfusion"/>
+    <!--                                                                                         -->
+    <!-- Hive Queen ............................................................................ -->
+    <!--                                                                                         -->
+    <CActorUnit id="AP_HiveQueen" parent="GenericUnitBase" unitName="AP_HiveQueen">
+        <On Terms="UnitBirth.AP_HiveQueenBurrowed" Send="Create"/>
+        <On Terms="UnitBirth.AP_HiveQueenBurrowed" Send="AnimBracketStart Burrow Burrow IGNORE Unburrow ClosingFull,OpeningPlayForever,Instant"/>
+        <On Terms="UnitBirth.AP_HiveQueen.Normal" Send="AnimPlay Unburrow Unburrow 0 0.000000"/>
+        <On Terms="Abil.AP_HiveQueenBuild.WorkerStart" Send="AnimPlay WorkStart Stand,Work,Start"/>
+        <On Terms="AnimDone; AnimName WorkStart" Send="AnimPlay WorkEnd Stand,Work,End"/>
+        <On Terms="Abil.AP_SpawnLarva.SourceCastStart" Send="AnimPlay SpellA Spell,A"/>
+        <On Terms="Abil.AP_HiveQueenTransfusion.SourceFinishStart" Send="AnimPlay SpellB Spell,B"/>
+        <On Terms="AbilMorph.*.Start; AbilKey BurrowDown" Send="Create BurrowDownLarge"/>
+        <On Terms="AbilMorph.*.Cancel; MorphFrom Queen; MorphTo QueenBurrowed" Send="AnimClear Burrow"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo Queen; MorphFrom QueenBurrowed" Send="AnimBracketStop Burrow"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo Queen; MorphFrom QueenBurrowed" Send="AnimClear Burrow"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <!-- Air Weapon -->
+        <On Terms="WeaponStart.AP_HiveQueenAcidSpines.AttackStart" Send="AnimBracketStart Attack Spell,C"/>
+        <!-- Ground Weapon -->
+        <On Terms="WeaponStart.AP_HiveQueenTalons.AttackStart; WeaponTargetDistance LE 1.000000" Send="AnimBracketStart Attack Attack,Cover"/>
+        <On Terms="WeaponStart.AP_HiveQueenTalons.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <!-- Swarm -->
+        <On Terms="UnitBirth.AP_HiveQueen" Send="TerrainSquibActivateGroup RippleStandard"/>
+        <On Terms="UnitBirth.AP_HiveQueen" Send="Create AP_QueenCreepBirth"/>
+        <On Terms="UnitBirth.AP_HiveQueen" Send="Create AP_HiveQueen_Birth"/>
+        <On Terms="UnitBirth.AP_HiveQueen" Send="Create AP_HiveQueen_Birth2"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_HiveQueen; MorphFrom AP_HiveQueenBurrowed" Send="TerrainSquibActivateGroup RippleStandard"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_HiveQueenBurrowed; MorphFrom AP_HiveQueen" Send="TerrainSquibDeactivate"/>
+        <On Terms="WeaponStart.AP_HiveQueenTalonsMissile.AttackStart" Send="AnimBracketStart Attack Spell,C"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_HiveQueen_Land"/>
+        <Macros value="ZergBurrowStandardAnimMacro"/>
+        <Macros value="ZergLargeBurrowEffects"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <DeathCustoms ModelLink="ZergLargeUnitDeathLow" Name="AntiGravZerg"/>
+        <DeathArray index="Normal" ModelLink="AP_HiveQueenDeath" SoundLink="Queen_Explode"/>
+        <DeathArray index="Disintegrate" ModelLink="AP_HiveQueenDeathAcid" SoundLink="Uni_DeathFXAcid"/>
+        <DeathArray index="Fire" ModelLink="AP_HiveQueenDeathFire" SoundLink="Uni_DeathFXFire"/>
+        <DeathCustoms ActorModel="AP_HiveQueenDeathRagdoll" ModelLink="AP_HiveQueenDeathRagdoll" Name="RagdollBasic"/>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <TerrainSquibs>
+            <GroupName value="RippleStandard"/>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="2.000000"/>
+            <RangeDown value="2.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleQueen"/>
+        </TerrainSquibs>
+        <MovementHerdNode value="HerdNode_ZergQueens"/>
+        <PortraitModel value="AP_HiveQueenPortrait"/>
+        <WalkAnimMoveSpeed value="1.7031"/>
+        <BarOffset value="75"/>
+        <UnitIcon value="Assets\Textures\btn-unit-zerg-queen.dds"/>
+        <HeroIcon value="Assets\Textures\btn-unit-zerg-queen.dds"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Zerg-Queen.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Zerg-Queen.dds"/>
+        </Wireframe>
+        <SoundArray index="Ready" value="QueenReady"/>
+        <SoundArray index="Help" value="QueenHelp"/>
+        <SoundArray index="What" value="QueenWhat"/>
+        <SoundArray index="Yes" value="QueenYes"/>
+        <SoundArray index="Attack" value="Queen_Attack"/>
+        <SoundArray index="Pissed" value="Queen_Pissed"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-zerg-groundcarapace-level0.dds"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="Alert_ZergBuildError" GroupSound="Alert_ZergBuildError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="Alert_ZergBuildError" GroupSound="Alert_ZergBuildError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="Alert_ZergBuildError" GroupSound="Alert_ZergBuildError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="Alert_ZergBuildError" GroupSound="Alert_ZergBuildError"/>
+        <Aliases value="_UnitLarge"/>
+    </CActorUnit>
+    <CActorSplat id="AP_HiveQueenBurrowedSplat" parent="BurrowedSplat" unitName="AP_HiveQueen"/>
+    <CActorSound id="AP_HiveQueen_Birth" parent="SoundOneShot">
+        <Sound value="Queen_Birth"/>
+    </CActorSound>
+    <CActorSound id="AP_HiveQueen_Birth2" parent="SoundOneShot">
+        <Sound value="Queen_Birth2"/>
+    </CActorSound>
+    <CActorModel id="AP_HiveQueenDeathRagdoll" parent="UnitDeathRagdoll">
+        <On Terms="ActorCreation" Send="Create AP_HiveQueenDeathRagdollDetonationForce"/>
+        <Model value="AP_HiveQueenDeathRagdoll"/>
+    </CActorModel>
+    <CActorForceSphere id="AP_HiveQueenDeathRagdollDetonationForce" parent="DeathRagdollDetonationForce">
+        <Magnitude value="8.000000,4.000000"/>
+        <Radius value="1.500000,0.250000"/>
+    </CActorForceSphere>
+    <CActorSound id="AP_HiveQueen_Land" parent="SoundOneShot">
+        <Sound value="Queen_Land"/>
+    </CActorSound>
+    <!-- Hive Queen Attacks -->
+    <CActorAction id="AP_HiveQueenTalonsAttack" parent="GenericAttack" effectAttack="AP_HiveQueenTalonsDamage">
+        <LaunchAssets Model="QueenAttackLaunch" Sound="Queen_AttackLaunch"/>
+        <ImpactMap index="None" Sound="Queen_AttackImpact"/>
+        <ShieldFlashType value="Header"/>
+        <ImpactPhysics Name="Attack" MatchKeys="Basic" Physics="AP_HiveQueenMeleeAttackForce"/>
+    </CActorAction>
+    <CActorAction id="AP_HiveQueenTalonsLMAttack" parent="GenericAttack" effectImpact="AP_HiveQueenTalonsDamage" effectLaunch="AP_HiveQueenTalonsLM">
+        <LaunchAttachQuery Methods="Weapon"/>
+        <LaunchAssets Sound="AcidSpines_AttackLaunch"/>
+        <ImpactMap index="None" Model="QueenMissileImpact" Sound="AcidSpines_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ShieldFlashType value="Header"/>
+        <ImpactPhysics Name="AcidSpinesImpact" MatchKeys="Basic" Physics="QueenAttackDeathForce"/>
+    </CActorAction>
+    <CActorAction id="AP_HiveQueenAcidSpinesAttack" parent="GenericAttack" effectImpact="AP_HiveQueenAcidSpinesDamage" effectLaunch="AP_HiveQueenAcidSpinesLM">
+        <LaunchAttachQuery Methods="Weapon"/>
+        <LaunchAssets Sound="AcidSpines_AttackLaunch"/>
+        <ImpactMap index="None" Sound="AcidSpines_AttackImpact"/>
+        <ShieldFlashType value="Header"/>
+    </CActorAction>
+    <CActorForceSphere id="AP_HiveQueenMeleeAttackForce">
+        <HostSiteOps Ops="SOpTargetUnit SOpSplashDamagePositionVariance"/>
+        <!-- Lighter than usual, b/c there are two of them, and they are not limited to the target. -->
+        <Magnitude value="11.025000,4.500000"/>
+        <Radius value="1.000000,0.400000"/>
+        <Duration value="0.300000"/>
+    </CActorForceSphere>
+    <CActorForceSphere id="AP_HiveQueenAttackDeathForce" parent="MissileAttackDeathForce">
+        <Magnitude value="13.950000,4.500000"/>
+        <Radius value="0.750000,0.250000"/>
+        <On Terms="ActorCreation" Send="Create AP_HiveQueenAttackExplosionDeathForce"/>
+    </CActorForceSphere>
+    <CActorForceSphere id="AP_HiveQueenAttackExplosionDeathForce">
+        <Host Subject="_ImpactGuide"/>
+        <HostSiteOps Ops="SOpRandomPointInSphereDot25"/>
+        <Magnitude value="11.250000,6.750000"/>
+        <Radius value="0.500000,0.300000"/>
+        <Duration value="0.150000"/>
+    </CActorForceSphere>
+    <!-- Hive Queen Abilities -->
+    <CActorRange id="AP_TransfusionRange" parent="RangeAbil" abil="AP_HiveQueenTransfusion"/>
     <CActorSound id="AP_TransfusionSound" parent="SoundOneShot">
-        <On Terms="Effect.AP_Transfusion.Start; At Target" Send="Create"/>
+        <On Terms="Effect.AP_HiveQueenTransfusion.Start; At Target" Send="Create"/>
         <Host Subject="_Selectable"/>
         <Sound value="Queen_Transfusion"/>
     </CActorSound>
+    <CActorModel id="AP_SquibTransfusion" parent="ModelAnimationStyleOneShot">
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Effect.AP_HiveQueenTransfusion.Start; At Target" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <Model value="SquibTransfusion"/>
+    </CActorModel>
+    <CActorSound id="AP_HiveQueenTransfusionSound" parent="SoundOneShot">
+        <Sound value="Queen_Transfusion"/>
+        <On Terms="Effect.AP_HiveQueenTransfusion.Start; At Target" Send="Create"/>
+        <Host Subject="_Selectable"/>
+    </CActorSound>
+    <!--                                                                                         -->
+    <!-- Primal Zergling ....................................................................... -->
+    <!--                                                                                         -->
     <CActorUnit id="AP_PrimalZergling" parent="GenericUnitStandard" unitName="AP_PrimalZergling">
         <Aliases value="_UnitSmall"/>
         <Macros value="ZergBurrowStandardAnimMacro"/>

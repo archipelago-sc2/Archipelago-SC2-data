@@ -5853,6 +5853,17 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_ParasiticBombTimer"/>
     </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_NotDisintegratingAP">
+        <Value value="1"/>
+        <Behavior value="AP_LightningBomb"/>
+        <ResultFailed value="CantTargetThatUnit"/>
+        <Compare value="NE"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorCombine id="AP_NotDisintegrating">
+        <Type value="And"/>
+        <CombineArray value="AP_NotDisintegratingAP"/>
+        <ResultFailed value="CantTargetThatUnit"/>
+    </CValidatorCombine>
     <CValidatorUnitFilters id="AP_TargetIsNotGround">
         <Filters value="-;Ground"/>
     </CValidatorUnitFilters>

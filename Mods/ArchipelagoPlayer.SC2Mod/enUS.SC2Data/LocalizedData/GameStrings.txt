@@ -51,6 +51,8 @@ Abil/Name/AP_BurrowBanelingUp=Unburrow (Baneling)
 Abil/Name/AP_BurrowChargeRevD=Burrow Charge Rev D
 Abil/Name/AP_BurrowCreepTumorDown=Burrow
 Abil/Name/AP_BurrowDroneDown=Burrow (Drone)
+Abil/Name/AP_BurrowHiveQueenDown=Burrow (Hive Queen)
+Abil/Name/AP_BurrowHiveQueenUp=Unburrow (Hive Queen)
 Abil/Name/AP_BurrowHotSSplitterlingMediumDown=Burrow (Splitter, Medium)
 Abil/Name/AP_BurrowHotSSplitterlingMediumUp=Unburrow (Splitter, Medium)
 Abil/Name/AP_BurrowHydraliskDown=Burrow (Hydralisk)
@@ -156,6 +158,7 @@ Abil/Name/AP_HercGrapple=Herc - Grapple - Nova
 Abil/Name/AP_HerculesTransport=Hercules Transport
 Abil/Name/AP_HeroArmNuke=Hero Arm Nuke
 Abil/Name/AP_HeroNuclearStrike=Hero Nuclear Strike
+Abil/Name/AP_HiveQueenTransfusion=Transfusion
 Abil/Name/AP_HotSBioPlasmidDischarge=HotS Bio Plasmid Discharge
 Abil/Name/AP_HotSBioStasis=HotS Bio Stasis
 Abil/Name/AP_HotSRaptorCharge=Leap
@@ -404,7 +407,6 @@ Abil/Name/AP_TorrasqueCorpse=Torrasque Corpse
 Abil/Name/AP_TradeStructureTransport=AP_TradeStructureTransport
 Abil/Name/AP_TrainQueen=Train Queen
 Abil/Name/AP_TrainStarportAdditionalUnits=Train (Starport) - Additional Units
-Abil/Name/AP_Transfusion=Transfusion
 Abil/Name/AP_TransportMode=Transport Mode
 Abil/Name/AP_UltraliskBurrowCharge=Ultralisk Burrow Charge
 Abil/Name/AP_UltraliskWeaponCooldown=Ultralisk Weapon Cooldown
@@ -560,6 +562,7 @@ Behavior/Name/AP_HHWraithFury8=Trigger Override
 Behavior/Name/AP_HHWraithFury9=Trigger Override
 Behavior/Name/AP_HellbatLeapStun=Stunned
 Behavior/Name/AP_HighArchonPsiStorm=Psi Storm
+Behavior/Name/AP_HiveQueenTransfusion=Transfusion
 Behavior/Name/AP_HotSBioStasis=Bio-Stasis
 Behavior/Name/AP_HotSRaptorCharging=Leaping
 Behavior/Name/AP_HotSRoachShieldIndicator=Adaptive Plating
@@ -859,6 +862,7 @@ Behavior/Tooltip/AP_HHWraithFury8=Attack Speed increased by 80%
 Behavior/Tooltip/AP_HHWraithFury9=Attack Speed increased by 90%
 Behavior/Tooltip/AP_HellbatLeapStun=This unit cannot move or attack.
 Behavior/Tooltip/AP_HighArchonPsiStorm=Target is under the effects of Psionic Storm and will take massive damage while in this area of effect.
+Behavior/Tooltip/AP_HiveQueenTransfusion=This unit is regenerating health.
 Behavior/Tooltip/AP_HotSBioStasis=Target is stunned.
 Behavior/Tooltip/AP_HotSRaptorCharging=This Raptor is leaping, allowing it to quickly close the distance with its target.
 Behavior/Tooltip/AP_HotSRoachShieldIndicator=Roach gains +<d ref="Behavior,AP_RoachShield,Modification[0].LifeArmorBonus"/> armor when life is under 50%.
@@ -1485,6 +1489,8 @@ Button/Name/AP_HiveMindEmulatorAll=Mind Control
 Button/Name/AP_HiveMindEmulatorProtoss=Argus Amplifier
 Button/Name/AP_HiveMindEmulatorTerran=Psi Indoctrinator
 Button/Name/AP_HiveMindEmulatorZerg=Hive Mind Emulator
+Button/Name/AP_HiveQueen=Birth Hive Queen
+Button/Name/AP_HiveQueenTransfusion=Transfusion
 Button/Name/AP_HostileEnvironmentAdaptation=Hostile Environment Adaptation
 Button/Name/AP_HotSBioPlasmidDischarge=Bio-Plasmid Discharge
 Button/Name/AP_HotSBioStasis=Bio-Stasis
@@ -3054,6 +3060,8 @@ Button/Tooltip/AP_HiveMindEmulatorAll=The Hive Mind Emulator can Mind Control un
 Button/Tooltip/AP_HiveMindEmulatorProtoss=The Hive Mind Emulator can Mind Control Protoss units.<n/><n/><c val="#ColorAttackInfo">Heroic units are immune.</c>
 Button/Tooltip/AP_HiveMindEmulatorTerran=The Hive Mind Emulator can Mind Control Terran units.<n/><n/><c val="#ColorAttackInfo">Heroic units are immune.</c>
 Button/Tooltip/AP_HiveMindEmulatorZerg=The Hive Mind Emulator can Mind Control Zerg units.<n/><n/><c val="#ColorAttackInfo">Heroic units are immune.</c>
+Button/Tooltip/AP_HiveQueen=Defensive unit. Can use Spawn Larvae, Spawn Creep Tumor, and Transfusion. Moves much faster on creep.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
+Button/Tooltip/AP_HiveQueenTransfusion=Instantly <c val="#ColorTooltipAttribute">heals</c> target biological unit or structure for <c val="#ColorTooltipNumber"><d ref="Effect,AP_HiveQueenTransfusion,VitalArray[Life].Change"/></c> life. An additional <c val="#ColorTooltipNumber"><d ref="Behavior,AP_HiveQueenTransfusion,Duration / Behavior,AP_HiveQueenTransfusion,Period * Effect,AP_HiveQueenTransfusionHealTick,VitalArray[Life].Change" precision="3"/></c> life <c val="#ColorTooltipAttribute">regenerates</c> over <d ref="Behavior,AP_HiveQueenTransfusion,Duration"/> seconds.
 Button/Tooltip/AP_HostileEnvironmentAdaptation=Increases SCV life by 15 and attack speed slightly.
 Button/Tooltip/AP_HotSBioPlasmidDischarge=Deals <d ref="Effect,AP_HotSBioPlasmidDischargeDamage,Amount"/> damage to a target unit or structure from long range.
 Button/Tooltip/AP_HotSBioStasis=Enemies in target area are stunned for <d ref="Behavior,AP_HotSBioStasis,Duration"/> seconds. Does not affect Heroic units or Structures.
@@ -5905,6 +5913,7 @@ Param/Value/lib_15EF4C78_EAFF7887=<c val="FF9800">Dehaka has been revived at you
 RequirementNode/Tooltip/AP_BileLauncherBesideSpawningPool=Built beside Spawning Pool
 RequirementNode/Tooltip/AP_CompareNodeLTTyrannozorMergeSupply=Have enough supply
 RequirementNode/Tooltip/AP_CountBehaviorAP_ScoutTaldarimVulcanBlasterCompleteOnlyAtUnit3032945838=Cannot cancel during chargeup.
+RequirementNode/Tooltip/AP_CountBehaviorQueenOnCreepOnlyAtUnit=Hive Queen must be on creep
 RequirementNode/Tooltip/AP_CountBehaviorPurificationNovaTargettedCasterCompleteOnlyAtUnit=Must have active Purification Nova
 RequirementNode/Tooltip/AP_CountUnitFactoryCompleteOnly=Factory
 RequirementNode/Tooltip/AP_CountUnitFactoryFlyingCompleteOnly=Flying Factory
@@ -6266,6 +6275,7 @@ Unit/Name/AP_HighTemplarTaldarim=Ascendant
 Unit/Name/AP_HighTemplarWeapon=High Templar Weapon
 Unit/Name/AP_Hive=Hive
 Unit/Name/AP_HiveMindEmulator=Hive Mind Emulator
+Unit/Name/AP_HiveQueen=Hive Queen
 Unit/Name/AP_HotSBioPlasmidDischargeWeapon=HotS Bio Plasmid Discharge Weapon
 Unit/Name/AP_HotSBioStasisMissile=HotS Bio Stasis Missile
 Unit/Name/AP_HotSHunter=Baneling
@@ -7199,6 +7209,9 @@ Weapon/Name/AP_HellionTank=Napalm Spray
 Weapon/Name/AP_HighTemplarFakeWeapon=High Templar Fake Weapon
 Weapon/Name/AP_HighTemplarWeapon=Psi Blast
 Weapon/Name/AP_HiveMindEmulator=Hive Mind Emulator
+Weapon/Name/AP_HiveQueenAcidSpines=Acid Spines
+Weapon/Name/AP_HiveQueenTalons=Talons
+Weapon/Name/AP_HiveQueenTalonsMissile=Talons
 Weapon/Name/AP_HotSBanelingDummy=Volatile Burst
 Weapon/Name/AP_HotSBanelingDummySmall=Volatile Burst
 Weapon/Name/AP_HotSBanelingExplode=HotS Baneling Explode

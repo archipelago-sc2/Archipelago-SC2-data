@@ -18,6 +18,15 @@
         <CombineArray value="AP_IsVanillaRoboticsFacilityWarp"/>
         <CombineArray value="AP_IsAPRoboticsFacilityWarp"/>
     </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="AP_NotDisintegratingVanilla">
+        <Value value="1"/>
+        <Behavior value="LightningBomb"/>
+        <ResultFailed value="CantTargetThatUnit"/>
+        <Compare value="NE"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorCombine id="AP_NotDisintegrating">
+        <CombineArray value="AP_NotDisintegratingVanilla"/>
+    </CValidatorCombine>
     <CValidatorCombine id="AP_TargetisHybrid">
         <CombineArray value="AP_IsHybridUnit"/>
         <CombineArray value="AP_TargetIsHybridReaver"/>

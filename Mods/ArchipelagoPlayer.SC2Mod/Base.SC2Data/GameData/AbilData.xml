@@ -11653,9 +11653,11 @@
             </Button>
             <Unit value="AP_Queen"/>
         </InfoArray>
-        <InfoArray index="Train2" Time="90">
-            <Button DefaultButtonFace="HotSLeviathan" Requirements="HaveDestroyerLeviathan"/>
-            <Unit value="HotSLeviathan"/>
+        <InfoArray index="Train2" Time="40">
+            <Button DefaultButtonFace="AP_HiveQueen" Requirements="AP_HaveHiveQueen">
+                <Flags index="ToSelection" value="1"/>
+            </Button>
+            <Unit value="AP_HiveQueen"/>
         </InfoArray>
     </CAbilTrain>
     <CAbilMorph id="AP_UpgradeToHive">
@@ -11801,22 +11803,83 @@
         <SharedFlags index="RegisterCooldownEvent" value="1"/>
         <EffectArray index="Start" value="AP_CreepTumorLaunchMissileSet"/>
     </CAbilBuild>
-    <CAbilEffectTarget id="AP_Transfusion">
+    <CAbilEffectTarget id="AP_HiveQueenTransfusion">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <Effect index="0" value="Transfusion"/>
+        <Effect index="0" value="AP_HiveQueenTransfusionImpactSet"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Cost>
             <Vital index="Energy" value="50"/>
-            <Cooldown Link="TransfusionAP_Transfusion" TimeUse="1"/>
+            <Cooldown Link="AP_HiveQueenTransfusion" TimeUse="1"/>
         </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HiveQueenTransfusion" Requirements="AP_QueenOnCreep"/>
         <TargetFilters value="Biological,Visible;Self,Neutral,Enemy,Missile,UnderConstruction,Dead,Hidden,Invulnerable"/>
         <Range value="7"/>
         <CastIntroTime value="0.2"/>
         <FinishTime value="0.8"/>
         <UninterruptibleArray index="Finish" value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Transfusion"/>
     </CAbilEffectTarget>
+    <CAbilMorph id="AP_BurrowHiveQueenDown">
+        <AbilSetId value="BrwD"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
+        <ActorKey value="BurrowDown"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowDown">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <Flags index="Interruptible" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnorePlacement" value="0"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <InfoArray Unit="AP_HiveQueenBurrowed" RandomDelayMax="0.25">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="0.8332"/>
+            </SectionArray>
+            <SectionArray index="Collide">
+                <DurationArray index="Delay" value="0.5556"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Delay" value="0.6665"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="AP_BurrowHiveQueenUp">
+        <AbilSetId value="BrwU"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
+        <ActorKey value="BurrowUp"/>
+        <AutoCastFilters value="Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden"/>
+        <AutoCastRange value="5"/>
+        <AutoCastCountMin value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowUp">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <InfoArray Unit="AP_HiveQueen" RandomDelayMax="0.5">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Duration" value="0.4443"/>
+            </SectionArray>
+        </InfoArray>
+        <AutoCastValidatorArray value="TargetNotChangeling"/>
+    </CAbilMorph>
+    <CAbilBuild id="AP_HiveQueenBuild">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Alert value="BuildComplete_Zerg"/>
+        <FlagArray index="PeonMaintained" value="0"/>
+        <FlagArray index="RangeIncludesBuilding" value="0"/>
+        <InfoArray index="Build1" Unit="AP_CreepTumorQueen" Delay="2" Time="15">
+            <Vital index="Energy" value="25"/>
+            <Button DefaultButtonFace="AP_CreepTumor">
+                <Flags index="ShowInGlossary" value="1"/>
+            </Button>
+        </InfoArray>
+        <InfoArray index="Build2" Time="30"/>
+        <InfoArray index="Build3" Time="30"/>
+    </CAbilBuild>
     <CAbilMorph id="AP_BurrowQueenUp">
         <AbilSetId value="BrwU"/>
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>

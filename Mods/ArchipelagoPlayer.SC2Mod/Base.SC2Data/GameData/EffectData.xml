@@ -14588,6 +14588,73 @@
         <Kind value="Ranged"/>
         <Amount value="4"/>
     </CEffectDamage>
+    <CEffectLaunchMissile id="AP_HiveQueenAcidSpinesLM">
+        <EditorCategories value="Race:Zerg"/>
+        <ImpactEffect value="AP_HiveQueenAcidSpinesDamage"/>
+        <AmmoUnit value="AP_AcidSpinesWeapon"/>
+        <Movers Link="AcidSpinesWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="AP_HiveQueenAcidSpinesDamage" parent="DU_WEAP">
+        <EditorCategories value="Race:Zerg"/>
+        <Kind value="Ranged"/>
+        <Amount value="9"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="AP_HiveQueenTalonsBurst">
+        <EditorCategories value="Race:Zerg"/>
+        <PeriodCount value="2"/>
+        <WhichLocation Value="TargetUnit"/>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodicEffectArray value="AP_HiveQueenTalonsDamage"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0.3"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="AP_HiveQueenTalonsDamage" parent="DU_WEAP">
+        <EditorCategories value="Race:Zerg"/>
+        <Kind value="Ranged"/>
+        <Amount value="4"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="AP_HiveQueenTalonsMissileBurst">
+        <EditorCategories value="Race:Zerg"/>
+        <PeriodCount value="2"/>
+        <WhichLocation Value="TargetUnit"/>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodicEffectArray value="AP_HiveQueenTalonsLM"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0.3"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="AP_HiveQueenTalonsLM">
+        <EditorCategories value="Race:Zerg"/>
+        <ImpactEffect value="AP_HiveQueenTalonsDamage"/>
+        <AmmoUnit value="AP_TalonsMissileWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_HiveQueenTransfusionImpactSet">
+        <ValidatorArray value="LifeNotFull"/>
+        <ValidatorArray value="AP_NotDisintegrating"/>
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_HiveQueenTransfusion"/>
+        <EffectArray value="AP_HiveQueenTransfusionAB"/>
+    </CEffectSet>
+    <CEffectModifyUnit id="AP_HiveQueenTransfusion">
+        <EditorCategories value="Race:Zerg"/>
+        <ValidatorArray value="LifeNotFull"/>
+        <VitalArray index="Life">
+            <Change value="75"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectApplyBehavior id="AP_HiveQueenTransfusionAB">
+        <ValidatorArray index="0" value=""/>
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_HiveQueenTransfusion"/>
+    </CEffectApplyBehavior>
+    <CEffectModifyUnit id="AP_HiveQueenTransfusionHealTick">
+        <ValidatorArray value="AP_NotDisintegrating"/>
+        <EditorCategories value="Race:Zerg"/>
+        <VitalArray index="Life">
+            <Change value="0.3125"/>
+        </VitalArray>
+    </CEffectModifyUnit>
     <CEffectDamage id="AP_PrimalZergling" parent="DU_WEAP">
         <EditorCategories value="Race:Zerg"/>
         <Amount value="5"/>
