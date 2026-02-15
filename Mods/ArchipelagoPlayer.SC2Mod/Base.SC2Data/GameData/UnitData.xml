@@ -16044,7 +16044,7 @@
         <Race value="Prot"/>
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
     </CUnit>
-   <CUnit id="AP_RepulsorCannonWeapon" parent="MISSILE">
+    <CUnit id="AP_RepulsorCannonWeapon" parent="MISSILE">
         <Race value="Prot"/>
         <Mover value="AP_MothershipCoreWeapon"/>
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
@@ -18679,7 +18679,7 @@
             <LayoutButtons Face="AP_BurrowDown" Type="AbilCmd" AbilCmd="AP_BurrowQueenDown,0" Row="2" Column="4"/>
             <LayoutButtons Face="AP_QueenBurstHeal" Type="AbilCmd" AbilCmd="AP_QueenBurstHeal,0" Row="2" Column="1"/>
             <LayoutButtons Face="AP_QueenBurstHeal" Type="AbilCmd" AbilCmd="AP_QueenBioMechBurstHeal,0" Row="2" Column="1"/>
-            <LayoutButtons Face="AP_MorphMorphalisk" Type="AbilCmd" AbilCmd="AP_SpawnLarva,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="AP_SpawnLarva" Type="AbilCmd" AbilCmd="AP_SpawnLarva,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_QueenDeepTunnel" Type="AbilCmd" AbilCmd="AP_QueenDeepTunnel,0" Row="2" Column="3"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_KerriganEnhance,1" Row="2" Column="4"/>
             <LayoutButtons Face="AP_QueenOrganicCarapace" Type="Passive" Requirements="AP_HaveQueenOrganicCarapace" Row="1" Column="0"/>
@@ -18768,9 +18768,9 @@
         <Radius value="0.875"/>
         <SeparationRadius value="0"/>
         <InnerRadius value="0.5"/>
+        <MinimapRadius value="0.875"/>
         <ScoreKill value="150"/>
         <SubgroupPriority value="30"/>
-        <MinimapRadius value="0.875"/>
         <EditorCategories value="ObjectType:Unit,ObjectFamily:Melee"/>
         <TacticalAI value="QueenBurrowed"/>
         <TacticalAIThink value="AIThinkQueen"/>
@@ -26951,7 +26951,7 @@
         <SeparationRadius value="1"/>
         <InnerRadius value="1.25"/>
         <CargoSize value="8"/>
-        <SubgroupPriority value="174"/>
+        <SubgroupPriority value="9"/>
         <MinimapRadius value="1.5"/>
         <EditorCategories value="ObjectFamily:FactionPrimal,ObjectType:Unit"/>
         <LeaderAlias value="AP_Tyrannozor"/>
@@ -27309,6 +27309,7 @@
         <Attributes index="Biological" value="1"/>
         <LifeStart value="250"/>
         <LifeMax value="250"/>
+        <LifeArmor value="2"/>
         <LifeRegenRate value="0.2734"/>
         <LifeArmorName value="Unit/LifeArmorName/ZergGroundArmor"/>
         <Speed value="2.9531"/>
@@ -27317,6 +27318,7 @@
         <LateralAcceleration value="46.0625"/>
         <Sight value="8"/>
         <CargoSize value="2"/>
+        <Food value="-1"/>
         <CostCategory value="Army"/>
         <CostResource index="Minerals" value="150"/>
         <CostResource index="Vespene" value="75"/>
@@ -27329,6 +27331,7 @@
         <AbilArray Link="AP_LeapAttack"/>
         <BehaviorArray Link="AP_CreepFrenzy13Crawler"/>
         <BehaviorArray Link="AP_HunterlingJump"/>
+        <WeaponArray Link="AP_HunterlingClaws"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
@@ -27343,9 +27346,10 @@
         </CardLayouts>
         <ScoreResult value="BuildOrder"/>
         <SubgroupPriority value="28"/>
-        <MinimapRadius value="1.5"/>
-        <GlossaryCategory value="Unit/Category/ZergUnits"/>
+        <MinimapRadius value="0.75"/>
+        <GlossaryCategory value="Unit/Category/AP_ZergUnitsGround"/>
         <GlossaryPriority value="20"/>
+        <HotkeyCategory value="Unit/Category/AP_ZergUnitsGround"/>
         <KillDisplay value="Always"/>
         <Fidget>
             <ChanceArray index="Anim" value="33"/>
@@ -27355,9 +27359,6 @@
         <TauntDuration index="Cheer" value="5"/>
         <TauntDuration index="Dance" value="5"/>
         <Mover value="CliffJumper"/>
-        <WeaponArray Link="AP_HunterlingClaws"/>
-        <LifeArmor value="2"/>
-        <Food value="-1"/>
     </CUnit>
     <CUnit id="AP_HunterlingPlaceholder" parent="PLACEHOLDER">
         <DeathRevealRadius value="3"/>
