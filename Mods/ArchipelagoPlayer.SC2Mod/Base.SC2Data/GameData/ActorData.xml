@@ -19209,6 +19209,9 @@
         <On Terms="ActorCreation" Send="Create ZergConstructionAttached"/>
         <Model value="ExtractorBuild"/>
     </CActorModel>
+    <!--                                                                                         -->
+    <!-- Swarm Queen ........................................................................... -->
+    <!--                                                                                         -->
     <CActorUnit id="AP_Queen" parent="GenericUnitBase" unitName="AP_Queen">
         <Aliases value="_UnitLarge"/>
         <Macros value="ZergBurrowStandardAnimMacro"/>
@@ -19225,9 +19228,9 @@
         <On Terms="UnitBirth.AP_Queen.Normal" Send="AnimPlay Unburrow Unburrow 0 0.000000"/>
         <On Terms="Abil.AP_QueenBuild.WorkerStart" Send="AnimPlay WorkStart Stand,Work,Start"/>
         <On Terms="AnimDone; AnimName WorkStart" Send="AnimPlay WorkEnd Stand,Work,End"/>
-        <On Terms="Abil.AP_FungalGrowth.SourceCastStart" Send="$Spell"/>
         <On Terms="Abil.AP_SpawnLarva.SourceCastStart" Send="AnimPlay SpellA Spell,A"/>
         <On Terms="Abil.AP_Transfusion.SourceFinishStart" Send="AnimPlay SpellB Spell,B"/>
+        <On Terms="Abil.AP_SwarmQueenWildMutation.SourceFinishStart" Send="AnimPlay SpellB Spell,B"/>
         <On Terms="Abil.AP_QueenBurstHeal.SourceFinishStart" Send="AnimPlay SpellB Spell,B"/>
         <On Terms="Abil.AP_QueenBioMechBurstHeal.SourceFinishStart" Send="AnimPlay SpellB Spell,B"/>
         <On Terms="AbilMorph.*.Start; AbilKey BurrowDown" Send="Create BurrowDownLarge"/>
@@ -19363,6 +19366,7 @@
         <On Terms="Effect.AP_YggdrasilRemoveSet.Start; At Target" Send="Create"/>
         <Sound value="Queen_Transfusion"/>
     </CActorSound>
+    <CActorRange id="AP_SwarmQueenWildMutationRange" parent="RangeAbil" abil="AP_SwarmQueenWildMutation"/>
     <CActorSound id="AP_Queen_Death" parent="SoundOneShot">
         <On Terms="UnitDeath.AP_Queen; PassChance 25.000000" Send="Create"/>
         <On Terms="UnitDeath.AP_QueenBurrowed; PassChance 25.000000" Send="Create"/>

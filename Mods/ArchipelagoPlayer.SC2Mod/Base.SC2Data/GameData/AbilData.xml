@@ -11903,9 +11903,20 @@
         </InfoArray>
         <AutoCastValidatorArray value="TargetNotChangeling"/>
     </CAbilMorph>
+    <CAbilEffectTarget id="AP_SwarmQueenWildMutation">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Effect index="0" value="AP_WildMutation"/>
+        <Cost>
+            <Vital index="Energy" value="90"/>
+            <Cooldown Link="AP_WildMutation" Location="Unit"/>
+        </Cost>
+        <TargetFilters value="Biological;Self,Enemy,Structure,Heroic,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="7"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_SwarmQueenWildMutation" Requirements="AP_HaveSwarmQueenWildMutation"/>
+    </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_WildMutation">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <Effect index="0" value="AP_WildMutationSet"/>
+        <Effect index="0" value="AP_WildMutation"/>
         <Cost>
             <Vital index="Energy" value="50"/>
             <Cooldown Link="WildMutationAP_WildMutation" Location="Unit" TimeUse="25"/>
@@ -12646,7 +12657,7 @@
         </Cost>
         <TargetFilters value="Visible;Neutral,Enemy,UnderConstruction"/>
         <Range value="0.1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_SpawnLarva" Requirements="AP_HaveQueenSpawnLarva"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_SpawnLarva"/>
         <CastOutroTime value="2.3"/>
         <UninterruptibleArray index="Prep" value="1"/>
         <UninterruptibleArray index="Cast" value="1"/>
