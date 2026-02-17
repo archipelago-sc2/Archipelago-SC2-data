@@ -17813,6 +17813,27 @@
         <Amount value="5"/>
         <SearchFilters value="Ground;Self,Player,Ally,Neutral,Stasis,Dead,Hidden,Invulnerable"/>
     </CEffectDamage>
+    <CEffectSet id="AP_SpawnLarvaSet">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_SpawnMutantLarvaHiddenAB"/>
+        <EffectArray value="AP_SpawnMutantLarvaApplyTimerBehavior"/>
+        <ValidatorArray value="IsHatcheryLairOrHive"/>
+        <ValidatorArray value="NotContaminated"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_SpawnMutantLarvaHiddenAB">
+        <ValidatorArray index="0" value="IsHatcheryLairOrHive"/>
+        <ValidatorArray value="AP_IsSpawningMutantLarva"/>
+        <ValidatorArray value="NotContaminated"/>
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_QueenSpawnLarvaHiddenStack"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="AP_SpawnLarvaDelay">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichLocation Value="TargetUnit"/>
+        <ExpireEffect value="AP_SpawnMutantLarvaApplyTimerBehavior"/>
+        <PeriodCount value="1"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
     <CEffectApplyBehavior id="AP_SpawnMutantLarvaApplyTimerBehavior">
         <ValidatorArray index="0" value="IsHatcheryLairOrHive"/>
         <ValidatorArray value="NotSpawningMutantLarva"/>
@@ -17820,6 +17841,16 @@
         <EditorCategories value="Race:Zerg"/>
         <Behavior value="AP_QueenSpawnLarvaTimer"/>
     </CEffectApplyBehavior>
+    <CEffectSet id="AP_SpawnLarvaExpireSet">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_SpawnMutantLarvaApplySpawnBehavior"/>
+        <EffectArray value="AP_SpawnMutantLarvaRemoveHiddenBehavior"/>
+    </CEffectSet>
+    <CEffectRemoveBehavior id="AP_SpawnMutantLarvaRemoveHiddenBehavior">
+        <EditorCategories value="Race:Zerg"/>
+        <BehaviorLink value="AP_QueenSpawnLarvaHiddenStack"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
     <CEffectApplyBehavior id="AP_SpawnMutantLarvaApplySpawnBehavior">
         <ValidatorArray index="0" removed="1"/>
         <EditorCategories value="Race:Zerg"/>
