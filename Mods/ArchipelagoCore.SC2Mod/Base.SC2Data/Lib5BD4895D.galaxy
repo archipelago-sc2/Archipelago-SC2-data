@@ -679,15 +679,15 @@ void lib5BD4895D_gf_AP_Core_setFactionColor (string lp_faction, int lp_colorInde
     lv_color = 1;
 
     // Implementation
-    if ((lp_colorIndex >= 22)) {
+    if ((lp_colorIndex >= lib5BD4895D_gv_aP_Core_COLOR_DEFAULT)) {
         return ;
     }
 
-    if ((lp_faction == lib5BD4895D_gv_aP_Core_Faction_PRIMAL_ZERG) && (lp_colorIndex <= 21)) {
+    if ((lp_faction == lib5BD4895D_gv_aP_Core_Faction_PRIMAL_ZERG) && (lp_colorIndex < lib5BD4895D_gv_aP_Core_COLOR_DEFAULT)) {
         lib5BD4895D_gv_aP_Core_primalZergColor = lp_colorIndex;
     }
 
-    if ((lp_colorIndex == 16)) {
+    if ((lp_colorIndex == lib5BD4895D_gv_aP_Core_COLOR_RAINBOW)) {
         auto436127A7_g = PlayerGroupAll();
         lv_currentPlayer = -1;
         while (true) {
@@ -822,7 +822,7 @@ bool auto_lib5BD4895D_gf_AP_Core_setFactionColorHandler_TriggerFunc (bool testCo
     lv_factions[5] = "nova";
     lv_i = 1;
     for ( ; ( (autoCDB09597_ai >= 0 && lv_i <= autoCDB09597_ae) || (autoCDB09597_ai < 0 && lv_i >= autoCDB09597_ae) ) ; lv_i += autoCDB09597_ai ) {
-        lib5BD4895D_gf_AP_Core_setFactionColor(lv_factions[lv_i], 22);
+        lib5BD4895D_gf_AP_Core_setFactionColor(lv_factions[lv_i], lib5BD4895D_gv_aP_Core_COLOR_DEFAULT);
     }
     while (!((lib5BD4895D_gv_aP_Core_initFinished == true))) {
         Wait(0.0625, c_timeGame);
@@ -835,7 +835,7 @@ bool auto_lib5BD4895D_gf_AP_Core_setFactionColorHandler_TriggerFunc (bool testCo
         }
 
     }
-    if ((StringWord(lp_inputString, lv_userIndex) != "22")) {
+    if ((StringToInt(StringWord(lp_inputString, lv_userIndex)) != lib5BD4895D_gv_aP_Core_COLOR_DEFAULT)) {
         lv_i = 1;
         for ( ; ( (auto45EAC468_ai >= 0 && lv_i <= auto45EAC468_ae) || (auto45EAC468_ai < 0 && lv_i >= auto45EAC468_ae) ) ; lv_i += auto45EAC468_ai ) {
             lib5BD4895D_gf_AP_Core_setFactionColor(lv_factions[lv_i], StringToInt(StringWord(lp_inputString, lv_i)));

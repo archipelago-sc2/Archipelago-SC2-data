@@ -7969,6 +7969,10 @@
             <Item Type="Variable" Library="5BD4895D" Id="76C59CB0"/>
             <Item Type="Variable" Library="5BD4895D" Id="6E72D461"/>
             <Item Type="Variable" Library="5BD4895D" Id="83506236"/>
+            <Item Type="Comment" Library="5BD4895D" Id="6AB75B56"/>
+            <Item Type="Variable" Library="5BD4895D" Id="7D73C181"/>
+            <Item Type="Comment" Library="5BD4895D" Id="01D731BF"/>
+            <Item Type="Variable" Library="5BD4895D" Id="42918ABF"/>
         </Element>
         <Element Type="Variable" Id="76C59CB0">
             <Internal/>
@@ -8001,6 +8005,39 @@
         </Element>
         <Element Type="Param" Id="3E8807D3">
             <Value>0</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="Comment" Id="6AB75B56">
+            <Comment>
+                Any color index &gt;= 22 is considered default for now, so it doubles as the highest index
+                Maybe change default to 0 or -1 in the future
+            </Comment>
+        </Element>
+        <Element Type="Variable" Id="7D73C181">
+            <VariableType>
+                <Type Value="int"/>
+                <Constant/>
+            </VariableType>
+            <Value Type="Param" Library="5BD4895D" Id="535A983C"/>
+        </Element>
+        <Element Type="Param" Id="535A983C">
+            <Value>22</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="Comment" Id="01D731BF">
+            <Comment>
+                rainbow colors need special case
+            </Comment>
+        </Element>
+        <Element Type="Variable" Id="42918ABF">
+            <VariableType>
+                <Type Value="int"/>
+                <Constant/>
+            </VariableType>
+            <Value Type="Param" Library="5BD4895D" Id="BD602008"/>
+        </Element>
+        <Element Type="Param" Id="BD602008">
+            <Value>16</Value>
             <ValueType Type="int"/>
         </Element>
         <Element Type="Category" Id="BAFE152E">
@@ -8416,15 +8453,8 @@
         </Element>
         <Element Type="FunctionCall" Id="B7B173B1">
             <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-            <FunctionCall Type="Comment" Library="5BD4895D" Id="7A31DDE0"/>
             <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="1F2F2774"/>
             <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="1F19A62E"/>
-        </Element>
-        <Element Type="Comment" Id="7A31DDE0">
-            <Comment>
-                index 22 is default, don&apos;t change anything
-            </Comment>
-            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
         </Element>
         <Element Type="FunctionCall" Id="1F2F2774">
             <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000139"/>
@@ -8447,8 +8477,7 @@
         </Element>
         <Element Type="Param" Id="FC2F91C9">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-            <Value>22</Value>
-            <ValueType Type="int"/>
+            <Variable Type="Variable" Library="5BD4895D" Id="7D73C181"/>
         </Element>
         <Element Type="FunctionCall" Id="3D4A3EF6">
             <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
@@ -8502,12 +8531,11 @@
         </Element>
         <Element Type="Param" Id="5CC063EA">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-            <Preset Type="PresetValue" Library="Ntve" Id="E123C832"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="684CA9CE"/>
         </Element>
         <Element Type="Param" Id="39E6B9E3">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-            <Value>21</Value>
-            <ValueType Type="int"/>
+            <Variable Type="Variable" Library="5BD4895D" Id="7D73C181"/>
         </Element>
         <Element Type="FunctionCall" Id="89CC508A">
             <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
@@ -8696,8 +8724,7 @@
         </Element>
         <Element Type="Param" Id="D7750451">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-            <Value>16</Value>
-            <ValueType Type="int"/>
+            <Variable Type="Variable" Library="5BD4895D" Id="42918ABF"/>
         </Element>
         <Element Type="Comment" Id="CAC003F1">
             <Comment>
@@ -9502,8 +9529,7 @@
         </Element>
         <Element Type="Param" Id="AFE20E1C">
             <ParameterDef Type="ParamDef" Library="5BD4895D" Id="1C31F676"/>
-            <Value>22</Value>
-            <ValueType Type="int"/>
+            <Variable Type="Variable" Library="5BD4895D" Id="7D73C181"/>
         </Element>
         <Element Type="FunctionCall" Id="99C45DB6">
             <FunctionDef Type="FunctionDef" Library="Ntve" Id="E89F1335"/>
@@ -9744,22 +9770,30 @@
             <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
             <Parameter Type="Param" Library="5BD4895D" Id="1E7FC0CD"/>
             <Parameter Type="Param" Library="5BD4895D" Id="A55E946A"/>
-            <Parameter Type="Param" Library="5BD4895D" Id="FC2F11E9"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="871200EB"/>
         </Element>
         <Element Type="Param" Id="1E7FC0CD">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
             <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="CA78C85E"/>
         </Element>
         <Element Type="FunctionCall" Id="CA78C85E">
-            <FunctionDef Type="FunctionDef" Library="Ntve" Id="A078FB65"/>
-            <Parameter Type="Param" Library="5BD4895D" Id="70597D1C"/>
-            <Parameter Type="Param" Library="5BD4895D" Id="0C80DC8D"/>
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000005"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="820D90D2"/>
         </Element>
-        <Element Type="Param" Id="70597D1C">
+        <Element Type="Param" Id="820D90D2">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000006"/>
+            <FunctionCall Type="FunctionCall" Library="5BD4895D" Id="BA56EE14"/>
+        </Element>
+        <Element Type="FunctionCall" Id="BA56EE14">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="A078FB65"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="B29E36FA"/>
+            <Parameter Type="Param" Library="5BD4895D" Id="CFE841F6"/>
+        </Element>
+        <Element Type="Param" Id="B29E36FA">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="655C865B"/>
             <Parameter Type="ParamDef" Library="5BD4895D" Id="53F99D35"/>
         </Element>
-        <Element Type="Param" Id="0C80DC8D">
+        <Element Type="Param" Id="CFE841F6">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="13CABA7C"/>
             <Variable Type="Variable" Library="5BD4895D" Id="7934044D"/>
         </Element>
@@ -9767,10 +9801,9 @@
             <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
             <Preset Type="PresetValue" Library="Ntve" Id="500677B2"/>
         </Element>
-        <Element Type="Param" Id="FC2F11E9">
+        <Element Type="Param" Id="871200EB">
             <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-            <Value>22</Value>
-            <ValueType Type="string"/>
+            <Variable Type="Variable" Library="5BD4895D" Id="7D73C181"/>
         </Element>
         <Element Type="FunctionDef" Id="DA46472D">
             <Internal/>
