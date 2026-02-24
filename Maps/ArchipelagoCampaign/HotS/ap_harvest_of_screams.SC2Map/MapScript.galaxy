@@ -106,9 +106,6 @@ int gv_unfrozenStructureDestroyed;
 timer gv_speedRunTimer;
 timer gv_completionistTimer;
 int gv_largestZergForce;
-int gv_objectiveCollectUrsadonEssence;
-int gv_ursadonEssence_Collected;
-int gv_ursadonEssence_Needed;
 int gv_objectiveRecoverLostBrood;
 int gv_objectiveDestroyPsiLinkSpires;
 int gv_psiLinkSpiresDestroyed;
@@ -119,6 +116,9 @@ int gv_ursadonMatriarchPingNorth;
 bool gv_aPNorthMatriarch;
 bool gv_aPSouthMatriarch;
 int gv_objectiveFindNafashCorpse;
+int gv_objectiveCollectUrsadonEssence;
+int gv_ursadonEssence_Collected;
+int gv_ursadonEssence_Needed;
 bool gv_cinematicCompleted;
 unitgroup gv_cinematicTempUnits;
 unitgroup gv_cinematicHiddenUnits;
@@ -152,14 +152,14 @@ void InitGlobals () {
     gv_firstZealotAttackGroup = UnitGroupEmpty();
     gv_speedRunTimer = TimerCreate();
     gv_completionistTimer = TimerCreate();
-    gv_objectiveCollectUrsadonEssence = c_invalidObjectiveId;
-    gv_ursadonEssence_Needed = 1;
     gv_objectiveRecoverLostBrood = c_invalidObjectiveId;
     gv_objectiveDestroyPsiLinkSpires = c_invalidObjectiveId;
     gv_objectiveKillUrsadonMatriarchs = c_invalidObjectiveId;
     gv_ursadonMatriarchPingWest = c_invalidPingId;
     gv_ursadonMatriarchPingNorth = c_invalidPingId;
     gv_objectiveFindNafashCorpse = c_invalidObjectiveId;
+    gv_objectiveCollectUrsadonEssence = c_invalidObjectiveId;
+    gv_ursadonEssence_Needed = 1;
     gv_cinematicTempUnits = UnitGroupEmpty();
     gv_cinematicHiddenUnits = UnitGroupEmpty();
     gv_victoryHiddenUnitGroup = UnitGroupEmpty();
@@ -311,9 +311,6 @@ trigger gt_Defeat;
 trigger gt_VictoryCheat;
 trigger gt_DefeatCheat;
 trigger gt_TipMissionHelpQ;
-trigger gt_ObjectiveCollectUrsadonEssenceCreate;
-trigger gt_ObjectiveCollectUrsadonEssenceComplete;
-trigger gt_ObjectiveCollectUrsadonEssenceFailed;
 trigger gt_ObjectiveRecoverLostBroodCreate;
 trigger gt_ObjectiveRecoverLostBroodComplete;
 trigger gt_ObjectiveRecoverLostBroodFailed;
@@ -328,6 +325,9 @@ trigger gt_ObjectiveUrsadonMatriarchsFailedQ;
 trigger gt_ObjectiveFindNafashCorpseCreate;
 trigger gt_ObjectiveFindNafashCorpseComplete;
 trigger gt_ObjectiveFindNafashCorpseFailed;
+trigger gt_ObjectiveCollectUrsadonEssenceCreate;
+trigger gt_ObjectiveCollectUrsadonEssenceComplete;
+trigger gt_ObjectiveCollectUrsadonEssenceFailed;
 trigger gt_IntroQ;
 trigger gt_IntroSetup;
 trigger gt_IntroCinematic;
@@ -6971,96 +6971,6 @@ void gt_TipMissionHelpQ_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Objective Collect Ursadon Essence Create
-//--------------------------------------------------------------------------------------------------
-bool gt_ObjectiveCollectUrsadonEssenceCreate_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerEnable(TriggerGetCurrent(), false);
-    libSwaC_gf_CreateObjectiveCampaign("ZExpedition01Objective2");
-    gv_objectiveCollectUrsadonEssence = ObjectiveLastCreated();
-    ObjectiveShow(gv_objectiveCollectUrsadonEssence, PlayerGroupAll(), false);
-    lib5BD4895D_gf_AP_Core_addCategoryObjectiveSimple(gv_objectiveCollectUrsadonEssence, lib5BD4895D_ge_APObjectiveCategory_Primary, false);
-    lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveCollectUrsadonEssence, gv_LOCATION_ID_FIRST_URSADON_MATRIARCH);
-    lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveCollectUrsadonEssence, true);
-    Wait(libSwaC_gv_campaignObjectiveDelay, c_timeReal);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ObjectiveCollectUrsadonEssenceCreate_Init () {
-    gt_ObjectiveCollectUrsadonEssenceCreate = TriggerCreate("gt_ObjectiveCollectUrsadonEssenceCreate_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Objective Collect Ursadon Essence Complete
-//--------------------------------------------------------------------------------------------------
-bool gt_ObjectiveCollectUrsadonEssenceComplete_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerEnable(TriggerGetCurrent(), false);
-    TriggerExecute(gt_ObjectiveCollectUrsadonEssenceCreate, true, false);
-    lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveCollectUrsadonEssence);
-    Wait(libSwaC_gv_campaignObjectiveDelay, c_timeReal);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ObjectiveCollectUrsadonEssenceComplete_Init () {
-    gt_ObjectiveCollectUrsadonEssenceComplete = TriggerCreate("gt_ObjectiveCollectUrsadonEssenceComplete_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Objective Collect Ursadon Essence Failed
-//--------------------------------------------------------------------------------------------------
-bool gt_ObjectiveCollectUrsadonEssenceFailed_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerEnable(TriggerGetCurrent(), false);
-    TriggerExecute(gt_ObjectiveCollectUrsadonEssenceCreate, true, false);
-    lib5BD4895D_gf_AP_Core_setObjectiveFailed(gv_objectiveCollectUrsadonEssence);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ObjectiveCollectUrsadonEssenceFailed_Init () {
-    gt_ObjectiveCollectUrsadonEssenceFailed = TriggerCreate("gt_ObjectiveCollectUrsadonEssenceFailed_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: Objective Recover Lost Brood Create
 //--------------------------------------------------------------------------------------------------
 bool gt_ObjectiveRecoverLostBroodCreate_Func (bool testConds, bool runActions) {
@@ -7329,6 +7239,10 @@ bool gt_ObjectiveUrsadonMatriarchsUpdate_Func (bool testConds, bool runActions) 
         if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
             return false;
         }
+
+        if (!(((UnitGetOwner(EventUnit()) == gv_pLAYER_01_USER) || (UnitIsAlive(EventUnit()) == false)))) {
+            return false;
+        }
     }
 
     // Actions
@@ -7529,6 +7443,96 @@ bool gt_ObjectiveFindNafashCorpseFailed_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ObjectiveFindNafashCorpseFailed_Init () {
     gt_ObjectiveFindNafashCorpseFailed = TriggerCreate("gt_ObjectiveFindNafashCorpseFailed_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Collect Ursadon Essence Create
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveCollectUrsadonEssenceCreate_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    libSwaC_gf_CreateObjectiveCampaign("ZExpedition01Objective2");
+    gv_objectiveCollectUrsadonEssence = ObjectiveLastCreated();
+    ObjectiveShow(gv_objectiveCollectUrsadonEssence, PlayerGroupAll(), false);
+    lib5BD4895D_gf_AP_Core_addCategoryObjectiveSimple(gv_objectiveCollectUrsadonEssence, lib5BD4895D_ge_APObjectiveCategory_Primary, false);
+    lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveCollectUrsadonEssence, gv_LOCATION_ID_FIRST_URSADON_MATRIARCH);
+    lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveCollectUrsadonEssence, true);
+    Wait(libSwaC_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveCollectUrsadonEssenceCreate_Init () {
+    gt_ObjectiveCollectUrsadonEssenceCreate = TriggerCreate("gt_ObjectiveCollectUrsadonEssenceCreate_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Collect Ursadon Essence Complete
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveCollectUrsadonEssenceComplete_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerExecute(gt_ObjectiveCollectUrsadonEssenceCreate, true, false);
+    lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveCollectUrsadonEssence);
+    Wait(libSwaC_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveCollectUrsadonEssenceComplete_Init () {
+    gt_ObjectiveCollectUrsadonEssenceComplete = TriggerCreate("gt_ObjectiveCollectUrsadonEssenceComplete_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Collect Ursadon Essence Failed
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveCollectUrsadonEssenceFailed_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerExecute(gt_ObjectiveCollectUrsadonEssenceCreate, true, false);
+    lib5BD4895D_gf_AP_Core_setObjectiveFailed(gv_objectiveCollectUrsadonEssence);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveCollectUrsadonEssenceFailed_Init () {
+    gt_ObjectiveCollectUrsadonEssenceFailed = TriggerCreate("gt_ObjectiveCollectUrsadonEssenceFailed_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -9577,6 +9581,10 @@ bool gt_UrsadonMatriarchFirst_Func (bool testConds, bool runActions) {
         if (!((gv_inCinematic == false))) {
             return false;
         }
+
+        if (!(((UnitGetOwner(EventUnit()) == gv_pLAYER_01_USER) || (UnitIsAlive(EventUnit()) == false)))) {
+            return false;
+        }
     }
 
     // Actions
@@ -9720,9 +9728,6 @@ void InitTriggers () {
     gt_VictoryCheat_Init();
     gt_DefeatCheat_Init();
     gt_TipMissionHelpQ_Init();
-    gt_ObjectiveCollectUrsadonEssenceCreate_Init();
-    gt_ObjectiveCollectUrsadonEssenceComplete_Init();
-    gt_ObjectiveCollectUrsadonEssenceFailed_Init();
     gt_ObjectiveRecoverLostBroodCreate_Init();
     gt_ObjectiveRecoverLostBroodComplete_Init();
     gt_ObjectiveRecoverLostBroodFailed_Init();
@@ -9737,6 +9742,9 @@ void InitTriggers () {
     gt_ObjectiveFindNafashCorpseCreate_Init();
     gt_ObjectiveFindNafashCorpseComplete_Init();
     gt_ObjectiveFindNafashCorpseFailed_Init();
+    gt_ObjectiveCollectUrsadonEssenceCreate_Init();
+    gt_ObjectiveCollectUrsadonEssenceComplete_Init();
+    gt_ObjectiveCollectUrsadonEssenceFailed_Init();
     gt_IntroQ_Init();
     gt_IntroSetup_Init();
     gt_IntroCinematic_Init();
