@@ -6183,6 +6183,19 @@
         <Count Link="AP_HaveHiveQueen" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
     </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeHiveQueenSwelledTransfusionCompleteOnly">
+        <Count Link="AP_HiveQueenSwelledTransfusion" State="CompleteOnly"/>
+        <Flags index="TechTreeCheat" value="0"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountBehavior id="AP_CountBehaviorQueenOnCreepOnlyAtUnit">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_QueenOnCreep" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementOr id="AP_QueenOnCreepOrHaveHiveQueenSwelledTransfusion">
+        <Tooltip value="RequirementNode/Tooltip/AP_CountBehaviorQueenOnCreepOnlyAtUnit"/>
+        <OperandArray value="AP_CountUpgradeHiveQueenSwelledTransfusionCompleteOnly"/>
+        <OperandArray value="AP_CountBehaviorQueenOnCreepOnlyAtUnit"/>
+    </CRequirementOr>
     <CRequirementGT id="AP_GTCountBehaviorQueenSpawnLarvaCompleteOnlyAtUnit0">
         <OperandArray index="0" value="AP_CountBehaviorQueenSpawnLarvaCompleteOnlyAtUnit"/>
         <OperandArray index="1" value="0"/>
@@ -6199,10 +6212,6 @@
         <Count Link="AP_QueenOrganicCarapace" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
     </CRequirementCountUpgrade>
-    <CRequirementCountBehavior id="AP_CountBehaviorQueenOnCreepOnlyAtUnit">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="AP_QueenOnCreep" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
     <CRequirementCountUpgrade id="AP_CountUpgradeAbathurBioMechanicalTransfusionCompleteOnly">
         <Count Link="AP_AbathurBioMechanicalTransfusion" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
