@@ -3859,6 +3859,54 @@
         <EditorCategories value="ObjectFamily:FactionMarauder,ObjectType:Projectile"/>
         <Mover value="AP_WidowMineWeapon"/>
     </CUnit>
+    <CUnit id="AP_SentryBot">
+        <Radius value="0.75"/>
+        <DeathRevealRadius value="3"/>
+        <Race value="Terr"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="50"/>
+        <LifeMax value="50"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranVehiclePlating"/>
+        <Speed value="2.25"/>
+        <Acceleration value="1000"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="11"/>
+        <CostResource index="Minerals" value="50"/>
+        <RepairTime value="41.667"/>
+        <CargoSize value="1"/>
+        <AttackTargetPriority value="20"/>
+        <DamageDealtXP value="1"/>
+        <DamageTakenXP value="1"/>
+        <KillXP value="30"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="move"/>
+        <WeaponArray Link="AP_SentryBot" Turret="AP_Warbot"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+        </CardLayouts>
+        <InnerRadius value="0.5"/>
+        <ScoreMake value="150"/>
+        <ScoreKill value="300"/>
+        <SubgroupPriority value="14"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:Campaign"/>
+        <GlossaryCategory value="Unit/Category/AP_TerranUnitsGround"/>
+        <GlossaryPriority value="470"/>
+        <Fidget>
+            <ChanceArray index="Anim" value="33"/>
+            <ChanceArray index="Idle" value="33"/>
+            <ChanceArray index="Turn" value="33"/>
+        </Fidget>
+    </CUnit>
     <CUnit id="AP_Cyclone">
         <Description value="Button/Tooltip/AP_BuildCyclone"/>
         <DeathRevealRadius value="3"/>

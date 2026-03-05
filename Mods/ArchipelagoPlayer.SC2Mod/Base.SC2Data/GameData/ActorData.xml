@@ -29354,6 +29354,9 @@
         <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
     </CActorAction>
     <CActorMissile id="AP_ValkyrieAntiGroundWeapon@Missile" parent="GenericAttackMissile" unitName="AP_ValkyrieAntiGroundWeapon@Missile"/>
+    <!--                                                                                         -->
+    <!-- Widow Mine ............................................................................ -->
+    <!--                                                                                         -->
     <CActorUnit id="AP_WidowMine" parent="GenericUnitStandard" unitName="AP_WidowMine">
         <Aliases value="_UnitSmall"/>
         <Macros value="ZergBurrowStandardAnimMacro"/>
@@ -29598,6 +29601,63 @@
         <Sound value="AP_HH_TornadoMissile_Blossom_Launch"/>
         <Layers Sound="AP_HH_TornadoMissile_LaunchFly"/>
     </CActorSound>
+    <!--                                                                                         -->
+    <!-- Sentry Bot ............................................................................ -->
+    <!--                                                                                         -->
+    <CActorUnit id="AP_SentryBot" parent="GenericUnitStandardNoAutoSoundLinks" unitName="AP_SentryBot">
+        <!-- Note: Sound link should be `UmojanLab_SentryBot_DeathExplosion_Init`, but those files live in swarm campaign -->
+        <DeathArray index="Normal" ModelLink="AP_SentryBotDeath" SoundLink="Terran_ExplosionSmall"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply C"/>
+        <DeathActorModelLow value="UnitDeathModel"/>
+        <BarOffset value="40"/>
+        <NameOffset value="40"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
+        <UnitIcon value="Assets\Textures\btn-unit-terran-ares.dds"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-terran-warbot.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-terran-warbot.dds"/>
+        </Wireframe>
+        <SoundArray index="Ready" value="Warbot_Ready"/>
+        <SoundArray index="What" value="Warbot_What"/>
+        <SoundArray index="Yes" value="Warbot_Yes"/>
+        <SoundArray index="Attack" value="Warbot_Attack"/>
+        <SoundArray index="Pissed" value="Warbot_Pissed"/>
+        <UnitFlags index="SuppressStandIntro" value="1"/>
+        <UnitFlags index="SuppressWalkIntro" value="1"/>
+        <UnitFlags index="SuppressWalkOutro" value="1"/>
+        <PortraitModel value="ARESPortrait"/>
+        <GlossaryAnim value="Stand,C"/>
+    </CActorUnit>
+    <CActorAction id="AP_SentryBotAttack" parent="GenericAttack" effectAttack="AP_SentryBot">
+        <!-- Note: Should be `Microbot_AttackLaunch`, but those files come from swarm campaign -->
+        <LaunchAssets Sound="Thor_HandGunAttackLaunch"/>
+        <ImpactMap index="None" Model="AP_DRCannonsImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+    </CActorAction>
+    <CActorModel id="AP_SentryBotAttackLeft" parent="ModelAnimationStyleOneShot">
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Model value="ThorHandGunAttackLaunch"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachWeapon"/>
+        <On Terms="Effect.AP_SentryBot.Start; At Caster" Send="Create"/>
+    </CActorModel>
+    <CActorModel id="AP_SentryBotAttackRight" parent="ModelAnimationStyleOneShot">
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Model value="ThorHandGunAttackLaunch"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachWeapon01"/>
+        <On Terms="Effect.AP_SentryBot.Start; At Caster" Send="Create"/>
+    </CActorModel>
+    <CActorTurret id="AP_SentryBotTurret">
+        <On Terms="TurretEnable.AP_Warbot" Send="Create"/>
+    </CActorTurret>
+    <!--                                                                                         -->
+    <!-- Cyclone ............................................................................... -->
+    <!--                                                                                         -->
     <CActorUnit id="AP_Cyclone" parent="GenericUnitBase" unitName="AP_Cyclone">
         <Aliases value="_UnitLarge"/>
         <Macros value="UnloadDropAnim"/>
