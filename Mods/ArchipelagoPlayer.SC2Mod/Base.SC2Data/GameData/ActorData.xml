@@ -1851,6 +1851,83 @@
         </VitalColors>
         <VitalNames index="Shields" value="Vital/ZergShields"/>
     </CActorUnit>
+    <!--                                                                                         -->
+    <!-- Infested Civilian ..................................................................... -->
+    <!--                                                                                         -->
+    <CActorMissile id="AP_InfestedCivilian" parent="GenericBurrowerStandard" unitName="AP_InfestedCivilian">
+        <Macros value="ZergBurrowStandardAnimMacro"/>
+        <Macros value="ZergSmallBurrowEffects"/>
+        <On Terms="AnimDone.*.Complete; AnimName Gather" Send="TimerSet 0.000000,0.300000 Gather"/>
+        <On Terms="TimerExpired; TimerName Gather" Send="AnimPlay Gather Work NonLooping"/>
+        <On Terms="TimerExpired; TimerName Gather" Send="Create SCVGatherSound"/>
+        <On Terms="ActorCreation; PassChance 11.000000" Send="StatusSet WeaponCarried 1"/>
+        <On Terms="ActorCreation; PassChance 10.000000" Send="StatusSet WeaponCarried 2"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.100000 WeaponCarriedTimer"/>
+        <On Terms="TimerExpired; TimerName WeaponCarriedTimer; IsStatus WeaponCarried 1" Send="Create AP_InfestedCivilianRock"/>
+        <On Terms="TimerExpired; TimerName WeaponCarriedTimer; IsStatus WeaponCarried 2" Send="Create AP_InfestedCivilianStick"/>
+        <!-- <On Terms="UnitDeathCustomize; !ValidateUnit HaveStukovInfestedCivilianSpawnBroodlingOnDeath" Send="DeathCustomize Variation0"/> -->
+        <!-- <On Terms="UnitDeathCustomize; ValidateUnit HaveStukovInfestedCivilianSpawnBroodlingOnDeath" Send="DeathCustomize Variation1"/> -->
+        <On Terms="Behavior.AP_SIBarracksTrainTimedLife.On" Send="SetStatusBarOn 1 Duration"/>
+        <On Terms="Behavior.AP_InfestedCivilianTimedLife.On" Send="SetStatusBarOn 1 Duration"/>
+        <Model value="AP_Infested_ColonistEX3"/>
+        <BuildModel value="AP_Infested_ColonistEX3"/>
+        <DeathArray index="Normal" ModelLink="AP_Infested_ColonistEX3_Death" SoundLink="AP_StukovInfestedCivilian_Explode" VoiceLink="AP_InfestedCivilian_Death_VxFx"/>
+        <DeathArray index="Fire" ModelLink="AP_Infested_ColonistEX3_DeathFire" SoundLink="Uni_DeathFXFire"/>
+        <DeathCustoms AnimProps="00" ModelLink="AP_Infested_ColonistEX3_Death" Name="Variation0"/>
+        <DeathCustoms AnimProps="01" ModelLink="AP_Infested_ColonistEX3_Death" Name="Variation1"/>
+        <PlacementModel value="AP_Infested_ColonistEX3"/>
+        <PortraitModel value="AP_InfestedGenericUnit_Portrait_Stukov"/>
+        <WalkAnimMoveSpeed value="2.25"/>
+        <BarOffset value="45"/>
+        <BarWidth value="36"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Zerg-Infestedcolonist.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="Birth" value="AP_InfestedTerran_BirthVox"/>
+        <GroupSoundArray index="Ready" value="AP_InfestedTerranReady"/>
+        <GroupSoundArray index="Help" value="AP_InfestedTerranHelp"/>
+        <GroupSoundArray index="What" value="AP_InfestedTerranWhat"/>
+        <GroupSoundArray index="Yes" value="AP_InfestedTerranYes"/>
+        <GroupSoundArray index="Attack" value="AP_InfestedTerranYes"/>
+        <GroupSoundArray index="Pissed" value="AP_InfestedTerranPissed"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-zerg-groundcarapace-level0.dds"/>
+        <SoundArray index="Birth" value="AP_InfestedTerran_BirthVox"/>
+        <SoundArray index="Ready" value="AP_InfestedTerranReady"/>
+        <SoundArray index="Help" value="AP_InfestedTerranHelp"/>
+        <SoundArray index="What" value="AP_InfestedTerranWhat"/>
+        <SoundArray index="Yes" value="AP_InfestedTerranYes"/>
+        <SoundArray index="Attack" value="AP_InfestedTerranYes"/>
+        <SoundArray index="Pissed" value="AP_InfestedTerranPissed"/>
+        <UnitIcon value="Assets\Textures\btn-unit-zerg-infestedcolonist.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Zerg-Infestedcolonist.dds"/>
+        </Wireframe>
+        <Aliases value="_SIInfestedInfantry"/>
+    </CActorMissile>
+    <CActorModel id="AP_InfestedCivilianRock" parent="ModelAddition">
+        <HostSiteOps Ops="SOpAttachWeapon AP_InfestedCivilianRockOffset"/>
+    </CActorModel>
+    <CActorSiteOpLocalOffset id="AP_InfestedCivilianRockOffset">
+        <LocalOffset value="0.050000,0.000000,-0.200000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorModel id="AP_InfestedCivilianStick" parent="ModelAddition">
+        <HostSiteOps Ops="SOpAttachWeapon AP_InfestedCivilianStickOffset AP_InfestedCivilianStickRotation"/>
+    </CActorModel>
+    <CActorSiteOpLocalOffset id="AP_InfestedCivilianStickOffset">
+        <LocalOffset value="0.050000,0.000000,-0.200000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpRotationExplicit id="AP_InfestedCivilianStickRotation">
+        <Forward value="0.750000,0.000000,0.000000"/>
+        <IsLocal value="1"/>
+    </CActorSiteOpRotationExplicit>
+    <CActorAction id="AP_InfestedCivilianAttack" parent="GenericAttack" effectAttack="AP_InfestedCivilianDamage">
+        <ImpactMap index="None" Sound="AP_InfestedCivilian_Attack_Impact"/>
+        <LaunchAssets Sound="AP_InfestedCivilian_Attack_Launch"/>
+    </CActorAction>
+    <CActorSplat id="AP_InfestedCivilianBurrowedSplat" parent="BurrowedSplat" unitName="AP_InfestedCivilian"/>
+    <!--                                                                                         -->
+    <!-- Infested Marine ....................................................................... -->
+    <!--                                                                                         -->
     <CActorUnit id="AP_SICocoonInfestedMarine" parent="AP_SICocoonInfested" unitName="AP_SICocoonInfestedMarine">
         <Aliases value="_UnitSmall"/>
         <ModelFlags index="OutlineEmitter" value="1"/>

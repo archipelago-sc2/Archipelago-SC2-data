@@ -17711,6 +17711,23 @@
         <SearchFilters value="Air;Player,Ally,Neutral,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray Radius="3" Effect="AP_ParasiticBombDotDamage"/>
     </CEffectEnumArea>
+    <!-- Infested Civilian -->
+    <CEffectDamage id="AP_InfestedCivilianDamage">
+        <EditorCategories value="Race:Zerg"/>
+        <ArmorReduction value="1"/>
+        <Kind value="Melee"/>
+        <Amount value="8"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Flags index="Notification" value="1"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <SearchFlags index="OffsetByUnitRadius" value="1"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="AP_InfestedCivilianTimedLifeShortAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_InfestedCivilianTimedLifeShort"/>
+    </CEffectApplyBehavior>
+    <!-- Infested Marine -->
     <CEffectSet id="AP_InfestedAcidSpinesPlaguedMunitionsSet">
         <EffectArray value="AP_InfestedAcidSpines"/>
         <EffectArray value="AP_SIInfestedTrooperMarinePlaguedMunitions"/>
@@ -24890,7 +24907,7 @@
     <CEffectSet id="AP_MengskSiegeTankJumpJetSet">
         <EffectArray value="AP_MengskSiegeTankJumpJetRU"/>
     </CEffectSet>
-        <CEffectSet id="AP_WarhoundJump">
+    <CEffectSet id="AP_WarhoundJump">
         <EffectArray value="AP_WarhoundJumpPrecursor"/>
         <TargetLocationType value="Point"/>
     </CEffectSet>
