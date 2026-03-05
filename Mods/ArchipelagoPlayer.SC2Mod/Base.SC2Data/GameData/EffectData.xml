@@ -14676,6 +14676,499 @@
             <Change value="0.3125"/>
         </VitalArray>
     </CEffectModifyUnit>
+    <!--                                      -->
+    <!-- Strain Injection                     -->
+    <!--                                      -->
+    <CEffectSet id="AP_StrainInjectionSet">
+        <ValidatorArray value="AP_IsStrainInjectionTarget"/>
+        <ValidatorArray value="AP_NotStrainInjectionTimeout"/>
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_StrainInjectionTimeoutAB"/>
+        <EffectArray value="AP_StrainInjectionSwitch"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_StrainInjectionTimeoutAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionTimeout"/>
+    </CEffectApplyBehavior>
+    <CEffectSwitch id="AP_StrainInjectionSwitch">
+        <EditorCategories value="Race:Zerg"/>
+        <CaseArray Validator="AP_IsAPSpawningPool" Effect="AP_StrainInjectionSpawningPoolAB"/>
+        <CaseArray Validator="AP_IsAPBanelingNest" Effect="AP_StrainInjectionBanelingNestAB"/>
+        <CaseArray Validator="AP_IsAPRoachWarren" Effect="AP_StrainInjectionRoachWarrenAB"/>
+        <CaseArray Validator="AP_IsAPHydraliskDen" Effect="AP_StrainInjectionHydraliskDenAB"/>
+        <CaseArray Validator="AP_IsAPGreaterHydraliskDen" Effect="AP_StrainInjectionHydraliskDenAB"/>
+        <CaseArray Validator="AP_IsAPSpire" Effect="AP_StrainInjectionSpireAB"/>
+        <CaseArray Validator="AP_IsAPGreaterSpire" Effect="AP_StrainInjectionSpireAB"/>
+        <CaseArray Validator="AP_IsAPNydusNetwork" Effect="AP_StrainInjectionNydusNetworkAB"/>
+        <CaseArray Validator="AP_IsAPInfestationPit" Effect="AP_StrainInjectionInfestationPitAB"/>
+        <CaseArray Validator="AP_IsAPUltraliskCavern" Effect="AP_StrainInjectionUltraliskCavernAB"/>
+        <CaseArray Validator="AP_IsAPPredatorNest" Effect="AP_StrainInjectionPredatorNestAB"/>
+        <CaseArray Validator="AP_IsInfestedBarracks" Effect="AP_StrainInjectionInfestedBuildingAB"/>
+        <CaseArray Validator="AP_IsInfestedFactory" Effect="AP_StrainInjectionInfestedBuildingAB"/>
+        <CaseArray Validator="AP_IsInfestedStarport" Effect="AP_StrainInjectionInfestedBuildingAB"/>
+        <CaseArray Validator="AP_IsAPTradeStructure" Effect="AP_StrainInjectionVoidTraderAB"/>
+        <CaseArray Validator="AP_IsAPExtractor" Effect="AP_StrainInjectionExtractorAB"/>
+        <CaseArray Validator="AP_IsAPAutomatedExtractor" Effect="AP_StrainInjectionExtractorAB"/>
+        <CaseArray Validator="AP_IsAPAutomatedExtractorRich" Effect="AP_StrainInjectionExtractorAB"/>
+        <CaseArray Validator="AP_IsAPExtractorRich" Effect="AP_StrainInjectionExtractorAB"/>
+        <CaseDefault value="AP_StrainInjectionEvolutionChamberAB"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSwitch>
+    <CEffectApplyBehavior id="AP_StrainInjectionEvolutionChamberAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionEvolutionChamber"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionSpawningPoolAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionSpawningPool"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionBanelingNestAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionBanelingNest"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionRoachWarrenAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionRoachWarren"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionHydraliskDenAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionHydraliskDen"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionSpireAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionSpire"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionNydusNetworkAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionNydusNetwork"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionInfestationPitAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionInfestationPit"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionUltraliskCavernAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionUltraliskCavern"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionPredatorNestAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionPredatorNest"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionInfestedBuildingAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionInfestedBuilding"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionVoidTraderAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionVoidTrader"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_StrainInjectionExtractorAB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_StrainInjectionExtractor"/>
+    </CEffectApplyBehavior>
+    <!-- Generic Timed life behaviors -->
+    <CEffectApplyBehavior id="AP_TimedLife10AB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_TimedLife10"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_TimedLife20AB">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="AP_TimedLife20"/>
+    </CEffectApplyBehavior>
+    <!-- Strain Injection: Broodling unit spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionBroodling">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionBroodlingCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="AP_StrainInjectionBroodlings2">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="AP_StrainInjectionBroodlingCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionBroodlingCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionBroodlingsSpawn"/>
+        <SpawnUnit value="AP_Broodling"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionBroodlingsSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionBroodlingLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionBroodlingLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionBroodlingFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionBroodlingCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionBroodlingFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_BroodlingTimedLife"/>
+    </CEffectSet>
+    <!-- Strain Injection: Roachling unit spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionRoachlings">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <RallyUnit Value="Source"/>
+        <PeriodicEffectArray value="AP_StrainInjectionRoachlingsCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionRoachlingsCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnEffect value="AP_StrainInjectionRoachlingsSpawn"/>
+        <SpawnUnit value="AP_Roachling"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionRoachlingsSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionRoachlingLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionRoachlingLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionRoachlingFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionRoachlingsCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionRoachlingFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_RoachlingFate"/>
+    </CEffectSet>
+    <!-- Strain Injection: Infested Civilian spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionInfestedCivilian">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionInfestedCivilianCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionInfestedCivilianCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionInfestedCivilianSpawn"/>
+        <SpawnUnit value="AP_InfestedCivilian"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionInfestedCivilianSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionInfestedCivilianLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionInfestedCivilianLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionInfestedCivilianFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionInfestedCivilianCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionInfestedCivilianFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_InfestedCivilianTimedLifeShortAB"/>
+    </CEffectSet>
+    <!-- Strain Injection: Locust spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionLocust">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionLocustCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionLocustCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionLocustSpawn"/>
+        <SpawnUnit value="AP_Locust"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionLocustSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionLocustLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionLocustLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionLocustFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionLocustCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionLocustFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_LocustTimedLife"/>
+    </CEffectSet>
+    <!-- Strain Injection: Locust Flying spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionLocustFlying">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionLocustFlyingCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionLocustFlyingCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionLocustFlyingSpawn"/>
+        <SpawnUnit value="AP_LocustFlying"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionLocustFlyingSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionLocustFlyingLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionLocustFlyingLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionLocustFlyingFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionLocustFlyingCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionAirEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionLocustFlyingFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_LocustTimedLife"/>
+    </CEffectSet>
+    <!-- Strain Injection: Baneling spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionBaneling">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionBanelingCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionBanelingCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionBanelingSpawn"/>
+        <SpawnUnit value="AP_Baneling"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionBanelingSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionBanelingLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionBanelingLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionBanelingFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionBanelingCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionBanelingFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_TimedLife20AB"/>
+    </CEffectSet>
+    <!-- Strain Injection: Splitterling (Baneling Spawn) spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionSplitterling2">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionSplitterlingCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionSplitterlingCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionSplitterlingSpawn"/>
+        <SpawnUnit value="AP_HotSSplitterlingMedium"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionSplitterlingSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionSplitterlingLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionSplitterlingLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionSplitterlingFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionSplitterlingCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionSplitterlingFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionSplitterlingSecondCU"/>
+        <EffectArray value="AP_TimedLife20AB"/>
+    </CEffectSet>
+    <CEffectCreateUnit id="AP_StrainInjectionSplitterlingSecondCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_TimedLife20AB"/>
+        <SpawnUnit value="AP_HotSSplitterlingMedium"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <!-- Strain Injection: Pygalisk spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionPygalisk">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionPygaliskCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionPygaliskCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionPygaliskSpawn"/>
+        <SpawnUnit value="AP_Pygalisk"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionPygaliskSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionPygaliskLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionPygaliskLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionPygaliskFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionPygaliskCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionPygaliskFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_TimedLife20AB"/>
+    </CEffectSet>
+    <!-- Strain Injection: Devouring One spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionDevouringOne">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionDevouringOneCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionDevouringOneCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionDevouringOneSpawn"/>
+        <SpawnUnit value="AP_MercZergling"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionDevouringOneSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionDevouringOneLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionDevouringOneLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionDevouringOneFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionDevouringOneCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionDevouringOneFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_TimedLife10AB"/>
+    </CEffectSet>
+    <!-- Strain Injection: Sentry Bot spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionSentryBot">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionSentryBotCU"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionSentryBotCU">
+        <CreateFlags index="UseFood" value="0"/>
+        <RallyUnit Value="Source"/>
+        <SpawnEffect value="AP_StrainInjectionSentryBotSpawn"/>
+        <SpawnUnit value="AP_SentryBot"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionSentryBotSpawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionSentryBotLM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionSentryBotLM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionSentryBotFinalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionSentryBotCU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionSentryBotFinalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+        <EffectArray value="AP_SentryBotTimedLifeAB"/>
+    </CEffectSet>
+    <!-- Strain Injection: Gas Pickup -->
+    <CEffectCreatePersistent id="AP_StrainInjectionGas5">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_StrainInjectionGas5CU"/>
+        <PeriodicPeriodArray value="0.625"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreateUnit id="AP_StrainInjectionGas5CU">
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnEffect value="AP_StrainInjectionGas5Spawn"/>
+        <SpawnUnit value="AP_GasPickupNatural5"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AP_StrainInjectionGas5Spawn">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_MakePrecursorCocoon"/>
+        <EffectArray value="AP_StrainInjectionGas5LM"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="AP_StrainInjectionGas5LM">
+        <EditorCategories value="Race:Zerg"/>
+        <FinishEffect value="AP_StrainInjectionGas5Finalize"/>
+        <AmmoUnit value="AP_LocustEggAMissileWeapon"/>
+        <LaunchLocation Effect="AP_StrainInjectionGas5CU" Value="Source"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <Movers Link="AP_StrainInjectionGroundEgg"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="AP_StrainInjectionGas5Finalize">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="AP_RemovePrecursorCocoon"/>
+    </CEffectSet>
+    <!-- Strain Injection: Mixed spawners -->
+    <CEffectCreatePersistent id="AP_StrainInjectionBroodlingAndLocust">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="AP_StrainInjectionBroodlingCU"/>
+        <PeriodicEffectArray value="AP_StrainInjectionLocustCU"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="AP_StrainInjectionInfestedCivilianAndPygaliskAndSentryBot">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="AP_StrainInjectionInfestedCivilianCU"/>
+        <PeriodicEffectArray value="AP_StrainInjectionPygaliskCU"/>
+        <PeriodicEffectArray value="AP_StrainInjectionSentryBotCU"/>
+        <PeriodicPeriodArray value="0.375"/>
+        <WhichLocation Value="TargetUnit"/>
+    </CEffectCreatePersistent>
     <CEffectDamage id="AP_PrimalZergling" parent="DU_WEAP">
         <EditorCategories value="Race:Zerg"/>
         <Amount value="5"/>

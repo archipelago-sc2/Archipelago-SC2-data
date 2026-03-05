@@ -18447,6 +18447,8 @@
         <On Terms="AbilMorph.*.Finish; MorphTo AP_GreaterSpire" Send="AnimPlay Morph Morph 0 0.000000 0.000000 2.000000 AsDuration"/>
         <On index="69" Send="Create AP_SpireBuild"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HasZergGenericDeath" Send="DeathCustomize Detached"/>
+        <On Terms="Behavior.AP_StrainInjectionSpire.On" Send="AnimBracketStart Casting Work,Start Work Work,End"/>
+        <On Terms="Behavior.AP_StrainInjectionSpire.Off" Send="AnimBracketStop Casting"/>
         <Model value="GreaterSpire"/>
         <BuildModel value="GreaterSpire"/>
         <PlacementModel value="SpirePlacement"/>
@@ -18504,6 +18506,8 @@
     <CActorUnit id="AP_InfestationPit" parent="ZergBuildingEx" unitName="AP_InfestationPit">
         <Aliases value="_UnitHuge"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HasZergGenericDeath" Send="DeathCustomize Detached"/>
+        <On Terms="Behavior.AP_StrainInjectionInfestationPit.On" Send="AnimBracketStart Casting Work,Start Work Work,End"/>
+        <On Terms="Behavior.AP_StrainInjectionInfestationPit.Off" Send="AnimBracketStop Casting"/>
         <Model value="InfestationPit"/>
         <BuildModel value="InfestationPit"/>
         <DeathArray index="Normal" ModelLink="InfestationPitDeath" SoundLink="InfestationPit_Explode"/>
@@ -18608,6 +18612,8 @@
         <On Terms="Effect.HydraliskDenMorphFinishDummy.Start" Send="AnimClear Waiting"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_LurkerDen; AnimPlaying Morph" Send="Create AP_LurkerDen"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_LurkerDen; AnimPlaying Morph" Send="Destroy"/>
+        <On Terms="Behavior.AP_StrainInjectionHydraliskDen.On" Send="AnimBracketStart Casting Work,Start Work Work,End"/>
+        <On Terms="Behavior.AP_StrainInjectionHydraliskDen.Off" Send="AnimBracketStop Casting"/>
         <Model value="HydraliskDen"/>
         <BuildModel value="HydraliskDen"/>
         <DeathArray index="Normal" ModelLink="HydraliskDenDeath" SoundLink="HydraliskDen_Explode"/>
@@ -19495,6 +19501,7 @@
         <On Terms="Abil.AP_HiveQueenBuild.WorkerStart" Send="AnimPlay WorkStart Stand,Work,Start"/>
         <On Terms="AnimDone; AnimName WorkStart" Send="AnimPlay WorkEnd Stand,Work,End"/>
         <On Terms="Abil.AP_SpawnLarva.SourceCastStart" Send="AnimPlay SpellA Spell,A"/>
+        <On Terms="Abil.AP_HiveQueenStrainInjection.SourceCastStart" Send="AnimPlay SpellA Spell,A"/>
         <On Terms="Abil.AP_HiveQueenTransfusion.SourceFinishStart" Send="AnimPlay SpellB Spell,B"/>
         <On Terms="AbilMorph.*.Start; AbilKey BurrowDown" Send="Create BurrowDownLarge"/>
         <On Terms="AbilMorph.*.Cancel; MorphFrom Queen; MorphTo QueenBurrowed" Send="AnimClear Burrow"/>
@@ -19658,6 +19665,33 @@
         <On Terms="Effect.AP_HiveQueenTransfusion.Start; At Target" Send="Create"/>
         <Host Subject="_Selectable"/>
     </CActorSound>
+    <CActorSound id="AP_StrainInjectionLaunchSound" parent="SoundOneShot">
+        <Sound value="Queen_SpawnLarvaLaunch"/>
+        <On Terms="Effect.AP_StrainInjectionTimeoutAB.Start" Send="Create"/>
+    </CActorSound>
+    <CActorMissile id="AP_StrainInjectionGroundEggMissile" parent="GenericAttackMissile" unitName="AP_StrainInjectionEggMissile">
+        <Model value="AP_SwarmHostEggCreeperCampaign"/>
+    </CActorMissile>
+    <CActorAction id="AP_StrainInjectionBroodlingLaunch" parent="GenericAttack" effectImpact="AP_StrainInjectionBroodlingFinalize" effectLaunch="AP_StrainInjectionBroodlingLM">
+        <LaunchAssets Sound="BanelingEgg_Creation"/>
+        <ImpactAttachQuery Methods="Origin"/>
+    </CActorAction>
+    <CActorAction id="AP_StrainInjectionRoachlingLaunch" parent="GenericAttack" effectImpact="AP_StrainInjectionRoachlingFinalize" effectLaunch="AP_StrainInjectionRoachlingLM">
+        <LaunchAssets Sound="BanelingEgg_Creation"/>
+        <ImpactAttachQuery Methods="Origin"/>
+    </CActorAction>
+    <CActorAction id="AP_StrainInjectionInfestedCivilianLaunch" parent="GenericAttack" effectImpact="AP_StrainInjectionInfestedCivilianFinalize" effectLaunch="AP_StrainInjectionInfestedCivilianLM">
+        <LaunchAssets Sound="BanelingEgg_Creation"/>
+        <ImpactAttachQuery Methods="Origin"/>
+    </CActorAction>
+    <CActorAction id="AP_StrainInjectionLocustLaunch" parent="GenericAttack" effectImpact="AP_StrainInjectionLocustFinalize" effectLaunch="AP_StrainInjectionLocustLM">
+        <LaunchAssets Sound="BanelingEgg_Creation"/>
+        <ImpactAttachQuery Methods="Origin"/>
+    </CActorAction>
+    <CActorAction id="AP_StrainInjectionLocustFlyingLaunch" parent="GenericAttack" effectImpact="AP_StrainInjectionLocustFlyingFinalize" effectLaunch="AP_StrainInjectionLocustFlyingLM">
+        <LaunchAssets Sound="BanelingEgg_Creation"/>
+        <ImpactAttachQuery Methods="Origin"/>
+    </CActorAction>
     <!--                                                                                         -->
     <!-- Primal Zergling ....................................................................... -->
     <!--                                                                                         -->
@@ -25383,6 +25417,8 @@
         <!--        <On Terms="AbilMorph.*.Cancel; MorphTo ImpalerDen" Send="AnimClear Morph"/>-->
         <!--        <On Terms="AbilMorph.*.Cancel; MorphTo ImpalerDen" Send="AnimPlay Rebirth Build,D,Start 0 0.000000 0.000000 0.300000 AsDuration"/>-->
         <!--        <On Terms="AbilMorph.*.Cancel; MorphTo ImpalerDen" Send="SetOpacity 1.000000"/>-->
+        <On Terms="Behavior.AP_StrainInjectionRoachWarren.On" Send="AnimBracketStart Casting Work,Start Work Work,End"/>
+        <On Terms="Behavior.AP_StrainInjectionRoachWarren.Off" Send="AnimBracketStop Casting"/>
         <Model value="RoachWarren"/>
         <BuildModel value="RoachWarren"/>
         <DeathArray index="Normal" ModelLink="RoachWarrenDeath" SoundLink=""/>
@@ -26603,6 +26639,8 @@
         <On Terms="TimerExpired; TimerName DelayCreation" Target="AP_SpireMorph" Send="AnimSetPausedAll"/>
         <On Terms="Behavior.AP_BuildingStasis.Off" Target="AP_SpireMorph" Send="AnimSetPausedAll 0"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HasZergGenericDeath" Send="DeathCustomize Detached"/>
+        <On Terms="Behavior.AP_StrainInjectionSpire.On" Send="AnimBracketStart Casting Work,Start Work Work,End"/>
+        <On Terms="Behavior.AP_StrainInjectionSpire.Off" Send="AnimBracketStop Casting"/>
         <Model value="Spire"/>
         <BuildModel value="Spire"/>
         <DeathArray index="Normal" ModelLink="SpireDeath" SoundLink=""/>
@@ -27131,6 +27169,8 @@
     <CActorUnit id="AP_SpawningPool" parent="ZergBuildingEx" unitName="AP_SpawningPool">
         <Aliases value="_UnitHuge"/>
         <On Terms="UnitDeathCustomize; ModelIsLowQuality" Send="Create SpawningPool_DeathLow"/>
+        <On Terms="Behavior.AP_StrainInjectionSpawningPool.On" Send="AnimBracketStart Casting Work,Start Work Work,End"/>
+        <On Terms="Behavior.AP_StrainInjectionSpawningPool.Off" Send="AnimBracketStop Casting"/>
         <Model value="SpawningPool"/>
         <BuildModel value="SpawningPool"/>
         <DeathArray index="Normal" ModelLink="SpawningPoolDeath" SoundLink=""/>

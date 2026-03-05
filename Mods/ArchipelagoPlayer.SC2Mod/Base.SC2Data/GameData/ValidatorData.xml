@@ -6106,6 +6106,63 @@
         <CombineArray value="AP_IsAPBileLauncher"/>
         <ResultFailed value="CantTargetThatUnit"/>
     </CValidatorCombine>
+    <CValidatorCombine id="AP_IsStrainInjectionTarget">
+        <CombineArray value="AP_IsAPSpawningPool"/>
+        <CombineArray value="AP_IsAPEvolutionChamber"/>
+        <CombineArray value="AP_IsAPBanelingNest"/>
+        <CombineArray value="AP_IsAPRoachWarren"/>
+        <CombineArray value="AP_IsAPHydraliskDen"/>
+        <CombineArray value="AP_IsAPGreaterHydraliskDen"/>
+        <CombineArray value="AP_IsAPSpire"/>
+        <CombineArray value="AP_IsAPGreaterSpire"/>
+        <CombineArray value="AP_IsAPNydusNetwork"/>
+        <CombineArray value="AP_IsAPInfestationPit"/>
+        <CombineArray value="AP_IsAPUltraliskCavern"/>
+        <CombineArray value="AP_IsAPPredatorNest"/>
+        <CombineArray value="AP_IsAPExtractor"/>
+        <CombineArray value="AP_IsAPAutomatedExtractor"/>
+        <CombineArray value="AP_IsAPAutomatedExtractorRich"/>
+        <CombineArray value="AP_IsAPExtractorRich"/>
+        <CombineArray value="AP_IsInfestedBarracks"/>
+        <CombineArray value="AP_IsInfestedFactory"/>
+        <CombineArray value="AP_IsInfestedStarport"/>
+        <CombineArray value="AP_IsAPTradeStructure"/>
+        <ResultFailed value="CantTargetThatUnit"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="AP_IsRootedInfestedBarracks">
+        <Value value="AP_SIBarracks"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_IsUprootedInfestedBarracks">
+        <Value value="AP_SIBarracksFlying"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="AP_IsInfestedBarracks">
+        <CombineArray value="AP_IsRootedInfestedBarracks"/>
+        <CombineArray value="AP_IsUprootedInfestedBarracks"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="AP_IsRootedInfestedFactory">
+        <Value value="AP_SIFactory"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_IsUprootedInfestedFactory">
+        <Value value="AP_SIFactoryFlying"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="AP_IsInfestedFactory">
+        <CombineArray value="AP_IsRootedInfestedFactory"/>
+        <CombineArray value="AP_IsUprootedInfestedFactory"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="AP_IsRootedInfestedStarport">
+        <Value value="AP_SIStarport"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_IsUprootedInfestedStarport">
+        <Value value="AP_SIStarportFlying"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="AP_IsInfestedStarport">
+        <CombineArray value="AP_IsRootedInfestedStarport"/>
+        <CombineArray value="AP_IsUprootedInfestedStarport"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="AP_NotStrainInjectionTimeout">
+        <Behavior value="AP_StrainInjectionTimeout"/>
+        <ResultFailed value="CantAddMoreCharges"/>
+    </CValidatorUnitCompareBehaviorCount>
     <CValidatorUnitType id="AP_IsAPUltraliskCavern">
         <Value value="AP_UltraliskCavern"/>
     </CValidatorUnitType>
