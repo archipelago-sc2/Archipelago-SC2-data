@@ -2141,20 +2141,15 @@ void libABFE498B_gf_AP_Triggers_giveZergTech (string lp_inputString) {
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(autoFB24477E_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        if ((libABFE498B_gv_aP_Triggers_Option_KerriganPresence != 0)) {
-            auto82D1CA29_val = libABFE498B_gv_aP_Triggers_Option_grantStoryLevels;
-            if (auto82D1CA29_val == 1) {
-                lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(lv_currentPlayer, (libABFE498B_gv_aP_Triggers_MapConfig_Kerrigan_StoryTechMinLevel + StringToInt(lv_kerriganLevelValue)));
-            }
-            else if (auto82D1CA29_val == 2) {
-                lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(lv_currentPlayer, MaxI(libABFE498B_gv_aP_Triggers_MapConfig_Kerrigan_StoryTechMinLevel, StringToInt(lv_kerriganLevelValue)));
-            }
-            else {
-                lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(lv_currentPlayer, StringToInt(lv_kerriganLevelValue));
-            }
+        auto82D1CA29_val = libABFE498B_gv_aP_Triggers_Option_grantStoryLevels;
+        if (auto82D1CA29_val == 1) {
+            lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(lv_currentPlayer, (libABFE498B_gv_aP_Triggers_MapConfig_Kerrigan_StoryTechMinLevel + StringToInt(lv_kerriganLevelValue)));
+        }
+        else if (auto82D1CA29_val == 2) {
+            lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(lv_currentPlayer, MaxI(libABFE498B_gv_aP_Triggers_MapConfig_Kerrigan_StoryTechMinLevel, StringToInt(lv_kerriganLevelValue)));
         }
         else {
-            lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(lv_currentPlayer, libABFE498B_gv_aP_Triggers_MapConfig_Kerrigan_StoryTechMinLevel);
+            lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(lv_currentPlayer, StringToInt(lv_kerriganLevelValue));
         }
         if ((libABFE498B_gv_aP_Triggers_Option_KerriganPrimalStatusByMap == true)) {
             if ((libABFE498B_gv_aP_Triggers_MapConfig_Kerrigan_PrimalInVanilla == true)) {
