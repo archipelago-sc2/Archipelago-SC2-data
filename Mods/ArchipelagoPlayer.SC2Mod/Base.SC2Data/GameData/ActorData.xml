@@ -1393,6 +1393,29 @@
         <On Terms="Upgrade.AP_ThorMengskArmorAura.Add; !ScopeContains AP_ThorMengskArmorAuraRange" Send="Create AP_ThorMengskArmorAuraRange"/>
         <On Terms="ActorCreation; ValidateUnit AP_HaveThorMengskArmorAura; !ScopeContains AP_ThorMengskArmorAuraRange" Send="Create AP_ThorMengskArmorAuraRange"/>
     </CActorUnit>
+    <CActorUnit id="AP_GasPickupNatural5" parent="GenericUnitStandardNoAutoSoundLinks" unitName="AP_GasPickupNatural5">
+        <Model value="NaturalGas"/>
+        <On Terms="ActorCreation" Send="Create GasCanisterGlow"/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Duration" value="0"/>
+        <UnitIcon value="Assets\Textures\Wireframe-general-naturalgas.dds"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-general-naturalgas.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-general-naturalgas.dds"/>
+        </Wireframe>
+        <InfoText value="Unit/InfoText/AP_GasPickupNatural5"/>
+        <Macros value="AntiGravDeathRemoveMacro"/>
+    </CActorUnit>
+    <!-- ..............pickup text host actors............................................................ -->
+    <CActorModel id="AP_FloatingTextGas5" parent="FloatingTextActorDefault" effectPickup="AP_PickupGas5" actorCreate="AP_PickupGas5Text"/>
+    <!-- ..............pickup text kickers................................................................ -->
+    <CActorText id="AP_PickupGas5Text" parent="PickupTextDefault"/>
     <CActorUnit id="AP_MarineBase" default="1" parent="GenericUnitBase">
         <Aliases value="_UnitSmall"/>
         <Macros value="UnloadDropAnim"/>
