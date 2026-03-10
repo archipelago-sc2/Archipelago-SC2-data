@@ -36728,17 +36728,13 @@
         <Sound value="VoidRay_PrismaticAligntmentOn3"/>
         <On Terms="Behavior.AP_VoidRaySwarmDamageBoost.On" Send="Create"/>
     </CActorSound>
+    <!--                                                                                         -->
+    <!-- Skylord ............................................................................... -->
+    <!--                                                                                         -->
     <CActorUnit id="AP_CarrierTaldarim" parent="GenericUnitStandard" unitName="AP_CarrierTaldarim">
         <ModelFlags index="OutlineEmitter" value="1"/>
         <On Terms="Abil.AP_CarrierHangar.Launch" Send="AnimPlay Cover Cover 0 0.500000 0.500000 3.000000 AsDuration"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_Carrier_Land"/>
-        <!-- <On Terms="Behavior.AP_HyperjumpTeleportOut.On" Send="SetTintColor 0,192,255 6.000000 OneShot HyperjumpingTint"/> -->
-        <!-- <On Terms="Behavior.AP_HyperjumpTeleportOut.On" Send="SetOpacity 0.100000 0.600000 HyperjumpingOpacity"/> -->
-        <!-- <On Terms="Behavior.AP_HyperjumpTeleport.On" Send="ClearTintColor 0.000000 HyperjumpingTint"/> -->
-        <!-- <On Terms="Behavior.AP_HyperjumpTeleport.On" Send="ClearOpacity 0.000000 HyperjumpingOpacity"/> -->
-        <!-- <On Terms="Behavior.AP_HyperjumpTeleport.On" Send="ModelSwap AP_CarrierTaldarimPlacement"/> -->
-        <!-- <On Terms="Behavior.AP_HyperjumpTeleportOut.On" Send="Create AP_CarrierHyperjumpTeleportOut"/> -->
-        <!-- <On Terms="Behavior.AP_HyperjumpTeleportIn.On" Send="Create AP_CarrierHyperjumpTeleportIn"/> -->
         <On Terms="Behavior.AP_SkylordJump.On" Send="SetOpacity 0.000000 0.000000 JumpingOpacity"/>
         <On Terms="Behavior.AP_SkylordJump.On" Send="TimerSet 0.400000 WarpIn"/>
         <On Terms="TimerExpired; TimerName WarpIn" Send="ClearOpacity 0.000000 JumpingOpacity"/>
@@ -36844,7 +36840,7 @@
     </CActorAction>
     <CActorBeamSimple id="AP_CarrierTaldarimLaserAttackBeam" parent="GenericAttackBeam">
         <On Terms="Effect.AP_CarrierTaldarimLaserDamageArea.Start; EffectExecuteIndex 12" Send="RefSet ::HostImpact AP_CarrierTaldarimLaserAttackBeamImpactSite"/>
-        <On Terms="ActorCreation" Send="SetScale 3.400000,1.000000,1.000000"/>
+        <On Terms="ActorCreation" Send="SetScale 1.400000"/>
         <On Terms="ActorCreation" Send="TimerSet 0.550000 DelayDestroy"/>
         <On Terms="TimerExpired; TimerName DelayDestroy" Send="Destroy"/>
         <Model value="AP_KhaydarinBeamAttackBeam"/>
