@@ -6234,6 +6234,10 @@ bool gt_BonusObjectiveCleared04Q_Func (bool testConds, bool runActions) {
     gv_bonusObjectiveComplete04 = true;
     gv_objectiveEstablishAllyExpansionsCount += 1;
     TriggerExecute(gt_ObjectiveEstablishAllyExpansionsUpdate, true, false);
+    if ((gv_objectiveEstablishAllyExpansionsCount >= gv_objectiveEstablishAllyExpansionsMax)) {
+        TriggerExecute(gt_ObjectiveEstablishAllyExpansionsComplete, true, false);
+    }
+
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
         gf_LandTerranBuilding("CommandCenterFlying", PointFromId(1197));
         Wait(0.5, c_timeAI);

@@ -708,6 +708,7 @@ bool gt_ObjectiveRescueUpdate_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerExecute(gt_ObjectiveRescueCreateQ, true, false);
     lib5BD4895D_gf_AP_Core_setObjectiveCounter(gv_objectiveRescue, gv_rescuedCount);
     if ((gv_rescuedCount >= 5)) {
         TriggerExecute(gt_ObjectiveRescueComplete, true, false);
@@ -3841,6 +3842,7 @@ bool gt_IntroMilitiaStartQ_Func (bool testConds, bool runActions) {
     Wait(10.0, c_timeGame);
     if ((TriggerIsEnabled(gt_Site1MilitiaHeadsUpQ) == true)) {
         TriggerEnable(gt_Site1MilitiaHeadsUpQ, false);
+        TriggerExecute(gt_ObjectiveRescueCreateQ, true, false);
         autoE5431E21_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
         if (autoE5431E21_val == "Zerg") {
             libNtve_gf_CreateModelAtPoint("BriefingUnitSelectLarge", PointFromId(734733913));
