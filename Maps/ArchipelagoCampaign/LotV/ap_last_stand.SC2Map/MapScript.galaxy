@@ -38,6 +38,7 @@ const int gv_LOCATION_ID_NORTH_ZENITH_STONE = 2;
 const int gv_LOCATION_ID_EAST_ZENITH_STONE = 3;
 const int gv_LOCATION_ID_1_BILLION_ZERG = 4;
 const int gv_LOCATION_ID_1DOT5_BILLION_ZERG = 5;
+const int gv_LOCATION_ID_ALL_ZENITH_STONES_IN_UNDER_10_MINUTES = 6;
 const int gv_pLAYER_01_USER = 1;
 const int gv_pLAYER_02_DOMINION = 2;
 const int gv_pLAYER_02_DOMINION2 = 3;
@@ -78,6 +79,8 @@ struct gs_RECORD_CausewayDestructibles {
 //--------------------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------------------
+int gv_objectiveSpeedrun;
+timer gv_speedRunTimer;
 unit gv_artanis;
 int gv_zenithStonesTotal;
 int gv_zenithStonesDestroyed;
@@ -122,6 +125,8 @@ void InitGlobals () {
     int init_i;
     int init_i1;
 
+    gv_objectiveSpeedrun = c_invalidObjectiveId;
+    gv_speedRunTimer = TimerCreate();
     gv_zergOnShakuras = 49.0;
     gv_zergCounterDialog = c_invalidDialogId;
     gv_zergCounterLabel = c_invalidDialogControlId;
@@ -202,6 +207,9 @@ trigger gt_onDifficultyCasual;
 trigger gt_onDifficultyNormal;
 trigger gt_onDifficultyHard;
 trigger gt_onDifficultyBrutal;
+trigger gt_ObjectiveSpeedrunCreateQ;
+trigger gt_ObjectiveSpeedrunFail;
+trigger gt_ObjectiveSpeedrunComplete;
 trigger gt_Initialization;
 trigger gt_Init01Technology;
 trigger gt_Init02Players;
@@ -1045,6 +1053,96 @@ void gt_onDifficultyBrutal_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Create Q
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunCreateQ_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_category;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_category = lib5BD4895D_ge_APObjectiveCategory_Challenge;
+
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    ObjectiveCreate(StringExternal("Param/Value/89586FF4"), StringToText(""), c_objectiveStateHidden, false);
+    gv_objectiveSpeedrun = ObjectiveLastCreated();
+    lib5BD4895D_gf_AP_Core_addCategoryObjectiveWithTimer(gv_objectiveSpeedrun, lv_category, gv_speedRunTimer, true);
+    lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveSpeedrun, gv_LOCATION_ID_ALL_ZENITH_STONES_IN_UNDER_10_MINUTES);
+    lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(gv_objectiveSpeedrun);
+    lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveSpeedrun, true);
+    Wait(libVCMI_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunCreateQ_Init () {
+    gt_ObjectiveSpeedrunCreateQ = TriggerCreate("gt_ObjectiveSpeedrunCreateQ_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Fail
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunFail_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_setObjectiveFailed(gv_objectiveSpeedrun);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunFail_Init () {
+    gt_ObjectiveSpeedrunFail = TriggerCreate("gt_ObjectiveSpeedrunFail_Func");
+    TriggerAddEventTimer(gt_ObjectiveSpeedrunFail, gv_speedRunTimer);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Complete
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunComplete_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TimerPause(gv_speedRunTimer, true);
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_ALL_ZENITH_STONES_IN_UNDER_10_MINUTES);
+    TriggerExecute(gt_ObjectiveSpeedrunCreateQ, true, false);
+    lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveSpeedrun);
+    Wait(libVCMI_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunComplete_Init () {
+    gt_ObjectiveSpeedrunComplete = TriggerCreate("gt_ObjectiveSpeedrunComplete_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Initialization
 //--------------------------------------------------------------------------------------------------
 bool gt_Initialization_Func (bool testConds, bool runActions) {
@@ -1413,6 +1511,7 @@ bool gt_StartGameQ_Func (bool testConds, bool runActions) {
     UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/9919D0AC"), null, PointFromId(1));
     TriggerExecute(gt_ZergCounter, true, false);
     TriggerExecute(gt_TempleAlignmentFX, true, false);
+    TimerStart(gv_speedRunTimer, 600.0, false, c_timeAI);
     lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
     libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionEntireMap(), gv_pLAYER_01_USER);
     Wait(3.0, c_timeReal);
@@ -1438,6 +1537,7 @@ bool gt_StartGameQ_Func (bool testConds, bool runActions) {
     TriggerQueueExit();
     Wait(2.0, c_timeReal);
     TriggerExecute(gt_DestroyStonesQuicklyQ, true, false);
+    TriggerExecute(gt_ObjectiveSpeedrunCreateQ, true, false);
     Wait(120.0, c_timeAI);
     if ((libLotv_gf_DifficultyValueInt2(1, 1, 0, 0) == 1) && (UnitGroupCount(UnitGroup("Nexus", gv_pLAYER_01_USER, RegionCircle(PointFromId(18), 8.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 0)) {
         TriggerExecute(gt_ExpansionReminderQ, true, true);
@@ -2813,6 +2913,10 @@ bool gt_DestroyBottomStone_Func (bool testConds, bool runActions) {
     if ((gv_zenithStonesDestroyed == gv_zenithStonesTotal)) {
         TriggerExecute(gt_ObjectiveZenithStonesComplete, true, false);
         TriggerExecute(gt_AchievementFastZenithStones, true, false);
+        if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
+            TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
+        }
+
         if ((gv_zergOnShakuras >= 1000.0)) {
             TriggerExecute(gt_VictorySafety, true, false);
         }
@@ -2883,6 +2987,10 @@ bool gt_DestroyLeftStone_Func (bool testConds, bool runActions) {
     if ((gv_zenithStonesDestroyed == gv_zenithStonesTotal)) {
         TriggerExecute(gt_ObjectiveZenithStonesComplete, true, false);
         TriggerExecute(gt_AchievementFastZenithStones, true, false);
+        if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
+            TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
+        }
+
         if ((gv_zergOnShakuras >= 1000.0)) {
             TriggerExecute(gt_VictorySafety, true, false);
         }
@@ -2953,6 +3061,10 @@ bool gt_DestroyRightStone_Func (bool testConds, bool runActions) {
     if ((gv_zenithStonesDestroyed == gv_zenithStonesTotal)) {
         TriggerExecute(gt_ObjectiveZenithStonesComplete, true, false);
         TriggerExecute(gt_AchievementFastZenithStones, true, false);
+        if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
+            TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
+        }
+
         if ((gv_zergOnShakuras >= 1000.0)) {
             TriggerExecute(gt_VictorySafety, true, false);
         }
@@ -3627,6 +3739,7 @@ bool gt_VictoryMainObjectiveCompleted_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TimerPause(gv_speedRunTimer, true);
     TriggerExecute(gt_VictorySequence, true, false);
     return true;
 }
@@ -6060,6 +6173,9 @@ void InitTriggers () {
     gt_onDifficultyNormal_Init();
     gt_onDifficultyHard_Init();
     gt_onDifficultyBrutal_Init();
+    gt_ObjectiveSpeedrunCreateQ_Init();
+    gt_ObjectiveSpeedrunFail_Init();
+    gt_ObjectiveSpeedrunComplete_Init();
     gt_Initialization_Init();
     gt_Init01Technology_Init();
     gt_Init02Players_Init();

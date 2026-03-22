@@ -37,6 +37,7 @@ void InitLibs () {
 const int gv_LOCATION_ID_SOUTH_ROCK_FORMATION = 1;
 const int gv_LOCATION_ID_WEST_ROCK_FORMATION = 2;
 const int gv_LOCATION_ID_EAST_ROCK_FORMATION = 3;
+const int gv_LOCATION_ID_ALL_ROCK_FORMATIONS_IN_UNDER_10_MINUTES = 4;
 const int gv_pLAYER_01_USER = 1;
 const int gv_pLAYER_02_TALDARIM = 2;
 const int gv_pLAYER_03_TALDARIM = 3;
@@ -54,6 +55,8 @@ const int ge_PRESET_IsCoreOn_CoreOff = 1;
 //--------------------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------------------
+int gv_objectiveSpeedrun;
+timer gv_speedRunTimer;
 bool gv_gameOver;
 bool gv_inCinematic;
 string gv_mapMusicTrack;
@@ -101,6 +104,8 @@ unit gv_outroZeratul;
 void InitGlobals () {
     int init_i;
 
+    gv_objectiveSpeedrun = c_invalidObjectiveId;
+    gv_speedRunTimer = TimerCreate();
     gv_mapMusicTrack = "Music_ProtLow_All";
     gv_enemyPlayerGroup = PlayerGroupEmpty();
     gv_templeEntrance = UnitFromId(1281);
@@ -150,6 +155,9 @@ trigger gt_onDifficultyCasual;
 trigger gt_onDifficultyNormal;
 trigger gt_onDifficultyHard;
 trigger gt_onDifficultyBrutal;
+trigger gt_ObjectiveSpeedrunCreateQ;
+trigger gt_ObjectiveSpeedrunFail;
+trigger gt_ObjectiveSpeedrunComplete;
 trigger gt_Initialization;
 trigger gt_Init01Technology;
 trigger gt_Init02Players;
@@ -1199,6 +1207,96 @@ void gt_onDifficultyBrutal_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Create Q
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunCreateQ_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_category;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_category = lib5BD4895D_ge_APObjectiveCategory_Challenge;
+
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    ObjectiveCreate(StringExternal("Param/Value/C9407BAD"), StringToText(""), c_objectiveStateHidden, false);
+    gv_objectiveSpeedrun = ObjectiveLastCreated();
+    lib5BD4895D_gf_AP_Core_addCategoryObjectiveWithTimer(gv_objectiveSpeedrun, lv_category, gv_speedRunTimer, true);
+    lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveSpeedrun, gv_LOCATION_ID_ALL_ROCK_FORMATIONS_IN_UNDER_10_MINUTES);
+    lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(gv_objectiveSpeedrun);
+    lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveSpeedrun, true);
+    Wait(libA3DDD02B_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunCreateQ_Init () {
+    gt_ObjectiveSpeedrunCreateQ = TriggerCreate("gt_ObjectiveSpeedrunCreateQ_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Fail
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunFail_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_setObjectiveFailed(gv_objectiveSpeedrun);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunFail_Init () {
+    gt_ObjectiveSpeedrunFail = TriggerCreate("gt_ObjectiveSpeedrunFail_Func");
+    TriggerAddEventTimer(gt_ObjectiveSpeedrunFail, gv_speedRunTimer);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Complete
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunComplete_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TimerPause(gv_speedRunTimer, true);
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_ALL_ROCK_FORMATIONS_IN_UNDER_10_MINUTES);
+    TriggerExecute(gt_ObjectiveSpeedrunCreateQ, true, false);
+    lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveSpeedrun);
+    Wait(libA3DDD02B_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunComplete_Init () {
+    gt_ObjectiveSpeedrunComplete = TriggerCreate("gt_ObjectiveSpeedrunComplete_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Initialization
 //--------------------------------------------------------------------------------------------------
 bool gt_Initialization_Func (bool testConds, bool runActions) {
@@ -1525,9 +1623,12 @@ bool gt_StartGameQ_Func (bool testConds, bool runActions) {
     GameSetSpeedValue(libABFE498B_gv_aP_Triggers_Option_gameSpeed);
     TriggerExecute(gt_InitCoreCycle, true, false);
     TriggerExecute(gt_InitBonusObjective, true, false);
+    TimerStart(gv_speedRunTimer, 600.0, false, c_timeAI);
     Wait(3.0, c_timeReal);
     TriggerQueueEnter();
     TriggerExecute(gt_ObjectiveBreachtheTempleEntranceCreate, true, true);
+    Wait(2.0, c_timeReal);
+    TriggerExecute(gt_ObjectiveSpeedrunCreateQ, true, false);
     TriggerQueueExit();
     return true;
 }
@@ -3288,6 +3389,7 @@ bool gt_ObjectiveBreachtheTempleEntranceComplete_Func (bool testConds, bool runA
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TimerPause(gv_speedRunTimer, true);
     TriggerExecute(gt_ObjectiveBreachtheTempleEntranceCreate, true, false);
     lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveBreachTempleEntrance);
     Wait(libA3DDD02B_gv_campaignObjectiveDelay, c_timeReal);
@@ -3392,6 +3494,10 @@ bool gt_BonusObjectiveRockFormationsUpdate_Func (bool testConds, bool runActions
     if ((gv_bonusObjectivesObtained >= 3)) {
         TriggerEnable(TriggerGetCurrent(), false);
         TriggerExecute(gt_BonusObjectiveRockFormationsComplete, true, false);
+        if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
+            TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
+        }
+
     }
 
     Wait(libA3DDD02B_gv_campaignObjectiveDelay, c_timeReal);
@@ -4105,6 +4211,9 @@ void InitTriggers () {
     gt_onDifficultyNormal_Init();
     gt_onDifficultyHard_Init();
     gt_onDifficultyBrutal_Init();
+    gt_ObjectiveSpeedrunCreateQ_Init();
+    gt_ObjectiveSpeedrunFail_Init();
+    gt_ObjectiveSpeedrunComplete_Init();
     gt_Initialization_Init();
     gt_Init01Technology_Init();
     gt_Init02Players_Init();

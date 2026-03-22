@@ -6598,7 +6598,7 @@ bool gt_EradicatorKilled_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
-        lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_WIN_IN_UNDER_10_MINUTES);
+        TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
     }
 
     lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(lib5BD4895D_gv_aP_Core_locationVictory);

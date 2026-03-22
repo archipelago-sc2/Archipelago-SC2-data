@@ -33,6 +33,7 @@ const int gv_LOCATION_ID_REBEL_BASE = 1;
 const int gv_LOCATION_ID_NORTH_RESOURCE_PICKUPS = 2;
 const int gv_LOCATION_ID_BUNKER = 3;
 const int gv_LOCATION_ID_CLOSE_RESOURCE_PICKUPS = 4;
+const int gv_LOCATION_ID_WIN_IN_UNDER_10_MINUTES = 5;
 const int gv_pLAYER_01_USER = 1;
 const int gv_pLAYER_02_DOMINION = 2;
 const int gv_pLAYER_03_COLONISTS = 3;
@@ -59,9 +60,11 @@ const int ge_PRESET_MineGuardsState_Despawning = 3;
 //--------------------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------------------
-int gv_objectiveClaimNorthResourceCaches;
 int gv_objectiveClaimCloseResourceCaches;
+int gv_objectiveClaimNorthResourceCaches;
 int gv_objectiveDoANiceJobClearingThatBunker;
+int gv_objectiveSpeedrun;
+timer gv_speedRunTimer;
 unitgroup gv_closeResources;
 unitgroup gv_northResources;
 bool gv_gameOver;
@@ -109,9 +112,11 @@ int gv_rebelPing;
 bool gv_victoryCinematicCompleted;
 
 void InitGlobals () {
-    gv_objectiveClaimNorthResourceCaches = c_invalidObjectiveId;
     gv_objectiveClaimCloseResourceCaches = c_invalidObjectiveId;
+    gv_objectiveClaimNorthResourceCaches = c_invalidObjectiveId;
     gv_objectiveDoANiceJobClearingThatBunker = c_invalidObjectiveId;
+    gv_objectiveSpeedrun = c_invalidObjectiveId;
+    gv_speedRunTimer = TimerCreate();
     gv_closeResources = UnitGroupEmpty();
     gv_northResources = UnitGroupEmpty();
     gv_startingSCVs = UnitGroupEmpty();
@@ -156,6 +161,9 @@ trigger gt_ObjectiveNorthResourceCacheCreate;
 trigger gt_ObjectiveNorthResourceCacheComplete;
 trigger gt_ObjectiveBunkerCreate;
 trigger gt_ObjectiveBunkerComplete;
+trigger gt_ObjectiveSpeedrunCreateQ;
+trigger gt_ObjectiveSpeedrunFail;
+trigger gt_ObjectiveSpeedrunComplete;
 trigger gt_ResourceCachesonpickup;
 trigger gt_Initialization;
 trigger gt_Init01Technology;
@@ -865,6 +873,94 @@ void gt_ObjectiveBunkerComplete_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Create Q
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunCreateQ_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_category;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_category = lib5BD4895D_ge_APObjectiveCategory_Challenge;
+
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    ObjectiveCreate(StringExternal("Param/Value/11CDFF1A"), StringToText(""), c_objectiveStateHidden, false);
+    gv_objectiveSpeedrun = ObjectiveLastCreated();
+    lib5BD4895D_gf_AP_Core_addCategoryObjectiveWithTimer(gv_objectiveSpeedrun, lv_category, gv_speedRunTimer, true);
+    lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveSpeedrun, gv_LOCATION_ID_WIN_IN_UNDER_10_MINUTES);
+    lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveSpeedrun, true);
+    Wait(libCamp_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunCreateQ_Init () {
+    gt_ObjectiveSpeedrunCreateQ = TriggerCreate("gt_ObjectiveSpeedrunCreateQ_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Fail
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunFail_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib5BD4895D_gf_AP_Core_setObjectiveFailed(gv_objectiveSpeedrun);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunFail_Init () {
+    gt_ObjectiveSpeedrunFail = TriggerCreate("gt_ObjectiveSpeedrunFail_Func");
+    TriggerAddEventTimer(gt_ObjectiveSpeedrunFail, gv_speedRunTimer);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective Speedrun Complete
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveSpeedrunComplete_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_WIN_IN_UNDER_10_MINUTES);
+    TriggerExecute(gt_ObjectiveSpeedrunCreateQ, true, false);
+    lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_objectiveSpeedrun);
+    Wait(libCamp_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveSpeedrunComplete_Init () {
+    gt_ObjectiveSpeedrunComplete = TriggerCreate("gt_ObjectiveSpeedrunComplete_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Resource Caches on pickup
 //--------------------------------------------------------------------------------------------------
 bool gt_ResourceCachesonpickup_Func (bool testConds, bool runActions) {
@@ -1387,8 +1483,11 @@ bool gt_StartGame_Func (bool testConds, bool runActions) {
         TimerStart(gv_achievementHardTimer, 600.0, false, c_timeAI);
     }
 
+    TimerStart(gv_speedRunTimer, 600.0, false, c_timeAI);
     Wait(2.0, c_timeGame);
     TriggerExecute(gt_ObjectiveDestroytheDominionBaseDiscoverQ, true, true);
+    Wait(2.0, c_timeGame);
+    TriggerExecute(gt_ObjectiveSpeedrunCreateQ, true, true);
     Wait(2.0, c_timeGame);
     TriggerExecute(gt_ObjectiveCloseResourceCacheCreate, true, true);
     Wait(2.0, c_timeGame);
@@ -4637,8 +4736,13 @@ bool gt_VictoryDominionOutpostCompleted_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     gv_gameOver = true;
+    TimerPause(gv_speedRunTimer, true);
     TriggerExecute(gt_ObjectiveDestroytheDominionBaseComplete, true, true);
     TriggerExecute(gt_ObjectiveBunkerComplete, true, false);
+    if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
+        TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
+    }
+
     libCamp_gf_RunMissionVictorySequence(gt_VictoryQ);
     return true;
 }
@@ -5672,6 +5776,9 @@ void InitTriggers () {
     gt_ObjectiveNorthResourceCacheComplete_Init();
     gt_ObjectiveBunkerCreate_Init();
     gt_ObjectiveBunkerComplete_Init();
+    gt_ObjectiveSpeedrunCreateQ_Init();
+    gt_ObjectiveSpeedrunFail_Init();
+    gt_ObjectiveSpeedrunComplete_Init();
     gt_ResourceCachesonpickup_Init();
     gt_Initialization_Init();
     gt_Init01Technology_Init();
