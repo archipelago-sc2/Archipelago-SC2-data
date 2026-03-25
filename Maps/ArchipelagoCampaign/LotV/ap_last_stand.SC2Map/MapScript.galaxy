@@ -2888,6 +2888,10 @@ bool gt_DestroyBottomStone_Func (bool testConds, bool runActions) {
     TriggerEnable(TriggerGetCurrent(), false);
     gv_zenithStonesDestroyed += 1;
     lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_WEST_ZENITH_STONE);
+    if ((TimerGetRemaining(gv_speedRunTimer) > 0.0) && (gv_zenithStonesDestroyed >= gv_zenithStonesTotal)) {
+        TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
+    }
+
     TriggerExecute(gt_ObjectiveZenithStonesUpdate, true, false);
     PingDestroy(gv_zenithStonePings[1]);
     auto2DBC0922_g = UnitGroup(null, c_playerAny, RegionCircle(PointFromId(1255), 4.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -2913,10 +2917,6 @@ bool gt_DestroyBottomStone_Func (bool testConds, bool runActions) {
     if ((gv_zenithStonesDestroyed == gv_zenithStonesTotal)) {
         TriggerExecute(gt_ObjectiveZenithStonesComplete, true, false);
         TriggerExecute(gt_AchievementFastZenithStones, true, false);
-        if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
-            TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
-        }
-
         if ((gv_zergOnShakuras >= 1000.0)) {
             TriggerExecute(gt_VictorySafety, true, false);
         }
@@ -2962,6 +2962,10 @@ bool gt_DestroyLeftStone_Func (bool testConds, bool runActions) {
     TriggerEnable(TriggerGetCurrent(), false);
     gv_zenithStonesDestroyed += 1;
     lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_NORTH_ZENITH_STONE);
+    if ((TimerGetRemaining(gv_speedRunTimer) > 0.0) && (gv_zenithStonesDestroyed >= gv_zenithStonesTotal)) {
+        TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
+    }
+
     TriggerExecute(gt_ObjectiveZenithStonesUpdate, true, false);
     PingDestroy(gv_zenithStonePings[2]);
     auto90945C30_g = UnitGroup(null, c_playerAny, RegionCircle(PointFromId(1151), 4.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -2987,10 +2991,6 @@ bool gt_DestroyLeftStone_Func (bool testConds, bool runActions) {
     if ((gv_zenithStonesDestroyed == gv_zenithStonesTotal)) {
         TriggerExecute(gt_ObjectiveZenithStonesComplete, true, false);
         TriggerExecute(gt_AchievementFastZenithStones, true, false);
-        if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
-            TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
-        }
-
         if ((gv_zergOnShakuras >= 1000.0)) {
             TriggerExecute(gt_VictorySafety, true, false);
         }
@@ -3036,6 +3036,10 @@ bool gt_DestroyRightStone_Func (bool testConds, bool runActions) {
     TriggerEnable(TriggerGetCurrent(), false);
     gv_zenithStonesDestroyed += 1;
     lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_EAST_ZENITH_STONE);
+    if ((TimerGetRemaining(gv_speedRunTimer) > 0.0) && (gv_zenithStonesDestroyed >= gv_zenithStonesTotal)) {
+        TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
+    }
+
     TriggerExecute(gt_ObjectiveZenithStonesUpdate, true, false);
     PingDestroy(gv_zenithStonePings[3]);
     auto6CFEB593_g = UnitGroup(null, c_playerAny, RegionCircle(PointFromId(181), 4.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -3061,10 +3065,6 @@ bool gt_DestroyRightStone_Func (bool testConds, bool runActions) {
     if ((gv_zenithStonesDestroyed == gv_zenithStonesTotal)) {
         TriggerExecute(gt_ObjectiveZenithStonesComplete, true, false);
         TriggerExecute(gt_AchievementFastZenithStones, true, false);
-        if ((TimerGetRemaining(gv_speedRunTimer) > 0.0)) {
-            TriggerExecute(gt_ObjectiveSpeedrunComplete, true, false);
-        }
-
         if ((gv_zergOnShakuras >= 1000.0)) {
             TriggerExecute(gt_VictorySafety, true, false);
         }
