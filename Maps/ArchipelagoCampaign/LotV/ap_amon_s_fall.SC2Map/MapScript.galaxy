@@ -335,6 +335,7 @@ trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
 trigger gt_DEBUGEatBase;
+trigger gt_DEBUGReviveKerrigan;
 trigger gt_DEBUGVictory;
 trigger gt_StartGameQ;
 trigger gt_VoidCrystalInit;
@@ -371,6 +372,7 @@ trigger gt_CleaveBase6Q;
 trigger gt_CleaveBase7Q;
 trigger gt_CleaveBase8Q;
 trigger gt_CleaveBase9Q;
+trigger gt_APHeroReviveKerriganXelNagaCooldownWait;
 trigger gt_KerriganDies;
 trigger gt_CreepTumorBuild;
 trigger gt_QuantumRayCheck;
@@ -2110,32 +2112,7 @@ bool auto_gf_HandleHeroDeathVoid_TriggerFunc (bool testConds, bool runActions) {
     lv_revivePlayer = UnitGetOwner(lp_heroUnit);
     libVCMI_gv_pM_HeroRevivingUnit[(lv_heroType)] = lp_heroUnit;
     auto661AB472_val = lv_heroType;
-    if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan) {
-        lv_reviveUnitType = "KerriganReviveCocoon";
-        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/KerriganRevive";
-        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("KerriganRevive", 0);
-        if ((lp_reviveTime == -1.0)) {
-            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeKerrigan;
-        }
-        else {
-            lv_reviveCooldown = lp_reviveTime;
-        }
-        if ((libVCMI_gv_pM_ReviveUseAltMessage == true)) {
-            TextExpressionSetToken("Param/Expression/8E97F9B6", "A", IntToText(FixedToInt(lv_reviveCooldown)));
-            lv_reviveMessage = TextExpressionAssemble("Param/Expression/8E97F9B6");
-            lv_reviveRebuildMessage = StringExternal("Param/Value/E0BAB522");
-        }
-        else {
-            TextExpressionSetToken("Param/Expression/08A85A09", "A", IntToText(FixedToInt(lv_reviveCooldown)));
-            lv_reviveMessage = TextExpressionAssemble("Param/Expression/08A85A09");
-            lv_reviveRebuildMessage = StringExternal("Param/Value/8E750E9B");
-        }
-        if ((libVCMI_gv_pM_HeroRevivePlayer[(lv_heroType)] == 1)) {
-            lv_updateRally = true;
-        }
-
-    }
-    else if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga) {
+    if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga) {
         lv_reviveUnitType = "KerriganXelNagaReviveCocoon";
         libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/KerriganRevive";
         libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("KerriganRevive", 0);
@@ -2159,45 +2136,6 @@ bool auto_gf_HandleHeroDeathVoid_TriggerFunc (bool testConds, bool runActions) {
             lv_updateRally = true;
         }
 
-    }
-    else if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Fenix) {
-        lv_reviveUnitType = "FenixCocoon";
-        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/FenixRevive";
-        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("FenixRevive", 0);
-        if ((lp_reviveTime == -1.0)) {
-            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeFenix;
-        }
-        else {
-            lv_reviveCooldown = lp_reviveTime;
-        }
-        TextExpressionSetToken("Param/Expression/B919D88D", "A", IntToText(FixedToInt(lv_reviveCooldown)));
-        lv_reviveMessage = TextExpressionAssemble("Param/Expression/B919D88D");
-        lv_reviveRebuildMessage = StringExternal("Param/Value/1F92C371");
-    }
-    else if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Stukov) {
-        lv_reviveUnitType = "StukovReviveCocoon";
-        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/StukovRevive";
-        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("StukovRevive", 0);
-        if ((lp_reviveTime == -1.0)) {
-            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeStukov;
-        }
-        else {
-            lv_reviveCooldown = lp_reviveTime;
-        }
-        TextExpressionSetToken("Param/Expression/FB666FCE", "A", IntToText(FixedToInt(lv_reviveCooldown)));
-        lv_reviveMessage = TextExpressionAssemble("Param/Expression/FB666FCE");
-        lv_reviveRebuildMessage = StringExternal("Param/Value/7A1C36D6");
-    }
-    else if (auto661AB472_val == libVCMI_ge_PM_HeroType_PM_HeroType_Zagara) {
-        lv_reviveUnitType = "ZagaraReviveCocoon";
-        libVCMI_gv_pM_HeroReviveCDLink[(lv_heroType)] = "Abil/ZagaraRevive";
-        libVCMI_gv_pM_HeroReviveCommand[(lv_heroType)] = AbilityCommand("ZagaraRevive", 0);
-        if ((lp_reviveTime == -1.0)) {
-            lv_reviveCooldown = libVCMI_gv_pM_ReviveCooldownTimeZagara;
-        }
-        else {
-            lv_reviveCooldown = lp_reviveTime;
-        }
     }
     else {
         TextExpressionSetToken("Param/Expression/06280A2B", "A", StringToText((UnitGetType(lp_heroUnit))));
@@ -2242,21 +2180,8 @@ bool auto_gf_HandleHeroDeathVoid_TriggerFunc (bool testConds, bool runActions) {
     }
 
     autoC8B6A825_val = lv_heroType;
-    if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan) {
-        TriggerEnable(libVCMI_gt_PM_HeroReviveKerriganCooldownWait, true);
-    }
-    else if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga) {
-        TriggerEnable(libVCMI_gt_PM_HeroReviveKerriganXelNagaCooldownWait, true);
-    }
-    else if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Fenix) {
-        UnitBehaviorAdd(libVCMI_gv_pM_SoAUnit, "SOAFenixCooldownDummy", libVCMI_gv_pM_SoAUnit, 1);
-        TriggerEnable(libVCMI_gt_PM_HeroReviveFenixCooldownWait, true);
-    }
-    else if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Stukov) {
-        TriggerEnable(libVCMI_gt_PM_HeroReviveStukovCooldownWait, true);
-    }
-    else if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Zagara) {
-        TriggerEnable(libVCMI_gt_PM_HeroReviveZagaraCooldownWait, true);
+    if (autoC8B6A825_val == libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga) {
+        TriggerEnable(gt_APHeroReviveKerriganXelNagaCooldownWait, true);
     }
     else {
     }
@@ -2326,15 +2251,6 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        GameSetSpeedValue(c_gameSpeedFaster);
-        libABFE498B_gf_AP_Triggers_setDifficulty("B");
-        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
-        libABFE498B_gv_aP_Triggers_DebugMode = true;
-        gf_APtech(gv_pLAYER_01_USER, 4);
-    }
-
     CinematicFade(false, 0.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, false);
     TriggerExecute(lib30B9E51A_gt_ArchipelagoPlayerLotvHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
@@ -2372,6 +2288,16 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     // Actions
     if (!runActions) {
         return true;
+    }
+
+    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        GameSetSpeedValue(c_gameSpeedFaster);
+        libABFE498B_gf_AP_Triggers_setDifficulty("B");
+        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        libABFE498B_gv_aP_Triggers_DebugMode = true;
+        gf_APtech(gv_pLAYER_01_USER, 4);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSolarLance(gv_pLAYER_01_USER);
+        lib15EF4C78_gf_AP_Player_CreateSoAUnit(gv_pLAYER_01_USER);
     }
 
     auto973AFC8F_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
@@ -2969,6 +2895,46 @@ bool gt_DEBUGEatBase_Func (bool testConds, bool runActions) {
 void gt_DEBUGEatBase_Init () {
     gt_DEBUGEatBase = TriggerCreate("gt_DEBUGEatBase_Func");
     TriggerAddEventChatMessage(gt_DEBUGEatBase, c_playerAny, "-eat", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Revive Kerrigan
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGReviveKerrigan_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libVCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((libVCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libVCMI_gf_ReviveHeroInstantly(gv_kerrigan, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGReviveKerrigan_Init () {
+    gt_DEBUGReviveKerrigan = TriggerCreate("gt_DEBUGReviveKerrigan_Func");
+    TriggerAddEventChatMessage(gt_DEBUGReviveKerrigan, c_playerAny, "-revive", true);
+    TriggerAddEventChatMessage(gt_DEBUGReviveKerrigan, c_playerAny, "-r", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5528,6 +5494,71 @@ void gt_CleaveBase9Q_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP HeroReviveKerriganXelNagaCooldownWait
+//--------------------------------------------------------------------------------------------------
+bool gt_APHeroReviveKerriganXelNagaCooldownWait_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_heroIndex;
+    unit lv_closestHatchery;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((libVCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((PlayerGetCooldown(libVCMI_gv_pM_HeroRevivePlayer[(libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga)], libVCMI_gv_pM_HeroReviveCDLink[(libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga)]) >= 0.0)) {
+        return true;
+    }
+
+    lv_closestHatchery = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(gv_pLAYER_01_USER);
+    lv_heroIndex = (libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga);
+    if ((libVCMI_gv_pM_HeroReviverUnit[lv_heroIndex] != null)) {
+        if ((UnitIsAlive(libVCMI_gv_pM_HeroReviverUnit[lv_heroIndex]) == true)) {
+            UnitCreateEffectUnit(lv_closestHatchery, "CopyHatcheryRally", libVCMI_gv_pM_HeroReviverUnit[lv_heroIndex]);
+        }
+
+    }
+
+    libVCMI_gf_PM_HeroRevive(libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga);
+    TriggerEnable(TriggerGetCurrent(), false);
+    if ((libVCMI_gv_pM_HeroReviverUnit[lv_heroIndex] != null)) {
+        if ((UnitIsAlive(libVCMI_gv_pM_HeroReviverUnit[lv_heroIndex]) == true)) {
+            UnitSetPosition(libVCMI_gv_pM_HeroRevivingUnit[lv_heroIndex], PointWithOffsetPolar(UnitGetPosition(lv_closestHatchery), 3.0, 270.0), false);
+        }
+
+    }
+
+    libVCUI_gf_SetHeroPanelUnit(1, libVCMI_gv_pM_HeroRevivingUnit[lv_heroIndex]);
+    UnitBehaviorAdd(libVCMI_gv_pM_HeroRevivingUnit[lv_heroIndex], "KerriganXelNagaReviveStun", libVCMI_gv_pM_HeroRevivingUnit[lv_heroIndex], 1);
+    if ((libVCMI_gv_pM_HeroRevivePlayer[(libVCMI_ge_PM_HeroType_PM_HeroType_Kerrigan_XelNaga)] == 1)) {
+        libVCMI_gf_DisplayCampaignMessage(PlayerGroupAll(), libVCMI_ge_CampaignMessageType_SimpleHint, StringExternal("Param/Value/A6C3B194"), libVCMI_ge_CampaignMessageFormatNotFormat_FormatMessage);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_APHeroReviveKerriganXelNagaCooldownWait_Init () {
+    gt_APHeroReviveKerriganXelNagaCooldownWait = TriggerCreate("gt_APHeroReviveKerriganXelNagaCooldownWait_Func");
+    TriggerEnable(gt_APHeroReviveKerriganXelNagaCooldownWait, false);
+    TriggerAddEventTimePeriodic(gt_APHeroReviveKerriganXelNagaCooldownWait, 1.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Kerrigan Dies
 //--------------------------------------------------------------------------------------------------
 bool gt_KerriganDies_Func (bool testConds, bool runActions) {
@@ -7845,7 +7876,7 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     else {
         libVCMI_gf_SpawnLarvaForHatchery(UnitFromId(6), 3);
     }
-    autoE49D14F9_g = UnitGroup("Larva", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoE49D14F9_g = UnitGroup("Larva", gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, (1 << (c_targetFilterDead - 32)), (1 << c_targetFilterMissile), (1 << (c_targetFilterHidden - 32))), 0);
     autoE49D14F9_u = UnitGroupCount(autoE49D14F9_g, c_unitCountAll);
     for (;; autoE49D14F9_u -= 1) {
         autoE49D14F9_var = UnitGroupUnitFromEnd(autoE49D14F9_g, autoE49D14F9_u);
@@ -9070,6 +9101,7 @@ void InitTriggers () {
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
     gt_DEBUGEatBase_Init();
+    gt_DEBUGReviveKerrigan_Init();
     gt_DEBUGVictory_Init();
     gt_StartGameQ_Init();
     gt_VoidCrystalInit_Init();
@@ -9106,6 +9138,7 @@ void InitTriggers () {
     gt_CleaveBase7Q_Init();
     gt_CleaveBase8Q_Init();
     gt_CleaveBase9Q_Init();
+    gt_APHeroReviveKerriganXelNagaCooldownWait_Init();
     gt_KerriganDies_Init();
     gt_CreepTumorBuild_Init();
     gt_QuantumRayCheck_Init();
