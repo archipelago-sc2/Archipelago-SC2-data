@@ -317,6 +317,7 @@ trigger gt_Init02Players;
 trigger gt_Init03Units;
 trigger gt_Init03aStage01Sewers;
 trigger gt_Init03bStage02Facility;
+trigger gt_Init03cTripWires;
 trigger gt_Init04MusicSound;
 trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
@@ -1424,7 +1425,18 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/001D1F2F"), true);
+        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        libABFE498B_gv_aP_Triggers_DebugMode = true;
+        libABFE498B_gf_AP_Triggers_setDifficulty("B");
+        libABFE498B_gf_AP_Triggers_setGameSpeed("5");
+        libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
+        TriggerExecute(libABFE498B_gv_aP_Triggers_onDifficultyBrutal, true, false);
+    }
+
     TriggerExecute(gt_Init01Technology, true, false);
+    TriggerExecute(gt_Init03cTripWires, true, false);
     TriggerExecute(gt_Init04MusicSound, true, false);
     TriggerExecute(gt_Init05Environment, true, false);
     TriggerExecute(gt_Init06Difficulties, true, false);
@@ -1700,41 +1712,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     gv_s1_ThorFriend = UnitFromId(958512770);
     TriggerExecute(gt_Init03aStage01Sewers, true, true);
     TriggerExecute(gt_Init03bStage02Facility, true, true);
-    UnitBehaviorAdd(gv_s1_TripWire_Critter, "Harmless", gv_s1_TripWire_Critter, 1);
-    UnitSetHeight(UnitFromId(1280085036), 0.2, 0.0);
-    UnitSetHeight(UnitFromId(313096150), 0.2, 0.0);
-    UnitSetHeight(UnitFromId(1229665133), 0.2, 0.0);
-    UnitSetHeight(UnitFromId(1936979417), 0.2, 0.0);
-    UnitIssueOrder(UnitFromId(1280085036), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1280085036)), 1.0, 315.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(313096150), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(313096150)), 1.0, 225.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1229665133), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1229665133)), 1.0, 45.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1936979417), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1936979417)), 1.0, 315.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1226547672), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1226547672)), 1.0, 225.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1567000892), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1567000892)), 1.0, 315.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1436445978), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1436445978)), 1.0, 135.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(626557602), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(626557602)), 1.0, 225.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(2037754646), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(2037754646)), 1.0, 225.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(331074353), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(331074353)), 1.0, 225.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1795030305), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1795030305)), 1.0, 135.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(828708926), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(828708926)), 1.0, 315.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(498629523), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(498629523)), 1.0, 90.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1020475925), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1020475925)), 1.0, 225.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1175529313), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1175529313)), 1.0, 315.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(169416149), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(169416149)), 1.0, 225.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1639389075), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1639389075)), 1.0, 315.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(221582272), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(221582272)), 1.0, 270.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(13236855), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(13236855)), 1.0, 0.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(162897768), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(162897768)), 1.0, 180.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(2126507237), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(2126507237)), 1.0, 0.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(1142591608), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1142591608)), 1.0, 225.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(193076581), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(193076581)), 1.0, 45.0)), c_orderQueueReplace);
-    UnitIssueOrder(UnitFromId(909583235), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(909583235)), 1.0, 225.0)), c_orderQueueReplace);
-    if ((libLotv_gf_DifficultyValueInt2(0, 0, 1, 1) == 1)) {
-        UnitIssueOrder(UnitFromId(449910981), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(449910981)), 1.0, 135.0)), c_orderQueueReplace);
-        UnitIssueOrder(UnitFromId(429896153), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(429896153)), 1.0, 315.0)), c_orderQueueReplace);
-        UnitIssueOrder(UnitFromId(779004688), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(779004688)), 1.0, 315.0)), c_orderQueueReplace);
-    }
-
     UnitBehaviorAddPlayer(UnitFromId(528388140), "Harmless", 0, 1);
     autoF5D81D2A_g = UnitGroup(null, 0, RegionFromId(62), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoF5D81D2A_u = UnitGroupCount(autoF5D81D2A_g, c_unitCountAll);
@@ -2233,6 +2210,59 @@ bool gt_Init03bStage02Facility_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_Init03bStage02Facility_Init () {
     gt_Init03bStage02Facility = TriggerCreate("gt_Init03bStage02Facility_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Init 03c Trip Wires
+//--------------------------------------------------------------------------------------------------
+bool gt_Init03cTripWires_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorAdd(gv_s1_TripWire_Critter, "Harmless", gv_s1_TripWire_Critter, 1);
+    UnitSetHeight(UnitFromId(1280085036), 0.2, 0.0);
+    UnitSetHeight(UnitFromId(313096150), 0.2, 0.0);
+    UnitSetHeight(UnitFromId(1229665133), 0.2, 0.0);
+    UnitSetHeight(UnitFromId(1936979417), 0.2, 0.0);
+    UnitIssueOrder(UnitFromId(1280085036), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1280085036)), 1.0, 315.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(313096150), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(313096150)), 1.0, 225.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1229665133), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1229665133)), 1.0, 45.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1936979417), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1936979417)), 1.0, 315.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1226547672), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1226547672)), 1.0, 225.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1567000892), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1567000892)), 1.0, 315.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1436445978), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1436445978)), 1.0, 135.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(626557602), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(626557602)), 1.0, 225.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(2037754646), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(2037754646)), 1.0, 225.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(331074353), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(331074353)), 1.0, 225.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1795030305), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1795030305)), 1.0, 135.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(828708926), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(828708926)), 1.0, 315.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(498629523), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(498629523)), 1.0, 90.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1020475925), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1020475925)), 1.0, 225.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1175529313), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1175529313)), 1.0, 315.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(169416149), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(169416149)), 1.0, 225.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1639389075), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1639389075)), 1.0, 315.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(221582272), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(221582272)), 1.0, 270.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(13236855), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(13236855)), 1.0, 0.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(162897768), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(162897768)), 1.0, 180.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(2126507237), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(2126507237)), 1.0, 0.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(1142591608), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireSmall", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(1142591608)), 1.0, 225.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(193076581), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(193076581)), 1.0, 45.0)), c_orderQueueReplace);
+    UnitIssueOrder(UnitFromId(909583235), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(909583235)), 1.0, 225.0)), c_orderQueueReplace);
+    if ((libLotv_gf_DifficultyValueInt2(0, 0, 1, 1) == 1)) {
+        UnitIssueOrder(UnitFromId(449910981), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(449910981)), 1.0, 135.0)), c_orderQueueReplace);
+        UnitIssueOrder(UnitFromId(429896153), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(429896153)), 1.0, 315.0)), c_orderQueueReplace);
+        UnitIssueOrder(UnitFromId(779004688), OrderTargetingPoint(AbilityCommand("NovaCreateTripWireMedium", 0), PointWithOffsetPolar(UnitGetPosition(UnitFromId(779004688)), 1.0, 315.0)), c_orderQueueReplace);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Init03cTripWires_Init () {
+    gt_Init03cTripWires = TriggerCreate("gt_Init03cTripWires_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -11738,6 +11768,7 @@ void InitTriggers () {
     gt_Init03Units_Init();
     gt_Init03aStage01Sewers_Init();
     gt_Init03bStage02Facility_Init();
+    gt_Init03cTripWires_Init();
     gt_Init04MusicSound_Init();
     gt_Init05Environment_Init();
     gt_Init06Difficulties_Init();
