@@ -1179,7 +1179,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
@@ -1843,19 +1842,20 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_FactionSwapInit, true, true);
     libABFE498B_gf_AP_Triggers_HeroReplace(lib5BD4895D_gf_AP_Core_getUser(), gv_kerrigan, UnitGroupEmpty());
     gv_kerrigan = libABFE498B_gv_aP_Triggers_HeroUnit[1];
-    autoC992EFDC_g = UnitGroupFromId(5);
-    autoC992EFDC_u = UnitGroupCount(autoC992EFDC_g, c_unitCountAll);
-    for (;; autoC992EFDC_u -= 1) {
-        autoC992EFDC_var = UnitGroupUnitFromEnd(autoC992EFDC_g, autoC992EFDC_u);
-        if (autoC992EFDC_var == null) { break; }
-        UnitRemove(autoC992EFDC_var);
-    }
     if ((libABFE498B_gv_aP_Triggers_Option_HeroPresence == 0)) {
         libNtve_gf_PauseUnit(gv_kerrigan, true);
         libNtve_gf_ShowHideUnit(gv_kerrigan, false);
         UnitBehaviorAdd(gv_kerrigan, "AP_ImmortalShakurasAntiAirMissileDisableAttack", gv_kerrigan, 1);
     }
-
+    else {
+        autoC992EFDC_g = UnitGroupFromId(5);
+        autoC992EFDC_u = UnitGroupCount(autoC992EFDC_g, c_unitCountAll);
+        for (;; autoC992EFDC_u -= 1) {
+            autoC992EFDC_var = UnitGroupUnitFromEnd(autoC992EFDC_g, autoC992EFDC_u);
+            if (autoC992EFDC_var == null) { break; }
+            UnitRemove(autoC992EFDC_var);
+        }
+    }
     TriggerExecute(gt_IntroQ, true, true);
     TriggerExecute(gt_StartGameQ, true, false);
     return true;
