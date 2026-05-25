@@ -592,19 +592,23 @@ bool auto_gf_DropInTerranReinforcements_TriggerFunc (bool testConds, bool runAct
 
     // Variable Declarations
     unit lv_dropship;
+    unitgroup lv_droppedUnits;
 
     // Automatic Variable Declarations
     // Variable Initialization
+    lv_droppedUnits = UnitGroupEmpty();
 
     // Implementation
     UnitCreate(1, "AP_Hercules", 0, gv_pLAYER_02_PROTOSS_S01, PointFromId(2138), 315.0);
     lv_dropship = UnitLastCreated();
     if ((lp_count >= 1)) {
         UnitCargoCreate(lv_dropship, lp_unitType, lp_count);
+        UnitGroupAddUnitGroup(lv_droppedUnits, UnitCargoLastCreatedGroup());
     }
 
     if ((lp_count2 >= 1)) {
         UnitCargoCreate(lv_dropship, lp_unitType2, lp_count2);
+        UnitGroupAddUnitGroup(lv_droppedUnits, UnitCargoLastCreatedGroup());
     }
 
     UnitIssueOrder(lv_dropship, OrderTargetingPoint(AbilityCommand("AP_HyperjumpHercules", 0), lp_point), c_orderQueueReplace);
@@ -614,6 +618,7 @@ bool auto_gf_DropInTerranReinforcements_TriggerFunc (bool testConds, bool runAct
         Wait(4.0, c_timeGame);
     }
     UnitIssueOrder(lv_dropship, OrderTargetingPoint(AbilityCommand("AP_HyperjumpHercules", 0), PointFromId(75)), c_orderQueueAddToEnd);
+    libNtve_gf_RescueUnit2(lv_droppedUnits, gv_pLAYER_01_USER, true);
     return true;
 }
 
@@ -651,6 +656,7 @@ bool auto_gf_NydusInZergReinforcements_TriggerFunc (bool testConds, bool runActi
     // Variable Declarations
     unit lv_nydus;
     point lv_offset;
+    point lv_point;
 
     // Automatic Variable Declarations
     int auto9BCD63E2_n;
@@ -661,8 +667,14 @@ bool auto_gf_NydusInZergReinforcements_TriggerFunc (bool testConds, bool runActi
     // Variable Initialization
 
     // Implementation
-    UnitCreate(1, "NydusCanal", 0, gv_pLAYER_02_PROTOSS_S01, lp_nydusPoint, 270.0);
+    lv_point = UnitTypePlacementFromPoint("NydusCanal", gv_pLAYER_01_USER, lp_nydusPoint, 10.0);
+    UnitCreate(1, "NydusCanal", 0, gv_pLAYER_02_PROTOSS_S01, lv_point, 270.0);
     lv_nydus = UnitLastCreated();
+    if ((UnitIsValid(lv_nydus) == false)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/341D6747"), true);
+        return true;
+    }
+
     if ((lp_rallyPoint == null)) {
         lp_rallyPoint = PointWithOffset(UnitGetPosition(lv_nydus), 4.0, -4.0);
     }
@@ -1423,16 +1435,6 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        libABFE498B_gf_AP_Triggers_setDifficulty("B");
-        libABFE498B_gf_AP_Triggers_setGameSpeed("5");
-        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
-        libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Zerg";
-        TriggerExecute(gt_onDifficultyBrutal, true, false);
-        libABFE498B_gf_AP_Triggers_giveProtossDefaultTech(gv_pLAYER_01_USER);
-    }
-
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace != "Neut")) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
     }
@@ -1476,6 +1478,16 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        libABFE498B_gf_AP_Triggers_setDifficulty("B");
+        libABFE498B_gf_AP_Triggers_setGameSpeed("5");
+        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        libABFE498B_gv_aP_Triggers_DebugMode = true;
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Zerg";
+        TriggerExecute(gt_onDifficultyBrutal, true, false);
+        libABFE498B_gf_AP_Triggers_giveProtossDefaultTech(gv_pLAYER_01_USER);
+    }
+
     gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2 = UnitGroup(null, gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
     UnitGroupAddUnitGroup(gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2, UnitGroup(null, gv_pLAYER_02_PROTOSS_S01, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0));
     UnitGroupAddUnitGroup(gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2, UnitGroup(null, gv_pLAYER_06_PROTOSS_ALLY, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0));
@@ -1488,6 +1500,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         PlayerSetRace(gv_pLAYER_01_USER, "Terr");
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
+        PlayerModifyPropertyInt(gv_pLAYER_06_PROTOSS_ALLY, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 50);
     }
     else if (autoB8A51516_val == "Zerg") {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
@@ -1496,8 +1509,12 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         PlayerSetRace(gv_pLAYER_01_USER, "Zerg");
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
+        PlayerModifyPropertyInt(gv_pLAYER_07_ZERG_CINE, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 75);
+        PlayerModifyPropertyInt(gv_pLAYER_06_PROTOSS_ALLY, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 50);
     }
     else {
+        PlayerModifyPropertyInt(gv_pLAYER_06_PROTOSS_ALLY, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 50);
+        PlayerModifyPropertyInt(gv_pLAYER_07_ZERG_CINE, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 50);
         lib15EF4C78_gf_RemoveUnusedStartingUnits(gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2, "Prot", false);
     }
     auto934ECFD9_g = gv_LOCATION_ID_FIRST_SQUADRON_OF_DOMINION_FLEET2;
@@ -1521,7 +1538,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1538,6 +1554,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init04MusicSound, true, false);
     TriggerExecute(gt_Init05Environment, true, false);
     TriggerExecute(gt_Init06Difficulties, true, false);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroQ, true, true);
     TriggerExecute(gt_StartGameQ, true, false);
     return true;
@@ -1639,8 +1656,6 @@ bool gt_Init02Players_Func (bool testConds, bool runActions) {
         PlayerSetColorIndex(autoEAAEF67C_var, 1, true);
     }
     PlayerSetColorIndex(gv_pLAYER_07_ZERG_CINE, 1, true);
-    PlayerModifyPropertyInt(gv_pLAYER_06_PROTOSS_ALLY, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 50);
-    PlayerModifyPropertyInt(gv_pLAYER_07_ZERG_CINE, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 50);
     PlayerSetState(gv_pLAYER_01_USER, c_playerStateFidgetingEnabled, false);
     PlayerSetState(gv_pLAYER_02_PROTOSS_S01, c_playerStateFidgetingEnabled, false);
     libVCMI_gf_PM_DetectionUpgradesApply();
@@ -3883,8 +3898,6 @@ bool gt_Conduit01ReinforcementsTerran_Func (bool testConds, bool runActions) {
     gf_DropInTerranReinforcements(PointFromId(1350), 8, "AP_Marine", 2, "AP_Marauder");
     Wait(0.25, c_timeAI);
     gf_DropInTerranReinforcements(PointFromId(1351), 8, "AP_Marine", 2, "AP_Marauder");
-    Wait(10.0, c_timeAI);
-    libNtve_gf_RescueUnit2(UnitGroup(null, gv_pLAYER_02_PROTOSS_S01, RegionFromId(27), UnitFilter((1 << c_targetFilterGround), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), gv_pLAYER_01_USER, true);
     return true;
 }
 
