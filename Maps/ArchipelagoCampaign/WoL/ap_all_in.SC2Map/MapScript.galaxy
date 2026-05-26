@@ -746,12 +746,27 @@ void gt_ArchInit_Init () {
 // Trigger: Faction Swap Init
 //--------------------------------------------------------------------------------------------------
 bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unitgroup lv_remove;
+
     // Automatic Variable Declarations
+    unitgroup autoF38E0432_g;
+    int autoF38E0432_u;
+    unit autoF38E0432_var;
+    unitgroup auto3B832D3D_g;
+    int auto3B832D3D_u;
+    unit auto3B832D3D_var;
+
+    // Variable Initialization
+    lv_remove = UnitGroupEmpty();
+
     // Actions
     if (!runActions) {
         return true;
     }
 
+    UnitGroupAddUnitGroup(lv_remove, UnitGroup("AP_Interceptor", gv_pLAYER_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), 0), 0));
+    UnitGroupAddUnitGroup(lv_remove, UnitGroup("AP_CarrierRepairDrone", gv_pLAYER_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), 0), 0));
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
@@ -766,6 +781,13 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(5), "Terr", true);
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(7), "Terr", true);
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(6), "Terr", true);
+        autoF38E0432_g = lv_remove;
+        autoF38E0432_u = UnitGroupCount(autoF38E0432_g, c_unitCountAll);
+        for (;; autoF38E0432_u -= 1) {
+            autoF38E0432_var = UnitGroupUnitFromEnd(autoF38E0432_g, autoF38E0432_u);
+            if (autoF38E0432_var == null) { break; }
+            UnitRemove(autoF38E0432_var);
+        }
     }
     else {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(5), libABFE498B_gv_aP_Triggers_Option_overridePlayerRace, true);
@@ -774,6 +796,13 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
             PlayerSetRace(gv_pLAYER_USER, "Zerg");
             lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
+            auto3B832D3D_g = lv_remove;
+            auto3B832D3D_u = UnitGroupCount(auto3B832D3D_g, c_unitCountAll);
+            for (;; auto3B832D3D_u -= 1) {
+                auto3B832D3D_var = UnitGroupUnitFromEnd(auto3B832D3D_g, auto3B832D3D_u);
+                if (auto3B832D3D_var == null) { break; }
+                UnitRemove(auto3B832D3D_var);
+            }
         }
         else {
             if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) {
@@ -1097,7 +1126,10 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     for (;; auto02146F9D_u -= 1) {
         auto02146F9D_var = UnitGroupUnitFromEnd(auto02146F9D_g, auto02146F9D_u);
         if (auto02146F9D_var == null) { break; }
-        UnitSetPropertyFixed(auto02146F9D_var, c_unitPropEnergyPercent, 100.0);
+        if ((UnitGetType(auto02146F9D_var) != "AP_SoACaster")) {
+            UnitSetPropertyFixed(auto02146F9D_var, c_unitPropEnergyPercent, 100.0);
+        }
+
     }
     TriggerExecute(gt_InitializeDefenders, true, false);
     auto0098B004_g = UnitGroup("CreepTumorBurrowed", gv_pLAYER_ZERG_SPECIAL, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
