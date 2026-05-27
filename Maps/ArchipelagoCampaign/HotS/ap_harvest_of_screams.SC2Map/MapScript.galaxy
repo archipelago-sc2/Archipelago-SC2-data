@@ -108,6 +108,9 @@ int gv_unfrozenStructureDestroyed;
 timer gv_speedRunTimer;
 timer gv_completionistTimer;
 int gv_largestZergForce;
+int gv_objectiveCollectUrsadonEssence;
+int gv_ursadonEssence_Collected;
+int gv_ursadonEssence_Needed;
 int gv_objectiveRecoverLostBrood;
 int gv_objectiveDestroyPsiLinkSpires;
 int gv_psiLinkSpiresDestroyed;
@@ -118,9 +121,6 @@ int gv_ursadonMatriarchPingNorth;
 bool gv_aPNorthMatriarch;
 bool gv_aPSouthMatriarch;
 int gv_objectiveFindNafashCorpse;
-int gv_objectiveCollectUrsadonEssence;
-int gv_ursadonEssence_Collected;
-int gv_ursadonEssence_Needed;
 bool gv_cinematicCompleted;
 unitgroup gv_cinematicTempUnits;
 unitgroup gv_cinematicHiddenUnits;
@@ -153,14 +153,14 @@ void InitGlobals () {
     gv_firstZealotAttackGroup = UnitGroupEmpty();
     gv_speedRunTimer = TimerCreate();
     gv_completionistTimer = TimerCreate();
+    gv_objectiveCollectUrsadonEssence = c_invalidObjectiveId;
+    gv_ursadonEssence_Needed = 1;
     gv_objectiveRecoverLostBrood = c_invalidObjectiveId;
     gv_objectiveDestroyPsiLinkSpires = c_invalidObjectiveId;
     gv_objectiveKillUrsadonMatriarchs = c_invalidObjectiveId;
     gv_ursadonMatriarchPingWest = c_invalidPingId;
     gv_ursadonMatriarchPingNorth = c_invalidPingId;
     gv_objectiveFindNafashCorpse = c_invalidObjectiveId;
-    gv_objectiveCollectUrsadonEssence = c_invalidObjectiveId;
-    gv_ursadonEssence_Needed = 1;
     gv_cinematicTempUnits = UnitGroupEmpty();
     gv_cinematicHiddenUnits = UnitGroupEmpty();
     gv_victoryHiddenUnitGroup = UnitGroupEmpty();
@@ -323,6 +323,9 @@ trigger gt_Defeat;
 trigger gt_VictoryCheat;
 trigger gt_DefeatCheat;
 trigger gt_TipMissionHelpQ;
+trigger gt_ObjectiveCollectUrsadonEssenceCreate;
+trigger gt_ObjectiveCollectUrsadonEssenceComplete;
+trigger gt_ObjectiveCollectUrsadonEssenceFailed;
 trigger gt_ObjectiveRecoverLostBroodCreate;
 trigger gt_ObjectiveRecoverLostBroodComplete;
 trigger gt_ObjectiveRecoverLostBroodFailed;
@@ -337,9 +340,6 @@ trigger gt_ObjectiveUrsadonMatriarchsFailedQ;
 trigger gt_ObjectiveFindNafashCorpseCreate;
 trigger gt_ObjectiveFindNafashCorpseComplete;
 trigger gt_ObjectiveFindNafashCorpseFailed;
-trigger gt_ObjectiveCollectUrsadonEssenceCreate;
-trigger gt_ObjectiveCollectUrsadonEssenceComplete;
-trigger gt_ObjectiveCollectUrsadonEssenceFailed;
 trigger gt_IntroQ;
 trigger gt_IntroSetup;
 trigger gt_IntroCinematic;
@@ -3163,10 +3163,6 @@ bool gt_StartFirstFlashFreezeQ_Func (bool testConds, bool runActions) {
     fixed lv_xp;
 
     // Automatic Variable Declarations
-    unitgroup autoB8CFF056_g;
-    int autoB8CFF056_u;
-    unit autoB8CFF056_var;
-
     // Variable Initialization
 
     // Conditions
@@ -3244,21 +3240,6 @@ bool gt_StartFirstFlashFreezeQ_Func (bool testConds, bool runActions) {
     gf_RescueUnit(UnitFromId(473), EventUnit());
     gf_RescueUnit(UnitFromId(111277778), EventUnit());
     gf_RescueUnit(UnitFromId(274817700), EventUnit());
-    autoB8CFF056_g = UnitGroup(null, gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    autoB8CFF056_u = UnitGroupCount(autoB8CFF056_g, c_unitCountAll);
-    for (;; autoB8CFF056_u -= 1) {
-        autoB8CFF056_var = UnitGroupUnitFromEnd(autoB8CFF056_g, autoB8CFF056_u);
-        if (autoB8CFF056_var == null) { break; }
-        if ((autoB8CFF056_var != gv_kerrigan) && (UnitGetType(autoB8CFF056_var) != "AutomatedExtractor") && (UnitGetType(autoB8CFF056_var) != "AP_RavagerCocoon") && (UnitGetType(autoB8CFF056_var) != "AP_MedicMengsk") && (UnitHasBehavior2(autoB8CFF056_var, "AP_HallucinationTimedLife") == false)) {
-            gf_ReplaceUnit(autoB8CFF056_var);
-        }
-        else {
-            if ((UnitGetType(autoB8CFF056_var) == "AP_RavagerCocoon")) {
-                libNtve_gf_ReplaceUnit(autoB8CFF056_var, "AP_Ravager", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-            }
-
-        }
-    }
     TriggerQueueExit();
     TriggerExecute(gt_FlashFreezeEndingRandomQ, true, false);
     return true;
@@ -7326,10 +7307,6 @@ bool gt_Victory_Func (bool testConds, bool runActions) {
         if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
             return false;
         }
-
-        if (!(((UnitGetOwner(EventUnit()) == gv_pLAYER_01_USER) || (UnitIsAlive(EventUnit()) == false)))) {
-            return false;
-        }
     }
 
     // Actions
@@ -9747,6 +9724,9 @@ void InitTriggers () {
     gt_VictoryCheat_Init();
     gt_DefeatCheat_Init();
     gt_TipMissionHelpQ_Init();
+    gt_ObjectiveCollectUrsadonEssenceCreate_Init();
+    gt_ObjectiveCollectUrsadonEssenceComplete_Init();
+    gt_ObjectiveCollectUrsadonEssenceFailed_Init();
     gt_ObjectiveRecoverLostBroodCreate_Init();
     gt_ObjectiveRecoverLostBroodComplete_Init();
     gt_ObjectiveRecoverLostBroodFailed_Init();
@@ -9761,9 +9741,6 @@ void InitTriggers () {
     gt_ObjectiveFindNafashCorpseCreate_Init();
     gt_ObjectiveFindNafashCorpseComplete_Init();
     gt_ObjectiveFindNafashCorpseFailed_Init();
-    gt_ObjectiveCollectUrsadonEssenceCreate_Init();
-    gt_ObjectiveCollectUrsadonEssenceComplete_Init();
-    gt_ObjectiveCollectUrsadonEssenceFailed_Init();
     gt_IntroQ_Init();
     gt_IntroSetup_Init();
     gt_IntroCinematic_Init();
