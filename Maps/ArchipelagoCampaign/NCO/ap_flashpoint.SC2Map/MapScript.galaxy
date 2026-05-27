@@ -1909,6 +1909,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
         TriggerExecute(libABFE498B_gv_aP_Triggers_onDifficultyBrutal, true, false);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPylonPsiEnhancement(1);
     }
 
     lv_group = UnitGroup(null, gv_pLAYER_01_USER, RegionFromId(71), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
@@ -7177,6 +7178,9 @@ bool gt_IntroBaseWarpInProtoss_Func (bool testConds, bool runActions) {
     unitgroup auto1284920F_g;
     int auto1284920F_u;
     unit auto1284920F_var;
+    unitgroup autoE30BA435_g;
+    int autoE30BA435_u;
+    unit autoE30BA435_var;
     int auto9194FFE4_ae;
     const int auto9194FFE4_ai = 1;
     unitgroup auto544AA1B6_g;
@@ -7283,6 +7287,13 @@ bool gt_IntroBaseWarpInProtoss_Func (bool testConds, bool runActions) {
         Wait(0.0625, c_timeGame);
     }
     libNtve_gf_RescueUnit2(lv_base, gv_pLAYER_01_USER, true);
+    autoE30BA435_g = lv_base;
+    autoE30BA435_u = UnitGroupCount(autoE30BA435_g, c_unitCountAll);
+    for (;; autoE30BA435_u -= 1) {
+        autoE30BA435_var = UnitGroupUnitFromEnd(autoE30BA435_g, autoE30BA435_u);
+        if (autoE30BA435_var == null) { break; }
+        lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(autoE30BA435_var);
+    }
     auto9194FFE4_ae = lv_index;
     lv_i = 1;
     for ( ; ( (auto9194FFE4_ai >= 0 && lv_i <= auto9194FFE4_ae) || (auto9194FFE4_ai < 0 && lv_i >= auto9194FFE4_ae) ) ; lv_i += auto9194FFE4_ai ) {
