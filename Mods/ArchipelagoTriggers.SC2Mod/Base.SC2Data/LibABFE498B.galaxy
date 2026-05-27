@@ -11802,6 +11802,51 @@ void libABFE498B_gf_AP_Triggers_Debug_reviveKerrigan (int lp_player) {
     }
 }
 
+void libABFE498B_gf_AP_Triggers_Debug_reviveHero (unit lp_unit) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unit = lp_unit;
+
+    // Implementation
+    if (((UnitIsValid(lv_unit) == false) || (UnitIsAlive(lv_unit) == true))) {
+        return ;
+    }
+
+    if (true) {
+    }
+    else {
+        return ;
+    }
+    lib15EF4C78_gf_ReviveHeroInstantly2(lv_unit, false);
+    Wait(0.0625, c_timeGame);
+    if ((UnitIsAlive(lv_unit) == false)) {
+        Wait(2.0, c_timeGame);
+        lib15EF4C78_gf_ReviveHeroInstantly2(lv_unit, false);
+    }
+    else {
+        return ;
+    }
+    Wait(0.0625, c_timeGame);
+    if ((UnitIsAlive(lv_unit) == false)) {
+        UnitRevive(lv_unit);
+        UnitSetPropertyFixed(lv_unit, c_unitPropLifePercent, 100.0);
+    }
+    else {
+        return ;
+    }
+    Wait(0.0625, c_timeGame);
+    if ((UnitIsAlive(lv_unit) == false)) {
+        TextExpressionSetToken("Param/Expression/lib_ABFE498B_C26B0FAC", "A", UnitGetName(lv_unit));
+        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_C26B0FAC"), true);
+    }
+    else {
+        return ;
+    }
+}
+
 bool libABFE498B_gf_AP_Triggers_checkSoA (int lp_player, int lp_mode, bool lp_nobuildsection) {
     // Variable Declarations
     int lv_currentPlayer;
@@ -12666,14 +12711,104 @@ void libABFE498B_gt_AP_Triggers_Debug_updatePrompt_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_makeHero
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_makeHero_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_townhall;
+    string lv_type;
+    int lv_index;
+    unit lv_hero;
+    string lv_word2;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    string auto912B375A_val;
+    unitgroup autoDAF28AD5_g;
+    int autoDAF28AD5_u;
+    unit autoDAF28AD5_var;
+
+    // Variable Initialization
+    lv_word2 = "";
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_townhall = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(EventPlayer());
+    lv_player = EventPlayer();
+    if ((UnitIsValid(lv_townhall) == false)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_EC1D1DC2"), true);
+        return true;
+    }
+
+    lv_word2 = StringCase(StringWord(EventChatMessage(false), 2), false);
+    auto912B375A_val = lv_word2;
+    if (auto912B375A_val == "kerrigan") {
+        lv_type = "AP_K5Kerrigan";
+        lv_index = 1;
+    }
+    else if (auto912B375A_val == "nova") {
+        lv_type = "AP_NovaHero";
+        lv_index = 2;
+    }
+    else if (auto912B375A_val == "artanis") {
+        lv_type = "AP_ArtanisHero";
+        lv_index = 3;
+    }
+    else {
+        return true;
+    }
+    autoDAF28AD5_g = libABFE498B_gv_aP_Triggers_HeroUnits;
+    autoDAF28AD5_u = UnitGroupCount(autoDAF28AD5_g, c_unitCountAll);
+    for (;; autoDAF28AD5_u -= 1) {
+        autoDAF28AD5_var = UnitGroupUnitFromEnd(autoDAF28AD5_g, autoDAF28AD5_u);
+        if (autoDAF28AD5_var == null) { break; }
+        if ((UnitGetType(autoDAF28AD5_var) == lv_type)) {
+            TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_5267567B"), true);
+            return true;
+        }
+
+    }
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, lv_type, 0, lv_player, UnitGetPosition(lv_townhall));
+    lv_hero = UnitLastCreated();
+    lib15EF4C78_gf_SetHeroPanelUnit(lv_index, lv_hero, lv_player);
+    libABFE498B_gv_aP_Triggers_HeroUnit[lv_index] = lv_hero;
+    TextExpressionSetToken("Param/Expression/lib_ABFE498B_23084377", "A", UnitGetName(lv_hero));
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_23084377"), true);
+    UnitGroupAdd(libABFE498B_gv_aP_Triggers_HeroUnits, lv_hero);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_makeHero_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_makeHero = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_makeHero_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_makeHero, c_playerAny, "-makehero", false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_Debug_reviveHeroes
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-
     // Automatic Variable Declarations
-    // Variable Initialization
+    unitgroup auto57E48B43_g;
+    int auto57E48B43_u;
+    unit auto57E48B43_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
 
     // Actions
     if (!runActions) {
@@ -12682,6 +12817,13 @@ bool libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Func (bool testConds, bool ru
 
     TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_963EE8BA"), true);
     libABFE498B_gf_AP_Triggers_Debug_reviveKerrigan(EventPlayer());
+    auto57E48B43_g = libABFE498B_gv_aP_Triggers_HeroUnits;
+    auto57E48B43_u = UnitGroupCount(auto57E48B43_g, c_unitCountAll);
+    for (;; auto57E48B43_u -= 1) {
+        auto57E48B43_var = UnitGroupUnitFromEnd(auto57E48B43_g, auto57E48B43_u);
+        if (auto57E48B43_var == null) { break; }
+        libABFE498B_gf_AP_Triggers_Debug_reviveHero(auto57E48B43_var);
+    }
     return true;
 }
 
@@ -12690,6 +12832,34 @@ void libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Init () {
     libABFE498B_gt_AP_Triggers_Debug_reviveHeroes = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Func");
     TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_reviveHeroes, c_playerAny, "-revive", true);
     TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_reviveHeroes, c_playerAny, "-r", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MakeHeroKerrigan
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_MakeHeroKerrigan_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_MakeHeroKerrigan_Init () {
+    libABFE498B_gt_MakeHeroKerrigan = TriggerCreate("libABFE498B_gt_MakeHeroKerrigan_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_MakeHeroKerrigan, lib15EF4C78_gf_AP_GetPlayerId(), "makehero Kerrigan", false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MakeHeroNova
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_MakeHeroNova_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_MakeHeroNova_Init () {
+    libABFE498B_gt_MakeHeroNova = TriggerCreate("libABFE498B_gt_MakeHeroNova_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_MakeHeroNova, lib15EF4C78_gf_AP_GetPlayerId(), "makehero Nova", false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -13107,7 +13277,10 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_grantChecks_Init();
     libABFE498B_gt_AP_Triggers_Debug_addAffectedPlayer_Init();
     libABFE498B_gt_AP_Triggers_Debug_updatePrompt_Init();
+    libABFE498B_gt_AP_Triggers_Debug_makeHero_Init();
     libABFE498B_gt_AP_Triggers_Debug_reviveHeroes_Init();
+    libABFE498B_gt_MakeHeroKerrigan_Init();
+    libABFE498B_gt_MakeHeroNova_Init();
     libABFE498B_gt_AP_Triggers_Debug_ArtanisAspectsAll_Init();
     libABFE498B_gt_AP_Triggers_Debug_ArtanisAspectsBoth_Init();
     libABFE498B_gt_AP_Triggers_Debug_ArtanisAspectsPassive_Init();
