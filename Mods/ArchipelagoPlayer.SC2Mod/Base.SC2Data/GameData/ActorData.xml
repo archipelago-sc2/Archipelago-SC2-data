@@ -5287,8 +5287,9 @@
         <On Terms="UnitBirth.AP_GhostResourceEfficiency" Send="Create"/>
         <On Terms="ActorCreation; ModelVariation 0" Send="ModelSwap Ghost"/>
         <On Terms="ActorCreation; ModelVariation 1; ValidateUnit AP_IsGhostSetToMale" Send="ModelSwap Ghost"/>
-        <On Terms="ActorCreation; ModelVariation 1; !ValidateUnit AP_IsGhostSetToMale" Send="Create AP_GhostAlternate"/>
-        <On Terms="ActorCreation; ModelVariation 1; !ValidateUnit AP_IsGhostSetToMale" Send="Destroy"/>
+        <On Terms="ActorCreation; ModelVariation 1; !ValidateUnit AP_IsGhostSetToMale; !IsInEditor" Send="Create AP_GhostAlternate"/>
+        <On Terms="ActorCreation; ModelVariation 1; !ValidateUnit AP_IsGhostSetToMale; !IsInEditor" Send="Destroy"/>
+        <On Terms="ActorCreation; ModelVariation 1; IsInEditor" Send="ModelSwap GhostAlternate"/>
         <On Terms="Behavior.AP_GhostMorphToFemale.On" Send="Create AP_GhostAlternate"/>
         <On Terms="Behavior.AP_GhostMorphToFemale.On" Send="Destroy"/>
         <On Terms="Abil.AP_TacNukeStrike.SourceCastStart" Send="AnimPlay SpellA Spell,A"/>
