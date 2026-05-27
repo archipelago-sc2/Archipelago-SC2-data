@@ -12716,6 +12716,7 @@ void libABFE498B_gt_AP_Triggers_Debug_updatePrompt_Init () {
 bool libABFE498B_gt_AP_Triggers_Debug_makeHero_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_townhall;
+    point lv_point;
     string lv_type;
     int lv_index;
     unit lv_hero;
@@ -12745,11 +12746,12 @@ bool libABFE498B_gt_AP_Triggers_Debug_makeHero_Func (bool testConds, bool runAct
 
     lv_townhall = lib15EF4C78_gf_AP_Player_getPrimaryTownHall(EventPlayer());
     lv_player = EventPlayer();
-    if ((UnitIsValid(lv_townhall) == false)) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_EC1D1DC2"), true);
-        return true;
+    if ((UnitIsValid(lv_townhall) == true)) {
+        lv_point = UnitGetPosition(lv_townhall);
     }
-
+    else {
+        lv_point = PlayerStartLocation(lv_player);
+    }
     lv_word2 = StringCase(StringWord(EventChatMessage(false), 2), false);
     auto912B375A_val = lv_word2;
     if (auto912B375A_val == "kerrigan") {
@@ -12778,8 +12780,13 @@ bool libABFE498B_gt_AP_Triggers_Debug_makeHero_Func (bool testConds, bool runAct
         }
 
     }
-    libNtve_gf_CreateUnitsWithDefaultFacing(1, lv_type, 0, lv_player, UnitGetPosition(lv_townhall));
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, lv_type, 0, lv_player, lv_point);
     lv_hero = UnitLastCreated();
+    if ((UnitIsValid(lv_hero) == false)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_5E56E3CE"), true);
+        return true;
+    }
+
     lib15EF4C78_gf_SetHeroPanelUnit(lv_index, lv_hero, lv_player);
     libABFE498B_gv_aP_Triggers_HeroUnit[lv_index] = lv_hero;
     TextExpressionSetToken("Param/Expression/lib_ABFE498B_23084377", "A", UnitGetName(lv_hero));
