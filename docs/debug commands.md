@@ -13,7 +13,6 @@ Generic: These commands can be used in any Archipelago SC2 mission
 
 -debug, -d: Activate Debug Mode, required to use all the other debug commands
 
-
 -control x: Take one-sided control of player x
 -reapply: Reapplies default behaviors to all your units. Fixes certain bugs where units do not get all benefits from their items
 -resetbase, -reset: Resets many aspects of your main base, including Spear of Adun energy/cooldown and Merc cooldown
@@ -23,9 +22,9 @@ Generic: These commands can be used in any Archipelago SC2 mission
 -checks: Grants all checks you can get for the current mission, except Victory (use -win to get Victory checks)
 -update, -u: Prompts an update from the server. Will re-send all items and options to the game. Can sometimes fix connection issues
 -affect x: Make player x affected by AP items. Will have mostly no effect, since most AI players never use AP units. Potentially useful for some specific missions where they do (Breakout), and for future content
-
--win: Ends the mission in victory, granting the victory location (intended to work in all missions, does not work for all missions at this time)
--revive, -r: Revives your heroes instantly (currently only works with Kerrigan, intended to work with other heroes like Nova)
+-makehero x: Create the hero unit x and register it with the hero system. Works with Kerrigan, Nova, Artanis
+-revive, -r: Revives your heroes instantly. Currently works with Kerrigan, Nova, Artanis and Xel'Naga Kerrigan in Amon's Fall
+-win: Ends the mission in victory, granting the victory location
 
 
 Semi-generic: These commands are not implemented in every single mission, but they are shared across multiple missions where they make sense
@@ -72,7 +71,7 @@ In Utter Darkness
 
 -defeat: Ends the mission in successful defeat (-win also works)
 -setkills x: Sets your kills to x
--timer: Sets the remaining protection time for the archive to 5 seconds 
+-timer: Sets the remaining protection time for the archive to 5 seconds
 -nydus: Spawns a nydus worm wave
 
 
@@ -82,7 +81,7 @@ Rendezvous:
 
 Harvest of Screams:
 
--snowdie: Stop the snowfall visuals 
+-snowdie: Stop the snowfall visuals
 -snowgo: Restart snow
 -blizzardgo: Start a flash freeze
 
