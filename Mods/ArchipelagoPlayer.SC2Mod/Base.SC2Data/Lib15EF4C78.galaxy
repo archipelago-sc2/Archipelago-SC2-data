@@ -10211,69 +10211,6 @@ void lib15EF4C78_gt_EmitTransformerLand_Init () {
     TriggerAddEventUnitAbility(lib15EF4C78_gt_EmitTransformerLand, null, AbilityCommand("AP_MercReaperLandMorph", 255), c_unitAbilStageComplete, false);
 }
 
-//--------------------------------------------------------------------------------------------------
-// Trigger: MakeHeroArtanis
-//--------------------------------------------------------------------------------------------------
-bool lib15EF4C78_gt_MakeHeroArtanis_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_ArtanisHero", 0, 1, UnitGetPosition(lib15EF4C78_gf_AP_Player_getPrimaryTownHall(lib15EF4C78_gf_AP_GetPlayerId())));
-    lib15EF4C78_gf_SetHeroPanelUnit(3, UnitLastCreated(), lib15EF4C78_gf_AP_GetPlayerId());
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib15EF4C78_gt_MakeHeroArtanis_Init () {
-    lib15EF4C78_gt_MakeHeroArtanis = TriggerCreate("lib15EF4C78_gt_MakeHeroArtanis_Func");
-    TriggerAddEventChatMessage(lib15EF4C78_gt_MakeHeroArtanis, lib15EF4C78_gf_AP_GetPlayerId(), "makehero Artanis", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: MakeHeroKerrigan
-//--------------------------------------------------------------------------------------------------
-bool lib15EF4C78_gt_MakeHeroKerrigan_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_K5Kerrigan", 0, 1, UnitGetPosition(lib15EF4C78_gf_AP_Player_getPrimaryTownHall(lib15EF4C78_gf_AP_GetPlayerId())));
-    lib15EF4C78_gf_SetHeroPanelUnit(2, UnitLastCreated(), lib15EF4C78_gf_AP_GetPlayerId());
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib15EF4C78_gt_MakeHeroKerrigan_Init () {
-    lib15EF4C78_gt_MakeHeroKerrigan = TriggerCreate("lib15EF4C78_gt_MakeHeroKerrigan_Func");
-    TriggerAddEventChatMessage(lib15EF4C78_gt_MakeHeroKerrigan, lib15EF4C78_gf_AP_GetPlayerId(), "makehero Kerrigan", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: MakeHeroNova
-//--------------------------------------------------------------------------------------------------
-bool lib15EF4C78_gt_MakeHeroNova_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_NovaHero", 0, 1, UnitGetPosition(lib15EF4C78_gf_AP_Player_getPrimaryTownHall(lib15EF4C78_gf_AP_GetPlayerId())));
-    lib15EF4C78_gf_SetHeroPanelUnit(1, UnitLastCreated(), lib15EF4C78_gf_AP_GetPlayerId());
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib15EF4C78_gt_MakeHeroNova_Init () {
-    lib15EF4C78_gt_MakeHeroNova = TriggerCreate("lib15EF4C78_gt_MakeHeroNova_Func");
-    TriggerAddEventChatMessage(lib15EF4C78_gt_MakeHeroNova, lib15EF4C78_gf_AP_GetPlayerId(), "makehero Nova", false);
-}
-
 void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_ApplyZergStructureRapidRegen_Init();
     lib15EF4C78_gt_Stukov_InfestedBunkerRegister_Init();
@@ -10425,9 +10362,6 @@ void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_AP_Player_YggdrasilBuildingDeathSafety_Init();
     lib15EF4C78_gt_AP_Player_GreaterSpireFixFacing_Init();
     lib15EF4C78_gt_EmitTransformerLand_Init();
-    lib15EF4C78_gt_MakeHeroArtanis_Init();
-    lib15EF4C78_gt_MakeHeroKerrigan_Init();
-    lib15EF4C78_gt_MakeHeroNova_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
