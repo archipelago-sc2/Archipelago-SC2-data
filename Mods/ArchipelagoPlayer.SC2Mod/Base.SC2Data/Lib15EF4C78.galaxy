@@ -269,6 +269,9 @@ void lib15EF4C78_InitVariables () {
     for (init_i = 0; init_i <= lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE; init_i += 1) {
         lib15EF4C78_gv_aP_Player_MercCooldownLinks[init_i] = "";
     }
+    for (init_i = 0; init_i <= lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE; init_i += 1) {
+        lib15EF4C78_gv_aP_Player_MercInstantUseIndex[init_i] = -1;
+    }
 }
 
 // Custom Script
@@ -9744,10 +9747,13 @@ bool lib15EF4C78_gt_AP_Player_MercCompoundOnMercUse_Func (bool testConds, bool r
     int lv_index;
     int lv_player;
     int lv_instantUsesLeft;
+    int lv_i;
 
     // Automatic Variable Declarations
     const int auto40390B55_ae = lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE;
     const int auto40390B55_ai = 1;
+    const int autoA671E54B_ae = lib15EF4C78_gv_aP_Player_MercInstantUsesLevel2;
+    const int autoA671E54B_ai = 1;
 
     // Variable Initialization
 
@@ -9762,11 +9768,20 @@ bool lib15EF4C78_gt_AP_Player_MercCompoundOnMercUse_Func (bool testConds, bool r
         lv_index = 0;
         for ( ; ( (auto40390B55_ai >= 0 && lv_index <= auto40390B55_ae) || (auto40390B55_ai < 0 && lv_index >= auto40390B55_ae) ) ; lv_index += auto40390B55_ai ) {
             if ((EventUnitAbility() == lib15EF4C78_gv_aP_Player_MercAbilityCommands[lv_index]) && ((lib15EF4C78_gv_aP_Player_MercType[lv_index] == lib15EF4C78_ge_AP_Player_MercenaryType_INFANTRY) || (lib15EF4C78_gv_aP_Player_MercType[lv_index] == lib15EF4C78_ge_AP_Player_MercenaryType_VEHICLE) || (lib15EF4C78_gv_aP_Player_MercType[lv_index] == lib15EF4C78_ge_AP_Player_MercenaryType_STARSHIP))) {
+                lv_i = 0;
+                for ( ; ( (autoA671E54B_ai >= 0 && lv_i <= autoA671E54B_ae) || (autoA671E54B_ai < 0 && lv_i >= autoA671E54B_ae) ) ; lv_i += autoA671E54B_ai ) {
+                    if ((lib15EF4C78_gv_aP_Player_MercInstantUseIndex[lv_i] == lv_index)) {
+                        TriggerDebugOutput(1, StringExternal("Param/Value/lib_15EF4C78_F7380CB8"), false);
+                        lib15EF4C78_gf_AP_Player_MercCompoundUpdateAvailableCount(lv_player);
+                        return true;
+                    }
+
+                }
                 lv_instantUsesLeft -= 1;
                 libNtve_gf_SetUpgradeLevelForPlayer(lv_player, "AP_FastDeliveryCharges", lv_instantUsesLeft);
                 lib15EF4C78_gv_aP_Player_MercInstantUseIndex[lib15EF4C78_gv_aP_Player_MercInstantUsesUsed] = lv_index;
                 lib15EF4C78_gv_aP_Player_MercInstantUsesUsed += 1;
-                if ((lv_instantUsesLeft == 0)) {
+                if ((lv_instantUsesLeft <= 0)) {
                     lib15EF4C78_gf_AP_Player_ResetMercenaryCooldownsTerranRespectStart(lv_player);
                 }
                 else {
