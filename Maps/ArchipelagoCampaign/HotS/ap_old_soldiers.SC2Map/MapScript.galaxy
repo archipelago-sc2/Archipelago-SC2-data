@@ -2213,6 +2213,12 @@ bool gt_StartGameStage02Q_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    if ((UnitIsAlive(gv_tHEONEKERRIGAN) == false)) {
+        lib15EF4C78_gf_ReviveHeroInstantly(1, lib15EF4C78_ge_HeroUnit_Kerrigan, false);
+        UnitSetPosition(gv_tHEONEKERRIGAN, PointFromId(103), false);
+        UnitIssueOrder(gv_tHEONEKERRIGAN, Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
+    }
+
     if ((libHots_gf_DifficultyValueInt2(1, 1, 0) == 1)) {
     }
 
@@ -7256,9 +7262,9 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
     int auto35D8A57D_u;
     unit auto35D8A57D_var;
     string autoF5A4E033_val;
-    unitgroup auto8ED35CA3_g;
-    int auto8ED35CA3_u;
-    unit auto8ED35CA3_var;
+    unitgroup autoEC266F80_g;
+    int autoEC266F80_u;
+    unit autoEC266F80_var;
     unitgroup auto979BD12E_g;
     int auto979BD12E_u;
     unit auto979BD12E_var;
@@ -7345,26 +7351,22 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
         PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropMinerals, c_playerPropOperSetTo, (500 + lib5BD4895D_gv_aP_Core_BonusMinerals));
     }
 
-    if ((UnitIsAlive(gv_tHEONEKERRIGAN) == false)) {
-        libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_KerriganReviveCocoon", 0, gv_pLAYER_01_USER, UnitGetPosition(gv_midMainLair));
-        libSwaC_gv_zS_HeroReviverKerrigan = UnitLastCreated();
-        libSwaC_gf_ReviveHeroInstantly(libSwaC_ge_HeroUnit_Kerrigan, false);
-    }
-
-    auto8ED35CA3_g = libABFE498B_gv_aP_Triggers_HeroUnits;
-    auto8ED35CA3_u = UnitGroupCount(auto8ED35CA3_g, c_unitCountAll);
-    for (;; auto8ED35CA3_u -= 1) {
-        auto8ED35CA3_var = UnitGroupUnitFromEnd(auto8ED35CA3_g, auto8ED35CA3_u);
-        if (auto8ED35CA3_var == null) { break; }
-        if ((UnitIsAlive(auto8ED35CA3_var) == false)) {
-            lib15EF4C78_gf_ReviveHeroInstantly2(auto8ED35CA3_var, false);
-            UnitSetPosition(auto8ED35CA3_var, PointFromId(103), false);
+    autoEC266F80_g = libABFE498B_gv_aP_Triggers_HeroUnits;
+    autoEC266F80_u = UnitGroupCount(autoEC266F80_g, c_unitCountAll);
+    for (;; autoEC266F80_u -= 1) {
+        autoEC266F80_var = UnitGroupUnitFromEnd(autoEC266F80_g, autoEC266F80_u);
+        if (autoEC266F80_var == null) { break; }
+        if ((autoEC266F80_var == gv_tHEONEKERRIGAN)) {
+            lib15EF4C78_gf_ReviveHeroInstantly(1, lib15EF4C78_ge_HeroUnit_Kerrigan, false);
         }
-
+        else {
+            lib15EF4C78_gf_ReviveHeroInstantly2(autoEC266F80_var, false);
+        }
+        UnitSetPosition(autoEC266F80_var, PointFromId(103), false);
+        UnitSetPropertyFixed(autoEC266F80_var, c_unitPropLifePercent, 100.0);
+        UnitSetPropertyFixed(autoEC266F80_var, c_unitPropEnergyPercent, 100.0);
     }
     libSwaC_gf_ResetHeroAbilityCooldowns(libSwaC_ge_HeroUnit_Kerrigan);
-    UnitSetPropertyFixed(gv_tHEONEKERRIGAN, c_unitPropLifePercent, 100.0);
-    UnitSetPropertyFixed(gv_tHEONEKERRIGAN, c_unitPropEnergyPercent, 100.0);
     lib15EF4C78_gf_StartingWorkersAutoHarvest(gv_pLAYER_01_USER, RegionFromId(60), RegionFromId(59));
     auto979BD12E_g = UnitGroup(null, gv_pLAYER_01_USER, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     auto979BD12E_u = UnitGroupCount(auto979BD12E_g, c_unitCountAll);
