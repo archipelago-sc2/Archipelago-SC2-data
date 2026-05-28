@@ -66,7 +66,6 @@
         <On Terms="Behavior.AP_SpawningPoolHeal.On; !ScopeContains AP_SpawningPoolHealAttachment" Send="Create"/>
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Unload Walk Load 0 0.400000 AsTimeScale"/>
         <On Terms="Behavior.AP_SpawningPoolHeal.Off" Send="AnimBracketStop BSD"/>
-        <On Terms="UnitBirth.AP_SpawningPool.EditorPlaced" Send="Create"/>
         <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
         <On Terms="ActorCreation" Target="_Selectable" Send="ModelSwap SpawningPoolDeath"/>
         <On Terms="ActorCreation" Target="_Selectable" Send="$Death 0 -1.000000 -1.000000 0.800000 AsTimeScale"/>
@@ -109,8 +108,6 @@
         <On Terms="ActorCreation" Target="_Selectable" Send="SetScale 1.500000,1.500000,0.900000"/>
         <On Terms="AnimBracketState.*.AfterClosing" Send="AnimBracketStart Death Unburrow Walk,00 Burrow OpeningPlayForever"/>
         <On Terms="ActorCreation" Send="Create AP_SpawningPoolZergling"/>
-        <On Terms="ActorCreation; IsInEditor" Send="TimerSet 5.000000"/>
-        <On Terms="TimerExpired; IsInEditor" Send="Create AP_SpawningPoolHealAttachmentUltra"/>
         <HostSiteOps Ops="SOpMoveUpByDot25"/>
         <Model value="Hydralisk"/>
         <Scale value="0.800000"/>

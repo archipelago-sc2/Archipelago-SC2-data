@@ -10363,8 +10363,6 @@
         <On Terms="TimerExpired" Send="SetTintColor 100,0,5"/>
         <On Terms="Behavior.AP_LurkerCarapace.On" Send="Create"/>
         <On Terms="Behavior.AP_LurkerCarapace.Off" Send="AnimBracketStop BSD"/>
-        <On Terms="UnitBirth.AP_Lurker.EditorPlaced" Send="Create"/>
-        <On Terms="UnitBirth.AP_LurkerBurrowed.EditorPlaced" Send="Create"/>
         <HostSiteOps Ops="SOpAttachHead AP_LurkerCarapaceRotation AP_LurkerCarapaceOffset"/>
         <Model value="AP_RoachShield"/>
         <Scale value="2.000000,1.500000,1.000000"/>
@@ -15735,7 +15733,6 @@
         <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand ForceLooping,RandomStartOffset"/>
         <On Terms="Behavior.AP_DarkTemplarRecentlyRecalled.On" Send="Create"/>
         <On Terms="Behavior.AP_DarkTemplarRecentlyRecalled.Off" Send="Destroy"/>
-        <On Terms="UnitBirth.AP_DarkTemplarAiur.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="SetTintColor {255,255,0 1.500000}"/>
         <On Terms="ActorCreation" Send="TimerSet 0.000000 AP_Lifetime"/>
         <On Terms="TimerExpired; TimerName AP_Lifetime" Send="TimerSet 2.000000 AP_Lifetime"/>
@@ -17778,7 +17775,6 @@
         <On Terms="Behavior.AP_SurveillanceMode.Off" Send="AnimBracketStop Work"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_Oracle" Send="Create"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom AP_Oracle" Send="Destroy"/>
-        <On Terms="ActorCreation; IsInEditor" Send="TimerSet 1.000000"/>
         <On Terms="TimerExpired" Send="Signal Morph"/>
         <On Terms="ActorCreation" Send="AnimBracketStart Spell IGNORE Spell IGNORE Instant"/>
         <On Terms="ActorCreation" Send="AnimBracketStop Spell"/>
@@ -22992,8 +22988,6 @@
         <On Terms="Effect.AP_WarhoundJumpLaunch.Start" Send="Signal Jump"/>
         <On Terms="Signal.*.Jump" Send="AnimClear AP_JumpStart"/>
         <On Terms="Signal.*.Jump" Send="AnimPlay AP_Jump Spell,A,01 0 -1.000000 -1.000000 0.500000 AsTimeScale"/>
-        <On Terms="ActorCreation; IsInEditor" Send="Signal JumpStart"/>
-        <On Terms="ActorCreation; IsInEditor" Send="TimerSet 0.500000"/>
         <On Terms="TimerExpired" Send="Signal Jump"/>
         <On Terms="Signal.*.JumpStart" Send="Create AP_WarhoundJumpFlameRight"/>
         <On Terms="Signal.*.JumpStart" Send="Create AP_WarhoundJumpFlameLeft"/>
@@ -28002,10 +27996,8 @@
         <On Terms="Abil.AP_RavenDeploySpiderMines.SourceCastStart" Send="$Spell"/>
         <On Terms="Abil.AP_BuildRailGunTurret.SourceCastStart" Send="$Spell"/>
         <On Terms="Abil.attack.SourceCastStart" Send="$Spell"/>
-        <On Terms="ActorCreation; IsInEditor" Send="Signal SurveillanceStart"/>
         <On Terms="Signal.*.SurveillanceTop" Send="AnimBracketStart Work IGNORE Fidget,01 IGNORE"/>
         <On Terms="Signal.*.SurveillanceStart" Send="TimerSet 2.000000 1"/>
-        <On Terms="TimerExpired; TimerName 1; IsInEditor" Send="TimerSet 10.000000 2"/>
         <On Terms="TimerExpired; TimerName 1" Send="Signal SurveillanceTop"/>
         <On Terms="Signal.*.SurveillanceTop" Send="HostSiteOpsRemove ::Host AP_RavenSurveillanceModeRotatorStart Head"/>
         <On Terms="Signal.*.SurveillanceTop" Send="HostSiteOpsAdd ::Host AP_RavenSurveillanceModeRotator Head"/>
@@ -35622,7 +35614,6 @@
     <CActorModel id="AP_AscendantSacrificeAttachment" parent="ModelAdditionNoAnims">
         <EditorCategories value=""/>
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Stand,Work,Start Stand,Work Death"/>
-        <!--On Terms="UnitBirth.AP_HighTemplarTaldarim.EditorPlaced" Send="Create"/-->
         <On Terms="ActorCreation" Send="TimerSet"/>
         <On Terms="TimerExpired" Send="SetTintColor {255,192,192 1.300000}"/>
         <HostSiteOps Ops="SOpAttachCenter SOpMoveDownBy1"/>
@@ -45558,7 +45549,6 @@
         <EditorCategories value=""/>
         <On Terms="Behavior.AP_ArchonFloat.On" Send="Create"/>
         <On Terms="Behavior.AP_ArchonFloat.Off" Send="Destroy"/>
-        <On Terms="UnitBirth.AP_Archon.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="SetTintColor {64,64,255 1.200000}"/>
         <On Terms="ActorCreation" Send="AnimSetTimeScaleGlobal 0.200000 BSD"/>
         <HostSiteOps Ops="AP_SOpArchonFloatOffset AP_SOpArchonFloatRotation"/>
@@ -46461,7 +46451,6 @@
         <Sound value="Zerg_BuildingMorphStart"/>
     </CActorSound>
     <CActorModel id="AP_OdinAttachmentChest" parent="ModelAddition">
-        <!--On Terms="UnitBirth.Odin.EditorPlaced" Send="Create"/-->
         <On Terms="ActorCreation" Send="Create AP_OdinAttachmentBack"/>
         <On Terms="ActorCreation" Send="Create AP_OdinAttachmentWeaponLeft"/>
         <On Terms="ActorCreation" Send="Create AP_OdinAttachmentWeaponRight"/>
@@ -46584,7 +46573,6 @@
         <Inherits index="Opacity" value="0"/>
         <Inherits index="TimeScale" value="0"/>
         <On Terms="ActorCreation" Send="AnimPlay BSD Birth 0 -1.000000 -1.000000 0.700000 AsTimeScale"/>
-        <On Terms="UnitBirth.AP_Probe.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="TimerSet 0.000000 Start"/>
         <On Terms="Signal.*.WarpIn" Target="_Unit" Send="SetOpacity"/>
         <On Terms="TimerExpired; TimerName Start" Send="Signal WarpIn"/>
@@ -46610,7 +46598,6 @@
         <Inherits index="Opacity" value="0"/>
         <Inherits index="TimeScale" value="0"/>
         <On Terms="ActorCreation" Send="AnimPlay BSD Birth 0 -1.000000 -1.000000 0.700000 AsTimeScale"/>
-        <On Terms="UnitBirth.AP_ElderProbe.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="TimerSet 0.000000 Start"/>
         <On Terms="Signal.*.WarpIn" Target="_Unit" Send="SetOpacity"/>
         <On Terms="TimerExpired; TimerName Start" Send="Signal WarpIn"/>
@@ -46700,7 +46687,6 @@
         <On Terms="TimerExpired; TimerName DelayApply" Send="ModelMaterialApplyTo ::Main"/>
         <On Terms="Behavior.AP_StalkerPurifierRecentlyReconstructed.Off" Send="ModelMaterialRemoveFrom ::Main"/>
         <On Terms="Behavior.AP_StalkerPurifierRecentlyReconstructed.Off" Send="Destroy"/>
-        <On Terms="UnitBirth.AP_StalkerPurifier.EditorPlaced" Send="Create"/>
         <Model value="GlazeSentinelRepair"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModelMaterial>
@@ -46860,7 +46846,6 @@
         <On Terms="ActorDestruction" Target="_Unit" Send="ModelMaterialRemove AP_SupplicantSacrificeGlazeMaterial"/>
         <On Terms="Behavior.AP_SupplicantSacrifice.On" Send="Create"/>
         <On Terms="Behavior.AP_SupplicantSacrifice.Off" Send="Destroy"/>
-        <On Terms="UnitBirth.AP_Supplicant.EditorPlaced; PassChance 50.000000" Send="Create"/>
     </CActorSimple>
     <CActorModelMaterial id="AP_SupplicantSacrificeGlazeMaterial" parent="GlazeParent" buff="">
         <On index="0" Terms="ActorCreation" Send="AnimPlay Lifetime Birth PlayForever,ForceLooping -1.000000 -1.000000 0.020000 AsTimeScale"/>
@@ -47383,7 +47368,6 @@
         <EditorCategories value=""/>
         <On Terms="UnitBirth.AP_ImmortalPurifier" Send="Create"/>
         <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,02 PlayForever"/>
-        <On Terms="ActorCreation; !IsInEditor" Send="Signal Stop"/>
         <On Terms="Signal.*.Attack" Send="SetVisibility 1"/>
         <On Terms="Signal.*.Stop" Send="SetVisibility"/>
         <On Terms="ActorCreation" Send="SetTintColor {255,128,0 4.000000}"/>
@@ -47396,7 +47380,6 @@
         <EditorCategories value=""/>
         <On Terms="UnitBirth.AP_ImmortalPurifier" Send="Create"/>
         <On Terms="ActorCreation" Send="AnimPlay Lifetime Stand,02 PlayForever"/>
-        <On Terms="ActorCreation; !IsInEditor" Send="Signal Stop"/>
         <On Terms="Signal.*.Attack" Send="SetVisibility 1"/>
         <On Terms="Signal.*.Stop" Send="SetVisibility"/>
         <On Terms="ActorCreation" Send="SetTintColor {255,128,0 4.000000}"/>
@@ -47412,7 +47395,6 @@
         <On Terms="ActorCreation" Send="TimerSet"/>
         <On Terms="TimerExpired" Send="TimerSet 0.700000"/>
         <On Terms="TimerExpired" Send="AnimSetCompletion Lifetime"/>
-        <On Terms="ActorCreation; !IsInEditor" Send="Signal Stop"/>
         <On Terms="Signal.*.Attack" Send="SetVisibility 1"/>
         <On Terms="Signal.*.Stop" Send="SetVisibility"/>
         <On Terms="Signal.*.Attack" Send="DestroyParticles"/>
@@ -47429,7 +47411,6 @@
         <On Terms="ActorCreation" Send="TimerSet"/>
         <On Terms="TimerExpired" Send="TimerSet 0.700000"/>
         <On Terms="TimerExpired" Send="AnimSetCompletion Lifetime"/>
-        <On Terms="ActorCreation; !IsInEditor" Send="Signal Stop"/>
         <On Terms="Signal.*.Attack" Send="SetVisibility 1"/>
         <On Terms="Signal.*.Stop" Send="SetVisibility"/>
         <On Terms="Signal.*.Attack" Send="DestroyParticles"/>
@@ -47674,7 +47655,6 @@
     </CActorSiteOpRotationExplicit>
     <CActorModel id="AP_ScienceVesselSurveillanceModeAttachment" parent="ModelAddition">
         <On Terms="ActorCreation" Send="SetTintColor 50,255,50"/>
-        <On Terms="UnitBirth.AP_ScienceVessel.EditorPlaced" Send="Create"/>
         <HostSiteOps Ops="SOpAttachTarget SOpMoveDownBy2"/>
         <Scale value="0.300000"/>
     </CActorModel>
@@ -47736,7 +47716,6 @@
         <On Terms="ActorCreation" Send="AnimBracketStart BSD IGNORE GLstand IGNORE"/>
         <On Terms="ActorOrphan" Send="Destroy"/>
         <On Terms="AnimBracketState.*.AfterClosing; !AnimBracketExitReason ModelSwap; AnimName BSD" Send="Destroy"/>
-        <On Terms="UnitBirth.AP_WarHound.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="SetTintColor {255,100,0 2.000000}"/>
         <On Terms="Behavior.AP_WarhoundBrawler.On" Send="Create"/>
         <On Terms="ActorCreation" Send="SetOpacity"/>
@@ -47771,7 +47750,6 @@
     <CActorModel id="AP_WarhoundBrawlerShield" parent="ModelAddition">
         <Remove Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentForceLooping"/>
-        <On Terms="UnitBirth.AP_WarHound.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="TimerSet"/>
         <On Terms="TimerExpired" Send="SetTintColor {255,50,0 10.000000}"/>
         <On Terms="Behavior.AP_WarhoundBrawler.On" Send="Create"/>
@@ -47876,7 +47854,6 @@
         <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap Oracle_Taldarim"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomize DarkProtoss"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_NoDarkProtoss; UnitWalking" Send="DeathCustomize Variation2"/>
-        <On Terms="ActorCreation; IsInEditor" Send="TimerSet 1.000000 Morph"/>
         <On Terms="TimerExpired; TimerName Morph" Send="Signal Morph"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_OracleGround" Send="Create"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom AP_OracleGround" Send="Destroy"/>
@@ -48242,7 +48219,6 @@
         <On Terms="ActorCreation; ScopeContains _NoGlaze" Send="Destroy"/>
         <On Terms="Behavior.AP_PhaseBlinkDamage.On" Send="Create"/>
         <On Terms="Behavior.AP_PhaseBlinkDamage.Off" Send="AnimBracketStop BSD"/>
-        <On Terms="UnitBirth.AP_Slayer.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="SetTintColor 255,200,200"/>
         <HostSiteOps Ops="SOpAttachWeapon AP_StalkerTaldarimAttackUpgradeBuffRotation AP_StalkerTaldarimAttackUpgradeBuffOffset"/>
         <Scale value="0.700000,0.700000,1.000000"/>
@@ -48308,7 +48284,6 @@
     <CActorModel id="AP_CenturionDodge" parent="ModelAnimationStyleOneShot">
         <Terms value="Cap 1"/>
         <On Terms="Behavior.AP_CenturionDodge.DamageHandled" Send="Create"/>
-        <On Terms="UnitBirth.AP_ZealotShakuras.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="TimerSet 0.250000"/>
         <On Terms="ActorCreation" Send="SetScale 1.400000 0.300000"/>
         <On Terms="ActorCreation" Send="SetOpacity 0.200000 0.300000"/>
@@ -48361,7 +48336,6 @@
     <CActorModel id="AP_AvengerCharge" parent="ModelAddition">
         <On Terms="Behavior.AP_AvengerCharge.On" Send="Create"/>
         <On Terms="Behavior.AP_AvengerCharge.Off" Send="AnimBracketStop BSD"/>
-        <On Terms="UnitBirth.AP_DarkTemplarAiur.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="TimerSet"/>
         <On Terms="TimerExpired" Send="TimerSet 0.300000"/>
         <On Terms="TimerExpired" Send="AnimSetCompletion BSD"/>
@@ -48429,7 +48403,6 @@
     <CActorModel id="AP_ImmortalRegen" parent="ModelAddition">
         <On Terms="Behavior.AP_ImmortalRegen.On" Send="Create"/>
         <On Terms="Behavior.AP_ImmortalRegen.Off" Send="AnimBracketStop BSD"/>
-        <On Terms="UnitBirth.AP_ImmortalAiur.EditorPlaced" Send="Create"/>
         <On Terms="ActorCreation" Send="TimerSet"/>
         <On Terms="TimerExpired" Send="SetTintColor 255,255,128"/>
         <HostSiteOps Ops="SOpAttachOrigin"/>
