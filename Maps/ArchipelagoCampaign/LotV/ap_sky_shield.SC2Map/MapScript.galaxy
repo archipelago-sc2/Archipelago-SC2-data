@@ -1656,10 +1656,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
+        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 4;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
@@ -1689,13 +1688,13 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
     libABFE498B_gf_AP_Triggers_HeroInit(gv_pLAYER_01_USER, PointFromId(425), UnitGroupFromId(6));
     TextExpressionSetToken("Param/Expression/C3A41B09", "A", IntToText(libABFE498B_gv_aP_Triggers_Option_HeroPresence));
-    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/C3A41B09"), true);
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/C3A41B09"), false);
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr")) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/519107A9"), true);
+        TriggerDebugOutput(1, StringExternal("Param/Value/519107A9"), false);
     }
 
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr") && (libABFE498B_gv_aP_Triggers_Option_HeroPresence != 0)) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/5E38A445"), true);
+        TriggerDebugOutput(1, StringExternal("Param/Value/5E38A445"), false);
         UnitCreate(1, "AP_Goliath", 0, gv_pLAYER_01_USER, PointFromId(1459564027), 45.0);
         UnitCreate(1, "AP_Goliath", 0, gv_pLAYER_01_USER, PointFromId(1214540186), 45.0);
     }
@@ -5753,6 +5752,9 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     unitgroup auto917547C9_g;
     int auto917547C9_u;
     unit auto917547C9_var;
+    unitgroup auto384D1B14_g;
+    int auto384D1B14_u;
+    unit auto384D1B14_var;
 
     // Variable Initialization
 
@@ -5798,6 +5800,13 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     PlayerSetState(gv_pLAYER_01_USER, c_playerStateXPGain, true);
     CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoDefault(), 0.0, -1, 10, false);
     VisExploreArea(gv_pLAYER_01_USER, RegionEntireMap(), false, false);
+    auto384D1B14_g = UnitGroup("ShadowScrambler", c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto384D1B14_u = UnitGroupCount(auto384D1B14_g, c_unitCountAll);
+    for (;; auto384D1B14_u -= 1) {
+        auto384D1B14_var = UnitGroupUnitFromEnd(auto384D1B14_g, auto384D1B14_u);
+        if (auto384D1B14_var == null) { break; }
+        UnitIssueOrder(auto384D1B14_var, Order(AbilityCommand("EMPNova", 0)), c_orderQueueReplace);
+    }
     TriggerExecute(gt_StartAI, true, false);
     Wait(0.5, c_timeReal);
     UnitSetState(UnitFromId(943), c_unitStateFidget, true);
