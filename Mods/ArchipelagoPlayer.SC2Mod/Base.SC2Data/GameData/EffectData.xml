@@ -7804,7 +7804,7 @@
     <CEffectSet id="AP_NovaWeaponPlasmaBlastNewInitialSet" parent="WizSimpleSkillshotInitialSet" abil="AP_NovaWeaponPlasmaBlastNew"/>
     <CEffectLaunchMissile id="AP_NovaWeaponPlasmaBlastNewLaunchMissile" parent="WizSimpleSkillshotLaunchMissile" abil="AP_NovaWeaponPlasmaBlastNew">
         <FinishEffect value="AP_NovaPlasmaPuddleSmall"/>
-        <PeriodicEffect value="NovaPlasmaPuddleSmall"/>
+        <PeriodicEffect value="AP_NovaPlasmaPuddleSmall"/>
         <PeriodicPeriod value="0.25"/>
     </CEffectLaunchMissile>
     <CEffectCreatePersistent id="AP_NovaWeaponPlasmaBlastNewMissilePersistent" parent="WizSimpleSkillshotMissilePersistent" abil="AP_NovaWeaponPlasmaBlastNew">
@@ -7841,6 +7841,12 @@
         <ImpactLocation Value="TargetUnit"/>
         <SearchFilters value="Ground;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray Radius="1.5" Effect="AP_NovaPlasmaPuddleDamageDebuff"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="AP_PlasmaPuddleSearch">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactLocation Value="TargetUnit"/>
+        <SearchFilters value="Ground;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="2" Effect="AP_NovaPlasmaPuddleDamageDebuff"/>
     </CEffectEnumArea>
     <CEffectRemoveBehavior id="AP_RemoveCoreRecallingBehaviorVikingAir">
         <EditorCategories value="Race:Protoss"/>
