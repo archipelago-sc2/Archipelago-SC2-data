@@ -2735,6 +2735,7 @@ void libABFE498B_gf_AP_Triggers_Terran_unlockHellion (int lp_player) {
     TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 10), true);
     TechTreeAbilityAllow(lp_player, AbilityCommand("AP_FactoryAddOns", 1), true);
     TechTreeUnitAllow(lp_player, "AP_Hellion", true);
+    TechTreeUpgradeAddLevel(1, "AP_Hellion", 1);
 }
 
 void libABFE498B_gf_AP_Triggers_Terran_unlockVulture (int lp_player) {
@@ -3544,6 +3545,10 @@ void libABFE498B_gf_AP_Triggers_Terran_unlockHellionThermiteFilaments (int lp_pl
 void libABFE498B_gf_AP_Triggers_Terran_unlockHellionHellbatAspect (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
+    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_FactoryAddOns", 3), true);
+    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 10), true);
+    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_FactoryAddOns", 1), true);
+    TechTreeUnitAllow(lp_player, "AP_HellionTank", true);
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_HellbatAspect", 1);
 }
 
@@ -6024,6 +6029,7 @@ void libABFE498B_gf_AP_Triggers_clearTerranTech (int lp_player) {
     TechTreeUnitAllow(lp_player, "AP_Marauder", false);
     TechTreeUnitAllow(lp_player, "AP_Reaper", false);
     TechTreeUnitAllow(lp_player, "AP_Hellion", false);
+    TechTreeUnitAllow(lp_player, "AP_HellionTank", false);
     TechTreeUnitAllow(lp_player, "AP_Vulture", false);
     TechTreeUnitAllow(lp_player, "AP_Goliath", false);
     TechTreeUnitAllow(lp_player, "AP_Diamondback", false);
