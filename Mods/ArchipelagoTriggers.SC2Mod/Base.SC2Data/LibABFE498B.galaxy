@@ -13829,6 +13829,33 @@ void libABFE498B_gt_AP_Triggers_ObjectGroupFix_Init () {
     TriggerAddEventTimeElapsed(libABFE498B_gt_AP_Triggers_ObjectGroupFix, 0.0, c_timeGame);
 }
 
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_RescueUnitsFix
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_RescueUnitsFix_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((EventUnitOwnerNew() == lib5BD4895D_gf_AP_Core_getUser()))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lib15EF4C78_gf_AP_Player_ReapplyDefaultBehaviorsToUnit(EventUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_RescueUnitsFix_Init () {
+    libABFE498B_gt_AP_Triggers_RescueUnitsFix = TriggerCreate("libABFE498B_gt_AP_Triggers_RescueUnitsFix_Func");
+    TriggerAddEventUnitChangeOwner(libABFE498B_gt_AP_Triggers_RescueUnitsFix, null);
+}
+
 void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_PatchesInit_Init();
     libABFE498B_gt_AP_Triggers_bankInit_Init();
@@ -13866,6 +13893,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init();
     libABFE498B_gt_AP_Triggers_warpGateSafety_Init();
     libABFE498B_gt_AP_Triggers_ObjectGroupFix_Init();
+    libABFE498B_gt_AP_Triggers_RescueUnitsFix_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
