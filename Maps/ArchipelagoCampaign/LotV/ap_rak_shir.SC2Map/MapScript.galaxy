@@ -1168,7 +1168,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1323,6 +1322,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init06Difficulties, true, false);
     TriggerExecute(gt_InitWaveDataVariable, true, false);
     TriggerExecute(gt_InitSpecialWaveDataVariable, true, false);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroQ, true, true);
     TriggerExecute(gt_StartGameQ, true, false);
     return true;
@@ -5530,7 +5530,7 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryMusic, gv_mapMusicTrack, c_soundtrackCueAny, c_soundtrackIndexAny, true);
     VisExploreArea(gv_pLAYER_01_USER, RegionFromId(7), true, false);
     TriggerExecute(gt_StartAI, true, false);
-    libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionFromId(20), gv_pLAYER_01_USER);
+    libABFE498B_gf_AP_Triggers_resetBase(gv_pLAYER_01_USER);
     Wait(0.5, c_timeReal);
     if ((gv_cinematicCompleted == true)) {
         lv_fadeDuration = 1.5;
