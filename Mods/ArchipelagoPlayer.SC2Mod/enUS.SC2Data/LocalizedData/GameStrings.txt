@@ -519,6 +519,7 @@ Behavior/Name/AP_AscendantSacrificeSelfBuff=Power Overwhelming
 Behavior/Name/AP_AstralRestorationCaster=Astral Restoration
 Behavior/Name/AP_AvengerCharge=Way of Retribution
 Behavior/Name/AP_AvengerChargeAttackspeed=Way of Retribution
+Behavior/Name/AP_BanelingSpawn=Summoned
 Behavior/Name/AP_BansheeCloak=Cloak
 Behavior/Name/AP_BansheeCloakCrossSpectrumDampeners=Cloak
 Behavior/Name/AP_BansheeCloak_Stukov=Cloak
@@ -727,6 +728,7 @@ Behavior/Name/AP_SOAVortexEnemy=SOAVortex Enemy
 Behavior/Name/AP_ScienceVesselCloakField=Cloaking Field
 Behavior/Name/AP_ScienceVesselSCBWDefensiveMatrix=Defensive Matrix
 Behavior/Name/AP_ScopophobiaTarget=Scopophobia
+Behavior/Name/AP_ScourgeSpawn=Summoned
 Behavior/Name/AP_ScoutNerazimCloak=Cloak
 Behavior/Name/AP_ScoutNerazimPilot=Pilot
 Behavior/Name/AP_ScoutNerazimPilotBuff=Pilot Buff
@@ -865,6 +867,7 @@ Behavior/Tooltip/AP_AscendantSacrificeSelfBuff=This unit has increased shields a
 Behavior/Tooltip/AP_AstralRestorationCaster=Healing units within range of Cloaking Field.
 Behavior/Tooltip/AP_AvengerCharge=This Avenger is charging, allowing it to quickly close the distance with its target.
 Behavior/Tooltip/AP_AvengerChargeAttackspeed=This Avenger has greatly increased attack speed.
+Behavior/Tooltip/AP_BanelingSpawn=This unit was summoned by a Baneling Nest.
 Behavior/Tooltip/AP_BansheeCloak=This unit is cloaked and will only be revealed by detectors or effects.
 Behavior/Tooltip/AP_BansheeCloakCrossSpectrumDampeners=This unit is cloaked and will only be revealed by detectors or effects.
 Behavior/Tooltip/AP_BansheeCloak_Stukov=This unit is cloaked and will only be revealed by detectors or effects.
@@ -1032,6 +1035,7 @@ Behavior/Tooltip/AP_SOASuperChrono=This structure's production and research spee
 Behavior/Tooltip/AP_SOATimeFreeze=This unit is frozen in time. It cannot move or attack.
 Behavior/Tooltip/AP_ScienceVesselSCBWDefensiveMatrix=While active, the Defensive Matrix blocks all incoming damage, up to a maximum of <c val="#ColorTooltipNumber"><d ref="Behavior,AP_ScienceVesselSCBWDefensiveMatrix@Dummy,Modification.VitalMaxArray[Shields]"/></c>.
 Behavior/Tooltip/AP_ScopophobiaTarget=This unit moves and attacks <d ref="100*(1 - Behavior,AP_ScopophobiaTarget,Modification.MoveSpeedMultiplier)"/>% slower.
+Behavior/Tooltip/AP_ScourgeSpawn=This unit was summoned by a Spire.
 Behavior/Tooltip/AP_ScoutNerazimCloak=This unit is cloaked and will only be revealed by detectors or effects.
 Behavior/Tooltip/AP_ScoutNerazimPilot=A unit is co-piloting the Mist Wing, providing bonus stats.
 Behavior/Tooltip/AP_ScoutNerazimPilotBuff=
@@ -2853,7 +2857,7 @@ Button/Tooltip/AP_BanelingLaunchLevel2=The Aberration stores and launches up to 
 Button/Tooltip/AP_BanelingLaunchTrain=A Baneling to be thrown by an Aberration.
 Button/Tooltip/AP_BanelingNest=<c val="ffff8a">Enables:</c><n/>- Banelings from Zerglings
 Button/Tooltip/AP_BanelingPassive=Baneling Nest enables you to morph Banelings from Zerglings.
-Button/Tooltip/AP_BanelingSpawn=Spawn 3 Banelings with a <d ref="Behavior,AP_BanelingSpawnTimedLife,Duration"/> seconds timed life.
+Button/Tooltip/AP_BanelingSpawn=Spawns a Baneling for free, until you control 6 spawned Banelings.
 Button/Tooltip/AP_BanelingSplitterlingPassive=Splitter Strain<n/><n/>Baneling Nest enables you to morph Banelings from Zerglings.
 Button/Tooltip/AP_BanelingSplitterlingSplitPassive=Splits into two smaller Baneling Spawn upon death or eruption.
 Button/Tooltip/AP_Banshee=Tactical-strike aircraft.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
@@ -3986,7 +3990,7 @@ Button/Tooltip/AP_ScourgeAmountUpgrade=Scourge morph ten times as fast, and an a
 Button/Tooltip/AP_ScourgeCostUpgrade=Scourge eggs cost 50 less Vespene Gas.
 Button/Tooltip/AP_ScourgeDetonate=The Scourge detonates at its current location and damages all nearby enemy air units.
 Button/Tooltip/AP_ScourgePassive=This building enables you to morph Scourge.
-Button/Tooltip/AP_ScourgeSpawn=Spawn 3 Scourge with a <d ref="Behavior,AP_ScourgeSpawnTimedLife,Duration"/> seconds timed life.
+Button/Tooltip/AP_ScourgeSpawn=Spawn a Scourge for free, until you control 6 spawned Scourges.
 Button/Tooltip/AP_ScourgeSplashUpgrade=Scourge deal splash damage.
 Button/Tooltip/AP_Scout=Versatile high-speed fighter.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_ScoutAdvancedPhotonBlasters=Improves Photon Blaster weapon damage.
@@ -6232,6 +6236,7 @@ Param/Value/lib_15EF4C78_E2AE9BC3=<c val="FF9800">Kerrigan has been revived at y
 Param/Value/lib_15EF4C78_E51A21D1=<c val="9BFFBE">Artanis has been warped off the battlefield to avoid lethal damage. You must construct a Nexus for hjm to rejoin the fight.</c>
 Param/Value/lib_15EF4C78_EAFF7887=<c val="FF9800">Dehaka has been revived at your Hatchery.</c>
 Param/Value/lib_15EF4C78_F7380CB8=DEBUG: Skip Fast Delivery handling, merc type was already fast delivered once
+RequirementNode/Tooltip/AP_BanelingSpawnCount=Have less than 6 spawned Banelings
 RequirementNode/Tooltip/AP_BileLauncherBesideSpawningPool=Built beside Spawning Pool
 RequirementNode/Tooltip/AP_CompareNodeLTTyrannozorMergeSupply=Have enough supply
 RequirementNode/Tooltip/AP_CountBehaviorAP_ScoutTaldarimVulcanBlasterCompleteOnlyAtUnit3032945838=Cannot cancel during chargeup.
@@ -6416,6 +6421,7 @@ RequirementNode/Tooltip/AP_NotCountUnitTradeStructureQueuedOrBetter=Cannot have 
 RequirementNode/Tooltip/AP_NotTradeStructureDummyQueuedOrBetter=A Void Trade is not already in progress
 RequirementNode/Tooltip/AP_Scarab10=Reaver must have fewer than 10 Scarabs
 RequirementNode/Tooltip/AP_Scarab5=Reaver must have fewer than 5 Scarabs
+RequirementNode/Tooltip/AP_ScourgeSpawnCount=Have less than 6 spawned Scourges
 RequirementNode/Tooltip/AP_SupplicantSacrificeCount=Find Sacrifice (Supplicant)
 UI/AP_Reconstructing=Reconstructing
 UI/AP_SISpawning=Spawning
