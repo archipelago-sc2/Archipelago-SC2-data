@@ -13678,6 +13678,99 @@ void libABFE498B_gt_AP_Triggers_InitSoA_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_SoAWarpInReinforcementsSetup
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsSetup_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_index;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_index += 1;
+    libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_index] = "Zealot";
+    libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_index] = "AP_Dragoon";
+    lv_index += 1;
+    libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_index] = "AP_ZealotShakuras";
+    libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_index] = "AP_StalkerShakuras";
+    lv_index += 1;
+    libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_index] = "AP_ZealotPurifier";
+    libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_index] = "AP_StalkerPurifier";
+    lv_index += 1;
+    libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_index] = "AP_Supplicant";
+    libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_index] = "AP_Slayer";
+    lv_index += 1;
+    libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_index] = "AP_Adept";
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsSetup_Init () {
+    libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsSetup = TriggerCreate("libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsSetup_Func");
+    TriggerAddEventMapInit(libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsSetup);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_SoAWarpInReinforcementsRandomize
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    int lv_player;
+    point lv_point;
+    string[5] lv_unitType;
+    int lv_random;
+    int lv_count;
+
+    // Automatic Variable Declarations
+    const int auto5AE03276_n = 2;
+    int auto5AE03276_i;
+    const int auto7FB41B96_n = 4;
+    int auto7FB41B96_i;
+
+    // Variable Initialization
+    lv_unit = EventUnitCreatedUnit();
+    lv_player = UnitGetOwner(lv_unit);
+    lv_point = UnitGetPosition(lv_unit);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_unit = EventUnit();
+    lv_player = UnitGetOwner(lv_unit);
+    for (auto5AE03276_i = 1; auto5AE03276_i <= auto5AE03276_n; auto5AE03276_i += 1) {
+        lv_count += 1;
+        lv_random = RandomInt(1, 4);
+        lv_unitType[lv_count] = libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_random];
+        lv_count += 1;
+        lv_random = RandomInt(1, 5);
+        lv_unitType[lv_count] = libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_random];
+    }
+    for (auto7FB41B96_i = 1; auto7FB41B96_i <= auto7FB41B96_n; auto7FB41B96_i += 1) {
+        libABFE498B_gf_AP_Triggers_warpInUnit(lv_unitType[lv_count], 1, PointWithOffsetPolar(lv_point, 2.0, (45+90*IntToFixed(lv_count))), true);
+        if ((lv_unitType[lv_count] == "AP_Supplicant")) {
+            libABFE498B_gf_AP_Triggers_warpInUnit(lv_unitType[lv_count], 1, PointWithOffsetPolar(lv_point, 2.0, (45+90*IntToFixed(lv_count))), true);
+        }
+
+        lv_count -= 1;
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Init () {
+    libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize = TriggerCreate("libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func");
+    TriggerAddEventUnitCreated(libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize, null, "AP_SOAWarpInReinforcements", null);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_warpInInit
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_warpInInit_Func (bool testConds, bool runActions) {
@@ -13891,6 +13984,8 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_ArtanisAspectsActive_Init();
     libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init();
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
+    libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsSetup_Init();
+    libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Init();
     libABFE498B_gt_AP_Triggers_warpInInit_Init();
     libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init();
     libABFE498B_gt_AP_Triggers_warpGateSafety_Init();

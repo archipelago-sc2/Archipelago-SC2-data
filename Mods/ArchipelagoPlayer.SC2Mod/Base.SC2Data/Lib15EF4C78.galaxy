@@ -7183,69 +7183,6 @@ void lib15EF4C78_gt_PM_SoASuperShieldsActivated_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: SoAWarpInReinforcementsRandomize
-//--------------------------------------------------------------------------------------------------
-bool lib15EF4C78_gt_SoAWarpInReinforcementsRandomize_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-    string lv_unitType;
-    int lv_random;
-    int lv_player;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_unit = EventUnit();
-    lv_unitType = UnitGetType(lv_unit);
-    lv_random = RandomInt(0, 99);
-    lv_player = UnitGetOwner(lv_unit);
-    if ((lv_unitType == "AP_ZealotReinforcementDummy")) {
-        if ((lv_random < 25)) {
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_ZealotAiur", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-        else if ((lv_random < 50)) {
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_ZealotShakuras", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-        else if ((lv_random < 75)) {
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_ZealotPurifier", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-        else if ((lv_random < 100)) {
-            libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_Supplicant", 0, lv_player, UnitGetPosition(lv_unit));
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_Supplicant", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-    }
-    else if ((lv_unitType == "AP_StalkerReinforcementDummy")) {
-        if ((lv_random < 20)) {
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_StalkerShakuras", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-        else if ((lv_random < 40)) {
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_StalkerPurifier", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-        else if ((lv_random < 60)) {
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_Slayer", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-        else if ((lv_random < 80)) {
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_Dragoon", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-        else if ((lv_random < 100)) {
-            libNtve_gf_ReplaceUnit(lv_unit, "AP_Adept", libNtve_ge_ReplaceUnitOptions_NewUnitsDefault);
-        }
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib15EF4C78_gt_SoAWarpInReinforcementsRandomize_Init () {
-    lib15EF4C78_gt_SoAWarpInReinforcementsRandomize = TriggerCreate("lib15EF4C78_gt_SoAWarpInReinforcementsRandomize_Func");
-    TriggerAddEventUnitBehaviorChange(lib15EF4C78_gt_SoAWarpInReinforcementsRandomize, null, "AP_SOAWarpInReinforcements", c_unitBehaviorChangeDestroy);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: PU_GPInit
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_PU_GPInit_Func (bool testConds, bool runActions) {
@@ -10361,7 +10298,6 @@ void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_PM_SoATargetingPurifierBeamOff_Init();
     lib15EF4C78_gt_PM_SoAStrafeActivated_Init();
     lib15EF4C78_gt_PM_SoASuperShieldsActivated_Init();
-    lib15EF4C78_gt_SoAWarpInReinforcementsRandomize_Init();
     lib15EF4C78_gt_PU_GPInit_Init();
     lib15EF4C78_gt_PU_GPVitalChanges_Init();
     lib15EF4C78_gt_PU_GPBirthFinished_Init();
