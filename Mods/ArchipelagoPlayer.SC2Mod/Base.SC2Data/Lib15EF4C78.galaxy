@@ -8628,6 +8628,58 @@ void lib15EF4C78_gt_AP_Triggers_Kerrigan_HeroReviveOnBehaviorExpiry_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Player_ToggleHellionHellbat
+//--------------------------------------------------------------------------------------------------
+bool lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    abilcmd lv_abilityCommand;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((OrderGetFlag(EventUnitOrder(), c_cmdSetAutoCast) == true))) {
+            return false;
+        }
+
+        if (!((OrderGetFlag(EventUnitOrder(), c_cmdUser) == true))) {
+            return false;
+        }
+
+        if (!((OrderGetFlag(EventUnitOrder(), c_cmdSetAutoCastOn) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_abilityCommand = OrderGetAbilityCommand(EventUnitOrder());
+    UnitIssueOrder(EventUnit(), OrderSetAutoCast(lv_abilityCommand, false), c_orderQueueAddToFront);
+    if ((lv_abilityCommand == AbilityCommand("AP_FactoryTrain", 5)) && (TechTreeUpgradeCount(EventPlayer(), "AP_HellbatAspect", c_techCountCompleteOnly) >= 1)) {
+        TechTreeAbilityAllow(EventPlayer(), AbilityCommand("AP_FactoryTrain", 13), true);
+        TechTreeAbilityAllow(EventPlayer(), AbilityCommand("AP_FactoryTrain", 5), false);
+    }
+
+    if ((lv_abilityCommand == AbilityCommand("AP_FactoryTrain", 13)) && (TechTreeUpgradeCount(EventPlayer(), "AP_Hellion", c_techCountCompleteOnly) >= 1)) {
+        TechTreeAbilityAllow(EventPlayer(), AbilityCommand("AP_FactoryTrain", 5), true);
+        TechTreeAbilityAllow(EventPlayer(), AbilityCommand("AP_FactoryTrain", 13), false);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Init () {
+    lib15EF4C78_gt_AP_Player_ToggleHellionHellbat = TriggerCreate("lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Func");
+    TriggerAddEventUnitOrder(lib15EF4C78_gt_AP_Player_ToggleHellionHellbat, null, AbilityCommand("AP_FactoryTrain", 5));
+    TriggerAddEventUnitOrder(lib15EF4C78_gt_AP_Player_ToggleHellionHellbat, null, AbilityCommand("AP_FactoryTrain", 13));
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Player_NightHawkResonatingFeedbackInterferenceEffect
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Func (bool testConds, bool runActions) {
@@ -10340,6 +10392,7 @@ void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_AP_Player_ZS_KerriganDied_Init();
     lib15EF4C78_gt_AP_Player_onKerriganRevived_Init();
     lib15EF4C78_gt_AP_Triggers_Kerrigan_HeroReviveOnBehaviorExpiry_Init();
+    lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Init();
     lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Init();
     lib15EF4C78_gt_CM_Mengsk_WeaponPickupRegister_Init();
     lib15EF4C78_gt_CM_Mengsk_WeaponPickerUpperRegister_Init();
