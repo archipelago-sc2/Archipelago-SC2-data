@@ -13723,13 +13723,19 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func (bool test
     unit lv_unit;
     int lv_player;
     point lv_point;
-    string[5] lv_unitType;
     int lv_random;
+    int lv_index;
     int lv_count;
+    fixed lv_supply;
+    fixed lv_supplycurrent;
+    fixed lv_supplyusedstart;
+    fixed lv_supplymadestart;
 
     // Automatic Variable Declarations
     const int auto5AE03276_n = 2;
     int auto5AE03276_i;
+    const int auto50A9B9D7_ae = 4;
+    const int auto50A9B9D7_ai = 1;
     const int auto7FB41B96_n = 4;
     int auto7FB41B96_i;
 
@@ -13745,22 +13751,42 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func (bool test
 
     lv_unit = EventUnit();
     lv_player = UnitGetOwner(lv_unit);
+    lv_supplyusedstart = PlayerGetPropertyFixed(lv_player, c_playerPropSuppliesUsed);
+    lv_supplymadestart = PlayerGetPropertyFixed(lv_player, c_playerPropSuppliesMade);
     for (auto5AE03276_i = 1; auto5AE03276_i <= auto5AE03276_n; auto5AE03276_i += 1) {
         lv_count += 1;
         lv_random = RandomInt(1, 4);
-        lv_unitType[lv_count] = libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_random];
+        libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count] = libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_random];
         lv_count += 1;
         lv_random = RandomInt(1, 5);
-        lv_unitType[lv_count] = libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_random];
+        libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count] = libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_random];
     }
+    lv_index = 1;
+    for ( ; ( (auto50A9B9D7_ai >= 0 && lv_index <= auto50A9B9D7_ae) || (auto50A9B9D7_ai < 0 && lv_index >= auto50A9B9D7_ae) ) ; lv_index += auto50A9B9D7_ai ) {
+        lv_supplycurrent = libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogUnit, (libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_index]), "Food", lv_player);
+        lv_supply += lv_supplycurrent;
+        if ((libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_index] == "AP_Supplicant")) {
+            lv_supply += lv_supplycurrent;
+        }
+
+    }
+    PlayerModifyPropertyFixed(lv_player, c_playerPropSuppliesMade, c_playerPropOperSetTo, PlayerGetPropertyFixed(lv_player, c_playerPropSuppliesLimit));
     for (auto7FB41B96_i = 1; auto7FB41B96_i <= auto7FB41B96_n; auto7FB41B96_i += 1) {
-        libABFE498B_gf_AP_Triggers_warpInUnit(lv_unitType[lv_count], 1, PointWithOffsetPolar(lv_point, 2.0, (45+90*IntToFixed(lv_count))), true);
-        if ((lv_unitType[lv_count] == "AP_Supplicant")) {
-            libABFE498B_gf_AP_Triggers_warpInUnit(lv_unitType[lv_count], 1, PointWithOffsetPolar(lv_point, 2.0, (45+90*IntToFixed(lv_count))), true);
+        libABFE498B_gf_AP_Triggers_warpInUnit(libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count], lv_player, PointWithOffsetPolar(lv_point, 2.0, (45+90*IntToFixed(lv_count))), true);
+        if ((libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count] == "AP_Supplicant")) {
+            libABFE498B_gf_AP_Triggers_warpInUnit(libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count], lv_player, PointWithOffsetPolar(lv_point, 2.0, (45+90*IntToFixed(lv_count))), true);
         }
 
         lv_count -= 1;
     }
+    PlayerModifyPropertyFixed(lv_player, c_playerPropSuppliesMade, c_playerPropOperSetTo, lv_supplymadestart);
+    if ((lv_supply < (lv_supplyusedstart - PlayerGetPropertyFixed(lv_player, c_playerPropSuppliesUsed)))) {
+        SoundPlayForPlayer(SoundLink("Alert_ProtossMaxSupply", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    }
+
+    TriggerEnable(libABFE498B_gt_AP_Triggers_SoAWarpInEvent, true);
+    Wait(2.0, c_timeGame);
+    TriggerEnable(libABFE498B_gt_AP_Triggers_SoAWarpInEvent, false);
     return true;
 }
 
@@ -13768,6 +13794,61 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func (bool test
 void libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Init () {
     libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize = TriggerCreate("libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func");
     TriggerAddEventUnitCreated(libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize, null, "AP_SOAWarpInReinforcements", null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_SoAWarpInEvent
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_SoAWarpInEvent_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_index;
+    bool lv_valid;
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    const int auto64C8DE78_ae = 4;
+    const int auto64C8DE78_ai = 1;
+    unitgroup auto25462AEE_g;
+    int auto25462AEE_u;
+    unit auto25462AEE_var;
+
+    // Variable Initialization
+    lv_unit = libABFE498B_gf_AP_Triggers_getLastWarpedUnit();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_index = 1;
+    for ( ; ( (auto64C8DE78_ai >= 0 && lv_index <= auto64C8DE78_ae) || (auto64C8DE78_ai < 0 && lv_index >= auto64C8DE78_ae) ) ; lv_index += auto64C8DE78_ai ) {
+        if ((UnitGetType(lv_unit) == libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_index])) {
+            lv_valid = true;
+        }
+
+    }
+    if ((lv_valid == false)) {
+        return true;
+    }
+
+    auto25462AEE_g = libABFE498B_gf_AP_Triggers_getLastWarpedUnits();
+    auto25462AEE_u = UnitGroupCount(auto25462AEE_g, c_unitCountAll);
+    for (;; auto25462AEE_u -= 1) {
+        auto25462AEE_var = UnitGroupUnitFromEnd(auto25462AEE_g, auto25462AEE_u);
+        if (auto25462AEE_var == null) { break; }
+        UnitSetPropertyFixed(auto25462AEE_var, c_unitPropLifePercent, 100.0);
+        UnitSetPropertyFixed(auto25462AEE_var, c_unitPropShieldsPercent, 100.0);
+        UnitSetFacing(auto25462AEE_var, 270.0, 0.0);
+        UnitBehaviorAdd(auto25462AEE_var, "AP_SOAWarpInReinforcementsVisuals", auto25462AEE_var, 1);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_SoAWarpInEvent_Init () {
+    libABFE498B_gt_AP_Triggers_SoAWarpInEvent = TriggerCreate("libABFE498B_gt_AP_Triggers_SoAWarpInEvent_Func");
+    TriggerEnable(libABFE498B_gt_AP_Triggers_SoAWarpInEvent, false);
+    TriggerAddEventGeneric(libABFE498B_gt_AP_Triggers_SoAWarpInEvent, libABFE498B_gv_aP_Triggers_WARPIN_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -13798,7 +13879,7 @@ bool libABFE498B_gt_AP_Triggers_warpInInit_Func (bool testConds, bool runActions
     lv_abilIndex = 1;
     for ( ; ( (auto0A2D3F3D_ai >= 0 && lv_abilIndex <= auto0A2D3F3D_ae) || (auto0A2D3F3D_ai < 0 && lv_abilIndex >= auto0A2D3F3D_ae) ) ; lv_abilIndex += auto0A2D3F3D_ai ) {
         lv_abil = (StringWord(libABFE498B_gv_aP_Triggers_WARPIN_TRAIN_ABIL_IDs, lv_abilIndex));
-        TriggerAddEventUnitCreated(libABFE498B_gt_AP_Triggers_setLastWarpedUnit,null,lv_abil,null);
+        TriggerAddEventUnitCreated(libABFE498B_gt_AP_Triggers_warpInEventHandler,null,lv_abil,null);
         lv_abilCmdIndex = 0;
         for ( ; ( (auto9905A330_ai >= 0 && lv_abilCmdIndex <= auto9905A330_ae) || (auto9905A330_ai < 0 && lv_abilCmdIndex >= auto9905A330_ae) ) ; lv_abilCmdIndex += auto9905A330_ai ) {
             lv_warp = AbilityCommand(lv_abil, lv_abilCmdIndex);
@@ -13820,9 +13901,9 @@ void libABFE498B_gt_AP_Triggers_warpInInit_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_setLastWarpedUnit
+// Trigger: AP_Triggers_warpInEventHandler
 //--------------------------------------------------------------------------------------------------
-bool libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Func (bool testConds, bool runActions) {
+bool libABFE498B_gt_AP_Triggers_warpInEventHandler_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Actions
     if (!runActions) {
@@ -13836,12 +13917,13 @@ bool libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Func (bool testConds, bool run
 
     libABFE498B_gv_aP_Triggers_lastWarpedUnit = EventUnitCreatedUnit();
     UnitGroupAdd(libABFE498B_gv_aP_Triggers_lastWarpedUnits, EventUnitCreatedUnit());
+    TriggerSendEvent(libABFE498B_gv_aP_Triggers_WARPIN_EVENT);
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init () {
-    libABFE498B_gt_AP_Triggers_setLastWarpedUnit = TriggerCreate("libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Func");
+void libABFE498B_gt_AP_Triggers_warpInEventHandler_Init () {
+    libABFE498B_gt_AP_Triggers_warpInEventHandler = TriggerCreate("libABFE498B_gt_AP_Triggers_warpInEventHandler_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -13986,8 +14068,9 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_InitSoA_Init();
     libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsSetup_Init();
     libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Init();
+    libABFE498B_gt_AP_Triggers_SoAWarpInEvent_Init();
     libABFE498B_gt_AP_Triggers_warpInInit_Init();
-    libABFE498B_gt_AP_Triggers_setLastWarpedUnit_Init();
+    libABFE498B_gt_AP_Triggers_warpInEventHandler_Init();
     libABFE498B_gt_AP_Triggers_warpGateSafety_Init();
     libABFE498B_gt_AP_Triggers_ObjectGroupFix_Init();
     libABFE498B_gt_AP_Triggers_RescueUnitsFix_Init();
