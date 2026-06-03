@@ -4661,7 +4661,7 @@ bool lib15EF4C78_gt_AP_Stukov_InfestedSiegeTankDeath_Func (bool testConds, bool 
     auto3194256A_ae = lv_stackCount;
     lv_stackCount = 1;
     for ( ; ( (auto3194256A_ai >= 0 && lv_stackCount <= auto3194256A_ae) || (auto3194256A_ai < 0 && lv_stackCount >= auto3194256A_ae) ) ; lv_stackCount += auto3194256A_ai ) {
-        libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_SIVolatileInfested", 0, 1, UnitGetPosition(EventUnit()));
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, "AP_SIVolatileInfested", 0, UnitGetOwner(EventUnit()), UnitGetPosition(EventUnit()));
         UnitSetState(UnitLastCreated(), c_unitStateUsingSupply, false);
         UnitBehaviorAddPlayer(UnitLastCreated(), "AP_SIBarracksTrainTimedLife", lv_player, 1);
         UnitGroupAdd(lib15EF4C78_gv_stukov_HordeGroup, UnitLastCreated());
