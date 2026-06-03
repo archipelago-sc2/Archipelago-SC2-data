@@ -1,9 +1,9 @@
 //==================================================================================================
-//
+// 
 // Generated Map Script
-//
+// 
 // Name:   Enemy Intelligence
-//
+// 
 //==================================================================================================
 include "TriggerLibs/NativeLib"
 include "TriggerLibs/LibertyLib"
@@ -215,6 +215,7 @@ void InitGlobals () {
 // Global Function Declarations
 //--------------------------------------------------------------------------------------------------
 void gf_setUnitGarrisonDescription (unit lp_unit);
+void gf_setGameplayTips ();
 int gf_getGarrisonStrength (string lp_unitType);
 void gf_applyGarrisonBehavior (unit lp_unit);
 point gf_RandomPointinRegionSharedbyGroup (region lp_region, unitgroup lp_unitGroup);
@@ -625,16 +626,39 @@ void gf_setUnitGarrisonDescription (unit lp_unit) {
     }
 }
 
+void gf_setGameplayTips () {
+    // Variable Declarations
+    text lv_text;
+
+    // Automatic Variable Declarations
+    string auto13FE49D1_val;
+
+    // Variable Initialization
+
+    // Implementation
+    auto13FE49D1_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto13FE49D1_val == "Prot") {
+        lv_text = StringExternal("Param/Value/D89DFE35");
+    }
+    else if (auto13FE49D1_val == "Zerg") {
+        lv_text = StringExternal("Param/Value/BA8F8D92");
+    }
+    else {
+        lv_text = StringExternal("Param/Value/84AC4773");
+    }
+    HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/81401377"), libNtve_ge_TipType_MissionStrategy), lv_text, StringExternal("Param/Value/95F81049"), "AP\\Assets\\Textures\\AP_icon.dds");
+}
+
 int gf_getGarrisonStrength (string lp_unitType) {
     // Automatic Variable Declarations
     // Implementation
     if (((lp_unitType == "AP_Marine") || (lp_unitType == "AP_WarPig") || (lp_unitType == "AP_MarineMengsk") || (lp_unitType == "AP_Reaper") || (lp_unitType == "AP_ReaperResourceEfficiency") || (lp_unitType == "AP_MercReaper") || (lp_unitType == "AP_MercReaperResourceEfficiency") || (lp_unitType == "AP_Ghost") || (lp_unitType == "AP_GhostResourceEfficiency") || (lp_unitType == "AP_GhostMengsk") || (lp_unitType == "AP_Spectre") || (lp_unitType == "AP_SpectreResourceEfficiency") || (lp_unitType == "AP_Hellion") || (lp_unitType == "AP_TrooperMengsk") || (lp_unitType == "AP_TrooperMengskAA") || (lp_unitType == "AP_TrooperMengskImproved") || (lp_unitType == "AP_Vulture") || (lp_unitType == "AP_WidowMine") || (lp_unitType == "AP_Hydralisk") || (lp_unitType == "AP_PrimalHydralisk") || (lp_unitType == "AP_HunterKiller") || (lp_unitType == "AP_HunterKillerBurrowed") || (lp_unitType == "AP_SentryAiur") || (lp_unitType == "AP_SentryPurifier") || (lp_unitType == "AP_HighTemplarShakuras") || (lp_unitType == "AP_HighTemplarTaldarim") || (lp_unitType == "AP_HighArchonTemplar") || (lp_unitType == "AP_Adept"))) {
         return 1;
     }
-    else if (((lp_unitType == "AP_Marauder") || (lp_unitType == "AP_HammerSecurity") || (lp_unitType == "AP_MarauderMengsk") || (lp_unitType == "AP_Goliath") || (lp_unitType == "AP_SpartanCompany") || (lp_unitType == "AP_GoliathMengsk") || (lp_unitType == "AP_WarHound") || (lp_unitType == "AP_Diamondback") || (lp_unitType == "AP_Cyclone") || (lp_unitType == "AP_VikingAssault") || (lp_unitType == "AP_HelsAngelAssault") || (lp_unitType == "AP_VikingMengskAssault") || (lp_unitType == "AP_BrynhildAssault") || (lp_unitType == "AP_Roach") || (lp_unitType == "AP_MercRoach") || (lp_unitType == "AP_Ravager") || (lp_unitType == "AP_Queen") || (lp_unitType == "AP_StukovInfestedDiamondBack") || (lp_unitType == "AP_Lurker") || (lp_unitType == "AP_Impaler") || (lp_unitType == "AP_Dragoon") || (lp_unitType == "AP_StalkerShakuras") || (lp_unitType == "AP_StalkerPurifier") || (lp_unitType == "AP_Slayer") || (lp_unitType == "AP_ImmortalShakuras") || (lp_unitType == "AP_ImmortalAiur") || (lp_unitType == "AP_ImmortalTaldarim") || ((lp_unitType == "AP_SwarmHost") && (TechTreeUpgradeCount(gv_pLAYER_01_USER, "AP_HotSHaveSwarmHostSplitA", c_techCountCompleteOnly) >= 1)))) {
+    else if (((lp_unitType == "AP_Marauder") || (lp_unitType == "AP_HammerSecurity") || (lp_unitType == "AP_MarauderMengsk") || (lp_unitType == "AP_Goliath") || (lp_unitType == "AP_SpartanCompany") || (lp_unitType == "AP_GoliathMengsk") || (lp_unitType == "AP_WarHound") || (lp_unitType == "AP_Diamondback") || (lp_unitType == "AP_Cyclone") || (lp_unitType == "AP_VikingAssault") || (lp_unitType == "AP_HelsAngelAssault") || (lp_unitType == "AP_VikingMengskAssault") || (lp_unitType == "AP_BrynhildAssault") || (lp_unitType == "AP_Roach") || (lp_unitType == "AP_MercRoach") || (lp_unitType == "AP_Ravager") || (lp_unitType == "AP_Queen") || (lp_unitType == "AP_HiveQueen") || (lp_unitType == "AP_StukovInfestedDiamondBack") || (lp_unitType == "AP_Lurker") || (lp_unitType == "AP_Impaler") || (lp_unitType == "AP_Dragoon") || (lp_unitType == "AP_StalkerShakuras") || (lp_unitType == "AP_StalkerPurifier") || (lp_unitType == "AP_Slayer") || (lp_unitType == "AP_ImmortalShakuras") || (lp_unitType == "AP_ImmortalAiur") || (lp_unitType == "AP_ImmortalTaldarim") || (lp_unitType == "AP_OracleGround") || ((lp_unitType == "AP_SwarmHost") && (TechTreeUpgradeCount(gv_pLAYER_01_USER, "AP_HotSHaveSwarmHostSplitA", c_techCountCompleteOnly) >= 1)))) {
         return 2;
     }
-    else if (((lp_unitType == "AP_ColossusPurifier") || (lp_unitType == "AP_ColossusTaldarim") || (lp_unitType == "AP_Reaver") || (lp_unitType == "AP_SiegeTank") || (lp_unitType == "AP_SiegeBreaker") || (lp_unitType == "AP_SiegeTankMengsk") || (lp_unitType == "AP_StukovInfestedSiegeTankUprooted") || (lp_unitType == "AP_InfestedSiegeBreaker") || (lp_unitType == "AP_Thor") || (lp_unitType == "AP_ThorAP") || (lp_unitType == "AP_MercThor") || (lp_unitType == "AP_MercThorAP"))) {
+    else if (((lp_unitType == "AP_ColossusPurifier") || (lp_unitType == "AP_ColossusTaldarim") || (lp_unitType == "AP_Reaver") || (lp_unitType == "AP_SiegeTank") || (lp_unitType == "AP_SiegeBreaker") || (lp_unitType == "AP_SiegeTankMengsk") || (lp_unitType == "AP_StukovInfestedSiegeTankUprooted") || (lp_unitType == "AP_InfestedSiegeBreaker") || (lp_unitType == "AP_Thor") || (lp_unitType == "AP_ThorAP") || (lp_unitType == "AP_MercThor") || (lp_unitType == "AP_MercThorAP") || (lp_unitType == "AP_ThorMengsk"))) {
         return 3;
     }
     return 0;
@@ -650,82 +674,51 @@ void gf_applyGarrisonBehavior (unit lp_unit) {
     // Implementation
     UnitSetState(lp_unit, c_unitStateInvulnerable, true);
     UnitSetState(lp_unit, c_unitStateTargetable, false);
+    UnitBehaviorAddPlayer(lp_unit, "GarrisonSuppressVision", gv_pLAYER_02_NOVASUPPORT, 1);
     lv_unitType = UnitGetType(lp_unit);
-    if (((lv_unitType == "AP_Roach") || (lv_unitType == "AP_Reaper") || (lv_unitType == "AP_ReaperResourceEfficiency") || (lv_unitType == "AP_MercReaper") || (lv_unitType == "AP_MercReaperResourceEfficiency"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonReaper", gv_pLAYER_02_NOVASUPPORT, 1);
+    if (((lv_unitType == "AP_Reaper") || (lv_unitType == "AP_ReaperResourceEfficiency") || (lv_unitType == "AP_MercReaper") || (lv_unitType == "AP_MercReaperResourceEfficiency") || (lv_unitType == "AP_Roach") || (lv_unitType == "AP_MercRoach") || (lv_unitType == "AP_Adept"))) {
+        UnitBehaviorAddPlayer(lp_unit, "GarrisonRangeBonus5", gv_pLAYER_02_NOVASUPPORT, 1);
         return ;
     }
 
-    if (((lv_unitType == "AP_MercRoach") || (lv_unitType == "AP_Adept"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonAir5", gv_pLAYER_02_NOVASUPPORT, 1);
-        return ;
-    }
-
-    if (((lv_unitType == "AP_Marauder") || (lv_unitType == "AP_HammerSecurity") || (lv_unitType == "AP_MarauderMengsk") || (lv_unitType == "AP_Diamondback") || (lv_unitType == "AP_WarHound") || (lv_unitType == "AP_VikingAssault") || (lv_unitType == "AP_HelsAngelAssault") || (lv_unitType == "AP_VikingMengskAssault") || (lv_unitType == "AP_StukovInfestedDiamondBack") || (lv_unitType == "AP_Ravager") || (lv_unitType == "AP_Vulture"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonMarauder", gv_pLAYER_02_NOVASUPPORT, 1);
-        return ;
-    }
-
-    if (((lv_unitType == "AP_Ghost") || (lv_unitType == "AP_GhostResourceEfficiency") || (lv_unitType == "AP_GhostMengsk") || (lv_unitType == "AP_Spectre") || (lv_unitType == "AP_SpectreResourceEfficiency") || (lv_unitType == "AP_Goliath") || (lv_unitType == "AP_SpartanCompany") || (lv_unitType == "AP_GoliathMengsk") || (lv_unitType == "AP_BrynhildAssault") || (lv_unitType == "AP_StalkerPurifier") || (lv_unitType == "AP_StalkerShakuras") || (lv_unitType == "AP_Slayer") || (lv_unitType == "AP_HighTemplarShakuras") || (lv_unitType == "AP_HighTemplarTaldarim"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonAir3", gv_pLAYER_02_NOVASUPPORT, 1);
-        return ;
-    }
-
-    if (((lv_unitType == "AP_Hellion"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonGround4", gv_pLAYER_02_NOVASUPPORT, 1);
-        return ;
-    }
-
-    if (((lv_unitType == "AP_ImmortalTaldarim") || (lv_unitType == "AP_ImmortalShakuras") || (lv_unitType == "AP_ImmortalAiur") || (lv_unitType == "AP_Dragoon") || (lv_unitType == "AP_StukovInfestedSiegeTankUprooted") || (lv_unitType == "AP_Cyclone"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonTurret3", gv_pLAYER_02_NOVASUPPORT, 1);
+    if (((lv_unitType == "AP_Marauder") || (lv_unitType == "AP_HammerSecurity") || (lv_unitType == "AP_MarauderMengsk") || (lv_unitType == "AP_Diamondback") || (lv_unitType == "AP_WarHound") || (lv_unitType == "AP_VikingAssault") || (lv_unitType == "AP_HelsAngelAssault") || (lv_unitType == "AP_VikingMengskAssault") || (lv_unitType == "AP_StukovInfestedDiamondBack") || (lv_unitType == "AP_Ravager") || (lv_unitType == "AP_Vulture") || (lv_unitType == "AP_Ghost") || (lv_unitType == "AP_GhostResourceEfficiency") || (lv_unitType == "AP_GhostMengsk") || (lv_unitType == "AP_Spectre") || (lv_unitType == "AP_SpectreResourceEfficiency") || (lv_unitType == "AP_Goliath") || (lv_unitType == "AP_SpartanCompany") || (lv_unitType == "AP_GoliathMengsk") || (lv_unitType == "AP_BrynhildAssault") || (lv_unitType == "AP_StalkerPurifier") || (lv_unitType == "AP_StalkerShakuras") || (lv_unitType == "AP_Slayer") || (lv_unitType == "AP_HighTemplarShakuras") || (lv_unitType == "AP_HighTemplarTaldarim") || (lv_unitType == "AP_ImmortalTaldarim") || (lv_unitType == "AP_ImmortalShakuras") || (lv_unitType == "AP_ImmortalAiur") || (lv_unitType == "AP_Dragoon") || (lv_unitType == "AP_StukovInfestedSiegeTankUprooted") || (lv_unitType == "AP_Cyclone") || (lv_unitType == "AP_SentryAiur") || (lv_unitType == "AP_SentryPurifier") || (lv_unitType == "AP_HighArchonTemplar") || (lv_unitType == "AP_Thor") || (lv_unitType == "AP_ThorAP") || (lv_unitType == "AP_MercThor") || (lv_unitType == "AP_MercThorAP") || (lv_unitType == "AP_ThorMengsk"))) {
         UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_StukovInfestedSiegeTankRoot", 0)), c_orderQueueReplace);
+        UnitBehaviorAddPlayer(lp_unit, "GarrisonRangeBonus3", gv_pLAYER_02_NOVASUPPORT, 1);
         return ;
     }
 
-    if (((lv_unitType == "AP_ColossusPurifier") || (lv_unitType == "AP_ColossusTaldarim") || (lv_unitType == "AP_SiegeTank") || (lv_unitType == "AP_SiegeBreaker") || (lv_unitType == "AP_SiegeTankMengsk") || (lv_unitType == "AP_InfestedSiegeBreaker"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonTurret0", gv_pLAYER_02_NOVASUPPORT, 1);
+    if (((lv_unitType == "AP_ColossusPurifier") || (lv_unitType == "AP_ColossusTaldarim") || (lv_unitType == "AP_SiegeTank") || (lv_unitType == "AP_SiegeBreaker") || (lv_unitType == "AP_SiegeTankMengsk") || (lv_unitType == "AP_InfestedSiegeBreaker") || (lv_unitType == "AP_Reaver"))) {
         UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_SiegeMode", 0)), c_orderQueueReplace);
         return ;
     }
 
-    if (((lv_unitType == "AP_Reaver"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonTurnable0", gv_pLAYER_02_NOVASUPPORT, 1);
-        return ;
-    }
-
-    if (((lv_unitType == "AP_SentryAiur") || (lv_unitType == "AP_SentryPurifier") || (lv_unitType == "AP_HighArchonTemplar") || (lv_unitType == "AP_Thor") || (lv_unitType == "AP_ThorAP") || (lv_unitType == "AP_MercThor") || (lv_unitType == "AP_MercThorAP"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonTurnable3", gv_pLAYER_02_NOVASUPPORT, 1);
-        return ;
-    }
-
-    if (((lv_unitType == "AP_WidowMine"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonTurret0", gv_pLAYER_02_NOVASUPPORT, 1);
+    if ((lv_unitType == "AP_WidowMine")) {
+        UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_WidowMineBuilding", 1)), c_orderQueueReplace);
         UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_WidowMineBurrow", 0)), c_orderQueueReplace);
         return ;
     }
 
-    if (((lv_unitType == "AP_SwarmHost"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonTurret0", gv_pLAYER_02_NOVASUPPORT, 1);
+    if ((lv_unitType == "AP_SwarmHost")) {
         UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_LocustGround", 1)), c_orderQueueReplace);
-        UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_MorphToSwarmHostRooted", 0)), c_orderQueueAddToEnd);
+        UnitAbilityAdd(lp_unit, "AP_SwarmHostRootGarrison");
+        UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_SwarmHostRootGarrison", 0)), c_orderQueueAddToEnd);
         return ;
     }
 
-    if (((lv_unitType == "AP_Lurker"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonTurret3", gv_pLAYER_02_NOVASUPPORT, 1);
+    if ((lv_unitType == "AP_Lurker")) {
         UnitAbilityAdd(lp_unit, "AP_BurrowLurkerDownGarrison");
         UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_BurrowLurkerDownGarrison", 0)), c_orderQueueReplace);
+        UnitBehaviorAddPlayer(lp_unit, "GarrisonRangeBonus3", gv_pLAYER_02_NOVASUPPORT, 1);
         return ;
     }
 
-    if (((lv_unitType == "AP_Impaler"))) {
-        UnitBehaviorAddPlayer(lp_unit, "GarrisonTurret0", gv_pLAYER_02_NOVASUPPORT, 1);
+    if ((lv_unitType == "AP_Impaler")) {
         UnitAbilityAdd(lp_unit, "AP_BurrowImpalerGarrison");
         UnitIssueOrder(lp_unit, Order(AbilityCommand("AP_BurrowImpalerGarrison", 0)), c_orderQueueReplace);
         return ;
     }
 
-    UnitBehaviorAddPlayer(lp_unit, "GarrisonMarine", gv_pLAYER_02_NOVASUPPORT, 1);
+    UnitBehaviorAddPlayer(lp_unit, "GarrisonRangeBonus4", gv_pLAYER_02_NOVASUPPORT, 1);
 }
 
 point gf_RandomPointinRegionSharedbyGroup (region lp_region, unitgroup lp_unitGroup) {
@@ -916,6 +909,7 @@ bool auto_gf_S1GarrisonUnit_TriggerFunc (bool testConds, bool runActions) {
     gf_S1MoveAndGarrisonUnit(lp_garrisonUnit, lp_garrisonIndex, gv_s1_GarrisonSpots[lp_garrisonIndex].lv_garrisonUnitCount);
     if ((gv_s1_GarrisonSpots[lp_garrisonIndex].lv_garrisonUnitCount >= 1)) {
         VisRevealArea(gv_pLAYER_01_USER, gv_s1_GarrisonSpots[lp_garrisonIndex].lv_garrisonSightRegion, 0.0, false);
+        VisRevealArea(gv_pLAYER_02_NOVASUPPORT, gv_s1_GarrisonSpots[lp_garrisonIndex].lv_garrisonSightRegion, 0.0, false);
     }
 
     if ((gv_s1_GarrisonSpots[lp_garrisonIndex].lv_garrisonUnitCount >= gv_s1_GarrisonSpots[lp_garrisonIndex].lv_garrisonUnitMax)) {
@@ -2005,7 +1999,8 @@ bool gt_Init02Players_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    libNtve_gf_SetAlliance(gv_pLAYER_01_USER, gv_pLAYER_02_NOVASUPPORT, libNtve_ge_AllianceSetting_AllyWithSharedVisionAndPushable);
+    libNtve_gf_SetAllianceOneWay(gv_pLAYER_01_USER, gv_pLAYER_02_NOVASUPPORT, libNtve_ge_AllianceSetting_Ally);
+    libNtve_gf_SetAllianceOneWay(gv_pLAYER_02_NOVASUPPORT, gv_pLAYER_01_USER, libNtve_ge_AllianceSetting_AllyWithSharedVision);
     libNtve_gf_SetAlliance(gv_pLAYER_01_USER, gv_pLAYER_03_FERALZERG_MIDDLEBULLIES, libNtve_ge_AllianceSetting_Enemy);
     libNtve_gf_SetAlliance(gv_pLAYER_01_USER, gv_pLAYER_04_FERALZERG_RIGHTBULLIES, libNtve_ge_AllianceSetting_Enemy);
     libNtve_gf_SetAlliance(gv_pLAYER_01_USER, gv_pLAYER_05_FERALZERG_LEFTBULLIES, libNtve_ge_AllianceSetting_Enemy);
@@ -3490,10 +3485,12 @@ bool gt_StartGame01QGarrisonSpots_Func (bool testConds, bool runActions) {
     unitgroup autoEFED9EAE_g;
     int autoEFED9EAE_u;
     unit autoEFED9EAE_var;
+    unitgroup auto4FC3CD57_g;
+    int auto4FC3CD57_u;
+    unit auto4FC3CD57_var;
     int auto5AF052D1_ae;
     const int auto5AF052D1_ai = 1;
     string auto0E44EE46_val;
-    string auto13FE49D1_val;
 
     // Variable Initialization
 
@@ -3510,6 +3507,13 @@ bool gt_StartGame01QGarrisonSpots_Func (bool testConds, bool runActions) {
         autoEFED9EAE_var = UnitGroupUnitFromEnd(autoEFED9EAE_g, autoEFED9EAE_u);
         if (autoEFED9EAE_var == null) { break; }
         libNtve_gf_AICast(autoEFED9EAE_var, Order(AbilityCommand("GenerateCreep", 0)));
+    }
+    auto4FC3CD57_g = UnitGroup(null, gv_pLAYER_02_NOVASUPPORT, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto4FC3CD57_u = UnitGroupCount(auto4FC3CD57_g, c_unitCountAll);
+    for (;; auto4FC3CD57_u -= 1) {
+        auto4FC3CD57_var = UnitGroupUnitFromEnd(auto4FC3CD57_g, auto4FC3CD57_u);
+        if (auto4FC3CD57_var == null) { break; }
+        UnitSetPropertyFixed(auto4FC3CD57_var, c_unitPropLifePercent, 100.0);
     }
     if ((gv_novaEnabled == true)) {
         lib15EF4C78_gf_SetHeroPanelUnit(1, gv_nova, gv_pLAYER_01_USER);
@@ -3535,6 +3539,8 @@ bool gt_StartGame01QGarrisonSpots_Func (bool testConds, bool runActions) {
         Wait(0.125, c_timeGame);
     }
     Wait(2.0, c_timeGame);
+    VisRevealArea(gv_pLAYER_01_USER, RegionFromId(89), 0.0, false);
+    VisRevealArea(gv_pLAYER_02_NOVASUPPORT, RegionFromId(89), 0.0, false);
     TriggerQueueEnter();
     libComC_gf_SetAllSoundChannelVolumesCampaign(libComC_ge_VolumeChannelModeCampaign_Speech);
     libNCMI_gf_SendTransmissionCampaign(null, "Mission_Nova03|Line00063", c_transmissionDurationAdd, 0.0, true, libNCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libNCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
@@ -3556,17 +3562,7 @@ bool gt_StartGame01QGarrisonSpots_Func (bool testConds, bool runActions) {
     TriggerEnable(gt_S1FirstInfestationSightedQ, true);
     Wait(2.0, c_timeReal);
     TriggerExecute(gt_TipReadyQ, true, false);
-    auto13FE49D1_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
-    if (auto13FE49D1_val == "Prot") {
-        lv_text = StringExternal("Param/Value/D89DFE35");
-    }
-    else if (auto13FE49D1_val == "Zerg") {
-        lv_text = StringExternal("Param/Value/BA8F8D92");
-    }
-    else {
-        lv_text = StringExternal("Param/Value/84AC4773");
-    }
-    HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/81401377"), libNtve_ge_TipType_MissionStrategy), lv_text, StringExternal("Param/Value/95F81049"), "AP\\Assets\\Textures\\AP_icon.dds");
+    gf_setGameplayTips();
     Wait(390.0, c_timeGame);
     TriggerExecute(gt_S1BonusObjectiveRevealQ, true, false);
     return true;
@@ -4001,6 +3997,7 @@ bool gt_S1GarrisonSpotsInit_Func (bool testConds, bool runActions) {
         UnitSetState(lv_unit, c_unitStateHighlightable, false);
         UnitSetState(lv_unit, c_unitStateTargetable, false);
         UnitSetOwner(lv_unit, 0, true);
+        UnitBehaviorAddPlayer(lv_unit, "GarrisonSuppressVision", gv_pLAYER_02_NOVASUPPORT, 1);
     }
     UnitSetOwner(gv_s1_GarrisonSpots[0].lv_garrisonTurret, 2, true);
     return true;
