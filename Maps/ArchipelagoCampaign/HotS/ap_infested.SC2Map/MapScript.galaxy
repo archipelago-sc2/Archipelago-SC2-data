@@ -63,6 +63,7 @@ struct gs_Virophage {
     int lv_attackedIndicator;
     bool lv_checkSent;
     int lv_location;
+    region lv_activateRegion;
 };
 
 //--------------------------------------------------------------------------------------------------
@@ -236,9 +237,11 @@ void InitGlobals () {
 //--------------------------------------------------------------------------------------------------
 // Global Function Declarations
 //--------------------------------------------------------------------------------------------------
+bool gf_CanInfestVirophage (unit lp_unit);
 void gf_HideKerrigan ();
 bool gf_PlayerIsInCombat (int lp_player);
 int gf_GetVirophageIndex (unit lp_virophage);
+void gf_BuildVirophage (int lp_index);
 void gf_ReactivateBulliesIfClear ();
 void gf_BeaconSwap (unit lp_beacon);
 void gf_InfestBuilding (unit lp_cHOSEN_UNIT);
@@ -287,7 +290,7 @@ trigger gt_ParasticDominationReminderHighlightsOff;
 trigger gt_TeachConsumption;
 trigger gt_TransmissionUseConsumptionQ;
 trigger gt_ConsumptionUsed;
-trigger gt_BuildVirophages;
+trigger gt_CheckVirophages;
 trigger gt_InfestGarrisons;
 trigger gt_TransmissionFirstVirophageSpawnedQ;
 trigger gt_TransmissionThirdVirophageSpawnedQ;
@@ -411,6 +414,22 @@ trigger gt_VictoryZerg;
 //--------------------------------------------------------------------------------------------------
 // Global Functions
 //--------------------------------------------------------------------------------------------------
+bool gf_CanInfestVirophage (unit lp_unit) {
+    // Variable Declarations
+    string lv_type;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_type = UnitGetType(lp_unit);
+
+    // Implementation
+    if (((lv_type == "AP_Infestor") || (lv_type == "AP_DefilerSCBW") || (lv_type == "AP_HiveQueen") || (lv_type == "AP_Ghost") || (lv_type == "AP_GhostResourceEfficiency") || (lv_type == "AP_Spectre") || (lv_type == "AP_SpectreResourceEfficiency") || (lv_type == "AP_GhostMengsk") || (lv_type == "AP_HighTemplar") || (lv_type == "AP_HighArchonTemplar") || (lv_type == "AP_HighTemplarShakuras") || (lv_type == "AP_HighTemplarTaldarim") || (lv_type == "AP_DarkArchon"))) {
+        return true;
+    }
+
+    return false;
+}
+
 void gf_HideKerrigan () {
     // Automatic Variable Declarations
     unitgroup auto0DABE6DB_g;
@@ -465,6 +484,59 @@ int gf_GetVirophageIndex (unit lp_virophage) {
 
     }
     return -1;
+}
+
+void gf_BuildVirophage (int lp_index) {
+    // Automatic Variable Declarations
+    string autoA3C448CB_val;
+    unitgroup auto7A95F5D2_g;
+    int auto7A95F5D2_u;
+    unit auto7A95F5D2_var;
+
+    // Implementation
+    if ((gv_virophageRecord[lp_index].lv_checkSent == false)) {
+        gv_virophageRecord[lp_index].lv_checkSent = true;
+        lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_virophageRecord[lp_index].lv_location);
+    }
+
+    autoA3C448CB_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoA3C448CB_val == "Neut") {
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, "Virophage", c_unitCreateConstruct | c_unitCreateIgnorePlacement, gv_pLAYER_06_INFESTED, gv_virophageRecord[lp_index].lv_virophagePosition);
+        libSwaC_gf_SetUnitInfoTextCampaign(UnitLastCreated(), null, StringExternal("Param/Value/B87FB62C"), null);
+    }
+    else if (autoA3C448CB_val == "Terr") {
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, "PsiIndoctrinator", c_unitCreateConstruct | c_unitCreateIgnorePlacement, gv_pLAYER_06_INFESTED, gv_virophageRecord[lp_index].lv_virophagePosition);
+        UnitSetProgressComplete(UnitLastCreated(), 1, 100);
+        libSwaC_gf_SetUnitInfoTextCampaign(UnitLastCreated(), null, StringExternal("Param/Value/7AB59958"), null);
+    }
+    else if (autoA3C448CB_val == "Prot") {
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, "ShipGeneratorSmall", c_unitCreateConstruct | c_unitCreateIgnorePlacement, gv_pLAYER_06_INFESTED, gv_virophageRecord[lp_index].lv_virophagePosition);
+        UnitSetProgressComplete(UnitLastCreated(), 1, 100);
+        libSwaC_gf_SetUnitInfoTextCampaign(UnitLastCreated(), null, StringExternal("Param/Value/4F7F99ED"), null);
+    }
+    else {
+    }
+    gv_virophageRecord[lp_index].lv_virophage = UnitLastCreated();
+    UnitGroupAdd(gv_virophages, UnitLastCreated());
+    UnitSetPropertyFixed(UnitLastCreated(), c_unitPropLifeMax, gv_virophageMaxLife);
+    UnitSetCustomValue(UnitLastCreated(), 1, 0.0);
+    if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
+        auto7A95F5D2_g = gv_virophageRecord[lp_index].lv_garrisonBuildings;
+        auto7A95F5D2_u = UnitGroupCount(auto7A95F5D2_g, c_unitCountAll);
+        for (;; auto7A95F5D2_u -= 1) {
+            auto7A95F5D2_var = UnitGroupUnitFromEnd(auto7A95F5D2_g, auto7A95F5D2_u);
+            if (auto7A95F5D2_var == null) { break; }
+            UnitCreateEffectUnit(UnitLastCreated(), "VirophageLaunchMissile", auto7A95F5D2_var);
+            UnitBehaviorAdd(auto7A95F5D2_var, "GarrisonInfestation", UnitLastCreated(), 1);
+        }
+        CreepModify(gv_virophageRecord[lp_index].lv_virophagePosition, 2.0, true, false);
+    }
+
+    if ((gv_virophageRecord[lp_index].lv_infested == false)) {
+        gv_virophageRecord[lp_index].lv_infested = true;
+        gf_BuildVirophageTumor(UnitGetPosition(gv_virophageRecord[lp_index].lv_beacon), UnitLastCreated());
+    }
+
 }
 
 void gf_ReactivateBulliesIfClear () {
@@ -868,10 +940,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 7;
+        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 0;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
@@ -1446,6 +1517,7 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     auto2CF8078E_ae = gv_virophageMaxIndex;
     auto2CF8078E_var = 1;
     for ( ; auto2CF8078E_var <= auto2CF8078E_ae; auto2CF8078E_var += 1 ) {
+        gv_virophageRecord[auto2CF8078E_var].lv_activateRegion = RegionCircle(UnitGetPosition(gv_virophageRecord[auto2CF8078E_var].lv_beacon), 1.25);
         CreepModify(gv_virophageRecord[auto2CF8078E_var].lv_virophagePosition, 12.0, false, false);
         auto0A0A7754_g = gv_virophageRecord[auto2CF8078E_var].lv_garrisonBuildings;
         auto0A0A7754_u = UnitGroupCount(auto0A0A7754_g, c_unitCountAll);
@@ -2615,16 +2687,22 @@ void gt_ConsumptionUsed_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Build Virophages
+// Trigger: Check Virophages
 //--------------------------------------------------------------------------------------------------
-bool gt_BuildVirophages_Func (bool testConds, bool runActions) {
+bool gt_CheckVirophages_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unitgroup lv_group;
+    region lv_region;
+
     // Automatic Variable Declarations
     int auto91E56966_ae;
     int auto91E56966_var;
-    string autoA3C448CB_val;
-    unitgroup auto7A95F5D2_g;
-    int auto7A95F5D2_u;
-    unit auto7A95F5D2_var;
+    unitgroup auto696AF412_g;
+    int auto696AF412_u;
+    unit auto696AF412_var;
+
+    // Variable Initialization
+    lv_group = UnitGroupEmpty();
 
     // Conditions
     if (testConds) {
@@ -2645,60 +2723,31 @@ bool gt_BuildVirophages_Func (bool testConds, bool runActions) {
     auto91E56966_ae = gv_virophageMaxIndex;
     auto91E56966_var = 1;
     for ( ; auto91E56966_var <= auto91E56966_ae; auto91E56966_var += 1 ) {
-        if (((UnitGroupCount(UnitGroup("AP_Infestor", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Ghost", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_GhostResourceEfficiency", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Spectre", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_SpectreResourceEfficiency", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_GhostMengsk", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_HighTemplar", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_HighArchonTemplar", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_HighTemplarShakuras", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_HighTemplarTaldarim", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_DarkArchon", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), 1.25), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0)) && ((gv_virophageRecord[auto91E56966_var].lv_virophage == null) || (UnitIsAlive(gv_virophageRecord[auto91E56966_var].lv_virophage) == false))) {
-            if ((gv_virophageRecord[auto91E56966_var].lv_checkSent == false)) {
-                gv_virophageRecord[auto91E56966_var].lv_checkSent = true;
-                lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_virophageRecord[auto91E56966_var].lv_location);
-            }
+        if ((gv_virophageRecord[auto91E56966_var].lv_virophage != null) && (UnitIsAlive(gv_virophageRecord[auto91E56966_var].lv_virophage) == true)) {
+            continue;
+        }
 
-            autoA3C448CB_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
-            if (autoA3C448CB_val == "Neut") {
-                libNtve_gf_CreateUnitsWithDefaultFacing(1, "Virophage", c_unitCreateConstruct | c_unitCreateIgnorePlacement, gv_pLAYER_06_INFESTED, gv_virophageRecord[auto91E56966_var].lv_virophagePosition);
-                libSwaC_gf_SetUnitInfoTextCampaign(UnitLastCreated(), null, StringExternal("Param/Value/B87FB62C"), null);
-            }
-            else if (autoA3C448CB_val == "Terr") {
-                libNtve_gf_CreateUnitsWithDefaultFacing(1, "PsiIndoctrinator", c_unitCreateConstruct | c_unitCreateIgnorePlacement, gv_pLAYER_06_INFESTED, gv_virophageRecord[auto91E56966_var].lv_virophagePosition);
-                UnitSetProgressComplete(UnitLastCreated(), 1, 100);
-                libSwaC_gf_SetUnitInfoTextCampaign(UnitLastCreated(), null, StringExternal("Param/Value/7AB59958"), null);
-            }
-            else if (autoA3C448CB_val == "Prot") {
-                libNtve_gf_CreateUnitsWithDefaultFacing(1, "ShipGeneratorSmall", c_unitCreateConstruct | c_unitCreateIgnorePlacement, gv_pLAYER_06_INFESTED, gv_virophageRecord[auto91E56966_var].lv_virophagePosition);
-                UnitSetProgressComplete(UnitLastCreated(), 1, 100);
-                libSwaC_gf_SetUnitInfoTextCampaign(UnitLastCreated(), null, StringExternal("Param/Value/4F7F99ED"), null);
-            }
-            else {
-            }
-            gv_virophageRecord[auto91E56966_var].lv_virophage = UnitLastCreated();
-            UnitGroupAdd(gv_virophages, UnitLastCreated());
-            UnitSetPropertyFixed(UnitLastCreated(), c_unitPropLifeMax, gv_virophageMaxLife);
-            UnitSetCustomValue(UnitLastCreated(), 1, 0.0);
-            if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
-                auto7A95F5D2_g = gv_virophageRecord[auto91E56966_var].lv_garrisonBuildings;
-                auto7A95F5D2_u = UnitGroupCount(auto7A95F5D2_g, c_unitCountAll);
-                for (;; auto7A95F5D2_u -= 1) {
-                    auto7A95F5D2_var = UnitGroupUnitFromEnd(auto7A95F5D2_g, auto7A95F5D2_u);
-                    if (auto7A95F5D2_var == null) { break; }
-                    UnitCreateEffectUnit(UnitLastCreated(), "VirophageLaunchMissile", auto7A95F5D2_var);
-                    UnitBehaviorAdd(auto7A95F5D2_var, "GarrisonInfestation", UnitLastCreated(), 1);
-                }
-                CreepModify(gv_virophageRecord[auto91E56966_var].lv_virophagePosition, 2.0, true, false);
-            }
-
-            if ((gv_virophageRecord[auto91E56966_var].lv_infested == false)) {
-                gv_virophageRecord[auto91E56966_var].lv_infested = true;
-                gf_BuildVirophageTumor(UnitGetPosition(gv_virophageRecord[auto91E56966_var].lv_beacon), UnitLastCreated());
+        lv_region = gv_virophageRecord[auto91E56966_var].lv_activateRegion;
+        lv_group = UnitGroup(null, gv_pLAYER_01_USER, lv_region, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        auto696AF412_g = lv_group;
+        auto696AF412_u = UnitGroupCount(auto696AF412_g, c_unitCountAll);
+        for (;; auto696AF412_u -= 1) {
+            auto696AF412_var = UnitGroupUnitFromEnd(auto696AF412_g, auto696AF412_u);
+            if (auto696AF412_var == null) { break; }
+            if (gf_CanInfestVirophage(auto696AF412_var)) {
+                gf_BuildVirophage(auto91E56966_var);
+                break;
             }
 
         }
-
     }
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_BuildVirophages_Init () {
-    gt_BuildVirophages = TriggerCreate("gt_BuildVirophages_Func");
-    TriggerAddEventTimePeriodic(gt_BuildVirophages, 0.5, c_timeGame);
+void gt_CheckVirophages_Init () {
+    gt_CheckVirophages = TriggerCreate("gt_CheckVirophages_Func");
+    TriggerAddEventTimePeriodic(gt_CheckVirophages, 0.5, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7103,7 +7152,6 @@ bool gt_ObjectiveInfestAllGarrisonsCreate_Func (bool testConds, bool runActions)
 
     // Automatic Variable Declarations
     string auto98F224FD_val;
-    string autoBDE0E668_val;
 
     // Variable Initialization
     lv_category = lib5BD4895D_ge_APObjectiveCategory_Extra;
@@ -7123,15 +7171,13 @@ bool gt_ObjectiveInfestAllGarrisonsCreate_Func (bool testConds, bool runActions)
     TriggerEnable(TriggerGetCurrent(), false);
     auto98F224FD_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto98F224FD_val == "Neut") {
-        ObjectiveCreate(StringExternal("Param/Value/48FFA1A3"), StringToText(""), c_objectiveStateHidden, false);
+        ObjectiveCreate(StringExternal("Param/Value/48FFA1A3"), StringToText(""), c_objectiveStateActive, true);
     }
     else if (auto98F224FD_val == "Terr") {
         ObjectiveCreate(StringExternal("Param/Value/6EBC2BE8"), StringToText(""), c_objectiveStateActive, true);
-        lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(ObjectiveLastCreated());
     }
     else if (auto98F224FD_val == "Prot") {
         ObjectiveCreate(StringExternal("Param/Value/3B19AF4B"), StringToText(""), c_objectiveStateActive, true);
-        lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(ObjectiveLastCreated());
     }
     else {
     }
@@ -7142,15 +7188,7 @@ bool gt_ObjectiveInfestAllGarrisonsCreate_Func (bool testConds, bool runActions)
     lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveInfestAllGarrisons, gv_LOCATION_ID_NORTH_GARRISON);
     lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveInfestAllGarrisons, gv_LOCATION_ID_CLOSE_SOUTHWEST_GARRISON);
     lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objectiveInfestAllGarrisons, gv_LOCATION_ID_FAR_SOUTHWEST_GARRISON);
-    autoBDE0E668_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
-    if (autoBDE0E668_val == "Terr") {
-        lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(gv_objectiveInfestAllGarrisons);
-    }
-    else if (autoBDE0E668_val == "Prot") {
-        lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(gv_objectiveInfestAllGarrisons);
-    }
-    else {
-    }
+    lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(ObjectiveLastCreated());
     lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveInfestAllGarrisons, true);
     Wait(libSwaC_gv_campaignObjectiveDelay, c_timeReal);
     return true;
@@ -8790,7 +8828,7 @@ void InitTriggers () {
     gt_TeachConsumption_Init();
     gt_TransmissionUseConsumptionQ_Init();
     gt_ConsumptionUsed_Init();
-    gt_BuildVirophages_Init();
+    gt_CheckVirophages_Init();
     gt_InfestGarrisons_Init();
     gt_TransmissionFirstVirophageSpawnedQ_Init();
     gt_TransmissionThirdVirophageSpawnedQ_Init();
