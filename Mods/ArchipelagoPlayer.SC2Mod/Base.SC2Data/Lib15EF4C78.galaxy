@@ -887,6 +887,14 @@ void lib15EF4C78_gf_AP_Player_ResetSoA (int lp_player) {
     lv_cooldown = "";
 
     // Implementation
+    if ((UnitIsAlive(lib15EF4C78_gv_pM_SoAUnit[lp_player]) == false)) {
+        lib15EF4C78_gf_AP_Player_CreateSoAUnit(lp_player);
+    }
+
+    if ((UnitIsAlive(lib15EF4C78_gv_pM_SoAAutonomousCaster[lp_player]) == false)) {
+        lib15EF4C78_gf_AP_Player_CreateSoAAutonomousCasterUnit(lp_player);
+    }
+
     lib15EF4C78_gf_SetSpearofAdunEnergy(lp_player, 0.0, lib15EF4C78_ge_SpearofAdunEnergyType_Percent);
     lv_index = 0;
     for ( ; ( (auto1FDA9E1B_ai >= 0 && lv_index <= auto1FDA9E1B_ae) || (auto1FDA9E1B_ai < 0 && lv_index >= auto1FDA9E1B_ae) ) ; lv_index += auto1FDA9E1B_ai ) {

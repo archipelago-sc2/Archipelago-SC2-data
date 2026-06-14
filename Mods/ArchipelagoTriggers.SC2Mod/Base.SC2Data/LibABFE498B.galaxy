@@ -29,7 +29,7 @@ void libABFE498B_InitVariables () {
 
     libABFE498B_gv_aP_Triggers_isBuild = true;
     libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss = libABFE498B_gv_aP_Triggers_MapConfig_MISSION_NOT_PROTOSS;
-    libABFE498B_gv_aP_Triggers_MapConfig_SoAControllingPlayers = PlayerGroupSingle(1);
+    libABFE498B_gv_aP_Triggers_MapConfig_SoAControllingPlayers = PlayerGroupSingle(lib5BD4895D_gf_AP_Core_getUser());
     libABFE498B_gv_aP_Triggers_Option_gameSpeed = c_gameSpeedNormal;
     libABFE498B_gv_aP_Triggers_Option_enableNova = true;
     libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Neut";
@@ -12253,23 +12253,57 @@ bool libABFE498B_gf_AP_Triggers_checkSoA (int lp_player, int lp_mode, bool lp_no
     // Variable Initialization
 
     // Implementation
-    if ((lp_mode == 0) && (libABFE498B_gv_aP_Triggers_Option_SoAPresence > 0) && ((libABFE498B_gv_aP_Triggers_Option_SoAPresence == 3) || ((libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss == libABFE498B_gv_aP_Triggers_MapConfig_MISSION_LOTV_PROTOSS) && ((libABFE498B_gv_aP_Triggers_Option_SoAPresence == 1) || (libABFE498B_gv_aP_Triggers_Option_SoAPresence == 2)) && ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut") || (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot"))) || ((((libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss == libABFE498B_gv_aP_Triggers_MapConfig_MISSION_PROTOSS_NOT_LOTV_MAIN) && (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) || (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) && (libABFE498B_gv_aP_Triggers_Option_SoAPresence == 2))) && (((lp_nobuildsection == false) && (libABFE498B_gv_aP_Triggers_isBuild == true)) || (libABFE498B_gv_aP_Triggers_Option_SoAPresenceNoBuild == true))) {
-        return true;
+    if ((lp_mode == 0)) {
+        return libABFE498B_gf_AP_Triggers_checkSoAActives(lp_nobuildsection);
     }
-
-    if ((lp_mode == 1) && (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts > 0) && ((libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts == 3) || ((libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss == libABFE498B_gv_aP_Triggers_MapConfig_MISSION_LOTV_PROTOSS) && ((libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts == 1) || (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts == 2)) && ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut") || (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot"))) || ((((libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss == libABFE498B_gv_aP_Triggers_MapConfig_MISSION_PROTOSS_NOT_LOTV_MAIN) && (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) || (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) && (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts == 2))) && (((lp_nobuildsection == false) && (libABFE498B_gv_aP_Triggers_isBuild == true)) || (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocastsNoBuild == true))) {
-        return true;
+    else {
+        return libABFE498B_gf_AP_Triggers_checkSoAPassives(lp_nobuildsection);
     }
-
     return false;
+}
+
+bool libABFE498B_gf_AP_Triggers_checkSoAActives (bool lp_nobuildsection) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((libABFE498B_gv_aP_Triggers_Option_SoAPresence <= 0)) {
+        return false;
+    }
+
+    if ((libABFE498B_gv_aP_Triggers_isBuild == false) && (libABFE498B_gv_aP_Triggers_Option_SoAPresenceNoBuild == false)) {
+        return false;
+    }
+
+    if ((lp_nobuildsection == true) && (libABFE498B_gv_aP_Triggers_Option_SoAPresenceNoBuild == false)) {
+        return false;
+    }
+
+    return true;
+}
+
+bool libABFE498B_gf_AP_Triggers_checkSoAPassives (bool lp_nobuildsection) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts <= 0)) {
+        return false;
+    }
+
+    if ((libABFE498B_gv_aP_Triggers_isBuild == false) && (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocastsNoBuild == false)) {
+        return false;
+    }
+
+    if ((lp_nobuildsection == true) && (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocastsNoBuild == false)) {
+        return false;
+    }
+
+    return true;
 }
 
 void libABFE498B_gf_AP_Triggers_startNoBuild (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
+    TriggerExecute(libABFE498B_gt_AP_Triggers_InitSoA, true, true);
     libABFE498B_gv_aP_Triggers_IsNoBuild = true;
-    TriggerExecute(libABFE498B_gt_AP_Triggers_InitSoA, true, false);
-    if ((libABFE498B_gf_AP_Triggers_checkSoA(lp_player, 0, true) == false)) {
+    if ((libABFE498B_gf_AP_Triggers_checkSoAActives(true) == false)) {
         lib15EF4C78_gf_ShowSpearofAdunUI(false, c_transitionDurationImmediate);
     }
     else {
@@ -12277,7 +12311,7 @@ void libABFE498B_gf_AP_Triggers_startNoBuild (int lp_player) {
         lib15EF4C78_gf_PauseUnpauseSpearofAdunCooldowns(lp_player, false);
         lib15EF4C78_gf_PauseUnpauseSpearofAdunAutocasts(lp_player, false);
     }
-    if ((libABFE498B_gf_AP_Triggers_checkSoA(lp_player, 1, true) == false)) {
+    if ((libABFE498B_gf_AP_Triggers_checkSoAPassives(true) == true)) {
     }
 
 }
@@ -13627,14 +13661,11 @@ void libABFE498B_gt_AP_Triggers_tradeStructureBuilt_Init () {
 // Trigger: AP_Triggers_InitSoA
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_InitSoA_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_currentPlayer;
-
     // Automatic Variable Declarations
-    playergroup auto93509108_g;
-    playergroup autoABD2DABB_g;
-
-    // Variable Initialization
+    playergroup auto54F0D074_g;
+    int auto54F0D074_var;
+    playergroup autoCAAC52DB_g;
+    int autoCAAC52DB_var;
 
     // Conditions
     if (testConds) {
@@ -13649,23 +13680,23 @@ bool libABFE498B_gt_AP_Triggers_InitSoA_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    if ((libABFE498B_gv_aP_Triggers_Option_SoAPresence > 0) && ((libABFE498B_gv_aP_Triggers_Option_SoAPresence == 3) || ((libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss == libABFE498B_gv_aP_Triggers_MapConfig_MISSION_LOTV_PROTOSS) && ((libABFE498B_gv_aP_Triggers_Option_SoAPresence == 1) || (libABFE498B_gv_aP_Triggers_Option_SoAPresence == 2)) && ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut") || (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot"))) || ((((libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss == libABFE498B_gv_aP_Triggers_MapConfig_MISSION_PROTOSS_NOT_LOTV_MAIN) && (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) || (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) && (libABFE498B_gv_aP_Triggers_Option_SoAPresence == 2))) && ((libABFE498B_gv_aP_Triggers_isBuild == true) || (libABFE498B_gv_aP_Triggers_Option_SoAPresenceNoBuild == true))) {
-        auto93509108_g = libABFE498B_gv_aP_Triggers_MapConfig_SoAControllingPlayers;
-        lv_currentPlayer = -1;
+    if ((libABFE498B_gf_AP_Triggers_checkSoAActives(libABFE498B_gv_aP_Triggers_IsNoBuild) == true)) {
+        auto54F0D074_g = libABFE498B_gv_aP_Triggers_MapConfig_SoAControllingPlayers;
+        auto54F0D074_var = -1;
         while (true) {
-            lv_currentPlayer = PlayerGroupNextPlayer(auto93509108_g, lv_currentPlayer);
-            if (lv_currentPlayer < 0) { break; }
-            lib15EF4C78_gf_AP_Player_CreateSoAUnit(lv_currentPlayer);
+            auto54F0D074_var = PlayerGroupNextPlayer(auto54F0D074_g, auto54F0D074_var);
+            if (auto54F0D074_var < 0) { break; }
+            lib15EF4C78_gf_AP_Player_CreateSoAUnit(auto54F0D074_var);
         }
     }
 
-    if ((libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts > 0) && ((libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts == 3) || ((libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss == libABFE498B_gv_aP_Triggers_MapConfig_MISSION_LOTV_PROTOSS) && ((libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts == 1) || (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts == 2)) && ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut") || (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot"))) || ((((libABFE498B_gv_aP_Triggers_MapConfig_Mission_Protoss == libABFE498B_gv_aP_Triggers_MapConfig_MISSION_PROTOSS_NOT_LOTV_MAIN) && (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) || (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) && (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocasts == 2))) && ((libABFE498B_gv_aP_Triggers_isBuild == true) || (libABFE498B_gv_aP_Triggers_Option_SoAPresenceAutocastsNoBuild == true))) {
-        autoABD2DABB_g = libABFE498B_gv_aP_Triggers_MapConfig_SoAControllingPlayers;
-        lv_currentPlayer = -1;
+    if ((libABFE498B_gf_AP_Triggers_checkSoAPassives(libABFE498B_gv_aP_Triggers_IsNoBuild) == true)) {
+        autoCAAC52DB_g = libABFE498B_gv_aP_Triggers_MapConfig_SoAControllingPlayers;
+        autoCAAC52DB_var = -1;
         while (true) {
-            lv_currentPlayer = PlayerGroupNextPlayer(autoABD2DABB_g, lv_currentPlayer);
-            if (lv_currentPlayer < 0) { break; }
-            lib15EF4C78_gf_AP_Player_CreateSoAAutonomousCasterUnit(lv_currentPlayer);
+            autoCAAC52DB_var = PlayerGroupNextPlayer(autoCAAC52DB_g, autoCAAC52DB_var);
+            if (autoCAAC52DB_var < 0) { break; }
+            lib15EF4C78_gf_AP_Player_CreateSoAAutonomousCasterUnit(autoCAAC52DB_var);
         }
     }
 
