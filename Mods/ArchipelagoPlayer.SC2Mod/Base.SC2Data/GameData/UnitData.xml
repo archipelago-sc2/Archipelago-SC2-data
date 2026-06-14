@@ -5585,12 +5585,12 @@
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
             <LayoutButtons Face="Lift" Type="AbilCmd" AbilCmd="AP_BarracksLiftOff,0" Row="2" Column="3"/>
             <LayoutButtons Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>
-            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,1" Row="2" Column="1"/>
-            <LayoutButtons Face="TechLabBarracks" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_Reactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,1" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_TechLabBarracks" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,0" Row="2" Column="0"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5,CancelLast" Row="2" Column="4"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,30" Row="2" Column="4"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,3" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_TechReactorBarracks" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,3" Row="2" Column="0"/>
             <LayoutButtons Face="AP_Medic" Type="AbilCmd" AbilCmd="AP_BarracksTrain,4" Row="1" Column="0"/>
             <LayoutButtons Face="AP_Firebat" Type="AbilCmd" AbilCmd="AP_BarracksTrain,5" Row="1" Column="1"/>
             <LayoutButtons Face="AP_Spectre" Type="AbilCmd" AbilCmd="AP_BarracksTrain,6" Row="0" Column="4"/>
@@ -5660,13 +5660,13 @@
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
         <CardLayouts>
             <LayoutButtons Face="Land" Type="AbilCmd" AbilCmd="AP_BarracksLand,Execute" Row="2" Column="3"/>
-            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build2" Row="2" Column="1"/>
-            <LayoutButtons Face="TechLabBarracks" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build1" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_Reactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build2" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_TechLabBarracks" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build1" Row="2" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build4" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_TechReactorBarracks" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build4" Row="2" Column="0"/>
             <LayoutButtons Face="AP_JuggernautThrusters" Type="Passive" Requirements="AP_HaveJuggernautThrusters" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="1.75"/>
@@ -5719,7 +5719,6 @@
         <AbilArray Link="que5"/>
         <AbilArray Link="AP_EliteBarracksTrain"/>
         <AbilArray Link="Rally"/>
-<!--        <AbilArray Link="AP_BarracksAddOns"/>-->
         <AbilArray Link="AP_BarracksMengskLiftOff"/>
         <BehaviorArray Link="AP_TerranBuildingBurnDown"/>
         <BehaviorArray Link="AP_ReactorQueue"/>
@@ -5732,13 +5731,10 @@
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
             <LayoutButtons Face="Lift" Type="AbilCmd" AbilCmd="AP_BarracksMengskLiftOff,0" Row="2" Column="3"/>
             <LayoutButtons Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>
-<!--            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,1" Row="2" Column="1"/>-->
-<!--            <LayoutButtons Face="TechLabBarracks" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,0" Row="2" Column="0"/>-->
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5,CancelLast" Row="2" Column="4"/>
 <!--            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,30" Row="2" Column="4"/>-->
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="SelectBuilder" Type="SelectBuilder" Row="1" Column="3"/>
-<!--            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,3" Row="2" Column="0"/>-->
         </CardLayouts>
         <Radius value="1.75"/>
         <SeparationRadius value="1.75"/>
@@ -5788,20 +5784,16 @@
         <RepairTime value="65"/>
         <AttackTargetPriority value="11"/>
         <AbilArray Link="AP_BarracksMengskLand"/>
-<!--        <AbilArray Link="AP_BarracksAddOns"/>-->
         <AbilArray Link="move"/>
         <AbilArray Link="stop"/>
         <BehaviorArray Link="AP_TerranBuildingBurnDown"/>
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
         <CardLayouts>
             <LayoutButtons Face="Land" Type="AbilCmd" AbilCmd="AP_BarracksMengskLand,Execute" Row="2" Column="3"/>
-<!--            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build2" Row="2" Column="1"/>-->
-<!--            <LayoutButtons Face="TechLabBarracks" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build1" Row="2" Column="0"/>-->
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-<!--            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_BarracksAddOns,Build4" Row="2" Column="0"/>-->
             <LayoutButtons Face="AP_JuggernautThrusters" Type="Passive" Requirements="AP_HaveJuggernautThrusters" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="1.75"/>
@@ -7399,12 +7391,12 @@
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
             <LayoutButtons Face="Lift" Type="AbilCmd" AbilCmd="AP_FactoryLiftOff,0" Row="2" Column="3"/>
             <LayoutButtons Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>
-            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,1" Row="2" Column="1"/>
-            <LayoutButtons Face="TechLabFactory" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_Reactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,1" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_TechLabFactory" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,0" Row="2" Column="0"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5,CancelLast" Row="2" Column="4"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,30" Row="2" Column="4"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,3" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_TechReactorFactory" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,3" Row="2" Column="0"/>
             <LayoutButtons Face="AP_Goliath" Type="AbilCmd" AbilCmd="AP_FactoryTrain,6" Row="1" Column="2"/>
             <LayoutButtons Face="AP_Diamondback" Type="AbilCmd" AbilCmd="AP_FactoryTrain,7" Row="1" Column="1"/>
             <LayoutButtons Face="AP_Vulture" Type="AbilCmd" AbilCmd="AP_FactoryTrain,8" Row="1" Column="0"/>
@@ -7478,13 +7470,13 @@
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
         <CardLayouts>
             <LayoutButtons Face="Land" Type="AbilCmd" AbilCmd="AP_FactoryLand,0" Row="2" Column="3"/>
-            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build2" Row="2" Column="1"/>
-            <LayoutButtons Face="BuildTechLabFactory" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build1" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_Reactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build2" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_TechLabFactory" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build1" Row="2" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build4" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_TechReactorFactory" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build4" Row="2" Column="0"/>
             <LayoutButtons Face="AP_JuggernautThrusters" Type="Passive" Requirements="AP_HaveJuggernautThrusters" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="1.625"/>
@@ -7537,7 +7529,6 @@
         <AbilArray Link="BuildInProgress"/>
         <AbilArray Link="que5"/>
         <AbilArray Link="AP_EliteFactoryTrain"/>
-<!--        <AbilArray Link="AP_FactoryAddOns"/>-->
         <AbilArray Link="Rally"/>
         <AbilArray Link="AP_FactoryMengskLiftOff"/>
         <BehaviorArray Link="AP_TerranBuildingBurnDown"/>
@@ -7550,12 +7541,9 @@
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
             <LayoutButtons Face="Lift" Type="AbilCmd" AbilCmd="AP_FactoryMengskLiftOff,0" Row="2" Column="3"/>
             <LayoutButtons Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>
-<!--            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,1" Row="2" Column="1"/>-->
-<!--            <LayoutButtons Face="TechLabFactory" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,0" Row="2" Column="0"/>-->
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5,CancelLast" Row="2" Column="4"/>
 <!--            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,30" Row="2" Column="4"/>-->
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
-<!--            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,3" Row="2" Column="0"/>-->
             <!-- Note: put this last so it can be overridden in the hotkeys menu -->
             <LayoutButtons Face="SelectBuilder" Type="SelectBuilder" Row="1" Column="3"/>
         </CardLayouts>
@@ -7608,7 +7596,6 @@
         <CostResource index="Vespene" value="100"/>
         <RepairTime value="60"/>
         <AttackTargetPriority value="11"/>
-<!--        <AbilArray Link="AP_FactoryAddOns"/>-->
         <AbilArray Link="AP_FactoryMengskLand"/>
         <AbilArray Link="move"/>
         <AbilArray Link="stop"/>
@@ -7616,13 +7603,10 @@
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
         <CardLayouts>
             <LayoutButtons Face="Land" Type="AbilCmd" AbilCmd="AP_FactoryMengskLand,0" Row="2" Column="3"/>
-<!--            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build2" Row="2" Column="1"/>-->
-<!--            <LayoutButtons Face="BuildTechLabFactory" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build1" Row="2" Column="0"/>-->
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-<!--            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_FactoryAddOns,Build4" Row="2" Column="0"/>-->
             <LayoutButtons Face="AP_JuggernautThrusters" Type="Passive" Requirements="AP_HaveJuggernautThrusters" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="1.625"/>
@@ -20031,14 +20015,14 @@
             <LayoutButtons Face="AP_Banshee" Type="AbilCmd" AbilCmd="AP_StarportTrain,1" Row="0" Column="3"/>
             <LayoutButtons Face="AP_Battlecruiser" Type="AbilCmd" AbilCmd="AP_StarportTrain,3" Row="0" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
-            <LayoutButtons Face="TechLabStarport" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build1" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_TechLabStarport" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build1" Row="2" Column="0"/>
             <LayoutButtons Face="AP_Reactor" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build2" Row="2" Column="1"/>
             <LayoutButtons Face="Lift" Type="AbilCmd" AbilCmd="AP_StarportLiftOff,0" Row="2" Column="3"/>
             <LayoutButtons Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5,CancelLast" Row="2" Column="4"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Halt" Row="2" Column="4"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build4" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_TechReactorStarport" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build4" Row="2" Column="0"/>
             <LayoutButtons Face="AP_Wraith" Type="AbilCmd" AbilCmd="AP_StarportTrain,7" Row="1" Column="0"/>
             <LayoutButtons Face="AP_BuildHercules" Type="AbilCmd" AbilCmd="AP_StarportTrain,5" Row="1" Column="1"/>
             <LayoutButtons Face="AP_BuildScienceVessel" Type="AbilCmd" AbilCmd="AP_StarportTrain,6" Row="1" Column="2"/>
@@ -20113,13 +20097,13 @@
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
         <CardLayouts>
             <LayoutButtons Face="Land" Type="AbilCmd" AbilCmd="AP_StarportLand,0" Row="2" Column="3"/>
-            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build2" Row="2" Column="1"/>
-            <LayoutButtons Face="BuildTechLabStarport" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build1" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_Reactor" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build2" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_TechLabStarport" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build1" Row="2" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_TechReactor" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build4" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_TechReactorStarport" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build4" Row="2" Column="0"/>
             <LayoutButtons Face="AP_JuggernautThrusters" Type="Passive" Requirements="AP_HaveJuggernautThrusters" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="1.625"/>
@@ -20171,7 +20155,6 @@
         <AttackTargetPriority value="11"/>
         <AbilArray Link="BuildInProgress"/>
         <AbilArray Link="que5"/>
-<!--        <AbilArray Link="AP_StarportAddOns"/>-->
         <AbilArray Link="AP_EliteStarportTrain"/>
         <AbilArray Link="Rally"/>
         <AbilArray Link="AP_StarportMengskLiftOff"/>
@@ -20185,8 +20168,6 @@
             <LayoutButtons Face="AP_BansheeMengsk" Type="AbilCmd" AbilCmd="AP_EliteStarportTrain,4" Row="0" Column="3"/>
             <LayoutButtons Face="AP_BattlecruiserMengsk" Type="AbilCmd" AbilCmd="AP_EliteStarportTrain,0" Row="0" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
-<!--            <LayoutButtons Face="TechLabStarport" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build1" Row="2" Column="0"/>-->
-<!--            <LayoutButtons Face="AP_Reactor" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build2" Row="2" Column="1"/>-->
             <LayoutButtons Face="Lift" Type="AbilCmd" AbilCmd="AP_StarportMengskLiftOff,0" Row="2" Column="3"/>
             <LayoutButtons Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5,CancelLast" Row="2" Column="4"/>
@@ -20254,7 +20235,6 @@
         <CostResource index="Vespene" value="100"/>
         <RepairTime value="50"/>
         <AttackTargetPriority value="11"/>
-<!--        <AbilArray Link="AP_StarportAddOns"/>-->
         <AbilArray Link="AP_StarportMengskLand"/>
         <AbilArray Link="move"/>
         <AbilArray Link="stop"/>
@@ -20262,8 +20242,6 @@
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
         <CardLayouts>
             <LayoutButtons Face="Land" Type="AbilCmd" AbilCmd="AP_StarportMengskLand,0" Row="2" Column="3"/>
-<!--            <LayoutButtons Face="Reactor" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build2" Row="2" Column="1"/>-->
-<!--            <LayoutButtons Face="BuildTechLabStarport" Type="AbilCmd" AbilCmd="AP_StarportAddOns,Build1" Row="2" Column="0"/>-->
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
