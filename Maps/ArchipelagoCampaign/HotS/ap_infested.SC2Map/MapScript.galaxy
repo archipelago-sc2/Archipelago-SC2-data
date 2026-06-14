@@ -6610,10 +6610,7 @@ bool gt_ObjectiveInfestGarrisonsCreate_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     auto300B9996_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
-    if (auto300B9996_val == "Neut") {
-        libSwaC_gf_CreateObjectiveCampaign("ZHybrid01Objective04");
-    }
-    else if (auto300B9996_val == "Terr") {
+    if (auto300B9996_val == "Terr") {
         ObjectiveCreate(StringExternal("Param/Value/FB44386C"), StringToText(""), c_objectiveStateActive, true);
         lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(ObjectiveLastCreated());
     }
@@ -6622,6 +6619,7 @@ bool gt_ObjectiveInfestGarrisonsCreate_Func (bool testConds, bool runActions) {
         lib5BD4895D_gf_AP_Core_addObjectiveExtraLine(ObjectiveLastCreated());
     }
     else {
+        libSwaC_gf_CreateObjectiveCampaign("ZHybrid01Objective04");
     }
     gv_objectiveInfestGarrisons = ObjectiveLastCreated();
     ObjectiveShow(gv_objectiveInfestGarrisons, PlayerGroupAll(), false);
@@ -6872,10 +6870,8 @@ bool gt_ObjectiveInfestorSurvivalCreate_Func (bool testConds, bool runActions) {
     else if (autoD62B1B82_val == "Terr") {
         lv_unitName = StringExternal("Param/Value/BE151C6D");
     }
-    else if (autoD62B1B82_val == "Zerg") {
-        lv_unitName = StringExternal("Param/Value/5732BCCA");
-    }
     else {
+        lv_unitName = StringExternal("Param/Value/5732BCCA");
     }
     libSwaC_gf_CreateObjectiveCampaign("ZHybrid01Objective05");
     gv_objectiveInfestorSurvival = ObjectiveLastCreated();
