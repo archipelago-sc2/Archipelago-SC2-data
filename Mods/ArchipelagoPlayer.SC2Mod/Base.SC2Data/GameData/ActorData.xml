@@ -15574,6 +15574,10 @@
             <Image value="Assets\Textures\wireframe-protoss-darktemplar-aiur-shield03.dds"/>
         </WireframeShield>
     </CActorUnit>
+    <CActorSound id="AP_DarkTemplarAiur_Death" parent="SoundOneShot">
+        <On Terms="UnitDeath.AP_DarkTemplarAiur; PassChance 25.000000" Send="Create"/>
+        <Sound value="AP_Avenger_Death"/>
+    </CActorSound>
     <CActorModel id="AP_DarkTemplarShadowHunterJumpLaunch" parent="ModelAnimationStyleOneShot">
         <EditorCategories value=""/>
         <Model value="AP_ZeratulBlinkOut"/>
@@ -15812,6 +15816,8 @@
     </CActorModelMaterial>
     <CActorSound id="AP_DarkTemplar_Death" parent="SoundOneShot">
         <On Terms="UnitDeath.AP_DarkTemplar; PassChance 25.000000" Send="Create"/>
+        <On Terms="UnitDeath.AP_DarkTemplarShakuras; PassChance 25.000000" Send="Create"/>
+        <On Terms="UnitDeath.AP_DarkTemplarTaldarim; PassChance 25.000000" Send="Create"/>
         <Sound value="DarkTemplar_Death"/>
     </CActorSound>
     <CActorSound id="AP_awrpSound" parent="SoundOneShot">
@@ -16239,7 +16245,8 @@
     </CActorModel>
     <CActorSound id="AP_HighTemplar_Death" parent="SoundOneShot">
         <On Terms="UnitDeathCustomize.AP_HighTemplar; ValidateUnit IsNotHallucination; PassChance 25.000000" Send="Create"/>
-        <On Terms="UnitDeathCustomize.AP_HighTemplarAir; ValidateUnit IsNotHallucination; PassChance 25.000000" Send="Create"/>
+        <On Terms="UnitDeathCustomize.AP_HighArchonTemplar; ValidateUnit IsNotHallucination; PassChance 25.000000" Send="Create"/>
+        <On Terms="UnitDeathCustomize.AP_HighTemplarShakuras; ValidateUnit IsNotHallucination; PassChance 25.000000" Send="Create"/>
         <Sound value="HighTemplar_Death"/>
     </CActorSound>
     <CActorSound id="AP_HighTemplarShakuras_Death" parent="SoundOneShot">
