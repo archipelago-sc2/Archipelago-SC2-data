@@ -13763,12 +13763,12 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func (bool test
     fixed lv_supplymadestart;
 
     // Automatic Variable Declarations
-    const int auto5AE03276_n = 2;
-    int auto5AE03276_i;
-    const int auto50A9B9D7_ae = 4;
-    const int auto50A9B9D7_ai = 1;
-    const int auto7FB41B96_n = 4;
-    int auto7FB41B96_i;
+    const int auto37BAA5A0_n = 2;
+    int auto37BAA5A0_i;
+    const int auto19379E3B_ae = 4;
+    const int auto19379E3B_ai = 1;
+    const int autoACB74886_n = 4;
+    int autoACB74886_i;
 
     // Variable Initialization
     lv_unit = EventUnitCreatedUnit();
@@ -13785,7 +13785,7 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func (bool test
     lv_supplyusedstart = PlayerGetPropertyFixed(lv_player, c_playerPropSuppliesUsed);
     lv_supplymadestart = PlayerGetPropertyFixed(lv_player, c_playerPropSuppliesMade);
     Wait(0.25, c_timeGame);
-    for (auto5AE03276_i = 1; auto5AE03276_i <= auto5AE03276_n; auto5AE03276_i += 1) {
+    for (auto37BAA5A0_i = 1; auto37BAA5A0_i <= auto37BAA5A0_n; auto37BAA5A0_i += 1) {
         lv_count += 1;
         lv_random = RandomInt(1, 4);
         libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count] = libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_random];
@@ -13794,7 +13794,7 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func (bool test
         libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count] = libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_random];
     }
     lv_index = 1;
-    for ( ; ( (auto50A9B9D7_ai >= 0 && lv_index <= auto50A9B9D7_ae) || (auto50A9B9D7_ai < 0 && lv_index >= auto50A9B9D7_ae) ) ; lv_index += auto50A9B9D7_ai ) {
+    for ( ; ( (auto19379E3B_ai >= 0 && lv_index <= auto19379E3B_ae) || (auto19379E3B_ai < 0 && lv_index >= auto19379E3B_ae) ) ; lv_index += auto19379E3B_ai ) {
         lv_supplycurrent = libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogUnit, (libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_index]), "Food", lv_player);
         lv_supply += lv_supplycurrent;
         if ((libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_index] == "AP_Supplicant")) {
@@ -13803,7 +13803,7 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsRandomize_Func (bool test
 
     }
     PlayerModifyPropertyFixed(lv_player, c_playerPropSuppliesMade, c_playerPropOperSetTo, PlayerGetPropertyFixed(lv_player, c_playerPropSuppliesLimit));
-    for (auto7FB41B96_i = 1; auto7FB41B96_i <= auto7FB41B96_n; auto7FB41B96_i += 1) {
+    for (autoACB74886_i = 1; autoACB74886_i <= autoACB74886_n; autoACB74886_i += 1) {
         libABFE498B_gf_AP_Triggers_warpInUnit(libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count], lv_player, PointWithOffsetPolar(lv_point, 2.0, (45+90*IntToFixed(lv_count))), true);
         if ((libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count] == "AP_Supplicant")) {
             libABFE498B_gf_AP_Triggers_warpInUnit(libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_count], lv_player, PointWithOffsetPolar(lv_point, 2.0, (45+90*IntToFixed(lv_count))), true);
@@ -13838,11 +13838,11 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInEvent_Func (bool testConds, bool runAct
     unit lv_unit;
 
     // Automatic Variable Declarations
-    const int auto64C8DE78_ae = 4;
-    const int auto64C8DE78_ai = 1;
-    unitgroup auto25462AEE_g;
-    int auto25462AEE_u;
-    unit auto25462AEE_var;
+    const int autoC402492A_ae = 4;
+    const int autoC402492A_ai = 1;
+    unitgroup auto0073FAFE_g;
+    int auto0073FAFE_u;
+    unit auto0073FAFE_var;
 
     // Variable Initialization
     lv_unit = libABFE498B_gf_AP_Triggers_getLastWarpedUnit();
@@ -13853,7 +13853,7 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInEvent_Func (bool testConds, bool runAct
     }
 
     lv_index = 1;
-    for ( ; ( (auto64C8DE78_ai >= 0 && lv_index <= auto64C8DE78_ae) || (auto64C8DE78_ai < 0 && lv_index >= auto64C8DE78_ae) ) ; lv_index += auto64C8DE78_ai ) {
+    for ( ; ( (autoC402492A_ai >= 0 && lv_index <= autoC402492A_ae) || (autoC402492A_ai < 0 && lv_index >= autoC402492A_ae) ) ; lv_index += autoC402492A_ai ) {
         if ((UnitGetType(lv_unit) == libABFE498B_gv_aP_Triggers_SoAReinforcementsCurrentType[lv_index])) {
             lv_valid = true;
         }
@@ -13863,15 +13863,15 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInEvent_Func (bool testConds, bool runAct
         return true;
     }
 
-    auto25462AEE_g = libABFE498B_gf_AP_Triggers_getLastWarpedUnits();
-    auto25462AEE_u = UnitGroupCount(auto25462AEE_g, c_unitCountAll);
-    for (;; auto25462AEE_u -= 1) {
-        auto25462AEE_var = UnitGroupUnitFromEnd(auto25462AEE_g, auto25462AEE_u);
-        if (auto25462AEE_var == null) { break; }
-        UnitSetPropertyFixed(auto25462AEE_var, c_unitPropLifePercent, 100.0);
-        UnitSetPropertyFixed(auto25462AEE_var, c_unitPropShieldsPercent, 100.0);
-        UnitSetFacing(auto25462AEE_var, 270.0, 0.0);
-        UnitBehaviorAdd(auto25462AEE_var, "AP_SOAWarpInReinforcementsVisuals", auto25462AEE_var, 1);
+    auto0073FAFE_g = libABFE498B_gf_AP_Triggers_getLastWarpedUnits();
+    auto0073FAFE_u = UnitGroupCount(auto0073FAFE_g, c_unitCountAll);
+    for (;; auto0073FAFE_u -= 1) {
+        auto0073FAFE_var = UnitGroupUnitFromEnd(auto0073FAFE_g, auto0073FAFE_u);
+        if (auto0073FAFE_var == null) { break; }
+        UnitSetPropertyFixed(auto0073FAFE_var, c_unitPropLifePercent, 100.0);
+        UnitSetPropertyFixed(auto0073FAFE_var, c_unitPropShieldsPercent, 100.0);
+        UnitSetFacing(auto0073FAFE_var, 270.0, 0.0);
+        UnitBehaviorAdd(auto0073FAFE_var, "AP_SOAWarpInReinforcementsVisuals", auto0073FAFE_var, 1);
     }
     return true;
 }
