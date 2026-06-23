@@ -279,6 +279,7 @@ trigger gt_S1FirstInfestationSightedQ;
 trigger gt_S1FirstInfestationDiesQ;
 trigger gt_S1UnitEntersGarrison;
 trigger gt_S1UnitEntersGarrisonTransportUnload;
+trigger gt_S1UnitEntersGarrisonWarpIn;
 trigger gt_S1UnitEntersGarrisonTransformerLanding;
 trigger gt_S1GarrisonFilledQ;
 trigger gt_S1GarrisonsAllFilledUp;
@@ -862,7 +863,7 @@ void gf_handleUnitGarrisonEnter (unit lp_enteredUnit) {
     // Variable Initialization
 
     // Implementation
-    if ((libNCMI_gf_GameIsOver() == false) && (libNCMI_gf_PlayerInCinematicModeCampaign() == false) && (TriggerIsEnabled(TriggerGetCurrent()) == true) && (lp_enteredUnit != gv_nova) && (UnitFilterMatch(lp_enteredUnit, gv_pLAYER_01_USER, UnitFilter((1 << c_targetFilterGround), 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterWorker) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)))) == true) && (UnitHasBehavior(lp_enteredUnit, "AP_HallucinationTimedLife") == false) && (UnitHasBehavior(lp_enteredUnit, "AP_HighTemplarSCBWHallucination@TimedLife") == false) && (gv_currentStage == 1)) {
+    if ((libNCMI_gf_GameIsOver() == false) && (libNCMI_gf_PlayerInCinematicModeCampaign() == false) && (TriggerIsEnabled(TriggerGetCurrent()) == true) && (lp_enteredUnit != gv_nova) && (UnitFilterMatch(lp_enteredUnit, gv_pLAYER_01_USER, UnitFilter((1 << c_targetFilterGround), 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterWorker) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterHallucination - 32)) | (1 << (c_targetFilterSummoned - 32)))) == true) && (UnitHasBehavior(lp_enteredUnit, "AP_HallucinationTimedLife") == false) && (UnitHasBehavior(lp_enteredUnit, "AP_HighTemplarSCBWHallucination@TimedLife") == false) && (gv_currentStage == 1)) {
         autoA03C75C1_ae = gv_s1_GarrisonSpotsCount;
         lv_iter = 1;
         for ( ; ( (autoA03C75C1_ai >= 0 && lv_iter <= autoA03C75C1_ae) || (autoA03C75C1_ai < 0 && lv_iter >= autoA03C75C1_ae) ) ; lv_iter += autoA03C75C1_ai ) {
@@ -4233,7 +4234,7 @@ bool gt_S1UnitEntersGarrison_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((UnitFilterMatch(EventUnit(), gv_pLAYER_01_USER, UnitFilter((1 << c_targetFilterGround), 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterWorker) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)))) == true))) {
+        if (!((UnitFilterMatch(EventUnit(), gv_pLAYER_01_USER, UnitFilter((1 << c_targetFilterGround), 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterWorker) | (1 << c_targetFilterMissile), (1 << (c_targetFilterUnderConstruction - 32)) | (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)))) == true))) {
             return false;
         }
 
@@ -4305,6 +4306,51 @@ bool gt_S1UnitEntersGarrisonTransportUnload_Func (bool testConds, bool runAction
 void gt_S1UnitEntersGarrisonTransportUnload_Init () {
     gt_S1UnitEntersGarrisonTransportUnload = TriggerCreate("gt_S1UnitEntersGarrisonTransportUnload_Func");
     TriggerAddEventUnitCargo(gt_S1UnitEntersGarrisonTransportUnload, null, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: S1 - Unit Enters Garrison Warp In
+//--------------------------------------------------------------------------------------------------
+bool gt_S1UnitEntersGarrisonWarpIn_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((gv_currentStage == 1))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_unit = EventUnitProgressUnit();
+    gf_handleUnitGarrisonEnter(lv_unit);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_S1UnitEntersGarrisonWarpIn_Init () {
+    gt_S1UnitEntersGarrisonWarpIn = TriggerCreate("gt_S1UnitEntersGarrisonWarpIn_Func");
+    TriggerAddEventUnitConstructProgress(gt_S1UnitEntersGarrisonWarpIn, null, c_unitProgressStageComplete);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -12514,6 +12560,7 @@ void InitTriggers () {
     gt_S1FirstInfestationDiesQ_Init();
     gt_S1UnitEntersGarrison_Init();
     gt_S1UnitEntersGarrisonTransportUnload_Init();
+    gt_S1UnitEntersGarrisonWarpIn_Init();
     gt_S1UnitEntersGarrisonTransformerLanding_Init();
     gt_S1GarrisonFilledQ_Init();
     gt_S1GarrisonsAllFilledUp_Init();
