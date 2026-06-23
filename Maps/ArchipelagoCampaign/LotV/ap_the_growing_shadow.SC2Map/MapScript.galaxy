@@ -201,6 +201,7 @@ trigger gt_DebugStage2;
 trigger gt_DebugStage3;
 trigger gt_DebugStage1Cleanup;
 trigger gt_DebugStage2Cleanup;
+trigger gt_DebugVictory;
 trigger gt_StartGameStage1Q;
 trigger gt_StartGameStage2Q;
 trigger gt_StartGameStage3Q;
@@ -1589,6 +1590,47 @@ bool gt_DebugStage2Cleanup_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DebugStage2Cleanup_Init () {
     gt_DebugStage2Cleanup = TriggerCreate("gt_DebugStage2Cleanup_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug - Victory
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugVictory_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((libVCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(EventPlayer()) == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/FE58DD22"), true);
+    TriggerExecute(gt_VictorySequence, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugVictory_Init () {
+    gt_DebugVictory = TriggerCreate("gt_DebugVictory_Func");
+    TriggerAddEventChatMessage(gt_DebugVictory, c_playerAny, "-win", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -8603,6 +8645,7 @@ void InitTriggers () {
     gt_DebugStage3_Init();
     gt_DebugStage1Cleanup_Init();
     gt_DebugStage2Cleanup_Init();
+    gt_DebugVictory_Init();
     gt_StartGameStage1Q_Init();
     gt_StartGameStage2Q_Init();
     gt_StartGameStage3Q_Init();
