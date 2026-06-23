@@ -956,7 +956,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
+        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 0;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gf_AP_Triggers_Debug_Tech(gv_p01_USER, 2);
@@ -1006,7 +1006,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1116,23 +1115,8 @@ bool gt_onDifficultyBrutal_Func (bool testConds, bool runActions) {
     unit lv_currentUnit;
 
     // Automatic Variable Declarations
-    unitgroup autoDF3BFBF4_g;
-    int autoDF3BFBF4_u;
-
     // Variable Initialization
 
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoDF3BFBF4_g = UnitGroupFromId(4);
-    autoDF3BFBF4_u = UnitGroupCount(autoDF3BFBF4_g, c_unitCountAll);
-    for (;; autoDF3BFBF4_u -= 1) {
-        lv_currentUnit = UnitGroupUnitFromEnd(autoDF3BFBF4_g, autoDF3BFBF4_u);
-        if (lv_currentUnit == null) { break; }
-        UnitRemove(lv_currentUnit);
-    }
     return true;
 }
 
@@ -1503,6 +1487,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init04Music, true, true);
     TriggerExecute(gt_Init05Environment, true, true);
     TriggerExecute(gt_Init06Difficulties, true, true);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroQ, true, false);
     return true;
 }
