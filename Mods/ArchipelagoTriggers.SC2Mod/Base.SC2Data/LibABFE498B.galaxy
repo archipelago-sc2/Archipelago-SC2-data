@@ -12812,59 +12812,84 @@ void libABFE498B_gt_AP_HeroChoiceClicked_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_ImmortalStarter
+// Trigger: AP_Triggers_ImmortalEternalDuty
 //--------------------------------------------------------------------------------------------------
-bool libABFE498B_gt_AP_Triggers_ImmortalStarter_Func (bool testConds, bool runActions) {
+bool libABFE498B_gt_AP_Triggers_ImmortalEternalDuty_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_caster;
     int lv_player;
+    const string lv_tYPE = "AP_ImmortalAiur";
     point lv_point;
-    unit lv_u;
-    unitgroup lv_group;
 
     // Automatic Variable Declarations
-    fixed auto56CEAD7E_at;
-    unitgroup autoF86078AC_g;
-    int autoF86078AC_u;
-
     // Variable Initialization
     lv_caster = EventPlayerEffectUsedUnit(c_effectUnitCaster);
     lv_player = UnitGetOwner(lv_caster);
-    lv_point = UnitTypePlacementFromUnit("AP_ImmortalAiur", 1, lv_caster, 5.0);
-    lv_group = UnitGroupEmpty();
+    lv_point = UnitTypePlacementFromUnit(lv_tYPE, lv_player, lv_caster, 5.0);
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    PlayerModifyPropertyInt(0, c_playerPropSuppliesMade, c_playerPropOperSetTo, 1000);
-    libABFE498B_gv_aP_Triggers_lastWarpedUnit = null;
-    libABFE498B_gv_aP_Triggers_lastWarpedUnits = UnitGroupEmpty();
-    libABFE498B_gf_AP_Triggers_warpInUnit("AP_ImmortalAiur", 0, lv_point, true);
-    auto56CEAD7E_at = 0;
-    while (!((UnitGetType(libABFE498B_gf_AP_Triggers_getLastWarpedUnit()) == "AP_ImmortalAiur")) && auto56CEAD7E_at <= 10.0) {
-        Wait(0.0625, c_timeGame);
-        auto56CEAD7E_at = auto56CEAD7E_at + 0.0625;
+    PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesMade, c_playerPropOperAdd, 1000);
+    PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesLimit, c_playerPropOperAdd, 1000);
+    libABFE498B_gf_AP_Triggers_warpInUnit(lv_tYPE, lv_player, PointWithOffset(lv_point, -1.0, 0.0), true);
+    libABFE498B_gf_AP_Triggers_warpInUnit(lv_tYPE, lv_player, PointWithOffset(lv_point, 1.0, 0.0), true);
+    PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesMade, c_playerPropOperSubtract, 1000);
+    PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesLimit, c_playerPropOperSubtract, 1000);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_ImmortalEternalDuty_Init () {
+    libABFE498B_gt_AP_Triggers_ImmortalEternalDuty = TriggerCreate("libABFE498B_gt_AP_Triggers_ImmortalEternalDuty_Func");
+    TriggerAddEventPlayerEffectUsed(libABFE498B_gt_AP_Triggers_ImmortalEternalDuty, c_playerAny, "AP_ImmortalStarterDummy");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_ImmortalEternalDutyWarpedIn
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_ImmortalEternalDutyWarpedIn_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    const string lv_tYPE = "AP_ImmortalAiur";
+    unit lv_u;
+    unitgroup lv_group;
+
+    // Automatic Variable Declarations
+    unitgroup auto7BA283DE_g;
+    int auto7BA283DE_u;
+
+    // Variable Initialization
+    lv_group = UnitGroupEmpty();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(libABFE498B_gf_AP_Triggers_getLastWarpedUnit()) == lv_tYPE))) {
+            return false;
+        }
     }
-    lv_group = UnitGroupFilter("AP_ImmortalAiur", 0, libABFE498B_gf_AP_Triggers_getLastWarpedUnits(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    autoF86078AC_g = lv_group;
-    autoF86078AC_u = UnitGroupCount(autoF86078AC_g, c_unitCountAll);
-    for (;; autoF86078AC_u -= 1) {
-        lv_u = UnitGroupUnitFromEnd(autoF86078AC_g, autoF86078AC_u);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_group = UnitGroupFilter(lv_tYPE, c_playerAny, libABFE498B_gf_AP_Triggers_getLastWarpedUnits(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto7BA283DE_g = lv_group;
+    auto7BA283DE_u = UnitGroupCount(auto7BA283DE_g, c_unitCountAll);
+    for (;; auto7BA283DE_u -= 1) {
+        lv_u = UnitGroupUnitFromEnd(auto7BA283DE_g, auto7BA283DE_u);
         if (lv_u == null) { break; }
-        UnitCreate(1, "AP_PowerRadius1", c_unitCreateIgnorePlacement, lv_player, UnitGetPosition(lv_u), 270.0);
-        UnitBehaviorAdd(UnitLastCreated(), "AP_TimedLife6s", UnitLastCreated(), 1);
         UnitBehaviorAdd(lv_u, "PermanentSuppressFoodUsed", lv_u, 1);
-        UnitSetOwner(lv_u, lv_player, true);
     }
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libABFE498B_gt_AP_Triggers_ImmortalStarter_Init () {
-    libABFE498B_gt_AP_Triggers_ImmortalStarter = TriggerCreate("libABFE498B_gt_AP_Triggers_ImmortalStarter_Func");
-    TriggerAddEventPlayerEffectUsed(libABFE498B_gt_AP_Triggers_ImmortalStarter, c_playerAny, "AP_ImmortalStarterDummy");
+void libABFE498B_gt_AP_Triggers_ImmortalEternalDutyWarpedIn_Init () {
+    libABFE498B_gt_AP_Triggers_ImmortalEternalDutyWarpedIn = TriggerCreate("libABFE498B_gt_AP_Triggers_ImmortalEternalDutyWarpedIn_Func");
+    TriggerAddEventGeneric(libABFE498B_gt_AP_Triggers_ImmortalEternalDutyWarpedIn, libABFE498B_gv_aP_Triggers_WARPIN_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -14074,7 +14099,8 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_techTreeInit_Init();
     libABFE498B_gt_UpgradeProtossStructures_Init();
     libABFE498B_gt_AP_HeroChoiceClicked_Init();
-    libABFE498B_gt_AP_Triggers_ImmortalStarter_Init();
+    libABFE498B_gt_AP_Triggers_ImmortalEternalDuty_Init();
+    libABFE498B_gt_AP_Triggers_ImmortalEternalDutyWarpedIn_Init();
     libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init();
     libABFE498B_gt_AP_Triggers_Debug_takeControl_Init();
     libABFE498B_gt_AP_Triggers_Debug_clearQueue_Init();
