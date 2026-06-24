@@ -16668,7 +16668,7 @@
     </CActorSound>
     <CActorPower id="AP_Power">
         <On Terms="Behavior.AP_PowerSource.Create; !Option Model Low" Send="Create"/>
-        <On Terms="Behavior.AP_PowerSource.Destroy; !Option Model Low" Send="Destroy"/>
+        <On Terms="Behavior.AP_PowerSource.Destroy" Send="Destroy"/>
         <On Terms="Behavior.AP_PowerSourceFast.Enable; !Option Model Low" Send="Destroy"/>
         <On Terms="Behavior.AP_PowerSourceFast.Disable; !Option Model Low" Send="Create"/>
         <PowerSource value="PowerSource"/>
@@ -16676,8 +16676,8 @@
         <VisualArray value="PowerVisual"/>
     </CActorPower>
     <CActorPower id="AP_PowerLow">
-        <On Terms="Behavior.AP_PowerSource.Create; Option Model Low" Send="Create"/>
-        <On Terms="Behavior.AP_PowerSource.Destroy; Option Model Low" Send="Destroy"/>
+        <On Terms="Behavior.AP_PowerSource.Create; Option Model Low; !ValidatePlayer AP_HavePylonImproved" Send="Create"/>
+        <On Terms="Behavior.AP_PowerSource.Destroy" Send="Destroy"/>
         <On Terms="Behavior.AP_PowerSourceFast.Enable; Option Model Low" Send="Destroy"/>
         <On Terms="Behavior.AP_PowerSourceFast.Disable; Option Model Low" Send="Create"/>
         <PowerSource value="PowerSource"/>
@@ -25889,14 +25889,14 @@
     </CActorSound>
     <CActorPower id="AP_WarpPrismPower">
         <On Terms="Behavior.AP_WarpPrismPowerSource.Create; !Option Model Low; !ValidateUnit AP_HaveWarpPrismWarConfiguration" Send="Create"/>
-        <On Terms="Behavior.AP_WarpPrismPowerSource.Destroy; !Option Model Low; !ValidateUnit AP_HaveWarpPrismWarConfiguration" Send="Destroy"/>
+        <On Terms="Behavior.AP_WarpPrismPowerSource.Destroy" Send="Destroy"/>
         <On Terms="Upgrade.AP_WarpPrismWarConfiguration.Add" Send="Destroy"/>
         <VisualArray value="WarpPrismUnpoweredVisual"/>
         <VisualArray value="WarpPrismPowerVisual"/>
     </CActorPower>
     <CActorPower id="AP_WarpPrismPowerLow">
         <On Terms="Behavior.AP_WarpPrismPowerSource.Create; Option Model Low; !ValidateUnit AP_HaveWarpPrismWarConfiguration" Send="Create"/>
-        <On Terms="Behavior.AP_WarpPrismPowerSource.Destroy; Option Model Low; !ValidateUnit AP_HaveWarpPrismWarConfiguration" Send="Destroy"/>
+        <On Terms="Behavior.AP_WarpPrismPowerSource.Destroy" Send="Destroy"/>
         <On Terms="Upgrade.AP_WarpPrismWarConfiguration.Add" Send="Destroy"/>
         <PowerSource value="AP_WarpPrismPowerSource"/>
         <VisualArray value="WarpPrismUnpoweredVisualLow"/>
@@ -25904,20 +25904,68 @@
     </CActorPower>
     <CActorPower id="AP_WarpPrismPowerUpgraded">
         <On Terms="Behavior.AP_WarpPrismPowerSourceUpgraded.Create; !Option Model Low; ValidateUnit AP_HaveWarpPrismWarConfiguration" Send="Create"/>
-        <On Terms="Behavior.AP_WarpPrismPowerSourceUpgraded.Destroy; !Option Model Low; ValidateUnit AP_HaveWarpPrismWarConfiguration" Send="Destroy"/>
+        <On Terms="Behavior.AP_WarpPrismPowerSourceUpgraded.Destroy" Send="Destroy"/>
         <On Terms="Upgrade.AP_WarpPrismWarConfiguration.Add; !Option Model Low; ValidateUnit AP_IsAPWarpPrismPhasing" Send="Create"/>
         <PowerSource value="AP_WarpPrismPowerSourceUpgraded"/>
-        <VisualArray value="UnpoweredVisual"/>
-        <VisualArray value="PowerVisual"/>
+        <VisualArray value="AP_WarpPrismUnpoweredVisualUpgrade"/>
+        <VisualArray value="AP_WarpPrismPowerVisualUpgrade"/>
     </CActorPower>
+    <CActorSplat id="AP_WarpPrismPowerVisualUpgrade">
+        <FogVisibility value="Visible"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <FadeIn value="0.000000"/>
+        <FadeOut value="0.000000"/>
+        <HoldTime value="-1.000000"/>
+        <Layer value="PowerLayer"/>
+        <Model value="PowerVisual"/>
+    </CActorSplat>
+    <CActorSplat id="AP_WarpPrismUnpoweredVisualUpgrade">
+        <FogVisibility value="Visible"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <FadeIn value="0.000000"/>
+        <FadeOut value="0.000000"/>
+        <HoldTime value="-1.000000"/>
+        <Layer value="PowerLayer"/>
+        <Model value="UnpoweredVisual"/>
+    </CActorSplat>
     <CActorPower id="AP_WarpPrismPowerLowUpgraded">
         <On Terms="Behavior.AP_WarpPrismPowerSourceUpgraded.Create; Option Model Low; ValidateUnit AP_HaveWarpPrismWarConfiguration" Send="Create"/>
-        <On Terms="Behavior.AP_WarpPrismPowerSourceUpgraded.Destroy; Option Model Low; ValidateUnit AP_HaveWarpPrismWarConfiguration" Send="Destroy"/>
+        <On Terms="Behavior.AP_WarpPrismPowerSourceUpgraded.Destroy" Send="Destroy"/>
         <On Terms="Upgrade.AP_WarpPrismWarConfiguration.Add; Option Model Low; ValidateUnit AP_IsAPWarpPrismPhasing" Send="Create"/>
         <PowerSource value="AP_WarpPrismPowerSourceUpgraded"/>
-        <VisualArray value="AP_UnpoweredVisualLow"/>
-        <VisualArray value="AP_PowerVisualLow"/>
+        <VisualArray value="AP_WarpPrismUnpoweredVisualLowUpgrade"/>
+        <VisualArray value="AP_WarpPrismPowerVisualLowUpgrade"/>
     </CActorPower>
+    <CActorRange id="AP_WarpPrismPowerVisualLowUpgrade">
+        <Behavior value="AP_WarpPrismPowerSourceUpgraded"/>
+        <Icon value="Assets\Textures\PylonLowRingSplat.dds"/>
+        <IconArcLength value="0.750000"/>
+    </CActorRange>
+    <CActorRange id="AP_WarpPrismUnpoweredVisualLowUpgrade">
+        <Behavior value="AP_WarpPrismPowerSourceUpgraded"/>
+        <Icon value="Assets\Textures\PylonLowRingSplatGrey.dds"/>
+        <IconArcLength value="0.750000"/>
+    </CActorRange>
+    <CActorPower id="AP_PylonPowerLowUpgrade">
+        <On Terms="Behavior.AP_PylonImprovedPowerSource.Create; Option Model Low; ValidatePlayer AP_HavePylonImproved" Send="Create"/>
+        <On Terms="Behavior.AP_PylonImprovedPowerSource.Destroy" Send="Destroy"/>
+        <On Terms="Upgrade.AP_PylonImproved.Add; Option Model Low" Send="Create"/>
+        <PowerSource value="AP_PylonImprovedPowerSource"/>
+        <VisualArray value="AP_PylonUnpoweredVisualLowUpgrade"/>
+        <VisualArray value="AP_PylonPowerVisualLowUpgrade"/>
+    </CActorPower>
+    <CActorRange id="AP_PylonPowerVisualLowUpgrade">
+        <Behavior value="AP_PylonImprovedPowerSource"/>
+        <Icon value="Assets\Textures\PylonLowRingSplat.dds"/>
+        <IconArcLength value="0.750000"/>
+    </CActorRange>
+    <CActorRange id="AP_PylonUnpoweredVisualLowUpgrade">
+        <Behavior value="AP_PylonImprovedPowerSource"/>
+        <Icon value="Assets\Textures\PylonLowRingSplatGrey.dds"/>
+        <IconArcLength value="0.750000"/>
+    </CActorRange>
     <CActorTurret id="AP_WarpPrismPhasingRotateTurret">
         <On Terms="TurretEnable.AP_WarpPrismPhasingRotate" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrismPhasing" Send="Destroy"/>
