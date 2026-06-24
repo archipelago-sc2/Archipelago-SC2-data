@@ -25759,11 +25759,16 @@
         <On Terms="Signal.*.PurifierHack" Send="TextureSelectById PurifierHackDiffuse"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_IsTerrazineShadow" Send="DeathCustomize Hallucination"/>
         <On Terms="Behavior.WarpInEffect15.Off; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap DarkWarpPrism"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
+        <On Terms="UnitBirth; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
+        <On Terms="Upgrade.AP_WarpPrismPhaseBlaster.Add" Send="ModelSwap AP_WarpPrismTaldarim"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveWarpPrismPhaseBlaster" Send="DeathCustomize Taldarim"/>
         <Model value="WarpPrism"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <BuildModel value="WarpPrismWarpIn"/>
         <DeathArray index="Normal" ModelLink="WarpPrismDeath" SoundLink="WarpPrism_Explode"/>
         <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
+        <DeathCustoms ModelLink="AP_WarpPrismTaldarimDeath" SoundLink="WarpPrism_Explode" Name="Taldarim"/>
         <DeathCustoms ModelLink="DarkWarpPrismDeath" Name="DarkProtoss"/>
         <DeathCustoms>
             <ActorModel value="WarpPrismDeathRagdoll"/>
@@ -25837,12 +25842,17 @@
         <On Terms="Upgrade.AP_PurifierProtoss.Add" Send="TextureSelectById PurifierHackDiffuse"/>
         <On Terms="Signal.*.PurifierHack" Send="TextureSelectById PurifierHackDiffuse"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_IsTerrazineShadow" Send="DeathCustomize Hallucination"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
+        <On Terms="UnitBirth; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
+        <On Terms="Upgrade.AP_WarpPrismPhaseBlaster.Add" Send="ModelSwap AP_WarpPrismTaldarim"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveWarpPrismPhaseBlaster" Send="DeathCustomize Taldarim"/>
         <Model value="WarpPrism"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <BuildModel value="WarpPrism"/>
         <DeathArray index="Normal" ModelLink="WarpPrismOpenDeath" SoundLink="WarpPrism_Explode"/>
         <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
         <DeathCustoms ModelLink="DarkWarpPrismOpenDeath" Name="DarkProtoss"/>
+        <DeathCustoms ModelLink="AP_WarpPrismTaldarimPhasingDeath" SoundLink="WarpPrism_Explode" Name="Taldarim"/>
         <DeathCustoms ModelLink="WarpPrismPhasingDeathRagdoll" Name="RagdollBasic" PhysicsMatchKeysOrdered="BasicAir,Basic">
             <BodySquibs Name="Basic" Model="ProtossRobotSquibDeathRagdoll"/>
         </DeathCustoms>
