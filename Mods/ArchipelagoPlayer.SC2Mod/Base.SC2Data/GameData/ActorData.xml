@@ -25735,20 +25735,20 @@
         <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrism; MorphTo AP_WarpPrismPhasing" Send="Destroy"/>
         <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrismPhasing; MorphTo AP_WarpPrism" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrismPhasing; MorphTo AP_WarpPrism" Send="AnimPlay Work Work,End 0 0.000000"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrismPhasing; MorphTo AP_WarpPrism; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="Behavior.Hallucination.On" Send="Create HallucinationBirthSoundMedium"/>
         <On Terms="UnitDeathCustomize; ValidateUnit IsHallucination" Send="DeathCustomize Hallucination"/>
-        <On Terms="Behavior.WarpInEffect15.On; !ValidateUnit AP_NoDarkProtoss" Send="ModelSwap WarpPrismWarpIn"/>
-        <On Terms="Behavior.WarpInEffect15.On; !ValidateUnit AP_NoDarkProtoss" Send="$Birth"/>
-        <On Terms="Behavior.WarpInEffect15.Off; !ValidateUnit AP_NoDarkProtoss" Send="ModelSwap WarpPrism"/>
-        <On Terms="Behavior.WarpInEffect15.Off; !ValidateUnit AP_NoDarkProtoss" Send="AnimBaselineStart"/>
         <On Terms="Upgrade.DarkProtoss.Add" Send="ModelSwap DarkWarpPrism"/>
         <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap AP_DarkWarpPrism"/>
         <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrismPhasing; MorphTo AP_WarpPrism; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap DarkWarpPrism"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomize DarkProtoss"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create AP_WarpPrism_Land"/>
-        <On Terms="Behavior.WarpInEffect15.On" Send="ModelSwap WarpPrismWarpIn"/>
+        <On Terms="Behavior.WarpInEffect15.On; !ValidateUnit AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap WarpPrismWarpIn"/>
+        <On Terms="Behavior.WarpInEffect15.On; ValidateUnit AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarimWarpIn"/>
         <On Terms="Behavior.WarpInEffect15.On" Send="$Birth"/>
-        <On Terms="Behavior.WarpInEffect15.Off" Send="ModelSwap WarpPrism"/>
+        <On Terms="Behavior.WarpInEffect15.Off; !ValidateUnit AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap WarpPrism"/>
+        <On Terms="Behavior.WarpInEffect15.Off; ValidateUnit AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
+        <On Terms="Behavior.WarpInEffect15.Off; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap DarkWarpPrism"/>
         <On Terms="Behavior.WarpInEffect15.Off" Send="AnimBaselineStart"/>
         <On Terms="Upgrade.AP_DarkProtoss.Add" Send="DeathCustomsEnablePhysics 0"/>
         <On Terms="UnitBirth; ValidateUnit AP_NoDarkProtoss" Send="DeathCustomsEnablePhysics 0"/>
@@ -25758,8 +25758,6 @@
         <On Terms="Upgrade.AP_PurifierProtoss.Add" Send="TextureSelectById PurifierHackDiffuse"/>
         <On Terms="Signal.*.PurifierHack" Send="TextureSelectById PurifierHackDiffuse"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_IsTerrazineShadow" Send="DeathCustomize Hallucination"/>
-        <On Terms="Behavior.WarpInEffect15.Off; ValidateUnit AP_NoDarkProtoss" Send="ModelSwap DarkWarpPrism"/>
-        <On Terms="ActorCreation; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="UnitBirth; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="Upgrade.AP_WarpPrismPhaseBlaster.Add" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveWarpPrismPhaseBlaster" Send="DeathCustomize Taldarim"/>
@@ -25824,6 +25822,7 @@
         <Macros value="PhysicsDeathsVoidAir"/>
         <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrismPhasing; MorphTo AP_WarpPrism" Send="Destroy"/>
         <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrism; MorphTo AP_WarpPrismPhasing" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrism; MorphTo AP_WarpPrismPhasing; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="UnitBirth.AP_WarpPrismPhasing" Send="AnimBracketStart Phasing Work,Start Work Work,End Instant"/>
         <On Terms="AbilMorph.*.Start; MorphTo AP_WarpPrismPhasing" Send="AnimBracketStart Phasing Work,Start Work Work,End"/>
         <On Terms="AbilMorph.*.Start; MorphTo AP_WarpPrism" Send="AnimBracketStop Phasing"/>
@@ -25842,7 +25841,6 @@
         <On Terms="Upgrade.AP_PurifierProtoss.Add" Send="TextureSelectById PurifierHackDiffuse"/>
         <On Terms="Signal.*.PurifierHack" Send="TextureSelectById PurifierHackDiffuse"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_IsTerrazineShadow" Send="DeathCustomize Hallucination"/>
-        <On Terms="ActorCreation; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="UnitBirth; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="Upgrade.AP_WarpPrismPhaseBlaster.Add" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="Upgrade.AP_WarpPrismPhaseBlaster.Add; Selected" Send="Create AP_WarpPrismPhasingWeaponRange"/>
