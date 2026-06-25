@@ -25845,6 +25845,7 @@
         <On Terms="ActorCreation; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="UnitBirth; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="ModelSwap AP_WarpPrismTaldarim"/>
         <On Terms="Upgrade.AP_WarpPrismPhaseBlaster.Add" Send="ModelSwap AP_WarpPrismTaldarim"/>
+        <On Terms="Upgrade.AP_WarpPrismPhaseBlaster.Add; Selected" Send="Create AP_WarpPrismPhasingWeaponRange"/>
         <On Terms="UnitDeathCustomize; ValidateUnit AP_HaveWarpPrismPhaseBlaster" Send="DeathCustomize Taldarim"/>
         <Model value="WarpPrism"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
@@ -25930,6 +25931,19 @@
         <On Terms="TurretEnable.AP_WarpPrismPhasingRotate" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrismPhasing" Send="Destroy"/>
     </CActorTurret>
+    <CActorRange id="AP_WarpPrismPhasingWeaponRange">
+        <Weapon value="AP_WarpPrismTaldarimDeployedWeapon"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_WarpPrismPhasing; Selected; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom AP_WarpPrismPhasing" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.AP_WarpPrismPhasing.Start; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AP_WarpPrismPhasing.StartEditorGround; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AP_WarpPrismPhasing.StartEditorFlyer; ValidatePlayer AP_HaveWarpPrismPhaseBlaster" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AP_WarpPrismPhasing.Stop" Send="Destroy"/>
+        <On Terms="UnitDeath" Send="Destroy"/>
+    </CActorRange>
+    <!--                                                                                         -->
+    <!-- Supplicant ............................................................................ -->
+    <!--                                                                                         -->
     <CActorUnit id="AP_Supplicant" parent="GenericUnitStandard" unitName="AP_Supplicant">
         <Macros value="PhysicsDeathsSwarmGround"/>
         <Macros value="PhysicsDeathsVoidGround"/>
