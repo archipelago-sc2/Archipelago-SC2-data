@@ -4344,6 +4344,7 @@
         <ValidatorArray value="NotVortexd"/>
         <ValidatorArray value="NotThorWreckage"/>
         <ValidatorArray value="NotOdinWreckage"/>
+        <PeriodicEffect value="AP_RepairFixSet"/>
         <EditorCategories value="Race:Terran"/>
         <DrainResourceCostFactor index="Minerals" value="0.25"/>
         <DrainResourceCostFactor index="Vespene" value="0.25"/>
@@ -26748,6 +26749,7 @@
         <ValidatorArray value="NotVortexd"/>
         <ValidatorArray value="NotThorWreckage"/>
         <ValidatorArray value="NotOdinWreckage"/>
+        <PeriodicEffect value="AP_RepairFixSet"/>
         <EditorCategories value="Race:Terran"/>
         <DrainResourceCostFactor index="Minerals" value="0.25"/>
         <DrainResourceCostFactor index="Vespene" value="0.25"/>
@@ -27604,4 +27606,13 @@
         <EffectArray value="AP_MirageIllusion"/>
     </CEffectSet>
     <CEffectLaunchMissile id="IonCannonsLM"/>
+    <CEffectModifyUnit id="AP_RepairFixMU">
+        <ValidatorArray value="AP_LifeAlmostFull"/>
+        <VitalArray index="Life">
+            <ChangeFraction value="1"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectSet id="AP_RepairFixSet">
+        <EffectArray value="AP_RepairFixMU"/>
+    </CEffectSet>
 </Catalog>
