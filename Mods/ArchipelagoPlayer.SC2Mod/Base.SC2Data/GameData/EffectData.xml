@@ -191,18 +191,16 @@
         <ValidatorArray index="0" value="CasterIsAttacking"/>
         <WhichUnit Value="Caster"/>
     </CEffectApplyBehavior>
-    <CEffectSet id="AP_MagrailMunitionsImpact">
-        <EditorCategories value=""/>
-        <EffectArray value="AP_MagrailMunitionsDamage"/>
-        <EffectArray value="AP_MagrailMunitionsDamageMarauder"/>
-    </CEffectSet>
+    <CEffectSwitch id="AP_MagrailMunitionsImpact">
+        <CaseArray Validator="AP_MarauderMagrail" Effect="AP_MagrailMunitionsDamageMarauder"/>
+        <CaseArray Validator="AP_MarineMagrail" Effect="AP_MagrailMunitionsDamage"/>
+        <CaseDefault value="AP_MagrailMunitionsDamage"/>
+    </CEffectSwitch>
     <CEffectDamage id="AP_MagrailMunitionsDamage" parent="DU_WEAP_MISSILE">
         <EditorCategories value="Race:Terran"/>
         <Amount value="20"/>
-        <ValidatorArray value="AP_MarineMagrail"/>
     </CEffectDamage>
     <CEffectDamage id="AP_MagrailMunitionsDamageMarauder" parent="DU_WEAP_MISSILE">
-        <ValidatorArray value="AP_MarauderMagrail"/>
         <EditorCategories value="Race:Terran"/>
         <Amount value="50"/>
     </CEffectDamage>
