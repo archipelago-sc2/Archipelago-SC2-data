@@ -8765,4 +8765,28 @@
         <Type value="Fraction"/>
         <Value value="0.999"/>
     </CValidatorUnitCompareVital>
+    <CValidatorUnitType id="AP_CasterIsHammerSecurity">
+        <WhichUnit Value="Caster"/>
+        <Value value="AP_HammerSecurity"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_CasterIsMarine">
+        <WhichUnit Value="Caster"/>
+        <Value value="AP_Marine"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_CasterIsWarPig">
+        <WhichUnit Value="Caster"/>
+        <Value value="AP_WarPig"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_CasterIsMarauder">
+        <WhichUnit Value="Caster"/>
+        <Value value="AP_Marauder"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="AP_MarineMagrail">
+        <CombineArray value="AP_CasterIsMarine"/>
+        <CombineArray value="AP_CasterIsWarPig"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_MarauderMagrail">
+        <CombineArray value="AP_CasterIsMarauder"/>
+        <CombineArray value="AP_CasterIsHammerSecurity"/>
+    </CValidatorCombine>
 </Catalog>
