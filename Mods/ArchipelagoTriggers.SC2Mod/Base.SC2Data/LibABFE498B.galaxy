@@ -1906,19 +1906,19 @@ void libABFE498B_gf_AP_Triggers_unlockProtossForge6 (int lp_player, int lp_bitAr
         libABFE498B_gf_AP_Triggers_Protoss_unlockVanguardArmor, // 1
         libABFE498B_gf_AP_Triggers_Protoss_unlockVanguardFlare, // 2
         libABFE498B_gf_AP_Triggers_Protoss_unlockDragoonResourceEfficiency, // 3
-        ap_triggers_PlayerConsumer_sig, // 4
-        ap_triggers_PlayerConsumer_sig, // 5
-        ap_triggers_PlayerConsumer_sig, // 6
-        ap_triggers_PlayerConsumer_sig, // 7
-        ap_triggers_PlayerConsumer_sig, // 8
-        ap_triggers_PlayerConsumer_sig, // 9
-        ap_triggers_PlayerConsumer_sig, // 10
-        ap_triggers_PlayerConsumer_sig, // 11
-        ap_triggers_PlayerConsumer_sig, // 12
-        ap_triggers_PlayerConsumer_sig, // 13
-        ap_triggers_PlayerConsumer_sig, // 14
-        ap_triggers_PlayerConsumer_sig, // 15
-        ap_triggers_PlayerConsumer_sig, // 16
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixAcceleratedWarp, // 4
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixShield, // 5
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixGravitonBuilding, // 6
+        libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixGravitonChain, // 7
+        libABFE498B_gf_AP_Triggers_Protoss_unlockMirageEternalDuty, // 8
+        libABFE498B_gf_AP_Triggers_Protoss_unlockMiragePhaseAlignment, // 9
+        libABFE498B_gf_AP_Triggers_Protoss_unlockMirageIllusion, // 10
+        libABFE498B_gf_AP_Triggers_Protoss_unlockMirageDetector, // 11
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherSuicide, // 12
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherResourceEfficiency, // 13
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherLifeSteal, // 14
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherHP, // 15
+        libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherAttackspeed, // 16
         ap_triggers_PlayerConsumer_sig, // 17
         ap_triggers_PlayerConsumer_sig, // 18
         ap_triggers_PlayerConsumer_sig, // 19
@@ -10103,16 +10103,96 @@ void libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixDoubleGravitonBeam (int lp_
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_VoidPhoenixDoubleGraviton", 1);
 }
 
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixAcceleratedWarp (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_PhoenixAcceleratedWarp", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixShield (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_PhoenixShield", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixGravitonBuilding (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_PhoenixGravitonBuilding", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockPhoenixGravitonChain (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_PhoenixGravitonChain", 1);
+}
+
 void libABFE498B_gf_AP_Triggers_Protoss_unlockMirageGravitonBeam (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MirageGravitonBeam", 1);
 }
 
+void libABFE498B_gf_AP_Triggers_Protoss_unlockMirageEternalDuty (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libABFE498B_gf_AP_Triggers_Protoss_unlockStargate(lp_player);
+    TechTreeUnitAllow(lp_player, "AP_FleetBeacon", true);
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MirageEternalDuty", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockMiragePhaseAlignment (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MiragePhaseAlignment", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockMirageIllusion (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MirageIllusion", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockMirageDetector (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MirageDetector", 1);
+}
+
 void libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherPeerContempt (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_SkirmisherPeerContempt", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherSuicide (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_SkirmisherSuicide", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherResourceEfficiency (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_SkirmisherResourceEfficiency", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherLifeSteal (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_SkirmisherLifesteal", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherHP (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_SkirmisherHP", 1);
+}
+
+void libABFE498B_gf_AP_Triggers_Protoss_unlockSkirmisherAttackspeed (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_SkirmisherAttackspeed", 1);
 }
 
 void libABFE498B_gf_AP_Triggers_Protoss_unlockCorsairStealthDrive (int lp_player) {
@@ -12892,6 +12972,86 @@ void libABFE498B_gt_AP_Triggers_ImmortalEternalDutyWarpedIn_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_MirageEternalDuty
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_MirageEternalDuty_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_caster;
+    int lv_player;
+    const string lv_tYPE = "AP_PhoenixPurifier";
+    point lv_point;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_caster = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lv_player = UnitGetOwner(lv_caster);
+    lv_point = UnitTypePlacementFromUnit(lv_tYPE, lv_player, lv_caster, 5.0);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesMade, c_playerPropOperAdd, 1000);
+    PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesLimit, c_playerPropOperAdd, 1000);
+    libABFE498B_gf_AP_Triggers_warpInUnit(lv_tYPE, lv_player, lv_point, true);
+    PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesMade, c_playerPropOperSubtract, 1000);
+    PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesLimit, c_playerPropOperSubtract, 1000);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_MirageEternalDuty_Init () {
+    libABFE498B_gt_AP_Triggers_MirageEternalDuty = TriggerCreate("libABFE498B_gt_AP_Triggers_MirageEternalDuty_Func");
+    TriggerAddEventPlayerEffectUsed(libABFE498B_gt_AP_Triggers_MirageEternalDuty, c_playerAny, "AP_MirageEternalDuty");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_MirageEternalDutyWarpedIn
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_MirageEternalDutyWarpedIn_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    const string lv_tYPE = "AP_PhoenixPurifier";
+    unit lv_u;
+    unitgroup lv_group;
+
+    // Automatic Variable Declarations
+    unitgroup autoB9AC7424_g;
+    int autoB9AC7424_u;
+
+    // Variable Initialization
+    lv_group = UnitGroupEmpty();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(libABFE498B_gf_AP_Triggers_getLastWarpedUnit()) == lv_tYPE))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_group = UnitGroupFilter(lv_tYPE, c_playerAny, libABFE498B_gf_AP_Triggers_getLastWarpedUnits(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoB9AC7424_g = lv_group;
+    autoB9AC7424_u = UnitGroupCount(autoB9AC7424_g, c_unitCountAll);
+    for (;; autoB9AC7424_u -= 1) {
+        lv_u = UnitGroupUnitFromEnd(autoB9AC7424_g, autoB9AC7424_u);
+        if (lv_u == null) { break; }
+        UnitBehaviorAdd(lv_u, "PermanentSuppressFoodUsed", lv_u, 1);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_MirageEternalDutyWarpedIn_Init () {
+    libABFE498B_gt_AP_Triggers_MirageEternalDutyWarpedIn = TriggerCreate("libABFE498B_gt_AP_Triggers_MirageEternalDutyWarpedIn_Func");
+    TriggerAddEventGeneric(libABFE498B_gt_AP_Triggers_MirageEternalDutyWarpedIn, libABFE498B_gv_aP_Triggers_WARPIN_EVENT);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_Debug_activateDebugMode
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Func (bool testConds, bool runActions) {
@@ -14100,6 +14260,8 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_HeroChoiceClicked_Init();
     libABFE498B_gt_AP_Triggers_ImmortalEternalDuty_Init();
     libABFE498B_gt_AP_Triggers_ImmortalEternalDutyWarpedIn_Init();
+    libABFE498B_gt_AP_Triggers_MirageEternalDuty_Init();
+    libABFE498B_gt_AP_Triggers_MirageEternalDutyWarpedIn_Init();
     libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init();
     libABFE498B_gt_AP_Triggers_Debug_takeControl_Init();
     libABFE498B_gt_AP_Triggers_Debug_clearQueue_Init();

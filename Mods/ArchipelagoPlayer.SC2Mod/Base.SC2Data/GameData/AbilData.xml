@@ -6398,13 +6398,14 @@
         <Cost>
             <Cooldown TimeUse="30"/>
         </Cost>
-        <TargetFilters value="Ground,Visible;Self,Neutral,Massive,Structure,Heroic,Destructible,Invulnerable"/>
+        <TargetFilters value="Ground,Visible;Self,Neutral,Heroic,Destructible,Invulnerable"/>
         <Range value="4"/>
         <RangeSlop value="4"/>
         <AutoCastFilters value="Ground,Visible;Self,Player,Ally,Neutral"/>
         <AutoCastRange value="4"/>
         <AutoCastValidatorArray value="IsNotEgg"/>
         <AutoCastValidatorArray value="AP_IsNotLarva"/>
+        <AutoCastValidatorArray value="AP_PhoenixGravitonBuildingAutocastCheck"/>
         <CancelableArray index="Channel" value="1"/>
         <UninterruptibleArray index="Channel" value="1"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_GravitonBeamVoidCampaign">
@@ -6415,7 +6416,7 @@
         </CmdButtonArray>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_GravitonBeamMirage" parent="AP_GravitonBeamVoidCampaign">
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_GravitonBeamVoidCampaign" Requirements="AP_HaveMirageGravitonBeam">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MirageGravitonBeam" Requirements="AP_HaveMirageGravitonBeam">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
     </CAbilEffectTarget>
@@ -16759,5 +16760,30 @@
         <Effect index="0" value="AP_HealpackLarge"/>
         <AutoCastValidatorArray value="AP_HealpackLargeAutocast"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealpackLarge" Requirements="AP_HellionHealNoStim"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="AP_MirageEternalDuty">
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Charge>
+                <CountMax value="3"/>
+                <CountStart value="3"/>
+                <CountUse value="1"/>
+                <Location value="Player"/>
+            </Charge>
+            <Cooldown Location="Unit" TimeStart="10" TimeUse="30000"/>
+        </Cost>
+        <AutoCastRange value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MirageEternalDuty" Requirements="AP_MirageEternalDuty"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="AP_SkirmisherAttackspeed">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="AP_SkirmisherAttackspeedAB"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="15"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_SkirmisherAttackspeed" Requirements="AP_SkirmisherAttackspeed"/>
     </CAbilEffectInstant>
 </Catalog>

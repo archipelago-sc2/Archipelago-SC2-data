@@ -3112,7 +3112,7 @@
     <CBehaviorBuff id="AP_VoidPhoenixPhasingArmor">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
-        <DamageResponse Handled="AP_VoidPhoenixPhasingArmorApply">
+        <DamageResponse Handled="AP_VoidPhoenixPhasingArmor">
             <Chance value="1"/>
             <Cost>
                 <Cooldown TimeUse="5"/>
@@ -11495,6 +11495,7 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Requirements value="AP_CenturionDodge"/>
         <DamageResponse Handled="AP_CenturionDodgeRB" ModifyFraction="0" ModifyMinimumDamage="1">
+            <TargetFilters value="-;Player,Ally,Neutral"/>
             <Chance value="1"/>
         </DamageResponse>
     </CBehaviorBuff>
@@ -11764,5 +11765,111 @@
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Duration value="5"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SkirmisherAttackspeed">
+        <InfoIcon value="Assets\Textures\btn-upgrade-protoss-alarak-dashrange&amp;cdr.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <AdditiveAttackSpeedFactor value="-0.5"/>
+        </Modification>
+        <InitialEffect value="AP_SkirmisherAttackspeedSet"/>
+        <Duration value="13"/>
+        <Period value="0.25"/>
+        <PeriodicEffect value="AP_SkirmisherAttackspeedStacksRB"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SkirmisherAttackspeedLifeDrain">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <VitalRegenArray index="Life" value="-2"/>
+        </Modification>
+        <DisableValidatorArray value="AP_CasterLifeGT1"/>
+        <Duration value="10"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SkirmisherAttackspeedMissile">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification TimeScale="2"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SkirmisherAttackspeedStacks">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <MaxStackCount value="40"/>
+        <Modification>
+            <AdditiveAttackSpeedFactor value="0.0625"/>
+        </Modification>
+        <Duration value="13"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SkirmisherSuicide">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Requirements value="AP_SkirmisherSuicide"/>
+        <FinalEffect value="AP_SkirmisherSuicide"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_PhoenixGravitonBeamHeightStructure">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <TimeScaleSource Value="Global"/>
+        <Duration value="10"/>
+        <Modification Height="1">
+            <HeightTime index="Start" value="2"/>
+            <HeightTime index="Stop" value="0.25"/>
+            <PlaneDelta index="Ground" value="-1"/>
+            <PlaneDelta index="Air" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MirageDetector" parent="Detector">
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-status-detector.dds"/>
+        <Requirements value="AP_MirageDetector"/>
+        <Modification Detect="13"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MirageIllusion">
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisplayDuration index="Self" value="1"/>
+        <Duration value="15.0625"/>
+        <InitialEffect value="AP_MirageIllusionOrder"/>
+        <ExpireEffect value="Suicide"/>
+        <Modification LifeArmorMultiplier="0" ShieldArmorMultiplier="0" SubgroupPriority="-100">
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="EnableAttack" value="1"/>
+            <ModifyFlags index="EnableMove" value="1"/>
+            <ModifyFlags index="HideChangeUI" value="1"/>
+            <StateFlags index="Hallucination" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressRadar" value="1"/>
+            <StateFlags index="Uncommandable" value="1"/>
+            <StateFlags index="Unselectable" value="1"/>
+            <DamageDealtFraction index="Spell" value="-0.5"/>
+            <DamageDealtFraction index="Melee" value="-0.5"/>
+            <DamageDealtFraction index="Ranged" value="-0.5"/>
+            <DamageDealtFraction index="Splash" value="-0.5"/>
+            <DamageDealtFraction index="NoProc" value="-0.5"/>
+            <AbilClassEnableArray index="CAbilStop" value="1"/>
+            <BehaviorLinkDisableArray value="AP_VoidPhoenixPhasingArmor"/>
+        </Modification>
+        <KillCredit Value="Caster"/>
+        <Period value="15"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffect value="Suicide"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MirageIllusionCooldown">
+        <Alignment value="Negative"/>
+        <Cost>
+            <Cooldown TimeStart="30"/>
+        </Cost>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="30"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MirageIllusionMarker">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="15"/>
+        <InfoFlags index="Hidden" value="1"/>
     </CBehaviorBuff>
 </Catalog>

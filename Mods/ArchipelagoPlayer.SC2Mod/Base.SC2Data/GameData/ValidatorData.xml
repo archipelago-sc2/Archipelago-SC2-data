@@ -1364,8 +1364,8 @@
     </CValidatorUnitType>
     <CValidatorCombine id="IsMissileTurret" parent="CValidatorCombine">
         <!-- Override -->
-        <CombineArray value="AP_IsVanillaStarportTechLab"/>
-        <CombineArray value="AP_IsAPStarportTechLab"/>
+        <CombineArray value="AP_IsVanillaMissileTurret"/>
+        <CombineArray value="AP_IsAPMissileTurret"/>
     </CValidatorCombine>
     <CValidatorUnitType id="AP_IsAPStarportTechLab">
         <Value value="AP_StarportTechLab"/>
@@ -6041,6 +6041,7 @@
         <!-- Override -->
         <CombineArray value="AP_IsVanillaHallucination"/>
         <CombineArray value="AP_HighTemplarSCBWHallucination@Behavior"/>
+        <CombineArray value="AP_MirageIllusionIsHallucination"/>
     </CValidatorCombine>
     <CValidatorCombine id="IsNotHallucination" parent="CValidatorCombine">
         <!-- Override -->
@@ -8649,4 +8650,119 @@
         <Find value="1"/>
         <Value value="AP_HaveHellbatAspect"/>
     </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_PhoenixGravitonBuildingCheck">
+        <Type value="And"/>
+        <CombineArray value="AP_PhoenixGravitonBuilding"/>
+        <CombineArray value="AP_PhoenixGravitonBuildingWhitelist"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_PhoenixGravitonBuildingAutocastCheck">
+        <CombineArray value="NotStructureTarget"/>
+        <CombineArray value="AP_PhoenixGravitonBuildingAutocastWhitelist"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="AP_IsPerditionTurret">
+        <Value value="PerditionTurret"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_IsSensorTower">
+        <Value value="SensorTower"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="AP_PhoenixGravitonBuildingWhitelist">
+        <CombineArray value="IsMissileTurret"/>
+        <CombineArray value="IsSpineCrawler"/>
+        <CombineArray value="IsSporeCrawler"/>
+        <CombineArray value="IsPhotonCannon"/>
+        <CombineArray value="IsAutoTurret"/>
+        <CombineArray value="AP_IsPerditionTurret"/>
+        <CombineArray value="AP_IsSensorTower"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_PhoenixGravitonBuildingAutocastWhitelist">
+        <CombineArray value="IsMissileTurret"/>
+        <CombineArray value="IsSporeCrawler"/>
+        <CombineArray value="IsPhotonCannon"/>
+        <CombineArray value="IsAutoTurret"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="AP_IsGravitonBeamed">
+        <Compare value="GT"/>
+        <Behavior value="AP_GravitonBeamVoidCampaign"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorCombine id="AP_NotStructureOrMassive">
+        <Type value="And"/>
+        <CombineArray value="NotStructure"/>
+        <CombineArray value="AP_NotMassive"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_StructureOrMassive">
+        <CombineArray value="IsStructureTarget"/>
+        <CombineArray value="AP_IsMassive"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_PhoenixGravitonBuilding">
+        <Find value="1"/>
+        <Value value="AP_PhoenixGravitonBuilding"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_PhoenixGravitonMassiveTarget">
+        <CombineArray value="AP_PhoenixGravitonBuilding"/>
+        <CombineArray value="AP_NotMassive"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_PhoenixGravitonBuildingTarget">
+        <CombineArray value="AP_PhoenixGravitonBuildingCheck"/>
+        <CombineArray value="NotStructure"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="AP_MirageIllusionAttackCooldown">
+        <Behavior value="AP_MirageIllusionCooldown"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorPlayerRequirement id="AP_MirageIllusion">
+        <Find value="1"/>
+        <Value value="AP_MirageIllusion"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_MirageIllusionAttack">
+        <CombineArray value="AP_TargetIsAirUnitFilter"/>
+        <CombineArray value="AP_MirageIllusionAttackMarker"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="AP_MirageIllusionAttackMarker">
+        <Compare value="GT"/>
+        <Behavior value="AP_MirageIllusionMarker"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_MirageIllusionIsHallucination">
+        <Compare value="GT"/>
+        <Behavior value="AP_MirageIllusion"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorPlayerRequirement id="AP_PhoenixGravitonChain">
+        <Find value="1"/>
+        <Value value="AP_PhoenixGravitonChain"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="AP_SkirmisherAttackspeed">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+        <Behavior value="AP_SkirmisherAttackspeed"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorPlayerRequirement id="AP_SkirmisherLifesteal">
+        <Find value="1"/>
+        <Value value="AP_SkirmisherLifesteal"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareVital id="AP_CasterLifeGT1">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareVital>
+    <CValidatorUnitType id="AP_CasterIsMirage">
+        <WhichUnit Value="Caster"/>
+        <Value value="AP_PhoenixPurifier"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_CasterNotMirage">
+        <WhichUnit Value="Caster"/>
+        <Value value="AP_PhoenixPurifier"/>
+        <Find value="0"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="AP_GravitonBeamMirageCheck">
+        <CombineArray value="AP_CasterNotMirage"/>
+        <CombineArray value="AP_NotStructureOrMassive"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_NotPhoenixGravitonBuilding">
+        <CombineArray value="AP_PhoenixGravitonBuilding"/>
+        <Negate value="1"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareVital id="AP_LifeAlmostFull">
+        <Compare value="GE"/>
+        <Type value="Fraction"/>
+        <Value value="0.999"/>
+    </CValidatorUnitCompareVital>
 </Catalog>

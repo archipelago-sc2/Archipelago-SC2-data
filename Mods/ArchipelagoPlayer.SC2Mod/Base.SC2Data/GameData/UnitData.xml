@@ -776,7 +776,7 @@
         </Fidget>
     </CUnit>
     <CUnit id="AP_ReaperResourceEfficiency" parent="AP_Reaper">
-        <AbilArray index="9" removed="1"/>
+        <AbilArray index="10" removed="1"/>
         <CargoSize value="1"/>
     </CUnit>
     <CUnit id="AP_ReaperFlying" parent="AP_Reaper">
@@ -788,7 +788,7 @@
         <Collide index="Flying" value="1"/>
         <Mover value="Fly"/>
         <VisionHeight value="4"/>
-        <AbilArray index="9" Link="AP_ReaperLandMorph"/>
+        <AbilArray index="10" Link="AP_ReaperLandMorph"/>
         <AbilArray Link="AP_HHReaperLand"/>
         <WeaponArray index="0" Link="AP_P38ScytheGuassPistolAir"/>
         <WeaponArray index="1" Link="AP_D8ChargeAir"/>
@@ -12939,14 +12939,17 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_GravitonBeamVoidCampaign,1" Row="2" Column="4"/>
-            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_PhoenixGravitonBuilding" Type="Passive" Requirements="AP_PhoenixGravitonBuilding" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ImprovedIonCannons" Type="Passive" Requirements="AP_HaveImprovedIonCannons" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_AnionPulseCrystals" Type="Passive" Requirements="AP_HaveAnionPulseCrystals" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_PhoenixShield" Type="Passive" Requirements="AP_PhoenixShield" Row="1" Column="3"/>
             <LayoutButtons Face="AP_PhoenixAiurGravitonBeam" Type="AbilCmd" AbilCmd="AP_GravitonBeamVoidCampaign,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_PhoenixAiurGravitonBeamPassive" Type="Passive" Requirements="AP_HaveVoidPhoenixDoubleGraviton" Row="2" Column="1"/>
-            <LayoutButtons Face="AP_ImprovedIonCannons" Type="Passive" Requirements="AP_HaveImprovedIonCannons" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_AnionPulseCrystals" Type="Passive" Requirements="AP_HaveAnionPulseCrystals" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_PhoenixGravitonChain" Type="Passive" Requirements="AP_PhoenixGravitonChain" Row="2" Column="2"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_GravitonBeamVoidCampaign,1" Row="2" Column="4"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -13018,19 +13021,23 @@
         <AbilArray Link="ProgressRally"/>
         <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
         <BehaviorArray Link="AP_VoidPhoenixPhasingArmor"/>
-        <WeaponArray Link="AP_IonCannons" Turret="AP_Phoenix"/>
+        <BehaviorArray Link="AP_MirageDetector"/>
+        <WeaponArray Link="AP_MirageAttack" Turret="AP_Phoenix"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_MirageDetector" Type="Passive" Requirements="AP_MirageDetector" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_MiragePhaseAlignment" Type="Passive" Requirements="AP_MiragePhaseAlignment" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_MirageIllusion" Type="Passive" Requirements="AP_MirageIllusionCooldown" Behavior="AP_MirageIllusionCooldown" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_MirageIllusion" Type="Passive" Requirements="AP_MirageIllusion" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_MirageEternalDuty" Type="Passive" Requirements="AP_MirageEternalDuty" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_MirageGravitonBeam" Type="AbilCmd" AbilCmd="AP_GravitonBeamMirage,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_VoidPhoenixPhasingArmor" Type="Passive" Row="2" Column="1"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AP_GravitonBeamMirage,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_GravitonBeamVoidCampaign" Type="AbilCmd" AbilCmd="AP_GravitonBeamMirage,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_VoidPhoenixPhasingArmor" Type="Passive" Row="2" Column="1"/>
-            <LayoutButtons Face="AP_ImprovedIonCannons" Type="Passive" Requirements="AP_HaveImprovedIonCannons" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_AnionPulseCrystals" Type="Passive" Requirements="AP_HaveAnionPulseCrystals" Row="1" Column="1"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -13092,18 +13099,22 @@
         <AbilArray Link="move"/>
         <AbilArray Link="Warpable"/>
         <AbilArray Link="ProgressRally"/>
+        <AbilArray Link="AP_SkirmisherAttackspeed"/>
         <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
+        <BehaviorArray Link="AP_SkirmisherSuicide"/>
         <WeaponArray Link="AP_IonCannonsTaldarim" Turret="AP_Phoenix"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_SkirmisherPeerContempt" Type="Passive" Requirements="AP_HaveSkirmisherPeerContempt" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_SkirmisherSuicide" Type="Passive" Requirements="AP_SkirmisherSuicide" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_SkirmisherLifesteal" Type="Passive" Requirements="AP_SkirmisherLifesteal" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_SkirmisherHP" Type="Passive" Requirements="AP_SkirmisherHP" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_SkirmisherAttackspeed" Type="AbilCmd" AbilCmd="AP_SkirmisherAttackspeed,Execute" Row="2" Column="0"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_ImprovedIonCannons" Type="Passive" Requirements="AP_HaveImprovedIonCannons" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_AnionPulseCrystals" Type="Passive" Requirements="AP_HaveAnionPulseCrystals" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_SkirmisherPeerContempt" Type="Passive" Requirements="AP_HaveSkirmisherPeerContempt" Row="1" Column="2"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -15777,7 +15788,7 @@
         <StationaryTurningRate value="999.8437"/>
         <TurningRate value="999.8437"/>
         <Sight value="8"/>
-        <Food value="-0.25"/>
+        <Food value="0"/>
         <CostCategory value="Army"/>
         <RepairTime value="15"/>
         <AttackTargetPriority value="20"/>
@@ -15865,7 +15876,7 @@
         <ShieldArmorName value="Unit/ShieldArmorName/ZergWildMutation"/>
         <Mover value="Burrowed"/>
         <Sight value="8"/>
-        <Food value="-0.25"/>
+        <Food value="0"/>
         <CostCategory value="Army"/>
         <RepairTime value="15"/>
         <AttackTargetPriority value="20"/>
@@ -16029,6 +16040,7 @@
         <AbilArray Link="BuildInProgress"/>
         <AbilArray Link="que5"/>
         <AbilArray Link="AP_WarpRelocate"/>
+        <AbilArray Link="AP_MirageEternalDuty"/>
         <BehaviorArray Link="PowerUserQueue"/>
         <BehaviorArray Link="AP_ProtossBuildingShields"/>
         <CardLayouts>
@@ -21713,6 +21725,7 @@
         <AbilArray Link="AP_UpgradeToStargateWarp"/>
         <AbilArray Link="AP_UpgradeToStargateWarpInstant"/>
         <AbilArray Link="AP_WarpRelocate"/>
+        <AbilArray Link="AP_MirageEternalDuty"/>
         <BehaviorArray Link="PowerUserQueue"/>
         <BehaviorArray Link="AP_StargateWarpMorphInstant"/>
         <BehaviorArray Link="AP_ProtossBuildingShields"/>
@@ -21877,6 +21890,7 @@
         <AbilArray Link="AP_StargateWarpTrainRedirect"/>
         <AbilArray Link="AP_MorphBackToStargate"/>
         <AbilArray Link="AP_WarpRelocate"/>
+        <AbilArray Link="AP_MirageEternalDuty"/>
         <BehaviorArray Link="PowerUserQueue"/>
         <BehaviorArray Link="AP_ProtossBuildingShields"/>
         <CardLayouts>
@@ -32770,5 +32784,22 @@
         <SubgroupPriority value="3"/>
         <MinimapRadius value="1.5"/>
         <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
+    </CUnit>
+    <CUnit id="AP_SkirmisherSuicideMissile" parent="MISSILE_INVULNERABLE">
+        <Race value="Zerg"/>
+        <Mover value="AP_SkirmisherSuicide"/>
+        <Sight value="9"/>
+        <VisionHeight value="4"/>
+        <EditorCategories value=""/>
+    </CUnit>
+    <CUnit id="AP_SkirmisherAttackMissile" parent="MISSILE">
+        <Race value="Prot"/>
+        <Mover value="IonCannonsWeapon"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CUnit id="AP_MirageAttackMissile" parent="MISSILE">
+        <Race value="Prot"/>
+        <Mover value="IonCannonsWeapon"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
     </CUnit>
 </Catalog>

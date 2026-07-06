@@ -13815,6 +13815,8 @@
         <!-- These target Actors don't exist nor the triggering upgrade required -->
         <On Terms="Effect.AP_GravitonBeamBehavior.Start; ValidateEffect AP_HaveVoidPhoenixGravitonDamage; At Target" Send="Create AP_VoidPhoenixGravitonDamageAttachment"/>
         <On Terms="Effect.AP_GravitonBeamVoidCampaignBehavior.Start; ValidateEffect AP_HaveVoidPhoenixGravitonDamage; At Target" Send="Create AP_VoidPhoenixGravitonDamageAttachment"/>
+        <On Terms="ActorCreation; ValidateEffect AP_StructureOrMassive" Send="SetTintColor {128,128,255 1.200000}"/>
+        <On Terms="ActorCreation; ValidateEffect AP_StructureOrMassive" Send="SetScale 0.700000"/>
         <Host Subject="_Unit"/>
         <HostSiteOps Ops="SOpAttachCenter"/>
         <Model value="GravitonBeamImpact"/>
@@ -13866,9 +13868,9 @@
         <On Terms="Behavior.AP_GravitonBeamHeightVoidCampaign.On" Send="Create"/>
         <On Terms="Behavior.AP_GravitonBeamHeightVoidCampaign.Off" Send="Transition Out 1.000000"/>
         <On Terms="Behavior.AP_GravitonBeamVoidCampaign.Off" Send="TimerSet 1.000000 DelayDestroy"/>
-        <On Terms="Behavior.AP_PhoenixAiurGravitonBeamHeight.On" Send="Create"/>
-        <On Terms="Behavior.AP_PhoenixAiurGravitonBeamHeight.Off" Send="Transition Out 1.000000"/>
-        <On Terms="Behavior.AP_PhoenixAiurGravitonBeam.Off" Send="TimerSet 1.000000 DelayDestroy"/>
+        <On Terms="Behavior.AP_PhoenixGravitonBeamHeightStructure.On" Send="Create"/>
+        <On Terms="Behavior.AP_PhoenixGravitonBeamHeightStructure.Off" Send="Transition Out 1.000000"/>
+        <On Terms="Behavior.AP_PhoenixGravitonBeamHeightStructure.Off" Send="TimerSet 1.000000 DelayDestroy"/>
         <Elevation value="0.100000,0.050000"/>
         <ElevationPeriod value="2.500000,1.000000"/>
         <Pitch value="11.997,5.9985"/>
@@ -13994,6 +13996,7 @@
         <ModelFlags index="OutlineEmitter" value="1"/>
         <BuildModel value="AP_PhoenixPurifierWarpIn"/>
         <DeathArray index="Normal" ModelLink="AP_PhoenixPurifierDeath" SoundLink="Phoenix_Explode"/>
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
         <PlacementModel value="AP_PhoenixPurifierPlacement"/>
         <PortraitModel value="AP_PhoenixPurifierPortrait"/>
         <AbilSoundArray AbilCmd="AP_GravitonBeamVoidCampaign.Execute" Sound="Phoenix_GravitonBeamVO"/>
@@ -14087,11 +14090,14 @@
         <On Terms="Behavior.WarpInEffect15.On" Send="$Spell"/>
         <On Terms="AnimDone; AnimName Spell" Send="ModelSwap Phoenix_Taldarim_Collection"/>
         <On Terms="AnimDone; AnimName Spell" Send="AnimClear Spell"/>
+        <On Terms="Behavior.AP_SkirmisherAttackspeed.On" Send="AnimPlay Work Work PlayForever"/>
+        <On Terms="Behavior.AP_SkirmisherAttackspeed.Off" Send="AnimClear Work"/>
         <HostSiteOps Ops="SOpBankerPhoenix"/>
         <AnimBlendTime value="0.450000"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <Baselines index="Walk" BlendIn="1.500000" BlendOut="2.000000"/>
         <BuildModel value="Phoenix_Taldarim_Collection_WarpIn"/>
+        <DeathActorModel value="AP_PhoenixTaldarimDeathModel"/>
         <DeathArray index="Normal" ModelLink="Phoenix_Taldarim_Collection_Death" SoundLink="Phoenix_Explode"/>
         <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
         <PlacementModel value="AP_PhoenixPlacement"/>
@@ -48489,4 +48495,150 @@
         <EditorCategories value=""/>
         <LocalOffset value="-0.040000,0.250000,-0.150000"/>
     </CActorSiteOpLocalOffset>
+    <CActorSimple id="AP_MirageIllusion">
+        <Aliases value="_HallucinationTinter"/>
+        <On Terms="Behavior.AP_MirageIllusion.On" Send="Create"/>
+        <On Terms="Behavior.AP_MirageIllusion.Off" Send="Destroy"/>
+        <On Terms="Behavior.AP_MirageIllusion.On; ViewerTreatsUnitAs Detected" Send="Signal HallucinationTintOn"/>
+        <On Terms="Signal.*.HallucinationTintOn" Target="_Unit" Send="SetTintColor 108,108,255 1.000000 OneShot Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOn; !Option Shader Low" Target="_Unit" Send="SetOpacity 0.700000 1.000000 Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOff" Target="_Unit" Send="ClearTintColor 1.000000 Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOff; !Option Shader Low" Target="_Unit" Send="ClearOpacity 1.000000 Hallucination"/>
+    </CActorSimple>
+    <CActorModel id="AP_MirageIllusionBirth" parent="ModelAnimationStyleOneShot">
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Behavior.AP_MirageIllusion.On; !ValidateUnit CasterIsColossus" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <Model value="AP_HighTemplarSCBWHallucination@Birth"/>
+        <AutoScaleFactor value="1.000000"/>
+    </CActorModel>
+    <CActorSound id="AP_MirageIllusionSound" parent="SoundOneShot">
+        <On Terms="Behavior.AP_MirageIllusion.On" Send="Create"/>
+        <Sound value="AP_HighTemplarSCBWHallucination@Launch"/>
+    </CActorSound>
+    <CActorAction id="AP_PhoenixGravitonChainAttackLeft" parent="GenericAttack" effectImpact="AP_PhoenixGravitonChainImpactLeft" effectLaunch="AP_PhoenixGravitonChainLMLeft">
+        <EditorCategories value=""/>
+        <LaunchRequest Subject="_ImpactGuide" Actor="Find"/>
+        <LaunchAssets Model="AP_PhoenixAirAttackLeftLaunch" Sound="Phoenix_AirAttackLaunch"/>
+        <Missile value="AP_PhoenixAirAttackMissile"/>
+        <ImpactMap index="None" Model="AP_PhoenixAirAttackImpact" Sound="Phoenix_AirAttackImpact" ModelReaction="AP_PhoenixAirAttackLeftImpactReaction"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactMap index="Shield" Sound="AP_PhoenixAirAttackLeftImpactShield" ModelReaction="AP_PhoenixAirAttackLeftImpactReactionShield"/>
+        <ImpactPhysics Name="IonCannonImpact" MatchKeys="Basic" Physics="PhoenixAttackDeathForce"/>
+    </CActorAction>
+    <CActorAction id="AP_PhoenixGravitonChainAttackRight" parent="GenericAttack" effectImpact="AP_PhoenixGravitonChainImpactRight" effectLaunch="AP_PhoenixGravitonChainLMRight">
+        <EditorCategories value=""/>
+        <LaunchRequest Subject="_ImpactGuide" Actor="Find"/>
+        <LaunchAssets Model="AP_PhoenixAirAttackLeftLaunch" Sound="Phoenix_AirAttackLaunch"/>
+        <Beam value="AP_PhoenixGravitonChainAttackLeftBeam"/>
+        <Missile value="AP_PhoenixAirAttackMissile"/>
+        <ImpactMap index="None" Model="AP_PhoenixAirAttackImpact" Sound="Phoenix_AirAttackImpact" ModelReaction="AP_PhoenixAirAttackLeftImpactReaction"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactMap index="Shield" Sound="AP_PhoenixAirAttackLeftImpactShield" ModelReaction="AP_PhoenixAirAttackLeftImpactReactionShield"/>
+        <ImpactPhysics Name="IonCannonImpact" MatchKeys="Basic" Physics="PhoenixAttackDeathForce"/>
+        <DamageMap index="None" Model="AP_PhoenixGravitonChainAttackLeftDamage" Sound="AP_PhoenixGravitonChainAttackLeftDamage" ModelReaction="AP_PhoenixGravitonChainAttackLeftDamageReaction"/>
+        <DamageMap index="Shield" Sound="AP_PhoenixGravitonChainAttackLeftDamageShield" ModelReaction="AP_PhoenixGravitonChainAttackLeftDamageReactionShield"/>
+    </CActorAction>
+    <CActorSound id="AP_SkirmisherAttackspeedSoundStart" parent="SoundOneShot">
+        <EditorCategories value=""/>
+        <On Terms="Behavior.AP_SkirmisherAttackspeed.On" Send="Create"/>
+        <Sound value="Marine_Stimpack"/>
+    </CActorSound>
+    <CActorAction id="AP_SkirmisherSuicide" parent="GenericAttack" effectImpact="AP_SkirmisherSuicideImpact" effectLaunch="AP_SkirmisherSuicideLM">
+        <EditorCategories value=""/>
+        <ImpactMap index="None" Scale="1.500000" Sound="AP_ImmobilizationWave_ShockwaveExplosion"/>
+    </CActorAction>
+    <CActorMissile id="AP_SkirmisherSuicideMissile" parent="GenericAttackMissile" unitName="AP_SkirmisherSuicideMissile">
+        <EditorCategories value=""/>
+        <Model value="Phoenix_Taldarim"/>
+        <HostSiteOps Ops="AP_SkirmisherSuicideRotator"/>
+    </CActorMissile>
+    <CActorSound id="AP_SkirmisherAttackspeedSoundLoop" parent="SoundContinuous">
+        <EditorCategories value=""/>
+        <On Terms="Behavior.AP_SkirmisherAttackspeed.On" Send="Create"/>
+        <On Terms="Behavior.AP_SkirmisherAttackspeed.Off" Send="Destroy"/>
+    </CActorSound>
+    <CActorSiteOpRotator id="AP_SkirmisherSuicideRotator">
+        <EditorCategories value=""/>
+        <LocalAxis value="0.000000,-1.000000,0.000000"/>
+        <Rate value="360.000000"/>
+    </CActorSiteOpRotator>
+    <CActorSound id="AP_SkirmisherLifestealSound" parent="SoundOneShot">
+        <On Terms="Effect.AP_SkirmisherAttackHealer.Start" Send="Create"/>
+        <On Terms="Effect.AP_SkirmisherAttackHealer.Stop" Send="Destroy"/>
+        <Sound value="AP_BloodHunterLifestealSound"/>
+    </CActorSound>
+    <CActorModel id="AP_SkirmisherLifesteal" parent="ModelAddition">
+        <On Terms="Effect.AP_SkirmisherAttackHealer.Start" Send="Create"/>
+        <On Terms="Effect.AP_SkirmisherAttackHealer.Stop" Send="AnimBracketStop BSD"/>
+        <On Terms="ActorCreation" Send="SetTintColor 255,50,25"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <Model value="AP_BloodHunterLifesteal"/>
+        <Scale value="1.200000,0.400000,0.200000"/>
+    </CActorModel>
+    <CActorAction id="AP_MirageAttackLeft" parent="GenericAttackNoCreateBase" effectImpact="AP_MirageAttackLeftU" effectLaunch="AP_IonCannonsLMLeft">
+        <On Terms="Effect.AP_MirageAttackLeftLM.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon 1"/>
+        <LaunchAssets Sound="Phoenix_AirAttackLaunch"/>
+        <Missile value="AP_MirageAttackMissile"/>
+        <ImpactMap index="None" Model="AP_PhoenixAirAttackImpact" Sound="Phoenix_AirAttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactModel value="AP_MirageAttackImpactModel"/>
+        <ImpactPhysics Name="IonCannonImpact" MatchKeys="Basic" Physics="PhoenixAttackDeathForce"/>
+    </CActorAction>
+    <CActorMissile id="AP_MirageAttackMissile" parent="GenericAttackMissile" unitName="AP_MirageAttackMissile">
+        <On Terms="ActorCreation; ValidateCreationEffect AP_SourceIsPhoenixTaldarim" Send="ModelSwap IonCannonsWeapon_Upgrade"/>
+        <Model value="IonCannonsWeapon"/>
+    </CActorMissile>
+    <CActorAction id="AP_MirageAttackRight" parent="GenericAttackNoCreateBase" effectImpact="AP_MirageAttackRightU" effectLaunch="AP_IonCannonsLMRight">
+        <On Terms="Effect.AP_MirageAttackRightLM.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon 3"/>
+        <LaunchAssets Sound="Phoenix_AirAttackLaunch"/>
+        <Missile value="AP_MirageAttackMissile"/>
+        <HostImpactSource Subject="AP_PhoenixAirAttackLeft" ReachAcrossEffectTrees="1"/>
+        <ImpactMap index="None" Model="AP_PhoenixAirAttackImpact" Sound="Phoenix_AirAttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactModel value="AP_MirageAttackImpactModel"/>
+        <ImpactPhysics Name="IonCannonImpact" MatchKeys="Basic" Physics="PhoenixAttackDeathForce"/>
+    </CActorAction>
+    <CActorModel id="AP_MirageAttackImpactModel" parent="ModelAnimationStyleOneShotNoOrphan">
+        <Flags index="SuppressCreationErrors" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="ActorCreation; ValidateCreationEffect AP_SourceIsPhoenixTaldarim" Send="ModelSwap PhoenixAirAttackImpact_Upgrade"/>
+        <Model value="GenericAttackModel"/>
+        <ModelFlags index="AllowHitTest" value="0"/>
+    </CActorModel>
+    <CActorAction id="AP_SkirmisherAttackLeft" parent="GenericAttackNoCreateBase" effectImpact="AP_SkirmisherAttackLeftU" effectLaunch="AP_IonCannonsLMLeft">
+        <On Terms="Effect.AP_SkirmisherAttackLeftLM.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon 1"/>
+        <LaunchAssets Sound="Phoenix_AirAttackLaunch"/>
+        <Missile value="AP_SkirmisherAttackMissile"/>
+        <ImpactMap index="None" Model="AP_PhoenixAirAttackImpact" Sound="Phoenix_AirAttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactModel value="AP_PhoenixAttackImpactModel"/>
+        <ImpactPhysics Name="IonCannonImpact" MatchKeys="Basic" Physics="PhoenixAttackDeathForce"/>
+    </CActorAction>
+    <CActorMissile id="AP_SkirmisherAttackMissile" parent="GenericAttackMissile" unitName="AP_SkirmisherAttackMissile">
+        <On Terms="ActorCreation; ValidateCreationEffect AP_SkirmisherAttackspeed" Send="SetTintColor {255,32,32 1.300000}"/>
+        <On Terms="ActorCreation; ValidateCreationEffect AP_SkirmisherAttackspeed" Send="SetScale 1.300000"/>
+        <Model value="IonCannonsWeapon_Upgrade"/>
+    </CActorMissile>
+    <CActorAction id="AP_SkirmisherAttackRight" parent="GenericAttackNoCreateBase" effectImpact="AP_SkirmisherAttackRightU" effectLaunch="AP_IonCannonsLMRight">
+        <On Terms="Effect.AP_SkirmisherAttackRightLM.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon 3"/>
+        <LaunchAssets Sound="Phoenix_AirAttackLaunch"/>
+        <Missile value="AP_SkirmisherAttackMissile"/>
+        <HostImpactSource Subject="AP_PhoenixAirAttackLeft" ReachAcrossEffectTrees="1"/>
+        <ImpactMap index="None" Model="AP_PhoenixAirAttackImpact" Sound="Phoenix_AirAttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactModel value="AP_PhoenixAttackImpactModel"/>
+        <ImpactPhysics Name="IonCannonImpact" MatchKeys="Basic" Physics="PhoenixAttackDeathForce"/>
+    </CActorAction>
+    <CActorModel id="AP_PhoenixTaldarimDeathModel" parent="UnitDeathModel">
+        <EditorCategories value=""/>
+        <On Terms="Effect.AP_SkirmisherSuicideLM.Start" Send="SetVisibility"/>
+    </CActorModel>
 </Catalog>
