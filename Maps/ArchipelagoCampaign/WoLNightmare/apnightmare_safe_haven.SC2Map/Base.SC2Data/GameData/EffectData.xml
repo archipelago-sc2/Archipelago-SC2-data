@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CEffectCreatePersistent id="InterceptorAiurLaunchUpgraded">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichLocation Value="TargetUnit"/>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="10"/>
+        <PeriodicValidator value="CasterNotDead"/>
+        <PeriodicEffectArray value="CarrierInterceptor"/>
+        <PeriodicPeriodArray value="0.125"/>
+        <PeriodicPeriodArray value="0.125"/>
+        <PeriodicPeriodArray value="0.125"/>
+        <PeriodicPeriodArray value="0.125"/>
+        <PeriodicPeriodArray value="0.25"/>
+        <PeriodicPeriodArray value="0.25"/>
+        <PeriodicPeriodArray value="0.25"/>
+        <PeriodicPeriodArray value="0.25"/>
+    </CEffectCreatePersistent>
+    <CEffectRemoveBehavior id="PlanetCrackerRB">
+        <EditorCategories value="Race:Protoss"/>
+        <BehaviorLink value="PurifierPlanetCrackerCharge"/>
+    </CEffectRemoveBehavior>
+    <CEffectDamage id="PurifierBeamDamage">
+        <AttributeBonus index="Structure" value="6"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="PurifierBeamSearch">
+        <EditorCategories value="Race:Protoss"/>
+        <IncludeArray Value="Target"/>
+        <SearchFilters value="-;Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+        <AreaArray MaxCount="3" Radius="4" Effect="PurifierBeamSet"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="PurifierPlanetCrackerDamage">
+        <AttributeBonus index="Structure" value="40"/>
+        <Amount value="60"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="PurifierPlanetCrackerSearch">
+        <AreaArray index="0" RadiusBonus="0.2"/>
+    </CEffectEnumArea>
+</Catalog>
