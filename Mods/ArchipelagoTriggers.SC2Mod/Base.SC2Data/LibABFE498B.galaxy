@@ -13527,26 +13527,36 @@ void libABFE498B_gt_AP_Triggers_Debug_clearQueue_Init () {
 // Trigger: AP_Triggers_Debug_skipTransmissions
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_duration;
+
     // Automatic Variable Declarations
-    const int auto014580F1_n = 10;
+    int auto014580F1_n;
     int auto014580F1_i;
 
-    // Conditions
-    if (testConds) {
-        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
-            return false;
-        }
-    }
+    // Variable Initialization
+    lv_duration = StringToInt(StringWord(EventChatMessage(false), 2));
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, (StringExternal("Param/Value/lib_ABFE498B_C2E7DE3B")), true);
+    if ((lv_duration == 0)) {
+        lv_duration = 1;
+    }
+
+    if ((lv_duration <= 1)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_DA8707A1"), true);
+    }
+    else {
+        TextExpressionSetToken("Param/Expression/lib_ABFE498B_E40987BD", "A", IntToText(lv_duration));
+        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_E40987BD"), true);
+    }
+    auto014580F1_n = (8*FixedToInt(lv_duration));
     for (auto014580F1_i = 1; auto014580F1_i <= auto014580F1_n; auto014580F1_i += 1) {
         TransmissionClearAll();
-        Wait(0.1, c_timeReal);
+        Wait(0.125, c_timeReal);
     }
     return true;
 }
@@ -13554,8 +13564,8 @@ bool libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Func (bool testConds, bo
 //--------------------------------------------------------------------------------------------------
 void libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Init () {
     libABFE498B_gt_AP_Triggers_Debug_skipTransmissions = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Func");
-    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_skipTransmissions, c_playerAny, "-skip", true);
-    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_skipTransmissions, c_playerAny, "-s", true);
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_skipTransmissions, c_playerAny, "-skip", false);
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_skipTransmissions, c_playerAny, "-s", false);
 }
 
 //--------------------------------------------------------------------------------------------------
