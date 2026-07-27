@@ -2756,6 +2756,10 @@ void gt_DebugIntro_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_DebugStage2FindIntel_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    unitgroup auto2F8948D4_g;
+    int auto2F8948D4_u;
+    unit auto2F8948D4_var;
+
     // Conditions
     if (testConds) {
         if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
@@ -2782,7 +2786,16 @@ bool gt_DebugStage2FindIntel_Func (bool testConds, bool runActions) {
 
     TriggerDebugOutput(1, StringExternal("Param/Value/2440A812"), true);
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerExecute(gt_ObjectiveFillGarrisonsCreate, true, true);
     TriggerExecute(gt_ObjectiveRecoverDownedForcesCreate, true, true);
+    libABFE498B_gf_AP_Triggers_Debug_reviveKerrigan(EventPlayer());
+    auto2F8948D4_g = libABFE498B_gv_aP_Triggers_HeroUnits;
+    auto2F8948D4_u = UnitGroupCount(auto2F8948D4_g, c_unitCountAll);
+    for (;; auto2F8948D4_u -= 1) {
+        auto2F8948D4_var = UnitGroupUnitFromEnd(auto2F8948D4_g, auto2F8948D4_u);
+        if (auto2F8948D4_var == null) { break; }
+        libABFE498B_gf_AP_Triggers_Debug_reviveHero(auto2F8948D4_var);
+    }
     TriggerExecute(gt_S1GarrisonsAllFilledUp, true, true);
     return true;
 }
@@ -2799,6 +2812,9 @@ void gt_DebugStage2FindIntel_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_DebugStage3CatchStationOfficer_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    unitgroup auto92A3FE42_g;
+    int auto92A3FE42_u;
+    unit auto92A3FE42_var;
     unitgroup auto5BFC4F4B_g;
     int auto5BFC4F4B_u;
     unit auto5BFC4F4B_var;
@@ -2837,6 +2853,17 @@ bool gt_DebugStage3CatchStationOfficer_Func (bool testConds, bool runActions) {
     TriggerDebugOutput(1, StringExternal("Param/Value/0FC28238"), true);
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerEnable(gt_DebugStage2FindIntel, false);
+    TriggerExecute(gt_ObjectiveFillGarrisonsCreate, true, true);
+    TriggerExecute(gt_ObjectiveRecoverDownedForcesCreate, true, true);
+    TriggerExecute(gt_ObjectiveReachCommunicationsHubCreate, true, true);
+    libABFE498B_gf_AP_Triggers_Debug_reviveKerrigan(EventPlayer());
+    auto92A3FE42_g = libABFE498B_gv_aP_Triggers_HeroUnits;
+    auto92A3FE42_u = UnitGroupCount(auto92A3FE42_g, c_unitCountAll);
+    for (;; auto92A3FE42_u -= 1) {
+        auto92A3FE42_var = UnitGroupUnitFromEnd(auto92A3FE42_g, auto92A3FE42_u);
+        if (auto92A3FE42_var == null) { break; }
+        libABFE498B_gf_AP_Triggers_Debug_reviveHero(auto92A3FE42_var);
+    }
     gv_currentStage = 2;
     SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryAmbience, "Ambience_TarsonisCityUnderground_Quad", c_soundtrackCueAny, c_soundtrackIndexAny, true);
     auto5BFC4F4B_g = UnitGroup(null, c_playerAny, RegionFromId(7), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
@@ -2844,7 +2871,7 @@ bool gt_DebugStage3CatchStationOfficer_Func (bool testConds, bool runActions) {
     for (;; auto5BFC4F4B_u -= 1) {
         auto5BFC4F4B_var = UnitGroupUnitFromEnd(auto5BFC4F4B_g, auto5BFC4F4B_u);
         if (auto5BFC4F4B_var == null) { break; }
-        if ((auto5BFC4F4B_var != gv_nova)) {
+        if ((auto5BFC4F4B_var != gv_nova) && (UnitGroupHasUnit(libABFE498B_gv_aP_Triggers_HeroUnits, auto5BFC4F4B_var) == false)) {
             UnitRemove(auto5BFC4F4B_var);
         }
 
@@ -2860,23 +2887,15 @@ bool gt_DebugStage3CatchStationOfficer_Func (bool testConds, bool runActions) {
     libNtve_gf_ShowHideDoodadsInRegion(true, RegionFromId(13), "ScientistCorpseGory");
     libNtve_gf_ShowHideDoodadsInRegion(true, RegionFromId(13), "ColonistCorpse");
     libNtve_gf_ShowHideDoodadsInRegion(true, RegionFromId(13), "BloodSplats");
-    UnitAbilityEnable(gv_nova, "NovaNukeTimer", false);
     GameSetLighting(gv_lighting_Stage02, 0.0);
     RegionPlayableMapSet(RegionEntireMap());
     UnitSetPosition(gv_nova, PointWithOffset(PointFromId(794), -2.0, -2.0), false);
     Wait(0.0625, c_timeGame);
     CameraPan(gv_pLAYER_01_USER, UnitGetPosition(gv_nova), 0.0, -1, 10.0, false);
-    libNovC_gf_UnequipNovaEquipmentForSlot("EQPSlotSuit");
-    libNovC_gf_EnableDisableNovaEquipment(true, "EQPSuitItem1");
-    libNovC_gf_UnequipNovaEquipmentForSlot("EQPSlotHelmet");
-    libNovC_gf_EnableDisableNovaEquipment(true, "EQPHelmetItem1");
-    libNovC_gf_UnequipNovaEquipmentForSlot("EQPSlotGadget");
-    libNovC_gf_EnableDisableNovaEquipment(true, "EQPGadgetItem4");
-    libNovC_gf_UnequipNovaEquipmentForSlot("EQPSlotWeapon");
-    libNovC_gf_EnableDisableNovaEquipment(true, "EQPWeaponItem3");
-    TechTreeUpgradeAddLevel(gv_pLAYER_01_USER, "NovaWeaponMinScanRangeZero", 1);
-    UnitAbilityEnable(gv_nova, "NovaPsiStrike", true);
-    UnitAbilityShow(gv_nova, "NovaPsiStrike", true);
+    TriggerExecute(gt_ObjectiveFillGarrisonsComplete, true, true);
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_ALL_GARRISONS);
+    TriggerExecute(gt_S1CleanUpSection01, true, true);
+    TriggerExecute(gt_S2CleanUpSection02, true, true);
     TriggerExecute(gt_S2NovaEntersBeaconIntelQ, false, true);
     return true;
 }
