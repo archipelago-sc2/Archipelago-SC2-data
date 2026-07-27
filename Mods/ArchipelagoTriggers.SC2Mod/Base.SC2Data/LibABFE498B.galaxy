@@ -14277,6 +14277,13 @@ bool libABFE498B_gt_AP_Triggers_ChangeMusic_Func (bool testConds, bool runAction
 
     // Variable Initialization
 
+    // Conditions
+    if (testConds) {
+        if (!(((StringWord(EventChatMessage(false), 1) == "-m") || (StringWord(EventChatMessage(false), 1) == "-music")))) {
+            return false;
+        }
+    }
+
     // Actions
     if (!runActions) {
         return true;
