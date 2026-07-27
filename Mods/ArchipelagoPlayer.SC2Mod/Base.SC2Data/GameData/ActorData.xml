@@ -9104,68 +9104,17 @@
         <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
         <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
     </CActorSiteMover>
-    <CActorSite id="AP_ChainReaction1ImpactSite" parent="GenericAttackImpactSite"/>
-    <CActorSite id="AP_ChainReaction2ImpactSite" parent="GenericAttackImpactSite"/>
-    <CActorSite id="AP_ChainReaction3ImpactSite" parent="GenericAttackImpactSite"/>
-    <CActorSite id="AP_ChainReaction4ImpactSite" parent="GenericAttackImpactSite"/>
-    <CActorSite id="AP_ChainReaction5ImpactSite" parent="GenericAttackImpactSite"/>
     <CActorAction id="AP_ChainReaction2Attack" parent="GenericAttack" effectAttack="AP_ChainReaction2Damage">
-        <LaunchRequest Subject="AP_ChainReaction1ImpactSite" Actor="Find"/>
+        <LaunchRequest Subject="_ImpactGuide"/>
+        <Beam value="AP_ChainReactionAttackBeam"/>
         <BeamScope value="Caster"/>
         <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
-        <ImpactSite value="AP_ChainReaction2ImpactSite"/>
         <ImpactMap index="None" Sound="AP_Kerrigan_BeamSecondary_AttackImpact"/>
     </CActorAction>
-    <CActorBeamSimple id="AP_ChainReaction2AttackBeam">
-        <Flags index="SuppressSaveLoad" value="1"/>
-        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
-        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
-        <Model value="AP_KerriganEnergyAttack"/>
-    </CActorBeamSimple>
-    <CActorAction id="AP_ChainReaction3Attack" parent="GenericAttack" effectAttack="AP_ChainReaction3Damage">
-        <LaunchRequest Subject="AP_ChainReaction2ImpactSite" Actor="Find"/>
-        <BeamScope value="Caster"/>
-        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
-        <ImpactSite value="AP_ChainReaction3ImpactSite"/>
-        <ImpactMap index="None" Sound="AP_Kerrigan_BeamSecondary_AttackImpact"/>
-    </CActorAction>
-    <CActorBeamSimple id="AP_ChainReaction3AttackBeam">
-        <Flags index="SuppressSaveLoad" value="1"/>
-        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
-        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
-        <Model value="AP_KerriganEnergyAttack"/>
-    </CActorBeamSimple>
-    <CActorAction id="AP_ChainReaction4Attack" parent="GenericAttack" effectAttack="AP_ChainReaction4Damage">
-        <LaunchRequest Subject="ChainReaction3ImpactSite" Actor="Find"/>
-        <BeamScope value="Caster"/>
-        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
-        <ImpactSite value="AP_ChainReaction4ImpactSite"/>
-        <ImpactMap index="None" Sound="AP_Kerrigan_BeamSecondary_AttackImpact"/>
-    </CActorAction>
-    <CActorBeamSimple id="AP_ChainReaction4AttackBeam">
-        <Flags index="SuppressSaveLoad" value="1"/>
-        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
-        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
-        <Model value="AP_KerriganEnergyAttack"/>
-    </CActorBeamSimple>
-    <CActorAction id="AP_ChainReaction5Attack" parent="GenericAttack" effectAttack="AP_ChainReaction5Damage">
-        <LaunchRequest Subject="ChainReaction4ImpactSite" Actor="Find"/>
-        <BeamScope value="Caster"/>
-        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
-        <ImpactSite value="AP_ChainReaction5ImpactSite"/>
-        <ImpactMap index="None" Sound="AP_Kerrigan_BeamSecondary_AttackImpact"/>
-    </CActorAction>
-    <CActorBeamSimple id="AP_ChainReaction5AttackBeam">
-        <Flags index="SuppressSaveLoad" value="1"/>
-        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
-        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
-        <Model value="AP_KerriganEnergyAttack"/>
-    </CActorBeamSimple>
     <CActorAction id="AP_ChainReactionAttack" parent="GenericAttack" effectAttack="AP_ChainReaction1Damage">
         <LaunchSiteOps Ops="SOpAttachWeapon"/>
         <BeamScope value="Caster"/>
         <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance"/>
-        <ImpactSite value="AP_ChainReaction1ImpactSite"/>
         <ImpactPhysics Name="AP_ChainReactionAttackForce" MatchKeys="Basic" Physics="ChainReactionAttackForce"/>
     </CActorAction>
     <CActorBeamSimple id="AP_ChainReactionAttackBeam" parent="BeamSimpleAnimationStyleOneShot">

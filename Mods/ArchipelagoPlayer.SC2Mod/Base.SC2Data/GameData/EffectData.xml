@@ -16572,18 +16572,23 @@
         <Marker Link="AP_ChainReaction">
             <MatchFlags index="Link" value="1"/>
         </Marker>
-        <EffectArray value="AP_ChainReaction1Delay"/>
+        <EffectArray value="AP_ChainReactionUD"/>
         <EffectArray value="AP_K5InfestBroodlings"/>
         <EffectArray value="AP_KerriganPrimalRageSwitch"/>
         <EffectArray value="AP_ChainReaction1Damage"/>
         <EffectArray value="AP_ChainReactionMarker"/>
     </CEffectSet>
+    <CEffectUserData id="AP_ChainReactionUD">
+        <ValidatorArray value="AP_HasK5ChainLightningUpgrade"/>
+        <ValidateMax value="4"/>
+        <EffectSuccess value="AP_ChainReaction1Delay"/>
+        <TargetLocationType value="Unit"/>
+    </CEffectUserData>
     <CEffectDamage id="AP_ChainReaction1Damage" parent="DU_WEAP">
         <Marker Link="AP_ChainReaction"/>
         <Amount value="20"/>
     </CEffectDamage>
     <CEffectCreatePersistent id="AP_ChainReaction1Delay">
-        <ValidatorArray value="AP_HasK5ChainLightningUpgrade"/>
         <EditorCategories value="Race:Zerg"/>
         <Marker Link="AP_ChainReaction"/>
         <WhichLocation Value="TargetUnit"/>
@@ -16605,103 +16610,12 @@
         <ValidatorArray value="AP_NotHaveChainReactionMarker"/>
         <EditorCategories value="Race:Zerg"/>
         <Marker Link="AP_ChainReaction"/>
-        <EffectArray value="AP_ChainReaction2Delay"/>
+        <EffectArray value="AP_ChainReactionUD"/>
         <EffectArray value="AP_K5InfestBroodlings"/>
         <EffectArray value="AP_ChainReaction2Damage"/>
         <EffectArray value="AP_ChainReactionMarker"/>
     </CEffectSet>
     <CEffectDamage id="AP_ChainReaction2Damage" parent="DU_WEAP">
-        <Marker Link="AP_ChainReaction"/>
-        <Amount value="10"/>
-    </CEffectDamage>
-    <CEffectCreatePersistent id="AP_ChainReaction2Delay">
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <WhichLocation Value="TargetUnit"/>
-        <ExpireDelay value="0.125"/>
-        <FinalEffect value="AP_ChainReactionSearchForNewTarget2"/>
-    </CEffectCreatePersistent>
-    <CEffectEnumArea id="AP_ChainReactionSearchForNewTarget2">
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <ImpactLocation Effect="AP_ChainReaction2Delay" Value="TargetPoint"/>
-        <ExcludeArray Value="Target"/>
-        <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <TargetSorts>
-            <SortArray value="TSDistanceToTarget"/>
-        </TargetSorts>
-        <AreaArray MaxCount="1" Radius="4" Effect="AP_ChainReaction3"/>
-    </CEffectEnumArea>
-    <CEffectSet id="AP_ChainReaction3">
-        <ValidatorArray value="AP_NotHaveChainReactionMarker"/>
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <EffectArray value="AP_ChainReaction3Delay"/>
-        <EffectArray value="AP_K5InfestBroodlings"/>
-        <EffectArray value="AP_ChainReaction3Damage"/>
-        <EffectArray value="AP_ChainReactionMarker"/>
-    </CEffectSet>
-    <CEffectDamage id="AP_ChainReaction3Damage" parent="DU_WEAP">
-        <Marker Link="AP_ChainReaction"/>
-        <Amount value="10"/>
-    </CEffectDamage>
-    <CEffectCreatePersistent id="AP_ChainReaction3Delay">
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <WhichLocation Value="TargetUnit"/>
-        <ExpireDelay value="0.125"/>
-        <FinalEffect value="AP_ChainReaction3SearchForNewTarget"/>
-    </CEffectCreatePersistent>
-    <CEffectEnumArea id="AP_ChainReaction3SearchForNewTarget">
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <ImpactLocation Effect="AP_ChainReaction3Delay" Value="TargetPoint"/>
-        <ExcludeArray Value="Target"/>
-        <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <TargetSorts>
-            <SortArray value="TSDistanceToTarget"/>
-        </TargetSorts>
-        <AreaArray MaxCount="1" Radius="4" Effect="AP_ChainReaction4"/>
-    </CEffectEnumArea>
-    <CEffectSet id="AP_ChainReaction4">
-        <ValidatorArray value="AP_NotHaveChainReactionMarker"/>
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <EffectArray value="AP_ChainReaction4Delay"/>
-        <EffectArray value="AP_K5InfestBroodlings"/>
-        <EffectArray value="AP_ChainReaction4Damage"/>
-        <EffectArray value="AP_ChainReactionMarker"/>
-    </CEffectSet>
-    <CEffectDamage id="AP_ChainReaction4Damage" parent="DU_WEAP">
-        <Marker Link="AP_ChainReaction"/>
-        <Amount value="10"/>
-    </CEffectDamage>
-    <CEffectCreatePersistent id="AP_ChainReaction4Delay">
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <WhichLocation Value="TargetUnit"/>
-        <ExpireDelay value="0.125"/>
-        <FinalEffect value="AP_ChainReaction4SearchForNewTarget"/>
-    </CEffectCreatePersistent>
-    <CEffectEnumArea id="AP_ChainReaction4SearchForNewTarget">
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <ImpactLocation Effect="ChainReaction4Delay" Value="TargetPoint"/>
-        <ExcludeArray Value="Target"/>
-        <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <TargetSorts>
-            <SortArray value="TSDistanceToTarget"/>
-        </TargetSorts>
-        <AreaArray MaxCount="1" Radius="4" Effect="AP_ChainReaction5"/>
-    </CEffectEnumArea>
-    <CEffectSet id="AP_ChainReaction5">
-        <ValidatorArray value="AP_NotHaveChainReactionMarker"/>
-        <EditorCategories value="Race:Zerg"/>
-        <Marker Link="AP_ChainReaction"/>
-        <EffectArray value="AP_K5InfestBroodlings"/>
-        <EffectArray value="AP_ChainReaction5Damage"/>
-    </CEffectSet>
-    <CEffectDamage id="AP_ChainReaction5Damage" parent="DU_WEAP">
         <Marker Link="AP_ChainReaction"/>
         <Amount value="10"/>
     </CEffectDamage>
@@ -17358,16 +17272,6 @@
         <EffectArray value="AP_KerriganAbilityEfficiency"/>
         <EffectArray value="AP_WildMutationSearch"/>
         <TargetLocationType value="Point"/>
-    </CEffectSet>
-    <CEffectSet id="AP_ChainReaction1Melee">
-        <EditorCategories value="Race:Zerg"/>
-        <EffectArray value="AP_ChainReaction1Delay"/>
-        <EffectArray value="AP_KerriganPrimalRageSwitch"/>
-        <EffectArray value="AP_K5InfestBroodlings"/>
-        <EffectArray value="AP_ChainReaction1Damage"/>
-        <Marker Link="AP_ChainReaction">
-            <MatchFlags index="Link" value="1"/>
-        </Marker>
     </CEffectSet>
     <CEffectEnumArea id="AP_PsionicLiftDummySearch">
         <EditorCategories value="Race:Zerg"/>
