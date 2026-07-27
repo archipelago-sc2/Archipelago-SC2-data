@@ -14,48 +14,6 @@ include "Lib5BD4895D"
 include "LibABFE498B"
 
 //--------------------------------------------------------------------------------------------------
-// Library: Helper Functions
-//--------------------------------------------------------------------------------------------------
-// Function Declarations
-point lib1_gf_RandomPointInCircle (region lp_circle);
-
-//--------------------------------------------------------------------------------------------------
-// Library: Helper Functions
-//--------------------------------------------------------------------------------------------------
-// External Library Initialization
-void lib1_InitLibraries () {
-    libNtve_InitVariables();
-}
-
-// Functions
-point lib1_gf_RandomPointInCircle (region lp_circle) {
-    // Variable Declarations
-    fixed lv_radius;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Implementation
-    lv_radius = (AbsF((PointGetX(RegionGetBoundsMax(lp_circle)) - PointGetX(RegionGetBoundsMin(lp_circle)))) / 2.0);
-    return PointWithOffsetPolar(RegionGetCenter(lp_circle), RandomFixed(0.0, lv_radius), libNtve_gf_RandomAngle());
-}
-
-//--------------------------------------------------------------------------------------------------
-// Library Initialization
-//--------------------------------------------------------------------------------------------------
-bool lib1_InitLib_completed = false;
-
-void lib1_InitLib () {
-    if (lib1_InitLib_completed) {
-        return;
-    }
-
-    lib1_InitLib_completed = true;
-
-    lib1_InitLibraries();
-}
-
-//--------------------------------------------------------------------------------------------------
 // Library Initialization
 //--------------------------------------------------------------------------------------------------
 void InitLibs () {
@@ -66,7 +24,6 @@ void InitLibs () {
     lib88187CC2_InitLib();
     lib5BD4895D_InitLib();
     libABFE498B_InitLib();
-    lib1_InitLib();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -650,7 +607,7 @@ bool gt_FactionswapInit_Func (bool testConds, bool runActions) {
     }
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
         libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
@@ -6206,23 +6163,23 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     CameraApplyInfo(gv_pLAYER01_USER, CameraInfoFromId(1119), 0.0, -1, 10, true);
     autoDD50BA3E_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (autoDD50BA3E_val == "Prot") {
-        libNtve_gf_MakeUnitInvulnerable(gv_victoryHyperion, true);
-        UnitSetState(gv_victoryHyperion, c_unitStateTargetable, false);
         // Transmission - SoundLink("TZeratul04Artanis00009", 0)
         libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul04Artanis00009", -1), c_transmissionDurationAdd, 0.0, false);
         libNtve_gf_UnitCreateFacingPoint(1, "Purifier", 0, gv_pLAYER07_HYPERION, PointFromId(270), PointFromId(1117));
         gv_victoryHyperion = UnitLastCreated();
+        libNtve_gf_MakeUnitInvulnerable(gv_victoryHyperion, true);
+        UnitSetState(gv_victoryHyperion, c_unitStateTargetable, false);
         UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(866)), c_orderQueueAddToEnd);
         UnitIssueOrder(gv_victoryHyperion, Order(AbilityCommand("move", 2)), c_orderQueueAddToEnd);
         UnitBehaviorAdd(gv_victoryHyperion, "PurifierPlanetCrackerCharge", gv_victoryHyperion, 1);
     }
     else if (autoDD50BA3E_val == "Zerg") {
-        libNtve_gf_MakeUnitInvulnerable(gv_victoryHyperion, true);
-        UnitSetState(gv_victoryHyperion, c_unitStateTargetable, false);
         // Transmission - SoundLink("TValerian03Adjutant00066", 0)
         libCamp_gf_SendTransmissionCampaign(null, SoundLink("TValerian03Adjutant00066", -1), c_transmissionDurationAdd, 0.0, false);
         libNtve_gf_UnitCreateFacingPoint(1, "Leviathan", 0, gv_pLAYER07_HYPERION, PointFromId(270), PointFromId(1117));
         gv_victoryHyperion = UnitLastCreated();
+        libNtve_gf_MakeUnitInvulnerable(gv_victoryHyperion, true);
+        UnitSetState(gv_victoryHyperion, c_unitStateTargetable, false);
         for (auto7E92046C_i = 1; auto7E92046C_i <= auto7E92046C_n; auto7E92046C_i += 1) {
             UnitIssueOrder(gv_victoryHyperion, Order(AbilityCommand("LeviathanSpawnMutalisk", 0)), c_orderQueueAddToEnd);
         }
@@ -6237,6 +6194,8 @@ bool gt_VictoryCinematic_Func (bool testConds, bool runActions) {
     else {
         libNtve_gf_UnitCreateFacingPoint(1, "Hyperion", 0, gv_pLAYER07_HYPERION, PointFromId(270), PointFromId(1117));
         gv_victoryHyperion = UnitLastCreated();
+        libNtve_gf_MakeUnitInvulnerable(gv_victoryHyperion, true);
+        UnitSetState(gv_victoryHyperion, c_unitStateTargetable, false);
         libNtve_gf_PlayAnimation(libNtve_gf_MainActorofUnit(gv_victoryHyperion), c_animNameDefault, "Stand Work", c_animFlagNonLooping, c_animTimeDefault);
         libNtve_gf_SetAnimationTimeScale(libNtve_gf_MainActorofUnit(gv_victoryHyperion), c_animNameDefault, 1.5);
         UnitIssueOrder(gv_victoryHyperion, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(866)), c_orderQueueAddToEnd);
