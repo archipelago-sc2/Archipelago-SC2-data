@@ -1081,6 +1081,9 @@ void gt_ArchInit_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    unitgroup autoC39C8E9F_g;
+    int autoC39C8E9F_u;
+    unit autoC39C8E9F_var;
     unitgroup auto2829A59B_g;
     int auto2829A59B_u;
     unit auto2829A59B_var;
@@ -1091,7 +1094,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Zerg";
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
@@ -1115,6 +1118,13 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
             if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
                 PlayerSetRace(gv_pLAYER_01_USER, "Zerg");
                 lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
+                autoC39C8E9F_g = UnitGroup("CreepBlocker8x8", c_playerAny, RegionEntireMap(), UnitFilter(0, 0, 0, (1 << (c_targetFilterDead - 32))), 0);
+                autoC39C8E9F_u = UnitGroupCount(autoC39C8E9F_g, c_unitCountAll);
+                for (;; autoC39C8E9F_u -= 1) {
+                    autoC39C8E9F_var = UnitGroupUnitFromEnd(autoC39C8E9F_g, autoC39C8E9F_u);
+                    if (autoC39C8E9F_var == null) { break; }
+                    UnitRemove(autoC39C8E9F_var);
+                }
             }
 
         }
