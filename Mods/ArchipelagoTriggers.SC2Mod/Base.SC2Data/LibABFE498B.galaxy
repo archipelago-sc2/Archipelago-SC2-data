@@ -13537,6 +13537,13 @@ bool libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Func (bool testConds, bo
     // Variable Initialization
     lv_duration = StringToInt(StringWord(EventChatMessage(false), 2));
 
+    // Conditions
+    if (testConds) {
+        if (!(((StringWord(EventChatMessage(false), 1) == "-s") || (StringWord(EventChatMessage(false), 1) == "-skip")))) {
+            return false;
+        }
+    }
+
     // Actions
     if (!runActions) {
         return true;
