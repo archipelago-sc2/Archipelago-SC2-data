@@ -736,14 +736,12 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
+        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 0;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gf_AP_Triggers_Debug_Tech(gv_pLAYER_01_USER, 1);
-        libABFE498B_gf_AP_Triggers_Terran_unlockRavenHunterSeekerWeapon(1);
     }
 
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
@@ -793,6 +791,10 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     UnitGroupAddUnitGroup(lv_heroreplacementunits, UnitGroup(null, gv_pLAYER_01_USER, RegionFromId(39), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     UnitGroupAddUnitGroup(lv_heroreplacementunits, UnitGroup(null, gv_pLAYER_01_USER, RegionFromId(51), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     libABFE498B_gf_AP_Triggers_HeroInit(gv_pLAYER_01_USER, PointFromId(74), lv_heroreplacementunits);
+    if ((libABFE498B_gv_aP_Triggers_Option_HeroPresence != 0)) {
+        TriggerEnable(gt_TeachBlinkQ, false);
+    }
+
     return true;
 }
 
@@ -7522,7 +7524,12 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     VisExploreArea(gv_pLAYER_01_USER, RegionFromId(41), true, false);
     auto12DDB1EE_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto12DDB1EE_val == "Neut") {
-        lv_startCameraPoint = CameraInfoGetTarget(CameraInfoFromId(1800));
+        if ((libABFE498B_gv_aP_Triggers_Option_HeroPresence == 0)) {
+            lv_startCameraPoint = CameraInfoGetTarget(CameraInfoFromId(1800));
+        }
+        else {
+            lv_startCameraPoint = PointFromId(74);
+        }
     }
     else if (auto12DDB1EE_val == "Terr") {
         lv_startCameraPoint = UnitGetPosition(UnitFromId(107979129));
