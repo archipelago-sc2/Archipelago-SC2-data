@@ -244,6 +244,7 @@ trigger gt_Init07Help;
 trigger gt_PlayerIsInCombat;
 trigger gt_PlayerIsInCombatIndicatorDiminish;
 trigger gt_DEBUGVictory;
+trigger gt_DEBUGSpawnLeviathan;
 trigger gt_IntroSequence;
 trigger gt_StartGame;
 trigger gt_SpawnLeviathan;
@@ -1637,6 +1638,47 @@ bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
 void gt_DEBUGVictory_Init () {
     gt_DEBUGVictory = TriggerCreate("gt_DEBUGVictory_Func");
     TriggerAddEventChatMessage(gt_DEBUGVictory, c_playerAny, "-win", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Spawn Leviathan
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGSpawnLeviathan_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(EventPlayer()) == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/10E6E245"), true);
+    TriggerExecute(gt_SpawnLeviathan, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGSpawnLeviathan_Init () {
+    gt_DEBUGSpawnLeviathan = TriggerCreate("gt_DEBUGSpawnLeviathan_Func");
+    TriggerAddEventChatMessage(gt_DEBUGSpawnLeviathan, c_playerAny, "-leviathan", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7892,6 +7934,7 @@ void InitTriggers () {
     gt_PlayerIsInCombat_Init();
     gt_PlayerIsInCombatIndicatorDiminish_Init();
     gt_DEBUGVictory_Init();
+    gt_DEBUGSpawnLeviathan_Init();
     gt_IntroSequence_Init();
     gt_StartGame_Init();
     gt_SpawnLeviathan_Init();
