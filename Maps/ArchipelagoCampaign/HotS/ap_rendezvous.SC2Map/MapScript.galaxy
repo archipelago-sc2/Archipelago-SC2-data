@@ -1233,6 +1233,16 @@ void gt_ArchInit_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    unitgroup auto743F1FC8_g;
+    int auto743F1FC8_u;
+    unit auto743F1FC8_var;
+    unitgroup auto76E4F941_g;
+    int auto76E4F941_u;
+    unit auto76E4F941_var;
+    unitgroup auto84BACB71_g;
+    int auto84BACB71_u;
+    unit auto84BACB71_var;
+
     // Actions
     if (!runActions) {
         return true;
@@ -1270,6 +1280,27 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
         libLbty_gf_OrderWorkerstoGatherNearbyResources(RegionEntireMap(), gv_pLAYER_01_USER);
         lib15EF4C78_gf_AP_Player_UtilTownHallAutoRally(gv_pLAYER_01_USER);
+    }
+    auto743F1FC8_g = gv_rescue_DominionCenter;
+    auto743F1FC8_u = UnitGroupCount(auto743F1FC8_g, c_unitCountAll);
+    for (;; auto743F1FC8_u -= 1) {
+        auto743F1FC8_var = UnitGroupUnitFromEnd(auto743F1FC8_g, auto743F1FC8_u);
+        if (auto743F1FC8_var == null) { break; }
+        UnitIssueOrder(auto743F1FC8_var, OrderTargetingUnit(AbilityCommand("attack", 0), UnitFromId(781)), c_orderQueueReplace);
+    }
+    auto76E4F941_g = gv_rescue_DominionLeft;
+    auto76E4F941_u = UnitGroupCount(auto76E4F941_g, c_unitCountAll);
+    for (;; auto76E4F941_u -= 1) {
+        auto76E4F941_var = UnitGroupUnitFromEnd(auto76E4F941_g, auto76E4F941_u);
+        if (auto76E4F941_var == null) { break; }
+        UnitIssueOrder(auto76E4F941_var, OrderTargetingUnit(AbilityCommand("attack", 0), UnitFromId(52)), c_orderQueueReplace);
+    }
+    auto84BACB71_g = gv_rescue_DominionRight;
+    auto84BACB71_u = UnitGroupCount(auto84BACB71_g, c_unitCountAll);
+    for (;; auto84BACB71_u -= 1) {
+        auto84BACB71_var = UnitGroupUnitFromEnd(auto84BACB71_g, auto84BACB71_u);
+        if (auto84BACB71_var == null) { break; }
+        UnitIssueOrder(auto84BACB71_var, OrderTargetingUnit(AbilityCommand("attack", 0), UnitFromId(146)), c_orderQueueReplace);
     }
     return true;
 }
