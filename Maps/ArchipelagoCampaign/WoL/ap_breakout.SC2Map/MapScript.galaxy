@@ -1087,6 +1087,8 @@ bool gt_Init02Players_Func (bool testConds, bool runActions) {
     PlayerGroupAdd(gv_raynorsRaiders, gv_p2_RAYNOR_LIGHTBLUE);
     PlayerGroupAdd(gv_raynorsRaiders, gv_p8_ALLIED_PINK);
     PlayerGroupAdd(gv_raynorsRaiders, gv_p9_ALLIED_GREEN);
+    PlayerGroupAdd(gv_raynorsRaiders, gv_p11_ALLIED_CELLBLOCK_A);
+    PlayerGroupAdd(gv_raynorsRaiders, gv_p12_ALLIED_CELLBLOCK_B);
     libNtve_gf_SetAlliance(gv_p1_USER, gv_p2_RAYNOR_LIGHTBLUE, libNtve_ge_AllianceSetting_AllyWithSharedVision);
     libNtve_gf_SetAlliance(gv_p1_USER, gv_p7_PRISONER_YELLOW, libNtve_ge_AllianceSetting_Ally);
     libNtve_gf_SetAlliance(gv_p1_USER, gv_p8_ALLIED_PINK, libNtve_ge_AllianceSetting_AllyWithSharedVision);
@@ -4443,6 +4445,14 @@ bool gt_StreamlineAIMovement_Func (bool testConds, bool runActions) {
     // Conditions
     if (testConds) {
         if (!(((UnitGetOwner(EventUnit()) == gv_p0_NEUTRAL) || (UnitGetOwner(EventUnit()) == gv_p2_RAYNOR_LIGHTBLUE) || (UnitGetOwner(EventUnit()) == gv_p8_ALLIED_PINK) || (UnitGetOwner(EventUnit()) == gv_p9_ALLIED_GREEN) || (UnitGetOwner(EventUnit()) == gv_p11_ALLIED_CELLBLOCK_A) || (UnitGetOwner(EventUnit()) == gv_p12_ALLIED_CELLBLOCK_B)))) {
+            return false;
+        }
+
+        if (!((UnitFilterMatch(EventUnit(), EventPlayer(), UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterItem), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)))) == true))) {
+            return false;
+        }
+
+        if (!((UnitGetType(EventUnit()) != "AP_SIInfestedTrooper"))) {
             return false;
         }
     }
