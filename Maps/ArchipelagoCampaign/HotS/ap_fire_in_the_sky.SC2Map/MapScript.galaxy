@@ -733,7 +733,7 @@ int gf_ScourgeNestAvailableToShoot () {
     // Implementation
     lv_loopVar = 1;
     for ( ; ( (autoB8676095_ai >= 0 && lv_loopVar <= autoB8676095_ae) || (autoB8676095_ai < 0 && lv_loopVar >= autoB8676095_ae) ) ; lv_loopVar += autoB8676095_ai ) {
-        if ((UnitIsAlive(gv_scourgeNestUnit[lv_loopVar]) == true) && ((UnitGroupCount(UnitGroup("AP_CreepTumor", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_CreepTumorBurrowed", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_CreepTumorUsed", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Hatchery", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Lair", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Hive", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Pylon", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr") && (UnitGetPropertyFixed(gv_scourgeNestUnit[lv_loopVar], c_unitPropLifePercent, c_unitPropCurrent) >= 99.0)))) {
+        if ((UnitIsAlive(gv_scourgeNestUnit[lv_loopVar]) == true) && (gv_scourgeNestActivated[lv_loopVar] == false) && ((UnitGroupCount(UnitGroup("AP_CreepTumor", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_CreepTumorBurrowed", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_CreepTumorUsed", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Hatchery", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Lair", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Hive", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Pylon", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr") && (UnitGetPropertyFixed(gv_scourgeNestUnit[lv_loopVar], c_unitPropLifePercent, c_unitPropCurrent) >= 99.0)))) {
             return lv_loopVar;
         }
 
@@ -848,6 +848,16 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     // Actions
     if (!runActions) {
         return true;
+    }
+
+    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
+        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        libABFE498B_gv_aP_Triggers_DebugMode = true;
+        libABFE498B_gf_AP_Triggers_setDifficulty("B");
+        libABFE498B_gf_AP_Triggers_setGameSpeed("5");
+        libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
+        TriggerExecute(libABFE498B_gv_aP_Triggers_onDifficultyBrutal, true, false);
     }
 
     if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
