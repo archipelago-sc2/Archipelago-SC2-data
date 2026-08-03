@@ -2099,6 +2099,10 @@ bool gt_ScourgeNestCycle_Func (bool testConds, bool runActions) {
     auto02AEEC73_ae = gv_scourgeNestMapTotal;
     lv_index = 1;
     for ( ; ( (auto02AEEC73_ai >= 0 && lv_index <= auto02AEEC73_ae) || (auto02AEEC73_ai < 0 && lv_index >= auto02AEEC73_ae) ) ; lv_index += auto02AEEC73_ai ) {
+        if ((gv_scourgeNestsActivatedCount > gv_gorgonsDestroyed)) {
+            return true;
+        }
+
         if ((gv_scourgeNestActivated[lv_index] == false) && (UnitIsAlive(gv_scourgeNestUnit[lv_index]) == true)) {
             if (((UnitGroupCount(UnitGroup("AP_CreepTumorBurrowed", gv_pLAYER_01_USER, RegionCircle(gv_scourgeNest_Point[lv_index], gv_c_ScourgeActivationRange), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) >= 1) || (UnitGroupCount(UnitGroup("AP_Pylon", gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(gv_scourgeNestUnit[lv_index]), gv_c_ScourgeActivationRange), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterUnderConstruction - 32)) | (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) >= 1) || ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr") && (UnitGetPropertyFixed(gv_scourgeNestUnit[lv_index], c_unitPropLifePercent, c_unitPropCurrent) >= 99.0)))) {
                 auto4D6619B6_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
