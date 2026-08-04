@@ -68,6 +68,7 @@ bool gv_inCinematic;
 unit gv_kerrigan;
 playergroup gv_dominionPlayers;
 int gv_transmissionInterrutable;
+bool gv_displayDebugMessages;
 bool gv_cinematicSkipCheck;
 unit[11] gv_scourgeNestUnit;
 int[11] gv_scourgeNestPing;
@@ -733,6 +734,13 @@ int gf_ScourgeNestAvailableToShoot () {
     // Implementation
     lv_loopVar = 1;
     for ( ; ( (autoB8676095_ai >= 0 && lv_loopVar <= autoB8676095_ae) || (autoB8676095_ai < 0 && lv_loopVar >= autoB8676095_ae) ) ; lv_loopVar += autoB8676095_ai ) {
+        if ((UnitIsAlive(gv_scourgeNestUnit[lv_loopVar]) == true) && (gv_scourgeNestActivated[lv_loopVar] == false)) {
+        }
+        else {
+            if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr") && (UnitGetPropertyFixed(gv_scourgeNestUnit[lv_loopVar], c_unitPropLifePercent, c_unitPropCurrent) >= 99.0)) {
+            }
+
+        }
         if ((UnitIsAlive(gv_scourgeNestUnit[lv_loopVar]) == true) && (gv_scourgeNestActivated[lv_loopVar] == false) && ((UnitGroupCount(UnitGroup("AP_CreepTumor", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_CreepTumorBurrowed", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_CreepTumorUsed", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Hatchery", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Lair", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Hive", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || (UnitGroupCount(UnitGroup("AP_Pylon", c_playerAny, gv_scourgeNestEarlyGorgon[lv_loopVar], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0) || ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr") && (UnitGetPropertyFixed(gv_scourgeNestUnit[lv_loopVar], c_unitPropLifePercent, c_unitPropCurrent) >= 99.0)))) {
             return lv_loopVar;
         }
@@ -857,6 +865,8 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
+        lib15EF4C78_gf_AP_Player_CreateSoAUnit(gv_pLAYER_01_USER);
+        libABFE498B_gf_AP_Triggers_Protoss_unlockProgressiveProxyPylon(gv_pLAYER_01_USER, 1);
         TriggerExecute(libABFE498B_gv_aP_Triggers_onDifficultyBrutal, true, false);
     }
 
@@ -2111,9 +2121,12 @@ bool gt_ScourgeNestCycle_Func (bool testConds, bool runActions) {
                 }
                 else {
                 }
-                gv_scourgeNestActivated[lv_index] = true;
                 gv_scourgeNestsActivatedCount += 1;
                 TriggerExecute(gt_ObjectiveActivateScourgeNestUpdate, true, false);
+                while (!((UnitIsAlive(gv_tHE_ONE_GORGON) == true))) {
+                    Wait(1.0, c_timeAI);
+                }
+                gv_scourgeNestActivated[lv_index] = true;
                 PingDestroy(gv_scourgeNestPing[lv_index]);
                 if ((gv_scourgeNestsActivatedCount == 1) && (libABFE498B_gv_aP_Triggers_skipCutscenes == false) && (libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Neut")) {
                     gv_gorgonAttacker = lv_index;
