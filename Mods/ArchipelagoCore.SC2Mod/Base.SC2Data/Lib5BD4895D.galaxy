@@ -86,6 +86,15 @@ void lib5BD4895D_InitVariables () {
     }
 }
 
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: AP_Core_GalaxyIncludes
+//--------------------------------------------------------------------------------------------------
+include "APSaveLoad"
+
+void lib5BD4895D_InitCustomScript () {
+}
+
 // Presets
 // Functions
 bool lib5BD4895D_gf_AP_Core_isLocationCollectable (int lp_locationIdLocal) {
@@ -115,8 +124,7 @@ void lib5BD4895D_gf_AP_Core_sendLocationLocal (int lp_locationIdLocal) {
     lv_value = lp_locationIdLocal + 1;;
     if ((lib5BD4895D_gv_aP_Core_initFinished == true)) {
         lib5BD4895D_gv_aP_Core_gameState = (lib5BD4895D_gv_aP_Core_gameState | Pow2I(lv_value));
-        BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankLocations, "Locations", "GameState", IntToString(lib5BD4895D_gv_aP_Core_gameState));
-        BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
+        APSaveLoad_SyncLocations();
         if ((lp_locationIdLocal >= 0)) {
             lib5BD4895D_gv_aP_Core_locations_sent[lp_locationIdLocal] = true;
         }
@@ -274,6 +282,7 @@ bool auto_lib5BD4895D_gf_AP_Core_bankCoreOptionsRead_TriggerFunc (bool testConds
         lib5BD4895D_gf_AP_Core_uncollectedLocations(lv_value);
     }
 
+    APSaveLoad_OnCoreOptionsRead();
     lv_key = lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_KEY_LOAD_FINISHED;
     if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true)) {
         lv_loadFinishReceived = true;
@@ -736,6 +745,7 @@ void lib5BD4895D_gf_AP_Core_onLoadFinished () {
     lib5BD4895D_gv_aP_Core_initFinished = true;
     lib5BD4895D_gf_AP_Core_sendLocationLocal(lib5BD4895D_gv_aP_Core_locationInit);
     TriggerExecute(lib5BD4895D_gv_aP_Core_mapInit, true, false);
+    APSaveLoad_SyncLocations();
     TriggerSendEvent(lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
@@ -1029,6 +1039,7 @@ bool auto_lib5BD4895D_gf_AP_Core_SwitchKerriganSwarmToPrimalZerg_TriggerFunc (bo
 void lib5BD4895D_gf_AP_Core_initObjectivePanel () {
     // Automatic Variable Declarations
     // Implementation
+    APSaveLoad_ResetObjectivePanelState();
     UISetFrameVisible(PlayerGroupAll(), c_syncFrameTypeObjectivePanel, false);
     DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/AP_ObjectivePanel");
     DialogControlSetVisible(DialogControlLastCreated(), PlayerGroupAll(), true);
@@ -2029,6 +2040,7 @@ void lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation (int lp_objective, in
     int lv_categoryindex;
     int lv_objectiveindex;
     int lv_locationindex;
+    int lv_emptyindex;
 
     // Automatic Variable Declarations
     int autoFF749E50_ae;
@@ -2037,6 +2049,7 @@ void lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation (int lp_objective, in
     // Variable Initialization
     lv_categoryindex = lib5BD4895D_gf_AP_Core_objectiveCategoryIndex(lp_objective);
     lv_objectiveindex = lib5BD4895D_gf_AP_Core_objectiveIndex(lp_objective, lv_categoryindex);
+    lv_emptyindex = -1;
 
     // Implementation
     if (((lv_objectiveindex == -1) || (lp_locationID <= -1) || (lib5BD4895D_gv_aP_Core_locationCollectable[lp_locationID] == false))) {
@@ -2046,12 +2059,20 @@ void lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation (int lp_objective, in
     autoFF749E50_ae = (lib5BD4895D_gv_aP_Core_LOCATIONS_PER_MAP - 1);
     lv_locationindex = 0;
     for ( ; ( (autoFF749E50_ai >= 0 && lv_locationindex <= autoFF749E50_ae) || (autoFF749E50_ai < 0 && lv_locationindex >= autoFF749E50_ae) ) ; lv_locationindex += autoFF749E50_ai ) {
-        if ((lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[lv_categoryindex].lv_objectives[lv_objectiveindex].lv_locations[lv_locationindex] == -1)) {
-            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[lv_categoryindex].lv_objectives[lv_objectiveindex].lv_locations[lv_locationindex] = lp_locationID;
+        if ((lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[lv_categoryindex].lv_objectives[lv_objectiveindex].lv_locations[lv_locationindex] == lp_locationID)) {
             return ;
         }
 
+        if (((lv_emptyindex == -1) && (lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[lv_categoryindex].lv_objectives[lv_objectiveindex].lv_locations[lv_locationindex] == -1))) {
+            lv_emptyindex = lv_locationindex;
+        }
+
     }
+    if ((lv_emptyindex != -1)) {
+        lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[lv_categoryindex].lv_objectives[lv_objectiveindex].lv_locations[lv_emptyindex] = lp_locationID;
+        return ;
+    }
+
     TextExpressionSetToken("Param/Expression/lib_5BD4895D_C3A5CCFD", "A", IntToText(lp_locationID));
     UIDisplayMessage(PlayerGroupAll(), c_messageAreaError, TextExpressionAssemble("Param/Expression/lib_5BD4895D_C3A5CCFD"));
 }
@@ -2314,6 +2335,26 @@ void lib5BD4895D_gt_AP_Core_mapLoadFailed_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_saveLoaded
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_saveLoaded_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    APSaveLoad_OnSaveLoaded();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_saveLoaded_Init () {
+    lib5BD4895D_gt_AP_Core_saveLoaded = TriggerCreate("lib5BD4895D_gt_AP_Core_saveLoaded_Func");
+    TriggerAddEventLoadGameDone(lib5BD4895D_gt_AP_Core_saveLoaded);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Core_bankInit
 //--------------------------------------------------------------------------------------------------
 bool lib5BD4895D_gt_AP_Core_bankInit_Func (bool testConds, bool runActions) {
@@ -2401,25 +2442,37 @@ bool lib5BD4895D_gt_AP_Core_bankLocationsInit_Func (bool testConds, bool runActi
     int lv_user;
     string lv_section;
     string lv_key;
+    string lv_bankmissionmap;
+    string lv_currentmapfile;
 
     // Automatic Variable Declarations
     // Variable Initialization
     lv_section = "";
     lv_key = "";
+    lv_bankmissionmap = "";
+    lv_currentmapfile = "";
 
     // Actions
     if (!runActions) {
         return true;
     }
 
+    lv_currentmapfile = APSaveLoad_GetCurrentMapFile();
     lv_user = lib5BD4895D_gf_AP_Core_getUser();
     BankLoad(lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_FILE_NAME, lv_user);
     lib5BD4895D_gv_aP_Core_bankLocations = BankLastCreated();
     lv_section = lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_SECTION_LOCATIONS;
+    lv_key = "MissionMap";
+    if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankLocations, lv_section, lv_key) == true)) {
+        lv_bankmissionmap = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankLocations, lv_section, lv_key);
+    }
+
     lv_key = lib5BD4895D_gv_aP_Core_BANK_LOCATIONS_KEY_GAME_STATE;
-    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankLocations, lv_section);
-    BankValueSetFromString(lib5BD4895D_gv_aP_Core_bankLocations, lv_section, lv_key, IntToString(lib5BD4895D_gv_aP_Core_gameState));
-    BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
+    if (((lv_bankmissionmap != "") && (lv_bankmissionmap == lv_currentmapfile) && (BankKeyExists(lib5BD4895D_gv_aP_Core_bankLocations, lv_section, lv_key) == true))) {
+        lib5BD4895D_gv_aP_Core_gameState = (lib5BD4895D_gv_aP_Core_gameState | StringToInt(BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankLocations, lv_section, lv_key)));
+    }
+
+    APSaveLoad_SyncLocations();
     return true;
 }
 
@@ -2772,6 +2825,7 @@ void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_mapLoadStart_Init();
     lib5BD4895D_gt_AP_Core_mapLoadEnd_Init();
     lib5BD4895D_gt_AP_Core_mapLoadFailed_Init();
+    lib5BD4895D_gt_AP_Core_saveLoaded_Init();
     lib5BD4895D_gt_AP_Core_bankInit_Init();
     lib5BD4895D_gt_AP_Core_bankCoreOptionsInit_Init();
     lib5BD4895D_gt_AP_Core_bankMessageInit_Init();
@@ -2803,6 +2857,7 @@ void lib5BD4895D_InitLib () {
 
     lib5BD4895D_InitLibraries();
     lib5BD4895D_InitVariables();
+    lib5BD4895D_InitCustomScript();
     lib5BD4895D_InitTriggers();
 }
 

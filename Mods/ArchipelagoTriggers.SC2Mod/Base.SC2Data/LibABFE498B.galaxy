@@ -13153,7 +13153,6 @@ bool libABFE498B_gt_AP_HeroChoiceClicked_Func (bool testConds, bool runActions) 
         }
     }
     return true;
-    return true;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -13744,6 +13743,34 @@ bool libABFE498B_gt_AP_Triggers_Debug_grantChecks_Func (bool testConds, bool run
 void libABFE498B_gt_AP_Triggers_Debug_grantChecks_Init () {
     libABFE498B_gt_AP_Triggers_Debug_grantChecks = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_grantChecks_Func");
     TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_grantChecks, c_playerAny, "-checks", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_enableChecks
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_enableChecks_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    APSaveLoad_EnableChecksOverride();
+    TriggerDebugOutput(1, StringToText("Save mismatch protection overridden. Mission checks are enabled."), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_enableChecks_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_enableChecks = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_enableChecks_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_enableChecks, c_playerAny, "-enablechecks", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -14821,6 +14848,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_resetBase_Init();
     libABFE498B_gt_AP_Triggers_Debug_grantTech_Init();
     libABFE498B_gt_AP_Triggers_Debug_grantChecks_Init();
+    libABFE498B_gt_AP_Triggers_Debug_enableChecks_Init();
     libABFE498B_gt_AP_Triggers_Debug_addAffectedPlayer_Init();
     libABFE498B_gt_AP_Triggers_Debug_updatePrompt_Init();
     libABFE498B_gt_AP_Triggers_Debug_makeHero_Init();

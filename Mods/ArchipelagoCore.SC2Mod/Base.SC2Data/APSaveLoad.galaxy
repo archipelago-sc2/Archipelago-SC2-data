@@ -1,0 +1,398 @@
+// Archipelago SC2 save/load support.
+
+// -------------------------------------------------------------------------------------------------
+// Persistent save identity and mission metadata
+// -------------------------------------------------------------------------------------------------
+
+const string APSaveLoad_BANK_CORE_OPTIONS_SECTION = "CoreOptions";
+const string APSaveLoad_BANK_CORE_OPTIONS_KEY_LOAD_FINISHED = "LoadFinished";
+const string APSaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME = "SlotName";
+const string APSaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID = "WorldID";
+const string APSaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING = "SaveWarning";
+
+const string APSaveLoad_BANK_LOCATIONS_FILE_NAME = "ArchipelagoLocations";
+const string APSaveLoad_BANK_LOCATIONS_SECTION = "Locations";
+const string APSaveLoad_BANK_LOCATIONS_KEY_GAME_STATE = "GameState";
+const string APSaveLoad_BANK_LOCATIONS_KEY_MISSION_MAP = "MissionMap";
+const string APSaveLoad_BANK_LOCATIONS_KEY_MISSION_RACE = "MissionRace";
+const string APSaveLoad_BANK_LOCATIONS_KEY_SLOT_NAME = "SlotName";
+const string APSaveLoad_BANK_LOCATIONS_KEY_WORLD_ID = "WorldID";
+const string APSaveLoad_BANK_LOCATIONS_KEY_SAVE_LOADED = "SaveLoaded";
+const string APSaveLoad_BANK_LOCATIONS_KEY_CHECKS_OVERRIDE = "ChecksOverride";
+
+bool APSaveLoad_saveIdentityInitialized = false;
+string APSaveLoad_savedSlotName = "";
+string APSaveLoad_savedWorldID = "";
+bool APSaveLoad_saveLoadRefreshRequested = false;
+bool APSaveLoad_checksOverrideRequested = false;
+string APSaveLoad_currentMapFile = "";
+trigger APSaveLoad_postCoreLoadObjectiveRefresh = null;
+string APSaveLoad_lastDisplayedWarningCode = "";
+
+
+// Recreate  dynamic objective labels that SC2 does not reliably restore from a save.
+void APSaveLoad_RefreshObjectivePanelAfterLoad () {
+    int categoryIndex;
+    int objectiveIndex;
+    int objectiveCount;
+    int objective;
+    int panel;
+    int label;
+    int objectiveState;
+
+    lib5BD4895D_gv_aP_Core_objectivePanel.lv_fadeWait = false;
+
+    for (categoryIndex = 0; categoryIndex < lib5BD4895D_gv_aP_Core_objectiveUsedCategories; categoryIndex += 1) {
+        objectiveCount = lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_rollingIndex;
+
+        for (objectiveIndex = 0; objectiveIndex < objectiveCount; objectiveIndex += 1) {
+            objective = lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_objective;
+            panel = lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_panel;
+            label = lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_label;
+
+            if (objective != c_invalidObjectiveId && panel != c_invalidDialogControlId) {
+                if (label != c_invalidDialogControlId) {
+                    DialogControlDestroy(label);
+                }
+
+                DialogControlCreateInPanelFromTemplate(
+                    panel,
+                    c_triggerControlTypeLabel,
+                    "ap_ObjectivePanel/AP_ObjectiveNameLabel"
+                );
+                label = DialogControlLastCreated();
+                lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_label = label;
+                lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_waiting = false;
+
+                objectiveState = ObjectiveGetState(objective);
+                if (objectiveState == c_objectiveStateCompleted) {
+                    libNtve_gf_SetDialogItemStyle(label, "ObjectivePanelCompleted", PlayerGroupAll());
+                }
+                else if (objectiveState == c_objectiveStateFailed) {
+                    libNtve_gf_SetDialogItemStyle(label, "ObjectivePanelFailed", PlayerGroupAll());
+                }
+
+                libNtve_gf_SetDialogItemTextWriteout(label, false, PlayerGroupAll());
+                lib5BD4895D_gf_AP_Core_updateObjectiveText(categoryIndex, objectiveIndex);
+                DialogControlFadeTransparency(label, PlayerGroupAll(), 0.0, 0.0);
+            }
+        }
+    }
+}
+
+
+bool APSaveLoad_PostCoreLoadObjectiveRefresh_Func (bool testConds, bool runActions) {
+    if (!runActions) {
+        return true;
+    }
+
+    APSaveLoad_RefreshObjectivePanelAfterLoad();
+    TriggerEnable(TriggerGetCurrent(), false);
+    return true;
+}
+
+
+// -------------------------------------------------------------------------------------------------
+// Mission identity bank helpers
+// -------------------------------------------------------------------------------------------------
+
+string APSaveLoad_GetMissionRace () {
+    string faction;
+
+    faction = lib5BD4895D_gf_AP_Core_getUserFaction();
+    if (faction == lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS
+        || faction == lib5BD4895D_gv_aP_Core_Faction_TERRAN_DOMINION
+        || faction == lib5BD4895D_gv_aP_Core_Faction_NOVA) {
+        return "Terran";
+    }
+    if (faction == lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM
+        || faction == lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM_SWITCHABLE_TO_PRIMAL_ZERG
+        || faction == lib5BD4895D_gv_aP_Core_Faction_PRIMAL_ZERG) {
+        return "Zerg";
+    }
+    if (faction == lib5BD4895D_gv_aP_Core_Faction_DAELAAM) {
+        return "Protoss";
+    }
+    return "";
+}
+
+// Communicates mission map from the game to the client
+string APSaveLoad_GetCurrentMapFile () {
+    string mapPath;
+    string mapFile;
+    int mapFileStart;
+    int cursor;
+
+    mapPath = GameMapPath();
+    if (mapPath == "") {
+        return "";
+    }
+
+    mapFileStart = 1;
+    cursor = StringLength(mapPath);
+    while (cursor >= 1) {
+        if (StringSub(mapPath, cursor, cursor) == "/") {
+            mapFileStart = cursor + 1;
+            break;
+        }
+        cursor -= 1;
+    }
+
+    mapFile = StringSub(mapPath, mapFileStart, StringLength(mapPath));
+    if (StringContains(mapFile, ".SC2Map", c_stringEnd, c_stringNoCase)) {
+        mapFile = StringSub(mapFile, 1, StringLength(mapFile) - 7);
+    }
+    return mapFile;
+}
+
+
+void APSaveLoad_SyncLocations () {
+    int user;
+    string missionRace;
+
+    if (APSaveLoad_currentMapFile == "") {
+        APSaveLoad_currentMapFile = APSaveLoad_GetCurrentMapFile();
+        if (APSaveLoad_currentMapFile == "") {
+            return;
+        }
+    }
+
+    user = lib5BD4895D_gf_AP_Core_getUser();
+    BankLoad(APSaveLoad_BANK_LOCATIONS_FILE_NAME, user);
+    lib5BD4895D_gv_aP_Core_bankLocations = BankLastCreated();
+    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankLocations, APSaveLoad_BANK_LOCATIONS_SECTION);
+
+    BankValueSetFromString(
+        lib5BD4895D_gv_aP_Core_bankLocations,
+        APSaveLoad_BANK_LOCATIONS_SECTION,
+        APSaveLoad_BANK_LOCATIONS_KEY_MISSION_MAP,
+        APSaveLoad_currentMapFile
+    );
+    BankValueSetFromString(
+        lib5BD4895D_gv_aP_Core_bankLocations,
+        APSaveLoad_BANK_LOCATIONS_SECTION,
+        APSaveLoad_BANK_LOCATIONS_KEY_GAME_STATE,
+        IntToString(lib5BD4895D_gv_aP_Core_gameState)
+    );
+
+    missionRace = APSaveLoad_GetMissionRace();
+    if (missionRace != "") {
+        BankValueSetFromString(
+            lib5BD4895D_gv_aP_Core_bankLocations,
+            APSaveLoad_BANK_LOCATIONS_SECTION,
+            APSaveLoad_BANK_LOCATIONS_KEY_MISSION_RACE,
+            missionRace
+        );
+    }
+
+    if (APSaveLoad_saveIdentityInitialized) {
+        if (APSaveLoad_savedSlotName != "") {
+            BankValueSetFromString(
+                lib5BD4895D_gv_aP_Core_bankLocations,
+                APSaveLoad_BANK_LOCATIONS_SECTION,
+                APSaveLoad_BANK_LOCATIONS_KEY_SLOT_NAME,
+                APSaveLoad_savedSlotName
+            );
+        }
+        if (APSaveLoad_savedWorldID != "") {
+            BankValueSetFromString(
+                lib5BD4895D_gv_aP_Core_bankLocations,
+                APSaveLoad_BANK_LOCATIONS_SECTION,
+                APSaveLoad_BANK_LOCATIONS_KEY_WORLD_ID,
+                APSaveLoad_savedWorldID
+            );
+        }
+    }
+
+    if (APSaveLoad_saveLoadRefreshRequested) {
+        BankValueSetFromString(
+            lib5BD4895D_gv_aP_Core_bankLocations,
+            APSaveLoad_BANK_LOCATIONS_SECTION,
+            APSaveLoad_BANK_LOCATIONS_KEY_SAVE_LOADED,
+            "1"
+        );
+    }
+
+    if (APSaveLoad_checksOverrideRequested) {
+        BankValueSetFromString(
+            lib5BD4895D_gv_aP_Core_bankLocations,
+            APSaveLoad_BANK_LOCATIONS_SECTION,
+            APSaveLoad_BANK_LOCATIONS_KEY_CHECKS_OVERRIDE,
+            "1"
+        );
+    }
+
+    BankSave(lib5BD4895D_gv_aP_Core_bankLocations);
+}
+
+
+// Actual "-enablechecks" debug command in ArchipelagoTriggers
+void APSaveLoad_EnableChecksOverride () {
+    APSaveLoad_checksOverrideRequested = true;
+    APSaveLoad_SyncLocations();
+}
+
+
+void APSaveLoad_OnCoreOptionsRead () {
+    bank coreOptions;
+    string warningCode;
+
+    coreOptions = lib5BD4895D_gv_aP_Core_bankCoreOptions;
+
+    // Capture the creator identity exactly once. A connected client must never overwrite the
+    // identity restored from a save.
+    if (!APSaveLoad_saveIdentityInitialized) {
+        if (BankKeyExists(
+            coreOptions,
+            APSaveLoad_BANK_CORE_OPTIONS_SECTION,
+            APSaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME
+        )) {
+            APSaveLoad_savedSlotName = BankValueGetAsString(
+                coreOptions,
+                APSaveLoad_BANK_CORE_OPTIONS_SECTION,
+                APSaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME
+            );
+            APSaveLoad_saveIdentityInitialized = true;
+        }
+        if (BankKeyExists(
+            coreOptions,
+            APSaveLoad_BANK_CORE_OPTIONS_SECTION,
+            APSaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID
+        )) {
+            APSaveLoad_savedWorldID = BankValueGetAsString(
+                coreOptions,
+                APSaveLoad_BANK_CORE_OPTIONS_SECTION,
+                APSaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID
+            );
+            APSaveLoad_saveIdentityInitialized = true;
+        }
+    }
+
+    if (BankKeyExists(
+        coreOptions,
+        APSaveLoad_BANK_CORE_OPTIONS_SECTION,
+        APSaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING
+    )) {
+        warningCode = BankValueGetAsString(
+            coreOptions,
+            APSaveLoad_BANK_CORE_OPTIONS_SECTION,
+            APSaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING
+        );
+
+        if (warningCode != APSaveLoad_lastDisplayedWarningCode) {
+            APSaveLoad_lastDisplayedWarningCode = warningCode;
+
+            if (warningCode == "SlotMismatch") {
+                UIDisplayMessage(PlayerGroupAll(), c_messageAreaDebug, StringToText("WARNING: Loaded save uses a different slot. Mission checks are blocked."));
+            }
+            else if (warningCode == "WorldMismatch") {
+                UIDisplayMessage(PlayerGroupAll(), c_messageAreaDebug, StringToText("WARNING: Loaded save uses a different world. Mission checks are blocked."));
+            }
+            else if (warningCode == "SlotAndWorldMismatch") {
+                UIDisplayMessage(PlayerGroupAll(), c_messageAreaDebug, StringToText("WARNING: Loaded save slot/world do not match. Mission checks are blocked."));
+            }
+            else if (warningCode == "LegacySave") {
+                UIDisplayMessage(PlayerGroupAll(), c_messageAreaDebug, StringToText("WARNING: Loaded save has no World ID. Identity could not be verified."));
+            }
+            else if (warningCode == "LegacyConnectedWorld") {
+                UIDisplayMessage(PlayerGroupAll(), c_messageAreaDebug, StringToText("WARNING: Connected world has no World ID. Save could not be verified."));
+            }
+        }
+    }
+
+    // LoadFinished is the acknowledgement that the client resent its current items/options.
+    if (BankKeyExists(
+        coreOptions,
+        APSaveLoad_BANK_CORE_OPTIONS_SECTION,
+        APSaveLoad_BANK_CORE_OPTIONS_KEY_LOAD_FINISHED
+    ) && APSaveLoad_saveLoadRefreshRequested) {
+        APSaveLoad_saveLoadRefreshRequested = false;
+        APSaveLoad_SyncLocations();
+    }
+}
+
+
+void APSaveLoad_OnSaveLoaded () {
+    APSaveLoad_lastDisplayedWarningCode = "";
+    APSaveLoad_checksOverrideRequested = false;
+
+    if (!APSaveLoad_saveIdentityInitialized) {
+        APSaveLoad_saveIdentityInitialized = true;
+        APSaveLoad_savedSlotName = "";
+        APSaveLoad_savedWorldID = "";
+    }
+
+    APSaveLoad_saveLoadRefreshRequested = true;
+
+    if (APSaveLoad_postCoreLoadObjectiveRefresh == null) {
+        APSaveLoad_postCoreLoadObjectiveRefresh = TriggerCreate("APSaveLoad_PostCoreLoadObjectiveRefresh_Func");
+        TriggerAddEventGeneric(
+            APSaveLoad_postCoreLoadObjectiveRefresh,
+            lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT
+        );
+    }
+    TriggerEnable(APSaveLoad_postCoreLoadObjectiveRefresh, true);
+
+    APSaveLoad_SyncLocations();
+    APSaveLoad_RefreshObjectivePanelAfterLoad();
+}
+
+
+// -------------------------------------------------------------------------------------------------
+// Objective-panel save/load helpers
+// -------------------------------------------------------------------------------------------------
+
+void APSaveLoad_ResetObjectivePanelState () {
+    int categoryIndex;
+    int objectiveIndex;
+    int locationIndex;
+    int timerIndex;
+    int objectivePanel;
+
+    lib5BD4895D_gv_aP_Core_objectivePanel.lv_dialogPanel = c_invalidDialogControlId;
+    lib5BD4895D_gv_aP_Core_objectivePanel.lv_timerRollingIndex = 0;
+    lib5BD4895D_gv_aP_Core_objectivePanel.lv_fadeWait = false;
+
+    for (categoryIndex = 0; categoryIndex <= 8; categoryIndex += 1) {
+        lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_titleLabel = c_invalidDialogControlId;
+        lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_titleBackground = c_invalidDialogControlId;
+        lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_listPanel = c_invalidDialogControlId;
+        lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_rollingIndex = 0;
+
+        for (objectiveIndex = 0; objectiveIndex <= 8; objectiveIndex += 1) {
+            objectivePanel = lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_panel;
+            if (objectivePanel != c_invalidDialogControlId) {
+                DialogControlDestroy(objectivePanel);
+            }
+
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_objective = c_invalidObjectiveId;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_panel = c_invalidDialogControlId;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_category = lib5BD4895D_ge_APObjectiveCategory_Primary;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_checks = 0;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_checkbox = c_invalidDialogControlId;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_label = c_invalidDialogControlId;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_extraLines = 0;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_hasCounter = false;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_counterSuffix = "";
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_counterMax = 0;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_counterValue = 0;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_hasTimer = false;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_timer = lib5BD4895D_gv_aP_Core_objectiveDefaultTimer;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_finished = false;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_waiting = false;
+            lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_hideIfNoLocs = false;
+
+            for (locationIndex = 0;
+                locationIndex <= lib5BD4895D_gv_aP_Core_LOCATIONS_PER_MAP;
+                locationIndex += 1) {
+                lib5BD4895D_gv_aP_Core_objectivePanel.lv_categories[categoryIndex].lv_objectives[objectiveIndex].lv_locations[locationIndex] = -1;
+            }
+        }
+    }
+
+    for (timerIndex = 0; timerIndex <= 8; timerIndex += 1) {
+        lib5BD4895D_gv_aP_Core_objectivePanel.lv_timerObjectives[timerIndex][0] = -1;
+        lib5BD4895D_gv_aP_Core_objectivePanel.lv_timerObjectives[timerIndex][1] = -1;
+        lib5BD4895D_gv_aP_Core_objectivePanel.lv_timerObjectives[timerIndex][2] = -1;
+    }
+}
