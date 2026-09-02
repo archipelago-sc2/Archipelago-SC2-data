@@ -268,6 +268,8 @@ trigger gt_NovaFlashbangsUnitInDefendRegion;
 trigger gt_NovaLosesDetectorConeDetectedEMPedQ;
 trigger gt_NovaLosesDetectorConeDetectedStillCloakedQ;
 trigger gt_NovaReCloaksTransmissionQ;
+trigger gt_HeroSummons;
+trigger gt_UnitIsDominated;
 trigger gt_StartGame01QGarrisonSpots;
 trigger gt_StartGame02QReachCommsHub;
 trigger gt_StartGame03QReachCommandRoom;
@@ -1598,6 +1600,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     unitgroup auto22F63574_g;
     int auto22F63574_u;
     unit auto22F63574_var;
+    unitgroup auto4B9C2BFB_g;
+    int auto4B9C2BFB_u;
+    unit auto4B9C2BFB_var;
 
     // Variable Initialization
     lv_group = UnitGroupEmpty();
@@ -1681,6 +1686,13 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         auto22F63574_var = UnitGroupUnitFromEnd(auto22F63574_g, auto22F63574_u);
         if (auto22F63574_var == null) { break; }
         libNtve_gf_ShowHideUnit(auto22F63574_var, true);
+    }
+    auto4B9C2BFB_g = libABFE498B_gv_aP_Triggers_HeroUnits;
+    auto4B9C2BFB_u = UnitGroupCount(auto4B9C2BFB_g, c_unitCountAll);
+    for (;; auto4B9C2BFB_u -= 1) {
+        auto4B9C2BFB_var = UnitGroupUnitFromEnd(auto4B9C2BFB_g, auto4B9C2BFB_u);
+        if (auto4B9C2BFB_var == null) { break; }
+        libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(auto4B9C2BFB_var);
     }
     return true;
 }
@@ -3515,6 +3527,102 @@ void gt_NovaReCloaksTransmissionQ_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Hero Summons
+//--------------------------------------------------------------------------------------------------
+bool gt_HeroSummons_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((UnitFilterMatch(EventUnitCreatedUnit(), gv_pLAYER_01_USER, UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterItem), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)))) == true))) {
+            return false;
+        }
+
+        if (!((UnitGroupHasUnit(libABFE498B_gv_aP_Triggers_HeroUnits, EventUnit()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(EventUnitCreatedUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_HeroSummons_Init () {
+    gt_HeroSummons = TriggerCreate("gt_HeroSummons_Func");
+    TriggerEnable(gt_HeroSummons, false);
+    TriggerAddEventUnitCreated(gt_HeroSummons, null, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Unit Is Dominated
+//--------------------------------------------------------------------------------------------------
+bool gt_UnitIsDominated_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNCMI_gf_StealthAISetStealthAIUnitState(EventUnit(), libNCMI_ge_StealthAIUnitState_Unavailable);
+    UnitAbilityEnable(EventUnit(), "NovaAlarmBotToggleDetectionVisionMode", false);
+    UnitAbilityShow(EventUnit(), "NovaAlarmBotToggleDetectionVisionMode", false);
+    while ((libNCMI_gf_GameIsOver() == false) && (UnitIsAlive(EventUnit()) == true) && ((UnitGetType(EventUnit()) == "GhostDetectorCone") || (UnitGetType(EventUnit()) == "GhostAlternateDetectorCone"))) {
+        UnitIssueOrder(EventUnit(), Order(AbilityCommand("GhostDetetorConeExit", 0)), c_orderQueueReplace);
+        UnitIssueOrder(EventUnit(), Order(AbilityCommand("GhostAlternateDetetorConeExit", 0)), c_orderQueueReplace);
+        UnitAbilityEnable(EventUnit(), "GhostDetetorConeEnter", false);
+        UnitAbilityEnable(EventUnit(), "GhostAlternateDetetorConeEnter", false);
+        UnitAbilityShow(EventUnit(), "GhostDetetorConeEnter", false);
+        UnitAbilityShow(EventUnit(), "GhostAlternateDetetorConeEnter", false);
+        UnitBehaviorRemove(EventUnit(), "DetectorCone9", 1);
+        Wait(0.0625, c_timeAI);
+    }
+    UnitIssueOrder(EventUnit(), Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
+    Wait(5.0, c_timeAI);
+    libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(EventUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_UnitIsDominated_Init () {
+    gt_UnitIsDominated = TriggerCreate("gt_UnitIsDominated_Func");
+    TriggerEnable(gt_UnitIsDominated, false);
+    TriggerAddEventUnitBehaviorChange(gt_UnitIsDominated, null, "NovaDomination", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(gt_UnitIsDominated, null, "AP_NovaDomination", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Start Game 01 Q - Garrison Spots
 //--------------------------------------------------------------------------------------------------
 bool gt_StartGame01QGarrisonSpots_Func (bool testConds, bool runActions) {
@@ -3631,6 +3739,8 @@ bool gt_StartGame02QReachCommsHub_Func (bool testConds, bool runActions) {
     SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryAmbience, "Ambience_TarsonisCityUnderground_Quad", c_soundtrackCueAny, c_soundtrackIndexAny, true);
     UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/30FCFA14"), null, PointFromId(163));
     libNCMI_gf_CreateMissionAutosavePoint(StringExternal("Param/Value/52DC9371"));
+    TriggerEnable(gt_HeroSummons, true);
+    TriggerEnable(gt_UnitIsDominated, true);
     TriggerEnable(gt_S2FirstUnitsFleeStealthedNova, true);
     TriggerEnable(gt_S2HallwayUnitsConfrontStealthedNova, true);
     auto99FF777A_g = UnitGroup(null, gv_pLAYER_06_DEFENDERSOFMAN, RegionFromId(32), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -12610,6 +12720,8 @@ void InitTriggers () {
     gt_NovaLosesDetectorConeDetectedEMPedQ_Init();
     gt_NovaLosesDetectorConeDetectedStillCloakedQ_Init();
     gt_NovaReCloaksTransmissionQ_Init();
+    gt_HeroSummons_Init();
+    gt_UnitIsDominated_Init();
     gt_StartGame01QGarrisonSpots_Init();
     gt_StartGame02QReachCommsHub_Init();
     gt_StartGame03QReachCommandRoom_Init();

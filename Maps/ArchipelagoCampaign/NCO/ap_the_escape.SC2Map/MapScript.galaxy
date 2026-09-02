@@ -233,6 +233,7 @@ trigger gt_onDifficultyNormal;
 trigger gt_onDifficultyHard;
 trigger gt_onDifficultyBrutal;
 trigger gt_ArchInit;
+trigger gt_HeroSwapInit;
 trigger gt_Initialization;
 trigger gt_Init01Technology;
 trigger gt_Init02Players;
@@ -244,6 +245,7 @@ trigger gt_Init07Help;
 trigger gt_DebugStage2;
 trigger gt_DebugStage3;
 trigger gt_DebugVictory;
+trigger gt_DebugSwapHero;
 trigger gt_NovaLosesDetectorConeDetectedEMPedQ;
 trigger gt_NovaLosesDetectorConeDetectedStillCloakedQ;
 trigger gt_NovaReCloaksTransmissionQ;
@@ -251,6 +253,8 @@ trigger gt_HealerbotRecharging;
 trigger gt_HealerbotReady;
 trigger gt_HealerbotMouseoverTip;
 trigger gt_NovaPicksUpRestorationCharge;
+trigger gt_HeroSummons;
+trigger gt_UnitIsDominated;
 trigger gt_StartGameQ;
 trigger gt_StartGameVultureQ;
 trigger gt_CleanupSection1;
@@ -1947,6 +1951,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerEnable(libABFE498B_gt_AP_Triggers_Debug_makeHero, false);
     TriggerExecute(libD62A7F54_gt_AP_Player_NCOConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_NOVA);
@@ -1961,6 +1966,50 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
 void gt_ArchInit_Init () {
     gt_ArchInit = TriggerCreate("gt_ArchInit_Func");
     TriggerAddEventMapInit(gt_ArchInit);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Hero Swap Init
+//--------------------------------------------------------------------------------------------------
+bool gt_HeroSwapInit_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup autoEC4A6BCC_g;
+    int autoEC4A6BCC_u;
+    unit autoEC4A6BCC_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        libABFE498B_gv_aP_Triggers_DebugMode = true;
+        libABFE498B_gf_AP_Triggers_setDifficulty("B");
+        libABFE498B_gf_AP_Triggers_setGameSpeed("5");
+        libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
+        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 1;
+        TriggerExecute(libABFE498B_gv_aP_Triggers_onDifficultyBrutal, true, false);
+    }
+
+    if ((libABFE498B_gv_aP_Triggers_Option_HeroPresence != 0)) {
+        libABFE498B_gf_AP_Triggers_HeroReplace(gv_pLAYER_01_USER, gv_artanis, UnitGroupEmpty());
+        gv_artanis = libABFE498B_gv_aP_Triggers_HeroUnit[1];
+        autoEC4A6BCC_g = libABFE498B_gv_aP_Triggers_HeroUnits;
+        autoEC4A6BCC_u = UnitGroupCount(autoEC4A6BCC_g, c_unitCountAll);
+        for (;; autoEC4A6BCC_u -= 1) {
+            autoEC4A6BCC_var = UnitGroupUnitFromEnd(autoEC4A6BCC_g, autoEC4A6BCC_u);
+            if (autoEC4A6BCC_var == null) { break; }
+            libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(autoEC4A6BCC_var);
+        }
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_HeroSwapInit_Init () {
+    gt_HeroSwapInit = TriggerCreate("gt_HeroSwapInit_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1984,6 +2033,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_Terran_unlockNovaGadgetPulseGrenades(gv_pLAYER_01_USER);
     }
 
+    TriggerExecute(gt_HeroSwapInit, true, true);
     TriggerExecute(gt_IntroQ, true, true);
     TriggerExecute(gt_StartGameQ, true, false);
     return true;
@@ -2573,6 +2623,101 @@ void gt_DebugVictory_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Debug - Swap Hero
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugSwapHero_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    point lv_point;
+    string lv_type;
+    unit lv_previoushero;
+    string lv_word2;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    string autoCFF77078_val;
+    unitgroup auto58AC074A_g;
+    int auto58AC074A_u;
+    unit auto58AC074A_var;
+
+    // Variable Initialization
+    lv_word2 = "";
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_player = EventPlayer();
+    lv_point = UnitGetPosition(gv_artanis);
+    lv_word2 = StringCase(StringWord(EventChatMessage(false), 2), false);
+    autoCFF77078_val = lv_word2;
+    if (autoCFF77078_val == "kerrigan") {
+        lv_type = "AP_K5Kerrigan";
+    }
+    else if (autoCFF77078_val == "nova") {
+        lv_type = "AP_NovaHero";
+    }
+    else if (autoCFF77078_val == "artanis") {
+        lv_type = "AP_ArtanisHero";
+    }
+    else {
+        return true;
+    }
+    if ((UnitGetType(gv_artanis) == lv_type)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/9F2C369C"), true);
+        return true;
+    }
+
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, lv_type, 0, lv_player, lv_point);
+    if ((UnitIsValid(UnitLastCreated()) == false)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/97B5E4F6"), true);
+        return true;
+    }
+
+    lv_previoushero = gv_artanis;
+    gv_artanis = UnitLastCreated();
+    lib15EF4C78_gf_SetHeroPanelUnit(1, gv_artanis, lv_player);
+    libABFE498B_gv_aP_Triggers_HeroUnit[1] = gv_artanis;
+    TextExpressionSetToken("Param/Expression/6334C225", "A", UnitGetName(gv_artanis));
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/6334C225"), true);
+    UnitGroupAdd(libABFE498B_gv_aP_Triggers_HeroUnits, gv_artanis);
+    UnitRemove(lv_previoushero);
+    auto58AC074A_g = libABFE498B_gv_aP_Triggers_HeroUnits;
+    auto58AC074A_u = UnitGroupCount(auto58AC074A_g, c_unitCountAll);
+    for (;; auto58AC074A_u -= 1) {
+        auto58AC074A_var = UnitGroupUnitFromEnd(auto58AC074A_g, auto58AC074A_u);
+        if (auto58AC074A_var == null) { break; }
+        libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(auto58AC074A_var);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugSwapHero_Init () {
+    gt_DebugSwapHero = TriggerCreate("gt_DebugSwapHero_Func");
+    TriggerAddEventChatMessage(gt_DebugSwapHero, c_playerAny, "-makehero", false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Nova Loses DetectorConeDetected - EMPed Q
 //--------------------------------------------------------------------------------------------------
 bool gt_NovaLosesDetectorConeDetectedEMPedQ_Func (bool testConds, bool runActions) {
@@ -3031,6 +3176,100 @@ void gt_NovaPicksUpRestorationCharge_Init () {
     gt_NovaPicksUpRestorationCharge = TriggerCreate("gt_NovaPicksUpRestorationCharge_Func");
     TriggerAddEventPlayerEffectUsed(gt_NovaPicksUpRestorationCharge, c_playerAny, "HealthDispenserLife500");
     TriggerAddEventPlayerEffectUsed(gt_NovaPicksUpRestorationCharge, c_playerAny, "HealthDispenserEnergy500");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Hero Summons
+//--------------------------------------------------------------------------------------------------
+bool gt_HeroSummons_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((UnitFilterMatch(EventUnitCreatedUnit(), gv_pLAYER_01_USER, UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterItem), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)))) == true))) {
+            return false;
+        }
+
+        if (!((UnitGroupHasUnit(libABFE498B_gv_aP_Triggers_HeroUnits, EventUnit()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(EventUnitCreatedUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_HeroSummons_Init () {
+    gt_HeroSummons = TriggerCreate("gt_HeroSummons_Func");
+    TriggerAddEventUnitCreated(gt_HeroSummons, null, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Unit Is Dominated
+//--------------------------------------------------------------------------------------------------
+bool gt_UnitIsDominated_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNCMI_gf_StealthAISetStealthAIUnitState(EventUnit(), libNCMI_ge_StealthAIUnitState_Unavailable);
+    UnitAbilityEnable(EventUnit(), "NovaAlarmBotToggleDetectionVisionMode", false);
+    UnitAbilityShow(EventUnit(), "NovaAlarmBotToggleDetectionVisionMode", false);
+    while ((libNCMI_gf_GameIsOver() == false) && (UnitIsAlive(EventUnit()) == true) && ((UnitGetType(EventUnit()) == "GhostDetectorCone") || (UnitGetType(EventUnit()) == "GhostAlternateDetectorCone"))) {
+        UnitIssueOrder(EventUnit(), Order(AbilityCommand("GhostDetetorConeExit", 0)), c_orderQueueReplace);
+        UnitIssueOrder(EventUnit(), Order(AbilityCommand("GhostAlternateDetetorConeExit", 0)), c_orderQueueReplace);
+        UnitAbilityEnable(EventUnit(), "GhostDetetorConeEnter", false);
+        UnitAbilityEnable(EventUnit(), "GhostAlternateDetetorConeEnter", false);
+        UnitAbilityShow(EventUnit(), "GhostDetetorConeEnter", false);
+        UnitAbilityShow(EventUnit(), "GhostAlternateDetetorConeEnter", false);
+        UnitBehaviorRemove(EventUnit(), "DetectorCone9", 1);
+        Wait(0.0625, c_timeAI);
+    }
+    UnitIssueOrder(EventUnit(), Order(AbilityCommand("stop", 0)), c_orderQueueReplace);
+    Wait(5.0, c_timeAI);
+    libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(EventUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_UnitIsDominated_Init () {
+    gt_UnitIsDominated = TriggerCreate("gt_UnitIsDominated_Func");
+    TriggerAddEventUnitBehaviorChange(gt_UnitIsDominated, null, "NovaDomination", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(gt_UnitIsDominated, null, "AP_NovaDomination", c_unitBehaviorChangeCreate);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -10472,6 +10711,7 @@ void InitTriggers () {
     gt_onDifficultyHard_Init();
     gt_onDifficultyBrutal_Init();
     gt_ArchInit_Init();
+    gt_HeroSwapInit_Init();
     gt_Initialization_Init();
     gt_Init01Technology_Init();
     gt_Init02Players_Init();
@@ -10483,6 +10723,7 @@ void InitTriggers () {
     gt_DebugStage2_Init();
     gt_DebugStage3_Init();
     gt_DebugVictory_Init();
+    gt_DebugSwapHero_Init();
     gt_NovaLosesDetectorConeDetectedEMPedQ_Init();
     gt_NovaLosesDetectorConeDetectedStillCloakedQ_Init();
     gt_NovaReCloaksTransmissionQ_Init();
@@ -10490,6 +10731,8 @@ void InitTriggers () {
     gt_HealerbotReady_Init();
     gt_HealerbotMouseoverTip_Init();
     gt_NovaPicksUpRestorationCharge_Init();
+    gt_HeroSummons_Init();
+    gt_UnitIsDominated_Init();
     gt_StartGameQ_Init();
     gt_StartGameVultureQ_Init();
     gt_CleanupSection1_Init();
