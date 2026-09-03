@@ -2520,26 +2520,30 @@ void libABFE498B_gf_AP_Triggers_giveMiscTech (string lp_inputString) {
 void libABFE498B_gf_AP_Triggers_giveTrapItems (string lp_inputString) {
     // Variable Declarations
     int lv_currentPlayer;
-    string lv_ghostSpawnTrap;
-    string lv_voidDuplicateTrap;
+    string lv_ghostSpawn;
+    string lv_voidDuplicate;
+    string lv_cloakEnable;
 
     // Automatic Variable Declarations
     playergroup auto5A5F85FA_g;
 
     // Variable Initialization
-    lv_ghostSpawnTrap = "";
-    lv_voidDuplicateTrap = "";
+    lv_ghostSpawn = "";
+    lv_voidDuplicate = "";
+    lv_cloakEnable = "";
 
     // Implementation
-    lv_ghostSpawnTrap = StringWord(lp_inputString, 1);
-    lv_voidDuplicateTrap = StringWord(lp_inputString, 2);
+    lv_ghostSpawn = StringWord(lp_inputString, 1);
+    lv_voidDuplicate = StringWord(lp_inputString, 2);
+    lv_cloakEnable = StringWord(lp_inputString, 3);
     auto5A5F85FA_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
     lv_currentPlayer = -1;
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(auto5A5F85FA_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        libABFE498B_gf_AP_Triggers_unlockGhostSpawn(lv_currentPlayer, StringToInt(lv_ghostSpawnTrap));
-        libABFE498B_gf_AP_Triggers_unlockVoidDuplicate(lv_currentPlayer, StringToInt(lv_voidDuplicateTrap));
+        libABFE498B_gf_AP_Triggers_unlockGhostSpawn(lv_currentPlayer, StringToInt(lv_ghostSpawn));
+        libABFE498B_gf_AP_Triggers_unlockVoidDuplicate(lv_currentPlayer, StringToInt(lv_voidDuplicate));
+        libABFE498B_gf_AP_Triggers_unlockMutatorCloak(lv_currentPlayer, StringToInt(lv_cloakEnable));
     }
 }
 
@@ -11596,8 +11600,7 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockGhostSpawn_TriggerFunc (bool testCond
 
     // Automatic Variable Declarations
     // Implementation
-    if ((libABFE498B_gv_aP_Triggers_TrapKillswitch == true)) {
-        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_85477AAE"), false);
+    if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == true)) {
         return true;
     }
 
@@ -11652,8 +11655,7 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockVoidDuplicate_TriggerFunc (bool testC
     unit auto2F873F0F_var;
 
     // Implementation
-    if ((libABFE498B_gv_aP_Triggers_TrapKillswitch == true)) {
-        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_6A50AAE8"), false);
+    if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == true)) {
         return true;
     }
 
@@ -11685,6 +11687,31 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockVoidDuplicate_TriggerFunc (bool testC
 
         }
     }
+    return true;
+}
+
+trigger auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_Trigger = null;
+int auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_player;
+int auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_level;
+
+void libABFE498B_gf_AP_Triggers_unlockMutatorCloak (int lp_player, int lp_level) {
+    auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_player = lp_player;
+    auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_level = lp_level;
+
+    if (auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_Trigger == null) {
+        auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_Trigger = TriggerCreate("auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_Trigger, false, false);
+}
+
+bool auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_TriggerFunc (bool testConds, bool runActions) {
+    int lp_player = auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_player;
+    int lp_level = auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_level;
+
+    // Automatic Variable Declarations
+    // Implementation
+    libABFE498B_gf_AP_Triggers_enableMutatorCloak(lp_player, (lp_level >= 1));
     return true;
 }
 
@@ -12283,6 +12310,36 @@ int libABFE498B_gf_AP_Triggers_Base_getBiggestPlayer () {
     // Automatic Variable Declarations
     // Implementation
     return AP_Base_getBiggestPlayer();
+}
+
+trigger auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_Trigger = null;
+int auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_player;
+bool auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_enable;
+
+void libABFE498B_gf_AP_Triggers_enableMutatorCloak (int lp_player, bool lp_enable) {
+    auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_player = lp_player;
+    auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_enable = lp_enable;
+
+    if (auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_Trigger == null) {
+        auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_Trigger = TriggerCreate("auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_Trigger, false, false);
+}
+
+bool auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_TriggerFunc (bool testConds, bool runActions) {
+    int lp_player = auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_player;
+    bool lp_enable = auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_enable;
+
+    // Automatic Variable Declarations
+    // Implementation
+    if ((lp_enable == true)) {
+        libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MutatorCloakEnable", 1);
+    }
+    else {
+        libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MutatorCloakEnable", 0);
+    }
+    return true;
 }
 
 void libABFE498B_gf_AP_Triggers_GhostSpawn_placeBuilding (int lp_difficulty) {
@@ -14140,15 +14197,15 @@ bool libABFE498B_gt_AP_Triggers_Debug_killTraps_Func (bool testConds, bool runAc
         return true;
     }
 
-    if ((libABFE498B_gv_aP_Triggers_TrapKillswitch == false)) {
+    if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == false)) {
         TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_64E7F97C"), true);
         libABFE498B_gf_AP_Triggers_unlockGhostSpawn(EventPlayer(), 0);
         libABFE498B_gf_AP_Triggers_unlockVoidDuplicate(EventPlayer(), 0);
-        libABFE498B_gv_aP_Triggers_TrapKillswitch = true;
+        libABFE498B_gv_aP_Triggers_MutatorKillswitch = true;
     }
     else {
         TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_AECDE6A0"), true);
-        libABFE498B_gv_aP_Triggers_TrapKillswitch = false;
+        libABFE498B_gv_aP_Triggers_MutatorKillswitch = false;
     }
     return true;
 }

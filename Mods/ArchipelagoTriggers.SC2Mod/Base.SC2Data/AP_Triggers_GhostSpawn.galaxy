@@ -6,6 +6,8 @@ static const string BUILDING_TYPE = "AP_GhostTrapSpawner";
 static const string UNIT_TYPE = "AP_Ghost";
 static const string NUKE_TYPE = "AP_Nuke";
 static const string NUKE_DAMAGE_EFFECT = "AP_NukeDamage";
+static const string GHOST_UPGRADE = "AP_GhostSpawn";
+static const string CLOAK_UPGRADE = "AP_MutatorCloakEnable";
 // if a ghost gets this many kills with a single nuke, trigger a taunt message
 static const int NUKE_TAUNT_KILL_THRESHOLD = 20;
 
@@ -99,22 +101,31 @@ static trigger TriggerWaitForAttackWave;
 static trigger TriggerOnAttackWave;
 static trigger TriggerOnNukeKill;
 static trigger TriggerOnBehavior;
+static trigger TriggerOnCloakUpgrade;
 
 // pass to trigger
 static int ParamPlayer = 0;
 static unitgroup ParamGroup;
 
+static void log(string s) {
+    TriggerDebugOutput(1, StringToText("Ghost Spawn System: " + s), false);
+}
+
 // Set values based on difficulty here
 static bool SpawnSetupDifficulty(int player, int difficulty){
+    int user = lib5BD4895D_gf_AP_Core_getUser();
     // AP_GhostSpawn_difficultyOverride = difficulty; // assume this gets set by passed client data
     GroupSize = 1 + ((1 + difficulty) / 2); // 2, 2, 3, 3, 4
     GhostsActiveMax = 2 * GroupSize; // 4, 4, 6, 6, 8
     SpawnInitialDelay = 200.0 - 20.0 * difficulty; // 3 mins, 2:40 mins, 2:20 mins, 2 mins, 1:40 mins
     SpawnInterval = 110.0 - 10.0 * difficulty; // 100, 90, 80, 70, 60 sec
     SpawnDelay = 80.0 - 10.0 * difficulty ; // 70, 60, 50, 40, 30 sec
-    if (difficulty == 1){
+    if (difficulty == 1 || TechTreeUpgradeCount(user, CLOAK_UPGRADE, c_techCountCompleteOnly) == 0) {
         // no cloak
         TechTreeAbilityAllow(player, AbilityCommand("AP_GhostCloak", 0), false);
+    }
+    else {
+        TechTreeAbilityAllow(player, AbilityCommand("AP_GhostCloak", 0), true);
     }
     if (difficulty <= 2){
         // no emp
@@ -126,19 +137,19 @@ static bool SpawnSetupDifficulty(int player, int difficulty){
     if (difficulty >= 4){
         libABFE498B_gf_AP_Triggers_Terran_unlockGhostLockdown(player);
     }
-    if (difficulty >= 5){
+    if (difficulty >= 5 && TechTreeUpgradeCount(user, CLOAK_UPGRADE, c_techCountCompleteOnly) > 0) {
         libABFE498B_gf_AP_Triggers_Terran_unlockGhostCriusSuit(player);
     }
+    else {
+        TechTreeUpgradeAddLevel(player, "AP_PermanentCloakGhost", -1);
+    }
     return true;
-}
-
-static void log(string s) {
-    TriggerDebugOutput(1, StringToText("Ghost Spawn System: " + s), false);
 }
 
 static bool SpawnSetup(int player) {
     string value;
     TriggerAddEventPlayerAIWave(TriggerOnAttackWave, player);
+    TriggerEnable(TriggerOnCloakUpgrade, true);
     AP_Base_detect(player);
     SpawnSetupDifficulty(player, AP_GhostSpawn_difficultyOverride);
     CatalogFieldValueSet(c_gameCatalogUnit, UNIT_TYPE, "TacticalAIThink", player, "AP_GhostSpawn_ghostTactical");
@@ -577,6 +588,14 @@ bool AP_GhostSpawn_triggerOnBehaviorFunc(bool testCond, bool runActions) {
     return true;
 }
 
+bool AP_GhostSpawn_triggerOnCloakUpgradeFunc(bool testCond, bool runActions) {
+    if (EventUpgradeName() != CLOAK_UPGRADE) {
+        return false;
+    }
+    AP_GhostSpawn_updateDifficulty(TechTreeUpgradeCount(EventPlayer(), GHOST_UPGRADE, c_techCountCompleteOnly));
+    return true;
+}
+
 void AP_GhostSpawn_ghostTactical(int owner, unit ghost, unitgroup nearbyUnits) {
     point p;
     region r;
@@ -621,4 +640,7 @@ void AP_GhostSpawn_init() {
     TriggerAddEventTimePeriodic(TriggerNukeRearm, 5, c_timeAI);
     TriggerOnNukeKill= TriggerCreate("AP_GhostSpawn_triggerOnNukeKillFunc");
     TriggerAddEventUnitDied(TriggerOnNukeKill, null);
+    TriggerOnCloakUpgrade= TriggerCreate("AP_GhostSpawn_triggerOnCloakUpgradeFunc");
+    TriggerAddEventUpgradeLevelChanged(TriggerOnCloakUpgrade, c_playerAny);
+    TriggerEnable(TriggerOnCloakUpgrade, false);
 }
