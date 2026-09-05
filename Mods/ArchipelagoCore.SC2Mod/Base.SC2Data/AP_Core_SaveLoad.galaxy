@@ -4,34 +4,34 @@
 // Persistent save identity and mission metadata
 // -------------------------------------------------------------------------------------------------
 
-const string APSaveLoad_BANK_CORE_OPTIONS_SECTION = "CoreOptions";
-const string APSaveLoad_BANK_CORE_OPTIONS_KEY_LOAD_FINISHED = "LoadFinished";
-const string APSaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME = "SlotName";
-const string APSaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID = "WorldID";
-const string APSaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING = "SaveWarning";
+const string AP_Core_SaveLoad_BANK_CORE_OPTIONS_SECTION = "CoreOptions";
+const string AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_LOAD_FINISHED = "LoadFinished";
+const string AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME = "SlotName";
+const string AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID = "WorldID";
+const string AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING = "SaveWarning";
 
-const string APSaveLoad_BANK_LOCATIONS_FILE_NAME = "ArchipelagoLocations";
-const string APSaveLoad_BANK_LOCATIONS_SECTION = "Locations";
-const string APSaveLoad_BANK_LOCATIONS_KEY_GAME_STATE = "GameState";
-const string APSaveLoad_BANK_LOCATIONS_KEY_MISSION_MAP = "MissionMap";
-const string APSaveLoad_BANK_LOCATIONS_KEY_MISSION_RACE = "MissionRace";
-const string APSaveLoad_BANK_LOCATIONS_KEY_SLOT_NAME = "SlotName";
-const string APSaveLoad_BANK_LOCATIONS_KEY_WORLD_ID = "WorldID";
-const string APSaveLoad_BANK_LOCATIONS_KEY_SAVE_LOADED = "SaveLoaded";
-const string APSaveLoad_BANK_LOCATIONS_KEY_CHECKS_OVERRIDE = "ChecksOverride";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_FILE_NAME = "ArchipelagoLocations";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_SECTION = "Locations";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_KEY_GAME_STATE = "GameState";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_KEY_MISSION_MAP = "MissionMap";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_KEY_MISSION_RACE = "MissionRace";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_KEY_SLOT_NAME = "SlotName";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_KEY_WORLD_ID = "WorldID";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_KEY_SAVE_LOADED = "SaveLoaded";
+const string AP_Core_SaveLoad_BANK_LOCATIONS_KEY_CHECKS_OVERRIDE = "ChecksOverride";
 
-bool APSaveLoad_saveIdentityInitialized = false;
-string APSaveLoad_savedSlotName = "";
-string APSaveLoad_savedWorldID = "";
-bool APSaveLoad_saveLoadRefreshRequested = false;
-bool APSaveLoad_checksOverrideRequested = false;
-string APSaveLoad_currentMapFile = "";
-trigger APSaveLoad_postCoreLoadObjectiveRefresh = null;
-string APSaveLoad_lastDisplayedWarningCode = "";
+bool AP_Core_SaveLoad_saveIdentityInitialized = false;
+string AP_Core_SaveLoad_savedSlotName = "";
+string AP_Core_SaveLoad_savedWorldID = "";
+bool AP_Core_SaveLoad_saveLoadRefreshRequested = false;
+bool AP_Core_SaveLoad_checksOverrideRequested = false;
+string AP_Core_SaveLoad_currentMapFile = "";
+trigger AP_Core_SaveLoad_postCoreLoadObjectiveRefresh = null;
+string AP_Core_SaveLoad_lastDisplayedWarningCode = "";
 
 
 // Recreate  dynamic objective labels that SC2 does not reliably restore from a save.
-void APSaveLoad_RefreshObjectivePanelAfterLoad () {
+void AP_Core_SaveLoad_RefreshObjectivePanelAfterLoad () {
     int categoryIndex;
     int objectiveIndex;
     int objectiveCount;
@@ -81,12 +81,12 @@ void APSaveLoad_RefreshObjectivePanelAfterLoad () {
 }
 
 
-bool APSaveLoad_PostCoreLoadObjectiveRefresh_Func (bool testConds, bool runActions) {
+bool AP_Core_SaveLoad_PostCoreLoadObjectiveRefresh_Func (bool testConds, bool runActions) {
     if (!runActions) {
         return true;
     }
 
-    APSaveLoad_RefreshObjectivePanelAfterLoad();
+    AP_Core_SaveLoad_RefreshObjectivePanelAfterLoad();
     TriggerEnable(TriggerGetCurrent(), false);
     return true;
 }
@@ -96,7 +96,7 @@ bool APSaveLoad_PostCoreLoadObjectiveRefresh_Func (bool testConds, bool runActio
 // Mission identity bank helpers
 // -------------------------------------------------------------------------------------------------
 
-string APSaveLoad_GetMissionRace () {
+string AP_Core_SaveLoad_GetMissionRace () {
     string faction;
 
     faction = lib5BD4895D_gf_AP_Core_getUserFaction();
@@ -117,7 +117,7 @@ string APSaveLoad_GetMissionRace () {
 }
 
 // Communicates mission map from the game to the client
-string APSaveLoad_GetCurrentMapFile () {
+string AP_Core_SaveLoad_GetCurrentMapFile () {
     string mapPath;
     string mapFile;
     int mapFileStart;
@@ -146,78 +146,78 @@ string APSaveLoad_GetCurrentMapFile () {
 }
 
 
-void APSaveLoad_SyncLocations () {
+void AP_Core_SaveLoad_SyncLocations () {
     int user;
     string missionRace;
 
-    if (APSaveLoad_currentMapFile == "") {
-        APSaveLoad_currentMapFile = APSaveLoad_GetCurrentMapFile();
-        if (APSaveLoad_currentMapFile == "") {
+    if (AP_Core_SaveLoad_currentMapFile == "") {
+        AP_Core_SaveLoad_currentMapFile = AP_Core_SaveLoad_GetCurrentMapFile();
+        if (AP_Core_SaveLoad_currentMapFile == "") {
             return;
         }
     }
 
     user = lib5BD4895D_gf_AP_Core_getUser();
-    BankLoad(APSaveLoad_BANK_LOCATIONS_FILE_NAME, user);
+    BankLoad(AP_Core_SaveLoad_BANK_LOCATIONS_FILE_NAME, user);
     lib5BD4895D_gv_aP_Core_bankLocations = BankLastCreated();
-    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankLocations, APSaveLoad_BANK_LOCATIONS_SECTION);
+    BankSectionRemove(lib5BD4895D_gv_aP_Core_bankLocations, AP_Core_SaveLoad_BANK_LOCATIONS_SECTION);
 
     BankValueSetFromString(
         lib5BD4895D_gv_aP_Core_bankLocations,
-        APSaveLoad_BANK_LOCATIONS_SECTION,
-        APSaveLoad_BANK_LOCATIONS_KEY_MISSION_MAP,
-        APSaveLoad_currentMapFile
+        AP_Core_SaveLoad_BANK_LOCATIONS_SECTION,
+        AP_Core_SaveLoad_BANK_LOCATIONS_KEY_MISSION_MAP,
+        AP_Core_SaveLoad_currentMapFile
     );
     BankValueSetFromString(
         lib5BD4895D_gv_aP_Core_bankLocations,
-        APSaveLoad_BANK_LOCATIONS_SECTION,
-        APSaveLoad_BANK_LOCATIONS_KEY_GAME_STATE,
+        AP_Core_SaveLoad_BANK_LOCATIONS_SECTION,
+        AP_Core_SaveLoad_BANK_LOCATIONS_KEY_GAME_STATE,
         IntToString(lib5BD4895D_gv_aP_Core_gameState)
     );
 
-    missionRace = APSaveLoad_GetMissionRace();
+    missionRace = AP_Core_SaveLoad_GetMissionRace();
     if (missionRace != "") {
         BankValueSetFromString(
             lib5BD4895D_gv_aP_Core_bankLocations,
-            APSaveLoad_BANK_LOCATIONS_SECTION,
-            APSaveLoad_BANK_LOCATIONS_KEY_MISSION_RACE,
+            AP_Core_SaveLoad_BANK_LOCATIONS_SECTION,
+            AP_Core_SaveLoad_BANK_LOCATIONS_KEY_MISSION_RACE,
             missionRace
         );
     }
 
-    if (APSaveLoad_saveIdentityInitialized) {
-        if (APSaveLoad_savedSlotName != "") {
+    if (AP_Core_SaveLoad_saveIdentityInitialized) {
+        if (AP_Core_SaveLoad_savedSlotName != "") {
             BankValueSetFromString(
                 lib5BD4895D_gv_aP_Core_bankLocations,
-                APSaveLoad_BANK_LOCATIONS_SECTION,
-                APSaveLoad_BANK_LOCATIONS_KEY_SLOT_NAME,
-                APSaveLoad_savedSlotName
+                AP_Core_SaveLoad_BANK_LOCATIONS_SECTION,
+                AP_Core_SaveLoad_BANK_LOCATIONS_KEY_SLOT_NAME,
+                AP_Core_SaveLoad_savedSlotName
             );
         }
-        if (APSaveLoad_savedWorldID != "") {
+        if (AP_Core_SaveLoad_savedWorldID != "") {
             BankValueSetFromString(
                 lib5BD4895D_gv_aP_Core_bankLocations,
-                APSaveLoad_BANK_LOCATIONS_SECTION,
-                APSaveLoad_BANK_LOCATIONS_KEY_WORLD_ID,
-                APSaveLoad_savedWorldID
+                AP_Core_SaveLoad_BANK_LOCATIONS_SECTION,
+                AP_Core_SaveLoad_BANK_LOCATIONS_KEY_WORLD_ID,
+                AP_Core_SaveLoad_savedWorldID
             );
         }
     }
 
-    if (APSaveLoad_saveLoadRefreshRequested) {
+    if (AP_Core_SaveLoad_saveLoadRefreshRequested) {
         BankValueSetFromString(
             lib5BD4895D_gv_aP_Core_bankLocations,
-            APSaveLoad_BANK_LOCATIONS_SECTION,
-            APSaveLoad_BANK_LOCATIONS_KEY_SAVE_LOADED,
+            AP_Core_SaveLoad_BANK_LOCATIONS_SECTION,
+            AP_Core_SaveLoad_BANK_LOCATIONS_KEY_SAVE_LOADED,
             "1"
         );
     }
 
-    if (APSaveLoad_checksOverrideRequested) {
+    if (AP_Core_SaveLoad_checksOverrideRequested) {
         BankValueSetFromString(
             lib5BD4895D_gv_aP_Core_bankLocations,
-            APSaveLoad_BANK_LOCATIONS_SECTION,
-            APSaveLoad_BANK_LOCATIONS_KEY_CHECKS_OVERRIDE,
+            AP_Core_SaveLoad_BANK_LOCATIONS_SECTION,
+            AP_Core_SaveLoad_BANK_LOCATIONS_KEY_CHECKS_OVERRIDE,
             "1"
         );
     }
@@ -227,13 +227,13 @@ void APSaveLoad_SyncLocations () {
 
 
 // Actual "-enablechecks" debug command in ArchipelagoTriggers
-void APSaveLoad_EnableChecksOverride () {
-    APSaveLoad_checksOverrideRequested = true;
-    APSaveLoad_SyncLocations();
+void AP_Core_SaveLoad_EnableChecksOverride () {
+    AP_Core_SaveLoad_checksOverrideRequested = true;
+    AP_Core_SaveLoad_SyncLocations();
 }
 
 
-void APSaveLoad_OnCoreOptionsRead () {
+void AP_Core_SaveLoad_OnCoreOptionsRead () {
     bank coreOptions;
     string warningCode;
 
@@ -241,46 +241,46 @@ void APSaveLoad_OnCoreOptionsRead () {
 
     // Capture the creator identity exactly once. A connected client must never overwrite the
     // identity restored from a save.
-    if (!APSaveLoad_saveIdentityInitialized) {
+    if (!AP_Core_SaveLoad_saveIdentityInitialized) {
         if (BankKeyExists(
             coreOptions,
-            APSaveLoad_BANK_CORE_OPTIONS_SECTION,
-            APSaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME
+            AP_Core_SaveLoad_BANK_CORE_OPTIONS_SECTION,
+            AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME
         )) {
-            APSaveLoad_savedSlotName = BankValueGetAsString(
+            AP_Core_SaveLoad_savedSlotName = BankValueGetAsString(
                 coreOptions,
-                APSaveLoad_BANK_CORE_OPTIONS_SECTION,
-                APSaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME
+                AP_Core_SaveLoad_BANK_CORE_OPTIONS_SECTION,
+                AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_SLOT_NAME
             );
-            APSaveLoad_saveIdentityInitialized = true;
+            AP_Core_SaveLoad_saveIdentityInitialized = true;
         }
         if (BankKeyExists(
             coreOptions,
-            APSaveLoad_BANK_CORE_OPTIONS_SECTION,
-            APSaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID
+            AP_Core_SaveLoad_BANK_CORE_OPTIONS_SECTION,
+            AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID
         )) {
-            APSaveLoad_savedWorldID = BankValueGetAsString(
+            AP_Core_SaveLoad_savedWorldID = BankValueGetAsString(
                 coreOptions,
-                APSaveLoad_BANK_CORE_OPTIONS_SECTION,
-                APSaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID
+                AP_Core_SaveLoad_BANK_CORE_OPTIONS_SECTION,
+                AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_WORLD_ID
             );
-            APSaveLoad_saveIdentityInitialized = true;
+            AP_Core_SaveLoad_saveIdentityInitialized = true;
         }
     }
 
     if (BankKeyExists(
         coreOptions,
-        APSaveLoad_BANK_CORE_OPTIONS_SECTION,
-        APSaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING
+        AP_Core_SaveLoad_BANK_CORE_OPTIONS_SECTION,
+        AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING
     )) {
         warningCode = BankValueGetAsString(
             coreOptions,
-            APSaveLoad_BANK_CORE_OPTIONS_SECTION,
-            APSaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING
+            AP_Core_SaveLoad_BANK_CORE_OPTIONS_SECTION,
+            AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_SAVE_WARNING
         );
 
-        if (warningCode != APSaveLoad_lastDisplayedWarningCode) {
-            APSaveLoad_lastDisplayedWarningCode = warningCode;
+        if (warningCode != AP_Core_SaveLoad_lastDisplayedWarningCode) {
+            AP_Core_SaveLoad_lastDisplayedWarningCode = warningCode;
 
             if (warningCode == "SlotMismatch") {
                 UIDisplayMessage(PlayerGroupAll(), c_messageAreaDebug, StringToText("WARNING: Loaded save uses a different slot. Mission checks are blocked."));
@@ -303,38 +303,38 @@ void APSaveLoad_OnCoreOptionsRead () {
     // LoadFinished is the acknowledgement that the client resent its current items/options.
     if (BankKeyExists(
         coreOptions,
-        APSaveLoad_BANK_CORE_OPTIONS_SECTION,
-        APSaveLoad_BANK_CORE_OPTIONS_KEY_LOAD_FINISHED
-    ) && APSaveLoad_saveLoadRefreshRequested) {
-        APSaveLoad_saveLoadRefreshRequested = false;
-        APSaveLoad_SyncLocations();
+        AP_Core_SaveLoad_BANK_CORE_OPTIONS_SECTION,
+        AP_Core_SaveLoad_BANK_CORE_OPTIONS_KEY_LOAD_FINISHED
+    ) && AP_Core_SaveLoad_saveLoadRefreshRequested) {
+        AP_Core_SaveLoad_saveLoadRefreshRequested = false;
+        AP_Core_SaveLoad_SyncLocations();
     }
 }
 
 
-void APSaveLoad_OnSaveLoaded () {
-    APSaveLoad_lastDisplayedWarningCode = "";
-    APSaveLoad_checksOverrideRequested = false;
+void AP_Core_SaveLoad_OnSaveLoaded () {
+    AP_Core_SaveLoad_lastDisplayedWarningCode = "";
+    AP_Core_SaveLoad_checksOverrideRequested = false;
 
-    if (!APSaveLoad_saveIdentityInitialized) {
-        APSaveLoad_saveIdentityInitialized = true;
-        APSaveLoad_savedSlotName = "";
-        APSaveLoad_savedWorldID = "";
+    if (!AP_Core_SaveLoad_saveIdentityInitialized) {
+        AP_Core_SaveLoad_saveIdentityInitialized = true;
+        AP_Core_SaveLoad_savedSlotName = "";
+        AP_Core_SaveLoad_savedWorldID = "";
     }
 
-    APSaveLoad_saveLoadRefreshRequested = true;
+    AP_Core_SaveLoad_saveLoadRefreshRequested = true;
 
-    if (APSaveLoad_postCoreLoadObjectiveRefresh == null) {
-        APSaveLoad_postCoreLoadObjectiveRefresh = TriggerCreate("APSaveLoad_PostCoreLoadObjectiveRefresh_Func");
+    if (AP_Core_SaveLoad_postCoreLoadObjectiveRefresh == null) {
+        AP_Core_SaveLoad_postCoreLoadObjectiveRefresh = TriggerCreate("AP_Core_SaveLoad_PostCoreLoadObjectiveRefresh_Func");
         TriggerAddEventGeneric(
-            APSaveLoad_postCoreLoadObjectiveRefresh,
+            AP_Core_SaveLoad_postCoreLoadObjectiveRefresh,
             lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT
         );
     }
-    TriggerEnable(APSaveLoad_postCoreLoadObjectiveRefresh, true);
+    TriggerEnable(AP_Core_SaveLoad_postCoreLoadObjectiveRefresh, true);
 
-    APSaveLoad_SyncLocations();
-    APSaveLoad_RefreshObjectivePanelAfterLoad();
+    AP_Core_SaveLoad_SyncLocations();
+    AP_Core_SaveLoad_RefreshObjectivePanelAfterLoad();
 }
 
 
@@ -342,7 +342,7 @@ void APSaveLoad_OnSaveLoaded () {
 // Objective-panel save/load helpers
 // -------------------------------------------------------------------------------------------------
 
-void APSaveLoad_ResetObjectivePanelState () {
+void AP_Core_SaveLoad_ResetObjectivePanelState () {
     int categoryIndex;
     int objectiveIndex;
     int locationIndex;
