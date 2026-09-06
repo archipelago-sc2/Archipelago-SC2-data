@@ -1,0 +1,1629 @@
+// A library for handling AP item unlocks
+include "AP_Triggers_Unlock.h"
+
+// Constants
+static const int ITEM_SPACE = 5000;
+static const int TYPE_TERRAN_UNIT = 0;
+static const int TYPE_TERRAN_ITEM = 1;
+static const int TYPE_ZERG_UNIT = 2;
+static const int TYPE_ZERG_ITEM = 3;
+static const int TYPE_PROTOSS_UNIT = 4;
+static const int TYPE_PROTOSS_ITEM = 5;
+static const int OFFSET_TERRAN_UNIT = 0;
+static const int OFFSET_TERRAN_ITEM = OFFSET_TERRAN_UNIT + 200;
+static const int OFFSET_ZERG_UNIT = OFFSET_TERRAN_ITEM + 500;
+static const int OFFSET_ZERG_ITEM = OFFSET_ZERG_UNIT + 200;
+static const int OFFSET_PROTOSS_UNIT = OFFSET_ZERG_ITEM + 500;
+static const int OFFSET_PROTOSS_ITEM = OFFSET_PROTOSS_UNIT + 200;
+
+
+static const int PROGRESSIVE_SPACE = 200;
+static const int OFFSET_UPGRADE = 50;
+
+// Globals
+static void ItemFuncSignature(int player) {}
+typedef funcref<ItemFuncSignature> AP_ItemFunc;
+struct AP_Item {
+    int Id;
+    string Upgrade;
+    AP_ItemFunc UnlockFunc;
+};
+static AP_Item[ITEM_SPACE] ItemDatabase;
+static int[20] TypeToOffset;
+static string[12][5] WAUpgradeDatabase;
+
+static void ProgressiveFuncSignature(int player, int level) {}
+typedef funcref<ProgressiveFuncSignature> AP_ProgressiveFunc;
+struct AP_Progressive {
+    int Id;
+    string UpgradeLevel1;
+    string UpgradeLevel2;
+    AP_ProgressiveFunc UnlockFunc;
+};
+static AP_Progressive[PROGRESSIVE_SPACE] ProgressiveDatabase;
+
+static unitfilter UnitFilterStandard = UnitFilter(0, 0, (1 << c_targetFilterMissile),
+    (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)));
+
+// Functions
+static void log(string s) {
+    TriggerDebugOutput(1, StringToText("Unlock: " + s), true);
+}
+
+static void RegisterItem(int id, int type, string upgrade, AP_ItemFunc itemFunc) {
+    int index = id + TypeToOffset[type];
+    ItemDatabase[index].Id = id;
+    ItemDatabase[index].Upgrade = upgrade;
+    ItemDatabase[index].UnlockFunc = itemFunc;
+}
+
+static void RegisterTerranUnit(int id, string upgrade,  AP_ItemFunc itemFunc) {
+    RegisterItem(id, TYPE_TERRAN_UNIT, upgrade, itemFunc);
+}
+
+static void RegisterProtossUnit(int id, string upgrade,  AP_ItemFunc itemFunc) {
+    RegisterItem(id, TYPE_PROTOSS_UNIT, upgrade, itemFunc);
+}
+
+static void RegisterTerranItem(int id, string upgrade) {
+    RegisterItem(id, TYPE_TERRAN_ITEM, upgrade, null);
+}
+
+static void RegisterTerranItemFunc(int id, string upgrade, AP_ItemFunc itemFunc) {
+    RegisterItem(id, TYPE_TERRAN_ITEM, upgrade, itemFunc);
+}
+
+static void RegisterProtossItem(int id, string upgrade) {
+    RegisterItem(id, TYPE_PROTOSS_ITEM, upgrade, null);
+}
+
+static void RegisterProtossItemFunc(int id, string upgrade,  AP_ItemFunc itemFunc) {
+    RegisterItem(id, TYPE_PROTOSS_ITEM, upgrade, itemFunc);
+}
+
+
+static void RegisterProgressive(int id, int offset, int bits, string upgrade1, string upgrade2, AP_ProgressiveFunc itemFunc) {
+    int index = id/bits + offset;
+    ProgressiveDatabase[index].Id = id;
+    ProgressiveDatabase[index].UpgradeLevel1 = upgrade1;
+    ProgressiveDatabase[index].UpgradeLevel2 = upgrade2;
+    ProgressiveDatabase[index].UnlockFunc = itemFunc;
+}
+
+static void RegisterTerranProgressiveFunc(int id, AP_ProgressiveFunc itemFunc) {
+    RegisterProgressive(id, 0, 2, null, null, itemFunc);
+}
+
+static void RegisterTerranProgressive(int id, string upgrade1, string upgrade2) {
+    // common case of progressive with 2 levels. More levels/upgrades needs to handle it with the function.
+    RegisterProgressive(id, 0, 2, upgrade1, upgrade2, null);
+}
+
+static void RegisterTerranUpgrade(int id, AP_ProgressiveFunc itemFunc) {
+    RegisterProgressive(id, OFFSET_UPGRADE, 4, null, null, itemFunc);
+}
+static void UnlockItem(int player, int index) {
+    log("unlocking index: "+IntToString(index));
+    if (ItemDatabase[index].Upgrade != null) {
+        TechTreeUpgradeAddLevel(player, ItemDatabase[index].Upgrade, 1);
+    }
+    if (ItemDatabase[index].UnlockFunc != null) {
+        ItemDatabase[index].UnlockFunc(player);
+    }
+}
+
+static void UnlockProgressive(int player, int index, int offset, int level) {
+    int slot = ProgressiveDatabase[index + offset].Id;
+    index += offset;
+    // log("unlocking progressive level: " + IntToString(level) + " at slot: "+ IntToString(slot));
+    if (level >= 1 && ProgressiveDatabase[index].UpgradeLevel1 != null) {
+        TechTreeUpgradeAddLevel(player, ProgressiveDatabase[index].UpgradeLevel1, 1);
+    }
+    if (level >= 2 && ProgressiveDatabase[index].UpgradeLevel2 != null) {
+        TechTreeUpgradeAddLevel(player, ProgressiveDatabase[index].UpgradeLevel2, 1);
+    }
+    if (ProgressiveDatabase[index].UnlockFunc != null) {
+        ProgressiveDatabase[index].UnlockFunc(player, level);
+    }
+}
+
+static void UnlockItems(int player, int type, string hexInput) {
+    int length = StringLength(hexInput);
+    int fourBits;
+    int index;
+    int offset = TypeToOffset[type];
+    int i; int j;
+    for (i = OFFSET_PROTOSS_UNIT; i < OFFSET_PROTOSS_UNIT + 200; i += 1) {
+        if (ItemDatabase[i].Upgrade != null) {
+            log("Upgrade " + ItemDatabase[i].Upgrade + " at index: " + IntToString(i));
+        }
+    }
+    log("Input: "+hexInput);
+    for (i = length; i > 0; i -= 1) {
+        fourBits = AP_HexDigitToInt(StringSub(hexInput, i, i));
+        log("four bits "+IntToString(i)+": "+IntToString(fourBits));
+        if (fourBits <= 0) { continue; }
+        for (j = 0; j < 4; j += 1) {
+            index = (4 * (length - i)) + j + offset;
+            if ((fourBits & 1) == 1) {
+                UnlockItem(player, index);
+            }
+            fourBits = (fourBits >> 1);
+        }
+    }
+}
+
+// Regular progressive items always consume 2 bits (which means their max lvl is 3)
+// anything with higher lvls needs to be handled separately
+static void UnlockProgressives(int player, string hexInput) {
+    int length = StringLength(hexInput);
+    int fourBits;
+    int level;
+    int index;
+    int i; int j;
+    //log("Input: "+hexInput);
+    for (i = length; i > 0; i -= 1) {
+        fourBits = AP_HexDigitToInt(StringSub(hexInput, i, i));
+        //log("FourBits: " + IntToString(fourBits));
+        for (j = 0; j < 2; j += 1) {
+            if (fourBits <= 0) { continue; }
+            index = 2 * (length - i) + j;
+            level = fourBits & 3;
+            UnlockProgressive(player, index, 0, level);
+            fourBits = (fourBits >> 2);
+        }
+    }
+}
+
+// W/A upgrades always consume 1 full hex char
+static void UnlockUpgrades(int player, string hexInput) {
+    int length = StringLength(hexInput);
+    int fourBits;
+    int level;
+    int index;
+    int i;
+    // log("Upgrades Input: "+hexInput);
+    for (i = length; i > 0; i -= 1) {
+        fourBits = AP_HexDigitToInt(StringSub(hexInput, i, i));
+        // log("FourBits: " + IntToString(fourBits));
+        if (fourBits <= 0) { continue; }
+        index = length - i;
+        UnlockProgressive(player, index, OFFSET_UPGRADE, fourBits);
+    }
+}
+
+// Unlock Functions
+static void UnlockBarracks(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockBarracks" , 1);
+}
+
+static void UnlockShadowOps(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockShadowOps" , 1);
+}
+
+static void UnlockBarracksAndShadowOps(int player) {
+    UnlockBarracks(player);
+    UnlockShadowOps(player);
+}
+
+static void UnlockEngineeringBay(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockEngineeringBay" , 1);
+}
+
+static void UnlockPsiDisrupter(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockPsiDisrupter" , 1);
+}
+
+static void UnlockPsiDisrupterAndEngineeringBay (int player) {
+    UnlockEngineeringBay(player);
+    UnlockPsiDisrupter(player);
+}
+
+static void UnlockHiveMindEmulator(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockHiveMindEmulator" , 1);
+}
+
+static void UnlockHiveMindEmulatorAndEngineeringBay(int player) {
+    UnlockEngineeringBay(player);
+    UnlockHiveMindEmulator(player);
+}
+
+static void UnlockFactory(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockFactory" , 1);
+}
+
+static void UnlockArmory(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockArmory" , 1);
+}
+
+static void UnlockFactoryAndArmory(int player) {
+    UnlockFactory(player);
+    UnlockArmory(player);
+}
+static void UnlockStarport(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockStarport" , 1);
+}
+
+static void UnlockFusionCore(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockFusionCore" , 1);
+}
+
+static void UnlockStarportAndFusionCore(int player) {
+    UnlockStarport(player);
+    UnlockFusionCore(player);
+}
+
+static void UnlockEliteBarracks(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockEliteBarracks" , 1);
+}
+
+static void UnlockEliteFactory(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockEliteFactory" , 1);
+}
+
+static void UnlockEliteStarport(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockEliteStarport" , 1);
+}
+
+static void UnlockEliteStarportAndFusionCore(int player) {
+    UnlockEliteStarport(player);
+    UnlockFusionCore(player);
+}
+
+static void UnlockMercInfantry(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockMercCompound" , 1);
+    TechTreeUpgradeAddLevel(player, "AP_MercCompoundInfantry" , 1);
+}
+
+static void UnlockMercVehicles(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockMercCompound" , 1);
+    TechTreeUpgradeAddLevel(player, "AP_MercCompoundVehicles" , 1);
+}
+
+static void UnlockMercShips(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockMercCompound" , 1);
+    TechTreeUpgradeAddLevel(player, "AP_MercCompoundStarships" , 1);
+}
+
+static void SelfSufficientFix (int player) {
+    if (TechTreeUpgradeCount(player, "AP_SelfSufficient", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_SelfSufficient", -1);
+        TechTreeUpgradeAddLevel(player, "AP_SelfSufficient", 1);
+    }
+}
+
+static void BrynhildFunc (int player) {
+    if (TechTreeUpgradeCount(player, "AP_SwannComanderVehicleWeaponRange", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_BrynhildRangeDoubleUpgrade", 1);
+    }
+}
+
+static void DiamondbackFunc (int player) {
+    int i;
+    unit u;
+    unitgroup g = UnitGroup("AP_Diamondback", player, RegionEntireMap(), UnitFilterStandard, 0);
+    for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(g, i);
+        UnitBehaviorAdd(u, "AP_BurstCapacitorsDamageBuff", u, 1);
+    }
+}
+
+static void GraduatingRangeFunc (int player) {
+    int i;
+    unit u;
+    string type;
+    unitgroup g = UnitGroup(null, player, RegionEntireMap(), UnitFilterStandard, 0);
+    for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(g, i);
+        type = UnitGetType(u);
+        if (
+        (  type == "AP_SiegeTankSieged"
+        || type == "AP_SiegeTankSiegedTransportable"
+        || type == "AP_SiegeBreakerSieged"
+        || type == "AP_SiegeBreakerSiegedTransportable"
+        || type == "AP_InfestedSiegeBreakerSieged"
+        || type == "AP_InfestedSiegeBreakerSiegedTransportable"
+        )
+        && !UnitHasBehavior2(u, "AP_SiegeTankSiegeModeProgressiveRangeIncrease")
+        ){
+            UnitBehaviorAdd(u, "AP_SiegeTankSiegeModeProgressiveRangeIncrease", u, 1);
+        }
+    }
+}
+
+static void ThorNukeFunc(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_HaveGhostOrSpectreOrThorNuke", 1);
+    UnlockShadowOps(player);
+}
+static void PredatorShieldsFunc(int player) {
+    int ShieldRegenLevel = TechTreeUpgradeCount(player, "AP_ShieldRegenBonus", c_techCountCompleteOnly);
+    int ShieldRegenLevel100Stack = TechTreeUpgradeCount(player, "AP_ShieldRegenBonus100Stack", c_techCountCompleteOnly);
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusPredator", ShieldRegenLevel);
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusPredator100Stack", ShieldRegenLevel100Stack);
+}
+
+static void MedivacShieldFunc(int player) {
+    int ShieldRegenLevel = TechTreeUpgradeCount(player, "AP_ShieldRegenBonus", c_techCountCompleteOnly);
+    int ShieldRegenLevel100Stack = TechTreeUpgradeCount(player, "AP_ShieldRegenBonus100Stack", c_techCountCompleteOnly);
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusMedivac", ShieldRegenLevel);
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusMedivac100Stack", ShieldRegenLevel100Stack);
+}
+
+static void VikingRangeFunc (int player) {
+    if (TechTreeUpgradeCount(player, "AP_SwannComanderVehicleWeaponRange", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_VikingRangeDoubleUpgrade", 1);
+    }
+}
+
+static void LiberatorCloakFunc (int player) {
+    int i;
+    unit u;
+    unitgroup g;
+    fixed startingEnergy = 50;
+    if (TechTreeUpgradeCount(player, "AP_CloakingTechnologyLiberator", c_techCountCompleteOnly) > 0 ) {
+        return;
+    }
+    // add upgrade here to ensure starting energy is added properly
+    TechTreeUpgradeAddLevel(player, "AP_CloakingTechnologyLiberator", 1);
+    if (TechTreeUpgradeCount(player, "AP_CellularReactors", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_CellularReactorsLiberator", 1);
+        startingEnergy = 150;
+    }
+    g = UnitGroup("AP_Liberator", player, RegionEntireMap(), UnitFilterStandard, 0);
+    UnitGroupAddUnitGroup(g, UnitGroup("AP_LiberatorAG", player, RegionEntireMap(), UnitFilterStandard, 0));
+    for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(g, i);
+        UnitSetPropertyFixed(u, c_unitPropEnergy, startingEnergy);
+    }
+}
+
+static void BunkerFortifiedShrikeFunc (int player) {
+    if (TechTreeUpgradeCount(player, "AP_ShrikeTurret", c_techCountCompleteOnly) > 0
+    || TechTreeUpgradeCount(player, "AP_FortifiedBunkerCarapace", c_techCountCompleteOnly) > 0
+    ) {
+        TechTreeUpgradeAddLevel(player, "AP_NeoSteelAndShrikeTurretIconUpgrade", 1);
+    }
+}
+
+static void PlanetaryFortressAirAttackFunc (int player) {
+    return; // TODO (Snarky): Handle flying anti-air attack
+}
+
+static void PlanetaryFortressOrbitalModuleFunc (int player) {
+    int i;
+    unit u;
+    unitgroup g;
+    fixed startingEnergy = 50;
+    if (TechTreeUpgradeCount(player, "AP_OrbitalRelayPlanetary", c_techCountCompleteOnly) > 0 ) {
+        return;
+    }
+    // add upgrade here to ensure starting energy is added properly
+    TechTreeUpgradeAddLevel(player, "AP_OrbitalRelayPlanetary", 1);
+    g = UnitGroup("AP_PlanetaryFortress", player, RegionEntireMap(), UnitFilterStandard, 0);
+    UnitGroupAddUnitGroup(g, UnitGroup("AP_PlanetaryFortressFlying", player, RegionEntireMap(), UnitFilterStandard, 0));
+    for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(g, i);
+        UnitSetPropertyFixed(u, c_unitPropEnergy, startingEnergy);
+    }
+}
+
+static void UnlockOrbitalCommand (int player) {
+    int i;
+    unit u;
+    unitgroup g;
+    fixed startingEnergy = 50;
+    if (TechTreeUpgradeCount(player, "AP_OrbitalRelay", c_techCountCompleteOnly) > 0 ) {
+        return;
+    }
+    TechTreeUpgradeAddLevel(player, "AP_OrbitalRelay", 1);
+    g = UnitGroup("AP_CommandCenter", player, RegionEntireMap(), UnitFilterStandard, 0);
+    UnitGroupAddUnitGroup(g, UnitGroup("AP_CommandCenterFlying", player, RegionEntireMap(), UnitFilterStandard, 0));
+    for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(g, i);
+        UnitSetPropertyFixed(u, c_unitPropEnergy, startingEnergy);
+    }
+}
+
+static void UltraCapacitorsFunc (int player) {
+    int i; int j;
+    string oldUpgrade = "AP_TerranInfantryWeaponsPreplacedNoBuild";
+    string newUpgrade = "AP_TerranInfantryWeaponsUltraCapacitorsPreplacedNoBuild";
+    string[3] type;
+    libABFE498B_gf_AP_Triggers_replaceUpgrade(player, oldUpgrade, newUpgrade);
+    type[0] = "Infantry";
+    type[1] = "Vehicle";
+    type[2] = "Ship";
+    for (i = 1; i <= 5; i +=1) {
+        for (j = 0; j < 3; j += 1) {
+            oldUpgrade = "AP_Terran" + type[j] + "WeaponsLevel" + IntToString(i);
+            newUpgrade = "AP_Terran" + type[j] + "WeaponsUltraCapacitorsLevel" + IntToString(i);
+            libABFE498B_gf_AP_Triggers_replaceUpgrade(player, oldUpgrade, newUpgrade);
+        }
+    }
+}
+
+static void VanadiumPlatingFunc (int player) {
+    int i; int j;
+    string oldUpgrade = "AP_TerranInfantryArmorsPreplacedNoBuild";
+    string newUpgrade = "AP_TerranInfantryArmorsVanadiumPlatingPreplacedNoBuild";
+    string[3] type;
+    libABFE498B_gf_AP_Triggers_replaceUpgrade(player, oldUpgrade, newUpgrade);
+    type[0] = "Infantry";
+    type[1] = "Vehicle";
+    type[2] = "Ship";
+    for (i = 1; i <= 5; i +=1) {
+        for (j = 0; j < 3; j += 1) {
+            oldUpgrade = "AP_Terran" + type[j] + "ArmorsLevel" + IntToString(i);
+            newUpgrade = "AP_Terran" + type[j] + "ArmorsVanadiumPlatingLevel" + IntToString(i);
+            libABFE498B_gf_AP_Triggers_replaceUpgrade(player, oldUpgrade, newUpgrade);
+        }
+    }
+}
+
+static void CellularReactorFunc (int player) {
+    if (TechTreeUpgradeCount(player, "AP_CloakingTechnologyLiberator", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_CellularReactorsLiberator", 1);
+    }
+    if (TechTreeUpgradeCount(player, "AP_CloakingTechnologyPredator", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_CellularReactorsPredator", 1);
+    }
+}
+
+static void AdvancedOpticsFunc (int player) {
+    if (TechTreeUpgradeCount(player, "AP_AresClassWeaponsSystemViking", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_VikingRangeDoubleUpgrade", 1);
+    }
+    if (TechTreeUpgradeCount(player, "AP_AresClassWeaponsSystems", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_BrynhildRangeDoubleUpgrade", 1);
+    }
+}
+
+static void RapidReinforcementFunc (int player) {
+    int i;
+    string cooldownLink;
+    if (TechTreeUpgradeCount(player, "AP_RapidReinforcement", c_techCountCompleteOnly) > 0 ) {
+        return;
+    }
+    TechTreeUpgradeAddLevel(player, "AP_RapidReinforcement", 1);
+    for (i = 0; i < lib15EF4C78_gv_aP_Player_MERC_COOLDOWN_LINK_SIZE; i += 1) {
+        if ( lib15EF4C78_gv_aP_Player_MercType[i] == lib15EF4C78_ge_AP_Player_MercenaryType_INFANTRY
+        || lib15EF4C78_gv_aP_Player_MercType[i] == lib15EF4C78_ge_AP_Player_MercenaryType_VEHICLE
+        || lib15EF4C78_gv_aP_Player_MercType[i] == lib15EF4C78_ge_AP_Player_MercenaryType_STARSHIP
+        ) {
+            cooldownLink = lib15EF4C78_gv_aP_Player_MercCooldownLinks[i];
+            PlayerAddCooldown(player, cooldownLink, -60.0);
+        }
+    }
+}
+
+static void VultureMagazineFunc(int player, int level) {
+    int i;
+    unit u;
+    unitgroup g;
+    order o;
+    if (TechTreeUpgradeCount(player, "AP_ReplenishSpiderMineFree", c_techCountCompleteOnly) > 0 ) {
+        return;
+    }
+    if (level >= 1) {
+        TechTreeUpgradeAddLevel(player, "AP_NanoConstructor", 1);
+        if (level >= 2) {
+            TechTreeUpgradeAddLevel(player, "AP_ReplenishSpiderMineFree", 1);
+            g = UnitGroup("AP_Vulture", player, RegionEntireMap(), UnitFilterStandard, 0);
+            o = OrderSetAutoCast(AbilityCommand("AP_MakeVultureSpiderMines", 0), true);
+            UnitGroupIssueOrder(g, o, c_orderQueueAddToFront);
+        }
+    }
+}
+
+static void BattlecruiserShieldsFunc(int player, int level) {
+    if (level >= 1) {
+        TechTreeUpgradeAddLevel(player, "AP_DefensiveMatrix", 1);
+        if (level >= 2) {
+            TechTreeUpgradeAddLevel(player, "AP_BattlecruiserAdvancedDefensiveMatrix", 1);
+            libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusBattlecruiser", 1);
+            libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusBattlecruiser100Stack", 1);
+        }
+    }
+}
+
+static void PlanetaryLiftoffFunc(int player, int level) {
+    if (level >= 1) {
+        TechTreeUpgradeAddLevel(player, "AP_PlanetaryFortressLiftOff", 1);
+        if (level >= 2) {
+            TechTreeUpgradeAddLevel(player, "AP_PlanetaryFortressLevel", 1);
+            if (TechTreeUpgradeCount(player, "AP_PlanetaryFortressAirAttack", c_techCountCompleteOnly) > 0) {
+                TechTreeUpgradeAddLevel(player, "AP_PlanetaryFortressAirAttackFlying", 1);
+            }
+        }
+    }
+}
+
+static void FastDeliveryFunc(int player, int level) {
+    int index;
+    int upgradeLevel = TechTreeUpgradeCount(player, "AP_FastDeliveryLevel1", c_techCountCompleteOnly);
+    int upgradeLevel2 = TechTreeUpgradeCount(player, "AP_FastDelivery", c_techCountCompleteOnly);
+    if (level >= 1 && upgradeLevel == 0) {
+        TechTreeUpgradeAddLevel(player, "AP_FastDeliveryLevel1", 1);
+        lib15EF4C78_gf_AP_Player_ClearMercenaryCooldownsTerran(player);
+    }
+    if (level >= 2 && upgradeLevel2 == 0) {
+        TechTreeUpgradeAddLevel(player, "AP_FastDelivery", 1);
+        lib15EF4C78_gf_AP_Player_ClearMercenaryCooldownsTerran(player);
+    }
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_FastDeliveryCharges", lib15EF4C78_gf_AP_Player_MercCompoundGetInstantUses(player));
+}
+
+static void BioSteelFunc(int player, int level) {
+    if (level >= 1) {
+        TechTreeUpgradeAddLevel(player, "AP_RegenerativeBioSteel", 1);
+        if (level >= 2) {
+            TechTreeUpgradeAddLevel(player, "AP_RegenerativeBioSteelLevel2", 1);
+            if (level >= 3) {
+                TechTreeUpgradeAddLevel(player, "AP_RegenerativeBioSteelLevel3", 1);
+            }
+        }
+    }
+}
+
+static void HandleTerranUpgrade(int player, int level, int index, int modifier) {
+    int i;
+    log("handle terran upgrade. Index:" + IntToString(index) + ", Level: " + IntToString(level));
+    if (libABFE498B_gf_AP_Triggers_isGenericUpgradeAutoUnlock()) {
+        log("full auto");
+        for (i = 0; i < level; i += 1) {
+            TechTreeUpgradeAddLevel(player, WAUpgradeDatabase[index][i], 1);
+        }
+    }
+    else {
+        log("manual");
+        for (i = 0; i < level; i += 1) {
+            log("allowing upgrade: " + WAUpgradeDatabase[index][i]);
+            TechTreeUpgradeAllow(player, WAUpgradeDatabase[index][i], true);
+            TechTreeUpgradeAllow(player, WAUpgradeDatabase[index + modifier][i], true);
+        }
+    }
+}
+
+static void TerranInfantryWeaponFunc (int player, int level) {
+    int index = 0;
+    int modifier = 1;
+    log("terran infantry weapons");
+    UnlockEngineeringBay(player);
+    if (TechTreeUpgradeCount(player, "AP_UltraCapacitors", c_techCountCompleteOnly) > 0 ) {
+        log("with ultra capacitors");
+        index += 1;
+        modifier = -1;
+    }
+    HandleTerranUpgrade(player, level , index, modifier);
+}
+
+static void TerranInfantryArmorFunc (int player, int level) {
+    int index = 2;
+    int modifier = 1;
+    UnlockEngineeringBay(player);
+    if (TechTreeUpgradeCount(player, "AP_VanadiumPlating", c_techCountCompleteOnly) > 0 ) {
+        index += 1;
+        modifier = -1;
+    }
+    HandleTerranUpgrade(player, level, index, modifier);
+
+}
+
+static void TerranVehicleWeaponFunc (int player, int level) {
+    int index = 4;
+    int modifier = 1;
+    UnlockArmory(player);
+    if (TechTreeUpgradeCount(player, "AP_UltraCapacitors", c_techCountCompleteOnly) > 0 ) {
+        index += 1;
+        modifier = -1;
+    }
+    HandleTerranUpgrade(player, level, index, modifier);
+}
+
+static void TerranVehicleArmorFunc (int player, int level) {
+    int index = 6;
+    int modifier = 1;
+    UnlockArmory(player);
+    if (TechTreeUpgradeCount(player, "AP_VanadiumPlating", c_techCountCompleteOnly) > 0 ) {
+        index += 1;
+        modifier = -1;
+    }
+    HandleTerranUpgrade(player, level, index, modifier);
+}
+
+static void TerranShipWeaponFunc (int player, int level) {
+    int index = 8;
+    int modifier = 1;
+    UnlockArmory(player);
+    if (TechTreeUpgradeCount(player, "AP_UltraCapacitors", c_techCountCompleteOnly) > 0 ) {
+        index += 1;
+        modifier = -1;
+    }
+    HandleTerranUpgrade(player, level, index, modifier);
+}
+
+static void TerranShipArmorFunc (int player, int level) {
+    int index = 10;
+    int modifier = 1;
+    UnlockArmory(player);
+    if (TechTreeUpgradeCount(player, "AP_VanadiumPlating", c_techCountCompleteOnly) > 0 ) {
+        index += 1;
+        modifier = -1;
+    }
+    HandleTerranUpgrade(player, level, index, modifier);
+}
+
+static void Setup() {
+    int level; int i; int j;
+    string[3] unitTypes;
+    string[2] add;
+    string id;
+    TypeToOffset[TYPE_TERRAN_UNIT] = OFFSET_TERRAN_UNIT;
+    TypeToOffset[TYPE_TERRAN_ITEM] = OFFSET_TERRAN_ITEM;
+    TypeToOffset[TYPE_ZERG_UNIT] = OFFSET_ZERG_UNIT;
+    TypeToOffset[TYPE_ZERG_ITEM] = OFFSET_ZERG_ITEM;
+    TypeToOffset[TYPE_PROTOSS_UNIT] = OFFSET_PROTOSS_UNIT;
+    TypeToOffset[TYPE_PROTOSS_ITEM] = OFFSET_PROTOSS_ITEM;
+
+    // Weapon Upgrades Setup
+    unitTypes[0] = "Infantry";
+    unitTypes[1] = "Vehicle";
+    unitTypes[2] =  "Ship";
+    add[0] = "UltraCapacitors";
+    add[1] = "VanadiumPlating";
+    for (i = 0; i < 3; i += 1) {
+        for (j = 0; j < 5; j += 1) {
+            level = j + 1;
+            id = "AP_Terran" + unitTypes[i] + "Weapons" + "Level" + IntToString(level);
+            WAUpgradeDatabase[4 * i][j] = id;
+            id = "AP_Terran" + unitTypes[i] + "Weapons" + add[0] + "Level" + IntToString(level);
+            WAUpgradeDatabase[4 * i + 1][j] = id;
+            id = "AP_Terran" + unitTypes[i] + "Armors" + "Level" + IntToString(level);
+            WAUpgradeDatabase[4 * i + 2][j] = id;
+            id = "AP_Terran" + unitTypes[i] + "Armors" + add[1] + "Level" + IntToString(level);
+            WAUpgradeDatabase[4 * i + 3][j] = id;
+        }
+    }
+}
+
+void AP_UnlockTerranUnits(int player, string hexInput) {
+    UnlockItems(player, TYPE_TERRAN_UNIT, hexInput);
+}
+
+void AP_UnlockProtossUnits(int player, string hexInput) {
+    log("unlocking protoss units");
+    UnlockItems(player, TYPE_PROTOSS_UNIT, hexInput);
+}
+
+void AP_UnlockTerranItems(int player, string hexInput) {
+    UnlockItems(player, TYPE_TERRAN_ITEM, hexInput);
+}
+
+void AP_UnlockProtossItems(int player, string hexInput) {
+    UnlockItems(player, TYPE_PROTOSS_ITEM, hexInput);
+}
+
+void AP_UnlockTerranProgressives(int player, string hexInput) {
+    UnlockProgressives(player, hexInput);
+}
+
+void AP_UnlockProtossProgressives(int player, string hexInput) {
+}
+
+void AP_UnlockTerranUpgrades(int player, string hexInput) {
+    UnlockUpgrades(player, hexInput);
+}
+
+void AP_UnlockProtossUpgrades(int player, string hexInput) {
+}
+
+
+
+void AP_ResetTerranTech(int player) {
+    //for testing
+    TechTreeUpgradeAddLevel(player, "AP_UnlockBarracks" , -1);
+    TechTreeUpgradeAddLevel(player, "AP_UnlockBarracksReactor" , -1);
+    TechTreeUpgradeAddLevel(player, "AP_UnlockBarracksTechLab" , -1);
+
+    TechTreeUpgradeAddLevel(player, "AP_UnlockMarine" , -1);
+    TechTreeUpgradeAddLevel(player, "AP_UnlockMedic" , -1);
+    TechTreeUpgradeAddLevel(player, "AP_UnlockFirebat" , -1);
+    TechTreeUpgradeAddLevel(player, "AP_UnlockMarauder" , -1);
+
+    TechTreeUpgradeAddLevel(player, "AP_CombatShield" , -1);
+    TechTreeUpgradeAddLevel(player, "AP_MarineStimpack" , -1);
+    TechTreeUpgradeAddLevel(player, "AP_SuperStimpackMarine" , -1);
+    TechTreeUpgradeAddLevel(player, "AP_LaserTargetingSystemMarine" , -1);
+}
+
+static void RegisterTerranUnits() {
+    // Barracks
+    RegisterTerranUnit(0, "AP_UnlockMarine", UnlockBarracks);
+    RegisterTerranUnit(1, "AP_UnlockMedic", UnlockBarracks);
+    RegisterTerranUnit(2, "AP_UnlockFirebat", UnlockBarracks);
+    RegisterTerranUnit(3, "AP_UnlockMarauder", UnlockBarracks);
+    RegisterTerranUnit(4, "AP_UnlockReaper", UnlockBarracks);
+    RegisterTerranUnit(15, "AP_UnlockGhost", UnlockBarracksAndShadowOps);
+    RegisterTerranUnit(16, "AP_UnlockSpectre", UnlockBarracksAndShadowOps);
+    RegisterTerranUnit(22, "AP_UnlockHerc", UnlockBarracks);
+    RegisterTerranUnit(24, "AP_UnlockDominionTrooper", UnlockBarracks);
+
+    // Factory
+    RegisterTerranUnit(5, "AP_UnlockHellion", UnlockFactory);
+    RegisterTerranUnit(6, "AP_UnlockVulture", UnlockFactory);
+    RegisterTerranUnit(7, "AP_UnlockGoliath", UnlockFactory);
+    RegisterTerranUnit(8, "AP_UnlockDiamondback", UnlockFactory);
+    RegisterTerranUnit(9, "AP_UnlockSiegeTank", UnlockFactory);
+    RegisterTerranUnit(17, "AP_UnlockThor", UnlockFactoryAndArmory);
+    RegisterTerranUnit(20, "AP_UnlockWidowMine", UnlockFactory);
+    RegisterTerranUnit(21, "AP_UnlockCyclone", UnlockFactory);
+    RegisterTerranUnit(23, "AP_UnlockWarhound", UnlockFactory);
+    RegisterTerranUnit(59, "AP_UnlockPredator", UnlockFactory);
+
+    // Starport
+    RegisterTerranUnit(10, "AP_UnlockMedivac", UnlockStarport);
+    RegisterTerranUnit(11, "AP_UnlockWraith", UnlockStarport);
+    RegisterTerranUnit(12, "AP_UnlockViking", UnlockStarport);
+    RegisterTerranUnit(13, "AP_UnlockBanshee", UnlockStarport);
+    RegisterTerranUnit(14, "AP_UnlockBattlecruiser", UnlockStarportAndFusionCore);
+    RegisterTerranUnit(18, "AP_UnlockLiberator", UnlockStarport);
+    RegisterTerranUnit(19, "AP_UnlockValkyrie", UnlockStarport);
+    RegisterTerranUnit(55, "AP_UnlockRaven", UnlockStarport);
+    RegisterTerranUnit(56, "AP_UnlockScienceVessel", UnlockStarport);
+    RegisterTerranUnit(60, "AP_UnlockHercules", UnlockStarportAndFusionCore);
+
+    // Elite Barracks
+    RegisterTerranUnit(29, "AP_UnlockAegisGuard", UnlockEliteBarracks);
+    RegisterTerranUnit(30, "AP_UnlockEmperorsShadow", UnlockEliteBarracks);
+    RegisterTerranUnit(31, "AP_UnlockSonOfKorhal", UnlockEliteBarracks);
+    RegisterTerranUnit(33, "AP_UnlockFieldResponseTheta", UnlockEliteBarracks);
+
+    // Elite Factory
+    RegisterTerranUnit(27, "AP_UnlockShockDivision", UnlockEliteFactory);
+    RegisterTerranUnit(28, "AP_UnlockBlackhammer", UnlockEliteFactory);
+    RegisterTerranUnit(32, "AP_UnlockBulwarkCompany", UnlockEliteFactory);
+
+    // Elite Starport
+    RegisterTerranUnit(25, "AP_UnlockPrideOfAugustgrad", UnlockEliteStarport);
+    RegisterTerranUnit(26, "AP_UnlockSkyFury", UnlockEliteStarport);
+    RegisterTerranUnit(34, "AP_UnlockEmperorsGuardian", UnlockEliteStarport);
+    RegisterTerranUnit(35, "AP_UnlockNightHawk", UnlockEliteStarport);
+    RegisterTerranUnit(36, "AP_UnlockNightWolf", UnlockEliteStarport);
+
+    // Mercenaries
+    RegisterTerranUnit(41, "AP_UnlockWarPigs", UnlockMercInfantry);
+    RegisterTerranUnit(42, "AP_UnlockDevilDogs", UnlockMercInfantry);
+    RegisterTerranUnit(43, "AP_UnlockHammerSecurities", UnlockMercInfantry);
+    RegisterTerranUnit(44, "AP_UnlockSpartanCompany", UnlockMercVehicles);
+    RegisterTerranUnit(45, "AP_UnlockSiegeBreakers", UnlockMercVehicles);
+    RegisterTerranUnit(46, "AP_UnlockHelsAngels", UnlockMercShips);
+    RegisterTerranUnit(47, "AP_UnlockDuskWings", UnlockMercShips);
+    RegisterTerranUnit(48, "AP_UnlockJacksonsRevenge", UnlockMercShips);
+    RegisterTerranUnit(49, "AP_UnlockSkibisAngels", UnlockMercInfantry);
+    RegisterTerranUnit(50, "AP_UnlockDeathHeads", UnlockMercInfantry);
+    RegisterTerranUnit(51, "AP_UnlockWingedNightmares", UnlockMercShips);
+    RegisterTerranUnit(52, "AP_UnlockMidnightRiders", UnlockMercShips);
+    RegisterTerranUnit(53, "AP_UnlockBrynhilds", UnlockMercShips);
+    RegisterTerranUnit(54, "AP_UnlockJotun", UnlockMercVehicles);
+
+    // Buildings
+    RegisterTerranUnit(37, "AP_UnlockBunker", UnlockBarracks);
+    RegisterTerranUnit(38, "AP_UnlockMissileTurret", UnlockEngineeringBay);
+    RegisterTerranUnit(39, "AP_UnlockSensorTower", UnlockEngineeringBay);
+    RegisterTerranUnit(40, "AP_UnlockDevastatorTurret", UnlockFactory);
+    RegisterTerranUnit(57, "AP_UnlockPlanetaryFortress", UnlockEngineeringBay);
+    RegisterTerranUnit(58, "AP_UnlockPerditionTurret", UnlockEngineeringBay);
+}
+
+static void RegisterTerranItems() {
+
+    // ********************** //
+    // *     Barracks       * //
+    // ********************** //
+
+    // Marine
+    RegisterTerranItem(7, "AP_CombatShield");
+    RegisterTerranItem(6, "AP_MarineStimpack");
+    RegisterTerranItem(18, "AP_LaserTargetingSystemMarine");
+    RegisterTerranItem(19, "AP_MagrailMunitionsMarine");
+    RegisterTerranItem(20, "AP_FastBuildMarine");
+    RegisterTerranItem(242, "AP_SuperStimpackMarine"); // Med Pack
+
+    // Medic
+    RegisterTerranItem(8, "AP_AdvancedMedicTraining");
+    RegisterTerranItem(9, "AP_StabilizerMedPacks");
+    RegisterTerranItem(21, "AP_MedicSCBWRestorationResearch");
+    RegisterTerranItem(22, "AP_MedicSCBWOpticFlareResearch");
+    RegisterTerranItemFunc(23, "AP_OptimizedLogisticsMedic", SelfSufficientFix); // RE
+    RegisterTerranItem(31, "AP_AdaptiveMedPacks");
+    RegisterTerranItem(32, "AP_RaynorMedicRange");
+
+    // Firebat
+    RegisterTerranItem(10, "AP_BearclawNozzles"); // Incinerator Gauntlets
+    RegisterTerranItem(11, "AP_FirebatJuggernautPlating");
+    RegisterTerranItem(24, "AP_FirebatStimpack");
+    RegisterTerranItem(25, "AP_OptimizedLogisticsFirebat"); // RE
+    RegisterTerranItem(33, "AP_FirebatInfernalPreIgniter");
+    RegisterTerranItem(34, "AP_FirebatLifeBoost");
+    RegisterTerranItem(35, "AP_RaynorFirebatRange");
+    RegisterTerranItem(244, "AP_SuperStimpackFirebat"); // Med Pack
+
+    // Marauder
+    RegisterTerranItem(12, "AP_JackhammerConcussionGrenades");
+    RegisterTerranItem(13, "AP_MarauderLifeBoost");
+    RegisterTerranItem(26, "AP_MarauderStimpack");
+    RegisterTerranItem(27, "AP_LaserTargetingSystemMarauder");
+    RegisterTerranItem(28, "AP_MagrailMunitionsMarauder");
+    RegisterTerranItem(29, "AP_InternalizedTechModuleMarauder");
+    RegisterTerranItem(36, "AP_JuggernautPlating");
+    RegisterTerranItem(243, "AP_SuperStimpackMarauder"); // Med Pack
+
+    // Reaper
+    RegisterTerranItem(14, "AP_ReaperU238Rounds");
+    RegisterTerranItem(15, "AP_ClusterBomb");
+    RegisterTerranItem(37, "AP_HHReaperFlight");
+    RegisterTerranItem(48, "AP_ReaperStimpack");
+    RegisterTerranItem(49, "AP_LaserTargetingSystemReaper");
+    RegisterTerranItem(50, "AP_CloakingTechnologyReaper");
+    RegisterTerranItem(51, "AP_ReaperSpiderMines");
+    RegisterTerranItem(52, "AP_CombatDrugs");
+    RegisterTerranItem(85, "AP_ResourceEfficiencyReaper");
+    RegisterTerranItem(245, "AP_SuperStimpackReaper"); // Med Pack
+
+    // Ghost
+    RegisterTerranItem(112, "AP_OcularImplants");
+    RegisterTerranItem(113, "AP_PermanentCloakGhost");
+    RegisterTerranItem(131, "AP_ResourceEfficiencyGhost");
+    RegisterTerranItem(149, "AP_GhostEMPRounds");
+    RegisterTerranItem(150, "AP_GhostSCBWLockdownResearch");
+    RegisterTerranItem(233, "AP_GhostBargainBinPrices");
+
+    // Spectre
+    RegisterTerranItem(114, "AP_UltrasonicPulse"); // Psionic Lash
+    RegisterTerranItem(115, "AP_PermanentCloakSpectre");
+    RegisterTerranItem(132, "AP_ResourceEfficiencySpectre");
+    RegisterTerranItem(151, "AP_ImpalerRounds");
+    RegisterTerranItem(234, "AP_SpectreBargainBinPrices");
+
+    // Herc
+    RegisterTerranItem(82, "AP_ResourceEfficiencyHERC");
+    RegisterTerranItem(83, "AP_HERCJuggernautPlating");
+    RegisterTerranItem(84, "AP_HERCLifeBoost");
+    RegisterTerranItem(94, "AP_HERCGrapplePull");
+
+    // Dominion Trooper
+
+    RegisterTerranItem(223, "AP_TrooperMengskImproved");
+    RegisterTerranItem(224, "AP_TrooperMengskAA");
+    RegisterTerranItem(225, "AP_TrooperMengskFlamethrower");
+    RegisterTerranItem(226, "AP_TrooperMengskWeaponDrop");
+    RegisterTerranItem(227, "AP_FastBuildTrooper");
+
+    // ********************** //
+    // *     Factory        * //
+    // ********************** //
+
+    // Hellion
+    RegisterTerranItem(38, "AP_TwinLinkedFlameThrowers");
+    RegisterTerranItemFunc(53, "AP_HellbatAspect", UnlockFactory);
+    RegisterTerranItem(54, "AP_MultiTaskMAFServosHellion"); // Smart Servos
+    RegisterTerranItem(55, "AP_FastBuildHellion");
+    RegisterTerranItem(56, "AP_HoverHellbat"); // Jump Jets
+    RegisterTerranItem(57, "AP_HellbatStimpack");
+    RegisterTerranItem(98, "AP_TwinLinkedFlameThrowers");
+    RegisterTerranItem(99, "AP_HellionCampaignInfernalPreIgniter"); // Thermite Filaments
+    RegisterTerranItem(246, "AP_SuperStimpackHellbat");
+
+    // Vulture
+    RegisterTerranItem(39, "AP_VultureAutoRepair");
+    RegisterTerranItem(58, "AP_VultureIonThrusters");
+    RegisterTerranItem(59, "AP_VultureAutoLaunchers");
+    RegisterTerranProgressiveFunc(2, VultureMagazineFunc);
+
+
+    // Spider Mine
+    RegisterTerranItem(60, "AP_SpiderMineDamage");
+    RegisterTerranItem(100, "AP_CerberusMines");
+
+    // Goliath
+    RegisterTerranItem(40, "AP_GoliathShapedHull");
+    RegisterTerranItem(41, "AP_ResourceEfficiencyGoliath");
+    RegisterTerranItem(42, "AP_InternalizedTechModuleGoliath");
+    RegisterTerranItem(61, "AP_GoliathJumpJet");
+    RegisterTerranItem(62, "AP_FastBuildGoliath");
+    RegisterTerranItem(101, "AP_MultilockTargetingSystems");
+    RegisterTerranItemFunc(102, "AP_AresClassWeaponsSystem", BrynhildFunc);
+
+    // Diamondback
+    RegisterTerranItem(63, "AP_Hyperfluxor");
+    RegisterTerranItemFunc(64, "AP_BurstCapacitors", DiamondbackFunc);
+    RegisterTerranItem(65, "AP_OptimizedLogisticsDiamondback"); // RE
+    RegisterTerranItem(79, "AP_DiamondbackIonThrusters"); //Maglev Propulsion
+    RegisterTerranItem(103, "AP_ShapedHull");
+    RegisterTerranProgressive(4, "AP_TriLithiumPowerCells", "AP_TungstenSpikes");
+
+    // Siege Tank
+    RegisterTerranItem(43, "AP_SiegeTankShapedHull");
+    RegisterTerranItemFunc(44, "AP_ResourceEfficiencySiegeTank", SelfSufficientFix);
+    RegisterTerranItem(66, "AP_HoverSiegeTank"); // Jump Jets
+    RegisterTerranItem(67, "AP_SiegeSpiderMines");
+    RegisterTerranItem(68, "AP_MultiTaskMAFServosSiegeTank"); // Smart Servos
+    RegisterTerranItemFunc(69, "AP_SiegeTankSiegeModeProgressiveRangeIncrease", GraduatingRangeFunc);
+    RegisterTerranItem(70, "AP_LaserTargetingSystemSiegeTank");
+    RegisterTerranItem(71, "AP_RaynorImprovedSiegeMode"); // Advanced Siege Tech
+    RegisterTerranItem(72, "AP_InternalizedTechModuleSiegeTank");
+    RegisterTerranItem(87, "AP_SiegeTankTransportHook");
+    RegisterTerranItem(88, "AP_SiegeTankEnhancedCombustionEngines"); // All-Terrain Treads
+    RegisterTerranItem(104, "AP_MaelstromRounds");
+    RegisterTerranItem(105, "AP_SiegeTankShapedBlast");
+
+    // Thor
+    RegisterTerranItem(91, "AP_ThorRapidReload");
+    RegisterTerranItem(116, "AP_330mmBarrageCannons");
+    RegisterTerranItemFunc(133, "AP_ThorNuke", ThorNukeFunc);
+    RegisterTerranItem(134, "AP_LaserTargetingSystemThor");
+    RegisterTerranItem(135, "AP_BuildThorBySCV");
+    RegisterTerranProgressive(14, "AP_MechanicalRebirth", "AP_ThorImmortalityFree");
+    RegisterTerranProgressive(16, "AP_ThorMorph", "AP_MultiTaskMAFServosThor"); // High-Impact Payload
+
+    // Widow Mine
+    RegisterTerranItem(93, "AP_ResourceEfficiencyWidowMine");
+    RegisterTerranItem(119, "AP_DrillClaws");
+    RegisterTerranItem(120, "AP_WidowMineLingeringConcealment");
+    RegisterTerranItem(166, "AP_HHWidowMineBurrowedRange");
+    RegisterTerranItem(167, "AP_HHWidowMineDeathBlossom");
+    RegisterTerranItem(229, "AP_WidowMineDemolitionArmaments");
+
+    // Cyclone
+    RegisterTerranItem(16, "AP_CycloneLockOnDamageUpgrade");
+    RegisterTerranItem(17, "AP_MagFieldLaunchers");
+    RegisterTerranItem(140, "AP_ResourceEfficiencyCyclone");
+    RegisterTerranItem(161, "AP_CycloneLockOnRangeUpgrade");
+    RegisterTerranItem(162, "AP_CycloneRapidFireLaunchers");
+    RegisterTerranItem(172, "AP_InternalizedTechModuleCyclone");
+
+    // Warhound
+    RegisterTerranItem(80, "AP_ResourceEfficiencyWarhound");
+    RegisterTerranItem(81, "AP_WarhoundReinforcedPlating");
+    RegisterTerranItem(232, "AP_WarhoundAutoTurret");
+    RegisterTerranItem(235, "AP_WarhoundBrawlerConfiguration");
+    RegisterTerranItem(236, "AP_WarhoundJumpJets");
+
+    // Predator
+    RegisterTerranItem(45, "AP_CloakingTechnologyPredator");
+    RegisterTerranItem(46, "AP_PredatorCharge");
+    RegisterTerranItem(73, "AP_OptimizedLogisticsPredator"); // RE
+    RegisterTerranItem(180, "AP_PredatorVespeneSynthesis");
+    RegisterTerranItemFunc(219, "AP_PredatorAdaptiveDefenses", PredatorShieldsFunc);
+
+    // ********************** //
+    // *     Starport       * //
+    // ********************** //
+
+    // Medivac
+    RegisterTerranItemFunc(47, "AP_MedivacShield", MedivacShieldFunc);
+    RegisterTerranItem(74, "AP_ExpandedHull");
+    RegisterTerranItem(75, "AP_MedivacSpeedBoost");
+    RegisterTerranItem(89, "AP_MedivacIncreaseSpeedBoost");
+    RegisterTerranItem(106, "AP_MedivacRapidDeployment");
+    RegisterTerranItem(107, "AP_AdvancedHealingAI");
+    RegisterTerranItem(121, "AP_MedivacPermanentCloak");
+    RegisterTerranItem(221, "AP_ResourceEfficiencyMedivac");
+
+    // Wraith
+    RegisterTerranItem(76, "AP_WraithAdvancedLaserTechnology");
+    RegisterTerranItem(108, "AP_CloakDistortionField");
+    RegisterTerranItem(122, "AP_HHWraithFury");
+    RegisterTerranItem(123, "AP_InternalizedTechModuleWraith");
+    RegisterTerranItem(124, "AP_ResourceEfficiencyWraith");
+    RegisterTerranProgressive(6, "AP_WraithDynamicPowerRouting", "AP_PermanentCloakWraith");
+
+    // Viking
+    RegisterTerranItem(77, "AP_MultiTaskMAFServosViking"); // Smart Servos
+    RegisterTerranItem(78, "AP_VikingMagWeapon"); // Anti-Mechanical Munition
+    RegisterTerranItem(109, "AP_HALORockets"); // Ripwave Missiles
+    RegisterTerranItemFunc(110, "AP_AresClassWeaponsSystemViking", VikingRangeFunc); // Phobos
+    RegisterTerranItem(125, "AP_HHVikingPiercingAttacks"); // Shredder Rounds
+    RegisterTerranItem(126, "AP_HHVikingRockets"); // WILD Missiles
+    RegisterTerranItem(220, "AP_VikingMengskSpeed"); // Aesir Turbines
+
+    // Banshee
+    RegisterTerranItem(111, "AP_ClusterWarheads"); // Shockwave Missile Battery
+    RegisterTerranItem(127, "AP_BansheeShapedHull");
+    RegisterTerranItem(128, "AP_BansheeAdvancedOptics");
+    RegisterTerranItem(129, "AP_BansheeCloakedDamage");
+    RegisterTerranItem(130, "AP_BansheeAirstrike"); // Rocket Barrage
+    RegisterTerranItem(141, "AP_BansheeSpeed");
+    RegisterTerranItem(142, "AP_LaserTargetingSystemBanshee");
+    RegisterTerranItem(143, "AP_InternalizedTechModuleBanshee");
+    RegisterTerranProgressive(8, "AP_CrossSpectrumDampeners", "AP_PermanentCloakBanshee");
+
+    // Battlecruiser
+    RegisterTerranItem(90, "AP_BattlecruiserBehemothReactor");
+    RegisterTerranItem(144, "AP_TacticalJump");
+    RegisterTerranItem(145, "AP_CloakingTechnologyBattlecruiser");
+    RegisterTerranItem(146, "AP_AdvancedWeaponryBattlecruiser");
+    RegisterTerranItem(147, "AP_FastBuildBattlecruiser");
+    RegisterTerranItem(148, "AP_InternalizedTechModuleBattlecruiser");
+    RegisterTerranItem(181, "AP_BattlecruiserBehemothPlating");
+    RegisterTerranItem(182, "AP_BattlecruiserCovertOpsEngines"); // Moirai Impulse Drive
+    RegisterTerranItem(218, "AP_BattlecruiserRangeAura");
+    RegisterTerranProgressive(10, "AP_HurricaneMissiles", "AP_BattlecruiserAdvancedMissilePods");
+    RegisterTerranProgressiveFunc(12, BattlecruiserShieldsFunc);
+
+    // Liberator
+    RegisterTerranItem(92, "AP_LiberatorGuerillaMissiles");
+    RegisterTerranItem(117, "AP_LiberatorAGRangeUpgrade");
+    RegisterTerranItem(118, "AP_LiberatorSiegeProtocol"); // Raid Artillery
+    RegisterTerranItemFunc(163, null, LiberatorCloakFunc); // handle upgrade in function
+    RegisterTerranItem(164, "AP_LaserTargetingSystemLiberator");
+    RegisterTerranItem(165, "AP_FastBuildLiberator");
+    RegisterTerranItem(173, "AP_MultiTaskMAFServosLiberator"); // Smart Servos
+    RegisterTerranItem(174, "AP_ResourceEfficiencyLiberator");
+    RegisterTerranItem(217, "AP_LiberatorImprovedAARange"); // UED Missile Technology
+
+    // Valkyrie
+    RegisterTerranItem(168, "AP_ValkyrieEnhancedClusterLaunchers");
+    RegisterTerranItem(169, "AP_ValkyrieShapedHull");
+    RegisterTerranItem(170, "AP_ValkyrieATSRockets"); // Flechette Missiles
+    RegisterTerranItem(171, "AP_ValkyrieSpeedBoost");
+    RegisterTerranItem(178, "AP_ValkyrieAntiGravityDrive"); // Launching Vector Compensator
+    RegisterTerranItem(179, "AP_ValkyrieResourceEfficiency");
+
+    // Raven
+    RegisterTerranItem(136, "AP_ResourceEfficiencyRaven");
+    RegisterTerranItem(137, "AP_DurableMaterials");
+    RegisterTerranItem(152, "AP_RavenBioMechanicalRepairDrone");
+    RegisterTerranItem(153, "AP_RavenSpiderMines");
+    RegisterTerranItem(154, "AP_MagrailMunitionsRaven"); // Railgun Turret
+    RegisterTerranItem(155, "AP_AdvancedWeaponryRaven"); // Hunter Seeker Weapon
+    RegisterTerranItem(156, "AP_RavenInterferenceMatrix");
+    RegisterTerranItem(157, "AP_RavenAntiArmorMissile");
+    RegisterTerranItem(158, "AP_InternalizedTechModuleRaven");
+
+    // Science Vessel
+    RegisterTerranItem(138, "AP_ScienceVesselFreeRepair");
+    RegisterTerranItem(139, "AP_ScienceVesselResearchAdditionalNano"); // Magellan Computation System
+    RegisterTerranItem(159, "AP_ScienceVesselSCBWEMPShockwaveResearch");
+    RegisterTerranItem(160, "AP_ScienceVesselDefensiveMatrix");
+    RegisterTerranItem(216, "AP_ScienceVesselTacticalJump");
+
+    // Hercules
+    RegisterTerranItem(175, "AP_InternalFusionModuleHercules");
+    RegisterTerranItem(176, "AP_HerculesHyperJump");
+
+    // ********************** //
+    // *  Elite Barracks    * //
+    // ********************** //
+
+    // Aegis Guard
+    RegisterTerranItem(257, "AP_MarauderMengskIncapacitorShells");
+    RegisterTerranItem(258, "AP_MarauderMengskAddictiveSupplements");
+    RegisterTerranItem(259, "AP_MarauderMengskBolsteredBarrier");
+    RegisterTerranItem(260, "AP_MarauderMengskSovereignNeosteel");
+
+    // Emperors Shadow
+    RegisterTerranItem(222, "AP_GhostMengskGuidedStrike"); // Sovereign Tactical Missiles
+    RegisterTerranItem(241, "AP_GhostMengskPsychicEnhancers");
+    RegisterTerranItem(247, "AP_GhostMengskPhasingSuit");
+    RegisterTerranItem(248, "AP_GhostMengskNemesisRounds");
+
+    // Son of Korhal
+    RegisterTerranItem(249, "AP_MarineMengskProgidalSon");
+    RegisterTerranItem(250, "AP_MarineMengskCombatShield");
+    RegisterTerranItem(251, "AP_MarineMengskBuildABoom");
+    RegisterTerranItem(252, "AP_MarineMengskSpiderMineLob");
+
+    // Field Response Theta
+    RegisterTerranItem(253, "AP_MedicMengskRoyalAcademyDegree");
+    RegisterTerranItem(254, "AP_MedicMengskHospiceCare");
+    RegisterTerranItem(255, "AP_MedicMengskPhysicalTherapy");
+    RegisterTerranItem(256, "AP_MedicMengskOpticalRestoration");
+
+    // ********************** //
+    // *   Elite Factory    * //
+    // ********************** //
+
+    // Shock Division
+    RegisterTerranItem(265, "AP_SiegeTankMengskSmartServos");
+    RegisterTerranItem(284, "AP_SiegeTankMengskNapalmRounds");
+    RegisterTerranItem(285, "AP_SiegeTankMengskImprovedTankMode"); // Retrofitted Cannons
+    RegisterTerranItem(286, "AP_SiegeTankMengskAirlift"); // Armament Stabilizers
+
+    // Blackhammer
+    RegisterTerranItem(291, "AP_ThorMengskHammerOfTheLaw");
+    RegisterTerranItem(292, "AP_ThorMengskInfernoBlitz");
+    RegisterTerranItem(293, "AP_ThorMengskSmartServos");
+    RegisterTerranItem(294, "AP_ThorMengskArmorAura");
+
+    // Bulwark Company
+    RegisterTerranItem(287, "AP_GoliathMengskMoebiusDefenseMatrix");
+    RegisterTerranItem(288, "AP_GoliathMengskAresClassTargetingAddon");
+    RegisterTerranItem(289, "AP_GoliathMengskJumpJetsMKII");
+    RegisterTerranItem(290, "AP_GoliathMengskParalysisInducers"); // Neural Shutdown
+
+    // ********************** //
+    // *  Elite Starport    * //
+    // ********************** //
+
+    // Night Wolves
+    RegisterTerranItem(261, "AP_BansheeMengskShockwaveArtillery");
+    RegisterTerranItem(262, "AP_BansheeMengskPreyseekerMissiles");
+    RegisterTerranItem(263, "AP_BansheeMengskEnergizedBacklash");
+    RegisterTerranItem(264, "AP_BansheeMengskElusiveRotors");
+
+    // ********************** //
+    // *     Buildings      * //
+    // ********************** //
+
+    // RegisterTerranItem(, "AP_");
+
+    // Bunker
+    RegisterTerranItem(0, "AP_ProjectileAccelerators");
+    RegisterTerranItem(1, "AP_NeoSteelFrame");
+    RegisterTerranItemFunc(196, "AP_ShrikeTurret", BunkerFortifiedShrikeFunc);
+    RegisterTerranItemFunc(197, "AP_FortifiedBunkerCarapace", BunkerFortifiedShrikeFunc);
+    RegisterTerranItem(240, "AP_BunkerIgnoreSupply");
+
+    // Missile Turret
+    RegisterTerranItem(2, "AP_ReinforcedSuperstructure"); // Titanium Housing
+    RegisterTerranItem(3, "AP_HailstormMissilePods");
+    RegisterTerranItem(187, "AP_MissileTurretResourceEfficiency");
+
+    // Sensor Tower
+    RegisterTerranItem(230, "AP_SensorTowerAssistiveTargeting");
+    RegisterTerranItem(231, "AP_SensorTowerEnhancedVision"); // Multispectrum Doppler
+
+    // Devastator Turret
+    RegisterTerranItem(184, "AP_DevastatorTurretSlow");
+    RegisterTerranItem(185, "AP_DevastatorTurretPunisherGrenades"); // Anti Armor Munitions
+    RegisterTerranItem(186, "AP_DevastatorTurretResourceEfficiency");
+
+    // Command Center
+    RegisterTerranItemFunc(95, "AP_ScannerSweep", UnlockOrbitalCommand);
+    RegisterTerranItemFunc(96, "AP_MULE", UnlockOrbitalCommand);
+    RegisterTerranItemFunc(97, "AP_SupplyDrop", UnlockOrbitalCommand);
+    RegisterTerranItem(193, "AP_CommandCenterReactor");
+    RegisterTerranItem(239, "AP_CommandCenterHyperjump");
+
+    // Planetary Fortress
+    RegisterTerranItemFunc(177, "AP_PlanetaryFortressAirAttack", PlanetaryFortressAirAttackFunc);
+    RegisterTerranItemFunc(183, null, PlanetaryFortressOrbitalModuleFunc); // handle upgrade in function
+    RegisterTerranProgressiveFunc(18, PlanetaryLiftoffFunc);
+
+    // Perdition Turret
+
+    // Psi Disrupter
+    RegisterTerranItemFunc(200, "AP_PsiDisruptor", UnlockPsiDisrupterAndEngineeringBay);
+    RegisterTerranItemFunc(209, "AP_PsiDisruptorProtoss", UnlockPsiDisrupterAndEngineeringBay);
+    RegisterTerranItemFunc(210, "AP_PsiDisruptorTerran", UnlockPsiDisrupterAndEngineeringBay);
+
+    // Hive Mind Emulator
+    RegisterTerranItemFunc(199, "AP_HiveMindEmulator", UnlockHiveMindEmulatorAndEngineeringBay);
+    RegisterTerranItemFunc(211, "AP_HiveMindEmulatorProtoss", UnlockHiveMindEmulatorAndEngineeringBay);
+    RegisterTerranItemFunc(212, "AP_HiveMindEmulatorZerg", UnlockHiveMindEmulatorAndEngineeringBay);
+
+    // Supply Depot
+    RegisterTerranItem(215, "AP_SupplyDepotCloak");
+
+    // Fusion Core
+    RegisterTerranItem(208, "AP_");
+
+    // Refinery
+    RegisterTerranItem(191, "AP_MicroFiltering");
+    RegisterTerranItem(192, "AP_AutoHarvester");
+
+    // Tech Reactor
+    RegisterTerranItem(194 , "AP_TechReactor");
+
+    // ********************** //
+    // *       Other        * //
+    // ********************** //
+
+    // SCV
+    RegisterTerranItem(4, "AP_AdvancedConstruction");
+    RegisterTerranItem(5, "AP_DualFusionWelders");
+    RegisterTerranItem(30, "AP_HostileEnvironmentAdaptation");
+    RegisterTerranItem(190, "AP_SupplyDepotDrop");
+    RegisterTerranItem(228, "AP_SCVCliffJump");
+    RegisterTerranItem(237, "AP_SCVRepairFree");
+    RegisterTerranItem(238, "AP_SCVRepairBio");
+
+    // Mercenaries
+    RegisterTerranItem(204, "AP_RogueForces");
+    RegisterTerranItemFunc(207, null, RapidReinforcementFunc); // handle upgrade in function
+    RegisterTerranItem(213, "SignalBeacon");
+    RegisterTerranProgressiveFunc(22, FastDeliveryFunc);
+
+    // Global
+    RegisterTerranItemFunc(188, "AP_UltraCapacitors", UltraCapacitorsFunc);
+    RegisterTerranItemFunc(189, "AP_VanadiumPlating", VanadiumPlatingFunc);
+    RegisterTerranItem(195, "AP_OrbitalStrike");
+    RegisterTerranItemFunc(198, "AP_CellularReactor", CellularReactorFunc);
+    RegisterTerranItem(201, "AP_TerranBuildingArmor");
+    RegisterTerranItem(202, "AP_HiSecAutoTracking");
+    RegisterTerranItemFunc(203, "AP_AdvancedOptics", AdvancedOpticsFunc);
+    RegisterTerranItem(205, "AP_MechanicalKnowHow");
+    RegisterTerranItem(206, "AP_MercenaryMunitions");
+    RegisterTerranItem(214, "AP_JuggernautThrusters");
+    RegisterTerranProgressive(0, "AP_FireSuppressionSystems", "AP_FireSuppressionSystemsUpgraded");
+    RegisterTerranProgressiveFunc(20, BioSteelFunc);
+
+    // Nova
+    RegisterTerranItem(266, "AP_NovaHelmetGhostVisor");
+    RegisterTerranItem(267, "AP_NovaHelmetRangefinderOculus");
+    RegisterTerranItem(268, "AP_NovaHelmetDominationVisor");
+    RegisterTerranItem(269, "AP_NovaArmorBlinkSuit");
+    RegisterTerranItem(270, "AP_NovaArmorApolloInfantrySuit");
+    RegisterTerranItem(271, "AP_NovaArmoredSuit");
+    RegisterTerranItem(272, "AP_NovaArmorJumpSuit");
+    RegisterTerranItem(273, "AP_NovaWeaponCanisterRifle");
+    RegisterTerranItem(274, "AP_NovaWeaponHellfireShotgun");
+    RegisterTerranItem(275, "AP_NovaWeaponPlasmaRifle");
+    RegisterTerranItem(276, "AP_NovaWeaponPsiBlade");
+    RegisterTerranItem(277, "AP_NovaWeaponBlazefireBlade");
+    RegisterTerranItem(278, "AP_SuperStimpackNova");
+    RegisterTerranItem(279, "AP_NovaGadgetPulseGrenades");
+    RegisterTerranItem(280, "AP_NovaGadgetFlashBangGrenades");
+    RegisterTerranItem(281, "AP_NovaGadgetPersonalDefensiveMatrix");
+    RegisterTerranItem(282, "AP_NovaGadgetHolographicDecoy");
+    RegisterTerranItemFunc(283, "AP_NovaGadgetNovaNuke", UnlockBarracksAndShadowOps);
+    RegisterTerranProgressive(24, "AP_NovaCloak", "AP_NovaArmorStealthSuit");
+
+    // W/A Upgrades
+    RegisterTerranUpgrade(0, TerranInfantryWeaponFunc);
+    RegisterTerranUpgrade(4, TerranInfantryArmorFunc);
+    RegisterTerranUpgrade(8, TerranVehicleWeaponFunc);
+    RegisterTerranUpgrade(12, TerranVehicleArmorFunc);
+    RegisterTerranUpgrade(16, TerranShipWeaponFunc);
+    RegisterTerranUpgrade(20, TerranShipArmorFunc);
+}
+
+void UnlockGateway(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockGateway", 1);
+}
+
+void UnlockCyberneticsCore(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockCyberneticsCore", 1);
+}
+
+void UnlockTemplarArchives(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockTemplarArchives", 1);
+}
+
+void UnlockDarkShrine(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockDarkShrine", 1);
+}
+
+void UnlockGatewayAndCyberneticsCore(int player) {
+    UnlockGateway(player);
+    UnlockCyberneticsCore(player);
+}
+
+void UnlockGatewayAndTemplarArchives(int player) {
+    UnlockGateway(player);
+    UnlockTemplarArchives(player);
+}
+
+void UnlockGatewayAndDarkShrine(int player) {
+    UnlockGateway(player);
+    UnlockDarkShrine(player);
+}
+
+void UnlockRoboticsFacility(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockRoboticsFacility", 1);
+}
+
+void UnlockRoboticsBay(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockRoboticsBay", 1);
+}
+
+void UnlockRoboticsAndBay(int player) {
+    UnlockRoboticsFacility(player);
+    UnlockRoboticsBay(player);
+}
+void UnlockStargate(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockStargate", 1);
+}
+
+void UnlockFleetBeacon(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockFleetBeacon", 1);
+}
+
+void UnlockStargateAndFleetBeacon(int player) {
+    UnlockStargate(player);
+    UnlockFleetBeacon(player);
+}
+
+void UnlockForge(int player) {
+    TechTreeUpgradeAddLevel(player, "AP_UnlockForge", 1);
+}
+
+static void RegisterProtossUnits() {
+    // Gateway
+    RegisterProtossUnit(0, "AP_UnlockZealot", UnlockGateway);
+    RegisterProtossUnit(10, "AP_UnlockCenturion", UnlockGateway);
+    RegisterProtossUnit(11, "AP_UnlockSentinel", UnlockGateway);
+    RegisterProtossUnit(12, "AP_UnlockSupplicant", UnlockGateway);
+
+    RegisterProtossUnit(1, "AP_UnlockStalker", UnlockGatewayAndCyberneticsCore);
+    RegisterProtossUnit(13, "AP_UnlockInstigator", UnlockGatewayAndCyberneticsCore);
+    RegisterProtossUnit(14, "AP_UnlockSlayer", UnlockGatewayAndCyberneticsCore);
+    RegisterProtossUnit(22, "AP_UnlockDragoon", UnlockGatewayAndCyberneticsCore);
+    RegisterProtossUnit(24, "AP_UnlockAdept", UnlockGatewayAndCyberneticsCore);
+
+    RegisterProtossUnit(15, "AP_UnlockSentry", UnlockGatewayAndCyberneticsCore);
+    RegisterProtossUnit(16, "AP_UnlockEnergizer", UnlockGatewayAndCyberneticsCore);
+    RegisterProtossUnit(17, "AP_UnlockHavoc", UnlockGatewayAndCyberneticsCore);
+
+    RegisterProtossUnit(2, "AP_UnlockHighTemplar", UnlockGatewayAndTemplarArchives);
+    RegisterProtossUnit(18, "AP_UnlockSignifier", UnlockGatewayAndTemplarArchives);
+    RegisterProtossUnit(19, "AP_UnlockAscendant", UnlockGatewayAndTemplarArchives);
+    RegisterProtossUnit(23, "AP_UnlockDarkArchon", UnlockGatewayAndTemplarArchives);
+
+    RegisterProtossUnit(3, "AP_UnlockDarkTemplar", UnlockGatewayAndDarkShrine);
+    RegisterProtossUnit(20, "AP_UnlockAvenger", UnlockGatewayAndDarkShrine);
+    RegisterProtossUnit(21, "AP_UnlockBloodhunter", UnlockGatewayAndDarkShrine);
+
+    // Robotics Facility
+    RegisterProtossUnit(4, "AP_UnlockImmortal", UnlockRoboticsFacility);
+    RegisterProtossUnit(26, "AP_UnlockAnnihilator", UnlockRoboticsFacility);
+    RegisterProtossUnit(27, "AP_UnlockVanguard", UnlockRoboticsFacility);
+    RegisterProtossUnit(39, "AP_UnlockStalwart", UnlockRoboticsFacility);
+
+    RegisterProtossUnit(5, "AP_UnlockColossus", UnlockRoboticsAndBay);
+    RegisterProtossUnit(28, "AP_UnlockWrathwalker", UnlockRoboticsAndBay);
+    RegisterProtossUnit(29, "AP_UnlockReaver", UnlockRoboticsAndBay);
+    RegisterProtossUnit(30, "AP_UnlockDisruptor", UnlockRoboticsAndBay);
+
+    RegisterProtossUnit(9, "AP_UnlockObserver", UnlockRoboticsFacility);
+    RegisterProtossUnit(25, "AP_UnlockWarpPrism", UnlockRoboticsFacility);
+
+    // Stargate
+    RegisterProtossUnit(6, "AP_UnlockPhoenix", UnlockStargate);
+    RegisterProtossUnit(31, "AP_UnlockMirage", UnlockStargate);
+    RegisterProtossUnit(32, "AP_UnlockCorsair", UnlockStargate);
+    RegisterProtossUnit(44, "AP_UnlockSkirmisher", UnlockStargate);
+
+    RegisterProtossUnit(7, "AP_UnlockVoidray", UnlockStargate);
+    RegisterProtossUnit(33, "AP_UnlockDestroyer", UnlockStargate);
+    RegisterProtossUnit(40, "AP_UnlockPulsar", UnlockStargate);
+    RegisterProtossUnit(41, "AP_UnlockDawnbringer", UnlockStargate);
+
+    RegisterProtossUnit(34, "AP_UnlockScout", UnlockStargate);
+    RegisterProtossUnit(47, "AP_UnlockOppressor", UnlockStargate);
+    RegisterProtossUnit(48, "AP_UnlockCaladrius", UnlockStargate);
+    RegisterProtossUnit(49, "AP_UnlockMistwing", UnlockStargate);
+
+    RegisterProtossUnit(8, "AP_UnlockCarrier", UnlockStargateAndFleetBeacon);
+    RegisterProtossUnit(42, "AP_UnlockSkylord", UnlockStargateAndFleetBeacon);
+    RegisterProtossUnit(43, "AP_UnlockTrireme", UnlockStargateAndFleetBeacon);
+
+    RegisterProtossUnit(36, "AP_UnlockMothershipTaldarim", UnlockStargateAndFleetBeacon);
+    RegisterProtossUnit(45, "AP_UnlockMothershipAiur", UnlockStargateAndFleetBeacon);
+    RegisterProtossUnit(46, "AP_UnlockMothershipPurifier", UnlockStargateAndFleetBeacon);
+
+    RegisterProtossUnit(35, "AP_UnlockTempest", UnlockStargateAndFleetBeacon);
+    RegisterProtossUnit(37, "AP_UnlockArbiter", UnlockStargateAndFleetBeacon);
+    RegisterProtossUnit(38, "AP_UnlockOracle", UnlockStargate);
+
+    // Buildings
+    RegisterProtossUnit(50, "AP_UnlockPhotonCannon", UnlockForge);
+    RegisterProtossUnit(51, "AP_UnlockKhaydarinMonolith", UnlockForge);
+    RegisterProtossUnit(52, "AP_UnlockShieldBattery", UnlockForge);
+}
+
+static void SentinelRechargeFunc(int player) {
+    TriggerEnable(lib15EF4C78_gt_AP_Player_SentinelRecharge, true);
+}
+
+static void SupplicantShieldRegenFunc(int player) {
+    int lvl = TechTreeUpgradeCount(player, "AP_ShieldRegenBonus", c_techCountCompleteOnly);
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusSupplicantBoosted", lvl);
+    lvl = TechTreeUpgradeCount(player, "AP_ShieldRegenBonus100Stack", c_techCountCompleteOnly);
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusSupplicantBoosted100Stack", lvl);
+}
+
+static void SupplicantSacrificeFunc(int player) {
+    PlayerAddResponse(player,"AP_SupplicantSacrifice");
+}
+
+static void DragoonShieldRegenFunc(int player) {
+    int lvl = TechTreeUpgradeCount(player, "AP_ShieldRegenBonus", c_techCountCompleteOnly);
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusDragoonTrillic", lvl);
+    lvl = TechTreeUpgradeCount(player, "AP_ShieldRegenBonus100Stack", c_techCountCompleteOnly);
+    libNtve_gf_SetUpgradeLevelForPlayer(player, "AP_ShieldRegenBonusDragoonTrillic100Stack", lvl);
+}
+
+static void HighTemplarKhaydarinAmuletFunc(int player) {
+    if (TechTreeUpgradeCount(player, "AP_HighArchon", c_techCountCompleteOnly) > 0) {
+        TechTreeUpgradeAddLevel(player, "AP_KhaydarinAmuletArchon", 1);
+    }
+}
+
+static void HighArchonFunc(int player) {
+    fixed startingEnergy = 50;
+    unitgroup g;
+    unit u;
+    int i;
+    if (TechTreeUpgradeCount(player, "AP_HighArchon", c_techCountCompleteOnly) > 0) {return;}
+    TechTreeUpgradeAddLevel(player, "AP_HighArchon", 1);
+    if (TechTreeUpgradeCount(player, "AP_KhaydarinAmulet", c_techCountCompleteOnly) > 0) {
+        startingEnergy = 200;
+    }
+    g = UnitGroup("AP_Archon", player, RegionEntireMap(), UnitFilterStandard, 0);
+    for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(g, i);
+        UnitSetPropertyFixed(u, c_unitPropEnergy, startingEnergy);
+    }
+}
+
+static void DarkTemplarShadowFuryFunc(int player) {
+    if (TechTreeUpgradeCount(player, "AP_DarkTemplarShadowFuryLesser", c_techCountCompleteOnly) > 0
+    && TechTreeUpgradeCount(player, "AP_DarkTemplarShadowFuryGreater", c_techCountCompleteOnly) > 0
+    ) {
+        TechTreeUpgradeAddLevel(player, "AP_DarkTemplarShadowFuryAll", 1);
+    }
+}
+
+static void BloodHunterAlaraksCallFunc(int player) {
+    lib15EF4C78_gf_AP_Player_Protoss_activateBloodHunterResourceEfficiency(player);
+}
+static void RegisterProtossItems() {
+
+    // ********************** //
+    // *     Gateway        * //
+    // ********************** //
+
+    // Zealot
+    RegisterProtossItem(76, "AP_ZealotSCBWSpeedUpgrade");
+    RegisterProtossItem(77, "AP_ZealotShieldCapacity");
+    RegisterProtossItem(167, "AP_VoidZealotWhirlwind");
+
+    // Centurion
+    RegisterProtossItem(128, "AP_CenturionCloak");
+    RegisterProtossItem(129, "AP_CenturionDodge");
+    RegisterProtossItem(168, "AP_ResourceEfficiencyCenturion");
+
+    // Sentinel
+    RegisterProtossItemFunc(130, "AP_SentinelRecharge", SentinelRechargeFunc);
+    RegisterProtossItem(131, "AP_SentinelArmor");
+    RegisterProtossItem(169, "AP_ResourceEfficiencySentinel");
+
+    // Supplicant
+    RegisterProtossItem(0, "AP_AlarakSupplicantShieldArmor");
+    RegisterProtossItem(1, "AP_AlarakSupplicantMaxShields");
+    RegisterProtossItemFunc(2, "AP_AlarakSupplicantShieldRegen", SupplicantShieldRegenFunc);
+    RegisterProtossItem(95, "AP_SupplicantZenithPitch");
+    RegisterProtossItemFunc(218, "AP_SupplicantSacrifice2", SupplicantSacrificeFunc);
+
+    // Stalker
+    RegisterProtossItem(6, "AP_HighImpactParticleDisruptors"); // Disintegrating Particles
+    RegisterProtossItem(7, "AP_VoidStalkerMultishot");
+    RegisterProtossItem(170, "AP_StalkerPhaseReactor");
+
+    // Instigator
+    RegisterProtossItem(115, "AP_InstigatorBlinkOverdrive");
+    RegisterProtossItem(116, "AP_StalkerPurifierReconstruction");
+    RegisterProtossItem(134, "AP_StalkerPurifierBlinkAttack");
+    RegisterProtossItem(172, "AP_InstigatorModernizedServos");
+
+    // Slayer
+    RegisterProtossItem(132, "AP_StalkerTaldarimAttackUpgrade"); // Nyon Overcharge
+    RegisterProtossItem(133, "AP_StalkerTaldarimPhaseAlignment");
+    RegisterProtossItem(174, "AP_SlayerBlink");
+
+    // Dragoon
+    RegisterProtossItem(8, "AP_HighImpactPhaseDisruptors"); // Concentrated Antimatter
+    RegisterProtossItemFunc(9, "AP_DragoonHealth", DragoonShieldRegenFunc);
+    RegisterProtossItem(10, "AP_DragoonRange");
+    RegisterProtossItem(11, "AP_DragoonEnhancedStriderServos");
+    RegisterProtossItem(153, "AP_DragoonResourceEfficiency");
+    RegisterProtossItem(171, "AP_DragoonPhalanxSuit");
+
+    // Adept
+    RegisterProtossItem(3, "AP_AdeptKillBounce");
+    RegisterProtossItem(4, "AP_AdeptPiercingAttack"); // Resonating Glaives
+    RegisterProtossItem(5, "AP_AdeptShieldUpgrade");
+    RegisterProtossItem(173, "AP_AdeptDisruptiveTransfer");
+
+    // Sentry
+    RegisterProtossItem(68, "AP_SentryCloak");
+    RegisterProtossItem(69, "AP_KaraxEnergyRegenUpgrade");
+    RegisterProtossItem(70, "AP_SentryForceField");
+    RegisterProtossItem(71, "AP_SentryHallucination");
+    RegisterProtossItem(179, "AP_SentryDoubleShieldRecharge");
+
+    // Energizer
+    RegisterProtossItem(72, "AP_EnergizerReclamation");
+    RegisterProtossItem(73, "AP_EnergizerForgedChassis");
+    RegisterProtossItem(180, "AP_EnergizerMobileChronoBeam");
+
+    // Havoc
+    RegisterProtossItem(74, "AP_AlarakHavocTargetLockBuff");
+    RegisterProtossItem(75, "AP_AlarakHavocAbilityRange");
+    RegisterProtossItem(181, "AP_HavocEnduringSight");
+
+    // High Templar
+    RegisterProtossItem(58, "AP_HighImpactPsionicStorm");
+    RegisterProtossItem(59, "AP_HighTemplarHallucination");
+    RegisterProtossItemFunc(60, "AP_KhaydarinAmulet", HighTemplarKhaydarinAmuletFunc);
+    RegisterProtossItem(182, "AP_HighTemplarPlasmaSurge");
+
+    // Signifier
+    RegisterProtossItem(183, "AP_SignifierFeedback");
+
+    // Ascendant
+    RegisterProtossItem(65, "AP_AlarakHighTemplarImprovedSacrifice");
+    RegisterProtossItem(66, "AP_AlarakHighTemplarPsionicOrbTravelDistance");
+    RegisterProtossItem(67, "AP_BloodAmulet");
+    RegisterProtossItem(118, "AP_HighTemplarTaldarimArchon");
+    RegisterProtossItem(184, "AP_AscendantAbilityEfficiency");
+
+    // Archon
+    RegisterProtossItemFunc(61, null, HighArchonFunc);
+    RegisterProtossItem(91, "AP_ArchonFloat");
+    RegisterProtossItem(92, "AP_ArchonSiphon");
+    RegisterProtossItem(93, "AP_ArchonSuicide");
+    RegisterProtossItem(94, "AP_ArchonWeaponUpgrade");
+
+    // Dark Archon
+    RegisterProtossItem(62, "AP_DarkArchonFeedback");
+    RegisterProtossItem(63, "AP_DarkArchonMaelstrom");
+    RegisterProtossItem(64, "AP_ArgusTalisman");
+    RegisterProtossItem(185, "AP_DarkArchonIndomidableWill");
+
+    // Dark Templar
+    RegisterProtossItem(53, "AP_ShroudOfAdun");
+    RegisterProtossItem(55, "AP_DarkTemplarResearchShadowDash");
+    RegisterProtossItem(56, "AP_ResourceEfficiencyDarkTemplar");
+    RegisterProtossItem(57, "AP_DarkArchonMeld");
+    RegisterProtossItem(117, "AP_DarkTemplarShakurasArchon");
+    RegisterProtossItemFunc(176, "AP_DarkTemplarShadowFuryLesser", DarkTemplarShadowFuryFunc);
+    RegisterProtossItemFunc(177, "AP_DarkTemplarShadowFuryGreater", DarkTemplarShadowFuryFunc);
+
+    // Avenger
+    RegisterProtossItem(54, "AP_DarkTemplarShadowGuardTraining");
+    RegisterProtossItem(137, "AP_AvengerCharge"); // Way of Retribution
+    RegisterProtossItem(138, "AP_AvengerAcceleratedWarp");
+    RegisterProtossItem(139, "AP_AvengerArmor"); // Strategic Retreat
+    RegisterProtossItem(175, "AP_AvengerCloak");
+
+    // Blood Hunter
+    RegisterProtossItem(140, "AP_BloodHunterLifeSteal");
+    RegisterProtossItem(141, "AP_BloodHunterStasisUpgrade");
+    RegisterProtossItemFunc(142, "AP_BloodHunterResourceEfficiency", BloodHunterAlaraksCallFunc);
+    RegisterProtossItem(178, "AP_BloodHunterBrutalEfficiency");
+
+    // ********************** //
+    // * Robotics Facility  * //
+    // ********************** //
+
+    // RegisterProtossItem(, "AP_");
+
+
+
+    // Robotics Facility
+    // RegisterProtossUnit(4, "AP_UnlockImmortal", UnlockRoboticsFacility);
+    // RegisterProtossUnit(26, "AP_UnlockAnnihilator", UnlockRoboticsFacility);
+    // RegisterProtossUnit(27, "AP_UnlockVanguard", UnlockRoboticsFacility);
+    // RegisterProtossUnit(39, "AP_UnlockStalwart", UnlockRoboticsFacility);
+
+    // RegisterProtossUnit(5, "AP_UnlockColossus", UnlockRoboticsAndBay);
+    // RegisterProtossUnit(28, "AP_UnlockWrathwalker", UnlockRoboticsAndBay);
+    // RegisterProtossUnit(29, "AP_UnlockReaver", UnlockRoboticsAndBay);
+    // RegisterProtossUnit(30, "AP_UnlockDisruptor", UnlockRoboticsAndBay);
+
+    // RegisterProtossUnit(9, "AP_UnlockObserver", UnlockRoboticsFacility);
+    // RegisterProtossUnit(25, "AP_UnlockWarpPrism", UnlockRoboticsFacility);
+
+    // RegisterProtossItem(, "AP_");
+}
+
+void AP_Triggers_UnlockInit() {
+    Setup();
+    RegisterTerranUnits();
+    RegisterTerranItems();
+    RegisterProtossUnits();
+    RegisterProtossItems();
+}

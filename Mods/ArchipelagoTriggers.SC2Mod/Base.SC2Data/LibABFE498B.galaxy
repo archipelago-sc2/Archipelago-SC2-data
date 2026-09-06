@@ -56,6 +56,8 @@ include "AP_Triggers_PlayerConsumer"
 include "AP_Triggers_Util"
 include "AP_Triggers_BaseDetection"
 include "AP_Triggers_GhostSpawn"
+include "AP_Triggers_Hex"
+include "AP_Triggers_Unlock"
 
 void libABFE498B_InitCustomScript () {
 }
@@ -2212,89 +2214,30 @@ void libABFE498B_gf_AP_Triggers_setOptions (string lp_inputString) {
 void libABFE498B_gf_AP_Triggers_giveTerranTech (string lp_inputString) {
     // Variable Declarations
     int lv_currentPlayer;
-    string lv_unitValue;
-    string lv_unit2Value;
-    string lv_upgradeValue;
-    string lv_armory1Value;
-    string lv_armory2Value;
-    string lv_armory3Value;
-    string lv_armory4Value;
-    string lv_armory5Value;
-    string lv_armory6Value;
-    string lv_armory7Value;
-    string lv_armory8Value;
-    string lv_buildingValue;
-    string lv_mercenaryValue;
-    string lv_laboratoryValue;
-    string lv_progressiveUpgradeValue;
-    string lv_progressiveUpgrade2Value;
-    string lv_novaGearValue;
-    string lv_receivedString;
+    string lv_units;
+    string lv_items;
+    string lv_upgrades;
+    string lv_progressives;
 
     // Automatic Variable Declarations
     playergroup autoA98222D3_g;
 
     // Variable Initialization
-    lv_unitValue = "";
-    lv_unit2Value = "";
-    lv_upgradeValue = "";
-    lv_armory1Value = "";
-    lv_armory2Value = "";
-    lv_armory3Value = "";
-    lv_armory4Value = "";
-    lv_armory5Value = "";
-    lv_armory6Value = "";
-    lv_armory7Value = "";
-    lv_armory8Value = "";
-    lv_buildingValue = "";
-    lv_mercenaryValue = "";
-    lv_laboratoryValue = "";
-    lv_progressiveUpgradeValue = "";
-    lv_progressiveUpgrade2Value = "";
-    lv_novaGearValue = "";
-    lv_receivedString = "";
+    lv_units = StringWord(lp_inputString, 1);
+    lv_items = StringWord(lp_inputString, 2);
+    lv_upgrades = StringWord(lp_inputString, 3);
+    lv_progressives = StringWord(lp_inputString, 4);
 
     // Implementation
-    lv_receivedString = lp_inputString;
-    lv_armory1Value = StringWord(lv_receivedString, 1);
-    lv_armory2Value = StringWord(lv_receivedString, 2);
-    lv_armory3Value = StringWord(lv_receivedString, 3);
-    lv_armory4Value = StringWord(lv_receivedString, 4);
-    lv_armory5Value = StringWord(lv_receivedString, 5);
-    lv_armory6Value = StringWord(lv_receivedString, 6);
-    lv_armory7Value = StringWord(lv_receivedString, 7);
-    lv_progressiveUpgradeValue = StringWord(lv_receivedString, 8);
-    lv_laboratoryValue = StringWord(lv_receivedString, 9);
-    lv_upgradeValue = StringWord(lv_receivedString, 10);
-    lv_unitValue = StringWord(lv_receivedString, 11);
-    lv_buildingValue = StringWord(lv_receivedString, 12);
-    lv_mercenaryValue = StringWord(lv_receivedString, 13);
-    lv_novaGearValue = StringWord(lv_receivedString, 14);
-    lv_progressiveUpgrade2Value = StringWord(lv_receivedString, 15);
-    lv_unit2Value = StringWord(lv_receivedString, 16);
-    lv_armory8Value = StringWord(lv_receivedString, 17);
     autoA98222D3_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
     lv_currentPlayer = -1;
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(autoA98222D3_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        libABFE498B_gf_AP_Triggers_unlockTerranArmory1(lv_currentPlayer, StringToInt(lv_armory1Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranArmory2(lv_currentPlayer, StringToInt(lv_armory2Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranArmory3(lv_currentPlayer, StringToInt(lv_armory3Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranArmory4(lv_currentPlayer, StringToInt(lv_armory4Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranArmory5(lv_currentPlayer, StringToInt(lv_armory5Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranArmory6(lv_currentPlayer, StringToInt(lv_armory6Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranArmory7(lv_currentPlayer, StringToInt(lv_armory7Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranArmory8(lv_currentPlayer, StringToInt(lv_armory8Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranProgressiveUpgrades(lv_currentPlayer, StringToInt(lv_progressiveUpgradeValue));
-        libABFE498B_gf_AP_Triggers_unlockTerranProgressiveUpgrades2(lv_currentPlayer, StringToInt(lv_progressiveUpgrade2Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranNovaGear(lv_currentPlayer, StringToInt(lv_novaGearValue));
-        libABFE498B_gf_AP_Triggers_unlockTerranLaboratory(lv_currentPlayer, StringToInt(lv_laboratoryValue));
-        libABFE498B_gf_AP_Triggers_unlockTerranUnits(lv_currentPlayer, StringToInt(lv_unitValue));
-        libABFE498B_gf_AP_Triggers_unlockTerranUnits2(lv_currentPlayer, StringToInt(lv_unit2Value));
-        libABFE498B_gf_AP_Triggers_unlockTerranBuildings(lv_currentPlayer, StringToInt(lv_buildingValue));
-        libABFE498B_gf_AP_Triggers_unlockTerranMercenaries(lv_currentPlayer, StringToInt(lv_mercenaryValue));
-        libABFE498B_gf_AP_Triggers_unlockTerranUpgrades(lv_currentPlayer, StringToInt(lv_upgradeValue));
+        AP_UnlockTerranUnits(lv_currentPlayer, lv_units);
+        AP_UnlockTerranItems(lv_currentPlayer, lv_items);
+        AP_UnlockTerranUpgrades(lv_currentPlayer, lv_upgrades);
+        AP_UnlockTerranProgressives(lv_currentPlayer, lv_progressives);
     }
 }
 
@@ -2404,86 +2347,37 @@ void libABFE498B_gf_AP_Triggers_giveZergTech (string lp_inputString) {
 void libABFE498B_gf_AP_Triggers_giveProtossTech (string lp_inputString) {
     // Variable Declarations
     int lv_currentPlayer;
-    string lv_unitValue;
-    string lv_unit2Value;
-    string lv_upgradeValue;
-    string lv_buildingValue;
-    string lv_progressiveUpgradeValue;
-    string lv_spearOfAdunValue;
-    string lv_solariteCoreValue;
-    string lv_forge1Value;
-    string lv_forge2Value;
-    string lv_forge3Value;
-    string lv_forge4Value;
-    string lv_forge5Value;
-    string lv_forge6Value;
-    string lv_warCouncilValue;
-    string lv_warCouncil2Value;
+    string lv_units;
+    string lv_items;
+    string lv_upgrades;
+    string lv_progressives;
     string lv_shieldRegenValue;
-    string lv_artanisValue;
 
     // Automatic Variable Declarations
     playergroup autoB3BB2256_g;
 
     // Variable Initialization
-    lv_unitValue = "";
-    lv_unit2Value = "";
-    lv_upgradeValue = "";
-    lv_buildingValue = "";
-    lv_progressiveUpgradeValue = "";
-    lv_spearOfAdunValue = "";
-    lv_solariteCoreValue = "";
-    lv_forge1Value = "";
-    lv_forge2Value = "";
-    lv_forge3Value = "";
-    lv_forge4Value = "";
-    lv_forge5Value = "";
-    lv_forge6Value = "";
-    lv_warCouncilValue = "";
-    lv_warCouncil2Value = "";
+    lv_units = "";
+    lv_items = "";
+    lv_upgrades = "";
+    lv_progressives = "";
     lv_shieldRegenValue = "";
-    lv_artanisValue = "";
 
     // Implementation
-    lv_unitValue = StringWord(lp_inputString, 1);
-    lv_unit2Value = StringWord(lp_inputString, 2);
-    lv_upgradeValue = StringWord(lp_inputString, 3);
-    lv_buildingValue = StringWord(lp_inputString, 4);
-    lv_progressiveUpgradeValue = StringWord(lp_inputString, 5);
-    lv_spearOfAdunValue = StringWord(lp_inputString, 6);
-    lv_solariteCoreValue = StringWord(lp_inputString, 7);
-    lv_forge1Value = StringWord(lp_inputString, 8);
-    lv_forge2Value = StringWord(lp_inputString, 9);
-    lv_forge3Value = StringWord(lp_inputString, 10);
-    lv_forge4Value = StringWord(lp_inputString, 11);
-    lv_forge5Value = StringWord(lp_inputString, 12);
-    lv_warCouncilValue = StringWord(lp_inputString, 13);
-    lv_warCouncil2Value = StringWord(lp_inputString, 14);
-    lv_shieldRegenValue = StringWord(lp_inputString, 15);
-    lv_artanisValue = StringWord(lp_inputString, 16);
-    lv_forge6Value = StringWord(lp_inputString, 17);
+    lv_units = StringWord(lp_inputString, 1);
+    lv_items = StringWord(lp_inputString, 2);
+    lv_upgrades = StringWord(lp_inputString, 3);
+    lv_progressives = StringWord(lp_inputString, 4);
+    lv_shieldRegenValue = StringWord(lp_inputString, 5);
     autoB3BB2256_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
     lv_currentPlayer = -1;
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(autoB3BB2256_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        libABFE498B_gf_AP_Triggers_unlockProtossUnits(lv_currentPlayer, StringToInt(lv_unitValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossUnits2(lv_currentPlayer, StringToInt(lv_unit2Value));
-        libABFE498B_gf_AP_Triggers_unlockProtossBuildings(lv_currentPlayer, StringToInt(lv_buildingValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossProgressiveUpgrades(lv_currentPlayer, StringToInt(lv_progressiveUpgradeValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossSpearOfAdun(lv_currentPlayer, StringToInt(lv_spearOfAdunValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossSolariteCore(lv_currentPlayer, StringToInt(lv_solariteCoreValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossUpgrades(lv_currentPlayer, StringToInt(lv_upgradeValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossForge1(lv_currentPlayer, StringToInt(lv_forge1Value));
-        libABFE498B_gf_AP_Triggers_unlockProtossForge2(lv_currentPlayer, StringToInt(lv_forge2Value));
-        libABFE498B_gf_AP_Triggers_unlockProtossForge3(lv_currentPlayer, StringToInt(lv_forge3Value));
-        libABFE498B_gf_AP_Triggers_unlockProtossForge4(lv_currentPlayer, StringToInt(lv_forge4Value));
-        libABFE498B_gf_AP_Triggers_unlockProtossForge5(lv_currentPlayer, StringToInt(lv_forge5Value));
-        libABFE498B_gf_AP_Triggers_unlockProtossWarCouncil(lv_currentPlayer, StringToInt(lv_warCouncilValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossWarCouncil2(lv_currentPlayer, StringToInt(lv_warCouncil2Value));
-        libABFE498B_gf_AP_Triggers_giveShieldRegeneration(lv_currentPlayer, StringToInt(lv_shieldRegenValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossArtanisAbilities(lv_currentPlayer, StringToInt(lv_artanisValue));
-        libABFE498B_gf_AP_Triggers_unlockProtossForge6(lv_currentPlayer, StringToInt(lv_forge6Value));
+        AP_UnlockProtossUnits(lv_currentPlayer, lv_units);
+        AP_UnlockProtossItems(lv_currentPlayer, lv_items);
+        AP_UnlockProtossUpgrades(lv_currentPlayer, lv_upgrades);
+        AP_UnlockProtossProgressives(lv_currentPlayer, lv_progressives);
     }
 }
 
@@ -6202,102 +6096,6 @@ void libABFE498B_gf_AP_Triggers_Terran_unlockOrbitalCommand (int lp_player) {
 void libABFE498B_gf_AP_Triggers_clearTerranTech (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
-    TechTreeUnitAllow(lp_player, "AP_Marine", false);
-    TechTreeUnitAllow(lp_player, "AP_Medic", false);
-    TechTreeUnitAllow(lp_player, "AP_Firebat", false);
-    TechTreeUnitAllow(lp_player, "AP_FirebatOptimizedLogistics", false);
-    TechTreeUnitAllow(lp_player, "AP_Marauder", false);
-    TechTreeUnitAllow(lp_player, "AP_Reaper", false);
-    TechTreeUnitAllow(lp_player, "AP_Hellion", false);
-    TechTreeUnitAllow(lp_player, "AP_HellionTank", false);
-    TechTreeUnitAllow(lp_player, "AP_Vulture", false);
-    TechTreeUnitAllow(lp_player, "AP_Goliath", false);
-    TechTreeUnitAllow(lp_player, "AP_Diamondback", false);
-    TechTreeUnitAllow(lp_player, "AP_SiegeTank", false);
-    TechTreeUnitAllow(lp_player, "AP_Medivac", false);
-    TechTreeUnitAllow(lp_player, "AP_Wraith", false);
-    TechTreeUnitAllow(lp_player, "AP_VikingFighter", false);
-    TechTreeUnitAllow(lp_player, "AP_Banshee", false);
-    TechTreeUnitAllow(lp_player, "AP_Battlecruiser", false);
-    TechTreeUnitAllow(lp_player, "AP_Ghost", false);
-    TechTreeUnitAllow(lp_player, "AP_GhostResourceEfficiency", false);
-    TechTreeUnitAllow(lp_player, "AP_Spectre", false);
-    TechTreeUnitAllow(lp_player, "AP_SpectreResourceEfficiency", false);
-    TechTreeUnitAllow(lp_player, "AP_Thor", false);
-    TechTreeUnitAllow(lp_player, "AP_ThorBuild", false);
-    TechTreeUnitAllow(lp_player, "AP_Raven", false);
-    TechTreeUnitAllow(lp_player, "AP_ScienceVessel", false);
-    TechTreeUnitAllow(lp_player, "AP_Predator", false);
-    TechTreeUnitAllow(lp_player, "AP_Hercules", false);
-    TechTreeUnitAllow(lp_player, "AP_Liberator", false);
-    TechTreeUnitAllow(lp_player, "AP_ValkyrieSCBW", false);
-    TechTreeUnitAllow(lp_player, "AP_WidowMine", false);
-    TechTreeUnitAllow(lp_player, "AP_Cyclone", false);
-    TechTreeUnitAllow(lp_player, "AP_HERC", false);
-    TechTreeUnitAllow(lp_player, "AP_WarHound", false);
-    TechTreeUnitAllow(lp_player, "AP_VikingMengskFighter", false);
-    TechTreeUnitAllow(lp_player, "AP_BattlecruiserMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_SiegeTankMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_ThorMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_MarauderMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_GhostMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_TrooperMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_MarineMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_GoliathMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_MedicMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_LiberatorMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_WraithMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_BansheeMengsk", false);
-    TechTreeUnitAllow(lp_player, "AP_WarPig", false);
-    TechTreeUnitAllow(lp_player, "AP_DevilDog", false);
-    TechTreeUnitAllow(lp_player, "AP_HammerSecurity", false);
-    TechTreeUnitAllow(lp_player, "AP_SpartanCompany", false);
-    TechTreeUnitAllow(lp_player, "AP_SiegeBreaker", false);
-    TechTreeUnitAllow(lp_player, "AP_HelsAngelFighter", false);
-    TechTreeUnitAllow(lp_player, "AP_DuskWing", false);
-    TechTreeUnitAllow(lp_player, "AP_DukesRevenge", false);
-    TechTreeUnitAllow(lp_player, "AP_MercMedic", false);
-    TechTreeUnitAllow(lp_player, "AP_MercReaper", false);
-    TechTreeUnitAllow(lp_player, "AP_MercWraith", false);
-    TechTreeUnitAllow(lp_player, "AP_MercLiberator", false);
-    TechTreeUnitAllow(lp_player, "AP_BrynhildFighter", false);
-    TechTreeUnitAllow(lp_player, "AP_MercThor", false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 3), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 4), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 19), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 7), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 6), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 22), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 5), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 8), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 24), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 21), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 9), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 12), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 10), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 13), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 11), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 15), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 27), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 26), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TerranBuild", 25), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_BarracksAddOns", 1), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_FactoryAddOns", 1), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_StarportAddOns", 1), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_BarracksAddOns", 0), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_FactoryAddOns", 0), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_StarportAddOns", 0), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_BarracksAddOns", 3), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_FactoryAddOns", 3), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_StarportAddOns", 3), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TrooperMengskBuild", 19), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TrooperMengskBuild", 7), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TrooperMengskBuild", 6), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TrooperMengskBuild", 22), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TrooperMengskBuild", 5), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TrooperMengskBuild", 8), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TrooperMengskBuild", 21), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_TrooperMengskBuild", 24), false);
     TechTreeUpgradeAllow(lp_player, "AP_TerranInfantryArmorsLevel1", false);
     TechTreeUpgradeAllow(lp_player, "AP_TerranInfantryArmorsLevel2", false);
     TechTreeUpgradeAllow(lp_player, "AP_TerranInfantryArmorsLevel3", false);
@@ -6358,7 +6156,6 @@ void libABFE498B_gf_AP_Triggers_clearTerranTech (int lp_player) {
     TechTreeUpgradeAllow(lp_player, "AP_TerranShipWeaponsUltraCapacitorsLevel3", false);
     TechTreeUpgradeAllow(lp_player, "AP_TerranShipWeaponsUltraCapacitorsLevel4", false);
     TechTreeUpgradeAllow(lp_player, "AP_TerranShipWeaponsUltraCapacitorsLevel5", false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_UpgradeToPlanetaryFortress", 0), false);
 }
 
 void libABFE498B_gf_AP_Triggers_giveTerranDefaultTech (int lp_player) {
@@ -6370,6 +6167,12 @@ void libABFE498B_gf_AP_Triggers_giveTerranDefaultTech (int lp_player) {
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_YamatoCannon", 1);
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_NovaBaseSuitEnhancements", 1);
     libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_ReaperSpeed", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_UnlockBarracksReactor", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_UnlockBarracksTechLab", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_UnlockFactoryReactor", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_UnlockFactoryTechLab", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_UnlockStarportReactor", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_UnlockStarportTechLab", 1);
 }
 
 void libABFE498B_gf_AP_Triggers_setKerriganPrimal (int lp_player) {
@@ -11470,76 +11273,6 @@ void libABFE498B_gf_AP_Triggers_giveShieldRegeneration (int lp_player, int lp_st
 void libABFE498B_gf_AP_Triggers_clearProtossTech (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
-    TechTreeUnitAllow(lp_player, "AP_ZealotAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_ZealotShakuras", false);
-    TechTreeUnitAllow(lp_player, "AP_ZealotPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_Supplicant", false);
-    TechTreeUnitAllow(lp_player, "AP_AlarakSupplicantWarpTrainDummy", false);
-    TechTreeUnitAllow(lp_player, "AP_AlarakSupplicantWarpTrainCreator", false);
-    TechTreeUnitAllow(lp_player, "AP_StalkerShakuras", false);
-    TechTreeUnitAllow(lp_player, "AP_StalkerPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_Slayer", false);
-    TechTreeUnitAllow(lp_player, "AP_SentryAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_SentryPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_Monitor", false);
-    TechTreeUnitAllow(lp_player, "AP_HighArchonTemplar", false);
-    TechTreeUnitAllow(lp_player, "AP_HighTemplarShakuras", false);
-    TechTreeUnitAllow(lp_player, "AP_HighTemplarTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_DarkTemplarShakuras", false);
-    TechTreeUnitAllow(lp_player, "AP_DarkTemplarAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_DarkTemplarTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_Dragoon", false);
-    TechTreeUnitAllow(lp_player, "AP_Adept", false);
-    TechTreeUnitAllow(lp_player, "AP_WarpPrism", false);
-    TechTreeUnitAllow(lp_player, "AP_Observer", false);
-    TechTreeUnitAllow(lp_player, "AP_ImmortalAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_ImmortalShakuras", false);
-    TechTreeUnitAllow(lp_player, "AP_ImmortalTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_ImmortalPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_ColossusPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_ColossusTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_Reaver", false);
-    TechTreeUnitAllow(lp_player, "AP_Disruptor", false);
-    TechTreeUnitAllow(lp_player, "AP_PhoenixAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_PhoenixPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_PhoenixTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_CorsairMP", false);
-    TechTreeUnitAllow(lp_player, "AP_VoidRayShakuras", false);
-    TechTreeUnitAllow(lp_player, "AP_VoidRayTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_VoidRayAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_VoidRayPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_CarrierAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_CarrierTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_CarrierPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_ScoutMP", false);
-    TechTreeUnitAllow(lp_player, "AP_ScoutTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_ScoutPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_ScoutNerazim", false);
-    TechTreeUnitAllow(lp_player, "AP_SOAMothershipv4", false);
-    TechTreeUnitAllow(lp_player, "AP_SOAMothershipv4Placement", false);
-    TechTreeUnitAllow(lp_player, "AP_MothershipTaldarim", false);
-    TechTreeUnitAllow(lp_player, "AP_MothershipAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_MothershipCoreAiur", false);
-    TechTreeUnitAllow(lp_player, "AP_MothershipCorePurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_MothershipPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_MothershipPurifierPowerSource", false);
-    TechTreeUnitAllow(lp_player, "AP_TempestPurifier", false);
-    TechTreeUnitAllow(lp_player, "AP_ArbiterMP", false);
-    TechTreeUnitAllow(lp_player, "AP_Oracle", false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 25), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 14), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 10), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 11), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 4), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 7), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 24), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 21), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 13), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 27), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 12), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 9), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 26), false);
-    TechTreeAbilityAllow(lp_player, AbilityCommand("AP_ProtossBuild", 5), false);
     TechTreeUpgradeAllow(lp_player, "AP_ProtossGroundWeaponsLevel1", false);
     TechTreeUpgradeAllow(lp_player, "AP_ProtossGroundWeaponsLevel2", false);
     TechTreeUpgradeAllow(lp_player, "AP_ProtossGroundWeaponsLevel3", false);
@@ -12952,7 +12685,8 @@ bool libABFE498B_gt_AP_Triggers_PatchesInit_Func (bool testConds, bool runAction
     }
 
     lib6EE41A55_InitLib();
-    AP_GhostSpawn_init() ;
+    AP_GhostSpawn_init();
+    AP_Triggers_UnlockInit();
     TriggerExecute(lib6EE41A55_gt_AP_Patches_Constructor, true, false);
     return true;
 }

@@ -1,0 +1,37 @@
+// A library for handling hexadecimal strings
+include "AP_Triggers_Hex.h"
+
+// Constants
+static const string ALPHABET = "0123456789ABCDEF";
+
+// Globals
+static int[16] HexToInt;
+
+static void log(string s) {
+    TriggerDebugOutput(1, StringToText("Hex: " + s), true);
+}
+
+int AP_HexDigitToInt(string input) {
+    int val = StringFind(ALPHABET, input, c_stringNoCase);
+
+    if (val == 0) {
+        return 0;
+    }
+
+    return val - 1;
+}
+
+string AP_IntToHex(int input) {
+    int compare;
+    string output;
+
+    while (input > 0) {
+        compare = (input & 15);
+        output = StringSub(ALPHABET, compare + 1, compare + 1) + output;
+        input = (input >> 4);
+    }
+    return output;
+}
+
+void AP_Triggers_HexInit() {
+}
