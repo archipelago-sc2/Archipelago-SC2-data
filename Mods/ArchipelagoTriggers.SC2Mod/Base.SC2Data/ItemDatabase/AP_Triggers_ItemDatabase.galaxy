@@ -114,6 +114,12 @@ static void UnlockMercShips(int player) {
 }
 
 // Terran Unit Unlock Functions
+
+static void UnlockHellion(int player) {
+    UnlockFactory(player);
+    TechTreeUpgradeAddLevel(player, "AP_ToggleHellbat", 1);
+}
+
 static void UnlockEmperorsShadow(int player) {
     UnlockEliteBarracks(player);
     TechTreeUpgradeAddLevel(player, "AP_HaveGhostMengsk", 1);
@@ -133,7 +139,7 @@ static void RegisterTerranUnits() {
     AP_RegisterTerranUnit(24, "AP_UnlockDominionTrooper", UnlockBarracks);
 
     // Factory
-    AP_RegisterTerranUnit(5, "AP_UnlockHellion", UnlockFactory);
+    AP_RegisterTerranUnit(5, "AP_UnlockHellion", UnlockHellion);
     AP_RegisterTerranUnit(6, "AP_UnlockVulture", UnlockFactory);
     AP_RegisterTerranUnit(7, "AP_UnlockGoliath", UnlockFactory);
     AP_RegisterTerranUnit(8, "AP_UnlockDiamondback", UnlockFactory);

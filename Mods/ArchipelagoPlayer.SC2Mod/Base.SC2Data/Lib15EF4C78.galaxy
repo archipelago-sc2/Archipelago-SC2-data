@@ -8739,9 +8739,15 @@ void lib15EF4C78_gt_CM_Mengsk_MarauderMengskUpgrades_Init () {
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    abilcmd lv_abilityCommand;
+    abilcmd lv_abilcmd;
+    abilcmd lv_abilcmdHellionToggleOff;
+    abilcmd lv_abilcmdHellbatToggleOff;
 
     // Automatic Variable Declarations
+    unitgroup autoE4324FC7_g;
+    int autoE4324FC7_u;
+    unit autoE4324FC7_var;
+
     // Variable Initialization
 
     // Conditions
@@ -8764,18 +8770,25 @@ bool lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Func (bool testConds, bool ru
         return true;
     }
 
-    lv_abilityCommand = OrderGetAbilityCommand(EventUnitOrder());
-    UnitIssueOrder(EventUnit(), OrderSetAutoCast(lv_abilityCommand, false), c_orderQueueAddToFront);
-    if ((lv_abilityCommand == AbilityCommand("AP_FactoryTrain", 5)) && (TechTreeUpgradeCount(EventPlayer(), "AP_HellbatAspect", c_techCountCompleteOnly) >= 1)) {
-        TechTreeAbilityAllow(EventPlayer(), AbilityCommand("AP_FactoryTrain", 13), true);
-        TechTreeAbilityAllow(EventPlayer(), AbilityCommand("AP_FactoryTrain", 5), false);
+    lv_abilcmd = OrderGetAbilityCommand(EventUnitOrder());
+    if ((lv_abilcmd == AbilityCommand("AP_FactoryTrain", 5)) && (TechTreeUpgradeCount(EventPlayer(), "AP_HellbatAspect", c_techCountCompleteOnly) >= 1)) {
+        libNtve_gf_SetUpgradeLevelForPlayer(EventPlayer(), "AP_ToggleHellbat", 0);
     }
 
-    if ((lv_abilityCommand == AbilityCommand("AP_FactoryTrain", 13)) && (TechTreeUpgradeCount(EventPlayer(), "AP_Hellion", c_techCountCompleteOnly) >= 1)) {
-        TechTreeAbilityAllow(EventPlayer(), AbilityCommand("AP_FactoryTrain", 5), true);
-        TechTreeAbilityAllow(EventPlayer(), AbilityCommand("AP_FactoryTrain", 13), false);
+    if ((lv_abilcmd == AbilityCommand("AP_FactoryTrain", 13)) && (TechTreeUpgradeCount(EventPlayer(), "AP_UnlockHellion", c_techCountCompleteOnly) >= 1)) {
+        libNtve_gf_SetUpgradeLevelForPlayer(EventPlayer(), "AP_ToggleHellbat", 1);
     }
 
+    lv_abilcmdHellionToggleOff = OrderGetAbilityCommand(OrderSetAutoCast(AbilityCommand("AP_FactoryTrain", 5), false));
+    lv_abilcmdHellbatToggleOff = OrderGetAbilityCommand(OrderSetAutoCast(AbilityCommand("AP_FactoryTrain", 13), false));
+    autoE4324FC7_g = UnitGroup("AP_Factory", EventPlayer(), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoE4324FC7_u = UnitGroupCount(autoE4324FC7_g, c_unitCountAll);
+    for (;; autoE4324FC7_u -= 1) {
+        autoE4324FC7_var = UnitGroupUnitFromEnd(autoE4324FC7_g, autoE4324FC7_u);
+        if (autoE4324FC7_var == null) { break; }
+        UnitIssueOrder(autoE4324FC7_var, OrderSetAutoCast(lv_abilcmdHellionToggleOff, false), c_orderQueueAddToFront);
+        UnitIssueOrder(autoE4324FC7_var, OrderSetAutoCast(lv_abilcmdHellbatToggleOff, false), c_orderQueueAddToFront);
+    }
     return true;
 }
 
@@ -9204,7 +9217,6 @@ bool lib15EF4C78_gt_MedivacTankDrop_Func (bool testConds, bool runActions) {
 
     lv_medivac = EventUnit();
     lv_tank = EventUnitCargo();
-    UnitBehaviorRemove(lv_medivac, "AP_MedivacSiegeTankAirlift", 1);
     UnitBehaviorRemove(lv_medivac, "AP_SiegeTankSiegeModeProgressiveRangeIncease", c_unitBehaviorCountAll);
     return true;
 }
@@ -9283,7 +9295,6 @@ bool lib15EF4C78_gt_MedivacMercTankDrop_Func (bool testConds, bool runActions) {
 
     lv_medivac = EventUnit();
     lv_tank = EventUnitCargo();
-    UnitBehaviorRemove(lv_medivac, "AP_MedivacMercSiegeTankAirlift", 1);
     UnitBehaviorRemove(lv_medivac, "AP_SiegeTankSiegeModeProgressiveRangeIncease", c_unitBehaviorCountAll);
     return true;
 }
@@ -9362,7 +9373,6 @@ bool lib15EF4C78_gt_MedivacInfestedTankDrop_Func (bool testConds, bool runAction
 
     lv_medivac = EventUnit();
     lv_tank = EventUnitCargo();
-    UnitBehaviorRemove(lv_medivac, "AP_MedivacInfestedSiegeBreakerAirlift", 1);
     UnitBehaviorRemove(lv_medivac, "AP_SiegeTankSiegeModeProgressiveRangeIncease", c_unitBehaviorCountAll);
     return true;
 }
