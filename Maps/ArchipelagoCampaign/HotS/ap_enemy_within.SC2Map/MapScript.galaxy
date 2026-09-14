@@ -840,38 +840,9 @@ void gf_TerranSpawnSyncTech (bool lp_setDefault) {
     string lv_currentUnitType;
 
     // Automatic Variable Declarations
-    const int autoDB68BF2C_ae = gv_terranSpawnUnitTypeCount;
-    const int autoDB68BF2C_ai = 1;
-
     // Variable Initialization
 
     // Implementation
-    lv_index = 1;
-    for ( ; ( (autoDB68BF2C_ai >= 0 && lv_index <= autoDB68BF2C_ae) || (autoDB68BF2C_ai < 0 && lv_index >= autoDB68BF2C_ae) ) ; lv_index += autoDB68BF2C_ai ) {
-        lv_currentAbilityCommand = gv_terranSpawnUnitAbilityCommands[lv_index];
-        lv_currentUnitType = gv_terranSpawnUnitTypes[lv_index];
-        if ((lv_currentUnitType == "AP_VikingAssault")) {
-            if ((TechTreeUnitIsAllowed(gv_pLAYER_01_USER, "AP_VikingFighter") == true)) {
-                TechTreeAbilityAllow(gv_pLAYER_01_USER, lv_currentAbilityCommand, true);
-            }
-            else {
-                TechTreeAbilityAllow(gv_pLAYER_01_USER, lv_currentAbilityCommand, false);
-            }
-        }
-        else {
-            if ((TechTreeUnitIsAllowed(gv_pLAYER_01_USER, lv_currentUnitType) == true)) {
-                TechTreeAbilityAllow(gv_pLAYER_01_USER, lv_currentAbilityCommand, true);
-                if ((lp_setDefault == true) && (lv_activeAbilitySet == false)) {
-                    lv_activeAbilitySet = true;
-                    gf_TerranSpawnAdd(lv_index);
-                }
-
-            }
-            else {
-                TechTreeAbilityAllow(gv_pLAYER_01_USER, lv_currentAbilityCommand, false);
-            }
-        }
-    }
 }
 
 void gf_TerranSpawnAdd (int lp_indexNew) {
@@ -977,20 +948,9 @@ bool gf_TerranMeleeCheck () {
     string lv_currentUnitType;
 
     // Automatic Variable Declarations
-    const int autoAD0F57DE_ae = gv_terranSpawnUnitTypeCount;
-    const int autoAD0F57DE_ai = 1;
-
     // Variable Initialization
 
     // Implementation
-    lv_index = 1;
-    for ( ; ( (autoAD0F57DE_ai >= 0 && lv_index <= autoAD0F57DE_ae) || (autoAD0F57DE_ai < 0 && lv_index >= autoAD0F57DE_ae) ) ; lv_index += autoAD0F57DE_ai ) {
-        lv_currentUnitType = gv_terranSpawnUnitTypes[lv_index];
-        if ((TechTreeUnitIsAllowed(gv_pLAYER_01_USER, lv_currentUnitType) == true) && ((lv_currentUnitType != "AP_Firebat") && (lv_currentUnitType != "AP_Predator") && ((lv_currentUnitType != "AP_VikingAssault") || (TechTreeUnitIsAllowed(gv_pLAYER_01_USER, "AP_VikingFighter") == true)))) {
-            return false;
-        }
-
-    }
     return true;
 }
 
@@ -1422,20 +1382,6 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
-        libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
-        libABFE498B_gf_AP_Triggers_setDifficulty("B");
-        libABFE498B_gf_AP_Triggers_setGameSpeed("5");
-        TriggerExecute(gt_onDifficultyBrutal, true, false);
-        libABFE498B_gf_AP_Triggers_clearTerranTech(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_giveZergDefaultTech(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_giveTerranDefaultTech(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_giveProtossDefaultTech(gv_pLAYER_01_USER);
-        TriggerExecute(gt_DEBUGUnlockBasicUnits, false, false);
-    }
-
     TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);
@@ -1464,6 +1410,23 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     // Actions
     if (!runActions) {
         return true;
+    }
+
+    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        libABFE498B_gv_aP_Triggers_DebugMode = true;
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
+        libABFE498B_gf_AP_Triggers_setDifficulty("B");
+        libABFE498B_gf_AP_Triggers_setGameSpeed("5");
+        TriggerExecute(gt_onDifficultyBrutal, true, false);
+        libABFE498B_gf_AP_Triggers_clearTerranTech(gv_pLAYER_01_USER);
+        libABFE498B_gf_AP_Triggers_giveZergDefaultTech(gv_pLAYER_01_USER);
+        libABFE498B_gf_AP_Triggers_giveTerranDefaultTech(gv_pLAYER_01_USER);
+        libABFE498B_gf_AP_Triggers_giveProtossDefaultTech(gv_pLAYER_01_USER);
+        gv_supplyModifier[1] = 0;
+        gv_supplyModifier[2] = 8;
+        gv_supplyModifier[3] = 4;
+        gv_supplyModifier[4] = 10;
     }
 
     autoAB0923B2_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
@@ -9137,7 +9100,7 @@ bool gt_TerranUpgrade1ReachSafeSpace_Func (bool testConds, bool runActions) {
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_TerranSpawn", 0), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_StetmanUpgrade", 0), true);
     UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_TerranSpawn", 0), true);
-    gf_TerranSpawnSyncTech(true);
+    gf_TerranSpawnEnableAbilities(true);
     TriggerEnable(gt_TerranSpawnUpdateTech, true);
     TriggerEnable(gt_ReminderGrowtoLargeQueen, true);
     TriggerEnable(gt_TurnoffGrowtoLargeQueenBlinky, true);
