@@ -736,18 +736,9 @@
         <FunctionDef Type="FunctionDef" Library="5BD4895D" Id="58737B0B"/>
     </Element>
     <Element Type="Trigger" Id="8453E35E">
-        <Event Type="FunctionCall" Id="88908339"/>
         <Action Type="FunctionCall" Id="9AD22D15"/>
         <Action Type="FunctionCall" Id="AB0923B2"/>
         <Action Type="FunctionCall" Id="F057383D"/>
-    </Element>
-    <Element Type="FunctionCall" Id="88908339">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="B1A02C2E"/>
-        <Parameter Type="Param" Id="B51118E8"/>
-    </Element>
-    <Element Type="Param" Id="B51118E8">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="177B3837"/>
-        <Variable Type="Variable" Library="5BD4895D" Id="14B28730"/>
     </Element>
     <Element Type="FunctionCall" Id="9AD22D15">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
@@ -761,6 +752,7 @@
         <FunctionCall Type="FunctionCall" Id="AE6C5C42"/>
         <FunctionCall Type="FunctionCall" Id="413420CC"/>
         <FunctionCall Type="FunctionCall" Id="7C3D7CB2"/>
+        <FunctionCall Type="FunctionCall" Id="6EDA0A4D"/>
         <FunctionCall Type="FunctionCall" Id="B30C7621"/>
         <FunctionCall Type="FunctionCall" Id="1171869F"/>
         <FunctionCall Type="FunctionCall" Id="CBCECD61"/>
@@ -809,7 +801,7 @@
     </Element>
     <Element Type="Param" Id="9D0BCD88">
         <ParameterDef Type="ParamDef" Library="Ntve" Id="00000220"/>
-        <Value>Terr</Value>
+        <Value>Prot</Value>
         <ValueType Type="gamelink"/>
         <ValueGameType Type="Race"/>
     </Element>
@@ -888,6 +880,21 @@
     <Element Type="Param" Id="C26011BC">
         <ParameterDef Type="ParamDef" Library="ABFE498B" Id="56209DEA"/>
         <Variable Type="Variable" Id="B470D8B8"/>
+    </Element>
+    <Element Type="FunctionCall" Id="6EDA0A4D">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000136"/>
+        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
+        <Parameter Type="Param" Id="B945F9B6"/>
+        <Parameter Type="Param" Id="FFA88DBF"/>
+    </Element>
+    <Element Type="Param" Id="B945F9B6">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000219"/>
+        <Variable Type="Variable" Library="ABFE498B" Id="96AED9CA"/>
+    </Element>
+    <Element Type="Param" Id="FFA88DBF">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000220"/>
+        <Value>true</Value>
+        <ValueType Type="bool"/>
     </Element>
     <Element Type="FunctionCall" Id="B30C7621">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000136"/>
@@ -2297,6 +2304,7 @@
         <Action Type="FunctionCall" Id="CA2E1E1A"/>
         <Action Type="FunctionCall" Id="FE2485E4"/>
         <Action Type="FunctionCall" Id="EE64F0EA"/>
+        <Action Type="FunctionCall" Id="1133A799"/>
         <Action Type="Comment" Id="228C213C"/>
         <Action Type="FunctionCall" Id="FC6F1794"/>
         <Action Type="FunctionCall" Id="70AE0C8E"/>
@@ -2458,6 +2466,25 @@
         <Preset Type="PresetValue" Library="Ntve" Id="00000065"/>
     </Element>
     <Element Type="Param" Id="B4ADCD76">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000184"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000067"/>
+    </Element>
+    <Element Type="FunctionCall" Id="1133A799">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000116"/>
+        <Parameter Type="Param" Id="79142176"/>
+        <Parameter Type="Param" Id="05B6B82C"/>
+        <Parameter Type="Param" Id="72813009"/>
+    </Element>
+    <Element Type="Param" Id="79142176">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000182"/>
+        <ValueType Type="trigger"/>
+        <ValueElement Type="Trigger" Id="8453E35E"/>
+    </Element>
+    <Element Type="Param" Id="05B6B82C">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000183"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000065"/>
+    </Element>
+    <Element Type="Param" Id="72813009">
         <ParameterDef Type="ParamDef" Library="Ntve" Id="00000184"/>
         <Preset Type="PresetValue" Library="Ntve" Id="00000067"/>
     </Element>
@@ -9035,7 +9062,7 @@
         <ScriptCode>
             AP_UnlockTerranUnits(lv_p,&quot;b&quot;); // Marine, Marauder, Medic
             AP_UnlockZergUnits(lv_p,&quot;d&quot;); // Zergling, Roach, Hydra
-            AP_UnlockProtossUnits(lv_p,&quot;4003&quot;); // Zealot, Stalker, Sentry
+            AP_UnlockProtossUnits(lv_p,&quot;8003&quot;); // Zealot, Stalker, Sentry
         </ScriptCode>
     </Element>
     <Element Type="Trigger" Id="56BE4CEE">
@@ -21795,9 +21822,7 @@
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
         <ScriptCode>
-            AP_UnlockTerranUnits(gv_pLAYER_01_USER,&quot;4&quot;); // Marauder
-            AP_UnlockZergUnits(gv_pLAYER_01_USER,&quot;2&quot;); // Roach
-            AP_UnlockProtossUnits(gv_pLAYER_01_USER,&quot;2&quot;); // Stalker
+            AP_UnlockZergUnits(gv_pLAYER_01_USER,&quot;4&quot;); // Roach
         </ScriptCode>
     </Element>
     <Element Type="FunctionCall" Id="F0F38EB4">
@@ -23162,9 +23187,7 @@
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
         <ScriptCode>
-            AP_UnlockTerranUnits(gv_pLAYER_01_USER,&quot;b&quot;); // Marine, Marauder, Medic
-            AP_UnlockZergUnits(gv_pLAYER_01_USER,&quot;d&quot;); // Zergling, Roach, Hydra
-            AP_UnlockProtossUnits(gv_pLAYER_01_USER,&quot;4003&quot;); // Zealot, Stalker, Sentry
+            AP_UnlockZergUnits(gv_pLAYER_01_USER,&quot;8&quot;); // Hydra
         </ScriptCode>
     </Element>
     <Element Type="FunctionCall" Id="BD336BC1">
@@ -63787,9 +63810,7 @@
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
         <ScriptCode>
-            AP_UnlockTerranUnits(gv_pLAYER_01_USER,&quot;4&quot;); // Marauder
-            AP_UnlockZergUnits(gv_pLAYER_01_USER,&quot;2&quot;); // Roach
-            AP_UnlockProtossUnits(gv_pLAYER_01_USER,&quot;2&quot;); // Stalker
+            AP_UnlockTerranUnits(gv_pLAYER_01_USER,&quot;8&quot;); // Marauder
         </ScriptCode>
     </Element>
     <Element Type="FunctionCall" Id="2436B6AA">
@@ -64530,9 +64551,7 @@
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
         <ScriptCode>
-            AP_UnlockTerranUnits(gv_pLAYER_01_USER,&quot;b&quot;); // Marine, Marauder, Medic
-            AP_UnlockZergUnits(gv_pLAYER_01_USER,&quot;d&quot;); // Zergling, Roach, Hydra
-            AP_UnlockProtossUnits(gv_pLAYER_01_USER,&quot;4003&quot;); // Zealot, Stalker, Sentry
+            AP_UnlockTerranUnits(gv_pLAYER_01_USER,&quot;2&quot;); // Medic
         </ScriptCode>
     </Element>
     <Element Type="FunctionCall" Id="463F7009">
@@ -66475,6 +66494,9 @@
         <Action Type="FunctionCall" Id="90AA4733"/>
         <Action Type="FunctionCall" Id="04F81300"/>
         <Action Type="FunctionCall" Id="744D63F8"/>
+        <Action Type="FunctionCall" Id="B2E9AA28"/>
+        <Action Type="FunctionCall" Id="EF0D1E9A"/>
+        <Action Type="FunctionCall" Id="A688145A"/>
         <Action Type="FunctionCall" Id="8E139368"/>
         <Action Type="FunctionCall" Id="BAB1C85A"/>
         <Action Type="FunctionCall" Id="BE59D846"/>
@@ -66502,9 +66524,6 @@
         <Action Type="FunctionCall" Id="4B3D1013"/>
         <Action Type="FunctionCall" Id="5F8AB856"/>
         <Action Type="FunctionCall" Id="AAB39B24"/>
-        <Action Type="FunctionCall" Id="F5F48545"/>
-        <Action Type="FunctionCall" Id="5DCEB665"/>
-        <Action Type="FunctionCall" Id="E5F4C8F9"/>
         <Action Type="FunctionCall" Id="CA85DC4F"/>
         <Action Type="FunctionCall" Id="C1A78445"/>
         <Action Type="FunctionCall" Id="469C6B4C"/>
@@ -66796,6 +66815,66 @@
         <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
         <Value>true</Value>
         <ValueType Type="bool"/>
+    </Element>
+    <Element Type="FunctionCall" Id="B2E9AA28">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
+        <Parameter Type="Param" Id="3F500F03"/>
+        <Parameter Type="Param" Id="6D6F1506"/>
+        <Parameter Type="Param" Id="4C6DB7DA"/>
+    </Element>
+    <Element Type="Param" Id="3F500F03">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
+        <Variable Type="Variable" Id="B470D8B8"/>
+    </Element>
+    <Element Type="Param" Id="6D6F1506">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
+    </Element>
+    <Element Type="Param" Id="4C6DB7DA">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
+        <Value>AP_HeroProbeBuild</Value>
+        <ValueType Type="abilcmd"/>
+        <ValueId Id="24"/>
+    </Element>
+    <Element Type="FunctionCall" Id="EF0D1E9A">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
+        <Parameter Type="Param" Id="B00904BC"/>
+        <Parameter Type="Param" Id="406AE57E"/>
+        <Parameter Type="Param" Id="EBA9E42F"/>
+    </Element>
+    <Element Type="Param" Id="B00904BC">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
+        <Variable Type="Variable" Id="B470D8B8"/>
+    </Element>
+    <Element Type="Param" Id="406AE57E">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
+    </Element>
+    <Element Type="Param" Id="EBA9E42F">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
+        <Value>AP_HeroProbeBuild</Value>
+        <ValueType Type="abilcmd"/>
+        <ValueId Id="7"/>
+    </Element>
+    <Element Type="FunctionCall" Id="A688145A">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
+        <Parameter Type="Param" Id="88CEAAC9"/>
+        <Parameter Type="Param" Id="3BEF877A"/>
+        <Parameter Type="Param" Id="87346E53"/>
+    </Element>
+    <Element Type="Param" Id="88CEAAC9">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
+        <Variable Type="Variable" Id="B470D8B8"/>
+    </Element>
+    <Element Type="Param" Id="3BEF877A">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
+    </Element>
+    <Element Type="Param" Id="87346E53">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
+        <Value>AP_HeroProbeBuild</Value>
+        <ValueType Type="abilcmd"/>
+        <ValueId Id="21"/>
     </Element>
     <Element Type="FunctionCall" Id="8E139368">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000116"/>
@@ -67420,189 +67499,6 @@
         <Value>2</Value>
         <ValueType Type="int"/>
     </Element>
-    <Element Type="FunctionCall" Id="F5F48545">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="BBE74C58"/>
-        <FunctionCall Type="FunctionCall" Id="16868EC1"/>
-    </Element>
-    <Element Type="FunctionCall" Id="BBE74C58">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="A39965E1"/>
-        <Parameter Type="Param" Id="5DB3DA6B"/>
-        <Parameter Type="Param" Id="E26D9B08"/>
-    </Element>
-    <Element Type="Param" Id="A39965E1">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="5DB3DA6B">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="E26D9B08">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="7"/>
-    </Element>
-    <Element Type="FunctionCall" Id="16868EC1">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="9220553C"/>
-        <Parameter Type="Param" Id="B62A03C5"/>
-        <Parameter Type="Param" Id="7CFC75AF"/>
-    </Element>
-    <Element Type="Param" Id="9220553C">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="4FE30B16"/>
-    </Element>
-    <Element Type="FunctionCall" Id="4FE30B16">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="6F1BCC07"/>
-        <Parameter Type="Param" Id="DFC8C378"/>
-    </Element>
-    <Element Type="Param" Id="6F1BCC07">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="DFC8C378">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="7"/>
-    </Element>
-    <Element Type="Param" Id="B62A03C5">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="7CFC75AF">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
-    </Element>
-    <Element Type="FunctionCall" Id="5DCEB665">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="DA496AEF"/>
-        <FunctionCall Type="FunctionCall" Id="42E8D977"/>
-    </Element>
-    <Element Type="FunctionCall" Id="DA496AEF">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="D0E9354E"/>
-        <Parameter Type="Param" Id="86E6C6C6"/>
-        <Parameter Type="Param" Id="C300317B"/>
-    </Element>
-    <Element Type="Param" Id="D0E9354E">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="86E6C6C6">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="C300317B">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="24"/>
-    </Element>
-    <Element Type="FunctionCall" Id="42E8D977">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="B1EBDC30"/>
-        <Parameter Type="Param" Id="3405AE8D"/>
-        <Parameter Type="Param" Id="3CB3D311"/>
-    </Element>
-    <Element Type="Param" Id="B1EBDC30">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="725D94C9"/>
-    </Element>
-    <Element Type="FunctionCall" Id="725D94C9">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="5A79ADF5"/>
-        <Parameter Type="Param" Id="C1F74D60"/>
-    </Element>
-    <Element Type="Param" Id="5A79ADF5">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="C1F74D60">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="24"/>
-    </Element>
-    <Element Type="Param" Id="3405AE8D">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="3CB3D311">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
-    </Element>
-    <Element Type="FunctionCall" Id="E5F4C8F9">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="CC92B94B"/>
-        <FunctionCall Type="FunctionCall" Id="3E0B150B"/>
-    </Element>
-    <Element Type="FunctionCall" Id="CC92B94B">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="63DCCC84"/>
-        <Parameter Type="Param" Id="D77DEC16"/>
-        <Parameter Type="Param" Id="8C0D2F26"/>
-    </Element>
-    <Element Type="Param" Id="63DCCC84">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="D77DEC16">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="8C0D2F26">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="21"/>
-    </Element>
-    <Element Type="FunctionCall" Id="3E0B150B">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="47467D2A"/>
-        <Parameter Type="Param" Id="3822FDF4"/>
-        <Parameter Type="Param" Id="AFCBB9AA"/>
-    </Element>
-    <Element Type="Param" Id="47467D2A">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="18FCE68A"/>
-    </Element>
-    <Element Type="FunctionCall" Id="18FCE68A">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="9BFCEB76"/>
-        <Parameter Type="Param" Id="4010FA42"/>
-    </Element>
-    <Element Type="Param" Id="9BFCEB76">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="4010FA42">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="21"/>
-    </Element>
-    <Element Type="Param" Id="3822FDF4">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="AFCBB9AA">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
-    </Element>
     <Element Type="FunctionCall" Id="CA85DC4F">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
         <Parameter Type="Param" Id="D0C22FF1"/>
@@ -68006,9 +67902,6 @@
         <Action Type="FunctionCall" Id="DCF1EEC2"/>
         <Action Type="FunctionCall" Id="13F27315"/>
         <Action Type="FunctionCall" Id="A4BFBB8B"/>
-        <Action Type="FunctionCall" Id="32D04D0D"/>
-        <Action Type="FunctionCall" Id="0AAF4593"/>
-        <Action Type="FunctionCall" Id="5F20B293"/>
         <Action Type="FunctionCall" Id="CEF99D0F"/>
         <Action Type="FunctionCall" Id="D226544A"/>
         <Action Type="FunctionCall" Id="1169953E"/>
@@ -68355,8 +68248,6 @@
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
         <ScriptCode>
-            AP_UnlockTerranUnits(gv_pLAYER_01_USER,&quot;4&quot;); // Marauder
-            AP_UnlockZergUnits(gv_pLAYER_01_USER,&quot;2&quot;); // Roach
             AP_UnlockProtossUnits(gv_pLAYER_01_USER,&quot;2&quot;); // Stalker
         </ScriptCode>
     </Element>
@@ -68558,189 +68449,6 @@
     <Element Type="Param" Id="D6DE6DB5">
         <ParameterDef Type="ParamDef" Library="SCDH" Id="5A9D5522"/>
         <Preset Type="PresetValue" Library="SCDH" Id="9D31882C"/>
-    </Element>
-    <Element Type="FunctionCall" Id="32D04D0D">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="A72DBF3B"/>
-        <FunctionCall Type="FunctionCall" Id="A13A257D"/>
-    </Element>
-    <Element Type="FunctionCall" Id="A72DBF3B">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="E85CA09B"/>
-        <Parameter Type="Param" Id="5C39B7B7"/>
-        <Parameter Type="Param" Id="C04BC994"/>
-    </Element>
-    <Element Type="Param" Id="E85CA09B">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="5C39B7B7">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="C04BC994">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="7"/>
-    </Element>
-    <Element Type="FunctionCall" Id="A13A257D">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="987258DB"/>
-        <Parameter Type="Param" Id="BC174341"/>
-        <Parameter Type="Param" Id="A25C929B"/>
-    </Element>
-    <Element Type="Param" Id="987258DB">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="8B414FC9"/>
-    </Element>
-    <Element Type="FunctionCall" Id="8B414FC9">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="67C3A822"/>
-        <Parameter Type="Param" Id="BF40CD06"/>
-    </Element>
-    <Element Type="Param" Id="67C3A822">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="BF40CD06">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="7"/>
-    </Element>
-    <Element Type="Param" Id="BC174341">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="A25C929B">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
-    </Element>
-    <Element Type="FunctionCall" Id="0AAF4593">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="600D5567"/>
-        <FunctionCall Type="FunctionCall" Id="AD7DD7A8"/>
-    </Element>
-    <Element Type="FunctionCall" Id="600D5567">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="DFAA3071"/>
-        <Parameter Type="Param" Id="9BF8E054"/>
-        <Parameter Type="Param" Id="8D68E46B"/>
-    </Element>
-    <Element Type="Param" Id="DFAA3071">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="9BF8E054">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="8D68E46B">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="24"/>
-    </Element>
-    <Element Type="FunctionCall" Id="AD7DD7A8">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="B75E9420"/>
-        <Parameter Type="Param" Id="9F8116FD"/>
-        <Parameter Type="Param" Id="ED0045ED"/>
-    </Element>
-    <Element Type="Param" Id="B75E9420">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="0D8FEF14"/>
-    </Element>
-    <Element Type="FunctionCall" Id="0D8FEF14">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="366838A4"/>
-        <Parameter Type="Param" Id="A55EB4D1"/>
-    </Element>
-    <Element Type="Param" Id="366838A4">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="A55EB4D1">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="24"/>
-    </Element>
-    <Element Type="Param" Id="9F8116FD">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="ED0045ED">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
-    </Element>
-    <Element Type="FunctionCall" Id="5F20B293">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="728D4053"/>
-        <FunctionCall Type="FunctionCall" Id="931C6664"/>
-    </Element>
-    <Element Type="FunctionCall" Id="728D4053">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="FE23EF3A"/>
-        <Parameter Type="Param" Id="D2CDB23A"/>
-        <Parameter Type="Param" Id="E0984629"/>
-    </Element>
-    <Element Type="Param" Id="FE23EF3A">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="D2CDB23A">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="E0984629">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="21"/>
-    </Element>
-    <Element Type="FunctionCall" Id="931C6664">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="BB8CAC49"/>
-        <Parameter Type="Param" Id="77329B8D"/>
-        <Parameter Type="Param" Id="D1BDDA54"/>
-    </Element>
-    <Element Type="Param" Id="BB8CAC49">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="BEA8D75F"/>
-    </Element>
-    <Element Type="FunctionCall" Id="BEA8D75F">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="FAB3AF56"/>
-        <Parameter Type="Param" Id="1DBFE5A9"/>
-    </Element>
-    <Element Type="Param" Id="FAB3AF56">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="1DBFE5A9">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="21"/>
-    </Element>
-    <Element Type="Param" Id="77329B8D">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="D1BDDA54">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
     </Element>
     <Element Type="FunctionCall" Id="CEF99D0F">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
@@ -68944,9 +68652,6 @@
         <Action Type="FunctionCall" Id="A7039368"/>
         <Action Type="FunctionCall" Id="283B52F7"/>
         <Action Type="FunctionCall" Id="FA8AFBD3"/>
-        <Action Type="FunctionCall" Id="F0D794EA"/>
-        <Action Type="FunctionCall" Id="E48F7B2B"/>
-        <Action Type="FunctionCall" Id="3F8494B4"/>
         <Action Type="FunctionCall" Id="E6EC6687"/>
         <Action Type="FunctionCall" Id="E5636416"/>
         <Action Type="FunctionCall" Id="5586E0FF"/>
@@ -69342,9 +69047,7 @@
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
         <ScriptCode>
-            AP_UnlockTerranUnits(gv_pLAYER_01_USER,&quot;b&quot;); // Marine, Marauder, Medic
-            AP_UnlockZergUnits(gv_pLAYER_01_USER,&quot;d&quot;); // Zergling, Roach, Hydra
-            AP_UnlockProtossUnits(gv_pLAYER_01_USER,&quot;4003&quot;); // Zealot, Stalker, Sentry
+            AP_UnlockProtossUnits(gv_pLAYER_01_USER,&quot;8000&quot;); // Sentry
         </ScriptCode>
     </Element>
     <Element Type="FunctionCall" Id="1F05175E">
@@ -69526,189 +69229,6 @@
     <Element Type="Param" Id="5359FCDA">
         <ParameterDef Type="ParamDef" Library="SCDH" Id="5A9D5522"/>
         <Preset Type="PresetValue" Library="SCDH" Id="9D31882C"/>
-    </Element>
-    <Element Type="FunctionCall" Id="F0D794EA">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="062602E4"/>
-        <FunctionCall Type="FunctionCall" Id="1521159B"/>
-    </Element>
-    <Element Type="FunctionCall" Id="062602E4">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="23543F6E"/>
-        <Parameter Type="Param" Id="17C451C3"/>
-        <Parameter Type="Param" Id="3FE2766F"/>
-    </Element>
-    <Element Type="Param" Id="23543F6E">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="17C451C3">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="3FE2766F">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="7"/>
-    </Element>
-    <Element Type="FunctionCall" Id="1521159B">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="EEEF6221"/>
-        <Parameter Type="Param" Id="D6158E36"/>
-        <Parameter Type="Param" Id="5B4193CF"/>
-    </Element>
-    <Element Type="Param" Id="EEEF6221">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="11F6D366"/>
-    </Element>
-    <Element Type="FunctionCall" Id="11F6D366">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="58EBD0B2"/>
-        <Parameter Type="Param" Id="29E31E49"/>
-    </Element>
-    <Element Type="Param" Id="58EBD0B2">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="29E31E49">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="7"/>
-    </Element>
-    <Element Type="Param" Id="D6158E36">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="5B4193CF">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
-    </Element>
-    <Element Type="FunctionCall" Id="E48F7B2B">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="7089038C"/>
-        <FunctionCall Type="FunctionCall" Id="AC44F88E"/>
-    </Element>
-    <Element Type="FunctionCall" Id="7089038C">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="6A5E4320"/>
-        <Parameter Type="Param" Id="9BC6B1EB"/>
-        <Parameter Type="Param" Id="30525080"/>
-    </Element>
-    <Element Type="Param" Id="6A5E4320">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="9BC6B1EB">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="30525080">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="24"/>
-    </Element>
-    <Element Type="FunctionCall" Id="AC44F88E">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="5FCBAC71"/>
-        <Parameter Type="Param" Id="C8147216"/>
-        <Parameter Type="Param" Id="A693C78C"/>
-    </Element>
-    <Element Type="Param" Id="5FCBAC71">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="2B7E0C55"/>
-    </Element>
-    <Element Type="FunctionCall" Id="2B7E0C55">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="597FD239"/>
-        <Parameter Type="Param" Id="8AD6C564"/>
-    </Element>
-    <Element Type="Param" Id="597FD239">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="8AD6C564">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="24"/>
-    </Element>
-    <Element Type="Param" Id="C8147216">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="A693C78C">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
-    </Element>
-    <Element Type="FunctionCall" Id="3F8494B4">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
-        <FunctionCall Type="FunctionCall" Id="3B5A2254"/>
-        <FunctionCall Type="FunctionCall" Id="288EB749"/>
-    </Element>
-    <Element Type="FunctionCall" Id="3B5A2254">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
-        <Parameter Type="Param" Id="3F5091C3"/>
-        <Parameter Type="Param" Id="5CC35428"/>
-        <Parameter Type="Param" Id="FA816AAB"/>
-    </Element>
-    <Element Type="Param" Id="3F5091C3">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="BFF56EB0"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="5CC35428">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="09B7BAEA"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="00000106"/>
-    </Element>
-    <Element Type="Param" Id="FA816AAB">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="9B01128C"/>
-        <Value>AP_HeroProbeBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="21"/>
-    </Element>
-    <Element Type="FunctionCall" Id="288EB749">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
-        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
-        <Parameter Type="Param" Id="4FF50D61"/>
-        <Parameter Type="Param" Id="95A7223D"/>
-        <Parameter Type="Param" Id="7E757B18"/>
-    </Element>
-    <Element Type="Param" Id="4FF50D61">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
-        <FunctionCall Type="FunctionCall" Id="FF6C6D7C"/>
-    </Element>
-    <Element Type="FunctionCall" Id="FF6C6D7C">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="69CE5404"/>
-        <Parameter Type="Param" Id="87A21724"/>
-        <Parameter Type="Param" Id="C97A3984"/>
-    </Element>
-    <Element Type="Param" Id="87A21724">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="C460B7DA"/>
-        <Variable Type="Variable" Id="B470D8B8"/>
-    </Element>
-    <Element Type="Param" Id="C97A3984">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="3F99BFE2"/>
-        <Value>AP_ProtossBuild</Value>
-        <ValueType Type="abilcmd"/>
-        <ValueId Id="21"/>
-    </Element>
-    <Element Type="Param" Id="95A7223D">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
-        <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
-    </Element>
-    <Element Type="Param" Id="7E757B18">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
-        <Value>true</Value>
-        <ValueType Type="bool"/>
     </Element>
     <Element Type="FunctionCall" Id="E6EC6687">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="0F7C3248"/>

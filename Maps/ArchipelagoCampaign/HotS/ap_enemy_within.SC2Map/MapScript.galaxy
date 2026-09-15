@@ -1415,7 +1415,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         TriggerExecute(gt_onDifficultyBrutal, true, false);
@@ -1423,6 +1423,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_giveZergDefaultTech(gv_pLAYER_01_USER);
         libABFE498B_gf_AP_Triggers_giveTerranDefaultTech(gv_pLAYER_01_USER);
         libABFE498B_gf_AP_Triggers_giveProtossDefaultTech(gv_pLAYER_01_USER);
+        libABFE498B_gv_aP_Triggers_Option_grantStoryTech = true;
         gv_supplyModifier[1] = 0;
         gv_supplyModifier[2] = 8;
         gv_supplyModifier[3] = 4;
@@ -1480,7 +1481,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1551,6 +1551,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init04MusicSound, true, true);
     TriggerExecute(gt_Init05Environment, true, true);
     TriggerExecute(gt_Init06Difficulties, true, true);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroQ, true, true);
     TriggerExecute(gt_StartGameQ, true, false);
     return true;
@@ -2139,7 +2140,7 @@ bool gt_DEBUGUnlockBasicUnits_Func (bool testConds, bool runActions) {
     TriggerDebugOutput(1, StringExternal("Param/Value/7B36D394"), true);
     AP_UnlockTerranUnits(lv_p,"b"); // Marine, Marauder, Medic
     AP_UnlockZergUnits(lv_p,"d"); // Zergling, Roach, Hydra
-    AP_UnlockProtossUnits(lv_p,"4003"); // Zealot, Stalker, Sentry
+    AP_UnlockProtossUnits(lv_p,"8003"); // Zealot, Stalker, Sentry
     return true;
 }
 
@@ -3501,9 +3502,7 @@ bool gt_MorphtoLargeSwarmQueenComplete_Func (bool testConds, bool runActions) {
     gv_additionalGrows = 1;
     lib5BD4895D_gf_AP_Core_setObjectiveCounter(gv_objectiveGrowMore, gv_additionalGrows);
     if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTech == true)) {
-        AP_UnlockTerranUnits(gv_pLAYER_01_USER,"4"); // Marauder
-        AP_UnlockZergUnits(gv_pLAYER_01_USER,"2"); // Roach
-        AP_UnlockProtossUnits(gv_pLAYER_01_USER,"2"); // Stalker
+        AP_UnlockZergUnits(gv_pLAYER_01_USER,"4"); // Roach
     }
 
     gv_tHE_ONE_QUEEN = EventUnit();
@@ -3682,9 +3681,7 @@ bool gt_MorphtoHugeSwarmQueenComplete_Func (bool testConds, bool runActions) {
     lib5BD4895D_gf_AP_Core_setObjectiveCounter(gv_objectiveGrowMore, gv_additionalGrows);
     TriggerExecute(gt_ObjectiveGrowMoreComplete, true, false);
     if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTech == true)) {
-        AP_UnlockTerranUnits(gv_pLAYER_01_USER,"b"); // Marine, Marauder, Medic
-        AP_UnlockZergUnits(gv_pLAYER_01_USER,"d"); // Zergling, Roach, Hydra
-        AP_UnlockProtossUnits(gv_pLAYER_01_USER,"4003"); // Zealot, Stalker, Sentry
+        AP_UnlockZergUnits(gv_pLAYER_01_USER,"8"); // Hydra
     }
 
     gv_tHE_ONE_QUEEN = EventUnit();
@@ -9155,9 +9152,7 @@ bool gt_TerranUpgrade2_Func (bool testConds, bool runActions) {
     UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_StetmanUpgrade", 0), false);
     Wait(5.0, c_timeGame);
     if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTech == true)) {
-        AP_UnlockTerranUnits(gv_pLAYER_01_USER,"4"); // Marauder
-        AP_UnlockZergUnits(gv_pLAYER_01_USER,"2"); // Roach
-        AP_UnlockProtossUnits(gv_pLAYER_01_USER,"2"); // Stalker
+        AP_UnlockTerranUnits(gv_pLAYER_01_USER,"8"); // Marauder
     }
 
     gv_tHE_ONE_QUEEN = EventUnit();
@@ -9231,9 +9226,7 @@ bool gt_TerranUpgrade3_Func (bool testConds, bool runActions) {
     Wait(5.0, c_timeGame);
     TriggerExecute(gt_ObjectiveGrowMoreComplete, true, false);
     if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTech == true)) {
-        AP_UnlockTerranUnits(gv_pLAYER_01_USER,"b"); // Marine, Marauder, Medic
-        AP_UnlockZergUnits(gv_pLAYER_01_USER,"d"); // Zergling, Roach, Hydra
-        AP_UnlockProtossUnits(gv_pLAYER_01_USER,"4003"); // Zealot, Stalker, Sentry
+        AP_UnlockTerranUnits(gv_pLAYER_01_USER,"2"); // Medic
     }
 
     gv_tHE_ONE_QUEEN = EventUnit();
@@ -9313,6 +9306,9 @@ bool gt_ProbeUpgrade1BuildWarpgate_Func (bool testConds, bool runActions) {
         AP_UnlockProtossUnits(gv_pLAYER_01_USER,"1"); // Zealot
     }
 
+    TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 24), true);
+    TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 7), true);
+    TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 21), true);
     TriggerExecute(gt_ObjectiveGrowComplete, true, false);
     TriggerEnable(gt_DefeatLarvalQueenDies, false);
     TriggerEnable(gt_DefeatSwarmQueenDies, true);
@@ -9350,18 +9346,6 @@ bool gt_ProbeUpgrade1BuildWarpgate_Func (bool testConds, bool runActions) {
     UnitSetFacing(gv_tHE_ONE_QUEEN, 315.0, 1.0);
     PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropVespene, c_playerPropOperSubtract, 100);
     PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropSuppliesMade, c_playerPropOperAdd, gv_supplyModifier[2]);
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 7)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 7), true);
-    }
-
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 24)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 24), true);
-    }
-
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 21)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 21), true);
-    }
-
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_UpgradeProbeHero", 0), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_UpgradeProbeHero", 1), false);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_ProbeHeroHarvestSolarite", 0), true);
@@ -9423,8 +9407,6 @@ bool gt_ProbeUpgrade2_Func (bool testConds, bool runActions) {
     UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("AP_UpgradeProbeHero", 0), false);
     Wait(5.0, c_timeGame);
     if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTech == true)) {
-        AP_UnlockTerranUnits(gv_pLAYER_01_USER,"4"); // Marauder
-        AP_UnlockZergUnits(gv_pLAYER_01_USER,"2"); // Roach
         AP_UnlockProtossUnits(gv_pLAYER_01_USER,"2"); // Stalker
     }
 
@@ -9437,18 +9419,6 @@ bool gt_ProbeUpgrade2_Func (bool testConds, bool runActions) {
     UnitSetPropertyFixed(gv_tHE_ONE_QUEEN, c_unitPropMovementSpeed, 2.5);
     PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropSuppliesMade, c_playerPropOperAdd, gv_supplyModifier[3]);
     libSCDH_gf_CreateHeroPing(gv_tHE_ONE_QUEEN, libSCDH_ge_HeroPingType_Ally);
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 7)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 7), true);
-    }
-
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 24)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 24), true);
-    }
-
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 21)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 21), true);
-    }
-
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_UpgradeProbeHero", 0), false);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_UpgradeProbeHero", 1), true);
     libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_ProbeHeroUpgrade", 1);
@@ -9513,9 +9483,7 @@ bool gt_ProbeUpgrade3_Func (bool testConds, bool runActions) {
     Wait(5.0, c_timeGame);
     TriggerExecute(gt_ObjectiveGrowMoreComplete, true, false);
     if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTech == true)) {
-        AP_UnlockTerranUnits(gv_pLAYER_01_USER,"b"); // Marine, Marauder, Medic
-        AP_UnlockZergUnits(gv_pLAYER_01_USER,"d"); // Zergling, Roach, Hydra
-        AP_UnlockProtossUnits(gv_pLAYER_01_USER,"4003"); // Zealot, Stalker, Sentry
+        AP_UnlockProtossUnits(gv_pLAYER_01_USER,"8000"); // Sentry
     }
 
     gv_tHE_ONE_QUEEN = EventUnit();
@@ -9526,18 +9494,6 @@ bool gt_ProbeUpgrade3_Func (bool testConds, bool runActions) {
     UnitSetPropertyFixed(gv_tHE_ONE_QUEEN, c_unitPropShieldsPercent, 100.0);
     PlayerModifyPropertyInt(gv_pLAYER_01_USER, c_playerPropSuppliesMade, c_playerPropOperAdd, gv_supplyModifier[4]);
     libSCDH_gf_CreateHeroPing(gv_tHE_ONE_QUEEN, libSCDH_ge_HeroPingType_Ally);
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 7)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 7), true);
-    }
-
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 24)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 24), true);
-    }
-
-    if ((TechTreeAbilityIsAllowed(gv_pLAYER_01_USER, AbilityCommand("AP_ProtossBuild", 21)) == true)) {
-        TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_HeroProbeBuild", 21), true);
-    }
-
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_UpgradeProbeHero", 0), false);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_UpgradeProbeHero", 1), false);
     libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_ProbeHeroUpgrade", 2);
