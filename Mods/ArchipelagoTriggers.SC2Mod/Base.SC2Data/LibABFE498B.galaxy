@@ -57,6 +57,7 @@ include "Libraries/AP_Triggers_Hex"
 include "Libraries/AP_Triggers_UnlockSystem"
 include "ItemDatabase/AP_Triggers_ItemDatabase"
 include "Mutators/AP_Triggers_GhostSpawn"
+include "Mutators/AP_Triggers_MutatorUI"
 
 void libABFE498B_InitCustomScript () {
 }
@@ -598,6 +599,7 @@ void libABFE498B_gf_AP_Triggers_giveTrapItems (string lp_inputString) {
     int lv_currentPlayer;
     string lv_ghostSpawnTrap;
     string lv_voidDuplicateTrap;
+    string lv_cloakEnable;
 
     // Automatic Variable Declarations
     playergroup auto5A5F85FA_g;
@@ -605,10 +607,12 @@ void libABFE498B_gf_AP_Triggers_giveTrapItems (string lp_inputString) {
     // Variable Initialization
     lv_ghostSpawnTrap = "";
     lv_voidDuplicateTrap = "";
+    lv_cloakEnable = "";
 
     // Implementation
     lv_ghostSpawnTrap = StringWord(lp_inputString, 1);
     lv_voidDuplicateTrap = StringWord(lp_inputString, 2);
+    lv_cloakEnable = StringWord(lp_inputString, 3);
     auto5A5F85FA_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
     lv_currentPlayer = -1;
     while (true) {
@@ -616,7 +620,33 @@ void libABFE498B_gf_AP_Triggers_giveTrapItems (string lp_inputString) {
         if (lv_currentPlayer < 0) { break; }
         libABFE498B_gf_AP_Triggers_unlockGhostSpawn(lv_currentPlayer, StringToInt(lv_ghostSpawnTrap));
         libABFE498B_gf_AP_Triggers_unlockVoidDuplicate(lv_currentPlayer, StringToInt(lv_voidDuplicateTrap));
+        libABFE498B_gf_AP_Triggers_unlockMutatorCloak(lv_currentPlayer, StringToInt(lv_cloakEnable));
     }
+}
+
+trigger auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_Trigger = null;
+int auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_player;
+int auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_level;
+
+void libABFE498B_gf_AP_Triggers_unlockMutatorCloak (int lp_player, int lp_level) {
+    auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_player = lp_player;
+    auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_level = lp_level;
+
+    if (auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_Trigger == null) {
+        auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_Trigger = TriggerCreate("auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_Trigger, false, false);
+}
+
+bool auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_TriggerFunc (bool testConds, bool runActions) {
+    int lp_player = auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_player;
+    int lp_level = auto_libABFE498B_gf_AP_Triggers_unlockMutatorCloak_lp_level;
+
+    // Automatic Variable Declarations
+    // Implementation
+    libABFE498B_gf_AP_Triggers_enableMutatorCloak(lp_player, (lp_level >= 1));
+    return true;
 }
 
 trigger auto_libABFE498B_gf_AP_Triggers_unlockGhostSpawn_Trigger = null;
@@ -651,6 +681,7 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockGhostSpawn_TriggerFunc (bool testCond
         return true;
     }
 
+    libABFE498B_gf_AP_Triggers_MutatorUIUpdate(0, lp_level);
     if ((lp_level <= 0)) {
         libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_GhostSpawn", lp_level);
         libABFE498B_gv_aP_Triggers_Traps_hasGhostSpawn[lp_player] = false;
@@ -706,6 +737,7 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockVoidDuplicate_TriggerFunc (bool testC
         return true;
     }
 
+    libABFE498B_gf_AP_Triggers_MutatorUIUpdate(1, lp_level);
     libNtve_gf_SetUpgradeLevelForPlayer(1, "AP_BiggerAttackWaves", lp_level);
     libABFE498B_gv_aP_Triggers_VoidDuplicate_Threshold = lp_level;
     if ((lp_level > 0)) {
@@ -1507,6 +1539,42 @@ int libABFE498B_gf_AP_Triggers_Base_getBiggestPlayer () {
     return AP_Base_getBiggestPlayer();
 }
 
+void libABFE498B_gf_AP_Triggers_MutatorUIUpdate (int lp_mutator, int lp_level) {
+    // Automatic Variable Declarations
+    // Implementation
+    AP_MutatorUIUpdate(lp_mutator, lp_level);
+}
+
+trigger auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_Trigger = null;
+int auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_player;
+bool auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_enable;
+
+void libABFE498B_gf_AP_Triggers_enableMutatorCloak (int lp_player, bool lp_enable) {
+    auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_player = lp_player;
+    auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_enable = lp_enable;
+
+    if (auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_Trigger == null) {
+        auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_Trigger = TriggerCreate("auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_Trigger, false, false);
+}
+
+bool auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_TriggerFunc (bool testConds, bool runActions) {
+    int lp_player = auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_player;
+    bool lp_enable = auto_libABFE498B_gf_AP_Triggers_enableMutatorCloak_lp_enable;
+
+    // Automatic Variable Declarations
+    // Implementation
+    if ((lp_enable == true)) {
+        libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MutatorCloakEnable", 1);
+    }
+    else {
+        libNtve_gf_SetUpgradeLevelForPlayer(lp_player, "AP_MutatorCloakEnable", 0);
+    }
+    return true;
+}
+
 void libABFE498B_gf_AP_Triggers_GhostSpawn_placeBuilding (int lp_difficulty) {
     // Automatic Variable Declarations
     // Implementation
@@ -2017,6 +2085,7 @@ bool libABFE498B_gt_AP_Triggers_PatchesInit_Func (bool testConds, bool runAction
     AP_GhostSpawn_init();
     AP_Triggers_UnlockSystemInit();
     AP_Triggers_ItemDatabaseInit();
+    AP_Triggers_MutatorUI_Init();
     TriggerExecute(lib6EE41A55_gt_AP_Patches_Constructor, true, false);
     return true;
 }

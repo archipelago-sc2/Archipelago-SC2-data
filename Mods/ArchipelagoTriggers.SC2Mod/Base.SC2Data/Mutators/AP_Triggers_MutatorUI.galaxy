@@ -1,0 +1,194 @@
+include "Mutators/AP_Triggers_MutatorUI.h"
+
+// Constants
+static const string FRAME_MAIN_REF = "$ap_MutatorBar";
+static const int MUTATOR_MAX_COUNT = 2;
+static const int MUTATOR_UI_MAX_COUNT = 5; // Layout currently supports 5 different mutator icons
+
+// Globals
+static int FrameMain;
+static int FrameButtonContainer;
+static int ButtonToggleOn;
+static int ButtonToggleOff;
+static playergroup user = PlayerGroupSingle(lib5BD4895D_gf_AP_Core_getUser());
+static trigger onToggleVisibility;
+static int MutatorCountActive = 0;
+static int[MUTATOR_UI_MAX_COUNT] MutatorFromSlot;
+
+struct AP_Mutator {
+    int Id;
+    int Slot;
+    string IconPath;
+    string Name;
+    string Tooltip;
+    int MaxLevel;
+    int CurrentLevel;
+    int DialogItemIcon;
+    int DialogItemLevel;
+};
+static AP_Mutator[MUTATOR_MAX_COUNT] MutatorDatabase;
+
+static void log(string s) {
+    TriggerDebugOutput(1, StringToText("Mutator UI: " + s), true);
+}
+
+static void VisibilityToggle(bool visible) {
+    DialogControlSetVisible(FrameButtonContainer, user, visible);
+    DialogControlSetVisible(ButtonToggleOff, user, visible);
+    DialogControlSetVisible(ButtonToggleOn, user, visible != true);
+}
+
+static void UISetSlot(int mutator, int slot) {
+    int dialogItemIconBackground;
+    int dialogItemIcon;
+    int dialogItemLevelBackground;
+    int dialogItemLevel;
+    string icon = "MutatorIcon0" + IntToString(slot);
+    string filePath;
+    MutatorDatabase[mutator].Slot = slot;
+    MutatorFromSlot[slot] = mutator;
+    dialogItemIconBackground = DialogControlHookup(FrameButtonContainer, c_triggerControlTypeImage, icon);
+    dialogItemIcon = DialogControlHookup(dialogItemIconBackground, c_triggerControlTypeImage, "MutatorIcon");
+    MutatorDatabase[mutator].DialogItemIcon = dialogItemIcon;
+    filePath = MutatorDatabase[mutator].IconPath;
+    DialogControlSetPropertyAsString(dialogItemIcon, c_triggerControlPropertyImage, user, filePath);
+    dialogItemLevelBackground = DialogControlHookup(dialogItemIconBackground, c_triggerControlTypeImage, "MutatorCountBackground");
+    if (MutatorDatabase[mutator].MaxLevel <= 1) {
+        DialogControlSetVisible(dialogItemLevelBackground, user, false);
+    }
+    dialogItemLevel = DialogControlHookup(dialogItemLevelBackground, c_triggerControlTypeLabel, "MutatorCountLabel");
+    MutatorDatabase[mutator].DialogItemLevel = dialogItemLevel;
+    DialogControlSetVisible(dialogItemIconBackground, user, true);
+}
+
+static void MutatorRemove(int mutator) {
+    int slot = MutatorDatabase[mutator].Slot;
+    int dialogItemLevel = MutatorDatabase[mutator].DialogItemLevel;
+    int dialogItemIcon = MutatorDatabase[mutator].DialogItemIcon;
+    string tooltipString;
+    text tooltip;
+    if (slot == -1) {
+        log("Warning: Attempt to remove mutator not assigned to a slot");
+        return;
+    }
+    tooltipString = MutatorDatabase[mutator].Name;
+    if (MutatorDatabase[mutator].MaxLevel > 1) {
+        DialogControlSetPropertyAsText(dialogItemLevel, c_triggerControlPropertyText, user, IntToText(0));
+        tooltipString = tooltipString + "\nLevel 0\n\n";
+    }
+    tooltipString = tooltipString + MutatorDatabase[mutator].Tooltip;
+    DialogControlSetPropertyAsText(dialogItemIcon, c_triggerControlPropertyTooltip, user, tooltip);
+    DialogControlSetEnabled(dialogItemIcon, user, false);
+}
+
+static void MutatorSetLevel(int mutator, int level) {
+    int dialogItemLevel;
+    int dialogItemIcon;
+    string tooltipString;
+    text tooltip;
+    if (level == 0) {
+        MutatorRemove(mutator);
+        return;
+    }
+    dialogItemIcon = MutatorDatabase[mutator].DialogItemIcon;
+    DialogControlSetEnabled(dialogItemIcon, user, true);
+    MutatorDatabase[mutator].CurrentLevel = level;
+    if (MutatorDatabase[mutator].MaxLevel > 1) {
+        dialogItemLevel = MutatorDatabase[mutator].DialogItemLevel;
+        DialogControlSetPropertyAsText(dialogItemLevel, c_triggerControlPropertyText, user, IntToText(level));
+        tooltipString = MutatorDatabase[mutator].Name;
+        tooltipString = tooltipString + "\nLevel $\n\n";
+        tooltipString = tooltipString + MutatorDatabase[mutator].Tooltip;
+        tooltip = StringToText(StringReplaceWord(tooltipString, "$", IntToString(level), 0, false));
+        DialogControlSetPropertyAsText(dialogItemIcon, c_triggerControlPropertyTooltip, user, tooltip);
+    }
+}
+
+void AP_MutatorUIUpdate(int mutator, int level) {
+    int slot;
+    if (MutatorDatabase[mutator].Slot == -1) {
+        // not assigned to a slot in the UI yet
+        slot = MutatorCountActive;
+        if (slot >= MUTATOR_UI_MAX_COUNT) {
+            log("Warning: Mutator Icon UI limit reached");
+            return;
+        }
+        if (slot <= 0 && level <= 0) {
+            log("acivating first mutator at level 0, skip");
+            return;
+        }
+        UISetSlot(mutator, slot);
+        MutatorCountActive += 1;
+        if (MutatorCountActive == 1) {
+            DialogControlSetVisible(FrameMain, user, true);
+            VisibilityToggle(true);
+        }
+    }
+    MutatorSetLevel(mutator, level);
+}
+
+static void RegisterMutator(int id, string iconPath, string name, string tooltip, int maxLevel) {
+    if (id >= MUTATOR_MAX_COUNT || MutatorDatabase[id].Id != -1) {
+        log("Warning: Invalid mutator id registered");
+        return;
+    }
+    MutatorDatabase[id].Id = id;
+    MutatorDatabase[id].IconPath = iconPath;
+    MutatorDatabase[id].Name = name;
+    MutatorDatabase[id].Tooltip = tooltip;
+    MutatorDatabase[id].MaxLevel = maxLevel;
+}
+
+bool AP_MutatorBarVisibilityToggleFunc(bool testCond, bool runActions) {
+    int d = EventDialogControl();
+    if (d == ButtonToggleOn) {
+        VisibilityToggle(true);
+    }
+    if (d == ButtonToggleOff) {
+        VisibilityToggle(false);
+    }
+    return true;
+}
+
+static void LayoutHookup() {
+    FrameMain = DialogControlHookupStandard(c_triggerControlTypePanel, FRAME_MAIN_REF);
+    FrameButtonContainer = DialogControlHookup(FrameMain, c_triggerControlTypePanel, "MutatorIconContainer");
+    ButtonToggleOn = DialogControlHookup(FrameMain, c_triggerControlTypeButton, "ToggleOn");
+    ButtonToggleOff = DialogControlHookup(FrameMain, c_triggerControlTypeButton, "ToggleOff");
+
+    onToggleVisibility = TriggerCreate("AP_MutatorBarVisibilityToggleFunc");
+    TriggerAddEventDialogControl(onToggleVisibility, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
+}
+
+void RegisterMutators() {
+    // "$" will be replaced with the current level
+    string path = "Assets\\Textures\\btn-progression-mengsk-10-nuclearannihilation.dds";
+    string name = "Ghost Spawn";
+    string tooltip = "Spawns Ghost attack waves,\nwhich will nuke your base.";
+    RegisterMutator(0, path, name, tooltip, 5);
+    path = "Assets\\Textures\\btn-ability-protoss-amoncloud.dds";
+    name = "Void Duplicate";
+    tooltip = "Increased enemy attack wave size.";
+    RegisterMutator(1, path, name, tooltip, 5);
+}
+
+static void DatabaseInit() {
+    int i;
+    for (i = 0; i < MUTATOR_MAX_COUNT; i += 1) {
+        MutatorDatabase[i].Id = -1;
+        MutatorDatabase[i].Slot = -1;
+        MutatorDatabase[i].IconPath = "";
+        MutatorDatabase[i].Name = "";
+        MutatorDatabase[i].Tooltip = "";
+        MutatorDatabase[i].CurrentLevel = 0;
+        MutatorDatabase[i].MaxLevel = 0;
+        MutatorDatabase[i].DialogItemIcon = c_dialogControlItemNone;
+        MutatorDatabase[i].DialogItemLevel = c_dialogControlItemNone;
+    }
+}
+
+void AP_Triggers_MutatorUI_Init() {
+    LayoutHookup();
+    DatabaseInit();
+    RegisterMutators();
+}
