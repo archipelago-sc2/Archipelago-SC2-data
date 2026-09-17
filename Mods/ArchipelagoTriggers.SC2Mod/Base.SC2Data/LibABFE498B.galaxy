@@ -2637,6 +2637,34 @@ void libABFE498B_gt_AP_Triggers_Debug_takeControl_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_enableChecks
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_enableChecks_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    AP_Core_SaveLoad_EnableChecksOverride();
+    TriggerDebugOutput(1, StringToText("Save mismatch protection overridden. Mission checks are enabled."), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_enableChecks_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_enableChecks = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_enableChecks_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_enableChecks, c_playerAny, "-enablechecks", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_Debug_grantTech
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_Debug_grantTech_Func (bool testConds, bool runActions) {
@@ -3898,6 +3926,7 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_HeroChoiceClicked_Init();
     libABFE498B_gt_AP_Triggers_VoidDuplicate_sendWave_Init();
     libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init();
+    libABFE498B_gt_AP_Triggers_Debug_enableChecks_Init();
     libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Init();
     libABFE498B_gt_AP_Triggers_Debug_grantChecks_Init();
     libABFE498B_gt_AP_Triggers_Debug_clearQueue_Init();
