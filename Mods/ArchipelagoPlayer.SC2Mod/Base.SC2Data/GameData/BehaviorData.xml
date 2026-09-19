@@ -12047,4 +12047,50 @@
             <StateFlags index="SuppressFoodUsed" value="1"/>
         </Modification>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_KhaydarinBeamStun">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-protoss-alarak-stunnonheroicenemies.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="4"/>
+        <Modification>
+            <StateFlags index="Stun" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_KhaydarinBeamStunCooldown">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="12"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_LaunchBayHeight">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InitialEffect value="AP_LaunchBayReleaseHeight"/>
+        <FinalEffect value="AP_LaunchBayReturnHeight"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_PhaseCannonPowerBonuses">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="AP_CasterLocationHasPower"/>
+        <Modification MoveSpeedMultiplier="5">
+            <VitalRegenArray index="Life" value="10"/>
+            <VitalRegenArray index="Shields" value="10"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_PhotonCannonShields">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Requirements value="AP_PhotonCannonShields"/>
+        <DisableValidatorArray value="AP_CasterShieldsGT20"/>
+        <DisableValidatorArray value="NotUnderConstruction"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_PsiSpireStorm">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <TimeScaleSource Value="Global"/>
+        <Duration value="0.55"/>
+        <Period value="0.5"/>
+        <InitialEffect value="AP_PsiSpireStormU"/>
+        <PeriodicEffect value="AP_PsiSpireStormU"/>
+    </CBehaviorBuff>
 </Catalog>

@@ -16260,19 +16260,24 @@
         <AbilArray Link="stop"/>
         <AbilArray Link="attack"/>
         <AbilArray Link="AP_WarpRelocate"/>
+        <AbilArray Link="AP_PhotonCannonPhase"/>
         <BehaviorArray Link="Detector11"/>
         <BehaviorArray Link="PowerUserBaseDefenseSmall"/>
         <BehaviorArray Link="UnderConstruction"/>
         <BehaviorArray Link="AP_ProtossBuildingShields"/>
+        <BehaviorArray Link="AP_PhotonCannonShields"/>
         <WeaponArray Link="AP_PhotonCannon" Turret="AP_PhotonCannon"/>
         <CardLayouts>
-            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
-            <LayoutButtons Face="Detector" Type="Passive" Requirements="NotUnderConstruction" Row="2" Column="3"/>
             <LayoutButtons Face="AP_KaraxTurretRange" Type="Passive" Requirements="AP_HaveKaraxTurretRange" Row="1" Column="0"/>
             <LayoutButtons Face="AP_KaraxTurretAttackSpeed" Type="Passive" Requirements="AP_HaveKaraxTurretAttackSpeed" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_PhotonCannonShields" Type="Passive" Requirements="AP_PhotonCannonShields" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_PhotonCannonPhase" Type="AbilCmd" AbilCmd="AP_PhotonCannonPhase,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_PhotonCannonPhaseRedeploy" Type="AbilCmd" AbilCmd="AP_PhotonCannonRedeploy,Build1" Row="2" Column="1"/>
+            <LayoutButtons Face="Detector" Type="Passive" Requirements="NotUnderConstruction" Row="2" Column="3"/>
             <LayoutButtons Face="AP_WarpRelocate" Type="AbilCmd" AbilCmd="AP_WarpRelocate,Build8" Row="2" Column="4"/>
+            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="1"/>
         <SeparationRadius value="1"/>
@@ -16475,8 +16480,6 @@
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="AP_RallyNexus,0" Row="1" Column="4"/>
             <LayoutButtons Face="AP_TimeWarp" Type="AbilCmd" AbilCmd="AP_TimeWarp,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_TimeWarp" Type="AbilCmd" AbilCmd="AP_TimeWarp,0" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_KaraxTurretRange" Type="Passive" Requirements="AP_HaveSOARadarAndKaraxTurretRange" Row="2" Column="1"/>
-            <LayoutButtons Face="AP_KaraxTurretAttackSpeed" Type="Passive" Requirements="AP_HaveSOARadarAndKaraxTurretAttackSpeed" Row="2" Column="2"/>
             <LayoutButtons Face="AP_SOARadarNexus" Type="Passive" Requirements="AP_HaveSOARadar" Row="2" Column="3"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5Passive,CancelLast" Row="2" Column="4"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
@@ -17444,17 +17447,15 @@
         <BehaviorArray Link="UnderConstruction"/>
         <BehaviorArray Link="AP_UnpoweredTurret"/>
         <BehaviorArray Link="AP_ProtossBuildingShields"/>
+        <WeaponArray Link="AP_KhaydarinBeam" Turret="AP_KhaydarinMonolith"/>
         <WeaponArray Link="AP_KhaydarinBeam1" Turret="AP_KhaydarinMonolith"/>
-        <WeaponArray Link="AP_KhaydarinBeam3" Turret="AP_KhaydarinMonolith"/>
-        <WeaponArray Link="AP_KhaydarinBeam1Upgraded" Turret="AP_KhaydarinMonolith"/>
-        <WeaponArray Link="AP_KhaydarinBeam3Upgraded" Turret="AP_KhaydarinMonolith"/>
-        <WeaponArray Link="AP_KhaydarinBeam"/>
         <CardLayouts>
-            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
-            <LayoutButtons Face="AP_KaraxTurretRange" Type="Passive" Requirements="AP_HaveKaraxTurretRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_KaraxTurretAttackSpeed" Type="Passive" Requirements="AP_HaveKaraxTurretAttackSpeed" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_KhaydarinMonolithWeaponUpgrade" Type="Passive" Requirements="AP_KhaydarinMonolithWeaponUpgrade" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_KaraxTurretAttackSpeed" Type="Passive" Requirements="AP_KhaydarinMonolithOptimizedOrdnance" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_KhaydarinMonolithStun" Type="Passive" Requirements="AP_KhaydarinMonolithStun" Row="1" Column="2"/>
+            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="AP_WarpRelocate" Type="AbilCmd" AbilCmd="AP_WarpRelocate,Build25" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="1"/>
@@ -18691,16 +18692,20 @@
         <CardLayouts CardId="PBl1">
             <LayoutButtons Face="AP_Nexus" Type="AbilCmd" AbilCmd="AP_ProtossBuild,0" Row="0" Column="0"/>
             <LayoutButtons Face="AP_Assimilator" Type="AbilCmd" AbilCmd="AP_ProtossBuild,2" Row="0" Column="1"/>
-            <LayoutButtons Face="AP_Pylon" Type="AbilCmd" AbilCmd="AP_ProtossBuild,1" Row="0" Column="2"/>
-            <LayoutButtons Face="AP_Gateway" Type="AbilCmd" AbilCmd="AP_ProtossBuild,3" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_Forge" Type="AbilCmd" AbilCmd="AP_ProtossBuild,4" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_CyberneticsCore" Type="AbilCmd" AbilCmd="AP_ProtossBuild,14" Row="2" Column="0"/>
-            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PhotonCannon" Type="AbilCmd" AbilCmd="AP_ProtossBuild,7" Row="2" Column="1"/>
             <LayoutButtons Face="AP_AutomatedAssimilator" Type="AbilCmd" AbilCmd="AP_ProtossBuild,23" Row="0" Column="1"/>
+            <LayoutButtons Face="AP_Pylon" Type="AbilCmd" AbilCmd="AP_ProtossBuild,1" Row="0" Column="2"/>
+
+            <LayoutButtons Face="AP_Gateway" Type="AbilCmd" AbilCmd="AP_ProtossBuild,3" Row="1" Column="0"/>
             <LayoutButtons Face="AP_WarpInWarpGate" Type="AbilCmd" AbilCmd="AP_ProtossBuild,25" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_KhaydarinMonolith" Type="AbilCmd" AbilCmd="AP_ProtossBuild,24" Row="2" Column="2"/>
+            <LayoutButtons Face="AP_Forge" Type="AbilCmd" AbilCmd="AP_ProtossBuild,4" Row="1" Column="1"/>
             <LayoutButtons Face="AP_ShieldBattery" Type="AbilCmd" AbilCmd="AP_ProtossBuild,21" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_PsiSpire" Type="AbilCmd" AbilCmd="AP_ProtossBuild,29" Row="1" Column="3"/>
+
+            <LayoutButtons Face="AP_CyberneticsCore" Type="AbilCmd" AbilCmd="AP_ProtossBuild,14" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_PhotonCannon" Type="AbilCmd" AbilCmd="AP_ProtossBuild,7" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_KhaydarinMonolith" Type="AbilCmd" AbilCmd="AP_ProtossBuild,24" Row="2" Column="2"/>
+            <LayoutButtons Face="AP_LaunchBay" Type="AbilCmd" AbilCmd="AP_ProtossBuild,15" Row="2" Column="3"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
         </CardLayouts>
         <CardLayouts CardId="PBl2">
             <LayoutButtons Face="AP_TemplarArchive" Type="AbilCmd" AbilCmd="AP_ProtossBuild,10" Row="0" Column="0"/>
@@ -23185,7 +23190,6 @@
             <LayoutButtons Face="AP_ShieldBatteryRecharge" Type="AbilCmd" AbilCmd="AP_ShieldBatteryRechargeChanneled,0" Row="2" Column="0"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
-            <LayoutButtons Face="AP_KaraxTurretRange" Type="Passive" Requirements="AP_HaveKaraxTurretRange" Row="1" Column="0"/>
             <LayoutButtons Face="AP_KaraxEnergyRegenUpgrade" Type="Passive" Requirements="AP_HaveKaraxEnergyRegenUpgrade" Row="1" Column="1"/>
             <LayoutButtons Face="AP_WarpRelocate" Type="AbilCmd" AbilCmd="AP_WarpRelocate,Build22" Row="2" Column="4"/>
         </CardLayouts>
@@ -32782,5 +32786,271 @@
         <ScoreKill value="75"/>
         <SubgroupPriority value="1"/>
         <EditorCategories value="ObjectType:Unit,ObjectFamily:Melee"/>
+    </CUnit>
+    <CUnit id="AP_InterceptorLaunchBay">
+        <Description value="Button/Tooltip/AP_InterceptorLaunchBayUnit"/>
+        <DeathRevealRadius value="3"/>
+        <Race value="Prot"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="AILifetime" value="1"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <EditorFlags index="NoPlacement" value="1"/>
+        <PlaneArray index="Air" value="1"/>
+        <Collide index="FlyingEscorts" value="1"/>
+        <DefaultAcquireLevel value="None"/>
+        <Response value="Nothing"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="40"/>
+        <LifeMax value="40"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossPlating"/>
+        <ShieldsStart value="40"/>
+        <ShieldsMax value="40"/>
+        <ShieldRegenDelay value="10"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Mover value="Fly"/>
+        <Speed value="7.5"/>
+        <Acceleration value="1000"/>
+        <StationaryTurningRate value="999.8437"/>
+        <TurningRate value="999.8437"/>
+        <Sight value="7"/>
+        <Height value="1.25"/>
+        <VisionHeight value="4"/>
+        <CostCategory value="Army"/>
+        <AttackTargetPriority value="20"/>
+        <DamageDealtXP value="1"/>
+        <DamageTakenXP value="1"/>
+        <KillXP value="5"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="move"/>
+        <WeaponArray Link="AP_InterceptorLaunchBayWeapon"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+        </CardLayouts>
+        <Radius value="0.25"/>
+        <SeparationRadius value="0.25"/>
+        <ScoreMake value="25"/>
+        <ScoreKill value="25"/>
+        <SubgroupPriority value="19"/>
+        <MinimapRadius value="0.25"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:Melee"/>
+        <AIEvalFactor value="0"/>
+        <Mass value="0.2"/>
+        <GlossaryCategory value="Unit/Category/AP_ProtossUnitsAir"/>
+        <GlossaryPriority value="180"/>
+        <GlossaryAlias value="Interceptor"/>
+    </CUnit>
+    <CUnit id="AP_LaunchBay">
+        <Facing value="45"/>
+        <Race value="Prot"/>
+        <Mob value="Multiplayer"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDefeat" value="1"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="PenaltyRevealed" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="TownAlert" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="ArmorDisabledWhileConstructing" value="1"/>
+        <FogVisibility value="Snapshot"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Collide index="Burrow" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="Structure" value="1"/>
+        <Collide index="RoachBurrow" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Locust" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <LifeStart value="250"/>
+        <LifeMax value="250"/>
+        <LifeArmor value="2"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossBuildingPlating"/>
+        <ShieldsStart value="100"/>
+        <ShieldsMax value="100"/>
+        <ShieldRegenDelay value="10"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Sight value="11"/>
+        <CostCategory value="Technology"/>
+        <CostResource index="Minerals" value="250"/>
+        <CostResource index="Vespene" value="150"/>
+        <AttackTargetPriority value="20"/>
+        <AbilArray Link="BuildInProgress"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="AP_WarpRelocate"/>
+        <AbilArray Link="AP_LaunchBayHangar"/>
+        <AbilArray Link="HangarQueue5"/>
+        <BehaviorArray Link="PowerUserBaseDefenseSmall"/>
+        <BehaviorArray Link="UnderConstruction"/>
+        <BehaviorArray Link="AP_ProtossBuildingShields"/>
+        <WeaponArray Link="AP_LaunchBayInterceptorsDummy"/>
+        <WeaponArray Link="AP_LaunchBayInterceptorsLaunch"/>
+        <CardLayouts>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_LaunchBayGravitonCatapult" Type="Passive" Requirements="AP_LaunchBayGravitonCatapult" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_LaunchBayIgnoreArmor" Type="Passive" Requirements="AP_LaunchBayIgnoreArmor" Row="1" Column="1"/>
+
+            <LayoutButtons Face="AP_LaunchBayInterceptor" Type="AbilCmd" AbilCmd="AP_LaunchBayHangar,Ammo1" Row="2" Column="0"/>
+            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_WarpRelocate" Type="AbilCmd" AbilCmd="AP_WarpRelocate,Build16" Row="2" Column="4"/>
+        </CardLayouts>
+        <Radius value="1"/>
+        <SeparationRadius value="1"/>
+        <Footprint value="Footprint3x3Contour"/>
+        <PlacementFootprint value="Footprint3x3Contour"/>
+        <ScoreMake value="150"/>
+        <ScoreKill value="150"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="2"/>
+        <MinimapRadius value="0.75"/>
+        <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
+        <AIEvalFactor value="0.8"/>
+        <GlossaryCategory value="Unit/Category/AP_ProtossUnitsGround"/>
+        <GlossaryPriority value="200"/>
+        <HotkeyCategory value="Unit/Category/AP_ProtossUnitsGround"/>
+    </CUnit>
+    <CUnit id="AP_PhotonCannonPhase">
+        <Race value="Prot"/>
+        <Mob value="Multiplayer"/>
+        <FlagArray index="PreventDefeat" value="1"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="PenaltyRevealed" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="TownAlert" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="ArmorDisabledWhileConstructing" value="1"/>
+        <FogVisibility value="Snapshot"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossBuildingPlating"/>
+        <ShieldsStart value="150"/>
+        <ShieldsMax value="150"/>
+        <ShieldRegenDelay value="10"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Speed value="0.5"/>
+        <Acceleration value="10"/>
+        <Sight value="11"/>
+        <CostCategory value="Technology"/>
+        <CostResource index="Minerals" value="150"/>
+        <AttackTargetPriority value="20"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="AP_PhotonCannonRedeploy"/>
+        <BehaviorArray Link="Detector11"/>
+        <BehaviorArray Link="AP_ProtossBuildingShields"/>
+        <BehaviorArray Link="AP_PhaseCannonPowerBonuses"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="AP_PhotonCannonPhase" Type="AbilCmd" AbilCmd="AP_PhotonCannonPhase,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_PhotonCannonPhaseRedeploy" Type="AbilCmd" AbilCmd="AP_PhotonCannonRedeploy,Build1" Row="2" Column="1"/>
+            <LayoutButtons Face="Detector" Type="Passive" Requirements="NotUnderConstruction" Row="2" Column="3"/>
+        </CardLayouts>
+        <InnerRadius value="0.5"/>
+        <SeparationRadius value="0.75"/>
+        <Collide index="Flying" value="1"/>
+        <Mover value="Fly"/>
+        <ScoreMake value="150"/>
+        <ScoreKill value="150"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="2"/>
+        <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
+        <AIEvalFactor value="0.8"/>
+        <GlossaryAlias value="AP_PhotonCannon"/>
+        <ReviveType value="AP_PhotonCannon"/>
+        <LeaderAlias value="AP_PhotonCannon"/>
+        <SelectAlias value="AP_PhotonCannon"/>
+    </CUnit>
+    <CUnit id="AP_PsiSpire">
+        <Facing value="45"/>
+        <Race value="Prot"/>
+        <Mob value="Multiplayer"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDefeat" value="1"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="PenaltyRevealed" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="TownAlert" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="ArmorDisabledWhileConstructing" value="1"/>
+        <FogVisibility value="Snapshot"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Collide index="Burrow" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="Structure" value="1"/>
+        <Collide index="RoachBurrow" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Locust" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <LifeStart value="75"/>
+        <LifeMax value="75"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossBuildingPlating"/>
+        <ShieldsStart value="125"/>
+        <ShieldsMax value="125"/>
+        <ShieldRegenDelay value="10"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Sight value="11"/>
+        <CostCategory value="Technology"/>
+        <CostResource index="Minerals" value="50"/>
+        <CostResource index="Vespene" value="175"/>
+        <AttackTargetPriority value="20"/>
+        <AbilArray Link="BuildInProgress"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="AP_WarpRelocate"/>
+        <AbilArray Link="AP_PsiSpireStorm"/>
+        <BehaviorArray Link="PowerUserBaseDefenseSmall"/>
+        <BehaviorArray Link="UnderConstruction"/>
+        <BehaviorArray Link="AP_ProtossBuildingShields"/>
+        <WeaponArray Link="AP_PsiSpireWeapon" Turret="AP_PsiSpireStormTurret"/>
+        <CardLayouts>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_PsiSpireRange" Type="Passive" Requirements="AP_PsiSpireRange" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_PsiSpireCripple" Type="Passive" Requirements="AP_PsiSpireCripple" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_PsiSpireStorm" Type="AbilCmd" AbilCmd="AP_PsiSpireStorm,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_WarpRelocate" Type="AbilCmd" AbilCmd="AP_WarpRelocate,Build30" Row="2" Column="4"/>
+        </CardLayouts>
+        <Radius value="1"/>
+        <SeparationRadius value="1"/>
+        <Footprint value="Footprint2x2Contour"/>
+        <PlacementFootprint value="Footprint2x2"/>
+        <ScoreMake value="150"/>
+        <ScoreKill value="150"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="2"/>
+        <MinimapRadius value="0.75"/>
+        <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
+        <AIEvalFactor value="0.8"/>
+        <GlossaryCategory value="Unit/Category/AP_ProtossUnitsGround"/>
+        <GlossaryPriority value="200"/>
+        <HotkeyCategory value="Unit/Category/AP_ProtossUnitsGround"/>
     </CUnit>
 </Catalog>

@@ -2620,19 +2620,6 @@
     </CWeaponLegacy>
     <CWeaponLegacy id="AP_KhaydarinBeam1">
         <EditorCategories value="Race:Protoss"/>
-        <Options index="Hidden" value="1"/>
-        <Options index="ContinuousScan" value="1"/>
-        <Icon value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel0.dds"/>
-        <DisplayEffect value="AP_KhaydarinBeamDamage"/>
-        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <Range value="13"/>
-        <Arc value="360"/>
-        <Period value="3"/>
-        <DamagePoint value="2.9"/>
-        <Effect value="AP_KhaydarinBeamHighDamageSet"/>
-    </CWeaponLegacy>
-    <CWeaponLegacy id="AP_KhaydarinBeam1Upgraded">
-        <EditorCategories value="Race:Protoss"/>
         <Options index="Disabled" value="1"/>
         <Options index="Hidden" value="1"/>
         <Options index="ContinuousScan" value="1"/>
@@ -2642,35 +2629,11 @@
         <Range value="13"/>
         <Arc value="360"/>
         <Period value="3"/>
-        <DamagePoint value="0"/>
+        <DamagePoint value=".2"/>
+        <AcquireTargetSorts>
+            <SortArray value="TSLifeLargestFirst"/>
+        </AcquireTargetSorts>
         <Effect value="AP_KhaydarinBeamHighDamageSet"/>
-    </CWeaponLegacy>
-    <CWeaponLegacy id="AP_KhaydarinBeam3">
-        <EditorCategories value="Race:Protoss"/>
-        <Options index="Hidden" value="1"/>
-        <Options index="ContinuousScan" value="1"/>
-        <Icon value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel0.dds"/>
-        <DisplayEffect value="AP_KhaydarinBeamDamage"/>
-        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <Range value="13"/>
-        <Arc value="360"/>
-        <Period value="3"/>
-        <DamagePoint value="2.9"/>
-        <Effect value="AP_KhaydarinBeamDamageSet"/>
-    </CWeaponLegacy>
-    <CWeaponLegacy id="AP_KhaydarinBeam3Upgraded">
-        <EditorCategories value="Race:Protoss"/>
-        <Options index="Disabled" value="1"/>
-        <Options index="Hidden" value="1"/>
-        <Options index="ContinuousScan" value="1"/>
-        <Icon value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel0.dds"/>
-        <DisplayEffect value="AP_KhaydarinBeamDamage"/>
-        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <Range value="13"/>
-        <Arc value="360"/>
-        <Period value="3"/>
-        <DamagePoint value="0"/>
-        <Effect value="AP_KhaydarinBeamDamageSet"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="AP_KhaydarinBeam">
         <EditorCategories value="Race:Protoss"/>
@@ -2678,9 +2641,12 @@
         <Range value="13"/>
         <Period value="3"/>
         <DamagePoint value="2.9"/>
-        <Effect value="AP_KhaydarinBeamDamage"/>
+        <AcquireTargetSorts>
+            <SortArray value="TSLifeLargestFirst"/>
+        </AcquireTargetSorts>
+        <Effect value="AP_KhaydarinBeamDamageSet"/>
         <DisplayEffect value="AP_KhaydarinBeamDamage"/>
-        <TargetFilters value="Visible;Player,Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <Arc value="360"/>
         <Options index="ContinuousScan" value="1"/>
     </CWeaponLegacy>
@@ -4433,5 +4399,49 @@
         <Period value="1.1"/>
         <Effect value="AP_MirageAttackCP"/>
         <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="AP_LaunchBayInterceptorsLaunch">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="Hidden" value="1"/>
+        <Icon value="Assets\Textures\btn-unit-protoss-interceptor.dds"/>
+        <DisplayEffect value="AP_InterceptorLaunchBayU"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="8"/>
+        <Arc value="360"/>
+        <Period value="0.5"/>
+        <DamagePoint value="0"/>
+        <Backswing value="0"/>
+        <Effect value="AP_LaunchBayCP"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CWeaponStrafe id="AP_InterceptorLaunchBayWeapon">
+        <EditorCategories value="Race:Protoss"/>
+        <Icon value="Assets\Textures\btn-upgrade-protoss-airweaponslevel0.dds"/>
+        <DisplayEffect value="AP_InterceptorLaunchBayU"/>
+        <DisplayAttackCount value="2"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="2"/>
+        <TeleportResetRange value="0"/>
+        <Arc value="19.6875"/>
+        <Period value="3"/>
+        <Effect value="AP_InterceptorLaunchBayCP"/>
+    </CWeaponStrafe>
+    <CWeaponLegacy id="AP_LaunchBayInterceptorsDummy">
+        <EditorCategories value="Race:Protoss"/>
+        <Icon value="Assets\Textures\btn-unit-protoss-interceptor-ihanrii.dds"/>
+        <DisplayEffect value="AP_InterceptorLaunchBayU"/>
+        <DisplayAttackCount value="2"/>
+        <TargetFilters value="Visible;Player,Ally,Neutral,Enemy"/>
+        <Range value="8"/>
+        <Arc value="360"/>
+        <Period value="3"/>
+        <Effect value="AP_InterceptorLaunchBayU"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="AP_PsiSpireWeapon">
+        <EditorCategories value="Race:Protoss"/>
+        <Icon value="Assets\Textures\btn-ability-protoss-psistorm-color.dds"/>
+        <DisplayEffect value="AP_PsiSpireStormU"/>
+        <TargetFilters value="Visible;Player,Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Period value="15"/>
     </CWeaponLegacy>
 </Catalog>

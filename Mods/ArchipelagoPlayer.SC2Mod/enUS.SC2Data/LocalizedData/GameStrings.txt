@@ -619,6 +619,7 @@ Behavior/Name/AP_KerriganPrimalRage4=Fury
 Behavior/Name/AP_KerriganPrimalRage5=Fury
 Behavior/Name/AP_KerriganVoidCoopEconDrop=Resource Assimilation
 Behavior/Name/AP_KerriganVoidCoopEconDropCaster=Assimilation Aura
+Behavior/Name/AP_KhaydarinBeamStun=Stunned
 Behavior/Name/AP_LeapHunterlingStun=Stunned
 Behavior/Name/AP_LiberatorCloak=Cloak
 Behavior/Name/AP_LiberatorGuerillaMissilesDebuff=Guerilla Missiled
@@ -697,6 +698,7 @@ Behavior/Name/AP_PrimalHealSmall=Mend
 Behavior/Name/AP_ProbePermanentCloak=Nerazim Coating
 Behavior/Name/AP_ProtossBuildingShields=Augmented Shields
 Behavior/Name/AP_PsiDisruption=Psi Disruption
+Behavior/Name/AP_PsiSpireStorm=Psi Storm
 Behavior/Name/AP_PsiStorm=Psionic Storm
 Behavior/Name/AP_PsiStormShakuras=Psionic Storm
 Behavior/Name/AP_PsionicLiftDamage=Crushing Grip
@@ -968,6 +970,7 @@ Behavior/Tooltip/AP_KerriganPrimalRage4=Attack speed increased by <d ref="(Behav
 Behavior/Tooltip/AP_KerriganPrimalRage5=Attack speed increased by <d ref="(Behavior,AP_KerriganPrimalRage5,Modification.AttackSpeedMultiplier - 1) * 100"/>%.
 Behavior/Tooltip/AP_KerriganVoidCoopEconDrop=This enemy will drop resources when killed.
 Behavior/Tooltip/AP_KerriganVoidCoopEconDropCaster=Enemies within range of Kerrigan drop resources when killed.
+Behavior/Tooltip/AP_KhaydarinBeamStun=This unit cannot move or attack
 Behavior/Tooltip/AP_LeapHunterlingStun=Target is stunned.
 Behavior/Tooltip/AP_LiberatorGuerillaMissilesDebuff=This unit has <d ref="(Behavior,AP_LiberatorGuerillaMissilesDebuff,Modification.MoveSpeedMultiplier - 1) * 100"/>% reduced move speed and <d ref="(Behavior,AP_LiberatorGuerillaMissilesDebuff,Modification.AttackSpeedMultiplier - 1) * 100"/>% reduced attack speed.
 Behavior/Tooltip/AP_LightningBomb=This unit or structure is taking damage over time.
@@ -1033,6 +1036,7 @@ Behavior/Tooltip/AP_PrimalHealSmall=Regenerating life.
 Behavior/Tooltip/AP_ProbePermanentCloak=This unit is cloaked and will only be revealed by detectors or effects.
 Behavior/Tooltip/AP_ProtossBuildingShields=Protoss Structures get +2 shield armor and can regenerate Shields in combat.
 Behavior/Tooltip/AP_PsiDisruption=Attack and movement speeds halved.
+Behavior/Tooltip/AP_PsiSpireStorm=Target is under the effects of Psionic Storm and will take massive damage while in this area of effect.
 Behavior/Tooltip/AP_PsiStorm=Target is under the effects of Psionic Storm and will take massive damage while in this area of effect.
 Behavior/Tooltip/AP_PsiStormShakuras=Target is under the effects of Psionic Storm and will take massive damage while in this area of effect.
 Behavior/Tooltip/AP_PsionicLiftDamage=Taking damage over time.
@@ -1796,10 +1800,16 @@ Button/Name/AP_KerriganVoidCoopCrushingGripWave=Immobilization Wave
 Button/Name/AP_KerriganVoidCoopEconDrop=Assimilation Aura
 Button/Name/AP_KhaydarinAmulet=Khaydarin Amulet
 Button/Name/AP_KhaydarinMonolith=Warp In Khaydarin Monolith
+Button/Name/AP_KhaydarinMonolithStun=Khaydarin Surge
+Button/Name/AP_KhaydarinMonolithWeaponUpgrade=Rapid Power Cycling
 Button/Name/AP_Lair=Mutate into Lair
 Button/Name/AP_LarvaAdvancedMorphs=Advanced Morphs
 Button/Name/AP_LarvaBasicMorphs=Basic Morphs
 Button/Name/AP_LaserTargetingSystem=Laser Targeting System
+Button/Name/AP_LaunchBay=Warp In Launch Bay
+Button/Name/AP_LaunchBayGravitonCatapult=Graviton Catapult
+Button/Name/AP_LaunchBayIgnoreArmor=Focused Lens
+Button/Name/AP_LaunchBayInterceptor=Build Interceptor
 Button/Name/AP_LeadFarmer=Hail of Lead
 Button/Name/AP_LeapAttack=Leap Attack
 Button/Name/AP_LegEnhancements=Leg Enhancements
@@ -2085,6 +2095,9 @@ Button/Name/AP_PhoenixPurifier=Warp in Mirage
 Button/Name/AP_PhoenixShield=Shield Capacity
 Button/Name/AP_PhoenixTaldarim=Warp in Skirmisher
 Button/Name/AP_PhotonCannon=Warp In Photon Cannon
+Button/Name/AP_PhotonCannonPhase=Dematerialize
+Button/Name/AP_PhotonCannonPhaseRedeploy=Rematerialize
+Button/Name/AP_PhotonCannonShields=Repulsor Shell
 Button/Name/AP_PickupGas5=Collect (+100 Vespene Gas)
 Button/Name/AP_PlanetCracker=Planet Cracker
 Button/Name/AP_PlanetCrackerInstall=Install Planet Cracker
@@ -2137,6 +2150,10 @@ Button/Name/AP_PsiDisruptionAll=Psi Disruption
 Button/Name/AP_PsiDisruptionProtoss=Psi Screen
 Button/Name/AP_PsiDisruptionTerran=Sonic Disruption
 Button/Name/AP_PsiDisruptor=Build Psi Disrupter
+Button/Name/AP_PsiSpire=Warp In Psi Spire
+Button/Name/AP_PsiSpireCripple=Electromagnetic Disruption
+Button/Name/AP_PsiSpireRange=Power Grid Stabilizer
+Button/Name/AP_PsiSpireStorm=Psionic Storm
 Button/Name/AP_PsiStorm=Psionic Storm
 Button/Name/AP_PsiStrike=Psionic Shift
 Button/Name/AP_PsionicLift=Crushing Grip
@@ -3495,6 +3512,7 @@ Button/Tooltip/AP_InstigatorBlinkOverdrive=Instigators gain another +<d ref="$Up
 Button/Tooltip/AP_InstigatorModernizedServos=Increases movement speed by <d ref="$UpgradeEffectArrayValue:AP_InstigatorModernizedServos:Unit,AP_StalkerPurifier,Speed$ / Unit,AP_StalkerPurifier,Speed * 100" player="0"/>%.<n/><n/><c val="FFE303">War Council Upgrade.</c>
 Button/Tooltip/AP_Interceptor=Builds Interceptors that automatically attack the Carrier's target. Carriers may not attack without Interceptors.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_InterceptorInstall=Allow the Mothership to build Interceptors that launch alongside it's primary weapon.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
+Button/Tooltip/AP_InterceptorLaunchBayUnit=Combat drones that automatically strafe their Carrier's target. Carriers may not attack without Interceptors.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_InterceptorMothershipAiur=Builds Interceptors that automatically attack the Mothership's target.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_InterceptorMothershipPurifier=Builds Bombers that automatically attack the Mothership's target.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_InterceptorMothershipTaldarim=Builds Interceptors that automatically attack the Mothership's target.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
@@ -3542,12 +3560,18 @@ Button/Tooltip/AP_KerriganVoidCoopEconDropLT1Text=<s val="Kicker_Minerals">+5 <I
 Button/Tooltip/AP_KerriganVoidCoopEconDropLT1UpgradedText=<s val="Kicker_Minerals">+10 <IMG path="Assets\Textures\icon-mineral-zerg.dds" height="28" width="28"/>
 Button/Tooltip/AP_KhaydarinAmulet=Increases starting energy by 150 and maximum energy by 50.
 Button/Tooltip/AP_KhaydarinMonolith=Extremely powerful defensive structure. Has superior range and damage, but is very expensive and attacks slowly.<n/><n/><c val="ffff8a">Can attack ground and air units.
+Button/Tooltip/AP_KhaydarinMonolithStun=Stuns enemy units for <d ref="(Behavior,AP_KhaydarinBeamStun,Duration)"/> seconds, with <d ref="(Effect,AP_KhaydarinBeamStunCooldownAB,Duration)"/> seconds cooldown per enemy. Heroic units can be stunned, but with <d ref="(Effect,AP_KhaydarinBeamStunCooldownHeroicAB,Duration)"/> seconds cooldown instead.
+Button/Tooltip/AP_KhaydarinMonolithWeaponUpgrade=Reduces the charging time for Khaydarin Monoliths.
 Button/Tooltip/AP_KineticFoamHERC=Increases HERC life by 50.
 Button/Tooltip/AP_Lair=Evolved version of the Hatchery that allows additional upgrades and structures to be produced. Also spawns all Zerg units and receives gathered resources.
 Button/Tooltip/AP_Larva=Morphs into Zerg units.
 Button/Tooltip/AP_LarvaAdvancedMorphs=See advanced strains that can be morphed from this larva.
 Button/Tooltip/AP_LarvaBasicMorphs=Return to basic strains that can be morphed from this larva.
 Button/Tooltip/AP_LaserTargetingSystem=Increases <c val="ffff8a">vision by +2</c> and <c val="ffff8a">weapon range by +1</c>.
+Button/Tooltip/AP_LaunchBay=Defensive Structure. Builds Interceptors that automatically attack the Launch Bay's target. Launch Bays may not attack without Interceptors.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
+Button/Tooltip/AP_LaunchBayGravitonCatapult=Makes the Launch Bay launch Interceptors more quickly.
+Button/Tooltip/AP_LaunchBayIgnoreArmor=Launch Bay Interceptor weapons ignore armor.
+Button/Tooltip/AP_LaunchBayInterceptor=Builds Interceptors that automatically attack the Launch Bay's target. Launch Bays may not attack without Interceptors.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_LeadFarmer=The Son of Korhal deals <c val="ffff8a">splash</c> damage in a small area around their target.
 Button/Tooltip/AP_LeapAttack=Jump on enemy units, dealing 20 damage and stunning them for 3 seconds.<n/><n/><c val="#ColorAttackInfo">Heroic units are stunned for 1 second.</c>
 Button/Tooltip/AP_LegEnhancements=Increases movement speed.
@@ -3872,6 +3896,9 @@ Button/Tooltip/AP_PhoenixShield=Increases Phoenix' shields by 80 and shield armo
 Button/Tooltip/AP_PhoenixTaldarim=Tal'darim Faction<n/>Fast skirmish starfighter.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/AP_PhoenixTaldarimAA=Tal'darim Faction<n/>Fast skirmish starfighter.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
 Button/Tooltip/AP_PhotonCannon=Primary defensive structure.<n/><n/><c val="ffff8a">Can attack ground and air units.</c><n/><c val="FFE303">Detector</c>
+Button/Tooltip/AP_PhotonCannonPhase=Phase the Photon Cannon out of the physical realm, allowing it to move slowly, but disabling attacks. While in a power field, phased out Photon Cannons quickly recover shields and health, and move significantly faster.
+Button/Tooltip/AP_PhotonCannonPhaseRedeploy=Transforms the Photon Cannon back into regular mode.
+Button/Tooltip/AP_PhotonCannonShields=Photon Cannons gain +150 shields and +2 shield regeneration.
 Button/Tooltip/AP_PickupGas5=This item can be collected.
 Button/Tooltip/AP_PickupGas5Text=<s val="Kicker_Gas">+5 </s><IMG path="Assets\Textures\icon-gas-terran.dds" height="28" width="28"/>
 Button/Tooltip/AP_PlanetCracker=Teleports to a nearby location and fires the Planet Cracker after a <c val="#ColorTooltipNumber"><d ref="Behavior,AP_PlanetCrackerChargeUp,Duration"/></c>-second charge-up, dealing <c val="#ColorTooltipNumber"><d ref="Behavior,AP_PlanetCracker,Duration/Behavior,AP_PlanetCracker,Period * Effect,AP_PlanetCrackerDamage,Amount"/></c> damage over <c val="#ColorTooltipNumber"><d ref="Behavior,AP_PlanetCracker,Duration"/></c> seconds to <c val="FF4040">ALL</c> OTHER UNITS in the area. The radius grows over the duration, and the Mothership is unable to take any other action during this time.
@@ -3928,6 +3955,10 @@ Button/Tooltip/AP_PsiDisruptionAll=Slows the attack and movement speeds of all n
 Button/Tooltip/AP_PsiDisruptionProtoss=Slows the attack and movement speeds of all nearby enemy Protoss units.<n/><n/><c val="#ColorAttackInfo">Heroic units are immune.</c>
 Button/Tooltip/AP_PsiDisruptionTerran=Slows the attack and movement speeds of all nearby enemy Terran units.<n/><n/><c val="#ColorAttackInfo">Heroic units are immune.</c>
 Button/Tooltip/AP_PsiDisruptor=Defensive structure. Slows the attack and movement speeds of all nearby units for each race you have unlocked for it.<n/><n/><c val="#ColorAttackInfo">Heroic units are immune.</c></n></n><c val="FFE303">Affected Races:</c>
+Button/Tooltip/AP_PsiSpire=Defensive structure. Casts a Psionic Storm on enemies.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
+Button/Tooltip/AP_PsiSpireCripple=Enemy damage and speed is reduced by 30% while affected by Psi Storm.
+Button/Tooltip/AP_PsiSpireRange=Psi Spires have +1 range and their storms cover a larger area.
+Button/Tooltip/AP_PsiSpireStorm=Creates a storm of psionic energy that lasts <d ref="(Effect,AP_PsiSpireStormCP,PeriodCount*Effect,AP_PsiSpireStormCP,PeriodicPeriodArray[0]) + Behavior,AP_PsiSpireStorm,Duration"/> seconds, causing up to <d ref=" (Effect,AP_PsiSpireStormCP,PeriodCount + 2) * Effect,AP_PsiSpireStormU,Amount / Behavior,AP_PsiSpireStormCP,Period)"/> damage to all enemy units in the target area.
 Button/Tooltip/AP_PsiStorm=Creates a storm of psionic energy that lasts <d ref="(Effect,AP_HighArchonPsiStormPersistent,PeriodCount*Effect,AP_HighArchonPsiStormPersistent,PeriodicPeriodArray[0]) + Behavior,AP_HighArchonPsiStorm,Duration"/> seconds, causing up to <d ref="Effect,AP_HighArchonPsiStormDamageInitial,Amount + (Effect,AP_HighArchonPsiStormPersistent,PeriodCount * Behavior,AP_HighArchonPsiStorm,Duration * Effect,AP_HighArchonPsiStormDamage,Amount / Behavior,AP_HighArchonPsiStorm,Period)"/> damage to all enemy units in the target area. Does not damage friendly units.
 Button/Tooltip/AP_PsiStrike=Kerrigan dashes through enemies, dealing <d ref="Effect,AP_PsiStrikeDamage,Amount"/> damage to all enemies in her path.<n/><n/><c val="ffff8a">Passive: Movement speed increased by 30%.</c>
 Button/Tooltip/AP_PsionicLift=Enemies in target area are stunned for <d ref="Behavior,AP_PsionicLift,Duration"/> seconds and take <d ref="Behavior,AP_PsionicLift,Duration * Effect,AP_PsionicLiftDamage,Amount"/> damage over time.<n/><n/><c val="ffff8a">Does not stun heroic units.</c>
@@ -4658,6 +4689,7 @@ Button/Tooltip/AP_zergmissileweapons4=Maximizes the attacks of all Zerg ground r
 Button/Tooltip/AP_zergmissileweapons5=Maximizes the attacks of all Zerg ground ranged units.
 Button/Tooltip/DarkTemplarVoidStasisAppend1= Units and structures in stasis cannot be attacked or affected by abilities.<n/><n/><c val="#ColorAttackInfo">Can target ground units and structures.</c>
 Button/Tooltip/DarkTemplarVoidStasisAppend2= Units and structures in stasis cannot be attacked or affected by abilities during the first <d ref="Behavior,AP_DarkTemplarVoidStasis,Duration"/> seconds.<n/><n/><c val="#ColorAttackInfo">Can target ground and air units and structures.</c>
+Button/Tooltip/TimeWarp=Places target structure in a Chrono Boost, cusing it to operate 50% faster for <d time="20"/>.
 Effect/EditorPrefix/AP_StalkerPurifierAttackDamage=Stalker -
 Effect/Name/AP_250mmStrikeCannonsApplyBehavior=250mm Strike Cannons (Apply Behavior)
 Effect/Name/AP_250mmStrikeCannonsCreatePersistent=250mm Strike Cannons (Create Persistent)
@@ -6756,6 +6788,7 @@ Unit/Name/AP_InfestedTerransEgg=Infested Swarm Egg
 Unit/Name/AP_Infestor=Infestor
 Unit/Name/AP_InfestorTerran=Infested Terran
 Unit/Name/AP_Interceptor=Interceptor
+Unit/Name/AP_InterceptorLaunchBay=Interceptor
 Unit/Name/AP_IonCannonsWeapon=Ion Cannons
 Unit/Name/AP_K5DroppodPlacement=K5 Droppod Placement
 Unit/Name/AP_K5Kerrigan=Kerrigan
@@ -6772,6 +6805,7 @@ Unit/Name/AP_KhaydarinMonolith=Khaydarin Monolith
 Unit/Name/AP_Lair=Lair
 Unit/Name/AP_Larva=Larva
 Unit/Name/AP_LarvaReleaseMissile=Larva Release Missile
+Unit/Name/AP_LaunchBay=Launch Bay
 Unit/Name/AP_Liberator=Liberator
 Unit/Name/AP_LiberatorAG=Liberator
 Unit/Name/AP_LiberatorAGMissile=Liberator AG Missile
@@ -6860,6 +6894,7 @@ Unit/Name/AP_PhoenixAiur=Phoenix
 Unit/Name/AP_PhoenixPurifier=Mirage
 Unit/Name/AP_PhoenixTaldarim=Skirmisher
 Unit/Name/AP_PhotonCannon=Photon Cannon
+Unit/Name/AP_PhotonCannonPhase=Phase Cannon
 Unit/Name/AP_PhotonCannonWeapon=Photon Cannon Weapon
 Unit/Name/AP_PlanetaryFortress=Planetary Fortress
 Unit/Name/AP_PointDefenseDrone=Point Defense Drone
@@ -6875,6 +6910,7 @@ Unit/Name/AP_PrimalUltralisk=Ultralisk
 Unit/Name/AP_PrimalZergling=Zergling
 Unit/Name/AP_Probe=Probe
 Unit/Name/AP_PsiDisruptor=Psi Disrupter
+Unit/Name/AP_PsiSpire=Psi Spire
 Unit/Name/AP_PunisherGrenadesLMWeapon=Punisher Grenades
 Unit/Name/AP_Pygalisk=Pygalisk
 Unit/Name/AP_Pylon=Pylon
@@ -7698,6 +7734,7 @@ Weapon/Name/AP_InfestedGuassRifle=Infested Gauss Rifle
 Weapon/Name/AP_InterceptorAiurLaunch=Interceptor Aiur Launch
 Weapon/Name/AP_InterceptorBeam=Interceptor Beam
 Weapon/Name/AP_InterceptorLaunch=Interceptor Launch
+Weapon/Name/AP_InterceptorLaunchBayWeapon=Interceptor Beam
 Weapon/Name/AP_InterceptorsDummy=Interceptors
 Weapon/Name/AP_IonCannons=Ion Cannons
 Weapon/Name/AP_JavelinMissileLaunchers=Javelin Missile Launchers
@@ -7708,11 +7745,12 @@ Weapon/Name/AP_KaiserBlades=Kaiser Blades
 Weapon/Name/AP_KaiserBladesPrimal=Kaiser Blades
 Weapon/Name/AP_KelmorianMinerGaussRifle=Gauss Rifle
 Weapon/Name/AP_KhaydarinBeam=Khaydarin Beam
-Weapon/Name/AP_KhaydarinBeam1=Khaydarin Beam1
+Weapon/Name/AP_KhaydarinBeam1=Khaydarin Beam
 Weapon/Name/AP_KhaydarinBeam3=Khaydarin Beam3
 Weapon/Name/AP_LanceMissileLaunchers=250mm Punisher Cannons
 Weapon/Name/AP_LanzerTorpedoes=Lanzer Torpedoes
 Weapon/Name/AP_LaserDrillTripodLaserBeam=Laser Drill
+Weapon/Name/AP_LaunchBayInterceptorsDummy=Interceptors
 Weapon/Name/AP_LiberatorAGWeapon=Concord Cannon
 Weapon/Name/AP_LiberatorMissileLaunchers=Lexington Rockets
 Weapon/Name/AP_Locust=Spines
@@ -7767,6 +7805,7 @@ Weapon/Name/AP_PrimalRoachMelee=Claws
 Weapon/Name/AP_PrimalZergling=Claws
 Weapon/Name/AP_PrismaticBeam=Prismatic Beam
 Weapon/Name/AP_PsiBlades=Psi Blades
+Weapon/Name/AP_PsiSpireWeapon=Psionic Storm
 Weapon/Name/AP_PsionicShockwave=Psionic Shockwave
 Weapon/Name/AP_PsionicShockwaveUpgrade=Psionic Shockwave
 Weapon/Name/AP_PunisherGrenades=Punisher Grenades
