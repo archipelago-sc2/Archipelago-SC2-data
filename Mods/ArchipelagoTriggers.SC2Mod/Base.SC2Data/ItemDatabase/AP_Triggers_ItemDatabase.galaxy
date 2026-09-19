@@ -28,6 +28,7 @@ static void UnlockBarracksAndShadowOps(int player) {
     UnlockShadowOps(player);
 }
 
+
 static void UnlockEngineeringBay(int player) {
     TechTreeUpgradeAddLevel(player, "AP_UnlockEngineeringBay" , 1);
 }
@@ -66,6 +67,13 @@ static void UnlockFactoryAndArmory(int player) {
 static void UnlockFactoryAndShadowOps(int player) {
     UnlockFactory(player);
     UnlockShadowOps(player);
+}
+
+static void UnlockGhostSpectreNuke(int player) {
+    UnlockBarracks(player);
+    UnlockFactory(player);
+    UnlockShadowOps(player);
+    TechTreeUpgradeAddLevel(player, "AP_HaveGhostOrSpectreOrThorNuke", 1);
 }
 
 static void UnlockStarport(int player) {
@@ -114,7 +122,6 @@ static void UnlockMercShips(int player) {
 }
 
 // Terran Unit Unlock Functions
-
 static void UnlockHellion(int player) {
     UnlockFactory(player);
     TechTreeUpgradeAddLevel(player, "AP_ToggleHellbat", 1);
@@ -122,6 +129,7 @@ static void UnlockHellion(int player) {
 
 static void UnlockEmperorsShadow(int player) {
     UnlockEliteBarracks(player);
+    UnlockShadowOps(player);
     TechTreeUpgradeAddLevel(player, "AP_HaveGhostMengsk", 1);
 }
 
@@ -133,8 +141,8 @@ static void RegisterTerranUnits() {
     AP_RegisterTerranUnit(2, "AP_UnlockFirebat", UnlockBarracks);
     AP_RegisterTerranUnit(3, "AP_UnlockMarauder", UnlockBarracks);
     AP_RegisterTerranUnit(4, "AP_UnlockReaper", UnlockBarracks);
-    AP_RegisterTerranUnit(15, "AP_UnlockGhost", UnlockBarracksAndShadowOps);
-    AP_RegisterTerranUnit(16, "AP_UnlockSpectre", UnlockBarracksAndShadowOps);
+    AP_RegisterTerranUnit(15, "AP_UnlockGhost", UnlockGhostSpectreNuke);
+    AP_RegisterTerranUnit(16, "AP_UnlockSpectre", UnlockGhostSpectreNuke);
     AP_RegisterTerranUnit(22, "AP_UnlockHerc", UnlockBarracks);
     AP_RegisterTerranUnit(24, "AP_UnlockDominionTrooper", UnlockBarracks);
 
