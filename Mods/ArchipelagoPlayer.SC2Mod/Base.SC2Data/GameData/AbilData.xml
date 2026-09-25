@@ -92,7 +92,7 @@
         <FlagArray index="PeonMaintained" value="0"/>
         <InfoArray index="Build1" Unit="AP_EchidnaWorm" Time="20">
             <Cooldown TimeUse="60"/>
-            <Button DefaultButtonFace="AP_EchidnaWorm" State="Restricted" Requirements="AP_HaveNydusNetwork"/>
+            <Button DefaultButtonFace="AP_EchidnaWorm" State="Restricted" Requirements="AP_UnlockEchidnaWorm"/>
         </InfoArray>
         <Range value="500"/>
         <EffectArray index="Start" value="NydusAlertDummy"/>
@@ -117,7 +117,7 @@
         <Range value="5"/>
         <InfoArray index="Train1" Time="8" Rotation="Source">
             <Resource index="Minerals" value="-5"/>
-            <Button DefaultButtonFace="AP_BirthZergling" State="Restricted" Requirements="AP_HaveOuroborosSpawning"/>
+            <Button DefaultButtonFace="AP_BirthZergling" State="Restricted" Requirements="AP_MakeZerglingEchidna"/>
             <Unit value="AP_Zergling"/>
             <Unit value="AP_Zergling"/>
         </InfoArray>
@@ -142,7 +142,7 @@
         <InfoArray index="Train5" Time="9" Rotation="Source">
             <Resource index="Minerals" value="-8"/>
             <Resource index="Vespene" value="-3"/>
-            <Button DefaultButtonFace="AP_BirthRoach" State="Restricted" Requirements="AP_HaveOuroborosWarren"/>
+            <Button DefaultButtonFace="AP_BirthRoach" State="Restricted" Requirements="AP_MakeRoachEchidna"/>
             <Unit value="AP_Roach"/>
         </InfoArray>
         <InfoArray index="Train6" Time="9" Rotation="Source">
@@ -160,7 +160,7 @@
         <InfoArray index="Train8" Time="11" Rotation="Source">
             <Resource index="Minerals" value="-10"/>
             <Resource index="Vespene" value="-5"/>
-            <Button DefaultButtonFace="AP_BirthHydralisk" State="Restricted" Requirements="AP_HaveOuroborosDen"/>
+            <Button DefaultButtonFace="AP_BirthHydralisk" State="Restricted" Requirements="AP_MakeHydraliskEchidna"/>
             <Unit value="AP_Hydralisk"/>
         </InfoArray>
         <InfoArray index="Train9" Time="11" Rotation="Source">
@@ -179,12 +179,12 @@
             <Resource index="Minerals" value="-20"/>
             <Resource index="Vespene" value="-8"/>
             <Display index="Custom" value="1"/>
-            <Button DefaultButtonFace="AP_BirthAberration" State="Restricted" Requirements="AP_HaveOuroborosLairAndChamber"/>
+            <Button DefaultButtonFace="AP_BirthAberration" State="Restricted" Requirements="AP_MakeAberrationEchidna"/>
             <Unit value="AP_InfestedAbomination"/>
         </InfoArray>
         <InfoArray index="Train12" Time="8" Rotation="Source">
             <Resource index="Minerals" value="-8"/>
-            <Button DefaultButtonFace="AP_BirthPygalisk" State="Restricted" Requirements="AP_HaveOuroborosSpawning"/>
+            <Button DefaultButtonFace="AP_BirthPygalisk" State="Restricted" Requirements="AP_MakePygaliskEchidna"/>
             <Unit value="AP_Pygalisk"/>
         </InfoArray>
         <ProxyOffset value="1,-25"/>
@@ -301,7 +301,7 @@
         <FlagArray index="PeonMaintained" value="0"/>
         <InfoArray index="Build1" Unit="AP_NydusWorm" Time="10">
             <Cooldown TimeUse="30"/>
-            <Button DefaultButtonFace="AP_NydusWorm" State="Restricted" Requirements="AP_HaveNydusNetwork"/>
+            <Button DefaultButtonFace="AP_NydusWorm" State="Restricted" Requirements="AP_UnlockNydusWorm"/>
         </InfoArray>
         <Range value="500"/>
         <EffectArray index="Start" value="NydusAlertDummy"/>
@@ -2613,13 +2613,13 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <BuildMorphAbil value="AP_BarracksLiftOff"/>
         <InfoArray index="Build1" Unit="AP_BarracksTechLab" Time="25">
-            <Button DefaultButtonFace="BuildTechLabBarracks" State="Restricted" Requirements="AP_UseTechReactorHide"/>
+            <Button DefaultButtonFace="BuildTechLabBarracks" State="Restricted" Requirements="AP_UnlockBarracksTechLab"/>
         </InfoArray>
         <InfoArray index="Build2" Unit="AP_BarracksReactor" Time="50">
-            <Button Requirements="AP_UseTechReactorHide"/>
+            <Button DefaultButtonFace="Reactor" State="Restricted" Requirements="AP_UnlockBarracksReactor"/>
         </InfoArray>
         <InfoArray index="Build4" Unit="AP_BarracksTechReactor" Time="25" AddOnParentCmdPriority="-1">
-            <Button DefaultButtonFace="AP_TechReactor" Requirements="AP_UseTechReactor"/>
+            <Button DefaultButtonFace="AP_TechReactor" State="Restricted" Requirements="AP_UseTechReactor"/>
         </InfoArray>
     </CAbilBuild>
     <CAbilMorph id="AP_BarracksLiftOff" parent="TerranBuildingLiftOff" unit="AP_BarracksFlying">
@@ -2656,39 +2656,39 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Range value="5"/>
         <InfoArray index="Train1" Time="25">
-            <Button DefaultButtonFace="Marine" State="Restricted"/>
+            <Button DefaultButtonFace="Marine" State="Restricted" Requirements="AP_UnlockMarine"/>
             <Unit value="AP_Marine"/>
         </InfoArray>
         <InfoArray index="Train2" Time="40">
-            <Button DefaultButtonFace="Reaper" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="Reaper" State="Restricted" Requirements="AP_UnlockReaper"/>
             <Unit value="AP_Reaper"/>
         </InfoArray>
         <InfoArray index="Train3" Time="40">
-            <Button DefaultButtonFace="Ghost" State="Restricted" Requirements="AP_HaveAttachedBarrTechLabOrAttachedTechReactorAndShadowOps"/>
+            <Button DefaultButtonFace="Ghost" State="Restricted" Requirements="AP_UnlockGhost"/>
             <Unit value="AP_Ghost"/>
         </InfoArray>
         <InfoArray index="Train4" Time="30">
-            <Button DefaultButtonFace="Marauder" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="Marauder" State="Restricted"  Requirements="AP_UnlockMarauder"/>
             <Unit value="AP_Marauder"/>
         </InfoArray>
         <InfoArray index="Train5" Time="25">
-            <Button DefaultButtonFace="Medic" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="Medic" State="Restricted"  Requirements="AP_UnlockMedic"/>
             <Unit value="AP_Medic"/>
         </InfoArray>
         <InfoArray index="Train6" Time="30">
-            <Button DefaultButtonFace="FlameMech" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="FlameMech" State="Restricted"  Requirements="AP_UnlockFirebat"/>
             <Unit value="AP_Firebat"/>
         </InfoArray>
         <InfoArray index="Train7" Time="50">
-            <Button DefaultButtonFace="Spectre" State="Restricted" Requirements="AP_HaveAttachedBarrTechLabOrAttachedTechReactorAndShadowOps"/>
+            <Button DefaultButtonFace="Spectre" State="Restricted" Requirements="AP_UnlockSpectre"/>
             <Unit value="AP_Spectre"/>
         </InfoArray>
         <InfoArray index="Train8" Time="30">
-            <Button DefaultButtonFace="AP_HERC" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_HERC" State="Restricted" Requirements="AP_UnlockHerc"/>
             <Unit value="AP_HERC"/>
         </InfoArray>
         <InfoArray index="Train9" Time="25">
-            <Button DefaultButtonFace="AP_TrooperMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_TrooperMengsk" State="Restricted" Requirements="AP_UnlockDominionTrooper"/>
             <Unit value="AP_TrooperMengsk"/>
         </InfoArray>
     </CAbilTrain>
@@ -3328,13 +3328,13 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <BuildMorphAbil value="AP_FactoryLiftOff"/>
         <InfoArray index="Build1" Unit="AP_FactoryTechLab" Time="25">
-            <Button DefaultButtonFace="BuildTechLabFactory" State="Restricted" Requirements="AP_UseTechReactorHide"/>
+            <Button DefaultButtonFace="BuildTechLabFactory" State="Restricted" Requirements="AP_UnlockFactoryTechLab"/>
         </InfoArray>
         <InfoArray index="Build2" Unit="AP_FactoryReactor" Time="50">
-            <Button Requirements="AP_UseTechReactorHide"/>
+            <Button DefaultButtonFace="Reactor" State="Restricted" Requirements="AP_UnlockFactoryReactor"/>
         </InfoArray>
         <InfoArray index="Build4" Unit="AP_FactoryTechReactor" Time="25" AddOnParentCmdPriority="-1">
-            <Button DefaultButtonFace="AP_TechReactor" Requirements="AP_UseTechReactor"/>
+            <Button DefaultButtonFace="AP_TechReactor" State="Restricted" Requirements="AP_UseTechReactor"/>
         </InfoArray>
     </CAbilBuild>
     <CAbilBuild id="AP_StarportAddOns" parent="TerranAddOns">
@@ -3342,13 +3342,13 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <BuildMorphAbil value="AP_StarportLiftOff"/>
         <InfoArray index="Build1" Unit="AP_StarportTechLab" Time="25">
-            <Button DefaultButtonFace="BuildTechLabStarport" State="Restricted" Requirements="AP_UseTechReactorHide"/>
+            <Button DefaultButtonFace="BuildTechLabStarport" State="Restricted" Requirements="AP_UnlockStarportTechLab"/>
         </InfoArray>
         <InfoArray index="Build2" Unit="AP_StarportReactor" Time="50">
-            <Button Requirements="AP_UseTechReactorHide"/>
+            <Button  DefaultButtonFace="Reactor" State="Restricted" Requirements="AP_UnlockStarportReactor"/>
         </InfoArray>
         <InfoArray index="Build4" Unit="AP_StarportTechReactor" Time="25" AddOnParentCmdPriority="-1">
-            <Button DefaultButtonFace="AP_TechReactor" Requirements="AP_UseTechReactor"/>
+            <Button DefaultButtonFace="AP_TechReactor" State="Restricted" Requirements="AP_UseTechReactor"/>
         </InfoArray>
     </CAbilBuild>
     <CAbilMorphPlacement id="AP_FactoryLand" parent="TerranBuildingLand" unit="AP_Factory">
@@ -5193,47 +5193,47 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Activity value="UI/Building"/>
         <InfoArray index="Train2" Time="45">
-            <Button DefaultButtonFace="AP_SiegeTank" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_SiegeTank" State="Restricted" Requirements="AP_UnlockSiegeTank"/>
             <Unit value="AP_SiegeTank"/>
         </InfoArray>
         <InfoArray index="Train5" Time="60">
-            <Button DefaultButtonFace="AP_Thor" State="Restricted" Requirements="AP_HaveArmoryAndAttachedTechLabOrAttachedTechReactor"/>
+            <Button DefaultButtonFace="AP_Thor" State="Restricted" Requirements="AP_UnlockThor"/>
             <Unit value="AP_Thor"/>
         </InfoArray>
         <InfoArray index="Train6" Time="30">
-            <Button DefaultButtonFace="AP_Hellion" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Hellion" State="Restricted" Requirements="AP_MakeHellion"/>
             <Unit value="AP_Hellion"/>
         </InfoArray>
         <InfoArray index="Train7" Time="40">
-            <Button DefaultButtonFace="AP_Goliath" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_Goliath" State="Restricted" Requirements="AP_UnlockGoliath"/>
             <Unit value="AP_Goliath"/>
         </InfoArray>
         <InfoArray index="Train8" Time="50">
-            <Button DefaultButtonFace="AP_Diamondback" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_Diamondback" State="Restricted" Requirements="AP_UnlockDiamondback"/>
             <Unit value="AP_Diamondback"/>
         </InfoArray>
         <InfoArray index="Train9" Time="25">
-            <Button DefaultButtonFace="AP_Vulture" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Vulture" State="Restricted" Requirements="AP_UnlockVulture"/>
             <Unit value="AP_Vulture"/>
         </InfoArray>
         <InfoArray index="Train10" Time="40">
-            <Button DefaultButtonFace="AP_Predator" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_Predator" State="Restricted" Requirements="AP_UnlockPredator"/>
             <Unit value="AP_Predator"/>
         </InfoArray>
         <InfoArray index="Train11" Time="40">
-            <Button DefaultButtonFace="AP_WidowMine" State="Restricted"/>
+            <Button DefaultButtonFace="AP_WidowMine" State="Restricted" Requirements="AP_UnlockWidowMine"/>
             <Unit value="AP_WidowMine"/>
         </InfoArray>
         <InfoArray index="Train12" Time="45">
-            <Button DefaultButtonFace="AP_BuildCyclone" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_BuildCyclone" State="Restricted" Requirements="AP_UnlockCyclone"/>
             <Unit value="AP_Cyclone"/>
         </InfoArray>
         <InfoArray index="Train13" Time="45">
-            <Button DefaultButtonFace="AP_WarHound" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_WarHound" State="Restricted" Requirements="AP_UnlockWarhound"/>
             <Unit value="AP_WarHound"/>
         </InfoArray>
         <InfoArray index="Train14" Time="30">
-            <Button DefaultButtonFace="AP_Hellbat" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Hellbat" State="Restricted" Requirements="AP_HaveHellbatAspect"/>
             <Unit value="AP_HellionTank"/>
         </InfoArray>
     </CAbilTrain>
@@ -5611,7 +5611,7 @@
     </CAbilEffectTarget>
     <CAbilMorph id="AP_MorphToRavager">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_Ravager" Requirements="AP_HaveLairAndRoachWarren"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_Ravager" Requirements="AP_UnlockRavager"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <Flags index="BestUnit" value="1"/>
         <Flags index="Birth" value="1"/>
@@ -5656,7 +5656,7 @@
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_RavagerCocoon"/>
         <InfoArray index="Train1" Time="39" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_Ravager" Requirements="AP_HaveLairAndRoachWarren">
+            <Button DefaultButtonFace="AP_Ravager" Requirements="AP_UnlockRavager">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Ravager"/>
@@ -5679,7 +5679,7 @@
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_ImpalerEgg"/>
         <InfoArray index="Train1" Time="15" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_Impaler" Requirements="AP_HaveImpalerDen">
+            <Button DefaultButtonFace="AP_Impaler" Requirements="AP_UnlockImpaler">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Impaler"/>
@@ -5702,7 +5702,7 @@
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_ImpalerEggMorphling"/>
         <InfoArray index="Train1" Time="40" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_Impaler" Requirements="AP_HaveImpalerDen">
+            <Button DefaultButtonFace="AP_Impaler" Requirements="AP_UnlockImpaler">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Impaler"/>
@@ -5725,7 +5725,7 @@
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_HydraliskLurkerEgg"/>
         <InfoArray index="Train1" Time="15" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_Lurker" Requirements="AP_HaveLurkerDen">
+            <Button DefaultButtonFace="AP_Lurker" Requirements="AP_UnlockLurker">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Lurker"/>
@@ -5748,7 +5748,7 @@
         <Flags index="WaitForFood" value="0"/>
         <MorphUnit value="AP_HydraliskLurkerEggMorphling"/>
         <InfoArray index="Train1" Time="40" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_Lurker" Requirements="AP_HaveLurkerDen">
+            <Button DefaultButtonFace="AP_Lurker" Requirements="AP_UnlockLurker">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Lurker"/>
@@ -6353,7 +6353,7 @@
     </CAbilEffectTarget>
     <CAbilMorph id="AP_MorphToBroodLord">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_HaveGreaterSpire"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_UnlockBroodLord"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <ActorKey value="GuardianAspect"/>
         <Flags index="BestUnit" value="1"/>
@@ -6398,7 +6398,7 @@
         <MorphUnit value="AP_BroodLordCocoon"/>
         <Range value="10"/>
         <InfoArray index="Train1" Time="15" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_HaveGreaterSpireAndHotSBroodlord">
+            <Button DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_UnlockBroodLord">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_BroodLord"/>
@@ -6421,7 +6421,7 @@
         <MorphUnit value="AP_BroodLordCocoon"/>
         <Range value="10"/>
         <InfoArray index="Train1" Time="69" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_HaveGreaterSpireAndHotSBroodlord">
+            <Button DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_UnlockBroodLord">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_BroodLord"/>
@@ -6444,7 +6444,7 @@
         <MorphUnit value="AP_ViperCocoon"/>
         <Range value="10"/>
         <InfoArray index="Train1" Time="15" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_HaveGreaterSpireAndHotSViper">
+            <Button DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_UnlockViper">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Viper"/>
@@ -6467,7 +6467,7 @@
         <MorphUnit value="AP_ViperCocoon"/>
         <Range value="10"/>
         <InfoArray index="Train1" Time="50" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_HaveGreaterSpireAndHotSViper">
+            <Button DefaultButtonFace="BroodLord" State="Restricted" Requirements="AP_UnlockViper">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Viper"/>
@@ -6640,79 +6640,79 @@
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Structures"/>
         <Activity value="UI/Warping"/>
         <InfoArray index="Train1" Time="35" Effect="WarpInEffect15">
-            <Button DefaultButtonFace="AP_PhoenixAiur" State="Restricted"/>
+            <Button DefaultButtonFace="AP_PhoenixAiur" State="Restricted" Requirements="AP_UnlockPhoenix"/>
             <Unit value="AP_PhoenixAiur"/>
         </InfoArray>
         <InfoArray index="Train2" Time="35" Effect="WarpInEffect15">
-            <Button DefaultButtonFace="AP_PhoenixPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_PhoenixPurifier" State="Restricted" Requirements="AP_UnlockMirage"/>
             <Unit value="AP_PhoenixPurifier"/>
         </InfoArray>
         <InfoArray index="Train3" Time="35" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_Corsair" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Corsair" State="Restricted" Requirements="AP_UnlockCorsair"/>
             <Unit value="AP_CorsairMP"/>
         </InfoArray>
         <InfoArray index="Train4" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_VoidRayShakuras" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VoidRayShakuras" State="Restricted" Requirements="AP_UnlockVoidray"/>
             <Unit value="AP_VoidRayShakuras"/>
         </InfoArray>
         <InfoArray index="Train5" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_VoidRayTaldarim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VoidRayTaldarim" State="Restricted" Requirements="AP_UnlockDestroyer"/>
             <Unit value="AP_VoidRayTaldarim"/>
         </InfoArray>
         <InfoArray index="Train6" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_TempestPurifier" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
+            <Button DefaultButtonFace="AP_TempestPurifier" State="Restricted" Requirements="AP_UnlockTempest"/>
             <Unit value="AP_TempestPurifier"/>
         </InfoArray>
         <InfoArray index="Train7" Time="120" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_CarrierAiur" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
+            <Button DefaultButtonFace="AP_CarrierAiur" State="Restricted" Requirements="AP_UnlockCarrier"/>
             <Unit value="AP_CarrierAiur"/>
         </InfoArray>
         <InfoArray index="Train8" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_Arbiter" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Arbiter" State="Restricted" Requirements="AP_UnlockArbiter"/>
             <Unit value="AP_ArbiterMP"/>
         </InfoArray>
         <InfoArray index="Train9" Time="120" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_MothershipTaldarim" State="Restricted" Requirements="AP_MothershipTaldarimRequirements"/>
+            <Button DefaultButtonFace="AP_MothershipTaldarim" State="Restricted" Requirements="AP_UnlockMothershipTaldarim"/>
             <Unit value="AP_SOAMothershipv4"/>
         </InfoArray>
         <InfoArray index="Train10" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_Scout" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Scout" State="Restricted" Requirements="AP_UnlockScout"/>
             <Unit value="AP_ScoutMP"/>
         </InfoArray>
         <InfoArray index="Train11" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_Oracle" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Oracle" State="Restricted" Requirements="AP_UnlockOracle"/>
             <Unit value="AP_Oracle"/>
         </InfoArray>
         <InfoArray index="Train12" Time="50" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_VoidRayAiur" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VoidRayAiur" State="Restricted" Requirements="AP_UnlockPulsar"/>
             <Unit value="AP_VoidRayAiur"/>
         </InfoArray>
         <InfoArray index="Train13" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_VoidRayPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VoidRayPurifier" State="Restricted" Requirements="AP_UnlockDawnbringer"/>
             <Unit value="AP_VoidRayPurifier"/>
         </InfoArray>
         <InfoArray index="Train14" Time="120" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_CarrierTaldarim" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
+            <Button DefaultButtonFace="AP_CarrierTaldarim" State="Restricted" Requirements="AP_UnlockSkylord"/>
             <Unit value="AP_CarrierTaldarim"/>
         </InfoArray>
         <InfoArray index="Train15" Time="120" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_CarrierPurifier" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
+            <Button DefaultButtonFace="AP_CarrierPurifier" State="Restricted" Requirements="AP_UnlockTrireme"/>
             <Unit value="AP_CarrierPurifier"/>
         </InfoArray>
         <InfoArray index="Train16" Time="35" Effect="WarpInEffect15">
-            <Button DefaultButtonFace="AP_PhoenixTaldarim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_PhoenixTaldarim" State="Restricted" Requirements="AP_UnlockSkirmisher"/>
             <Unit value="AP_PhoenixTaldarim"/>
         </InfoArray>
         <InfoArray index="Train17" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_ScoutTaldarim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ScoutTaldarim" State="Restricted" Requirements="AP_UnlockOppressor"/>
             <Unit value="AP_ScoutTaldarim"/>
         </InfoArray>
         <InfoArray index="Train18" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_ScoutPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ScoutPurifier" State="Restricted" Requirements="AP_UnlockCaladrius"/>
             <Unit value="AP_ScoutPurifier"/>
         </InfoArray>
         <InfoArray index="Train19" Time="60" Effect="WarpInEffect">
-            <Button DefaultButtonFace="AP_ScoutNerazim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ScoutNerazim" State="Restricted" Requirements="AP_UnlockMistwing"/>
             <Unit value="AP_ScoutNerazim"/>
         </InfoArray>
     </CAbilTrain>
@@ -6728,7 +6728,7 @@
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_PhoenixAiur" State="Restricted"/>
+            <Button DefaultButtonFace="AP_PhoenixAiur" State="Restricted" Requirements="AP_UnlockPhoenix"/>
         </InfoArray>
         <InfoArray index="Train2" Time="5" Unit="AP_PhoenixPurifier">
             <Charge Location="Unit">
@@ -6740,7 +6740,7 @@
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_PhoenixPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_PhoenixPurifier" State="Restricted" Requirements="AP_UnlockMirage"/>
         </InfoArray>
         <InfoArray index="Train3" Time="5" Unit="AP_CorsairMP">
             <Charge Location="Unit">
@@ -6752,7 +6752,7 @@
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_Corsair" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Corsair" State="Restricted" Requirements="AP_UnlockCorsair"/>
         </InfoArray>
         <InfoArray index="Train4" Time="5" Unit="AP_VoidRayShakuras">
             <Charge Location="Unit">
@@ -6764,7 +6764,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_VoidRayShakuras" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VoidRayShakuras" State="Restricted" Requirements="AP_UnlockVoidray"/>
         </InfoArray>
         <InfoArray index="Train5" Time="5" Unit="AP_VoidRayTaldarim">
             <Charge Location="Unit">
@@ -6776,7 +6776,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_VoidRayTaldarim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VoidRayTaldarim" State="Restricted" Requirements="AP_UnlockDestroyer"/>
         </InfoArray>
         <InfoArray index="Train6" Time="5" Unit="AP_TempestPurifier">
             <Charge Location="Unit">
@@ -6788,7 +6788,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_TempestPurifier" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
+            <Button DefaultButtonFace="AP_TempestPurifier" State="Restricted" Requirements="AP_UnlockTempest"/>
         </InfoArray>
         <InfoArray index="Train7" Time="5" Unit="AP_CarrierAiur">
             <Charge Location="Unit">
@@ -6800,7 +6800,7 @@
                 <TimeUse value="96"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_CarrierAiur" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
+            <Button DefaultButtonFace="AP_CarrierAiur" State="Restricted" Requirements="AP_UnlockCarrier"/>
         </InfoArray>
         <InfoArray index="Train8" Time="5" Unit="AP_ArbiterMP">
             <Charge Location="Unit">
@@ -6812,7 +6812,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_Arbiter" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Arbiter" State="Restricted" Requirements="AP_UnlockArbiter"/>
         </InfoArray>
         <InfoArray index="Train9" Time="5" Unit="AP_SOAMothershipv4Placement">
             <Charge Location="Unit">
@@ -6824,7 +6824,7 @@
                 <TimeUse value="96"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_MothershipTaldarim" State="Restricted" Requirements="AP_MothershipTaldarimRequirements"/>
+            <Button DefaultButtonFace="AP_MothershipTaldarim" State="Restricted" Requirements="AP_UnlockMothershipTaldarim"/>
         </InfoArray>
         <InfoArray index="Train10" Time="5" Unit="AP_ScoutMP">
             <Charge Location="Unit">
@@ -6836,7 +6836,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_Scout" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Scout" State="Restricted" Requirements="AP_UnlockScout"/>
         </InfoArray>
         <InfoArray index="Train11" Time="5" Unit="AP_Oracle">
             <Charge Location="Unit">
@@ -6848,7 +6848,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_Oracle" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Oracle" State="Restricted" Requirements="AP_UnlockOracle"/>
         </InfoArray>
         <InfoArray index="Train12" Time="5" Unit="AP_VoidRayAiur">
             <Charge Location="Unit">
@@ -6860,7 +6860,7 @@
                 <TimeUse value="40"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_VoidRayAiur" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VoidRayAiur" State="Restricted" Requirements="AP_UnlockPulsar"/>
         </InfoArray>
         <InfoArray index="Train13" Time="5" Unit="AP_VoidRayPurifier">
             <Charge Location="Unit">
@@ -6872,7 +6872,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_VoidRayPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VoidRayPurifier" State="Restricted" Requirements="AP_UnlockDawnbringer"/>
         </InfoArray>
         <InfoArray index="Train14" Time="5" Unit="AP_CarrierTaldarim">
             <Charge Location="Unit">
@@ -6884,7 +6884,7 @@
                 <TimeUse value="96"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_CarrierTaldarim" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
+            <Button DefaultButtonFace="AP_CarrierTaldarim" State="Restricted" Requirements="AP_UnlockSkylord"/>
         </InfoArray>
         <InfoArray index="Train15" Time="5" Unit="AP_CarrierPurifier">
             <Charge Location="Unit">
@@ -6896,8 +6896,7 @@
                 <TimeUse value="96"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_CarrierPurifier" State="Restricted" Requirements="AP_HaveFleetBeacon"/>
-        </InfoArray>
+            <Button DefaultButtonFace="AP_CarrierPurifier" State="Restricted" Requirements="AP_UnlockTrireme"/>        </InfoArray>
         <InfoArray index="Train16" Time="5" Unit="AP_PhoenixTaldarim">
             <Charge Location="Unit">
                 <CountMax value="1"/>
@@ -6908,7 +6907,7 @@
                 <TimeUse value="28"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_PhoenixTaldarim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_PhoenixTaldarim" State="Restricted" Requirements="AP_UnlockSkirmisher"/>
         </InfoArray>
         <InfoArray index="Train17" Time="5" Unit="AP_ScoutTaldarim">
             <Charge>
@@ -6921,7 +6920,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ScoutTaldarim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ScoutPurifier" State="Restricted" Requirements="AP_UnlockCaladrius"/>
         </InfoArray>
         <InfoArray index="Train18" Time="5" Unit="AP_ScoutPurifier">
             <Charge>
@@ -6934,7 +6933,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ScoutPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ScoutPurifier" State="Restricted" Requirements="AP_UnlockCaladrius"/>
         </InfoArray>
         <InfoArray index="Train19" Time="5" Unit="AP_ScoutNerazim">
             <Charge>
@@ -6947,7 +6946,7 @@
                 <TimeUse value="48"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ScoutNerazim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ScoutNerazim" State="Restricted" Requirements="AP_UnlockMistwing"/>
         </InfoArray>
     </CAbilWarpTrain>
     <CAbilWarpTrain id="AP_StargateWarpTrainRedirect" parent="AP_StargateWarpTrain"/>
@@ -6978,43 +6977,43 @@
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Structures"/>
         <Activity value="UI/Warping"/>
         <InfoArray index="Train1" Time="50" Effect="WarpInEffect15">
-            <Button DefaultButtonFace="AP_WarpPrism" State="Restricted"/>
+            <Button DefaultButtonFace="AP_WarpPrism" State="Restricted" Requirements="AP_UnlockWarpPrism"/>
             <Unit value="AP_WarpPrism"/>
         </InfoArray>
         <InfoArray index="Train2" Time="30" Effect="WarpInEffect15">
-            <Button DefaultButtonFace="Observer" State="Restricted"/>
+            <Button DefaultButtonFace="Observer" State="Restricted" Requirements="AP_UnlockObserver"/>
             <Unit value="AP_Observer"/>
         </InfoArray>
         <InfoArray index="Train3" Time="75">
-            <Button DefaultButtonFace="AP_ColossusPurifier" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
+            <Button DefaultButtonFace="AP_ColossusPurifier" State="Restricted" Requirements="AP_UnlockColossus"/>
             <Unit value="AP_ColossusPurifier"/>
         </InfoArray>
         <InfoArray index="Train4" Time="55">
-            <Button DefaultButtonFace="AP_ImmortalAiur" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ImmortalAiur" State="Restricted" Requirements="AP_UnlockImmortal"/>
             <Unit value="AP_ImmortalAiur"/>
         </InfoArray>
         <InfoArray index="Train5" Time="75">
-            <Button DefaultButtonFace="AP_ColossusTaldarim" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
+            <Button DefaultButtonFace="AP_ColossusTaldarim" State="Restricted" Requirements="AP_UnlockWrathwalker"/>
             <Unit value="AP_ColossusTaldarim"/>
         </InfoArray>
         <InfoArray index="Train6" Time="55">
-            <Button DefaultButtonFace="AP_ImmortalShakuras" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ImmortalShakuras" State="Restricted" Requirements="AP_UnlockAnnihilator"/>
             <Unit value="AP_ImmortalShakuras"/>
         </InfoArray>
         <InfoArray index="Train7" Time="55">
-            <Button DefaultButtonFace="AP_ImmortalTaldarim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ImmortalTaldarim" State="Restricted" Requirements="AP_UnlockVanguard"/>
             <Unit value="AP_ImmortalTaldarim"/>
         </InfoArray>
         <InfoArray index="Train8" Time="75">
-            <Button DefaultButtonFace="AP_Reaver" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
+            <Button DefaultButtonFace="AP_Reaver" State="Restricted" Requirements="AP_UnlockReaver"/>
             <Unit value="AP_Reaver"/>
         </InfoArray>
         <InfoArray index="Train9" Time="60">
-            <Button DefaultButtonFace="AP_Disruptor" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Disruptor" State="Restricted" Requirements="AP_UnlockDisruptor"/>
             <Unit value="AP_Disruptor"/>
         </InfoArray>
         <InfoArray index="Train10" Time="55">
-            <Button DefaultButtonFace="AP_ImmortalPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ImmortalPurifier" State="Restricted" Requirements="AP_UnlockStalwart"/>
             <Unit value="AP_ImmortalPurifier"/>
         </InfoArray>
     </CAbilTrain>
@@ -7030,7 +7029,7 @@
                 <TimeUse value="40"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_WarpPrism" State="Restricted"/>
+            <Button DefaultButtonFace="AP_WarpPrism" State="Restricted" Requirements="AP_UnlockWarpPrism"/>
         </InfoArray>
         <InfoArray index="Train2" Time="5" Unit="AP_Observer">
             <Charge Location="Unit">
@@ -7042,7 +7041,7 @@
                 <TimeUse value="30"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="Observer" State="Restricted"/>
+            <Button DefaultButtonFace="Observer" State="Restricted" Requirements="AP_UnlockObserver"/>
         </InfoArray>
         <InfoArray index="Train3" Time="5" Unit="AP_ColossusPurifier">
             <Charge Location="Unit">
@@ -7054,7 +7053,7 @@
                 <TimeUse value="60"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ColossusPurifier" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
+            <Button DefaultButtonFace="AP_ColossusPurifier" State="Restricted" Requirements="AP_UnlockColossus"/>
         </InfoArray>
         <InfoArray index="Train4" Time="5" Unit="AP_ImmortalAiur">
             <Charge Location="Unit">
@@ -7066,7 +7065,7 @@
                 <TimeUse value="44"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ImmortalAiur" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ImmortalAiur" State="Restricted" Requirements="AP_UnlockImmortal"/>
         </InfoArray>
         <InfoArray index="Train5" Time="5" Unit="AP_ColossusTaldarim">
             <Charge Location="Unit">
@@ -7078,7 +7077,7 @@
                 <TimeUse value="60"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ColossusTaldarim" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
+            <Button DefaultButtonFace="AP_ColossusTaldarim" State="Restricted" Requirements="AP_UnlockWrathwalker"/>
         </InfoArray>
         <InfoArray index="Train6" Time="5" Unit="AP_ImmortalShakuras">
             <Charge Location="Unit">
@@ -7090,7 +7089,7 @@
                 <TimeUse value="44"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ImmortalShakuras" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ImmortalShakuras" State="Restricted" Requirements="AP_UnlockAnnihilator"/>
         </InfoArray>
         <InfoArray index="Train7" Time="5" Unit="AP_ImmortalTaldarim">
             <Charge Location="Unit">
@@ -7102,7 +7101,7 @@
                 <TimeUse value="44"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ImmortalTaldarim" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ImmortalTaldarim" State="Restricted" Requirements="AP_UnlockVanguard"/>
         </InfoArray>
         <InfoArray index="Train8" Time="5" Unit="AP_Reaver">
             <Charge Location="Unit">
@@ -7114,7 +7113,7 @@
                 <TimeUse value="60"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_Reaver" State="Restricted" Requirements="AP_HaveRoboticsBay"/>
+            <Button DefaultButtonFace="AP_Reaver" State="Restricted" Requirements="AP_UnlockReaver"/>
         </InfoArray>
         <InfoArray index="Train9" Time="5" Unit="AP_Disruptor">
             <Charge Location="Unit">
@@ -7126,7 +7125,7 @@
                 <TimeUse value="45"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_Disruptor" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Disruptor" State="Restricted" Requirements="AP_UnlockDisruptor"/>
         </InfoArray>
         <InfoArray index="Train10" Time="5" Unit="AP_ImmortalPurifier">
             <Charge Location="Unit">
@@ -7138,7 +7137,7 @@
                 <TimeUse value="44"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_ImmortalPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ImmortalPurifier" State="Restricted" Requirements="AP_UnlockStalwart"/>
         </InfoArray>
     </CAbilWarpTrain>
     <CAbilWarpTrain id="AP_RoboticsFacilityWarpTrainRedirect" parent="AP_RoboticsFacilityWarpTrain"/>
@@ -7338,7 +7337,7 @@
         <Flags index="Select" value="1"/>
         <MorphUnit value="AP_BanelingCocoon"/>
         <InfoArray index="Train1" Time="10" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="Baneling" Requirements="AP_HotSHaveBaneling">
+            <Button DefaultButtonFace="Baneling" Requirements="AP_UnlockBaneling">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Baneling"/>
@@ -7360,7 +7359,7 @@
         <Flags index="Select" value="1"/>
         <MorphUnit value="AP_FourBanelingsCocoon"/>
         <InfoArray index="Train1" Time="29" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="Baneling" Requirements="AP_HotSHaveBaneling">
+            <Button DefaultButtonFace="Baneling" Requirements="AP_UnlockBaneling">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_Baneling"/>
@@ -8472,11 +8471,11 @@
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Structures"/>
         <Activity value="UI/Warping"/>
         <InfoArray index="Train1" Time="38">
-            <Button DefaultButtonFace="AP_ZealotAiur" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ZealotAiur" State="Restricted" Requirements="AP_UnlockZealot"/>
             <Unit value="AP_ZealotAiur"/>
         </InfoArray>
         <InfoArray index="Train2" Time="42">
-            <Button DefaultButtonFace="AP_StalkerShakuras" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_StalkerShakuras" State="Restricted" Requirements="AP_UnlockStalker"/>
             <Unit value="AP_StalkerShakuras"/>
         </InfoArray>
         <!--        <InfoArray index="Train3" Time="37">-->
@@ -8484,19 +8483,19 @@
         <!--            <Unit value="Replicant"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Train4" Time="55">
-            <Button DefaultButtonFace="AP_HighTemplarAiur" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
+            <Button DefaultButtonFace="AP_HighTemplarAiur" State="Restricted" Requirements="AP_UnlockHighTemplar"/>
             <Unit value="AP_HighArchonTemplar"/>
         </InfoArray>
         <InfoArray index="Train5" Time="55">
-            <Button DefaultButtonFace="AP_DarkTemplarShakuras" State="Restricted" Requirements="AP_HaveDarkShrine"/>
+            <Button DefaultButtonFace="AP_DarkTemplarShakuras" State="Restricted" Requirements="AP_UnlockDarkTemplar"/>
             <Unit value="AP_DarkTemplarShakuras"/>
         </InfoArray>
         <InfoArray index="Train6" Time="37">
-            <Button DefaultButtonFace="AP_SentryAiur" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_SentryAiur" State="Restricted" Requirements="AP_UnlockSentry"/>
             <Unit value="AP_SentryAiur"/>
         </InfoArray>
         <InfoArray index="Train7" Time="38">
-            <Button DefaultButtonFace="AP_WarpInAdept" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_WarpInAdept" State="Restricted" Requirements="AP_UnlockAdept"/>
             <Unit value="AP_Adept"/>
         </InfoArray>
         <!--        <InfoArray index="Train8" Time="55">-->
@@ -8504,56 +8503,56 @@
         <!--            <Unit value="ArchonAdvanced"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Train9" Time="38">
-            <Button DefaultButtonFace="AP_ZealotPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ZealotPurifier" State="Restricted" Requirements="AP_UnlockSentinel"/>
             <Unit value="AP_ZealotPurifier"/>
         </InfoArray>
         <InfoArray index="Train10" Time="38">
-            <Button DefaultButtonFace="AP_ZealotShakuras" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ZealotShakuras" State="Restricted" Requirements="AP_UnlockCenturion"/>
             <Unit value="AP_ZealotShakuras"/>
         </InfoArray>
         <InfoArray index="Train11" Time="28">
-            <Button DefaultButtonFace="AP_WarpInSupplicant" State="Restricted"/>
+            <Button DefaultButtonFace="AP_WarpInSupplicant" State="Restricted" Requirements="AP_UnlockSupplicant"/>
             <Unit value="AP_Supplicant"/>
             <Unit value="AP_Supplicant"/>
         </InfoArray>
         <InfoArray index="Train12" Time="42">
-            <Button DefaultButtonFace="AP_StalkerPurifier" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_StalkerPurifier" State="Restricted" Requirements="AP_UnlockInstigator"/>
             <Unit value="AP_StalkerPurifier"/>
         </InfoArray>
         <InfoArray index="Train13" Time="42">
-            <Button DefaultButtonFace="AP_Slayer" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_Slayer" State="Restricted" Requirements="AP_UnlockSlayer"/>
             <Unit value="AP_Slayer"/>
         </InfoArray>
         <InfoArray index="Train14" Time="55">
-            <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
+            <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_UnlockSignifier"/>
             <Unit value="AP_HighTemplarShakuras"/>
         </InfoArray>
         <InfoArray index="Train15" Time="55">
-            <Button DefaultButtonFace="AP_HighTemplarTaldarim" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
+            <Button DefaultButtonFace="AP_HighTemplarTaldarim" State="Restricted" Requirements="AP_UnlockAscendant"/>
             <Unit value="AP_HighTemplarTaldarim"/>
         </InfoArray>
         <InfoArray index="Train16" Time="55">
-            <Button DefaultButtonFace="AP_DarkTemplarAiur" State="Restricted" Requirements="AP_HaveDarkShrine"/>
+            <Button DefaultButtonFace="AP_DarkTemplarAiur" State="Restricted" Requirements="AP_UnlockAvenger"/>
             <Unit value="AP_DarkTemplarAiur"/>
         </InfoArray>
         <InfoArray index="Train17" Time="55">
-            <Button DefaultButtonFace="AP_DarkTemplarTaldarim" State="Restricted" Requirements="AP_HaveDarkShrine"/>
+            <Button DefaultButtonFace="AP_DarkTemplarTaldarim" State="Restricted" Requirements="AP_UnlockBloodhunter"/>
             <Unit value="AP_DarkTemplarTaldarim"/>
         </InfoArray>
         <InfoArray index="Train18" Time="42">
-            <Button DefaultButtonFace="AP_Dragoon" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_Dragoon" State="Restricted" Requirements="AP_UnlockDragoon"/>
             <Unit value="AP_Dragoon"/>
         </InfoArray>
         <InfoArray index="Train19" Time="55">
-            <Button DefaultButtonFace="AP_DarkArchon" State="Restricted" Requirements="AP_HaveTemplarArchivesDarkArchon"/>
+            <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_UnlockDarkArchon"/>
             <Unit value="AP_DarkArchon"/>
         </InfoArray>
         <InfoArray index="Train20" Time="37">
-            <Button DefaultButtonFace="AP_SentryPurifier" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_SentryPurifier" State="Restricted" Requirements="AP_UnlockEnergizer"/>
             <Unit value="AP_SentryPurifier"/>
         </InfoArray>
         <InfoArray index="Train21" Time="37">
-            <Button DefaultButtonFace="AP_Monitor" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_Monitor" State="Restricted" Requirements="AP_UnlockHavoc"/>
             <Unit value="AP_Monitor"/>
         </InfoArray>
     </CAbilTrain>
@@ -8604,32 +8603,32 @@
         <!--            <Button DefaultButtonFace="AP_Gateway" State="Restricted" Requirements="AP_HaveNexusAndNotHaveSOAWarpTech"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Build5" Unit="AP_Forge" Time="45">
-            <Button DefaultButtonFace="AP_Forge" Requirements="AP_HaveNexus"/>
+            <Button DefaultButtonFace="AP_Forge" Requirements="AP_UnlockForge"/>
         </InfoArray>
         <InfoArray index="Build6" Unit="AP_FleetBeacon" Time="60">
-            <Button DefaultButtonFace="AP_FleetBeacon" State="Restricted" Requirements="AP_HaveStargate"/>
+            <Button DefaultButtonFace="AP_FleetBeacon" State="Restricted" Requirements="AP_UnlockFleetBeacon"/>
         </InfoArray>
         <InfoArray index="Build8" Unit="AP_PhotonCannon" Time="40">
-            <Button DefaultButtonFace="AP_PhotonCannon" State="Restricted" Requirements="AP_HaveForge"/>
+            <Button DefaultButtonFace="AP_PhotonCannon" State="Restricted" Requirements="AP_UnlockPhotonCannon"/>
         </InfoArray>
         <InfoArray index="Build9" Time="25"/>
         <InfoArray index="Build10" Unit="AP_Stargate" Time="60">
-            <Button DefaultButtonFace="AP_Stargate" State="Restricted" Requirements="AP_HaveNexus"/>
+            <Button DefaultButtonFace="AP_Stargate" State="Restricted" Requirements="AP_UnlockStargate"/>
         </InfoArray>
         <InfoArray index="Build11" Unit="AP_TemplarArchive" Time="50">
-            <Button DefaultButtonFace="AP_TemplarArchive" State="Restricted" Requirements="AP_HaveGateway"/>
+            <Button DefaultButtonFace="AP_TemplarArchive" State="Restricted" Requirements="AP_UnlockTemplarArchives"/>
         </InfoArray>
         <InfoArray index="Build12" Unit="AP_DarkShrine" Time="50">
-            <Button DefaultButtonFace="AP_DarkShrine" State="Restricted" Requirements="AP_HaveGateway"/>
+            <Button DefaultButtonFace="AP_DarkShrine" State="Restricted" Requirements="AP_UnlockDarkShrine"/>
         </InfoArray>
         <InfoArray index="Build13" Unit="AP_RoboticsBay" Time="65">
-            <Button DefaultButtonFace="AP_RoboticsBay" State="Restricted" Requirements="AP_HaveRoboticsFa"/>
+            <Button DefaultButtonFace="AP_RoboticsBay" State="Restricted" Requirements="AP_UnlockRoboticsBay"/>
         </InfoArray>
         <InfoArray index="Build14" Unit="AP_RoboticsFacility" Time="65">
-            <Button DefaultButtonFace="AP_RoboticsFacility" State="Restricted" Requirements="AP_HaveNexus"/>
+            <Button DefaultButtonFace="AP_RoboticsFacility" State="Restricted" Requirements="AP_UnlockRoboticsFacility"/>
         </InfoArray>
         <InfoArray index="Build15" Unit="AP_CyberneticsCore" Time="50">
-            <Button DefaultButtonFace="AP_CyberneticsCore" State="Restricted" Requirements="AP_HaveGatewayOrStargate"/>
+            <Button DefaultButtonFace="AP_CyberneticsCore" State="Restricted" Requirements="AP_UnlockCyberneticsCore"/>
         </InfoArray>
         <!--        <InfoArray index="Build20" Unit="PsionicAmplifier" Time="40">-->
         <!--            <Button DefaultButtonFace="PsionicAmplifier" State="Restricted"/>-->
@@ -8638,7 +8637,7 @@
         <!--            <Button DefaultButtonFace="VoidPylon"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Build22" Unit="AP_ShieldBattery" Time="30">
-            <Button DefaultButtonFace="AP_ShieldBattery" Requirements="AP_HaveNexus"/>
+            <Button DefaultButtonFace="AP_ShieldBattery" Requirements="AP_UnlockShieldBattery"/>
         </InfoArray>
         <!--        <InfoArray index="Build23" Unit="SoACaster" Time="40">-->
         <!--            <Button DefaultButtonFace="WarpinSoACaster" Requirements="NoSoACaster"/>-->
@@ -8647,10 +8646,10 @@
             <Button DefaultButtonFace="AP_AutomatedAssimilator" Requirements="AP_HaveSOAAutoAssimilator"/>
         </InfoArray>
         <InfoArray index="Build25" Unit="AP_KhaydarinMonolith" Time="80">
-            <Button DefaultButtonFace="AP_KhaydarinMonolith" State="Restricted" Requirements="AP_HaveForge"/>
+            <Button DefaultButtonFace="AP_KhaydarinMonolith" State="Restricted" Requirements="AP_UnlockKhaydarinMonolith"/>
         </InfoArray>
         <InfoArray index="Build26" Unit="AP_WarpGate" Time="65">
-            <Button DefaultButtonFace="AP_WarpInWarpGate" State="Restricted" Requirements="AP_HaveNexus"/>
+            <Button DefaultButtonFace="AP_WarpInWarpGate" State="Restricted" Requirements="AP_UnlockGateway"/>
         </InfoArray>
         <InfoArray index="Build27" Unit="AP_StargateWarp" Time="60">
             <Button DefaultButtonFace="AP_WarpInStarWarpGate" State="Restricted" Requirements="AP_CanBuildWarpStargate"/>
@@ -8693,7 +8692,7 @@
             <Unit value=""/>
         </InfoArray>
         <InfoArray index="Train2" Time="24">
-            <Button DefaultButtonFace="AP_Zergling" Requirements="AP_HaveSpawningPool"/>
+            <Button DefaultButtonFace="AP_Zergling" Requirements="AP_UnlockZergling"/>
             <Unit value="AP_Zergling"/>
             <Unit value="AP_Zergling"/>
         </InfoArray>
@@ -8702,15 +8701,15 @@
             <Unit value="AP_Overlord"/>
         </InfoArray>
         <InfoArray index="Train4" Time="33">
-            <Button DefaultButtonFace="AP_Hydralisk" Requirements="AP_HaveHydraliskDen"/>
+            <Button DefaultButtonFace="AP_Hydralisk" Requirements="AP_UnlockHydralisk"/>
             <Unit value="AP_Hydralisk"/>
         </InfoArray>
         <InfoArray index="Train5" Time="33">
-            <Button DefaultButtonFace="AP_Mutalisk" Requirements="AP_HaveSpire"/>
+            <Button DefaultButtonFace="AP_Mutalisk" Requirements="AP_UnlockMutalisk"/>
             <Unit value="AP_Mutalisk"/>
         </InfoArray>
         <InfoArray index="Train7" Time="70">
-            <Button DefaultButtonFace="AP_Ultralisk" Requirements="AP_HaveUltraliskCavern"/>
+            <Button DefaultButtonFace="AP_Ultralisk" Requirements="AP_UnlockUltralisk"/>
             <Unit value="AP_Ultralisk"/>
         </InfoArray>
         <!--        <InfoArray index="Train8" Time="35">-->
@@ -8718,35 +8717,35 @@
         <!--            <Unit value="AP_Baneling"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Train10" Time="27">
-            <Button DefaultButtonFace="AP_Roach" Requirements="AP_HaveRoachWarren"/>
+            <Button DefaultButtonFace="AP_Roach" Requirements="AP_UnlockRoach"/>
             <Unit value="AP_Roach"/>
         </InfoArray>
         <InfoArray index="Train11" Time="50">
-            <Button DefaultButtonFace="AP_Infestor" Requirements="AP_HaveInfestationPit"/>
+            <Button DefaultButtonFace="AP_Infestor" Requirements="AP_UnlockInfestor"/>
             <Unit value="AP_Infestor"/>
         </InfoArray>
         <InfoArray index="Train12" Time="40">
-            <Button DefaultButtonFace="AP_Corruptor" Requirements="AP_HaveSpire"/>
+            <Button DefaultButtonFace="AP_Corruptor" Requirements="AP_UnlockCorruptor"/>
             <Unit value="AP_Corruptor"/>
         </InfoArray>
         <InfoArray index="Train13" Time="40">
-            <Button DefaultButtonFace="AP_SIQueen" Requirements="AP_HaveSpire"/>
+            <Button DefaultButtonFace="AP_SIQueen" Requirements="AP_UnlockBroodQueen"/>
             <Unit value="AP_SIQueen"/>
         </InfoArray>
         <InfoArray index="Train14" Time="50">
-            <Button DefaultButtonFace="AP_DefilerSCBW" Requirements="AP_HaveInfestationPit"/>
+            <Button DefaultButtonFace="AP_DefilerSCBW" Requirements="AP_UnlockDefiler"/>
             <Unit value="AP_DefilerSCBW"/>
         </InfoArray>
         <InfoArray index="Train15" Time="40">
-            <Button DefaultButtonFace="AP_SwarmHost" Requirements="AP_HaveInfestationPit"/>
+            <Button DefaultButtonFace="AP_SwarmHost" Requirements="AP_UnlockSwarmHost"/>
             <Unit value="AP_SwarmHost"/>
         </InfoArray>
         <InfoArray index="Train16" Time="10">
-            <Button DefaultButtonFace="AP_Morphling" Requirements="AP_MorphlingEnabled"/>
+            <Button DefaultButtonFace="AP_Morphling" Requirements="AP_UnlockMorphling"/>
             <Unit value="AP_Morphling"/>
         </InfoArray>
         <InfoArray index="Train17" Time="24">
-            <Button DefaultButtonFace="AP_Pygalisk" Requirements="AP_HaveSpawningPool"/>
+            <Button DefaultButtonFace="AP_Pygalisk" Requirements="AP_UnlockPygalisk"/>
             <Unit value="AP_Pygalisk"/>
         </InfoArray>
     </CAbilTrain>
@@ -8760,7 +8759,7 @@
         <MorphUnit value="AP_Egg"/>
         <Range value="4"/>
         <InfoArray index="Train1" Time="27">
-            <Button DefaultButtonFace="AP_RoachVile" Requirements="AP_HaveRoachWarrenAndVile"/>
+            <Button DefaultButtonFace="AP_MorphToVile" Requirements="AP_MakeRoachVile"/>
             <Unit value="AP_Roach"/>
         </InfoArray>
         <!--        <InfoArray index="Train3" Time="50">-->
@@ -8772,7 +8771,7 @@
         <!--            <Unit value="Devourer"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Train7" Time="24">
-            <Button DefaultButtonFace="AP_MorphToRaptor" Requirements="AP_HaveSpawningPoolAndRaptor"/>
+            <Button DefaultButtonFace="AP_MorphToRaptor" Requirements="AP_MakeRaptorling"/>
             <Unit value="AP_Zergling"/>
             <Unit value="AP_Zergling"/>
             <Unit value=""/>
@@ -8791,49 +8790,49 @@
         <!--            <Unit value="Lurker"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Train17" Time="60">
-            <Button DefaultButtonFace="AP_HotSTorrasque" Requirements="AP_HaveUltraliskCavernAndTorrasque"/>
+            <Button DefaultButtonFace="AP_HotSTorrasque" Requirements="AP_MakeUltraliskTorrasque"/>
             <Unit value="AP_Ultralisk"/>
         </InfoArray>
         <InfoArray index="Train18" Time="60">
-            <Button DefaultButtonFace="AP_HotSNoxious" Requirements="AP_HaveUltraliskCavernAndNoxious"/>
+            <Button DefaultButtonFace="AP_HotSNoxious" Requirements="AP_MakeUltraliskNoxious"/>
             <Unit value="AP_Ultralisk"/>
         </InfoArray>
         <InfoArray index="Train21" Time="30">
-            <Button DefaultButtonFace="AP_HydraliskImpaler" Requirements="AP_HaveHydraliskDenAndImpaler"/>
+            <Button DefaultButtonFace="AP_HydraliskImpaler" Requirements="AP_MakeHydraliskImpaler"/>
             <Unit value="AP_Hydralisk"/>
         </InfoArray>
         <InfoArray index="Train22" Time="30">
-            <Button DefaultButtonFace="AP_HydraliskLurker" Requirements="AP_HaveHydraliskDenAndLurker"/>
+            <Button DefaultButtonFace="AP_HydraliskLurker" Requirements="AP_MakeHydraliskLurker"/>
             <Unit value="AP_Hydralisk"/>
         </InfoArray>
         <InfoArray index="Train23" Time="27">
-            <Button DefaultButtonFace="AP_MorphToCorpser" Requirements="AP_HaveRoachWarrenAndCorpser"/>
+            <Button DefaultButtonFace="AP_MorphToCorpser" Requirements="AP_MakeRoachCorpser"/>
             <Unit value="AP_Roach"/>
         </InfoArray>
         <InfoArray index="Train24" Time="33">
-            <Button DefaultButtonFace="AP_MutaliskBroodlord" Requirements="AP_HaveSpireAndBroodLord"/>
+            <Button DefaultButtonFace="AP_MutaliskBroodlord" Requirements="AP_MakeMutaliskBroodLord"/>
             <Unit value="AP_Mutalisk"/>
         </InfoArray>
         <InfoArray index="Train25" Time="33">
-            <Button DefaultButtonFace="AP_MutaliskViper" Requirements="AP_HaveSpireAndViper"/>
+            <Button DefaultButtonFace="AP_MutaliskViper" Requirements="AP_MakeMutaliskViper"/>
             <Unit value="AP_Mutalisk"/>
         </InfoArray>
         <InfoArray index="Train26" Time="40">
-            <Button DefaultButtonFace="AP_SwarmHostSplitA" Requirements="AP_HaveInfestationPitAndCarrion"/>
+            <Button DefaultButtonFace="AP_SwarmHostSplitA" Requirements="AP_MakeSwarmHostCarrion"/>
             <Unit value="AP_SwarmHost"/>
         </InfoArray>
         <InfoArray index="Train27" Time="40">
-            <Button DefaultButtonFace="AP_SwarmHostSplitB" Requirements="AP_HaveInfestationPitAndCreeper"/>
+            <Button DefaultButtonFace="AP_SwarmHostSplitB" Requirements="AP_MakeSwarmHostCreeper"/>
             <Unit value="AP_SwarmHost"/>
         </InfoArray>
         <InfoArray index="Train28" Time="30">
-            <Button DefaultButtonFace="AP_InfestedAbomination" Requirements="AP_HaveLairAndEvolutionChamber"/>
+            <Button DefaultButtonFace="AP_InfestedAbomination" Requirements="AP_UnlockAberration"/>
             <Unit value="AP_InfestedAbomination"/>
         </InfoArray>
         <InfoArray index="Train30" Time="30">
             <Resource index="Minerals" value="25"/>
             <Resource index="Vespene" value="75"/>
-            <Button DefaultButtonFace="AP_Scourge" Requirements="AP_HaveSpire"/>
+            <Button DefaultButtonFace="AP_Scourge" Requirements="AP_UnlockScourge"/>
             <Unit value="AP_Scourge"/>
             <Unit value="AP_Scourge"/>
             <Unit value=""/>
@@ -8851,14 +8850,14 @@
         <Range value="4"/>
         <InfoArray index="Train1" Time="2.4">
             <Resource index="Minerals" value="50"/>
-            <Button DefaultButtonFace="AP_MorphToSwarmling" State="Restricted" Requirements="AP_HaveSpawningPoolAndSwarmling"/>
+            <Button DefaultButtonFace="AP_MorphToSwarmling" State="Restricted" Requirements="AP_MakeSwarmling"/>
             <Unit value="AP_Zergling"/>
             <Unit value="AP_Zergling"/>
             <Unit value="AP_Zergling"/>
         </InfoArray>
         <InfoArray index="Train2" Time="2.4">
             <Resource index="Minerals" value="50"/>
-            <Button DefaultButtonFace="AP_MorphToRaptor" State="Restricted" Requirements="AP_HaveSpawningPoolAndRaptorSwarmling"/>
+            <Button DefaultButtonFace="AP_MorphToRaptor" State="Restricted" Requirements="AP_MakeRaptorSwarmling"/>
             <Unit value="AP_Zergling"/>
             <Unit value="AP_Zergling"/>
             <Unit value="AP_Zergling"/>
@@ -9720,25 +9719,25 @@
         <!--            <ValidatorArray value="HasVespene"/>-->
         <!--        </InfoArray>-->
                 <InfoArray index="Build4" Unit="AP_SIBarracks" Time="60">
-                    <Button DefaultButtonFace="AP_SIBarracks"/>
+                    <Button DefaultButtonFace="AP_SIBarracks" Requirements="AP_UnlockInfestedBarracks"/>
                 </InfoArray>
         <!--        <InfoArray index="Build5" Unit="SIEngineeringBay" Time="35">-->
         <!--            <Button DefaultButtonFace="SIEngineeringBay" Requirements="HaveSICommandCenter"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Build6" Unit="AP_SIMissileTurret" Time="25">
-            <Button DefaultButtonFace="AP_SIMissileTurret" Requirements="AP_HaveSIBarracks"/>
+            <Button DefaultButtonFace="AP_SIMissileTurret" Requirements="AP_UnlockInfestedMissileTurret"/>
         </InfoArray>
         <InfoArray index="Build11" Unit="AP_SIFactory" Time="60">
-            <Button DefaultButtonFace="AP_SIFactory"/>
+            <Button DefaultButtonFace="AP_SIFactory" Requirements="AP_UnlockInfestedFactory"/>
         </InfoArray>
         <InfoArray index="Build12" Unit="AP_SIStarport" Time="50">
-            <Button DefaultButtonFace="AP_SIStarport"/>
+            <Button DefaultButtonFace="AP_SIStarport" Requirements="AP_UnlockInfestedStarport"/>
         </InfoArray>
         <!--        <InfoArray index="Build14" Unit="SIArmory" Time="65">-->
         <!--            <Button DefaultButtonFace="SIArmory" Requirements="HaveInfestedFactory"/>-->
         <!--        </InfoArray>-->
         <InfoArray index="Build15" Unit="AP_SIInfestedBunker" Time="45">
-            <Button DefaultButtonFace="AP_SIInfestedBunker" Requirements="AP_HaveSIBarracks"/>
+            <Button DefaultButtonFace="AP_SIInfestedBunker" Requirements="AP_UnlockInfestedBunker"/>
         </InfoArray>
         <!--            <Button DefaultButtonFace="AP_SIInfestedBunker" Requirements="HaveInfestedBarracks"/>-->
         <!--        <InfoArray index="Build17" Unit="SICivilianStructure" Time="60">-->
@@ -9780,7 +9779,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown TimeStart="20"/>
-            <Button DefaultButtonFace="AP_SISCV">
+            <Button DefaultButtonFace="AP_SISCV" Requirements="AP_UnlockInfestedSCV">
                 <Flags index="ToSelection" value="1"/>
             </Button>
             <Unit value="AP_SICocoonInfestedSCV"/>
@@ -9821,7 +9820,7 @@
                 <TimeStart value="5"/>
                 <TimeUse value="5"/>
             </Charge>
-            <Button DefaultButtonFace="AP_SIInfestedMarine"/>
+            <Button DefaultButtonFace="AP_SIInfestedMarine" Requirements="AP_UnlockInfestedMarine"/>
             <Unit value="AP_SICocoonInfestedMarine"/>
             <Flags index="InheritRally" value="1"/>
         </InfoArray>
@@ -9938,43 +9937,43 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Activity value="UI/Building"/>
         <InfoArray index="Train1" Time="42">
-            <Button DefaultButtonFace="AP_Medivac" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Medivac" State="Restricted" Requirements="AP_UnlockMedivac"/>
             <Unit value="AP_Medivac"/>
         </InfoArray>
         <InfoArray index="Train2" Time="60">
-            <Button DefaultButtonFace="AP_Banshee" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_Banshee" State="Restricted" Requirements="AP_UnlockBanshee"/>
             <Unit value="AP_Banshee"/>
         </InfoArray>
         <InfoArray index="Train3" Time="60">
-            <Button DefaultButtonFace="AP_Raven" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_Raven" State="Restricted" Requirements="AP_UnlockRaven"/>
             <Unit value="AP_Raven"/>
         </InfoArray>
         <InfoArray index="Train4" Time="110">
-            <Button DefaultButtonFace="AP_Battlecruiser" State="Restricted" Requirements="AP_HaveAttachedStarportTechLabAndFusionCore"/>
+            <Button DefaultButtonFace="AP_Battlecruiser" State="Restricted" Requirements="AP_UnlockBattlecruiser"/>
             <Unit value="AP_Battlecruiser"/>
         </InfoArray>
         <InfoArray index="Train5" Time="42">
-            <Button DefaultButtonFace="AP_VikingFighter" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VikingFighter" State="Restricted" Requirements="AP_UnlockViking"/>
             <Unit value="AP_VikingFighter"/>
         </InfoArray>
         <InfoArray index="Train6" Time="70">
-            <Button DefaultButtonFace="AP_BuildHercules" State="Restricted" Requirements="AP_HaveAttachedStarportTechLabAndFusionCore"/>
+            <Button DefaultButtonFace="AP_BuildHercules" State="Restricted" Requirements="AP_UnlockHercules"/>
             <Unit value="AP_Hercules"/>
         </InfoArray>
         <InfoArray index="Train7" Time="60">
-            <Button DefaultButtonFace="AP_BuildScienceVessel" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_BuildScienceVessel" State="Restricted" Requirements="AP_UnlockScienceVessel"/>
             <Unit value="AP_ScienceVessel"/>
         </InfoArray>
         <InfoArray index="Train8" Time="50">
-            <Button DefaultButtonFace="AP_Wraith" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_Wraith" State="Restricted" Requirements="AP_UnlockWraith"/>
             <Unit value="AP_Wraith"/>
         </InfoArray>
         <InfoArray index="Train9" Time="60">
-            <Button DefaultButtonFace="AP_Liberator" State="Restricted"/>
+            <Button DefaultButtonFace="AP_Liberator" State="Restricted" Requirements="AP_UnlockLiberator"/>
             <Unit value="AP_Liberator"/>
         </InfoArray>
         <InfoArray index="Train10" Time="42">
-            <Button DefaultButtonFace="AP_ValkyrieSCBW" State="Restricted" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_ValkyrieSCBW" State="Restricted" Requirements="AP_UnlockValkyrie"/>
             <Unit value="AP_ValkyrieSCBW"/>
         </InfoArray>
     </CAbilTrain>
@@ -9995,7 +9994,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireKelmorianMiners" State="Restricted" Requirements="AP_MercCompoundInfantry"/>
+            <Button DefaultButtonFace="AP_HireKelmorianMiners" State="Restricted" Requirements="AP_UnlockWarPigs"/>
             <Unit value="AP_WarPig"/>
             <Unit value="AP_WarPig"/>
             <Unit value="AP_WarPig"/>
@@ -10017,7 +10016,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireDevilDogs" State="Restricted" Requirements="AP_MercCompoundInfantry"/>
+            <Button DefaultButtonFace="AP_HireDevilDogs" State="Restricted" Requirements="AP_UnlockDevilDogs"/>
             <Unit value="AP_DevilDog"/>
             <Unit value="AP_DevilDog"/>
         </InfoArray>
@@ -10036,7 +10035,7 @@
                 <TimeStart value="360"/>
                 <TimeUse value="360"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireSpartanCompany" State="Restricted" Requirements="AP_MercCompoundVehicles"/>
+            <Button DefaultButtonFace="AP_HireSpartanCompany" State="Restricted" Requirements="AP_UnlockSpartanCompany"/>
             <Unit value="AP_SpartanCompany"/>
             <Unit value="AP_SpartanCompany"/>
         </InfoArray>
@@ -10055,7 +10054,7 @@
                 <TimeStart value="360"/>
                 <TimeUse value="360"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireHammerSecurities" State="Restricted" Requirements="AP_MercCompoundInfantry"/>
+            <Button DefaultButtonFace="AP_HireHammerSecurities" State="Restricted" Requirements="AP_UnlockHammerSecurities"/>
             <Unit value="AP_HammerSecurity"/>
             <Unit value="AP_HammerSecurity"/>
         </InfoArray>
@@ -10073,7 +10072,7 @@
                 <TimeStart value="420"/>
                 <TimeUse value="420"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireSiegeBreakers" State="Restricted" Requirements="AP_MercCompoundVehicles"/>
+            <Button DefaultButtonFace="AP_HireSiegeBreakers" State="Restricted" Requirements="AP_UnlockSiegeBreakers"/>
             <Unit value="AP_SiegeBreaker"/>
             <Unit value="AP_SiegeBreaker"/>
         </InfoArray>
@@ -10092,7 +10091,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireHelsAngels" State="Restricted" Requirements="AP_MercCompoundStarships"/>
+            <Button DefaultButtonFace="AP_HireHelsAngels" State="Restricted" Requirements="AP_UnlockHelsAngels"/>
             <Unit value="AP_HelsAngelFighter"/>
             <Unit value="AP_HelsAngelFighter"/>
             <Unit value="AP_HelsAngelFighter"/>
@@ -10111,7 +10110,7 @@
                 <TimeStart value="420"/>
                 <TimeUse value="420"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireDuskWing" State="Restricted" Requirements="AP_MercCompoundStarships"/>
+            <Button DefaultButtonFace="AP_HireDuskWing" State="Restricted" Requirements="AP_UnlockDuskWings"/>
             <Unit value="AP_DuskWing"/>
             <Unit value="AP_DuskWing"/>
         </InfoArray>
@@ -10129,7 +10128,7 @@
                 <TimeStart value="420"/>
                 <TimeUse value="420"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireDukesRevenge" State="Restricted" Requirements="AP_JacksonHighlander"/>
+            <Button DefaultButtonFace="AP_HireDukesRevenge" State="Restricted" Requirements="AP_UnlockJacksonsRevengeHighlander"/>
             <Unit value="AP_DukesRevenge"/>
         </InfoArray>
         <InfoArray index="Train9" Effect="AP_MercGroundDrop">
@@ -10146,7 +10145,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireMercMedic" State="Restricted" Requirements="AP_MercCompoundInfantry"/>
+            <Button DefaultButtonFace="AP_HireMercMedic" State="Restricted" Requirements="AP_UnlockSkibisAngels"/>
             <Unit value="AP_MercMedic"/>
             <Unit value="AP_MercMedic"/>
             <Unit value="AP_MercMedic"/>
@@ -10165,7 +10164,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireMercReaper" State="Restricted" Requirements="AP_MercCompoundInfantry"/>
+            <Button DefaultButtonFace="AP_HireMercReaper" State="Restricted" Requirements="AP_UnlockDeathHeads"/>
             <Unit value="AP_MercReaper"/>
             <Unit value="AP_MercReaper"/>
             <Unit value="AP_MercReaper"/>
@@ -10184,7 +10183,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireMercWraith" State="Restricted" Requirements="AP_MercCompoundStarships"/>
+            <Button DefaultButtonFace="AP_HireMercWraith" State="Restricted" Requirements="AP_UnlockWingedNightmares"/>
             <Unit value="AP_MercWraith"/>
             <Unit value="AP_MercWraith"/>
         </InfoArray>
@@ -10202,7 +10201,7 @@
                 <TimeStart value="360"/>
                 <TimeUse value="360"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireMercLiberator" State="Restricted" Requirements="AP_MercCompoundStarships"/>
+            <Button DefaultButtonFace="AP_HireMercLiberator" State="Restricted" Requirements="AP_UnlockMidnightRiders"/>
             <Unit value="AP_MercLiberator"/>
             <Unit value="AP_MercLiberator"/>
         </InfoArray>
@@ -10220,7 +10219,7 @@
                 <TimeStart value="420"/>
                 <TimeUse value="420"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireBrynhildFighter" State="Restricted" Requirements="AP_MercCompoundStarships"/>
+            <Button DefaultButtonFace="AP_HireBrynhildFighter" State="Restricted" Requirements="AP_UnlockBrynhilds"/>
             <Unit value="AP_BrynhildFighter"/>
             <Unit value="AP_BrynhildFighter"/>
         </InfoArray>
@@ -10238,7 +10237,7 @@
                 <TimeStart value="420"/>
                 <TimeUse value="420"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireMercThor" State="Restricted" Requirements="AP_MercCompoundVehicles"/>
+            <Button DefaultButtonFace="AP_HireMercThor" State="Restricted" Requirements="AP_UnlockJotun"/>
             <Unit value="AP_MercThor"/>
         </InfoArray>
     </CAbilTrain>
@@ -10256,7 +10255,7 @@
     </CAbilEffectTarget>
     <CAbilMorph id="AP_UpgradeToPlanetaryFortress">
         <EditorCategories value="Race:Terran,AbilityorEffectType:MorphsandBurrows"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="PlanetaryFortress" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="PlanetaryFortress" State="Restricted" Requirements="AP_UnlockPlanetaryFortress"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="CancelUpgradeMorph"/>
         <Flags index="BestUnit" value="1"/>
         <Flags index="Birth" value="1"/>
@@ -10299,70 +10298,70 @@
             <ValidatorArray value="HasVespene"/>
         </InfoArray>
         <InfoArray index="Build4" Unit="AP_Barracks" Time="60">
-            <Button DefaultButtonFace="AP_Barracks" State="Restricted" Requirements="HaveCommandCenter"/>
+            <Button DefaultButtonFace="AP_Barracks" State="Restricted" Requirements="AP_UnlockBarracks"/>
         </InfoArray>
         <InfoArray index="Build5" Unit="AP_EngineeringBay" Time="35">
-            <Button DefaultButtonFace="AP_EngineeringBay" State="Restricted" Requirements="HaveCommandCenter"/>
+            <Button DefaultButtonFace="AP_EngineeringBay" State="Restricted" Requirements="AP_UnlockEngineeringBay"/>
         </InfoArray>
         <InfoArray index="Build6" Unit="AP_MissileTurret" Time="25">
-            <Button DefaultButtonFace="AP_MissileTurret" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_MissileTurret" State="Restricted" Requirements="AP_UnlockMissileTurret"/>
         </InfoArray>
         <InfoArray index="Build7" Unit="AP_Bunker" Time="30">
-            <Button DefaultButtonFace="AP_Bunker" State="Restricted" Requirements="AP_HideFortifiedBunker"/>
+            <Button DefaultButtonFace="AP_Bunker" State="Restricted" Requirements="AP_UnlockBunker"/>
         </InfoArray>
         <InfoArray index="Build8" Unit="AP_PsiDisruptor" Time="50">
-            <Button DefaultButtonFace="AP_PsiDisruptor" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_PsiDisruptor" State="Restricted" Requirements="AP_UnlockPsiDisrupter"/>
         </InfoArray>
         <InfoArray index="Build9" Unit="AP_SensorTower" Time="25">
-            <Button DefaultButtonFace="AP_SensorTower" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_SensorTower" State="Restricted" Requirements="AP_UnlockSensorTower"/>
         </InfoArray>
         <InfoArray index="Build10" Unit="AP_GhostAcademy" Time="40">
-            <Button DefaultButtonFace="AP_GhostAcademy" State="Restricted" Requirements="AP_CanBuildShadowOps"/>
+            <Button DefaultButtonFace="AP_GhostAcademy" State="Restricted" Requirements="AP_UnlockShadowOps"/>
         </InfoArray>
         <InfoArray index="Build11" Unit="AP_Factory" Time="60">
-            <Button DefaultButtonFace="AP_Factory" State="Restricted" Requirements="HaveCommandCenter"/>
+            <Button DefaultButtonFace="AP_Factory" State="Restricted" Requirements="AP_UnlockFactory"/>
         </InfoArray>
         <InfoArray index="Build12" Unit="AP_Starport" Time="50">
-            <Button DefaultButtonFace="AP_Starport" State="Restricted" Requirements="HaveCommandCenter"/>
+            <Button DefaultButtonFace="AP_Starport" State="Restricted" Requirements="AP_UnlockStarport"/>
         </InfoArray>
         <InfoArray index="Build13" Unit="AP_MercCompound" Time="50">
-            <Button DefaultButtonFace="AP_MercCompound" State="Restricted" Requirements="HaveCommandCenter"/>
+            <Button DefaultButtonFace="AP_MercCompound" State="Restricted" Requirements="AP_UnlockMercCompound"/>
         </InfoArray>
         <InfoArray index="Build14" Unit="AP_Armory" Time="65">
-            <Button DefaultButtonFace="AP_Armory" State="Restricted" Requirements="AP_HaveFactoryOrStarport"/>
+            <Button DefaultButtonFace="AP_Armory" State="Restricted" Requirements="AP_UnlockArmory"/>
         </InfoArray>
         <InfoArray index="Build16" Unit="AP_FusionCore" Time="80">
-            <Button DefaultButtonFace="AP_FusionCore" State="Restricted" Requirements="HaveStarport"/>
+            <Button DefaultButtonFace="AP_FusionCore" State="Restricted" Requirements="AP_UnlockFusionCore"/>
         </InfoArray>
         <InfoArray index="Build19" Unit="AP_AutomatedRefinery" Time="30">
             <Button DefaultButtonFace="AP_AutomatedRefinery" Requirements="AP_UseAutomatedRefinery"/>
         </InfoArray>
         <InfoArray index="Build20" Unit="AP_PerditionTurret" Time="35">
-            <Button DefaultButtonFace="AP_PerditionTurret" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_PerditionTurret" State="Restricted" Requirements="AP_UnlockPerditionTurret"/>
         </InfoArray>
         <InfoArray index="Build21" Unit="AP_CommandCenter" Time="100">
             <Button DefaultButtonFace="AP_CommandCenterOrbRelay" State="Restricted" Requirements="AP_UseOrbitalRelay"/>
         </InfoArray>
         <InfoArray index="Build22" Unit="AP_HiveMindEmulator" Time="50">
-            <Button DefaultButtonFace="AP_HiveMindEmulator" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_HiveMindEmulator" State="Restricted" Requirements="AP_UnlockHiveMindEmulator"/>
         </InfoArray>
         <InfoArray index="Build23" Unit="AP_Bunker" Time="30">
-            <Button DefaultButtonFace="AP_BunkerFortified" State="Restricted" Requirements="AP_UseFortifiedBunker"/>
+            <Button DefaultButtonFace="AP_BunkerFortified" State="Restricted" Requirements="AP_BuildFortifiedBunker"/>
         </InfoArray>
         <InfoArray index="Build24" Unit="AP_ThorBuild" Time="60">
-            <Button DefaultButtonFace="AP_Thor" State="Restricted" Requirements="AP_BuildThorBySCV"/>
+            <Button DefaultButtonFace="AP_Thor" State="Restricted" Requirements="AP_BuildThor"/>
         </InfoArray>
         <InfoArray index="Build25" Unit="AP_DevastatorTurret" Time="30">
-            <Button DefaultButtonFace="AP_BuildDevastatorTurret" State="Restricted" Requirements="AP_HaveFactory"/>
+            <Button DefaultButtonFace="AP_BuildDevastatorTurret" State="Restricted" Requirements="AP_UnlockDevastatorTurret"/>
         </InfoArray>
         <InfoArray index="Build26" Unit="AP_StarportMengsk" Time="50">
-            <Button DefaultButtonFace="AP_StarportMengsk" State="Restricted" Requirements="HaveCommandCenter"/>
+            <Button DefaultButtonFace="AP_StarportMengsk" State="Restricted" Requirements="AP_UnlockEliteStarport"/>
         </InfoArray>
         <InfoArray index="Build27" Unit="AP_FactoryMengsk" Time="60">
-            <Button DefaultButtonFace="AP_FactoryMengsk" State="Restricted" Requirements="HaveCommandCenter"/>
+            <Button DefaultButtonFace="AP_FactoryMengsk" State="Restricted" Requirements="AP_UnlockEliteFactory"/>
         </InfoArray>
         <InfoArray index="Build28" Unit="AP_BarracksMengsk" Time="60">
-            <Button DefaultButtonFace="AP_BarracksMengsk" State="Restricted" Requirements="HaveCommandCenter"/>
+            <Button DefaultButtonFace="AP_BarracksMengsk" State="Restricted" Requirements="AP_UnlockEliteBarracks"/>
         </InfoArray>
         <InfoArray index="Build29" Unit="AP_TradeStructure" Time="40">
             <Button DefaultButtonFace="AP_TradeStructure" State="Restricted" Requirements="AP_NotHaveTradeStructure"/>
@@ -11527,7 +11526,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="AP_WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_ZealotAiur" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ZealotAiur" State="Restricted" Requirements="AP_UnlockZealot"/>
         </InfoArray>
         <InfoArray index="Train2" Time="5" Unit="AP_StalkerShakuras">
             <Charge Location="Unit">
@@ -11539,7 +11538,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_StalkerShakuras" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_StalkerShakuras" State="Restricted" Requirements="AP_UnlockStalker"/>
         </InfoArray>
         <!-- Warp trains have only 20 slots-->
         <InfoArray index="Train3" Time="5" Unit="AP_Monitor">
@@ -11552,7 +11551,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_Monitor" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_Monitor" State="Restricted" Requirements="AP_UnlockHavoc"/>
         </InfoArray>
         <!--        <InfoArray index="Train3" Time="5" Unit="Replicant">-->
         <!--            <Charge>-->
@@ -11575,7 +11574,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_HighTemplarAiur" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
+            <Button DefaultButtonFace="AP_HighTemplarAiur" State="Restricted" Requirements="AP_UnlockHighTemplar"/>
         </InfoArray>
         <InfoArray index="Train5" Time="5" Unit="AP_DarkTemplarShakuras">
             <Charge Location="Unit">
@@ -11587,7 +11586,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_DarkTemplarShakuras" State="Restricted" Requirements="AP_HaveDarkShrine"/>
+            <Button DefaultButtonFace="AP_DarkTemplarShakuras" State="Restricted" Requirements="AP_UnlockDarkTemplar"/>
         </InfoArray>
         <InfoArray index="Train6" Time="5" Unit="AP_SentryAiur">
             <Charge Location="Unit">
@@ -11599,7 +11598,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_SentryAiur" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_SentryAiur" State="Restricted" Requirements="AP_UnlockSentry"/>
         </InfoArray>
         <InfoArray index="Train7" Time="5" Unit="AP_Adept">
             <Charge Location="Unit">
@@ -11611,7 +11610,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_WarpInAdept" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_WarpInAdept" State="Restricted" Requirements="AP_UnlockAdept"/>
         </InfoArray>
         <InfoArray index="Train9" Time="5" Unit="AP_ZealotPurifier">
             <Charge Location="Unit">
@@ -11624,7 +11623,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_ZealotPurifier" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ZealotPurifier" State="Restricted" Requirements="AP_UnlockSentinel"/>
         </InfoArray>
         <InfoArray index="Train10" Time="5" Unit="AP_ZealotShakuras">
             <Charge Location="Unit">
@@ -11637,7 +11636,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_ZealotShakuras" State="Restricted"/>
+            <Button DefaultButtonFace="AP_ZealotShakuras" State="Restricted" Requirements="AP_UnlockCenturion"/>
         </InfoArray>
         <InfoArray index="Train11" Time="5" Unit="AP_AlarakSupplicantWarpTrainDummy">
             <Charge Location="Unit">
@@ -11649,7 +11648,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_WarpInSupplicant" State="Restricted"/>
+            <Button DefaultButtonFace="AP_WarpInSupplicant" State="Restricted" Requirements="AP_UnlockSupplicant"/>
         </InfoArray>
         <InfoArray index="Train12" Time="5" Unit="AP_StalkerPurifier">
             <Charge Location="Unit">
@@ -11661,7 +11660,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_StalkerPurifier" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_StalkerPurifier" State="Restricted" Requirements="AP_UnlockInstigator"/>
         </InfoArray>
         <InfoArray index="Train13" Time="5" Unit="AP_Slayer">
             <Charge Location="Unit">
@@ -11673,7 +11672,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_Slayer" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_Slayer" State="Restricted" Requirements="AP_UnlockSlayer"/>
         </InfoArray>
         <InfoArray index="Train14" Time="5" Unit="AP_HighTemplarShakuras">
             <Charge Location="Unit">
@@ -11685,7 +11684,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
+            <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_UnlockSignifier"/>
         </InfoArray>
         <InfoArray index="Train15" Time="5" Unit="AP_HighTemplarTaldarim">
             <Charge Location="Unit">
@@ -11697,7 +11696,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_HighTemplarTaldarim" State="Restricted" Requirements="AP_HaveTemplarArchives"/>
+            <Button DefaultButtonFace="AP_HighTemplarTaldarim" State="Restricted" Requirements="AP_UnlockAscendant"/>
         </InfoArray>
         <InfoArray index="Train16" Time="5" Unit="AP_DarkTemplarAiur">
             <Charge Location="Unit">
@@ -11709,7 +11708,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_DarkTemplarAiur" State="Restricted" Requirements="AP_HaveDarkShrine"/>
+            <Button DefaultButtonFace="AP_DarkTemplarAiur" State="Restricted" Requirements="AP_UnlockAvenger"/>
         </InfoArray>
         <InfoArray index="Train17" Time="5" Unit="AP_DarkTemplarTaldarim">
             <Charge Location="Unit">
@@ -11721,7 +11720,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_DarkTemplarTaldarim" State="Restricted" Requirements="AP_HaveDarkShrine"/>
+            <Button DefaultButtonFace="AP_DarkTemplarTaldarim" State="Restricted" Requirements="AP_UnlockBloodhunter"/>
         </InfoArray>
         <InfoArray index="Train18" Time="5" Unit="AP_Dragoon">
             <Charge Location="Unit">
@@ -11733,7 +11732,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_Dragoon" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_Dragoon" State="Restricted" Requirements="AP_UnlockDragoon"/>
         </InfoArray>
         <InfoArray index="Train19" Time="5" Unit="AP_DarkArchon">
             <Charge Location="Unit">
@@ -11745,7 +11744,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_HaveTemplarArchivesDarkArchon"/>
+            <Button DefaultButtonFace="AP_HighTemplarShakuras" State="Restricted" Requirements="AP_UnlockDarkArchon"/>
         </InfoArray>
         <InfoArray index="Train20" Time="5" Unit="AP_SentryPurifier">
             <Charge Location="Unit">
@@ -11757,7 +11756,7 @@
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
             <Cooldown Link="WarpGateTrain" Location="Unit"/>
-            <Button DefaultButtonFace="AP_SentryPurifier" State="Restricted" Requirements="AP_HaveCyberneticsCore"/>
+            <Button DefaultButtonFace="AP_SentryPurifier" State="Restricted" Requirements="AP_UnlockEnergizer"/>
         </InfoArray>
     </CAbilWarpTrain>
     <CAbilWarpTrain id="AP_WarpGateTrainRedirect" parent="AP_WarpGateTrain"/>
@@ -11809,13 +11808,13 @@
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Structures"/>
         <Activity value="UI/Spawning"/>
         <InfoArray index="Train1" Time="30" Effect="AP_QueenBirth">
-            <Button DefaultButtonFace="AP_Queen" Requirements="AP_HaveSpawningPool">
+            <Button DefaultButtonFace="AP_Queen"  Requirements="AP_UnlockSwarmQueen">
                 <Flags index="ToSelection" value="1"/>
             </Button>
             <Unit value="AP_Queen"/>
         </InfoArray>
         <InfoArray index="Train2" Time="40">
-            <Button DefaultButtonFace="AP_HiveQueen" Requirements="AP_HaveHiveQueen">
+            <Button DefaultButtonFace="AP_HiveQueen" Requirements="AP_UnlockHiveQueen">
                 <Flags index="ToSelection" value="1"/>
             </Button>
             <Unit value="AP_HiveQueen"/>
@@ -11823,7 +11822,7 @@
     </CAbilTrain>
     <CAbilMorph id="AP_UpgradeToHive">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Hive"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Hive" Requirements="AP_UnlockHive"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="CancelMutateMorph"/>
         <ActorKey value="HiveUpgrade"/>
         <Flags index="BestUnit" value="1"/>
@@ -11854,7 +11853,7 @@
     </CAbilMorph>
     <CAbilMorph id="AP_UpgradeToLair">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Lair"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Lair" Requirements="AP_UnlockLair"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="CancelMutateMorph"/>
         <ActorKey value="LairUpgrade"/>
         <Flags index="BestUnit" value="1"/>
@@ -11899,38 +11898,38 @@
             <ValidatorArray value="HasVespene"/>
         </InfoArray>
         <InfoArray index="Build4" Unit="AP_SpawningPool" Time="30">
-            <Button DefaultButtonFace="AP_SpawningPool" State="Restricted" Requirements="AP_HaveHatchery"/>
+            <Button DefaultButtonFace="AP_SpawningPool" State="Restricted" Requirements="AP_UnlockSpawningPool"/>
         </InfoArray>
         <InfoArray index="Build5" Unit="AP_EvolutionChamber" Time="40">
-            <Button DefaultButtonFace="AP_EvolutionChamber" State="Restricted" Requirements="AP_HaveHatchery"/>
+            <Button DefaultButtonFace="AP_EvolutionChamber" State="Restricted" Requirements="AP_UnlockEvolutionChamber"/>
         </InfoArray>
         <InfoArray index="Build6" Unit="AP_HydraliskDen" Time="40">
-            <Button DefaultButtonFace="AP_HydraliskDen" State="Restricted" Requirements="AP_HaveLair"/>
+            <Button DefaultButtonFace="AP_HydraliskDen" State="Restricted" Requirements="AP_UnlockHydraliskDen"/>
         </InfoArray>
         <InfoArray index="Build7" Unit="AP_Spire" Time="40">
-            <Button DefaultButtonFace="AP_Spire" State="Restricted" Requirements="AP_HaveLair"/>
+            <Button DefaultButtonFace="AP_Spire" State="Restricted" Requirements="AP_UnlockSpire"/>
         </InfoArray>
         <InfoArray index="Build8" Unit="AP_UltraliskCavern" Time="50">
-            <Button DefaultButtonFace="AP_UltraliskCavern" State="Restricted" Requirements="AP_HaveHive"/>
+            <Button DefaultButtonFace="AP_UltraliskCavern" State="Restricted" Requirements="AP_UnlockUltraliskCavern"/>
         </InfoArray>
         <InfoArray index="Build9" Unit="AP_InfestationPit" Time="40">
-            <Button DefaultButtonFace="AP_InfestationPit" State="Restricted" Requirements="AP_HaveLair"/>
+            <Button DefaultButtonFace="AP_InfestationPit" State="Restricted" Requirements="AP_UnlockInfestationPit"/>
         </InfoArray>
         <InfoArray index="Build10" Unit="AP_NydusNetwork" Time="40">
-            <Button DefaultButtonFace="AP_NydusNetwork" State="Restricted" Requirements="AP_HaveLair"/>
+            <Button DefaultButtonFace="AP_NydusNetwork" State="Restricted" Requirements="AP_UnlockNydusNetwork"/>
         </InfoArray>
         <InfoArray index="Build11" Unit="AP_BanelingNest" Time="30">
-            <Button DefaultButtonFace="AP_BanelingNest" State="Restricted" Requirements="AP_HaveHatchery"/>
+            <Button DefaultButtonFace="AP_BanelingNest" State="Restricted" Requirements="AP_UnlockBanelingNest"/>
         </InfoArray>
         <InfoArray index="Build13" Time="70"/>
         <InfoArray index="Build14" Unit="AP_RoachWarren" Time="40">
-            <Button DefaultButtonFace="AP_RoachWarren" State="Restricted" Requirements="AP_HaveHatchery"/>
+            <Button DefaultButtonFace="AP_RoachWarren" State="Restricted" Requirements="AP_UnlockRoachWarren"/>
         </InfoArray>
         <InfoArray index="Build15" Unit="AP_SpineCrawler" Time="30">
-            <Button DefaultButtonFace="AP_SpineCrawler" State="Restricted" Requirements="AP_HaveSpawningPool"/>
+            <Button DefaultButtonFace="AP_SpineCrawler" State="Restricted" Requirements="AP_UnlockSpineCrawler"/>
         </InfoArray>
         <InfoArray index="Build16" Unit="AP_SporeCrawler" Time="30">
-            <Button DefaultButtonFace="AP_SporeCrawler" State="Restricted" Requirements="AP_HaveEvolutionChamber"/>
+            <Button DefaultButtonFace="AP_SporeCrawler" State="Restricted" Requirements="AP_UnlockSporeCrawler"/>
         </InfoArray>
         <!--        <InfoArray index="Build18" Unit="Virophage" Time="15">-->
         <!--            <Button DefaultButtonFace="MorphToPlaguebringer"/>-->
@@ -11939,13 +11938,13 @@
             <Button DefaultButtonFace="AP_AutomatedExtractor" Requirements="AP_UseAutomatedExtractor"/>
         </InfoArray>
         <InfoArray index="Build20" Unit="AP_BileLauncher" Time="40">
-            <Button DefaultButtonFace="AP_BuildBileLauncher" Requirements="AP_HaveSpawningPool"/>
+            <Button DefaultButtonFace="AP_BuildBileLauncher" Requirements="AP_UnlockBileLauncher"/>
         </InfoArray>
         <!--        <InfoArray index="Build21" Unit="Digester" Time="30">-->
         <!--            <Button DefaultButtonFace="Digester" Requirements="HaveSpawningPool"/>-->
         <!--        </InfoArray>-->
-        <InfoArray index="Build22" Unit="AP_ZergMercenaryCompound" Time="50">
-            <Button DefaultButtonFace="AP_ZergMercenaryCompound" State="Restricted" Requirements="AP_HaveHatchery"/>
+        <InfoArray index="Build22" Unit="AP_ZergMercenaryCompound" Time="50">s
+            <Button DefaultButtonFace="AP_ZergMercenaryCompound" State="Restricted" Requirements="AP_UnlockPredatorNest"/>
         </InfoArray>
         <InfoArray index="Build23" Unit="AP_TradeStructure" Time="40">
             <Button DefaultButtonFace="AP_TradeStructure" State="Restricted" Requirements="AP_NotHaveTradeStructure"/>
@@ -12274,7 +12273,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_InfestedMedic" State="Restricted" Requirements="AP_ZergMercCompoundInfested"/>
+            <Button DefaultButtonFace="AP_InfestedMedic" State="Restricted" Requirements="AP_MakeInfestedMedics"/>
             <Unit value="AP_InfestedMedic"/>
             <Unit value="AP_InfestedMedic"/>
             <Unit value=""/>
@@ -12295,7 +12294,7 @@
                 <TimeStart value="420"/>
                 <TimeUse value="420"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_InfestedSiegeBreaker" State="Restricted" Requirements="AP_ZergMercCompoundInfested"/>
+            <Button DefaultButtonFace="AP_InfestedSiegeBreaker" State="Restricted" Requirements="AP_MakeInfestedSiegeBreakers"/>
             <Unit value="AP_InfestedSiegeBreaker"/>
             <Unit value="AP_InfestedSiegeBreaker"/>
             <Unit value=""/>
@@ -12315,7 +12314,7 @@
                 <TimeStart value="420"/>
                 <TimeUse value="420"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_InfestedDuskWing" State="Restricted" Requirements="AP_ZergMercCompoundInfested"/>
+            <Button DefaultButtonFace="AP_InfestedDuskWing" State="Restricted" Requirements="AP_MakeInfestedDuskWings"/>
             <Unit value="AP_InfestedDuskWing"/>
             <Unit value="AP_InfestedDuskWing"/>
             <Unit value=""/>
@@ -12335,7 +12334,7 @@
                 <TimeStart value="240"/>
                 <TimeUse value="240"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_MercZergling" State="Restricted" Requirements="AP_ZergMercCompoundBroodWar"/>
+            <Button DefaultButtonFace="AP_MercZergling" State="Restricted" Requirements="AP_MakeDevouringOnes"/>
             <Unit value="AP_MercZergling"/>
             <Unit value="AP_MercZergling"/>
             <Unit value="AP_MercZergling"/>
@@ -12368,7 +12367,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_SummonHunterKiller" State="Restricted" Requirements="AP_ZergMercCompoundBroodWar"/>
+            <Button DefaultButtonFace="AP_SummonHunterKiller" State="Restricted" Requirements="AP_MakeHunterKillers"/>
             <Unit value="AP_HunterKiller"/>
             <Unit value="AP_HunterKiller"/>
             <Unit value=""/>
@@ -12390,7 +12389,7 @@
                 <TimeStart value="420"/>
                 <TimeUse value="420"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_MercUltraliskSummon" State="Restricted" Requirements="AP_TorrasqueHighlander"/>
+            <Button DefaultButtonFace="AP_MercUltraliskSummon" State="Restricted" Requirements="AP_MakeWiseOldTorrasque"/>
             <Unit value="AP_MercUltralisk"/>
             <Unit value=""/>
             <Unit value=""/>
@@ -12409,7 +12408,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HunterlingSummon" State="Restricted" Requirements="AP_ZergMercCompoundSC2"/>
+            <Button DefaultButtonFace="AP_HunterlingSummon" State="Restricted" Requirements="AP_MakeHunterlings"/>
             <Unit value="AP_Hunterling"/>
             <Unit value="AP_Hunterling"/>
             <Unit value=""/>
@@ -12429,7 +12428,7 @@
                 <TimeStart value="240"/>
                 <TimeUse value="240"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_SummonYggdrasil" State="Restricted" Requirements="AP_ZergMercCompoundBroodWar"/>
+            <Button DefaultButtonFace="AP_SummonYggdrasil" State="Restricted" Requirements="AP_MakeYggdrasil"/>
             <Unit value="AP_Yggdrasil"/>
             <Unit value=""/>
             <Unit value=""/>
@@ -12445,7 +12444,7 @@
                 <Location value="Player"/>
             </Charge>
             <Cooldown Location="Player" TimeStart="300" TimeUse="300" Link="AP_MercRoachSummon"/>
-            <Button DefaultButtonFace="AP_SummonMercRoach" State="Restricted" Requirements="AP_ZergMercCompoundSC2"/>
+            <Button DefaultButtonFace="AP_SummonMercRoach" State="Restricted" Requirements="AP_MakeCausticHorrors"/>
             <Unit value="AP_MercRoach"/>
             <Unit value="AP_MercRoach"/>
             <Unit value=""/>
@@ -12696,7 +12695,7 @@
         <MorphUnit value="AP_DevourerSCBWEgg"/>
         <Range value="10"/>
         <InfoArray index="Train1" Time="15" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_DevourerSCBW" State="Restricted" Requirements="AP_HaveDevourerAspect">
+            <Button DefaultButtonFace="AP_DevourerSCBW" State="Restricted" Requirements="AP_UnlockDevourer">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_DevourerSCBW"/>
@@ -12719,7 +12718,7 @@
         <MorphUnit value="AP_DevourerSCBWEgg"/>
         <Range value="10"/>
         <InfoArray index="Train1" Time="50" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_DevourerSCBW" State="Restricted" Requirements="AP_HaveDevourerAspect">
+            <Button DefaultButtonFace="AP_DevourerSCBW" State="Restricted" Requirements="AP_UnlockDevourer">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_DevourerSCBW"/>
@@ -12742,7 +12741,7 @@
         <MorphUnit value="AP_GuardianSCBWEgg"/>
         <Range value="10"/>
         <InfoArray index="Train1" Time="15" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_GuardianSCBW" State="Restricted" Requirements="AP_HaveGuardianAspect">
+            <Button DefaultButtonFace="AP_GuardianSCBW" State="Restricted" Requirements="AP_UnlockGuardian">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_GuardianSCBW"/>
@@ -12765,7 +12764,7 @@
         <MorphUnit value="AP_GuardianSCBWEgg"/>
         <Range value="10"/>
         <InfoArray index="Train1" Time="50" Alert="MorphComplete_Zerg">
-            <Button DefaultButtonFace="AP_GuardianSCBW" State="Restricted" Requirements="AP_HaveGuardianAspect">
+            <Button DefaultButtonFace="AP_GuardianSCBW" State="Restricted" Requirements="AP_UnlockGuardian">
                 <Flags index="ShowInGlossary" value="1"/>
             </Button>
             <Unit value="AP_GuardianSCBW"/>
@@ -13187,19 +13186,19 @@
     </CAbilMorph>
     <CAbilMerge id="AP_PrimalIgniterMerge">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="SelectedUnits" DefaultButtonFace="AP_PrimalIgniterMerge" State="Restricted" Requirements="AP_HaveRoachWarren">
+        <CmdButtonArray index="SelectedUnits" DefaultButtonFace="AP_PrimalIgniterMerge" State="Restricted" Requirements="AP_UnlockPrimalIgniter">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_PrimalIgniterMerge" State="Restricted" Requirements="AP_HaveRoachWarren"/>
+        <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_PrimalIgniterMerge" State="Restricted" Requirements="AP_UnlockPrimalIgniter"/>
         <Flags index="IgnoreUnitCost" value="1"/>
         <Info Unit="AP_PrimalIgniter" Time="8"/>
     </CAbilMerge>
     <CAbilMerge id="AP_MorphlingToPrimalIgniterMerge">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="SelectedUnits" DefaultButtonFace="AP_MorphlingToPrimalIgniterMerge" State="Restricted" Requirements="AP_HaveRoachWarren">
+        <CmdButtonArray index="SelectedUnits" DefaultButtonFace="AP_MorphlingToPrimalIgniterMerge" State="Restricted" Requirements="AP_UnlockPrimalIgniter">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_MorphlingToPrimalIgniterMerge" State="Restricted" Requirements="AP_HaveRoachWarren"/>
+        <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_MorphlingToPrimalIgniterMerge" State="Restricted" Requirements="AP_UnlockPrimalIgniter"/>
         <Flags index="IgnoreUnitCost" value="1"/>
         <Info Unit="AP_PrimalIgniter" Time="35">
             <Resource index="Minerals" value="50"/>
@@ -13397,19 +13396,19 @@
     </CAbilEffectTarget>
     <CAbilMerge id="AP_TyrannozorMerge">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="SelectedUnits" DefaultButtonFace="AP_TyrannozorMerge" State="Restricted" Requirements="AP_HaveUltraliskCavern">
+        <CmdButtonArray index="SelectedUnits" DefaultButtonFace="AP_TyrannozorMerge" State="Restricted" Requirements="AP_UnlockTyrannozor">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_TyrannozorMerge" State="Restricted" Requirements="AP_HaveUltraliskCavern"/>
+        <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_TyrannozorMerge" State="Restricted" Requirements="AP_UnlockTyrannozor"/>
         <Flags index="IgnoreUnitCost" value="1"/>
         <Info Unit="AP_Tyrannozor" Time="8"/>
     </CAbilMerge>
     <CAbilMerge id="AP_MorphlingToTyrannozorMerge">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="SelectedUnits" DefaultButtonFace="AP_MorphlingToTyrannozorMerge" State="Restricted" Requirements="AP_HaveTyrannozorSupplyAndUltraliskCavern">
+        <CmdButtonArray index="SelectedUnits" DefaultButtonFace="AP_MorphlingToTyrannozorMerge" State="Restricted" Requirements="AP_UnlockTyrannozor">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_MorphlingToTyrannozorMerge" State="Restricted" Requirements="AP_HaveTyrannozorSupplyAndUltraliskCavern"/>
+        <CmdButtonArray index="WithTarget" DefaultButtonFace="AP_MorphlingToTyrannozorMerge" State="Restricted" Requirements="AP_UnlockTyrannozor"/>
         <Flags index="IgnoreUnitCost" value="0"/>
         <Info Unit="AP_Tyrannozor" Time="78">
             <Resource index="Minerals" value="-100"/>
@@ -13484,7 +13483,7 @@
         <AutoCastCountMin value="1"/>
     </CAbilMorph>
     <CAbilMorph id="AP_MorphlingToTyrannozorMergeDummy">
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MorphlingToTyrannozorMerge"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_UnlockTyrannozor"/>
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
     </CAbilMorph>
     <CAbilEffectInstant id="AP_MercCompoundInfantry">
@@ -13825,23 +13824,23 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Range value="5"/>
         <InfoArray index="Train1" Time="110">
-            <Button DefaultButtonFace="AP_BattlecruiserMengsk" State="Restricted" Requirements="AP_HaveFusionCore"/>
+            <Button DefaultButtonFace="AP_BattlecruiserMengsk" State="Restricted" Requirements="AP_UnlockPrideOfAugustgrad"/>
             <Unit value="AP_BattlecruiserMengsk"/>
         </InfoArray>
         <InfoArray index="Train2" Time="42">
-            <Button DefaultButtonFace="AP_VikingMengskFighter" State="Restricted"/>
+            <Button DefaultButtonFace="AP_VikingMengskFighter" State="Restricted" Requirements="AP_UnlockSkyFury"/>
             <Unit value="AP_VikingMengskFighter"/>
         </InfoArray>
         <InfoArray index="Train3" Time="60">
-            <Button DefaultButtonFace="AP_LiberatorMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_LiberatorMengsk" State="Restricted" Requirements="AP_UnlockEmperorsGuardian"/>
             <Unit value="AP_LiberatorMengsk"/>
         </InfoArray>
         <InfoArray index="Train4" Time="50">
-            <Button DefaultButtonFace="AP_WraithMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_WraithMengsk" State="Restricted" Requirements="AP_UnlockNightHawk"/>
             <Unit value="AP_WraithMengsk"/>
         </InfoArray>
         <InfoArray index="Train5" Time="60">
-            <Button DefaultButtonFace="AP_BansheeMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_BansheeMengsk" State="Restricted" Requirements="AP_UnlockNightWolf"/>
             <Unit value="AP_BansheeMengsk"/>
         </InfoArray>
     </CAbilTrain>
@@ -13849,15 +13848,15 @@
     <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
     <Range value="5"/>
         <InfoArray index="Train1" Time="45">
-            <Button DefaultButtonFace="AP_SiegeTankMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_SiegeTankMengsk" State="Restricted" Requirements="AP_UnlockShockDivision"/>
             <Unit value="AP_SiegeTankMengsk"/>
         </InfoArray>
         <InfoArray index="Train2" Time="60">
-            <Button DefaultButtonFace="AP_ThorMengsk" State="Restricted" Requirements="AP_HaveArmory"/>
+            <Button DefaultButtonFace="AP_ThorMengsk" State="Restricted" Requirements="AP_UnlockBlackhammer"/>
             <Unit value="AP_ThorMengsk"/>
         </InfoArray>
         <InfoArray index="Train3" Time="40">
-            <Button DefaultButtonFace="AP_GoliathMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_GoliathMengsk" State="Restricted" Requirements="AP_UnlockBulwarkCompany"/>
             <Unit value="AP_GoliathMengsk"/>
         </InfoArray>
     </CAbilTrain>
@@ -13874,7 +13873,7 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <BuildMorphAbil value="AP_SIFactoryLiftOff"/>
         <InfoArray index="Build1" Unit="AP_SIFactoryTechLab" Time="25">
-            <Button DefaultButtonFace="AP_BuildSITechLabFactory"/>
+            <Button DefaultButtonFace="AP_BuildSITechLabFactory" Requirements="AP_UnlockInfestedFactoryTechLab"/>
         </InfoArray>
         <Name value="Abil/Name/AP_SIFactoryAddOns"/>
     </CAbilBuild>
@@ -13882,7 +13881,7 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <BuildMorphAbil value="AP_SIStarportLiftOff"/>
         <InfoArray index="Build1" Unit="AP_SIStarportTechLab" Time="25">
-            <Button DefaultButtonFace="AP_BuildSITechLabStarport"/>
+            <Button DefaultButtonFace="AP_BuildSITechLabStarport" Requirements="AP_UnlockInfestedStarportTechLab"/>
         </InfoArray>
         <Name value="Abil/Name/AP_SIStarportAddOns"/>
     </CAbilBuild>
@@ -13927,7 +13926,7 @@
                 <TimeUse value="20"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_TrainInfestedSiegeTank" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_TrainInfestedSiegeTank" Requirements="AP_UnlockInfestedSiegeTank"/>
             <Unit value="AP_SICocoonInfestedSiegeTank"/>
             <Flags index="InheritRally" value="1"/>
         </InfoArray>
@@ -13941,7 +13940,7 @@
                 <TimeUse value="20"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_TrainInfestedDiamondBack"/>
+            <Button DefaultButtonFace="AP_TrainInfestedDiamondBack" Requirements="AP_UnlockInfestedDiamondBack"/>
             <Unit value="AP_SICocoonInfestedDiamondBack"/>
             <Flags index="InheritRally" value="1"/>
         </InfoArray>
@@ -13955,7 +13954,7 @@
                 <TimeUse value="20"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_InfestedBullfrog"/>
+            <Button DefaultButtonFace="AP_InfestedBullfrog" Requirements="AP_UnlockBullfrog"/>
             <Unit value="AP_SICocoonInfestedBullfrog"/>
             <Flags index="InheritRally" value="1"/>
         </InfoArray>
@@ -13975,7 +13974,7 @@
                 <TimeStart value="20"/>
                 <TimeUse value="20"/>
             </Charge>
-            <Button DefaultButtonFace="AP_SIBanshee" Requirements="HaveAttachedTechLab"/>
+            <Button DefaultButtonFace="AP_SIBanshee" Requirements="AP_UnlockInfestedBanshee"/>
             <Unit value="AP_SICocoonInfestedBanshee"/>
             <Flags index="InheritRally" value="1"/>
         </InfoArray>
@@ -13988,7 +13987,7 @@
                 <TimeStart value="20"/>
                 <TimeUse value="20"/>
             </Charge>
-            <Button DefaultButtonFace="AP_SILiberator"/>
+            <Button DefaultButtonFace="AP_SILiberator" Requirements="AP_UnlockInfestedLiberator"/>
             <Unit value="AP_SICocoonInfestedLiberator"/>
             <Flags index="InheritRally" value="1"/>
         </InfoArray>
@@ -14491,19 +14490,19 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Range value="5"/>
         <InfoArray index="Train1" Time="30">
-            <Button DefaultButtonFace="AP_MarauderMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_MarauderMengsk" State="Restricted" Requirements="AP_UnlockAegisGuard"/>
             <Unit value="AP_MarauderMengsk"/>
         </InfoArray>
         <InfoArray index="Train2" Time="40">
-            <Button DefaultButtonFace="AP_GhostMengsk" State="Restricted" Requirements="AP_HaveShadowOps"/>
+            <Button DefaultButtonFace="AP_GhostMengsk" State="Restricted" Requirements="AP_UnlockEmperorsShadow"/>
             <Unit value="AP_GhostMengsk"/>
         </InfoArray>
         <InfoArray index="Train3" Time="25">
-            <Button DefaultButtonFace="AP_MarineMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_MarineMengsk" State="Restricted" Requirements="AP_UnlockSonOfKorhal"/>
             <Unit value="AP_MarineMengsk"/>
         </InfoArray>
         <InfoArray index="Train4" Time="25">
-            <Button DefaultButtonFace="AP_MedicMengsk" State="Restricted"/>
+            <Button DefaultButtonFace="AP_MedicMengsk" State="Restricted" Requirements="AP_UnlockFieldResponseTheta"/>
             <Unit value="AP_MedicMengsk"/>
         </InfoArray>
     </CAbilTrain>
@@ -14661,31 +14660,31 @@
         <FlagArray index="Interruptible" value="1"/>
         <FlagArray index="PeonDisableCollision" value="1"/>
         <InfoArray index="Build6" Unit="AP_MissileTurret" Time="25">
-            <Button DefaultButtonFace="AP_MissileTurret" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_MissileTurret" State="Restricted" Requirements="AP_UnlockMissileTurret"/>
         </InfoArray>
         <InfoArray index="Build7" Unit="AP_Bunker" Time="30">
-            <Button DefaultButtonFace="AP_Bunker" State="Restricted" Requirements="AP_HideFortifiedBunker"/>
+            <Button DefaultButtonFace="AP_Bunker" State="Restricted" Requirements="AP_UnlockBunker"/>
         </InfoArray>
         <InfoArray index="Build8" Unit="AP_PsiDisruptor" Time="50">
-            <Button DefaultButtonFace="AP_PsiDisruptor" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_PsiDisruptor" State="Restricted" Requirements="AP_UnlockPsiDisrupter"/>
         </InfoArray>
         <InfoArray index="Build9" Unit="AP_SensorTower" Time="25">
-            <Button DefaultButtonFace="AP_SensorTower" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_SensorTower" State="Restricted" Requirements="AP_UnlockSensorTower"/>
         </InfoArray>
         <InfoArray index="Build20" Unit="AP_PerditionTurret" Time="35">
-            <Button DefaultButtonFace="AP_PerditionTurret" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_PerditionTurret" State="Restricted" Requirements="AP_UnlockPerditionTurret"/>
         </InfoArray>
         <InfoArray index="Build22" Unit="AP_HiveMindEmulator" Time="50">
-            <Button DefaultButtonFace="AP_HiveMindEmulator" State="Restricted" Requirements="AP_HaveEngineeringBay"/>
+            <Button DefaultButtonFace="AP_HiveMindEmulator" State="Restricted" Requirements="AP_UnlockHiveMindEmulator"/>
         </InfoArray>
         <InfoArray index="Build23" Unit="AP_Bunker" Time="30">
-            <Button DefaultButtonFace="AP_BunkerFortified" State="Restricted" Requirements="AP_UseFortifiedBunker"/>
+            <Button DefaultButtonFace="AP_BunkerFortified" State="Restricted" Requirements="AP_BuildFortifiedBunker"/>
         </InfoArray>
         <InfoArray index="Build24" Unit="AP_ThorBuild" Time="60">
-            <Button DefaultButtonFace="AP_Thor" State="Restricted" Requirements="AP_BuildThorBySCV"/>
+            <Button DefaultButtonFace="AP_Thor" State="Restricted" Requirements="AP_BuildThor"/>
         </InfoArray>
         <InfoArray index="Build25" Unit="AP_DevastatorTurret" Time="30">
-            <Button DefaultButtonFace="AP_BuildDevastatorTurret" State="Restricted" Requirements="AP_HaveFactory"/>
+            <Button DefaultButtonFace="AP_BuildDevastatorTurret" State="Restricted" Requirements="AP_UnlockDevastatorTurret"/>
         </InfoArray>
     </CAbilBuild>
     <CAbilMorph id="AP_TrooperMengskSpecializeAA">

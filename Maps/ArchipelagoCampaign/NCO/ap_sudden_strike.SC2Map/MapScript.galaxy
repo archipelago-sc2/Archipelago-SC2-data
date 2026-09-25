@@ -1150,6 +1150,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gv_aP_Triggers_Option_HeroPresence = 0;
@@ -7689,7 +7690,6 @@ bool gt_VictoryProtossWarpin_Func (bool testConds, bool runActions) {
     PlayerSetState(gv_pLAYER_02_DOMINION6, c_playerStateFoodIgnored, true);
     PlayerSetState(gv_pLAYER_02_DOMINION6, c_playerStateVespeneCostIgnored, true);
     PlayerSetState(gv_pLAYER_02_DOMINION6, c_playerStateMineralCostIgnored, true);
-    libABFE498B_gf_AP_Triggers_Protoss_unlockSlayer(gv_pLAYER_02_DOMINION6);
     for (autoBC7884FB_i = 1; autoBC7884FB_i <= autoBC7884FB_n; autoBC7884FB_i += 1) {
         lv_point = RegionRandomPoint(RegionFromId(42));
         UnitIssueOrder(UnitFromId(262428209), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrainVoid", 19), lv_point), c_orderQueueReplace);

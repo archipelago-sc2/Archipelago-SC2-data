@@ -1421,6 +1421,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         PlayerSetRace(gv_pLAYER_01_USER, "Terr");
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
+        PlayerModifyPropertyInt(gv_pLAYER_07_ZERG_CINE, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 75);
         PlayerModifyPropertyInt(gv_pLAYER_06_PROTOSS_ALLY, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, 50);
     }
     else if (autoB8A51516_val == "Zerg") {
@@ -1499,8 +1500,8 @@ bool gt_Init01Technology_Func (bool testConds, bool runActions) {
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("Blink", 0), true);
     TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("ImmortalOverload", 0), true);
     TechTreeUpgradeAddLevel(gv_pLAYER_01_USER, "ExtendedThermalLance", 1);
-    libABFE498B_gf_AP_Triggers_Terran_unlockHerculesTacticalJump(gv_pLAYER_02_PROTOSS_S01);
-    libABFE498B_gf_AP_Triggers_Zerg_SIPlaguedMunitions(gv_pLAYER_06_PROTOSS_ALLY);
+    TechTreeUpgradeAddLevel(gv_pLAYER_02_PROTOSS_S01, "AP_InternalFusionModuleHercules", 1);
+    TechTreeUpgradeAddLevel(gv_pLAYER_06_PROTOSS_ALLY, "AP_SIMarinePlaguedMunitions", 1);
     CatalogFieldValueSet(c_gameCatalogAbil, "AP_HyperjumpHercules", "Cost[" + IntToString(0) + "].Cooldown.TimeUse", gv_pLAYER_02_PROTOSS_S01, "0");
     return true;
 }
@@ -1514,11 +1515,17 @@ void gt_Init01Technology_Init () {
 // Trigger: Init 02 Players
 //--------------------------------------------------------------------------------------------------
 bool gt_Init02Players_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    playergroup lv_pg;
+
     // Automatic Variable Declarations
     playergroup auto5B36B808_g;
     int auto5B36B808_var;
     playergroup autoEAAEF67C_g;
     int autoEAAEF67C_var;
+
+    // Variable Initialization
+    lv_pg = PlayerGroupEmpty();
 
     // Actions
     if (!runActions) {
@@ -1580,6 +1587,7 @@ bool gt_Init02Players_Func (bool testConds, bool runActions) {
     PlayerSetState(gv_pLAYER_01_USER, c_playerStateFidgetingEnabled, false);
     PlayerSetState(gv_pLAYER_02_PROTOSS_S01, c_playerStateFidgetingEnabled, false);
     libVCMI_gf_PM_DetectionUpgradesApply();
+    PlayerGroupAdd(lib5BD4895D_gv_aP_Core_affectedPlayers, gv_pLAYER_06_PROTOSS_ALLY);
     return true;
 }
 
@@ -7266,17 +7274,17 @@ bool gt_CeremonialBattleWest_Func (bool testConds, bool runActions) {
 
         }
         else {
-            if ((UnitGroupCount(UnitGroupFilter("Zealot", gv_pLAYER_06_PROTOSS_ALLY, gv_conflictGroupProtossWest, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < (lv_zealotAmount - 2))) {
-                UnitIssueOrder(UnitFromId(526), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrain", 0), RegionRandomPoint(RegionFromId(24))), c_orderQueueReplace);
+            if ((UnitGroupCount(UnitGroupFilter("AP_ZealotAiur", gv_pLAYER_06_PROTOSS_ALLY, gv_conflictGroupProtossWest, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < (lv_zealotAmount - 2))) {
+                libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_06_PROTOSS_ALLY, RegionRandomPoint(RegionFromId(24)), false);
                 Wait(0.1, c_timeAI);
-                UnitIssueOrder(UnitFromId(526), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrain", 0), RegionRandomPoint(RegionFromId(24))), c_orderQueueReplace);
+                libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_06_PROTOSS_ALLY, RegionRandomPoint(RegionFromId(24)), false);
                 Wait(0.1, c_timeAI);
-                UnitIssueOrder(UnitFromId(526), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrain", 0), RegionRandomPoint(RegionFromId(24))), c_orderQueueReplace);
+                libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_06_PROTOSS_ALLY, RegionRandomPoint(RegionFromId(24)), false);
                 Wait(0.1, c_timeAI);
             }
 
-            if ((UnitGroupCount(UnitGroupFilter("Dragoon", gv_pLAYER_06_PROTOSS_ALLY, gv_conflictGroupProtossWest, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < lv_dragoonAmount)) {
-                UnitIssueOrder(UnitFromId(526), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrain", 18), RegionRandomPoint(RegionFromId(24))), c_orderQueueReplace);
+            if ((UnitGroupCount(UnitGroupFilter("AP_Dragoon", gv_pLAYER_06_PROTOSS_ALLY, gv_conflictGroupProtossWest, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < lv_dragoonAmount)) {
+                libABFE498B_gf_AP_Triggers_warpInUnit("AP_Dragoon", gv_pLAYER_06_PROTOSS_ALLY, RegionRandomPoint(RegionFromId(24)), false);
                 Wait(0.1, c_timeAI);
             }
 
@@ -7449,17 +7457,17 @@ bool gt_CeremonialBattleEast_Func (bool testConds, bool runActions) {
 
         }
         else {
-            if ((UnitGroupCount(UnitGroupFilter("Zealot", gv_pLAYER_06_PROTOSS_ALLY, gv_conflictGroupProtossEast, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < (lv_zealotAmount - 2))) {
-                UnitIssueOrder(UnitFromId(526), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrain", 0), RegionRandomPoint(RegionFromId(5))), c_orderQueueReplace);
+            if ((UnitGroupCount(UnitGroupFilter("AP_ZealotAiur", gv_pLAYER_06_PROTOSS_ALLY, gv_conflictGroupProtossEast, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < (lv_zealotAmount - 2))) {
+                libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_06_PROTOSS_ALLY, RegionRandomPoint(RegionFromId(5)), false);
                 Wait(0.1, c_timeAI);
-                UnitIssueOrder(UnitFromId(526), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrain", 0), RegionRandomPoint(RegionFromId(5))), c_orderQueueReplace);
+                libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_06_PROTOSS_ALLY, RegionRandomPoint(RegionFromId(5)), false);
                 Wait(0.1, c_timeAI);
-                UnitIssueOrder(UnitFromId(526), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrain", 0), RegionRandomPoint(RegionFromId(5))), c_orderQueueReplace);
+                libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotAiur", gv_pLAYER_06_PROTOSS_ALLY, RegionRandomPoint(RegionFromId(5)), false);
                 Wait(0.1, c_timeAI);
             }
 
-            if ((UnitGroupCount(UnitGroupFilter("Dragoon", gv_pLAYER_06_PROTOSS_ALLY, gv_conflictGroupProtossEast, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < lv_dragoonAmount)) {
-                UnitIssueOrder(UnitFromId(526), OrderTargetingPoint(AbilityCommand("SuperWarpGateTrain", 18), RegionRandomPoint(RegionFromId(5))), c_orderQueueReplace);
+            if ((UnitGroupCount(UnitGroupFilter("AP_Dragoon", gv_pLAYER_06_PROTOSS_ALLY, gv_conflictGroupProtossEast, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < lv_dragoonAmount)) {
+                libABFE498B_gf_AP_Triggers_warpInUnit("AP_Dragoon", gv_pLAYER_06_PROTOSS_ALLY, RegionRandomPoint(RegionFromId(5)), false);
                 Wait(0.1, c_timeAI);
             }
 

@@ -1378,7 +1378,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaJumpSuit(1);
         libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
@@ -2186,7 +2185,13 @@ void gt_Initialization_Init () {
 // Trigger: Init 01 Technology
 //--------------------------------------------------------------------------------------------------
 bool gt_Init01Technology_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_p;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_p = gv_pLAYER_02_REIGEL;
+
     // Actions
     if (!runActions) {
         return true;
@@ -2197,23 +2202,14 @@ bool gt_Init01Technology_Func (bool testConds, bool runActions) {
     libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_06_ZERG, "SwarmQueenVisual", 1);
     libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_07_ZERG, "SwarmQueenVisual", 1);
     libABFE498B_gf_AP_Triggers_giveTerranDefaultTech(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Terran_unlockOrbitalDepots(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Terran_unlockBunker(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Terran_unlockNovaNuke(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Terran_unlockMarine(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Terran_unlockGoliath(gv_pLAYER_02_REIGEL);
     libABFE498B_gf_AP_Triggers_giveZergDefaultTech(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockSpineCrawler(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockZergling(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockRoach(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockHydralisk(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Zerg_unlockMutalisk(gv_pLAYER_02_REIGEL);
     libABFE498B_gf_AP_Triggers_giveProtossDefaultTech(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Protoss_unlockPhotonCannon(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Protoss_unlockCenturion(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Protoss_unlockStalkerShakuras(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Protoss_unlockVoidRayShakuras(gv_pLAYER_02_REIGEL);
-    libABFE498B_gf_AP_Triggers_Protoss_unlockAnnihilator(gv_pLAYER_02_REIGEL);
+    AP_UnlockTerranUnits(lv_p, "2000000081");
+    AP_UnlockZergUnits(lv_p, "84c");
+    AP_UnlockProtossUnits(lv_p, "4000004000482");
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_02_REIGEL, "AP_NovaNuke", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_02_REIGEL, "AP_NovaEnabled", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_02_REIGEL, "AP_UnlockShadowOps", 1);
     libABFE498B_gf_AP_Triggers_giveBuildingSpeed(gv_pLAYER_02_REIGEL, 20);
     libNtve_gf_SetUpgradeLevelForPlayer(1, "AP_NovaVoice4", 1);
     return true;

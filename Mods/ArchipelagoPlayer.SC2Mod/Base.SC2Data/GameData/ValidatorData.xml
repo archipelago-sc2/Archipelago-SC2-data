@@ -2586,17 +2586,6 @@
         <WhichUnit Effect="AP_GrapplePullStartCreatePlaceholder"/>
         <Filters value="-;Self,Player,Ally"/>
     </CValidatorUnitFilters>
-    <CValidatorUnitCompareBehaviorCount id="AP_IsNotVanillaMothershipCorePurifyNexus">
-        <ResultFailed value="Error,Error/MothershipCorePurifyNexus"/>
-        <Compare value="NE"/>
-        <Value value="1"/>
-        <Behavior value="MothershipCorePurifyNexus"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CValidatorCombine id="AP_IsNotMothershipCorePurifyNexus">
-        <Type value="And"/>
-        <CombineArray value="AP_IsNotAPMothershipCorePurifyNexus"/>
-        <CombineArray value="AP_IsNotVanillaMothershipCorePurifyNexus"/>
-    </CValidatorCombine>
     <CValidatorUnitFilters id="AP_NotHiddenYoink">
         <WhichUnit Effect="AP_YoinkLaunchMissile"/>
         <Filters value="-;Hidden"/>
@@ -3419,11 +3408,6 @@
         <Type value="And"/>
         <CombineArray value="AP_NoDarkProtoss"/>
         <CombineArray value="IsNotConstructing"/>
-    </CValidatorCombine>
-    <CValidatorCombine id="AP_IsMothershipCoreAndHasPurifyNexus">
-        <Type value="And"/>
-        <CombineArray value="AP_IsMothershipCore"/>
-        <CombineArray value="AP_HasMothershipCorePurifyNexus"/>
     </CValidatorCombine>
     <CValidatorCombine id="AP_IsMothershipCore">
         <!-- TODO -->
@@ -8893,7 +8877,7 @@
     </CValidatorUnitCompareBehaviorCount>
     <CValidatorPlayerRequirement id="AP_Hellion">
         <Find value="1"/>
-        <Value value="AP_Hellion"/>
+        <Value value="AP_UnlockHellion"/>
     </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_Hellbat">
         <Find value="1"/>

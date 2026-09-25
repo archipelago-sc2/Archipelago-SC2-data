@@ -1,0 +1,566 @@
+// A library for handling AP item unlocks
+include "Libraries/AP_Triggers_UnlockSystem_h"
+
+// Constants
+static const int ITEM_SPACE = 2100;
+static const int OFFSET_TERRAN_UNIT = 0;                                    // In Use: < 70
+static const int OFFSET_TERRAN_ITEM = OFFSET_TERRAN_UNIT + 200;             // < 300
+static const int OFFSET_ZERG_UNIT = OFFSET_TERRAN_ITEM + 500;               // < 50
+static const int OFFSET_ZERG_ITEM = OFFSET_ZERG_UNIT + 200;                 // < 210
+static const int OFFSET_PROTOSS_UNIT = OFFSET_ZERG_ITEM + 500;              // < 60
+static const int OFFSET_PROTOSS_ITEM = OFFSET_PROTOSS_UNIT + 200;           // < 270
+
+static const int PROGRESSIVE_SPACE = 210;
+static const int OFFSET_TERRAN_PROGRESSIVE = 0;                             // < 20
+static const int OFFSET_TERRAN_UPGRADE = OFFSET_TERRAN_PROGRESSIVE + 50;    // < 20
+static const int OFFSET_ZERG_PROGRESSIVE = OFFSET_TERRAN_UPGRADE + 20;      // < 10
+static const int OFFSET_ZERG_UPGRADE = OFFSET_ZERG_PROGRESSIVE + 50;        // < 10
+static const int OFFSET_PROTOSS_PROGRESSIVE = OFFSET_ZERG_UPGRADE + 20;     // < 10
+static const int OFFSET_PROTOSS_UPGRADE = OFFSET_PROTOSS_PROGRESSIVE + 50;  // < 10
+
+// Globals
+static void ItemFuncSignature(int player) {}
+typedef funcref<ItemFuncSignature> AP_ItemFunc;
+struct AP_Item {
+    int Id;
+    string Upgrade;
+    AP_ItemFunc UnlockFunc;
+};
+static AP_Item[ITEM_SPACE] ItemDatabase;
+
+static void ProgressiveFuncSignature(int player, int level) {}
+typedef funcref<ProgressiveFuncSignature> AP_ProgressiveFunc;
+struct AP_Progressive {
+    int Id;
+    string UpgradeLevel1;
+    string UpgradeLevel2;
+    AP_ProgressiveFunc UnlockFunc;
+};
+static AP_Progressive[PROGRESSIVE_SPACE] ProgressiveDatabase;
+
+// We don't expect this to ever change, just hardcode the sizes
+static string[22][5] WAUpgradeDatabase;
+static string[22][2] WAUpgradeSpeedupDatabase;
+
+static unitfilter UnitFilterStandard = UnitFilter(0, 0, (1 << c_targetFilterMissile),
+    (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)));
+
+// Functions
+static void log(string s) {
+    TriggerDebugOutput(1, StringToText("Item Unlock System: " + s), false);
+}
+
+static void RegisterItem(int id, int offset, string upgrade, AP_ItemFunc itemFunc) {
+    int index = id + offset;
+    if (ItemDatabase[index].Id != 0) {
+        log("Warning: Multiple uses of Item index " + IntToString(index));
+    }
+    ItemDatabase[index].Id = id;
+    ItemDatabase[index].Upgrade = upgrade;
+    ItemDatabase[index].UnlockFunc = itemFunc;
+}
+
+void AP_RegisterTerranUnit(int id, string upgrade, AP_ItemFunc itemFunc) {
+    RegisterItem(id, OFFSET_TERRAN_UNIT, upgrade, itemFunc);
+}
+
+void AP_RegisterZergUnit(int id, string upgrade, AP_ItemFunc itemFunc) {
+    RegisterItem(id, OFFSET_ZERG_UNIT, upgrade, itemFunc);
+}
+
+void AP_RegisterProtossUnit(int id, string upgrade, AP_ItemFunc itemFunc) {
+    RegisterItem(id, OFFSET_PROTOSS_UNIT, upgrade, itemFunc);
+}
+
+void AP_RegisterTerranItem(int id, string upgrade) {
+    RegisterItem(id, OFFSET_TERRAN_ITEM, upgrade, null);
+}
+
+void AP_RegisterTerranItemFunc(int id, string upgrade, AP_ItemFunc itemFunc) {
+    RegisterItem(id, OFFSET_TERRAN_ITEM, upgrade, itemFunc);
+}
+
+void AP_RegisterZergItem(int id, string upgrade) {
+    RegisterItem(id, OFFSET_ZERG_ITEM, upgrade, null);
+}
+
+void AP_RegisterZergItemFunc(int id, string upgrade, AP_ItemFunc itemFunc) {
+    RegisterItem(id, OFFSET_ZERG_ITEM, upgrade, itemFunc);
+}
+
+void AP_RegisterProtossItem(int id, string upgrade) {
+    RegisterItem(id, OFFSET_PROTOSS_ITEM, upgrade, null);
+}
+
+void AP_RegisterProtossItemFunc(int id, string upgrade,  AP_ItemFunc itemFunc) {
+    RegisterItem(id, OFFSET_PROTOSS_ITEM, upgrade, itemFunc);
+}
+
+static void RegisterProgressive(int id, int offset, int bits, string upgrade1, string upgrade2, AP_ProgressiveFunc itemFunc) {
+    int index = id/bits + offset;
+    if (ProgressiveDatabase[index].Id != 0) {
+        log("Warning: Multiple uses of Item index " + IntToString(index));
+    }
+    ProgressiveDatabase[index].Id = id;
+    ProgressiveDatabase[index].UpgradeLevel1 = upgrade1;
+    ProgressiveDatabase[index].UpgradeLevel2 = upgrade2;
+    ProgressiveDatabase[index].UnlockFunc = itemFunc;
+}
+
+void AP_RegisterTerranProgressive(int id, string upgrade1, string upgrade2) {
+    // common case of progressive with 2 levels. More levels/upgrades needs to handle it with the function.
+    RegisterProgressive(id, OFFSET_TERRAN_PROGRESSIVE, 2, upgrade1, upgrade2, null);
+}
+
+void AP_RegisterTerranProgressiveFunc(int id, AP_ProgressiveFunc itemFunc) {
+    // most progressives that need a function don't seem to want to set the upgrades
+    RegisterProgressive(id, OFFSET_TERRAN_PROGRESSIVE, 2, null, null, itemFunc);
+}
+
+void AP_RegisterZergProgressive(int id, string upgrade1, string upgrade2) {
+    RegisterProgressive(id, OFFSET_ZERG_PROGRESSIVE, 2, upgrade1, upgrade2, null);
+}
+
+void AP_RegisterZergProgressiveFunc(int id, AP_ProgressiveFunc itemFunc) {
+    RegisterProgressive(id, OFFSET_ZERG_PROGRESSIVE, 2, null, null, itemFunc);
+}
+
+void AP_RegisterProtossProgressive(int id, string upgrade1, string upgrade2) {
+    RegisterProgressive(id, OFFSET_PROTOSS_PROGRESSIVE, 2, upgrade1, upgrade2, null);
+}
+
+void AP_RegisterProtossProgressiveFunc(int id, AP_ProgressiveFunc itemFunc) {
+    RegisterProgressive(id, OFFSET_PROTOSS_PROGRESSIVE, 2, null, null, itemFunc);
+}
+
+void AP_RegisterTerranUpgrade(int id, AP_ProgressiveFunc itemFunc) {
+    RegisterProgressive(id, OFFSET_TERRAN_UPGRADE, 4, null, null, itemFunc);
+}
+
+void AP_RegisterZergUpgrade(int id, AP_ProgressiveFunc itemFunc) {
+    RegisterProgressive(id, OFFSET_ZERG_UPGRADE, 4, null, null, itemFunc);
+}
+
+void AP_RegisterProtossUpgrade(int id, AP_ProgressiveFunc itemFunc) {
+    RegisterProgressive(id, OFFSET_PROTOSS_UPGRADE, 4, null, null, itemFunc);
+}
+
+static void UnlockItem(int player, int index) {
+    // log("unlocking index: " + IntToString(index));
+    if (ItemDatabase[index].Upgrade != null) {
+        // log("upgrade: " + ItemDatabase[index].Upgrade);
+        TechTreeUpgradeAddLevel(player, ItemDatabase[index].Upgrade, 1);
+    }
+    if (ItemDatabase[index].UnlockFunc != null) {
+        ItemDatabase[index].UnlockFunc(player);
+    }
+}
+
+static void UnlockProgressive(int player, int index, int level) {
+    int slot = ProgressiveDatabase[index].Id;
+    // log("unlocking progressive level: " + IntToString(level) + " at slot: " + IntToString(slot));
+    if (level >= 1 && ProgressiveDatabase[index].UpgradeLevel1 != null) {
+        TechTreeUpgradeAddLevel(player, ProgressiveDatabase[index].UpgradeLevel1, 1);
+    }
+    if (level >= 2 && ProgressiveDatabase[index].UpgradeLevel2 != null) {
+        TechTreeUpgradeAddLevel(player, ProgressiveDatabase[index].UpgradeLevel2, 1);
+    }
+    if (ProgressiveDatabase[index].UnlockFunc != null) {
+        ProgressiveDatabase[index].UnlockFunc(player, level);
+    }
+}
+
+static void UnlockItems(int player, int offset, string hexInput) {
+    int length = StringLength(hexInput);
+    int fourBits;
+    int index;
+    int i; int j;
+    if (player <= 0) {
+        player = lib5BD4895D_gf_AP_Core_getUser();
+    }
+    // log("Input: " + hexInput);
+    for (i = length; i > 0; i -= 1) {
+        fourBits = AP_HexDigitToInt(StringSub(hexInput, i, i));
+        // log("four bits " + IntToString(i) + ": " + IntToString(fourBits));
+        if (fourBits <= 0) { continue; }
+        for (j = 0; j < 4; j += 1) {
+            index = (4 * (length - i)) + j + offset;
+            if ((fourBits & 1) == 1) {
+                UnlockItem(player, index);
+            }
+            fourBits = (fourBits >> 1);
+        }
+    }
+}
+
+// Regular progressive items always consume 2 bits (which means their max lvl is 3)
+// anything with higher lvls needs to be handled separately
+static void UnlockProgressives(int player, int offset, string hexInput) {
+    int length = StringLength(hexInput);
+    int fourBits;
+    int level;
+    int index;
+    int i; int j;
+    if (player <= 0) {
+        player = lib5BD4895D_gf_AP_Core_getUser();
+    }
+    // log("Input: " + hexInput);
+    for (i = length; i > 0; i -= 1) {
+        fourBits = AP_HexDigitToInt(StringSub(hexInput, i, i));
+        // log("FourBits: " + IntToString(fourBits));
+        for (j = 0; j < 2; j += 1) {
+            if (fourBits <= 0) { continue; }
+            index = 2 * (length - i) + j;
+            level = fourBits & 3;
+            UnlockProgressive(player, index + offset, level);
+            fourBits = (fourBits >> 2);
+        }
+    }
+}
+
+// W/A upgrades always consume 1 full hex char
+static void UnlockUpgrades(int player, int offset, string hexInput) {
+    int length = StringLength(hexInput);
+    int fourBits;
+    int level;
+    int index;
+    int i;
+    if (player <= 0) {
+        player = lib5BD4895D_gf_AP_Core_getUser();
+    }
+    // log("Upgrades Input: " + hexInput);
+    for (i = length; i > 0; i -= 1) {
+        fourBits = AP_HexDigitToInt(StringSub(hexInput, i, i));
+        // log("FourBits: " + IntToString(fourBits));
+        if (fourBits <= 0) { continue; }
+        index = length - i;
+        UnlockProgressive(player, index + offset, fourBits);
+    }
+}
+
+
+static bool IsUpgradeAuto(int player) {
+    int researchMode = libABFE498B_gv_aP_Triggers_Option_genericUpgradeResearch;
+    if (libABFE498B_gv_aP_Triggers_isBuild) {
+        return researchMode == 2 || researchMode == 3;
+    }
+    else {
+        return researchMode == 1 || researchMode == 3;
+    }
+}
+
+void AP_HandleTerranUpgrade(int player, int level, int index, int modifier) {
+    int i;
+    if (IsUpgradeAuto(player)) {
+        for (i = 0; i < level; i += 1) {
+            TechTreeUpgradeAddLevel(player, WAUpgradeDatabase[index][i], 1);
+        }
+    }
+    else {
+        for (i = 0; i < level; i += 1) {
+            TechTreeUpgradeAllow(player, WAUpgradeDatabase[index][i], true);
+            TechTreeUpgradeAllow(player, WAUpgradeDatabase[index + modifier][i], true);
+        }
+        if (libABFE498B_gv_aP_Triggers_Option_genericUpgradeResearchSpeedup) {
+            for (i = 0; i < level - 3; i += 1) {
+                TechTreeUpgradeAddLevel(player, WAUpgradeSpeedupDatabase[index / 2][i], 1);
+            }
+        }
+    }
+}
+
+void AP_HandleZergUpgrade(int player, int level, int index) {
+    int i;
+    if (level >= 2) {
+        TechTreeUpgradeAddLevel(player, "AP_UnlockLair", 1);
+    }
+    if (level >= 3) {
+        TechTreeUpgradeAddLevel(player, "AP_UnlockHive", 1);
+    }
+    if (IsUpgradeAuto(player)) {
+        for (i = 0; i < level; i += 1) {
+            TechTreeUpgradeAddLevel(player, WAUpgradeDatabase[index + 12][i], 1);
+        }
+    }
+    else {
+        for (i = 0; i < level; i += 1) {
+            TechTreeUpgradeAllow(player, WAUpgradeDatabase[index + 12][i], true);
+        }
+        if (libABFE498B_gv_aP_Triggers_Option_genericUpgradeResearchSpeedup) {
+            for (i = 0; i < level - 3; i += 1) {
+                TechTreeUpgradeAddLevel(player, WAUpgradeSpeedupDatabase[index + 6][i], 1);
+            }
+        }
+    }
+}
+
+void AP_HandleProtossUpgrade(int player, int level, int index) {
+    int i;
+    if (IsUpgradeAuto(player)) {
+        for (i = 0; i < level; i += 1) {
+            TechTreeUpgradeAddLevel(player, WAUpgradeDatabase[index + 17][i], 1);
+        }
+    }
+    else {
+        for (i = 0; i < level; i += 1) {
+            TechTreeUpgradeAllow(player, WAUpgradeDatabase[index + 17][i], true);
+        }
+        if (libABFE498B_gv_aP_Triggers_Option_genericUpgradeResearchSpeedup) {
+            for (i = 0; i < level - 3; i += 1) {
+                TechTreeUpgradeAddLevel(player, WAUpgradeSpeedupDatabase[index + 11][i], 1);
+            }
+        }
+    }
+}
+
+void AP_ClearUpgrades(int player) {
+    int i; int j;
+    for (i = 0; i < 22; i += 1) {
+        for (j = 0; j < 5; j += 1) {
+            TechTreeUpgradeAllow(player, WAUpgradeDatabase[i][j], false);
+        }
+    }
+}
+
+void AP_UnlockTerranUnits(int player, string hexInput) {
+    UnlockItems(player, OFFSET_TERRAN_UNIT, hexInput);
+}
+
+void AP_UnlockZergUnits(int player, string hexInput) {
+    UnlockItems(player, OFFSET_ZERG_UNIT, hexInput);
+}
+
+void AP_UnlockProtossUnits(int player, string hexInput) {
+    UnlockItems(player, OFFSET_PROTOSS_UNIT, hexInput);
+}
+
+void AP_UnlockTerranItems(int player, string hexInput) {
+    UnlockItems(player, OFFSET_TERRAN_ITEM, hexInput);
+}
+
+void AP_UnlockZergItems(int player, string hexInput) {
+    UnlockItems(player, OFFSET_ZERG_ITEM, hexInput);
+}
+
+void AP_UnlockProtossItems(int player, string hexInput) {
+    UnlockItems(player, OFFSET_PROTOSS_ITEM, hexInput);
+}
+
+void AP_UnlockTerranProgressives(int player, string hexInput) {
+    UnlockProgressives(player, OFFSET_TERRAN_PROGRESSIVE, hexInput);
+}
+
+void AP_UnlockZergProgressives(int player, string hexInput) {
+    UnlockProgressives(player, OFFSET_ZERG_PROGRESSIVE, hexInput);
+}
+
+void AP_UnlockProtossProgressives(int player, string hexInput) {
+    UnlockProgressives(player, OFFSET_PROTOSS_PROGRESSIVE, hexInput);
+}
+
+void AP_UnlockTerranUpgrades(int player, string hexInput) {
+    UnlockUpgrades(player, OFFSET_TERRAN_UPGRADE, hexInput);
+}
+
+void AP_UnlockZergUpgrades(int player, string hexInput) {
+    UnlockUpgrades(player, OFFSET_ZERG_UPGRADE, hexInput);
+}
+
+void AP_UnlockProtossUpgrades(int player, string hexInput) {
+    UnlockUpgrades(player, OFFSET_PROTOSS_UPGRADE, hexInput);
+}
+
+void AP_DebugTech(int player, int lvl) {
+    // Unlocks a "standard" AP loadout for single player testing
+    // for a mission of the given difficulty
+    // 0 - very easy, 1 - easy, 2 - medium, 3 - hard, 4 - very hard
+    int i;
+    int step;
+    lvl = MinI(5, MaxI(0, lvl));
+    if (lvl == 0) {
+        AP_UnlockTerranUnits(player,"1");
+        AP_UnlockZergUnits(player,"1");
+        AP_UnlockProtossUnits(player,"1");
+    }
+    if (lvl >= 1) {
+        // lazy implementation. TODO (Snarky): Select a proper loadout for each tech level
+        step = 6 - lvl; // lvl 1: unlock every 5th item. lvl 5: unlock every item
+        for (i = 0; i < ITEM_SPACE; i += step) {
+            UnlockItem(player, i);
+        }
+        for (i = 0; i < PROGRESSIVE_SPACE; i += step) {
+            UnlockProgressive(player, i, lvl);
+        }
+    }
+    for (i = 0; i < 5; i += 1) {
+        AP_HandleTerranUpgrade(player, lvl, i, 0);
+        AP_HandleZergUpgrade(player, lvl, i);
+        AP_HandleProtossUpgrade(player, lvl, i);
+        lib15EF4C78_gf_ZS_ApplyKerriganLevelBonus(player, 10 * lvl);
+    }
+    AP_HandleTerranUpgrade(player, lvl, 6, 0);
+}
+
+static void Setup() {
+    int i;
+    for (i = 0; i < ITEM_SPACE; i += 1) {
+        ItemDatabase[i].Id = 0;
+    }
+    for (i = 0; i < PROGRESSIVE_SPACE; i += 1) {
+        ProgressiveDatabase[i].Id = 0;
+    }
+
+    // Terran Weapon Upgrades
+    WAUpgradeDatabase[0][0] = "AP_TerranInfantryWeaponsLevel1";
+    WAUpgradeDatabase[0][1] = "AP_TerranInfantryWeaponsLevel2";
+    WAUpgradeDatabase[0][2] = "AP_TerranInfantryWeaponsLevel3";
+    WAUpgradeDatabase[0][3] = "AP_TerranInfantryWeaponsLevel4";
+    WAUpgradeDatabase[0][4] = "AP_TerranInfantryWeaponsLevel5";
+    WAUpgradeDatabase[1][0] = "AP_TerranInfantryWeaponsUltraCapacitorsLevel1";
+    WAUpgradeDatabase[1][1] = "AP_TerranInfantryWeaponsUltraCapacitorsLevel2";
+    WAUpgradeDatabase[1][2] = "AP_TerranInfantryWeaponsUltraCapacitorsLevel3";
+    WAUpgradeDatabase[1][3] = "AP_TerranInfantryWeaponsUltraCapacitorsLevel4";
+    WAUpgradeDatabase[1][4] = "AP_TerranInfantryWeaponsUltraCapacitorsLevel5";
+    WAUpgradeDatabase[2][0] = "AP_TerranInfantryArmorsLevel1";
+    WAUpgradeDatabase[2][1] = "AP_TerranInfantryArmorsLevel2";
+    WAUpgradeDatabase[2][2] = "AP_TerranInfantryArmorsLevel3";
+    WAUpgradeDatabase[2][3] = "AP_TerranInfantryArmorsLevel4";
+    WAUpgradeDatabase[2][4] = "AP_TerranInfantryArmorsLevel5";
+    WAUpgradeDatabase[3][0] = "AP_TerranInfantryArmorsVanadiumPlatingLevel1";
+    WAUpgradeDatabase[3][1] = "AP_TerranInfantryArmorsVanadiumPlatingLevel2";
+    WAUpgradeDatabase[3][2] = "AP_TerranInfantryArmorsVanadiumPlatingLevel3";
+    WAUpgradeDatabase[3][3] = "AP_TerranInfantryArmorsVanadiumPlatingLevel4";
+    WAUpgradeDatabase[3][4] = "AP_TerranInfantryArmorsVanadiumPlatingLevel5";
+    WAUpgradeDatabase[4][0] = "AP_TerranVehicleWeaponsLevel1";
+    WAUpgradeDatabase[4][1] = "AP_TerranVehicleWeaponsLevel2";
+    WAUpgradeDatabase[4][2] = "AP_TerranVehicleWeaponsLevel3";
+    WAUpgradeDatabase[4][3] = "AP_TerranVehicleWeaponsLevel4";
+    WAUpgradeDatabase[4][4] = "AP_TerranVehicleWeaponsLevel5";
+    WAUpgradeDatabase[5][0] = "AP_TerranVehicleWeaponsUltraCapacitorsLevel1";
+    WAUpgradeDatabase[5][1] = "AP_TerranVehicleWeaponsUltraCapacitorsLevel2";
+    WAUpgradeDatabase[5][2] = "AP_TerranVehicleWeaponsUltraCapacitorsLevel3";
+    WAUpgradeDatabase[5][3] = "AP_TerranVehicleWeaponsUltraCapacitorsLevel4";
+    WAUpgradeDatabase[5][4] = "AP_TerranVehicleWeaponsUltraCapacitorsLevel5";
+    WAUpgradeDatabase[6][0] = "AP_TerranVehicleArmorsLevel1";
+    WAUpgradeDatabase[6][1] = "AP_TerranVehicleArmorsLevel2";
+    WAUpgradeDatabase[6][2] = "AP_TerranVehicleArmorsLevel3";
+    WAUpgradeDatabase[6][3] = "AP_TerranVehicleArmorsLevel4";
+    WAUpgradeDatabase[6][4] = "AP_TerranVehicleArmorsLevel5";
+    WAUpgradeDatabase[7][0] = "AP_TerranVehicleArmorsVanadiumPlatingLevel1";
+    WAUpgradeDatabase[7][1] = "AP_TerranVehicleArmorsVanadiumPlatingLevel2";
+    WAUpgradeDatabase[7][2] = "AP_TerranVehicleArmorsVanadiumPlatingLevel3";
+    WAUpgradeDatabase[7][3] = "AP_TerranVehicleArmorsVanadiumPlatingLevel4";
+    WAUpgradeDatabase[7][4] = "AP_TerranVehicleArmorsVanadiumPlatingLevel5";
+    WAUpgradeDatabase[8][0] = "AP_TerranShipWeaponsLevel1";
+    WAUpgradeDatabase[8][1] = "AP_TerranShipWeaponsLevel2";
+    WAUpgradeDatabase[8][2] = "AP_TerranShipWeaponsLevel3";
+    WAUpgradeDatabase[8][3] = "AP_TerranShipWeaponsLevel4";
+    WAUpgradeDatabase[8][4] = "AP_TerranShipWeaponsLevel5";
+    WAUpgradeDatabase[9][0] = "AP_TerranShipWeaponsUltraCapacitorsLevel1";
+    WAUpgradeDatabase[9][1] = "AP_TerranShipWeaponsUltraCapacitorsLevel2";
+    WAUpgradeDatabase[9][2] = "AP_TerranShipWeaponsUltraCapacitorsLevel3";
+    WAUpgradeDatabase[9][3] = "AP_TerranShipWeaponsUltraCapacitorsLevel4";
+    WAUpgradeDatabase[9][4] = "AP_TerranShipWeaponsUltraCapacitorsLevel5";
+    WAUpgradeDatabase[10][0] = "AP_TerranShipArmorsLevel1";
+    WAUpgradeDatabase[10][1] = "AP_TerranShipArmorsLevel2";
+    WAUpgradeDatabase[10][2] = "AP_TerranShipArmorsLevel3";
+    WAUpgradeDatabase[10][3] = "AP_TerranShipArmorsLevel4";
+    WAUpgradeDatabase[10][4] = "AP_TerranShipArmorsLevel5";
+    WAUpgradeDatabase[11][0] = "AP_TerranShipArmorsVanadiumPlatingLevel1";
+    WAUpgradeDatabase[11][1] = "AP_TerranShipArmorsVanadiumPlatingLevel2";
+    WAUpgradeDatabase[11][2] = "AP_TerranShipArmorsVanadiumPlatingLevel3";
+    WAUpgradeDatabase[11][3] = "AP_TerranShipArmorsVanadiumPlatingLevel4";
+    WAUpgradeDatabase[11][4] = "AP_TerranShipArmorsVanadiumPlatingLevel5";
+
+    // Zerg Weapon Upgrades
+    WAUpgradeDatabase[12][0] = "AP_ZergMeleeWeaponsLevel1";
+    WAUpgradeDatabase[12][1] = "AP_ZergMeleeWeaponsLevel2";
+    WAUpgradeDatabase[12][2] = "AP_ZergMeleeWeaponsLevel3";
+    WAUpgradeDatabase[12][3] = "AP_ZergMeleeWeaponsLevel4";
+    WAUpgradeDatabase[12][4] = "AP_ZergMeleeWeaponsLevel5";
+    WAUpgradeDatabase[13][0] = "AP_ZergMissileWeaponsLevel1";
+    WAUpgradeDatabase[13][1] = "AP_ZergMissileWeaponsLevel2";
+    WAUpgradeDatabase[13][2] = "AP_ZergMissileWeaponsLevel3";
+    WAUpgradeDatabase[13][3] = "AP_ZergMissileWeaponsLevel4";
+    WAUpgradeDatabase[13][4] = "AP_ZergMissileWeaponsLevel5";
+    WAUpgradeDatabase[14][0] = "AP_ZergGroundArmorsLevel1";
+    WAUpgradeDatabase[14][1] = "AP_ZergGroundArmorsLevel2";
+    WAUpgradeDatabase[14][2] = "AP_ZergGroundArmorsLevel3";
+    WAUpgradeDatabase[14][3] = "AP_ZergGroundArmorsLevel4";
+    WAUpgradeDatabase[14][4] = "AP_ZergGroundArmorsLevel5";
+    WAUpgradeDatabase[15][0] = "AP_ZergFlyerWeaponsLevel1";
+    WAUpgradeDatabase[15][1] = "AP_ZergFlyerWeaponsLevel2";
+    WAUpgradeDatabase[15][2] = "AP_ZergFlyerWeaponsLevel3";
+    WAUpgradeDatabase[15][3] = "AP_ZergFlyerWeaponsLevel4";
+    WAUpgradeDatabase[15][4] = "AP_ZergFlyerWeaponsLevel5";
+    WAUpgradeDatabase[16][0] = "AP_ZergFlyerArmorsLevel1";
+    WAUpgradeDatabase[16][1] = "AP_ZergFlyerArmorsLevel2";
+    WAUpgradeDatabase[16][2] = "AP_ZergFlyerArmorsLevel3";
+    WAUpgradeDatabase[16][3] = "AP_ZergFlyerArmorsLevel4";
+    WAUpgradeDatabase[16][4] = "AP_ZergFlyerArmorsLevel5";
+
+    // Protoss Weapon Upgrades
+    WAUpgradeDatabase[17][0] = "AP_ProtossGroundWeaponsLevel1";
+    WAUpgradeDatabase[17][1] = "AP_ProtossGroundWeaponsLevel2";
+    WAUpgradeDatabase[17][2] = "AP_ProtossGroundWeaponsLevel3";
+    WAUpgradeDatabase[17][3] = "AP_ProtossGroundWeaponsLevel4";
+    WAUpgradeDatabase[17][4] = "AP_ProtossGroundWeaponsLevel5";
+    WAUpgradeDatabase[18][0] = "AP_ProtossGroundArmorsLevel1";
+    WAUpgradeDatabase[18][1] = "AP_ProtossGroundArmorsLevel2";
+    WAUpgradeDatabase[18][2] = "AP_ProtossGroundArmorsLevel3";
+    WAUpgradeDatabase[18][3] = "AP_ProtossGroundArmorsLevel4";
+    WAUpgradeDatabase[18][4] = "AP_ProtossGroundArmorsLevel5";
+    WAUpgradeDatabase[19][0] = "AP_ProtossAirWeaponsLevel1";
+    WAUpgradeDatabase[19][1] = "AP_ProtossAirWeaponsLevel2";
+    WAUpgradeDatabase[19][2] = "AP_ProtossAirWeaponsLevel3";
+    WAUpgradeDatabase[19][3] = "AP_ProtossAirWeaponsLevel4";
+    WAUpgradeDatabase[19][4] = "AP_ProtossAirWeaponsLevel5";
+    WAUpgradeDatabase[20][0] = "AP_ProtossAirArmorsLevel1";
+    WAUpgradeDatabase[20][1] = "AP_ProtossAirArmorsLevel2";
+    WAUpgradeDatabase[20][2] = "AP_ProtossAirArmorsLevel3";
+    WAUpgradeDatabase[20][3] = "AP_ProtossAirArmorsLevel4";
+    WAUpgradeDatabase[20][4] = "AP_ProtossAirArmorsLevel5";
+    WAUpgradeDatabase[21][0] = "AP_ProtossShieldsLevel1";
+    WAUpgradeDatabase[21][1] = "AP_ProtossShieldsLevel2";
+    WAUpgradeDatabase[21][2] = "AP_ProtossShieldsLevel3";
+    WAUpgradeDatabase[21][3] = "AP_ProtossShieldsLevel4";
+    WAUpgradeDatabase[21][4] = "AP_ProtossShieldsLevel5";
+
+    // Upgrade Speedups
+    WAUpgradeSpeedupDatabase[0][0] = "AP_TerranInfantryWeaponTimeReductionL4";
+    WAUpgradeSpeedupDatabase[0][1] = "AP_TerranInfantryWeaponTimeReductionL5";
+    WAUpgradeSpeedupDatabase[1][0] = "AP_TerranInfantryArmorTimeReductionL4";
+    WAUpgradeSpeedupDatabase[1][1] = "AP_TerranInfantryArmorTimeReductionL5";
+    WAUpgradeSpeedupDatabase[2][0] = "AP_TerranVehicleWeaponTimeReductionL4";
+    WAUpgradeSpeedupDatabase[2][1] = "AP_TerranVehicleWeaponTimeReductionL5";
+    WAUpgradeSpeedupDatabase[3][0] = "AP_TerranVehicleArmorTimeReductionL4";
+    WAUpgradeSpeedupDatabase[3][1] = "AP_TerranVehicleArmorTimeReductionL5";
+    WAUpgradeSpeedupDatabase[4][0] = "AP_TerranShipWeaponTimeReductionL4";
+    WAUpgradeSpeedupDatabase[4][1] = "AP_TerranShipWeaponTimeReductionL5";
+    WAUpgradeSpeedupDatabase[5][0] = "AP_TerranShipArmorTimeReductionL4";
+    WAUpgradeSpeedupDatabase[5][1] = "AP_TerranShipArmorTimeReductionL5";
+    WAUpgradeSpeedupDatabase[6][0] = "AP_ZergMeleeAttackTimeReductionL4";
+    WAUpgradeSpeedupDatabase[6][1] = "AP_ZergMeleeAttackTimeReductionL5";
+    WAUpgradeSpeedupDatabase[7][0] = "AP_ZergMissileAttackTimeReductionL4";
+    WAUpgradeSpeedupDatabase[7][1] = "AP_ZergMissileAttackTimeReductionL5";
+    WAUpgradeSpeedupDatabase[8][0] = "AP_ZergGroundArmorTimeReductionL4";
+    WAUpgradeSpeedupDatabase[8][1] = "AP_ZergGroundArmorTimeReductionL5";
+    WAUpgradeSpeedupDatabase[9][0] = "AP_ZergFlyerAttackTimeReductionL4";
+    WAUpgradeSpeedupDatabase[9][1] = "AP_ZergFlyerAttackTimeReductionL5";
+    WAUpgradeSpeedupDatabase[10][0] = "AP_ZergFlyerArmorTimeReductionL4";
+    WAUpgradeSpeedupDatabase[10][1] = "AP_ZergFlyerArmorTimeReductionL5";
+    WAUpgradeSpeedupDatabase[11][0] = "AP_ProtossGroundWeaponTimeReductionL4";
+    WAUpgradeSpeedupDatabase[11][1] = "AP_ProtossGroundWeaponTimeReductionL5";
+    WAUpgradeSpeedupDatabase[12][0] = "AP_ProtossGroundArmorTimeReductionL4";
+    WAUpgradeSpeedupDatabase[12][1] = "AP_ProtossGroundArmorTimeReductionL5";
+    WAUpgradeSpeedupDatabase[13][0] = "AP_ProtossShieldTimeReductionL4";
+    WAUpgradeSpeedupDatabase[13][1] = "AP_ProtossShieldTimeReductionL5";
+    WAUpgradeSpeedupDatabase[14][0] = "AP_ProtossAirWeaponTimeReductionL4";
+    WAUpgradeSpeedupDatabase[14][1] = "AP_ProtossAirWeaponTimeReductionL5";
+    WAUpgradeSpeedupDatabase[15][0] = "AP_ProtossAirArmorTimeReductionL4";
+    WAUpgradeSpeedupDatabase[15][1] = "AP_ProtossAirArmorTimeReductionL5";
+}
+
+void AP_Triggers_UnlockSystemInit() {
+    Setup();
+}

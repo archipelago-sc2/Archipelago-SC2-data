@@ -828,7 +828,6 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Zerg";
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         GameSetSpeedValue(c_gameSpeedFaster);
         TriggerExecute(gt_onDifficultyBrutal, true, false);
@@ -4069,24 +4068,26 @@ void gt_DefenseOutpost01CreateTerran_Init () {
 // Trigger: Defense Outpost01 Create Zerg
 //--------------------------------------------------------------------------------------------------
 bool gt_DefenseOutpost01CreateZerg_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_p;
+
     // Automatic Variable Declarations
-    playergroup auto32A887D1_g;
-    int auto32A887D1_var;
+    playergroup autoB5B96017_g;
+
+    // Variable Initialization
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    auto32A887D1_g = gv_raynorsRaiders;
-    auto32A887D1_var = -1;
+    autoB5B96017_g = gv_raynorsRaiders;
+    lv_p = -1;
     while (true) {
-        auto32A887D1_var = PlayerGroupNextPlayer(auto32A887D1_g, auto32A887D1_var);
-        if (auto32A887D1_var < 0) { break; }
-        libABFE498B_gf_AP_Triggers_Zerg_unlockInfestedMarine(auto32A887D1_var);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockInfestedMedic(auto32A887D1_var);
-        TechTreeUnitAllow(auto32A887D1_var, "AP_InfestedMedic", true);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockInfestedBunker(auto32A887D1_var);
+        lv_p = PlayerGroupNextPlayer(autoB5B96017_g, lv_p);
+        if (lv_p < 0) { break; }
+        TechTreeUnitAllow(lv_p, "AP_InfestedMedic", true);
+        AP_UnlockZergUnits(lv_p,"200030000");
     }
     gf_SpawnDropPod(gv_p8_ALLIED_PINK, PointFromId(292), PointFromId(280), 4, "AP_SIInfestedTrooper", 1, "AP_InfestedMedic", 1, "AP_SISCV", 0.5);
     gf_SpawnDropPod(gv_p8_ALLIED_PINK, PointFromId(293), PointFromId(281), 4, "AP_SIInfestedTrooper", 1, "AP_InfestedMedic", 1, "AP_CreepTumorUsed", 0.5);
@@ -4267,21 +4268,26 @@ void gt_DefenseOutpost02CreateTerran_Init () {
 // Trigger: Defense Outpost02 Create Zerg
 //--------------------------------------------------------------------------------------------------
 bool gt_DefenseOutpost02CreateZerg_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_p;
+
     // Automatic Variable Declarations
-    playergroup autoEDE55B93_g;
-    int autoEDE55B93_var;
+    playergroup auto94201124_g;
+
+    // Variable Initialization
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    autoEDE55B93_g = gv_raynorsRaiders;
-    autoEDE55B93_var = -1;
+    auto94201124_g = gv_raynorsRaiders;
+    lv_p = -1;
     while (true) {
-        autoEDE55B93_var = PlayerGroupNextPlayer(autoEDE55B93_g, autoEDE55B93_var);
-        if (autoEDE55B93_var < 0) { break; }
-        libABFE498B_gf_AP_Triggers_Zerg_unlockAberration(autoEDE55B93_var);
+        lv_p = PlayerGroupNextPlayer(auto94201124_g, lv_p);
+        if (lv_p < 0) { break; }
+        TechTreeUnitAllow(lv_p, "AP_InfestedMedic", true);
+        AP_UnlockZergUnits(lv_p,"5");
     }
     gf_SpawnDropPod(gv_p9_ALLIED_GREEN, PointFromId(292), PointFromId(434), 4, "AP_SIInfestedMarine", 1, "AP_InfestedMedic", 1, "AP_SISCV", 0.5);
     gf_SpawnDropPod(gv_p9_ALLIED_GREEN, PointFromId(293), PointFromId(435), 4, "AP_SIInfestedMarine", 1, "AP_InfestedMedic", 1, "AP_SISCV", 0.5);
@@ -4392,10 +4398,10 @@ void gt_StartAI_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_SetAITech_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_currentPlayer;
+    int lv_p;
 
     // Automatic Variable Declarations
-    playergroup autoCCBDE27F_g;
+    playergroup auto81881002_g;
 
     // Variable Initialization
 
@@ -4404,34 +4410,18 @@ bool gt_SetAITech_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    autoCCBDE27F_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
-    lv_currentPlayer = -1;
+    auto81881002_g = gv_raynorsRaiders;
+    lv_p = -1;
     while (true) {
-        lv_currentPlayer = PlayerGroupNextPlayer(autoCCBDE27F_g, lv_currentPlayer);
-        if (lv_currentPlayer < 0) { break; }
-        libABFE498B_gf_AP_Triggers_Terran_unlockMarine(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Terran_unlockMedic(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Terran_unlockMarauder(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Terran_unlockBunker(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Terran_unlockMissileTurret(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Terran_unlockSiegeTank(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Terran_unlockDiamondback(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Terran_unlockMarauderInternalTechModule(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Terran_unlockMedicAdvancedMedicFacilities(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockZergling(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockPygalisk(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockRoach(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockSwarmQueen(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockHydralisk(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockSpineCrawler(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Zerg_unlockSporeCrawler(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Protoss_unlockCenturion(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Protoss_unlockStalkerShakuras(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Protoss_unlockSentryAiur(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Protoss_unlockPhotonCannon(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Protoss_unlockShieldBattery(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Protoss_unlockReaver(lv_currentPlayer);
-        libABFE498B_gf_AP_Triggers_Protoss_unlockReaverKhalaiReplicators(lv_currentPlayer);
+        lv_p = PlayerGroupNextPlayer(auto81881002_g, lv_p);
+        if (lv_p < 0) { break; }
+        TechTreeUnitAllow(lv_p, "AP_InfestedMedic", true);
+        AP_UnlockTerranUnits(lv_p,"600000030b");
+        AP_UnlockZergUnits(lv_p,"2000c0f");
+        AP_UnlockProtossUnits(lv_p,"14000020008402");
+        libNtve_gf_SetUpgradeLevelForPlayer(lv_p, "AP_AdvancedMedicTraining", 1);
+        libNtve_gf_SetUpgradeLevelForPlayer(lv_p, "AP_InternalizedTechModuleMarauder", 1);
+        libNtve_gf_SetUpgradeLevelForPlayer(lv_p, "AP_ReaverKhalaiReplicators", 1);
     }
     return true;
 }

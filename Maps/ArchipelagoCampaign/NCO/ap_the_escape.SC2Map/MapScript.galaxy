@@ -207,6 +207,7 @@ void InitGlobals () {
 // Global Function Declarations
 //--------------------------------------------------------------------------------------------------
 void gf_WatchMedkit (unit lp_medkit);
+void gf_GrantStoryTech ();
 point gf_RandomPointinRegionSharedbyGroup (region lp_region, unitgroup lp_unitGroup);
 bool gf_AFriendlyGhostisinRegion (region lp_region);
 void gf_HealTurret (unit lp_turret);
@@ -246,6 +247,7 @@ trigger gt_DebugStage2;
 trigger gt_DebugStage3;
 trigger gt_DebugVictory;
 trigger gt_DebugSwapHero;
+trigger gt_DebugGrantStoryTech;
 trigger gt_NovaLosesDetectorConeDetectedEMPedQ;
 trigger gt_NovaLosesDetectorConeDetectedStillCloakedQ;
 trigger gt_NovaReCloaksTransmissionQ;
@@ -453,6 +455,15 @@ bool auto_gf_WatchMedkit_TriggerFunc (bool testConds, bool runActions) {
 
     }
     return true;
+}
+
+void gf_GrantStoryTech () {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_NovaCloak", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_NovaArmorStealthSuit", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_NovaWeaponCanisterRifle", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_NovaGadgetPulseGrenades", 1);
 }
 
 point gf_RandomPointinRegionSharedbyGroup (region lp_region, unitgroup lp_unitGroup) {
@@ -1973,10 +1984,6 @@ void gt_ArchInit_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_HeroSwapInit_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
-    unitgroup autoEC4A6BCC_g;
-    int autoEC4A6BCC_u;
-    unit autoEC4A6BCC_var;
-
     // Actions
     if (!runActions) {
         return true;
@@ -1990,18 +1997,6 @@ bool gt_HeroSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
         libABFE498B_gv_aP_Triggers_Option_HeroPresence = 1;
         TriggerExecute(libABFE498B_gv_aP_Triggers_onDifficultyBrutal, true, false);
-    }
-
-    if ((libABFE498B_gv_aP_Triggers_Option_HeroPresence != 0)) {
-        libABFE498B_gf_AP_Triggers_HeroReplace(gv_pLAYER_01_USER, gv_artanis, UnitGroupEmpty());
-        gv_artanis = libABFE498B_gv_aP_Triggers_HeroUnit[1];
-        autoEC4A6BCC_g = libABFE498B_gv_aP_Triggers_HeroUnits;
-        autoEC4A6BCC_u = UnitGroupCount(autoEC4A6BCC_g, c_unitCountAll);
-        for (;; autoEC4A6BCC_u -= 1) {
-            autoEC4A6BCC_var = UnitGroupUnitFromEnd(autoEC4A6BCC_g, autoEC4A6BCC_u);
-            if (autoEC4A6BCC_var == null) { break; }
-            libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(autoEC4A6BCC_var);
-        }
     }
 
     return true;
@@ -2028,9 +2023,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init05Environment, true, false);
     TriggerExecute(gt_Init06Difficulties, true, false);
     if (((libABFE498B_gv_aP_Triggers_Option_grantStoryTech == true) || ((libABFE498B_gv_aP_Triggers_Option_missionOrder == 0) && (libABFE498B_gv_aP_Triggers_Option_enableNova == true)))) {
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaProgressiveCloak(gv_pLAYER_01_USER, 2);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaWeaponC20ACanisterRifle(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaGadgetPulseGrenades(gv_pLAYER_01_USER);
+        gf_GrantStoryTech();
     }
 
     TriggerExecute(gt_HeroSwapInit, true, true);
@@ -2715,6 +2708,47 @@ bool gt_DebugSwapHero_Func (bool testConds, bool runActions) {
 void gt_DebugSwapHero_Init () {
     gt_DebugSwapHero = TriggerCreate("gt_DebugSwapHero_Func");
     TriggerAddEventChatMessage(gt_DebugSwapHero, c_playerAny, "-makehero", false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug - Grant Story Tech
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugGrantStoryTech_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/3867512B"), true);
+    gf_GrantStoryTech();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugGrantStoryTech_Init () {
+    gt_DebugGrantStoryTech = TriggerCreate("gt_DebugGrantStoryTech_Func");
+    TriggerAddEventChatMessage(gt_DebugGrantStoryTech, c_playerAny, "-storytech", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -10724,6 +10758,7 @@ void InitTriggers () {
     gt_DebugStage3_Init();
     gt_DebugVictory_Init();
     gt_DebugSwapHero_Init();
+    gt_DebugGrantStoryTech_Init();
     gt_NovaLosesDetectorConeDetectedEMPedQ_Init();
     gt_NovaLosesDetectorConeDetectedStillCloakedQ_Init();
     gt_NovaReCloaksTransmissionQ_Init();

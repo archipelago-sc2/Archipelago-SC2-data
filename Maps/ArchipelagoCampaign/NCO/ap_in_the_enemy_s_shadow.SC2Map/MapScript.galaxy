@@ -280,6 +280,7 @@ void InitGlobals () {
 //--------------------------------------------------------------------------------------------------
 // Global Function Declarations
 //--------------------------------------------------------------------------------------------------
+void gf_UnlockStoryTech ();
 void gf_S2TrackUnitHitBySonar (unit lp_trackedUnit);
 point gf_RandomPointinRegionSharedbyGroup (region lp_region, unitgroup lp_unitGroup);
 void gf_NovaEquipmentScreenCloses (trigger t);
@@ -325,6 +326,7 @@ trigger gt_DebugStage2;
 trigger gt_DebugStage3;
 trigger gt_DebugVictory;
 trigger gt_DebugSwapHero;
+trigger gt_DebugStoryTech;
 trigger gt_NovaHitBySonar;
 trigger gt_NovaPicksUpRestorationCharge;
 trigger gt_NovaKillsDOMUnitInDefendRegion;
@@ -506,6 +508,21 @@ trigger gt_VictoryCleanup;
 //--------------------------------------------------------------------------------------------------
 // Global Functions
 //--------------------------------------------------------------------------------------------------
+void gf_UnlockStoryTech () {
+    // Variable Declarations
+    int lv_p;
+    string lv_unlockString;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_p = gv_pLAYER_01_USER;
+    lv_unlockString = "19bb4000000000000000000000000000000000000000000000000000000000000000000";
+
+    // Implementation
+    AP_UnlockTerranItems(lv_p, lv_unlockString);
+    AP_UnlockTerranProgressives(lv_p, "2000000");
+}
+
 void gf_S2TrackUnitHitBySonar (unit lp_trackedUnit) {
     // Variable Declarations
     actor lv_beaconActor;
@@ -1157,10 +1174,6 @@ void gt_ArchInit_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_HeroSwapInit_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
-    unitgroup autoD42F6378_g;
-    int autoD42F6378_u;
-    unit autoD42F6378_var;
-
     // Actions
     if (!runActions) {
         return true;
@@ -1171,21 +1184,7 @@ bool gt_HeroSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
-        libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 2);
-        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 1;
         TriggerExecute(libABFE498B_gv_aP_Triggers_onDifficultyBrutal, true, false);
-    }
-
-    if ((libABFE498B_gv_aP_Triggers_Option_HeroPresence != 0)) {
-        libABFE498B_gf_AP_Triggers_HeroReplace(gv_pLAYER_01_USER, gv_nova, UnitGroupEmpty());
-        gv_nova = libABFE498B_gv_aP_Triggers_HeroUnit[1];
-        autoD42F6378_g = libABFE498B_gv_aP_Triggers_HeroUnits;
-        autoD42F6378_u = UnitGroupCount(autoD42F6378_g, c_unitCountAll);
-        for (;; autoD42F6378_u -= 1) {
-            autoD42F6378_var = UnitGroupUnitFromEnd(autoD42F6378_g, autoD42F6378_u);
-            if (autoD42F6378_var == null) { break; }
-            libNCMI_gf_StealthAIAddUnitToStealthAIEnemyUnitGroup(autoD42F6378_var);
-        }
     }
 
     return true;
@@ -1513,17 +1512,7 @@ bool gt_Init01Technology_Func (bool testConds, bool runActions) {
         UnitAbilityEnable(autoC1FA5239_var, "MorphToHellion", false);
     }
     if ((libABFE498B_gv_aP_Triggers_Option_grantStoryTech == true)) {
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaWeaponPlasmaRifle(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaWeaponMonomolecularBlade(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaWeaponC20ACanisterRifle(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaProgressiveCloak(gv_pLAYER_01_USER, 2);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaJumpSuit(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaGhostVisor(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaGadgetPulseGrenades(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaGadgetFlashbangGrenades(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaDomination(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaBlink(gv_pLAYER_01_USER);
-        libABFE498B_gf_AP_Triggers_Terran_unlockNovaArmoredSuit(gv_pLAYER_01_USER);
+        gf_UnlockStoryTech();
     }
 
     return true;
@@ -2694,6 +2683,47 @@ bool gt_DebugSwapHero_Func (bool testConds, bool runActions) {
 void gt_DebugSwapHero_Init () {
     gt_DebugSwapHero = TriggerCreate("gt_DebugSwapHero_Func");
     TriggerAddEventChatMessage(gt_DebugSwapHero, c_playerAny, "-makehero", false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Debug - Story Tech
+//--------------------------------------------------------------------------------------------------
+bool gt_DebugStoryTech_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_PlayerInCinematicModeCampaign() == false))) {
+            return false;
+        }
+
+        if (!((libNCMI_gf_GameIsOver() == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerDebugOutput(1, StringExternal("Param/Value/BA7D94F2"), true);
+    gf_UnlockStoryTech();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DebugStoryTech_Init () {
+    gt_DebugStoryTech = TriggerCreate("gt_DebugStoryTech_Func");
+    TriggerAddEventChatMessage(gt_DebugStoryTech, c_playerAny, "-storytech", false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -11912,6 +11942,7 @@ void InitTriggers () {
     gt_DebugStage3_Init();
     gt_DebugVictory_Init();
     gt_DebugSwapHero_Init();
+    gt_DebugStoryTech_Init();
     gt_NovaHitBySonar_Init();
     gt_NovaPicksUpRestorationCharge_Init();
     gt_NovaKillsDOMUnitInDefendRegion_Init();

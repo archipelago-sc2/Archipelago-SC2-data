@@ -1,4 +1,4 @@
-include "AP_Triggers_GhostSpawn.h"
+include "Mutators/AP_Triggers_GhostSpawn.h"
 
 // Constants
 static const int MAX_TRIES = 20;
@@ -121,13 +121,13 @@ static bool SpawnSetupDifficulty(int player, int difficulty){
         TechTreeAbilityAllow(player, AbilityCommand("AP_EMP", 0), false);
     }
     if (difficulty >= 3){
-        libABFE498B_gf_AP_Triggers_Terran_unlockGhostOcularImplants(player);
+        TechTreeUpgradeAddLevel(player, "AP_OcularImplants", 1);
     }
     if (difficulty >= 4){
-        libABFE498B_gf_AP_Triggers_Terran_unlockGhostLockdown(player);
+        TechTreeUpgradeAddLevel(player, "AP_GhostSCBWLockdownResearch", 1);
     }
     if (difficulty >= 5){
-        libABFE498B_gf_AP_Triggers_Terran_unlockGhostCriusSuit(player);
+        TechTreeUpgradeAddLevel(player, "AP_PermanentCloakGhost", 1);
     }
     return true;
 }
