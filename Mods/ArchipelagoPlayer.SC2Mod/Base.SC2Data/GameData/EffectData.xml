@@ -3829,8 +3829,8 @@
         <Visibility value="Visible"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
-        <Amount value="18">
-            <AccumulatorArray value="AP_BaseMengskVeterancyDamageMultiplier"/>
+        <Amount value="20">
+            <AccumulatorArray value="AP_2DamagePerRank"/>
         </Amount>
         <SearchFlags index="CallForHelp" value="1"/>
         <SearchFlags index="OffsetByUnitRadius" value="1"/>
@@ -3936,8 +3936,8 @@
         <Visibility value="Visible"/>
         <Kind value="Splash"/>
         <KindSplash value="Splash"/>
-        <Amount value="18">
-            <AccumulatorArray value="AP_BaseMengskVeterancyDamageMultiplier"/>
+        <Amount value="20">
+            <AccumulatorArray value="AP_2DamagePerRank"/>
         </Amount>
     </CEffectDamage>
     <CEffectEnumArea id="AP_BansheeMengskShockwaveSearchArea">
@@ -15371,6 +15371,7 @@
         <Behavior value="AP_MedicMengskRank2HealRangeBonus"/>
     </CEffectApplyBehavior>
     <CEffectSet id="AP_MedicMengskRank2LevelUpSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value="Race:Terran"/>
         <EffectArray value="AP_MengskVeteranLevelUpDummy"/>
         <EffectArray value="AP_MedicMengskRank2HealRangeBonusAB"/>
@@ -21852,6 +21853,7 @@
         <EffectArray value="AP_HyperjumpMengskTeleportAB"/>
     </CEffectSet>
     <CEffectSet id="AP_MengskVeteranLevelUpDummy">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value="Race:Terran"/>
     </CEffectSet>
     <CEffectDamage id="AP_MengskRoyalGuardExperienceGainDummy">
@@ -21862,9 +21864,11 @@
         <EditorCategories value=""/>
     </CEffectModifyUnit>
     <CEffectModifyUnit id="AP_MengskVeteranTrigger">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value=""/>
     </CEffectModifyUnit>
     <CEffectModifyUnit id="AP_MengskVeteranMaxedTrigger">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value=""/>
     </CEffectModifyUnit>
     <CEffectModifyUnit id="AP_BattlecruiserShieldRestore">
@@ -22764,13 +22768,15 @@
         <Marker Link="Effect/CrucioShockCannonBlast"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-        <AttributeBonus index="Armored" value="-5"/>
-        <AttributeFactor index="Armored" value="1"/>
+        <AttributeBonus index="Armored" value="30">
+            <AccumulatorArray value="AP_3DamagePerRank"/>
+        </AttributeBonus>
+        <AttributeFactor index="Armored" value="0"/>
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
-        <Amount value="45">
+        <Amount value="50">
             <AccumulatorArray value="AP_5DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
@@ -22850,13 +22856,15 @@
         <Marker Link="Effect/CrucioShockCannonBlast"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-        <AttributeBonus index="Armored" value="-5"/>
-        <AttributeFactor index="Armored" value="1"/>
+        <AttributeBonus index="Armored" value="30">
+            <AccumulatorArray value="AP_3DamagePerRank"/>
+        </AttributeBonus>
+        <AttributeFactor index="Armored" value="0"/>
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
-        <Amount value="45">
+        <Amount value="50">
             <AccumulatorArray value="AP_5DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
@@ -22874,13 +22882,15 @@
         <Marker Link="Effect/CrucioShockCannonBlast"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-        <AttributeBonus index="Armored" value="-5"/>
-        <AttributeFactor index="Armored" value="1"/>
+        <AttributeBonus index="Armored" value="30">
+            <AccumulatorArray value="AP_3DamagePerRank"/>
+        </AttributeBonus>
+        <AttributeFactor index="Armored" value="0"/>
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
-        <Amount value="45">
+        <Amount value="50">
             <AccumulatorArray value="AP_5DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
@@ -22898,13 +22908,15 @@
         <Marker Link="Effect/CrucioShockCannonDirected"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-        <AttributeBonus index="Armored" value="-5"/>
-        <AttributeFactor index="Armored" value="1"/>
+        <AttributeBonus index="Armored" value="30">
+            <AccumulatorArray value="AP_3DamagePerRank"/>
+        </AttributeBonus>
+        <AttributeFactor index="Armored" value="0"/>
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
-        <Amount value="45">
+        <Amount value="50">
             <AccumulatorArray value="AP_5DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
@@ -22919,13 +22931,15 @@
         <Marker Link="Effect/CrucioShockCannonBlast"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-        <AttributeBonus index="Armored" value="-5"/>
-        <AttributeFactor index="Armored" value="1"/>
+        <AttributeBonus index="Armored" value="30">
+            <AccumulatorArray value="AP_3DamagePerRank"/>
+        </AttributeBonus>
+        <AttributeFactor index="Armored" value="0"/>
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
-        <Amount value="45">
+        <Amount value="50">
             <AccumulatorArray value="AP_5DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
@@ -22943,13 +22957,15 @@
         <Marker Link="Effect/CrucioShockCannonDirected"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-        <AttributeBonus index="Armored" value="-5"/>
-        <AttributeFactor index="Armored" value="1"/>
+        <AttributeBonus index="Armored" value="30">
+            <AccumulatorArray value="AP_3DamagePerRank"/>
+        </AttributeBonus>
+        <AttributeFactor index="Armored" value="0"/>
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
-        <Amount value="45">
+        <Amount value="50">
             <AccumulatorArray value="AP_5DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
@@ -22967,8 +22983,10 @@
     <CEffectModifyUnit id="AP_90mmCannonsMengskLookAt"/>
     <CEffectDamage id="AP_SiegeTankMengskDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
-        <AttributeBonus index="Armored" value="-1"/>
-        <AttributeFactor index="Armored" value="0.666667"/>
+        <AttributeBonus index="Armored" value="15">
+            <AccumulatorArray value="AP_1DamagePerRank"/>
+        </AttributeBonus>
+        <AttributeFactor index="Armored" value="0"/>
         <Kind value="Ranged"/>
         <Amount value="25">
             <AccumulatorArray value="AP_3DamagePerRank"/>
@@ -23044,10 +23062,12 @@
         <Cost Abil="AP_DeploySpiderMinesMengsk,Execute" ChargeCountUse="3"/>
     </CEffectModifyUnit>
     <CEffectSet id="AP_SiegeTankMengskVeteranLevelUp">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EffectArray value="AP_MengskVeteranLevelUpDummy"/>
         <EffectArray value="AP_DeploySpiderMinesMengskAddCharge"/>
     </CEffectSet>
     <CEffectSet id="AP_SiegeTankMengskVeteranMaxed">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EffectArray value="AP_MengskVeteranMaxedTrigger"/>
         <EffectArray value="AP_DeploySpiderMinesMengskAddCharge"/>
     </CEffectSet>
@@ -23096,7 +23116,7 @@
         <EditorCategories value="Race:Terran"/>
         <Kind value="Ranged"/>
         <Amount value="75">
-            <AccumulatorArray value="AP_10DamagePerRank"/>
+            <AccumulatorArray value="AP_8DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
     </CEffectDamage>
@@ -23126,11 +23146,12 @@
     </CEffectCreatePersistent>
     <CEffectDamage id="AP_JavelinMissileLaunchersMengskDamage" parent="DU_WEAP_SPLASH">
         <EditorCategories value="Race:Terran"/>
-        <AttributeFactor index="Light" value="0.5"/>
+        <AttributeBonus index="Light" value="-3.5"/>
+        <AttributeFactor index="Light" value="1"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
         <Amount value="14">
-            <AccumulatorArray value="AP_2DamagePerRank"/>
+            <AccumulatorArray value="AP_1DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
         <AreaArray Radius="0.5" Fraction="1"/>
@@ -23249,8 +23270,8 @@
         <EditorCategories value="Race:Terran"/>
         <AttributeFactor index="Armored" value="1"/>
         <Kind value="Ranged"/>
-        <Amount value="15">
-            <AccumulatorArray value="AP_BaseMengskVeterancyDamageMultiplier"/>
+        <Amount value="20">
+            <AccumulatorArray value="AP_2DamagePerRank"/>
         </Amount>
         <Death value="Blast"/>
     </CEffectDamage>
@@ -23297,17 +23318,20 @@
         <Count value="99"/>
     </CEffectRemoveBehavior>
     <CEffectSet id="AP_MarauderMengskLevelUpSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value=""/>
         <EffectArray value="AP_MarauderMengskSovereignNeosteelRankBonusRB"/>
         <EffectArray value="AP_MengskVeteranLevelUpDummy"/>
         <EffectArray value="AP_MarauderMengskAbsorbABWrapper"/>
     </CEffectSet>
     <CEffectSet id="AP_MarauderMengskLevelUpAddictiveSupplementsSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value="Race:Terran"/>
         <EffectArray value="AP_MarauderMengskLevelUpSet"/>
         <EffectArray value="AP_MarauderMengskAddictiveSupplementsAddCharge"/>
     </CEffectSet>
     <CEffectSet id="AP_MarauderMengskLevelUpMaxedSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EffectArray value="AP_MarauderMengskSovereignNeosteelRankBonusRB"/>
         <EffectArray value="AP_MengskVeteranMaxedTrigger"/>
         <EffectArray value="AP_MarauderMengskAbsorbABWrapper"/>
@@ -23566,16 +23590,16 @@
         <EditorCategories value="Race:Terran"/>
         <AttributeFactor index="Light" value="1"/>
         <Kind value="Ranged"/>
-        <Amount value="15">
-            <AccumulatorArray value="AP_BaseMengskVeterancyDamageMultiplier"/>
+        <Amount value="20">
+            <AccumulatorArray value="AP_2DamagePerRank"/>
         </Amount>
     </CEffectDamage>
     <CEffectDamage id="AP_C10CanisterRifleMengskNemesisRoundsDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
         <AttributeFactor index="Light" value="1"/>
         <Kind value="Ranged"/>
-        <Amount value="30">
-            <AccumulatorArray value="AP_BaseMengskVeterancyDamageMultiplier"/>
+        <Amount value="40">
+            <AccumulatorArray value="AP_4DamagePerRank"/>
         </Amount>
     </CEffectDamage>
     <CEffectSwitch id="AP_C10CanisterRifleMengskNemesisRoundsBioSwitch">
@@ -23692,10 +23716,12 @@
         <EditorCategories value="Race:Terran"/>
     </CEffectRemoveBehavior>
     <CEffectSet id="AP_GhostMengskLevelUpSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value=""/>
         <EffectArray value="AP_MengskVeteranLevelUpDummy"/>
     </CEffectSet>
     <CEffectSet id="AP_GhostMengskLevelUpMaxedSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EffectArray value="AP_MengskVeteranMaxedTrigger"/>
     </CEffectSet>
     <CEffectApplyBehavior id="AP_NovaNukeArming">
@@ -23937,15 +23963,15 @@
     <CEffectDamage id="AP_GaussRifleMengsk" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
         <Kind value="Ranged"/>
-        <Amount value="9">
-            <AccumulatorArray value="AP_BaseMengskVeterancyDamageMultiplier"/>
+        <Amount value="10">
+            <AccumulatorArray value="AP_1DamagePerRank"/>
         </Amount>
     </CEffectDamage>
     <CEffectDamage id="AP_GaussRifleMengskSplashDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
         <Kind value="Ranged"/>
-        <Amount value="4.5">
-            <AccumulatorArray value="AP_BaseMengskVeterancyDamageMultiplier"/>
+        <Amount value="5">
+            <AccumulatorArray value="AP_0.5DamagePerRank"/>
         </Amount>
     </CEffectDamage>
     <CEffectEnumArea id="AP_GaussRifleMengskSplash">
@@ -23961,23 +23987,18 @@
         <EffectArray value="AP_GaussRifleMengskSplash"/>
     </CEffectSet>
     <CEffectSet id="AP_MarineMengskLevelUpSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value=""/>
         <EffectArray value="AP_MengskVeteranLevelUpDummy"/>
         <EffectArray value="AP_MarineMengskSpiderMinesAddCharge"/>
         <EffectArray value="AP_MarineMengskSpiderMinesAddBuildABoomCharge"/>
     </CEffectSet>
     <CEffectSet id="AP_MarineMengskLevelUpMaxedSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EffectArray value="AP_MengskVeteranMaxedTrigger"/>
         <EffectArray value="AP_MarineMengskSpiderMinesAddCharge"/>
         <EffectArray value="AP_MarineMengskSpiderMinesAddBuildABoomCharge"/>
-        <EffectArray value="AP_MarineMengskProdigalSonRank3BonusAB"/>
     </CEffectSet>
-    <CEffectApplyBehavior id="AP_MarineMengskProdigalSonRank3BonusAB">
-        <EditorCategories value="Race:Terran"/>
-        <WhichUnit Value="Source"/>
-        <Behavior value="AP_MarineMengskProdigalSonRank3Bonus"/>
-        <ValidatorArray value="AP_HaveMarineMengskProdigalSon"/>
-    </CEffectApplyBehavior>
     <CEffectModifyUnit id="AP_MarineMengskSpiderMinesAddCharge">
         <ValidatorArray value="AP_CasterLevelGTE2"/>
         <EditorCategories value="Race:Zerg"/>
@@ -24074,23 +24095,22 @@
     </CEffectLaunchMissile>
     <CEffectDamage id="AP_GoliathMengskAU" parent="DU_WEAP_MISSILE">
         <EditorCategories value="Race:Terran"/>
-        <AttributeBonus index="Armored" value="4"/>
-        <AttributeFactor index="Armored" value="0.5"/>
+        <AttributeBonus index="Armored" value="0"/>
+        <AttributeFactor index="Armored" value="1"/>
         <Amount value="12">
-            <AccumulatorArray value="AP_2DamagePerRank"/>
+            <AccumulatorArray value="AP_1DamagePerRank"/>
         </Amount>
     </CEffectDamage>
     <CEffectSet id="AP_GoliathMengskAULockdownSet">
         <EffectArray value="AP_GoliathMengskAU"/>
         <EffectArray value="AP_GoliathMengskMechanicalLockdownSet"/>
-        <EffectArray value="AP_GoliathMengskBiologicalLockdownSet"/>
     </CEffectSet>
     <CEffectDamage id="AP_GoliathMengskG" parent="DU_WEAP">
         <ValidatorArray value="CasterIsNotHidden"/>
         <EditorCategories value="Race:Terran"/>
         <Kind value="Ranged"/>
         <Amount value="24">
-            <AccumulatorArray value="AP_3DamagePerRank"/>
+            <AccumulatorArray value="AP_2DamagePerRank"/>
         </Amount>
     </CEffectDamage>
     <CEffectApplyBehavior id="AP_GoliathMengskLockdownAB">
@@ -24106,18 +24126,6 @@
         <ValidatorArray value="AP_NovaUnitLockdownABTargetFilters"/>
         <ValidatorArray value="AP_NotHeroic"/>
         <ValidatorArray value="AP_IsMechanical"/>
-        <ValidatorArray value="NotStructure"/>
-        <ValidatorArray value="AP_NoPreventKnockback"/>
-        <ValidatorArray value="AP_NoGoliathMengskLockdownStunImmunity"/>
-        <EffectArray value="AP_GoliathMengskLockdownAB"/>
-        <EffectArray value="AP_GoliathMengskLockdownStunImmunityAB"/>
-    </CEffectSet>
-    <CEffectSet id="AP_GoliathMengskBiologicalLockdownSet">
-        <ValidatorArray value="AP_CasterLevelEq4"/>
-        <ValidatorArray value="AP_HaveGoliathMengskParalysisInducers"/>
-        <ValidatorArray value="AP_NovaUnitLockdownABTargetFilters"/>
-        <ValidatorArray value="AP_NotHeroic"/>
-        <ValidatorArray value="AP_IsBiological"/>
         <ValidatorArray value="NotStructure"/>
         <ValidatorArray value="AP_NoPreventKnockback"/>
         <ValidatorArray value="AP_NoGoliathMengskLockdownStunImmunity"/>
@@ -24142,7 +24150,7 @@
         <ValidatorArray value="NotVortexd"/>
         <DrainVital value="Energy"/>
         <DrainVitalCostFactor value="0.25"/>
-        <RechargeVitalRate value="12"/>
+        <RechargeVitalRate value="14"/>
         <InitialEffect value="AP_MedicMengskHealStartSet"/>
         <FinalEffect value="AP_MedicMengskHealStopSet"/>
     </CEffectCreateHealer>
@@ -24155,7 +24163,7 @@
         <ValidatorArray value="AP_UnitIsBiologicalOrMechanical"/>
         <DrainVital value="Energy"/>
         <DrainVitalCostFactor value="0.25"/>
-        <RechargeVitalRate value="15"/>
+        <RechargeVitalRate value="16"/>
         <InitialEffect value="AP_MedicMengskHealStartSet"/>
         <FinalEffect value="AP_MedicMengskHealStopSet"/>
     </CEffectCreateHealer>
@@ -24181,7 +24189,7 @@
         <ValidatorArray value="AP_UnitIsBiologicalOrMechanical"/>
         <DrainVital value="Energy"/>
         <DrainVitalCostFactor value="0.25"/>
-        <RechargeVitalRate value="21"/>
+        <RechargeVitalRate value="20"/>
         <InitialEffect value="AP_MedicMengskHealStartSet"/>
         <FinalEffect value="AP_MedicMengskHealStopSet"/>
     </CEffectCreateHealer>
@@ -24303,7 +24311,7 @@
         <EditorCategories value="Race:Terran"/>
         <DrainVital value="Energy"/>
         <DrainVitalCostFactor value="0.25"/>
-        <RechargeVitalRate value="21"/>
+        <RechargeVitalRate value="20"/>
         <Flags index="Channeled" value="0"/>
         <PeriodCount value="4"/>
         <Marker Link="Abil/MedivacHeal">
@@ -25198,10 +25206,12 @@
         <EffectArray value="AP_YggdrasilRemovePredatorNestEssence"/>
     </CEffectSet>
     <CEffectSet id="AP_ThorMengskLevelUpSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value=""/>
         <EffectArray value="AP_MengskVeteranLevelUpDummy"/>
     </CEffectSet>
     <CEffectSet id="AP_ThorMengskLevelUpMaxedSet">
+        <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EffectArray value="AP_MengskVeteranMaxedTrigger"/>
     </CEffectSet>
     <CEffectDamage id="AP_BanelingLaunchExplodeDamageSmall">
@@ -28013,4 +28023,68 @@
     <CEffectSet id="AP_RepairFixSet">
         <EffectArray value="AP_RepairFixMU"/>
     </CEffectSet>
+    <CEffectSet id="AP_MarineMengskUnlockRank3Set">
+        <EffectArray value="AP_MarineMengskUnlockRank3Apply"/>
+        <EffectArray value="AP_MengskVeteranTrigger"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_MarineMengskUnlockRank3Apply">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_MarineMengskRank3Unlocked"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="AP_MarauderMengskUnlockRank3Set">
+        <EffectArray value="AP_MarauderMengskUnlockRank3Apply"/>
+        <EffectArray value="AP_MengskVeteranTrigger"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_MarauderMengskUnlockRank3Apply">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_MarauderMengskRank3Unlocked"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="AP_MedicMengskUnlockRank3Set">
+        <EffectArray value="AP_MedicMengskUnlockRank3Apply"/>
+        <EffectArray value="AP_MengskVeteranTrigger"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_MedicMengskUnlockRank3Apply">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_MedicMengskRank3Unlocked"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="AP_GhostMengskUnlockRank3Set">
+        <EffectArray value="AP_GhostMengskUnlockRank3Apply"/>
+        <EffectArray value="AP_MengskVeteranTrigger"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_GhostMengskUnlockRank3Apply">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_GhostMengskRank3Unlocked"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="AP_GoliathMengskUnlockRank3Set">
+        <EffectArray value="AP_GoliathMengskUnlockRank3Apply"/>
+        <EffectArray value="AP_MengskVeteranTrigger"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_GoliathMengskUnlockRank3Apply">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_GoliathMengskRank3Unlocked"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="AP_SiegeTankMengskUnlockRank3Set">
+        <EffectArray value="AP_SiegeTankMengskUnlockRank3Apply"/>
+        <EffectArray value="AP_MengskVeteranTrigger"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_SiegeTankMengskUnlockRank3Apply">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_SiegeTankMengskRank3Unlocked"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="AP_ThorMengskUnlockRank3Set">
+        <EffectArray value="AP_ThorMengskUnlockRank3Apply"/>
+        <EffectArray value="AP_MengskVeteranTrigger"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_ThorMengskUnlockRank3Apply">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_ThorMengskRank3Unlocked"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="AP_BansheeMengskUnlockRank3Set">
+        <EffectArray value="AP_BansheeMengskUnlockRank3Apply"/>
+        <EffectArray value="AP_MengskVeteranTrigger"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_BansheeMengskUnlockRank3Apply">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_BansheeMengskRank3Unlocked"/>
+    </CEffectApplyBehavior>
 </Catalog>

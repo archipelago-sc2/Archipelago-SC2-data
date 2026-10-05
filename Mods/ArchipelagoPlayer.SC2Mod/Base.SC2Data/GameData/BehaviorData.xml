@@ -9280,6 +9280,18 @@
         <InfoIcon value="Assets\Textures\btn-upgrade-terran-behemothreactor.dds"/>
         <Name value="Button/Name/AP_BattlecruiserBehemothReactor"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_GoliathMengskAntiAirCountermeasures">
+        <InfoFlags index="Hidden" value="1"/>
+        <Alignment value="Positive"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="AP_HaveGoliathMengskAntiAirCountermeasures"/>
+        <DamageResponse>
+            <ModifyAmount value="-3"/>
+            <Kind index="Spell" value="0"/>
+            <ValidatorArray value="AP_TargetIsAirUnitFilter"/>
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_VoidRayPurifierAntiGroundArmor">
         <InfoFlags index="Hidden" value="1" />
         <Alignment value="Positive"/>
@@ -9490,14 +9502,12 @@
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
         <VeterancyLevelArray MinVeterancyXP="1800" LevelGainEffect="AP_SiegeTankMengskVeteranLevelUp" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="60"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray MinVeterancyXP="4200" LevelGainEffect="AP_SiegeTankMengskVeteranLevelUp" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="60"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray>
@@ -9506,8 +9516,7 @@
             <LevelLossEffect value="AP_MengskVeteranTrigger"/>
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="60"/>
             </Modification>
         </VeterancyLevelArray>
         <BehaviorFlags index="Permanent" value="1"/>
@@ -9614,13 +9623,11 @@
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
         <VeterancyLevelArray MinVeterancyXP="2400" LevelGainEffect="AP_ThorMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
-                <LifeArmorBonus value="1"/>
                 <VitalMaxArray index="Life" value="100"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray MinVeterancyXP="5600" LevelGainEffect="AP_ThorMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
-                <LifeArmorBonus value="1"/>
                 <VitalMaxArray index="Life" value="100"/>
             </Modification>
         </VeterancyLevelArray>
@@ -9630,7 +9637,6 @@
             <LevelLossEffect value="AP_MengskVeteranTrigger"/>
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
-                <LifeArmorBonus value="1"/>
                 <VitalMaxArray index="Life" value="100"/>
             </Modification>
         </VeterancyLevelArray>
@@ -9686,14 +9692,12 @@
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
         <VeterancyLevelArray MinVeterancyXP="1200" LevelGainEffect="AP_MarauderMengskLevelUpAddictiveSupplementsSet" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="60"/>
+                <VitalMaxArray index="Life" value="50"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray MinVeterancyXP="2800" LevelGainEffect="AP_MarauderMengskLevelUpAddictiveSupplementsSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="60"/>
+                <VitalMaxArray index="Life" value="50"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray>
@@ -9702,8 +9706,7 @@
             <LevelLossEffect value="AP_MarauderMengskLevelUpSet"/>
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="60"/>
+                <VitalMaxArray index="Life" value="50"/>
             </Modification>
         </VeterancyLevelArray>
         <XPFraction index="Kills" value="0"/>
@@ -9815,16 +9818,14 @@
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
         <VeterancyLevelArray MinVeterancyXP="1200" LevelGainEffect="AP_GhostMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="40"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray MinVeterancyXP="2800" LevelGainEffect="AP_GhostMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="40"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -9835,8 +9836,7 @@
             <LevelLossEffect value="AP_GhostMengskLevelUpSet"/>
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="40"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -9936,14 +9936,12 @@
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
         <VeterancyLevelArray MinVeterancyXP="600" LevelGainEffect="AP_MarineMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="25"/>
+                <VitalMaxArray index="Life" value="20"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray MinVeterancyXP="1400" LevelGainEffect="AP_MarineMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="25"/>
+                <VitalMaxArray index="Life" value="20"/>
                 <AdditiveAttackSpeedFactor value="0.25"/>
             </Modification>
         </VeterancyLevelArray>
@@ -9953,24 +9951,21 @@
             <LevelLossEffect value="AP_MarineMengskLevelUpSet"/>
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="25"/>
+                <VitalMaxArray index="Life" value="20"/>
             </Modification>
         </VeterancyLevelArray>
         <XPFraction index="Kills" value="0"/>
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
-    <CBehaviorBuff id="AP_MarineMengskProdigalSonRank3Bonus">
+    <CBehaviorBuff id="AP_MarineMengskProdigalSonRank2Bonus">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <DisableValidatorArray value="AP_HaveMarineMengskProdigalSon"/>
         <Modification>
-            <StateFlags index="UnitAttrOnHeroic" value="1"/>
-            <LifeArmorBonus value="1"/>
-            <VitalMaxArray index="Life" value="25"/>
-                <WeaponRange value="1"/>
-                <WeaponScanBonus value="1"/>
+            <WeaponRange value="2"/>
+            <WeaponScanBonus value="2"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WarpRelocating">
@@ -10008,15 +10003,13 @@
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
         <VeterancyLevelArray MinVeterancyXP="1500" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="35"/>
+                <VitalMaxArray index="Life" value="45"/>
                 <VitalRegenArray index="Shields" value="1"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray MinVeterancyXP="3500" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="35"/>
+                <VitalMaxArray index="Life" value="45"/>
                 <VitalRegenArray index="Shields" value="1"/>
             </Modification>
         </VeterancyLevelArray>
@@ -10026,8 +10019,7 @@
             <LevelLossEffect value="AP_MengskVeteranTrigger"/>
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="35"/>
+                <VitalMaxArray index="Life" value="45"/>
                 <VitalRegenArray index="Shields" value="1"/>
             </Modification>
         </VeterancyLevelArray>
@@ -10086,7 +10078,7 @@
         <VeterancyLevelArray MinVeterancyXP="900" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
                 <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="30"/>
+                <VitalMaxArray index="Life" value="25"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -10094,7 +10086,7 @@
         <VeterancyLevelArray MinVeterancyXP="2100" LevelGainEffect="AP_MedicMengskRank2LevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
                 <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="30"/>
+                <VitalMaxArray index="Life" value="25"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -10106,7 +10098,7 @@
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
                 <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="30"/>
+                <VitalMaxArray index="Life" value="25"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -10467,7 +10459,7 @@
         <VeterancyLevelArray MinVeterancyXP="1800" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
                 <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="70"/>
+                <VitalMaxArray index="Life" value="50"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
                 <WeaponDisableArray value="AP_BacklashRocketsMengsk"/>
@@ -10477,7 +10469,7 @@
         <VeterancyLevelArray MinVeterancyXP="4200" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
                 <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="70"/>
+                <VitalMaxArray index="Life" value="50"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -10489,7 +10481,7 @@
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
                 <LifeArmorBonus value="1"/>
-                <VitalMaxArray index="Life" value="70"/>
+                <VitalMaxArray index="Life" value="50"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -12046,5 +12038,243 @@
         <Modification>
             <StateFlags index="SuppressFoodUsed" value="1"/>
         </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MarineMengskRank3Unlocked">
+        <InfoFlags index="Hidden" value="1"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MarauderMengskRank3Unlocked">
+        <InfoFlags index="Hidden" value="1"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MedicMengskRank3Unlocked">
+        <InfoFlags index="Hidden" value="1"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_GhostMengskRank3Unlocked">
+        <InfoFlags index="Hidden" value="1"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_GoliathMengskRank3Unlocked">
+        <InfoFlags index="Hidden" value="1"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SiegeTankMengskRank3Unlocked">
+        <InfoFlags index="Hidden" value="1"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_ThorMengskRank3Unlocked">
+        <InfoFlags index="Hidden" value="1"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorVeterancy id="AP_MengskVeterancyMarineMengskRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="600" LevelGainEffect="AP_MarineMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+            <Modification>
+                <VitalMaxArray index="Life" value="20"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="1400" LevelGainEffect="AP_MarineMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+            <Modification>
+                <VitalMaxArray index="Life" value="20"/>
+                <AdditiveAttackSpeedFactor value="0.25"/>
+            </Modification>
+        </VeterancyLevelArray>
+
+        <XPFraction index="Kills" value="0"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="AP_MengskVeterancyMarauderMengskRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="1200" LevelGainEffect="AP_MarauderMengskLevelUpAddictiveSupplementsSet" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+            <Modification>
+                <VitalMaxArray index="Life" value="50"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="2800" LevelGainEffect="AP_MarauderMengskLevelUpAddictiveSupplementsSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+            <Modification>
+                <VitalMaxArray index="Life" value="50"/>
+            </Modification>
+        </VeterancyLevelArray>
+
+        <XPFraction index="Kills" value="0"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="AP_MengskVeterancyMedicMengskRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <XPFraction index="Kills" value="0"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="900" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+            <Modification>
+                <LifeArmorBonus value="1"/>
+                <VitalMaxArray index="Life" value="25"/>
+                <VitalMaxArray index="Energy" value="50"/>
+                <VitalRegenArray index="Energy" value="0.5"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="2100" LevelGainEffect="AP_MedicMengskRank2LevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+            <Modification>
+                <LifeArmorBonus value="1"/>
+                <VitalMaxArray index="Life" value="25"/>
+                <VitalMaxArray index="Energy" value="50"/>
+                <VitalRegenArray index="Energy" value="0.5"/>
+            </Modification>
+        </VeterancyLevelArray>
+
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="AP_MengskVeterancyGhostMengskRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <XPFraction index="Kills" value="0"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="1200" LevelGainEffect="AP_GhostMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+            <Modification>
+                <VitalMaxArray index="Life" value="40"/>
+                <VitalMaxArray index="Energy" value="50"/>
+                <VitalRegenArray index="Energy" value="0.5"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="2800" LevelGainEffect="AP_GhostMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+            <Modification>
+                <VitalMaxArray index="Life" value="40"/>
+                <VitalMaxArray index="Energy" value="50"/>
+                <VitalRegenArray index="Energy" value="0.5"/>
+            </Modification>
+        </VeterancyLevelArray>
+
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="AP_MengskVeterancyGoliathMengskRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <XPFraction index="Kills" value="0"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="1500" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+            <Modification>
+                <VitalMaxArray index="Life" value="45"/>
+                <VitalRegenArray index="Shields" value="1"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="3500" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+            <Modification>
+                <VitalMaxArray index="Life" value="45"/>
+                <VitalRegenArray index="Shields" value="1"/>
+            </Modification>
+        </VeterancyLevelArray>
+
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="AP_MengskVeterancySiegeTankMengskRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <XPFraction index="Kills" value="0"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="1800" LevelGainEffect="AP_SiegeTankMengskVeteranLevelUp" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+            <Modification>
+                <VitalMaxArray index="Life" value="60"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="4200" LevelGainEffect="AP_SiegeTankMengskVeteranLevelUp" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+            <Modification>
+                <VitalMaxArray index="Life" value="60"/>
+            </Modification>
+        </VeterancyLevelArray>
+
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="AP_MengskVeterancyThorMengskRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <XPFraction index="Kills" value="0"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="2400" LevelGainEffect="AP_ThorMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+            <Modification>
+                <VitalMaxArray index="Life" value="100"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="5600" LevelGainEffect="AP_ThorMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+            <Modification>
+                <VitalMaxArray index="Life" value="100"/>
+            </Modification>
+        </VeterancyLevelArray>
+
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="AP_MengskVeterancyMedivacRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <XPFraction index="Kills" value="0"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="1800" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1"/>
+        <VeterancyLevelArray MinVeterancyXP="4200" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2"/>
+
+    </CBehaviorVeterancy>
+    <CBehaviorBuff id="AP_MengskVeterancySwapping">
+        <InfoFlags index="Hidden" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_GhostMengskPsychicEnhancerIndicator">
+        <Name value="Button/Name/AP_GhostMengskPsychicEnhancer"/>
+        <Tooltip value="Button/Tooltip/AP_GhostMengskPsychicEnhancer"/>
+        <InfoIcon value="AP\Assets\Textures\btn-upgrade-terran-psychic-amplifier.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Requirements value="AP_HaveGhostMengskPsychicEnhancer"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_BansheeMengskRank3Unlocked">
+        <InfoFlags index="Hidden" value="1"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+        <MaxStackCount value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorVeterancy id="AP_MengskVeterancyBansheeMengskRank2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <XPFraction index="Kills" value="0"/>
+        <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
+        <VeterancyLevelArray MinVeterancyXP="1800" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+            <Modification>
+                <LifeArmorBonus value="1"/>
+                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Energy" value="50"/>
+                <VitalRegenArray index="Energy" value="0.5"/>
+                <WeaponDisableArray value="AP_BacklashRocketsMengsk"/>
+                <WeaponEnableArray value="AP_BacklashRocketsMengskMoving"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="4200" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+            <Modification>
+                <LifeArmorBonus value="1"/>
+                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Energy" value="50"/>
+                <VitalRegenArray index="Energy" value="0.5"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
+    </CBehaviorVeterancy>
+    <CBehaviorBuff id="AP_BansheeMengskEnergizedBacklashIndicator">
+        <Name value="Button/Name/AP_BansheeMengskEnergizedBacklash"/>
+        <Tooltip value="Button/Tooltip/AP_BansheeMengskEnergizedBacklash"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-stetmann-corruptormissileaoe.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Requirements value="AP_HaveBansheeMengskEnergizedBacklash"/>
     </CBehaviorBuff>
 </Catalog>

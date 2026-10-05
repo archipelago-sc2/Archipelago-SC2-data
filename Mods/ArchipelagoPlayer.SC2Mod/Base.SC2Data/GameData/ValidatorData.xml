@@ -7892,10 +7892,10 @@
         <Compare value="GE"/>
         <Value value="3"/>
     </CValidatorUnitCompareVeterancyLevel>
-    <CValidatorPlayerRequirement id="AP_HaveGoliathMengskParalysisInducers">
+    <CValidatorPlayerRequirement id="AP_HaveGoliathMengskAntiAirCountermeasures">
         <WhichPlayer Value="Caster"/>
         <Find value="1"/>
-        <Value value="AP_HaveGoliathMengskParalysisInducers"/>
+        <Value value="AP_HaveGoliathMengskAntiAirCountermeasures"/>
     </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HaveAdaptiveMedPacks">
         <Find value="1"/>
@@ -9036,4 +9036,108 @@
     <CValidatorUnitType id="AP_IsVanillaPsiDisrupter">
         <Value value="PsiDisruptor"/>
     </CValidatorUnitType>
+    <CValidatorUnitCompareBehaviorCount id="AP_NotMengskVeterancySwapping">
+        <WhichUnit Value="Caster"/>
+        <Compare value="Eq"/>
+        <Value value="0"/>
+        <Behavior value="AP_MengskVeterancySwapping"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorPlayerRequirement id="AP_HaveMarineMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveMarineMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowMarineMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveMarineMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelLT4"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowMarineMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveMarineMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelGTE4"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_HaveMarauderMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveMarauderMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowMarauderMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveMarauderMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelLT4"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowMarauderMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveMarauderMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelGTE4"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_HaveMedicMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveMedicMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowMedicMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveMedicMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelLT4"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowMedicMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveMedicMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelGTE4"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_HaveGhostMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveGhostMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowGhostMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveGhostMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelLT4"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowGhostMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveGhostMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelGTE4"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_HaveGoliathMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveGoliathMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowGoliathMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveGoliathMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelLT4"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowGoliathMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveGoliathMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelGTE4"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_HaveSiegeTankMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveSiegeTankMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowSiegeTankMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveSiegeTankMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelLT4"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowSiegeTankMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveSiegeTankMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelGTE4"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_HaveThorMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveThorMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowThorMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveThorMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelLT4"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowThorMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveThorMengskRank3Training"/>
+        <CombineArray value="AP_CasterLevelGTE4"/>
+    </CValidatorCombine>
 </Catalog>

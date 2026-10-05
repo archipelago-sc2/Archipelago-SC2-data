@@ -38,7 +38,7 @@
     <CRequirement id="AP_HaveMarineMengskProdigalSon">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
         <NodeArray index="Show" Link="AP_CountUpgradeMarineMengskProdigalSonCompleteOnly"/>
-        <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit4"/>
+        <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit3"/>
     </CRequirement>
     <CRequirement id="AP_NotHaveMarineMengskProdigalSon">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
@@ -4662,6 +4662,7 @@
         <NodeArray index="Use" Link="AP_AndCountUpgradeMarineMengskSpiderMineLobCompleteOnlyGTECountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit3"/>
     </CRequirement>
     <CRequirement id="AP_HaveMarineMengskVeterancyLevel4">
+        <NodeArray index="Show" Link="AP_CountUpgradeMarineMengskRank3Training"/>
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit4"/>
     </CRequirement>
     <CRequirement id="AP_HaveWarpRelocate">
@@ -4696,6 +4697,7 @@
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyGoliathMengskCompleteOnlyAtUnit3"/>
     </CRequirement>
     <CRequirement id="AP_HaveGoliathMengskVeterancyLevel4">
+        <NodeArray index="Show" Link="AP_CountUpgradeGoliathMengskRank3Training"/>
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyGoliathMengskCompleteOnlyAtUnit4"/>
     </CRequirement>
     <CRequirement id="AP_HaveGoliathMengskMoebiusDefenseMatrix">
@@ -4704,9 +4706,9 @@
     <CRequirement id="AP_HaveGoliathMengskJumpJetsMKII">
         <NodeArray index="Show" Link="AP_CountUpgradeGoliathMengskJumpJetsMKIICompleteOnly"/>
     </CRequirement>
-    <CRequirement id="AP_HaveGoliathMengskParalysisInducers">
-        <NodeArray index="Show" Link="AP_CountUpgradeGoliathMengskParalysisInducersCompleteOnly"/>
-        <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyGoliathMengskCompleteOnlyAtUnit4"/>
+    <CRequirement id="AP_HaveGoliathMengskAntiAirCountermeasures">
+        <NodeArray index="Show" Link="AP_CountUpgradeGoliathMengskAntiAirCountermeasuresCompleteOnly"/>
+        <NodeArray index="Use" Link="AP_CountUpgradeGoliathMengskAntiAirCountermeasuresCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_HaveGoliathMengskAresClassTargetingAddon">
         <NodeArray index="Show" Link="AP_CountUpgradeGoliathMengskAresClassTargetingAddonCompleteOnly"/>
@@ -4832,6 +4834,7 @@
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyBansheeMengskCompleteOnlyAtUnit3"/>
     </CRequirement>
     <CRequirement id="AP_HaveBansheeMengskVeterancyLevel4">
+        <NodeArray index="Show" Link="AP_CountUpgradeBansheeMengskRank3Training"/>
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyBansheeMengskCompleteOnlyAtUnit4"/>
     </CRequirement>
     <CRequirement id="AP_HaveBioelectricPayload">
@@ -5485,6 +5488,105 @@
     </CRequirement>
     <CRequirement id="AP_SkirmisherSuicide">
         <NodeArray index="Show" Link="AP_CountUpgradeSkirmisherSuicideCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="AP_MarineMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowMarineMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseMarineMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_MarauderMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowMarauderMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseMarauderMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_MedicMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowMedicMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseMedicMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_GhostMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowGhostMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseGhostMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_GoliathMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowGoliathMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseGoliathMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_SiegeTankMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowSiegeTankMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseSiegeTankMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_ThorMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowThorMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseThorMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_GhostMengskShowVeterancy">
+        <NodeArray index="Show" Link="AP_HideGhostMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveMarineMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeMarineMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeMarineMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveMarauderMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeMarauderMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeMarauderMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveMedicMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeMedicMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeMedicMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveGhostMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeGhostMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeGhostMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveGoliathMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeGoliathMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeGoliathMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveSiegeTankMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeSiegeTankMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeSiegeTankMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveThorMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeThorMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeThorMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_MarineMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorMarineMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_MarauderMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorMarauderMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_MedicMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorMedicMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_GhostMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorGhostMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_GoliathMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorGoliathMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_SiegeTankMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorSiegeTankMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_ThorMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorThorMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_BansheeMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowBansheeMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseBansheeMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveBansheeMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeBansheeMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeBansheeMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_BansheeMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorBansheeMengskRank3Unlocked"/>
     </CRequirement>
     <CRequirement id="AP_UnlockBarracks">
         <NodeArray index="Use" Link="CountUnitAlias_CommandCenterCompleteOnly1610623376TechTreeCheat"/>
