@@ -1234,6 +1234,16 @@ void libABFE498B_gf_AP_Triggers_HeroHide (unit lp_hero) {
     lib15EF4C78_gf_SetHeroPanelUnit(1, null, UnitGetOwner(lp_hero));
 }
 
+void libABFE498B_gf_AP_Triggers_HeroShow (unit lp_hero) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_ShowHideUnit(lp_hero, true);
+    libNtve_gf_PauseUnit(lp_hero, false);
+    UnitBehaviorRemove(lp_hero, "AP_ImmortalShakurasAntiAirMissileDisableAttack", 1);
+    UnitBehaviorRemove(lp_hero, "DragStun", 1);
+    libNtve_gf_SendActorMessageToUnit(lp_hero, "SetOpacity 1.000000");
+}
+
 bool libABFE498B_gf_AP_HeroChoiceHasBit (int lp_presence, int lp_bit) {
     // Variable Declarations
     int lv_shifted;
@@ -2730,13 +2740,25 @@ bool libABFE498B_gt_AP_Triggers_Debug_makeHero_Func (bool testConds, bool runAct
     else {
         return true;
     }
+    lv_point = UnitTypePlacementFromPoint(lv_type, lv_player, lv_point, 10.0);
     autoDAF28AD5_g = libABFE498B_gv_aP_Triggers_HeroUnits;
     autoDAF28AD5_u = UnitGroupCount(autoDAF28AD5_g, c_unitCountAll);
     for (;; autoDAF28AD5_u -= 1) {
         autoDAF28AD5_var = UnitGroupUnitFromEnd(autoDAF28AD5_g, autoDAF28AD5_u);
         if (autoDAF28AD5_var == null) { break; }
         if ((UnitGetType(autoDAF28AD5_var) == lv_type)) {
-            TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_5267567B"), true);
+            if ((libNtve_gf_UnitIsHidden(autoDAF28AD5_var) == true)) {
+                lv_hero = autoDAF28AD5_var;
+                UnitSetPosition(lv_hero, lv_point, false);
+                libABFE498B_gf_AP_Triggers_HeroShow(lv_hero);
+                lib15EF4C78_gf_SetHeroPanelUnit(lv_index, lv_hero, lv_player);
+                libABFE498B_gv_aP_Triggers_HeroUnit[lv_index] = lv_hero;
+                UnitGroupAdd(libABFE498B_gv_aP_Triggers_HeroUnits, lv_hero);
+                TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_F67C54C2"), true);
+            }
+            else {
+                TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_5267567B"), true);
+            }
             return true;
         }
 
@@ -2750,9 +2772,9 @@ bool libABFE498B_gt_AP_Triggers_Debug_makeHero_Func (bool testConds, bool runAct
 
     lib15EF4C78_gf_SetHeroPanelUnit(lv_index, lv_hero, lv_player);
     libABFE498B_gv_aP_Triggers_HeroUnit[lv_index] = lv_hero;
+    UnitGroupAdd(libABFE498B_gv_aP_Triggers_HeroUnits, lv_hero);
     TextExpressionSetToken("Param/Expression/lib_ABFE498B_23084377", "A", UnitGetName(lv_hero));
     TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_23084377"), true);
-    UnitGroupAdd(libABFE498B_gv_aP_Triggers_HeroUnits, lv_hero);
     return true;
 }
 
