@@ -14938,18 +14938,14 @@
         <SearchFlags index="SameCliff" value="0"/>
     </CEffectDamage>
     <CEffectSet id="AP_KhaydarinBeamDamageSet">
-        <ValidatorArray value="AP_KhaydarinBeamDamageLowCheck"/>
         <EditorCategories value="Race:Protoss"/>
         <EffectArray value="AP_KhaydarinBeamDamage"/>
-        <EffectArray value="AP_KhaydarinBeamRetarget"/>
-        <EffectArray value="AP_KhaydarinSplashSearch"/>
+        <EffectArray value="AP_KhaydarinBeamStunSet"/>
     </CEffectSet>
     <CEffectSet id="AP_KhaydarinBeamHighDamageSet">
-        <ValidatorArray value="AP_KhaydarinBeamDamageHighCheck"/>
         <EditorCategories value="Race:Protoss"/>
         <EffectArray value="AP_KhaydarinBeamDamage"/>
-        <EffectArray value="AP_KhaydarinBeamRetarget"/>
-        <EffectArray value="AP_KhaydarinSplashSearch"/>
+        <EffectArray value="AP_KhaydarinBeamStunSet"/>
     </CEffectSet>
     <CEffectApplyBehavior id="AP_KhaydarinBeamRetarget">
         <WhichUnit Value="Caster"/>
@@ -28012,5 +28008,128 @@
     </CEffectModifyUnit>
     <CEffectSet id="AP_RepairFixSet">
         <EffectArray value="AP_RepairFixMU"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_KhaydarinBeamStunAB">
+        <EditorCategories value=""/>
+        <Behavior value="AP_KhaydarinBeamStun"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_KhaydarinBeamStunCooldownAB">
+        <ValidatorArray index="0" value="AP_NotHeroic"/>
+        <ValidatorArray value="NotStructureTarget"/>
+        <EditorCategories value=""/>
+        <Behavior value="AP_KhaydarinBeamStunCooldown"/>
+        <Flags index="UseDuration" value="1"/>
+        <Duration value="7"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_KhaydarinBeamStunCooldownHeroicAB">
+        <ValidatorArray index="0" value="AP_IsHeroic"/>
+        <ValidatorArray value="NotStructureTarget"/>
+        <EditorCategories value=""/>
+        <Behavior value="AP_KhaydarinBeamStunCooldown"/>
+        <Flags index="UseDuration" value="1"/>
+        <Duration value="12"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="AP_KhaydarinBeamStunSet">
+        <ValidatorArray value="AP_KhaydarinMonolithStun"/>
+        <ValidatorArray value="TargetIsEnemy"/>
+        <ValidatorArray value="NotStructureTarget"/>
+        <ValidatorArray value="AP_KhaydarinBeamNotStunned"/>
+        <EditorCategories value=""/>
+        <EffectArray value="AP_KhaydarinBeamStunAB"/>
+        <EffectArray value="AP_KhaydarinBeamStunCooldownAB"/>
+        <EffectArray value="AP_KhaydarinBeamStunCooldownHeroicAB"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="AP_LaunchBayAB">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="AP_LaunchBayHeight"/>
+    </CEffectApplyBehavior>
+    <CEffectUseMagazine id="AP_LaunchBayInterceptorUseMagazine">
+        <EditorCategories value="Race:Protoss"/>
+        <AmmoEffect value="AP_LaunchBaySet"/>
+        <MagazineAbil value="AP_LaunchBayHangar"/>
+    </CEffectUseMagazine>
+    <CEffectCreatePersistent id="AP_LaunchBayCP">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodCount value="8"/>
+        <PeriodicValidator value="CasterNotDead"/>
+        <PeriodicEffectArray value="AP_LaunchBayInterceptorUseMagazine"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <Flags index="Channeled" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="AP_LaunchBayGravitonCatapultCP">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodCount value="8"/>
+        <PeriodicValidator value="CasterNotDead"/>
+        <PeriodicEffectArray value="AP_LaunchBayInterceptorUseMagazine"/>
+        <PeriodicPeriodArray value="0.125"/>
+        <Flags index="Channeled" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectRemoveBehavior id="AP_LaunchBayRB">
+        <EditorCategories value="Race:Protoss"/>
+        <BehaviorLink value="AP_LaunchBayHeight"/>
+    </CEffectRemoveBehavior>
+    <CEffectModifyUnit id="AP_LaunchBayReleaseHeight">
+        <EditorCategories value="Race:Protoss"/>
+        <Height value="2"/>
+        <HeightTime value="1"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="AP_LaunchBayReturnHeight">
+        <EditorCategories value="Race:Protoss"/>
+        <Height value="-2"/>
+        <HeightTime value="1"/>
+    </CEffectModifyUnit>
+    <CEffectSet id="AP_LaunchBaySet">
+        <EditorCategories value="Race:Protoss"/>
+    </CEffectSet>
+    <CEffectDamage id="AP_InterceptorLaunchBayU" parent="DU_WEAP">
+        <EditorCategories value="Race:Protoss"/>
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="5"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="AP_InterceptorLaunchBayCP">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichLocation Value="TargetUnit"/>
+        <TimeScaleSource Value="Caster"/>
+        <InitialEffect value="AP_InterceptorLaunchBayU"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="AP_InterceptorLaunchBayU"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0"/>
+    </CEffectCreatePersistent>
+    <CEffectModifyUnit id="AP_PhaseCannonCooldown">
+        <EditorCategories value=""/>
+        <Cost Abil="AP_PhotonCannonPhase,Execute" CooldownTimeUse="30"/>
+    </CEffectModifyUnit>
+    <CEffectApplyBehavior id="AP_PsiSpireStormAB">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="AP_PsiSpireStorm"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="AP_PsiSpireStormU">
+        <ValidatorArray value="PsiStormUTargetFilters"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Visibility value="Hidden"/>
+        <Amount value="8"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="AP_PsiSpireStormCP">
+        <EditorCategories value="Race:Protoss"/>
+        <InitialEffect value="AP_PsiSpireStormSA"/>
+        <PeriodCount value="4"/>
+        <PeriodicEffectArray value="AP_PsiSpireStormSA"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <AINotifyEffect value="AP_PsiStormSearch"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="AP_PsiSpireStormSA">
+        <EditorCategories value="Race:Protoss"/>
+        <AINotifyFlags index="HurtFriend" value="1"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <SearchFilters value="-;Player,Ally,Neutral,Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1.5" Effect="AP_PsiSpireStormAB"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+    </CEffectEnumArea>
+    <CEffectSet id="AP_PsiSpireWeapon">
+        <EditorCategories value="Race:Protoss"/>
     </CEffectSet>
 </Catalog>

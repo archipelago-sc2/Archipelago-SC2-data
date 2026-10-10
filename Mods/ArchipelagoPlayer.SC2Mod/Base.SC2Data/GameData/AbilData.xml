@@ -8630,6 +8630,9 @@
         <InfoArray index="Build15" Unit="AP_CyberneticsCore" Time="50">
             <Button DefaultButtonFace="AP_CyberneticsCore" State="Restricted" Requirements="AP_UnlockCyberneticsCore"/>
         </InfoArray>
+        <InfoArray index="Build16" Unit="AP_LaunchBay" Time="60">
+            <Button DefaultButtonFace="AP_LaunchBay" State="Restricted" Requirements="AP_UnlockLaunchBay"/>
+        </InfoArray>
         <!--        <InfoArray index="Build20" Unit="PsionicAmplifier" Time="40">-->
         <!--            <Button DefaultButtonFace="PsionicAmplifier" State="Restricted"/>-->
         <!--        </InfoArray>-->
@@ -8659,6 +8662,9 @@
         </InfoArray>
         <InfoArray index="Build29" Unit="AP_TradeStructure" Time="40">
             <Button DefaultButtonFace="AP_TradeStructure" State="Restricted" Requirements="AP_NotHaveTradeStructure"/>
+        </InfoArray>
+        <InfoArray index="Build30" Unit="AP_PsiSpire" Time="50">
+            <Button DefaultButtonFace="AP_PsiSpire" State="Restricted" Requirements="AP_UnlockPsiSpire"/>
         </InfoArray>
         <ConstructionMover value="Construction"/>
     </CAbilBuild>
@@ -14872,6 +14878,11 @@
             <Cooldown TimeUse="20"/>
             <Button DefaultButtonFace="AP_WarpRelocate" Requirements="AP_HaveWarpRelocate"/>
         </InfoArray>
+        <InfoArray index="Build16" Unit="AP_LaunchBay" Time="10">
+            <Resource index="Minerals" value="50"/>
+            <Cooldown TimeUse="20"/>
+            <Button DefaultButtonFace="AP_WarpRelocate" Requirements="AP_HaveWarpRelocate"/>
+        </InfoArray>
         <InfoArray index="Build22" Unit="AP_ShieldBattery" Time="10">
             <Resource index="Minerals" value="50"/>
             <Cooldown TimeUse="20"/>
@@ -14918,6 +14929,11 @@
                 <Location value="Player"/>
                 <TimeUse value="45"/>
             </Charge>
+            <Cooldown TimeUse="20"/>
+            <Button DefaultButtonFace="AP_WarpRelocate" Requirements="AP_HaveWarpRelocate"/>
+        </InfoArray>
+        <InfoArray index="Build30" Unit="AP_PsiSpire" Time="10">
+            <Resource index="Minerals" value="50"/>
             <Cooldown TimeUse="20"/>
             <Button DefaultButtonFace="AP_WarpRelocate" Requirements="AP_HaveWarpRelocate"/>
         </InfoArray>
@@ -16878,4 +16894,91 @@
         </Cost>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_SkirmisherAttackspeed" Requirements="AP_SkirmisherAttackspeed"/>
     </CAbilEffectInstant>
+    <CAbilArmMagazine id="AP_LaunchBayHangar">
+        <AbilSetId value="AP_LaunchBayHangar"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Flags index="Retarget" value="1"/>
+        <Leash value="12"/>
+        <InfoArray index="Ammo1" Time="10" CountStart="4" Manage="Recall" Unit="AP_InterceptorLaunchBay">
+            <Charge Link="CarrierInterceptor" Location="Unit"/>
+            <Cooldown Link="CarrierTrainInterceptor" TimeUse="0.01"/>
+            <Button DefaultButtonFace="AP_LaunchBay">
+                <Flags index="ToSelection" value="1"/>
+            </Button>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="AutoBuildOn" value="1"/>
+            <Flags index="LeashRetarget" value="1"/>
+        </InfoArray>
+        <Alert value="TrainComplete"/>
+        <EffectArray index="Death" value="InterceptorFate"/>
+        <EffectArray index="Launch" value="AP_LaunchBayAB"/>
+        <EffectArray index="Recall" value="AP_LaunchBayRB"/>
+        <MaxCount value="8"/>
+    </CAbilArmMagazine>
+    <CAbilMorph id="AP_PhotonCannonPhase">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PhotonCannonPhase" Requirements="AP_PhotonCannonPhase">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Cost>
+            <Cooldown TimeUse="30"/>
+        </Cost>
+        <InfoArray Unit="AP_PhotonCannonPhase">
+            <SectionArray index="Abils">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Collide">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Mover">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilBuild id="AP_PhotonCannonRedeploy">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <FlagArray index="IgnoreUnitCost" value="1"/>
+        <FlagArray index="PeonHide" value="1"/>
+        <FlagArray index="PeonKillFinish" value="1"/>
+        <InfoArray index="Build1" Unit="AP_PhotonCannon" Time="1">
+            <Button DefaultButtonFace="AP_PhotonCannonPhaseRedeploy">
+                <Flags index="ToSelection" value="1"/>
+            </Button>
+        </InfoArray>
+        <Range value="0.2"/>
+        <EffectArray index="Finish" value="AP_PhaseCannonCooldown"/>
+    </CAbilBuild>
+    <CAbilEffectTarget id="AP_PsiSpireStorm">
+        <Alignment value="Negative"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Effect index="0" value="AP_PsiSpireStormCP"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Cost>
+            <Charge>
+                <CountMax value="1"/>
+                <CountStart value="1"/>
+                <CountUse value="1"/>
+                <HideCount value="1"/>
+                <TimeUse value="15"/>
+            </Charge>
+            <Cooldown Location="Player" TimeUse="0.0625"/>
+        </Cost>
+        <Range value="5"/>
+        <Arc value="360"/>
+        <AutoCastFilters value="Visible;Player,Ally,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AutoCastRange value="5"/>
+        <CastOutroTime value="0.5"/>
+        <CursorEffect value="AP_PsiSpireStormSA"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PsiSpireStorm"/>
+        <AutoCastValidatorArray value="AP_PsiSpireAutocast"/>
+    </CAbilEffectTarget>
 </Catalog>

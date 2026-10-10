@@ -7858,6 +7858,7 @@
         <CombineArray value="AP_IsAPShieldBattery"/>
         <CombineArray value="AP_IsAPDarkShrine"/>
         <CombineArray value="AP_IsAPPylon"/>
+        <CombineArray value="AP_IsPsiSpire"/>
     </CValidatorCombine>
     <CValidatorUnitCompareBehaviorCount id="AP_NotWarpRelocating">
         <Value value="0"/>
@@ -9035,5 +9036,57 @@
     </CValidatorUnitType>
     <CValidatorUnitType id="AP_IsVanillaPsiDisrupter">
         <Value value="PsiDisruptor"/>
+    </CValidatorUnitType>
+    <CValidatorUnitCompareBehaviorCount id="AP_KhaydarinBeamNotStunned">
+        <Behavior value="AP_KhaydarinBeamStunCooldown"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_NoPsiSpire">
+        <Behavior value="AP_PsiSpireStorm"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorLocationEnumArea id="AP_PsiSpireAreaTarget">
+        <AreaArray Radius="1.3" Validator="AP_NoPsiSpire"/>
+        <Count value="2"/>
+        <SearchFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <IncludeArray Value="Target"/>
+        <WhichLocation Value="TargetUnit"/>
+        <LaunchLocation Value="CasterUnit"/>
+    </CValidatorLocationEnumArea>
+    <CValidatorUnitCompareDamageTakenTime id="AP_PsiSpireAttacked">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareDamageTakenTime>
+    <CValidatorCombine id="AP_PsiSpireThreatened">
+        <Type value="And"/>
+        <CombineArray value="AP_PsiSpireAttacked"/>
+        <CombineArray value="AP_PsiSpireValidTarget"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_PsiSpireAutocast">
+        <CombineArray value="AP_PsiSpireAreaTarget"/>
+        <CombineArray value="AP_PsiSpireThreatened"/>
+    </CValidatorCombine>
+    <CValidatorUnitFilters id="AP_PsiSpireTargetFilter">
+        <Filters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+    </CValidatorUnitFilters>
+    <CValidatorCombine id="AP_PsiSpireValidTarget">
+        <Type value="And"/>
+        <CombineArray value="AP_PsiSpireTargetFilter"/>
+        <CombineArray value="AP_NoPsiSpire"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareVital id="AP_CasterShieldsGT20">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="20"/>
+        <Vital value="Shields"/>
+    </CValidatorUnitCompareVital>
+    <CValidatorPlayerRequirement id="AP_KhaydarinMonolithStun">
+        <Find value="1"/>
+        <Value value="AP_KhaydarinMonolithStun"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitType id="AP_IsPsiSpire">
+        <Value value="AP_PsiSpire"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_IsLaunchBay">
+        <Value value="AP_LaunchBay"/>
     </CValidatorUnitType>
 </Catalog>
