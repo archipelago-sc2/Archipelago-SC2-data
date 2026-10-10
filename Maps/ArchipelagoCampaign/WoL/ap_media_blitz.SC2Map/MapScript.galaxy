@@ -915,9 +915,10 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Zerg";
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
+        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 1;
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gf_AP_Triggers_Debug_Tech(lib5BD4895D_gf_AP_Core_getUser(), 3);
@@ -940,6 +941,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
             lib15EF4C78_gf_ReplaceWorker(UnitFromId(230), "Zerg");
             PlayerSetRace(gv_p01_USER, "Zerg");
             lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_p01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
+            UnitSetPropertyFixed(gv_odin, c_unitPropLifeRegen, 0.7);
+            UnitBehaviorAdd(gv_odin, "AP_ZergOdin", gv_odin, 1);
+            UnitBehaviorAdd(gv_odin, "AP_ZergOdinHealthRegen", gv_odin, 1);
         }
         else {
             if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) {
@@ -952,6 +956,10 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
                 lib15EF4C78_gf_ReplaceWorker(UnitFromId(230), "Prot");
                 PlayerSetRace(gv_p01_USER, "Prot");
                 lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_p01_USER, lib5BD4895D_gv_aP_Core_Faction_DAELAAM);
+                TechTreeUpgradeAddLevel(1, "AP_ProtossOdin", 1);
+                UnitBehaviorAdd(gv_odin, "AP_ProtossOdinShieldRegen", gv_odin, 1);
+                UnitSetPropertyFixed(gv_odin, c_unitPropShieldsMax, 500.0);
+                UnitSetPropertyFixed(gv_odin, c_unitPropShields, 500.0);
             }
 
         }
@@ -963,7 +971,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1528,6 +1535,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init04Music, true, true);
     TriggerExecute(gt_Init05Environment, true, true);
     TriggerExecute(gt_Init06Difficulties, true, true);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroQ, true, false);
     return true;
 }
@@ -1655,20 +1663,6 @@ bool gt_Init03Units_Func (bool testConds, bool runActions) {
     gv_statueBullhorns[4] = UnitFromId(213);
     gv_statueBullhorns[5] = UnitFromId(217);
     gv_statueBullhorns[6] = UnitFromId(215);
-    if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Zerg")) {
-        UnitSetPropertyFixed(gv_odin, c_unitPropLifeRegen, 0.7);
-        UnitBehaviorAdd(gv_odin, "AP_ZergOdin", gv_odin, 1);
-        UnitBehaviorAdd(gv_odin, "AP_ZergOdinHealthRegen", gv_odin, 1);
-    }
-    else {
-        if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) {
-            TechTreeUpgradeAddLevel(1, "AP_ProtossOdin", 1);
-            UnitBehaviorAdd(gv_odin, "AP_ProtossOdinShieldRegen", gv_odin, 1);
-            UnitSetPropertyFixed(gv_odin, c_unitPropShieldsMax, 500.0);
-            UnitSetPropertyFixed(gv_odin, c_unitPropShields, 500.0);
-        }
-
-    }
     autoF69A218C_g = UnitGroup("Beacon_Terran", 0, RegionPlayableMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
     autoF69A218C_u = UnitGroupCount(autoF69A218C_g, c_unitCountAll);
     for (;; autoF69A218C_u -= 1) {
@@ -7454,6 +7448,7 @@ bool gt_IntroCleanup_Func (bool testConds, bool runActions) {
     libNtve_gf_GlobalCinematicSetting(false);
     libNtve_gf_SwooshCamera(gv_p01_USER, ((CameraInfoGetValue(CameraInfoDefault(), c_cameraValueDistance)) + 8.0), CameraInfoGetValue(CameraInfoDefault(), c_cameraValueDistance), UnitGetPosition(gv_odin), 1.5);
     UnitSelect(UnitFromId(1), gv_p01_USER, true);
+    lib15EF4C78_gf_SetHeroPanelUnit(1, UnitFromId(1), gv_p01_USER);
     CinematicFade(true, lv_fadeDuration, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, true);
     gv_inCinematic = false;
     TriggerExecute(gt_StartGameStage1, true, false);
@@ -7745,8 +7740,7 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
 
     }
     libABFE498B_gf_AP_Triggers_HeroInit(gv_p01_USER, PointFromId(551589962), UnitGroupFromId(6));
-    lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_p01_USER);
-    lib15EF4C78_gf_SetHeroPanelUnit(2, libABFE498B_gv_aP_Triggers_HeroUnit[1], gv_p01_USER);
+    lib15EF4C78_gf_SetHeroPanelUnit((UnitGroupCount(libABFE498B_gv_aP_Triggers_HeroUnits, c_unitCountAll)+1), UnitFromId(1), gv_p01_USER);
     autoF3942310_g = UnitGroup(null, gv_p02_DOMINION_INFANTRY, null, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
     autoF3942310_u = UnitGroupCount(autoF3942310_g, c_unitCountAll);
     for (;; autoF3942310_u -= 1) {

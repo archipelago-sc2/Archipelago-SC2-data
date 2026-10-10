@@ -494,8 +494,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
             UnitRemove(auto77BEA117_var);
         }
         libABFE498B_gf_AP_Triggers_HeroInit(gv_p1_USER, PointFromId(463), UnitGroupEmpty());
-        lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_p1_USER);
-        lib15EF4C78_gf_SetHeroPanelUnit(2, libABFE498B_gv_aP_Triggers_HeroUnit[1], gv_p1_USER);
         auto38088F4B_g = libABFE498B_gv_aP_Triggers_HeroUnits;
         auto38088F4B_u = UnitGroupCount(auto38088F4B_g, c_unitCountAll);
         for (;; auto38088F4B_u -= 1) {
@@ -1221,8 +1219,9 @@ bool gt_CheatGiveDrilltoMeQ_Func (bool testConds, bool runActions) {
     TriggerDebugOutput(1, StringExternal("Param/Value/A79C3D89"), true);
     TriggerQueueEnter();
     gv_playerControlsLaserDrill = true;
-    UnitSetOwner(UnitFromId(409), 1, true);
+    UnitSetOwner(UnitFromId(409), gv_p1_USER, true);
     libNtve_gf_MakeUnitUncommandable(gv_tHEONEDRILL, false);
+    lib15EF4C78_gf_SetHeroPanelUnit((UnitGroupCount(libABFE498B_gv_aP_Triggers_HeroUnits, c_unitCountAll)+1), gv_tHEONEDRILL, gv_p1_USER);
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     SoundPlay(SoundLink("TUIWarningPing", -1), PlayerGroupAll(), 100.0, 0.0);
     TriggerEnable(gt_PingDangerousUnits, true);
@@ -2357,6 +2356,7 @@ bool gt_UseLaserDrillQ360s_Func (bool testConds, bool runActions) {
     gv_playerControlsLaserDrill = true;
     UnitSetOwner(UnitFromId(409), gv_p1_USER, true);
     libNtve_gf_MakeUnitUncommandable(gv_tHEONEDRILL, false);
+    lib15EF4C78_gf_SetHeroPanelUnit((UnitGroupCount(libABFE498B_gv_aP_Triggers_HeroUnits, c_unitCountAll)+1), gv_tHEONEDRILL, gv_p1_USER);
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
     // Transmission - SoundLink("TTychus02TalDarimExecutor00023", 0)

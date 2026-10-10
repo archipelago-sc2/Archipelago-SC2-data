@@ -2595,6 +2595,11 @@ void lib15EF4C78_gf_SetHeroPanelUnit (int lp_index, unit lp_heroUnit, int lp_pla
     // Variable Initialization
 
     // Implementation
+    if (((lp_index <= 0) || (lp_index > 3))) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/lib_15EF4C78_29539DBF"), false);
+        return ;
+    }
+
     lib15EF4C78_gv_zS_SwarmHeroUIUnit[lp_index] = lp_heroUnit;
     lib15EF4C78_gv_zS_SwarmHeroUIType[lp_index] = lib15EF4C78_ge_CampaignHeroes_None;
     if ((lp_heroUnit == lib15EF4C78_gf_AP_Player_getKerriganUnit(lp_player))) {
@@ -2615,6 +2620,38 @@ void lib15EF4C78_gf_SetHeroPanelUnit (int lp_index, unit lp_heroUnit, int lp_pla
 
         if ((UnitGetType(lp_heroUnit) == "AP_ArtanisHero")) {
             lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\btn-hero-artanis.dds";
+        }
+
+        if ((UnitGetType(lp_heroUnit) == UnitTypeFromString("Zeratul"))) {
+            lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\zeratul_ingame_heroportrait.dds";
+        }
+
+        if ((UnitGetType(lp_heroUnit) == UnitTypeFromString("Odin"))) {
+            lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\btn-ability-tychus-odin.dds";
+        }
+
+        if ((UnitGetType(lp_heroUnit) == UnitTypeFromString("DrakkenLaserDrill"))) {
+            lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\btn-upgrade-swann-laserdrillattack.dds";
+        }
+
+        if ((UnitGetType(lp_heroUnit) == UnitTypeFromString("Artifact"))) {
+            lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\btn-tips-terran-energynova.dds";
+        }
+
+        if (((UnitGetType(lp_heroUnit) == UnitTypeFromString("Raynor")) || (UnitGetType(lp_heroUnit) == UnitTypeFromString("Raynor01")) || (UnitGetType(lp_heroUnit) == UnitTypeFromString("RaynorCommando")))) {
+            lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\btn-hero-raynor.dds";
+        }
+
+        if ((UnitGetType(lp_heroUnit) == UnitTypeFromString("KerriganEpilogue02"))) {
+            lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\btn-hero-kerriganqueenofblades.dds";
+        }
+
+        if ((UnitGetType(lp_heroUnit) == UnitTypeFromString("Stetmann"))) {
+            lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\ui_heroicons_portrait_stetmann.dds";
+        }
+
+        if ((UnitGetType(lp_heroUnit) == UnitTypeFromString("AP_ProbeHero"))) {
+            lib15EF4C78_gv_zS_SwarmHeroUIIcon[lp_index] = "Assets\\Textures\\btn-hero-fenix-arbiter.dds";
         }
 
     }
@@ -2889,12 +2926,26 @@ void lib15EF4C78_gf_ZS_UpdateHeroPanel (int lp_player, int lp_index) {
     libNtve_gf_SetDialogItemText(lib15EF4C78_gv_zS_SwarmHeroUIDialogEnergyLabel[lp_index], TextExpressionAssemble("Param/Expression/lib_15EF4C78_1421E6C3"), PlayerGroupAll());
     if ((UnitGetPropertyFixed(lib15EF4C78_gv_zS_SwarmHeroUIUnit[lp_index], c_unitPropEnergyMax, c_unitPropCurrent) == 0)) {
         lv_energy = 0;
-        DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImageNoEnergy[lp_index], PlayerGroupAll(), true);
-        DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImage[lp_index], PlayerGroupAll(), false);
-        DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImageAll[lp_index], PlayerGroupAll(), false);
-        DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogEnergyBarBackground[lp_index], PlayerGroupAll(), false);
-        DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogEnergyBarImage[lp_index], PlayerGroupAll(), false);
-        DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogShieldedHeroEnergyBarImage[lp_index], PlayerGroupAll(), false);
+        if ((lib15EF4C78_gf_ZS_ForceEnergyUI(lp_index) == true)) {
+            if ((lv_useShieldedHeroUI == true)) {
+                DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImage[lp_index], PlayerGroupAll(), false);
+                DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImageAll[lp_index], PlayerGroupAll(), true);
+            }
+            else {
+                DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImage[lp_index], PlayerGroupAll(), true);
+                DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImageAll[lp_index], PlayerGroupAll(), false);
+            }
+            DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImageNoEnergy[lp_index], PlayerGroupAll(), false);
+            DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogEnergyBarBackground[lp_index], PlayerGroupAll(), true);
+        }
+        else {
+            DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImageNoEnergy[lp_index], PlayerGroupAll(), true);
+            DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImage[lp_index], PlayerGroupAll(), false);
+            DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogBorderImageAll[lp_index], PlayerGroupAll(), false);
+            DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogEnergyBarBackground[lp_index], PlayerGroupAll(), false);
+            DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogEnergyBarImage[lp_index], PlayerGroupAll(), false);
+            DialogControlSetVisible(lib15EF4C78_gv_zS_SwarmHeroUIDialogShieldedHeroEnergyBarImage[lp_index], PlayerGroupAll(), false);
+        }
     }
     else {
         lv_energy = FixedToInt((UnitGetPropertyFixed(lib15EF4C78_gv_zS_SwarmHeroUIUnit[lp_index], c_unitPropEnergyPercent, c_unitPropCurrent) * 2.24));
@@ -2985,6 +3036,22 @@ void lib15EF4C78_gf_ZS_UpdateHeroPanel (int lp_player, int lp_index) {
             libNtve_gf_SetDialogItemUnit(lib15EF4C78_gv_zS_SwarmHeroUIDialogButton[lp_index], lib15EF4C78_gv_nM_HeroReviverUnit[lib15EF4C78_ge_NM_HeroType_NM_HeroType_Artanis], PlayerGroupAll());
         }
     }
+}
+
+bool lib15EF4C78_gf_ZS_ForceEnergyUI (int lp_index) {
+    // Variable Declarations
+    string lv_unitTypeString;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unitTypeString = (UnitGetType(lib15EF4C78_gv_zS_SwarmHeroUIUnit[lp_index]));
+
+    // Implementation
+    if (((lv_unitTypeString == "Zeratul") || (lv_unitTypeString == "Odin") || (lv_unitTypeString == "Artifact") || (lv_unitTypeString == "DrakkenLaserDrill") || (lv_unitTypeString == "Raynor") || (lv_unitTypeString == "Raynor01") || (lv_unitTypeString == "RaynorCommando") || (lv_unitTypeString == "KerriganEpilogue02") || (lv_unitTypeString == "Stetmann") || (lv_unitTypeString == "AP_ProbeHero"))) {
+        return true;
+    }
+
+    return false;
 }
 
 trigger auto_lib15EF4C78_gf_ZS_PlayKerriganHeroPanelLevelUpEffect_Trigger = null;

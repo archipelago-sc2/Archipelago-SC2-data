@@ -1034,7 +1034,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         GameSetSpeedValue(c_gameSpeedFaster);
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
@@ -2537,7 +2536,8 @@ bool gt_StartGameStage01Q_Func (bool testConds, bool runActions) {
     libABFE498B_gf_AP_Triggers_startNoBuild(gv_pLAYER_01_USER);
     UIAlertPoint("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/4427C835"), null, UnitGetPosition(gv_kERRIGAN));
     UnitControlGroupAddUnit(gv_pLAYER_01_USER, 1, gv_kERRIGAN);
-    libVCUI_gf_SetHeroPanelUnit(1, gv_kERRIGAN);
+    libVCUI_gf_SetHeroPanelUnit(1, null);
+    lib15EF4C78_gf_SetHeroPanelUnit(1, gv_kERRIGAN, gv_pLAYER_01_USER);
     TriggerEnable(gt_S1_KerriganSelected, true);
     TriggerEnable(gt_S1_VoidForcesDestroyed, true);
     libVCMI_gf_CreateObjectivePing(true, UnitGetPosition(gv_kERRIGAN), StringExternal("Param/Value/651F66CE"));
@@ -10158,6 +10158,7 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
     lv_fadeDuration = 1.0;
     lv_fadeDuration2 = UnitFilter(0, 0, 0, 0);
     lv_fadeDuration3 = UnitGroupEmpty();
+    lv_i = 1;
 
     // Actions
     if (!runActions) {
@@ -10316,12 +10317,10 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
         if (autoD0BB71C5_var == null) { break; }
         libNtve_gf_ShowHideUnit(autoD0BB71C5_var, true);
         libNtve_gf_RescueUnit(autoD0BB71C5_var, gv_pLAYER_01_USER, true);
-        if ((lv_i <= 1)) {
-            lib15EF4C78_gf_SetHeroPanelUnit((2+lv_i), autoD0BB71C5_var, gv_pLAYER_01_USER);
-            lv_i += 1;
-        }
-
+        lib15EF4C78_gf_SetHeroPanelUnit(lv_i, autoD0BB71C5_var, gv_pLAYER_01_USER);
+        lv_i += 1;
     }
+    lib15EF4C78_gf_SetHeroPanelUnit(lv_i, gv_kERRIGAN, gv_pLAYER_01_USER);
     TriggerExecute(gt_StartAI, true, false);
     Wait(0.5, c_timeReal);
     if ((gv_cinematicCompleted == true)) {

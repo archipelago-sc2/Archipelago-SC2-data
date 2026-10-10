@@ -58,6 +58,7 @@ bool gv_inCinematic;
 unit gv_superWarpGate_P08;
 unit gv_superWarpGate_P10;
 unit gv_zeratul;
+int gv_zeratulIndex;
 unit gv_heroPhoenix;
 unit gv_heroVoidRay;
 unit gv_heroCarrier;
@@ -465,6 +466,8 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         UnitRemove(lv_unit);
     }
     libABFE498B_gf_AP_Triggers_HeroInit(gv_p01_PLAYER, PointFromId(111), UnitGroupFromId(5));
+    gv_zeratulIndex = (UnitGroupCount(libABFE498B_gv_aP_Triggers_HeroUnits, c_unitCountAll)+1);
+    lib15EF4C78_gf_SetHeroPanelUnit(gv_zeratulIndex, gv_zeratul, gv_p01_PLAYER);
     return true;
 }
 
@@ -2155,6 +2158,10 @@ bool gt_ZeratulDiesQ_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    if ((gv_zeratulIndex <= 3)) {
+        lib15EF4C78_gf_SetHeroPanelUnit(gv_zeratulIndex, null, gv_p01_PLAYER);
+    }
+
     gv_zeratulKills = libNtve_gf_UnitGetPropertyKills(gv_zeratul, c_unitPropCurrent);
     TriggerQueueEnter();
     UIAlertUnit("Trigger", gv_p01_PLAYER, StringExternal("Param/Value/495144BF"), null, EventUnit());
