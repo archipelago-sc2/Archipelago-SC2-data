@@ -909,8 +909,10 @@
         <Item Type="Trigger" Id="25F09766"/>
     </Element>
     <Element Type="Trigger" Id="4DA300DC">
+        <Variable Type="Variable" Id="4D1CCF75"/>
         <Event Type="FunctionCall" Id="2121F3A9"/>
         <Action Type="FunctionCall" Id="8C9555E3"/>
+        <Action Type="FunctionCall" Id="C6B3617F"/>
         <Action Type="FunctionCall" Id="BC222D43"/>
         <Action Type="FunctionCall" Id="8B4CE6A1"/>
         <Action Type="FunctionCall" Id="3C1E802F"/>
@@ -918,6 +920,16 @@
         <Action Type="FunctionCall" Id="AB8B5093"/>
         <Action Type="FunctionCall" Id="7CB85B5E"/>
         <Action Type="FunctionCall" Id="78B39C99"/>
+    </Element>
+    <Element Type="Variable" Id="4D1CCF75">
+        <VariableType>
+            <Type Value="point"/>
+        </VariableType>
+        <Value Type="Param" Id="5AFAF55B"/>
+    </Element>
+    <Element Type="Param" Id="5AFAF55B">
+        <ValueType Type="point"/>
+        <ValueId Id="870"/>
     </Element>
     <Element Type="FunctionCall" Id="2121F3A9">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
@@ -935,6 +947,13 @@
         <ParameterDef Type="ParamDef" Library="Ntve" Id="00000220"/>
         <Value>true</Value>
         <ValueType Type="bool"/>
+    </Element>
+    <Element Type="FunctionCall" Id="C6B3617F">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
+        <ScriptCode>
+            AP_GhostSpawn_waveTargetOverride = true;
+            AP_GhostSpawn_waypointOverride = lv_waypoint;
+        </ScriptCode>
     </Element>
     <Element Type="FunctionCall" Id="BC222D43">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000116"/>
@@ -50799,21 +50818,23 @@
     </Element>
     <Element Type="Trigger" Id="6F0A8E04">
         <Action Type="Comment" Id="9092B2C8"/>
-        <Action Type="FunctionCall" Id="66572F83"/>
         <Action Type="FunctionCall" Id="F033515C"/>
         <Action Type="FunctionCall" Id="5EDAE382"/>
+        <Action Type="FunctionCall" Id="66572F83"/>
         <Action Type="Comment" Id="A1030DBF"/>
         <Action Type="FunctionCall" Id="5CC2AC4C"/>
         <Action Type="FunctionCall" Id="0176B810"/>
         <Action Type="FunctionCall" Id="EB91D7BA"/>
         <Action Type="FunctionCall" Id="81C0CB5E"/>
         <Action Type="Comment" Id="A4DF67B9"/>
+        <Action Type="FunctionCall" Id="DC8C7ADE"/>
         <Action Type="FunctionCall" Id="C74A8C2A"/>
         <Action Type="FunctionCall" Id="21610AA3"/>
         <Action Type="FunctionCall" Id="08759FD1"/>
         <Action Type="FunctionCall" Id="3C098755"/>
         <Action Type="FunctionCall" Id="66D5A7F3"/>
         <Action Type="Comment" Id="4266C25B"/>
+        <Action Type="FunctionCall" Id="7D25244C"/>
         <Action Type="FunctionCall" Id="C5497679"/>
         <Action Type="FunctionCall" Id="6FD1C846"/>
         <Action Type="FunctionCall" Id="753DA3F9"/>
@@ -50824,6 +50845,7 @@
         <Action Type="FunctionCall" Id="61AA004E"/>
         <Action Type="FunctionCall" Id="6E425198"/>
         <Action Type="Comment" Id="0145E11F"/>
+        <Action Type="FunctionCall" Id="F28103FF"/>
         <Action Type="FunctionCall" Id="82C4A2D2"/>
         <Action Type="FunctionCall" Id="02A3B9D0"/>
         <Action Type="FunctionCall" Id="63232268"/>
@@ -50835,6 +50857,7 @@
         <Action Type="FunctionCall" Id="F8A42533"/>
         <Action Type="FunctionCall" Id="E4C3A200"/>
         <Action Type="Comment" Id="E84FDF65"/>
+        <Action Type="FunctionCall" Id="41718B62"/>
         <Action Type="FunctionCall" Id="E966F297"/>
         <Action Type="FunctionCall" Id="84760660"/>
         <Action Type="FunctionCall" Id="4BE95F64"/>
@@ -50855,27 +50878,6 @@
         <Comment>
             Set Wave Target
         </Comment>
-    </Element>
-    <Element Type="FunctionCall" Id="66572F83">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="3955F80B"/>
-        <Parameter Type="Param" Id="9C79772B"/>
-        <Parameter Type="Param" Id="18ACBFE7"/>
-    </Element>
-    <Element Type="Param" Id="9C79772B">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="D621D0A0"/>
-        <Variable Type="Variable" Id="0ABBD890"/>
-    </Element>
-    <Element Type="Param" Id="18ACBFE7">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="6707020E"/>
-        <FunctionCall Type="FunctionCall" Id="EC34C863"/>
-    </Element>
-    <Element Type="FunctionCall" Id="EC34C863">
-        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000057"/>
-        <Parameter Type="Param" Id="B76D462D"/>
-    </Element>
-    <Element Type="Param" Id="B76D462D">
-        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000094"/>
-        <Variable Type="Variable" Id="E8B1AF94"/>
     </Element>
     <Element Type="FunctionCall" Id="F033515C">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="D92EAFA7"/>
@@ -50904,6 +50906,27 @@
     <Element Type="Param" Id="B1D7E3FE">
         <ParameterDef Type="ParamDef" Library="Ntve" Id="00000420"/>
         <Preset Type="PresetValue" Library="Ntve" Id="EC544EA4"/>
+    </Element>
+    <Element Type="FunctionCall" Id="66572F83">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="3955F80B"/>
+        <Parameter Type="Param" Id="9C79772B"/>
+        <Parameter Type="Param" Id="18ACBFE7"/>
+    </Element>
+    <Element Type="Param" Id="9C79772B">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="D621D0A0"/>
+        <Variable Type="Variable" Id="0ABBD890"/>
+    </Element>
+    <Element Type="Param" Id="18ACBFE7">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="6707020E"/>
+        <FunctionCall Type="FunctionCall" Id="EC34C863"/>
+    </Element>
+    <Element Type="FunctionCall" Id="EC34C863">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000057"/>
+        <Parameter Type="Param" Id="B76D462D"/>
+    </Element>
+    <Element Type="Param" Id="B76D462D">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000094"/>
+        <Variable Type="Variable" Id="E8B1AF94"/>
     </Element>
     <Element Type="Comment" Id="A1030DBF">
         <Comment>
@@ -50989,6 +51012,27 @@
         <Comment>
             Attack Wave - Soft ground jab.
         </Comment>
+    </Element>
+    <Element Type="FunctionCall" Id="DC8C7ADE">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="3955F80B"/>
+        <Parameter Type="Param" Id="018733CC"/>
+        <Parameter Type="Param" Id="C59C1FAD"/>
+    </Element>
+    <Element Type="Param" Id="018733CC">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="D621D0A0"/>
+        <Variable Type="Variable" Id="0ABBD890"/>
+    </Element>
+    <Element Type="Param" Id="C59C1FAD">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="6707020E"/>
+        <FunctionCall Type="FunctionCall" Id="240E5CB0"/>
+    </Element>
+    <Element Type="FunctionCall" Id="240E5CB0">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000057"/>
+        <Parameter Type="Param" Id="F360E075"/>
+    </Element>
+    <Element Type="Param" Id="F360E075">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000094"/>
+        <Variable Type="Variable" Id="E8B1AF94"/>
     </Element>
     <Element Type="FunctionCall" Id="C74A8C2A">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="253D7FAD"/>
@@ -51114,6 +51158,27 @@
         <Comment>
             Attack Wave - Muta chaser, right on the last wave&apos;s heels.
         </Comment>
+    </Element>
+    <Element Type="FunctionCall" Id="7D25244C">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="3955F80B"/>
+        <Parameter Type="Param" Id="674634F5"/>
+        <Parameter Type="Param" Id="75392C27"/>
+    </Element>
+    <Element Type="Param" Id="674634F5">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="D621D0A0"/>
+        <Variable Type="Variable" Id="0ABBD890"/>
+    </Element>
+    <Element Type="Param" Id="75392C27">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="6707020E"/>
+        <FunctionCall Type="FunctionCall" Id="A8F5D1E4"/>
+    </Element>
+    <Element Type="FunctionCall" Id="A8F5D1E4">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000057"/>
+        <Parameter Type="Param" Id="407C825D"/>
+    </Element>
+    <Element Type="Param" Id="407C825D">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000094"/>
+        <Variable Type="Variable" Id="E8B1AF94"/>
     </Element>
     <Element Type="FunctionCall" Id="C5497679">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="253D7FAD"/>
@@ -51325,6 +51390,27 @@
         <Comment>
             Attack Wave - Ground.
         </Comment>
+    </Element>
+    <Element Type="FunctionCall" Id="F28103FF">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="3955F80B"/>
+        <Parameter Type="Param" Id="72D8E71D"/>
+        <Parameter Type="Param" Id="C8D97E5E"/>
+    </Element>
+    <Element Type="Param" Id="72D8E71D">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="D621D0A0"/>
+        <Variable Type="Variable" Id="0ABBD890"/>
+    </Element>
+    <Element Type="Param" Id="C8D97E5E">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="6707020E"/>
+        <FunctionCall Type="FunctionCall" Id="C56DB79D"/>
+    </Element>
+    <Element Type="FunctionCall" Id="C56DB79D">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000057"/>
+        <Parameter Type="Param" Id="945ED445"/>
+    </Element>
+    <Element Type="Param" Id="945ED445">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000094"/>
+        <Variable Type="Variable" Id="E8B1AF94"/>
     </Element>
     <Element Type="FunctionCall" Id="82C4A2D2">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="253D7FAD"/>
@@ -51604,6 +51690,27 @@
         <Comment>
             Attack Wave
         </Comment>
+    </Element>
+    <Element Type="FunctionCall" Id="41718B62">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="3955F80B"/>
+        <Parameter Type="Param" Id="DBA2A509"/>
+        <Parameter Type="Param" Id="508FBC4E"/>
+    </Element>
+    <Element Type="Param" Id="DBA2A509">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="D621D0A0"/>
+        <Variable Type="Variable" Id="0ABBD890"/>
+    </Element>
+    <Element Type="Param" Id="508FBC4E">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="6707020E"/>
+        <FunctionCall Type="FunctionCall" Id="6C7E02D5"/>
+    </Element>
+    <Element Type="FunctionCall" Id="6C7E02D5">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000057"/>
+        <Parameter Type="Param" Id="F50FF7F4"/>
+    </Element>
+    <Element Type="Param" Id="F50FF7F4">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000094"/>
+        <Variable Type="Variable" Id="E8B1AF94"/>
     </Element>
     <Element Type="FunctionCall" Id="E966F297">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="253D7FAD"/>
@@ -51955,6 +52062,7 @@
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="CEDAB9C3"/>
         <FunctionCall Type="FunctionCall" Id="EFF4B5DF"/>
         <FunctionCall Type="Comment" Id="4CEDF2FE"/>
+        <FunctionCall Type="FunctionCall" Id="7796801B"/>
         <FunctionCall Type="FunctionCall" Id="E58CA950"/>
         <FunctionCall Type="FunctionCall" Id="03581468"/>
         <FunctionCall Type="FunctionCall" Id="A0542D0C"/>
@@ -51967,6 +52075,7 @@
         <FunctionCall Type="FunctionCall" Id="BE5FBA0D"/>
         <FunctionCall Type="FunctionCall" Id="13AC383E"/>
         <FunctionCall Type="Comment" Id="368A7971"/>
+        <FunctionCall Type="FunctionCall" Id="08DA68DB"/>
         <FunctionCall Type="FunctionCall" Id="2F37A944"/>
         <FunctionCall Type="FunctionCall" Id="81542B07"/>
         <FunctionCall Type="FunctionCall" Id="A3A46A2F"/>
@@ -51994,6 +52103,28 @@
             Attack Wave
         </Comment>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+    </Element>
+    <Element Type="FunctionCall" Id="7796801B">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="3955F80B"/>
+        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+        <Parameter Type="Param" Id="8556D6BD"/>
+        <Parameter Type="Param" Id="E8494A5B"/>
+    </Element>
+    <Element Type="Param" Id="8556D6BD">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="D621D0A0"/>
+        <Variable Type="Variable" Id="0ABBD890"/>
+    </Element>
+    <Element Type="Param" Id="E8494A5B">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="6707020E"/>
+        <FunctionCall Type="FunctionCall" Id="943CE4CF"/>
+    </Element>
+    <Element Type="FunctionCall" Id="943CE4CF">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000057"/>
+        <Parameter Type="Param" Id="00CBA9A5"/>
+    </Element>
+    <Element Type="Param" Id="00CBA9A5">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000094"/>
+        <Variable Type="Variable" Id="E8B1AF94"/>
     </Element>
     <Element Type="FunctionCall" Id="E58CA950">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="253D7FAD"/>
@@ -52351,6 +52482,28 @@
             Attack Wave
         </Comment>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+    </Element>
+    <Element Type="FunctionCall" Id="08DA68DB">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="3955F80B"/>
+        <SubFunctionType Type="SubFuncType" Library="Ntve" Id="4945FAA8"/>
+        <Parameter Type="Param" Id="9EEBCF2B"/>
+        <Parameter Type="Param" Id="8F803EA4"/>
+    </Element>
+    <Element Type="Param" Id="9EEBCF2B">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="D621D0A0"/>
+        <Variable Type="Variable" Id="0ABBD890"/>
+    </Element>
+    <Element Type="Param" Id="8F803EA4">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="6707020E"/>
+        <FunctionCall Type="FunctionCall" Id="357945C3"/>
+    </Element>
+    <Element Type="FunctionCall" Id="357945C3">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000057"/>
+        <Parameter Type="Param" Id="2E82EBE4"/>
+    </Element>
+    <Element Type="Param" Id="2E82EBE4">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000094"/>
+        <Variable Type="Variable" Id="E8B1AF94"/>
     </Element>
     <Element Type="FunctionCall" Id="2F37A944">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="253D7FAD"/>
