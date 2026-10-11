@@ -822,12 +822,24 @@ bool auto_gf_SpawnCrashingDoodad_TriggerFunc (bool testConds, bool runActions) {
 // Trigger: Arch Init
 //--------------------------------------------------------------------------------------------------
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_p;
+    region lv_r;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_p = gv_p05_ZERG_ORANGE_NW;
+    lv_r = RegionFromId(18);
+
     // Actions
     if (!runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_playerOverride = lv_p;
+    AP_GhostSpawn_regionOverride = lv_r;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
@@ -895,7 +907,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1516,6 +1527,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init05Environment, true, true);
     TriggerExecute(gt_Init06Difficulties, true, true);
     TriggerExecute(gt_Init08Variables, true, true);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroSequence, true, false);
     return true;
 }
@@ -5824,34 +5836,42 @@ bool gt_P2_Zerg_PurpleAttackWAVES_Func (bool testConds, bool runActions) {
 
     AIAttackWaveSetGatherPoint(gv_p02_ZERG_PURPLE_NE, PointFromId(133));
     Wait(110.0, c_timeGame);
+    AIAttackWaveSetTargetPlayer(gv_p02_ZERG_PURPLE_NE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(10, 10, 8, 8, "Zergling");
     AIAttackWaveAddUnits4(0, 0, 1, 3, "Roach");
     AIAttackWaveAddUnits4(2, 2, 4, 4, "Mutalisk");
     AIAttackWaveSend(gv_p02_ZERG_PURPLE_NE, 125, true);
+    AIAttackWaveSetTargetPlayer(gv_p02_ZERG_PURPLE_NE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(2, 2, 4, 5, "Hydralisk");
     AIAttackWaveAddUnits4(6, 6, 10, 12, "Zergling");
     AIAttackWaveAddWaypoint(gv_p02_ZERG_PURPLE_NE, PointFromId(311), false);
     AIAttackWaveSend(gv_p02_ZERG_PURPLE_NE, 180, false);
+    AIAttackWaveSetTargetPlayer(gv_p02_ZERG_PURPLE_NE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(3, 3, 5, 6, "Mutalisk");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Overseer");
     AIAttackWaveSend(gv_p02_ZERG_PURPLE_NE, 180, true);
+    AIAttackWaveSetTargetPlayer(gv_p02_ZERG_PURPLE_NE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(8, 8, 16, 10, "Zergling");
     AIAttackWaveAddUnits4(1, 1, 1, 2, "Ultralisk");
     AIAttackWaveSend(gv_p02_ZERG_PURPLE_NE, 275, false);
     Wait(175.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p02_ZERG_PURPLE_NE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(8, 8, 12, 14, "Zergling");
     AIAttackWaveAddUnits4(2, 2, 5, 7, "Mutalisk");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Infestor");
     AIAttackWaveAddUnits4(0, 0, 1, 1, "Overseer");
     AIAttackWaveSend(gv_p02_ZERG_PURPLE_NE, 160, false);
+    AIAttackWaveSetTargetPlayer(gv_p02_ZERG_PURPLE_NE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(8, 8, 12, 14, "Zergling");
     AIAttackWaveAddUnits4(2, 2, 5, 8, "Mutalisk");
     AIAttackWaveAddWaypoint(gv_p02_ZERG_PURPLE_NE, PointFromId(311), false);
     AIAttackWaveSend(gv_p02_ZERG_PURPLE_NE, 160, true);
+    AIAttackWaveSetTargetPlayer(gv_p02_ZERG_PURPLE_NE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(4, 4, 5, 7, "Mutalisk");
     AIAttackWaveAddUnits4(1, 1, 2, 3, "BroodLord");
     AIAttackWaveAddUnits4(1, 1, 1, 1, "Overseer");
     AIAttackWaveSend(gv_p02_ZERG_PURPLE_NE, 140, false);
+    AIAttackWaveSetTargetPlayer(gv_p02_ZERG_PURPLE_NE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Ultralisk");
     AIAttackWaveAddUnits4(1, 1, 1, 1, "Infestor");
     AIAttackWaveAddWaypoint(gv_p02_ZERG_PURPLE_NE, PointFromId(311), false);
@@ -5882,37 +5902,47 @@ bool gt_P5_Zerg_OrangeAttackWAVES_Func (bool testConds, bool runActions) {
     }
 
     AIAttackWaveSetGatherPoint(gv_p05_ZERG_ORANGE_NW, PointFromId(131));
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(4, 4, 5, 5, "Baneling");
     AIAttackWaveAddUnits4(3, 3, 2, 3, "Roach");
     AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 220, true);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(8, 8, 15, 20, "Zergling");
     AIAttackWaveAddUnits4(3, 3, 5, 6, "Mutalisk");
     AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 300, true);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(3, 3, 3, 4, "Roach");
     AIAttackWaveAddUnits4(1, 1, 2, 3, "Hydralisk");
     AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 120, true);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(7, 7, 8, 8, "Zergling");
     AIAttackWaveAddUnits4(2, 2, 3, 2, "Roach");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Overseer");
     AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 100, true);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(3, 3, 3, 3, "Roach");
     AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 135, false);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(3, 3, 3, 4, "Mutalisk");
     AIAttackWaveAddUnits4(0, 0, 1, 1, "Overseer");
     AIAttackWaveAddWaypoint(gv_p05_ZERG_ORANGE_NW, PointFromId(840), false);
     AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 135, true);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(6, 6, 8, 12, "Zergling");
     AIAttackWaveAddUnits4(4, 4, 7, 10, "Baneling");
     AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 170, true);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(10, 10, 9, 13, "Zergling");
     AIAttackWaveAddUnits4(1, 1, 2, 3, "Hydralisk");
     AIAttackWaveAddUnits4(0, 0, 1, 1, "Infestor");
     AIAttackWaveAddUnits4(0, 1, 1, 1, "Overseer");
     AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 170, true);
     while (true) {
+        AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(8, 8, 9, 13, "Zergling");
         AIAttackWaveAddUnits4(1, 1, 2, 3, "Hydralisk");
         AIAttackWaveSend(gv_p05_ZERG_ORANGE_NW, 140, true);
+        AIAttackWaveSetTargetPlayer(gv_p05_ZERG_ORANGE_NW, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(3, 3, 8, 10, "Roach");
         AIAttackWaveAddUnits4(2, 2, 3, 4, "Mutalisk");
         AIAttackWaveAddUnits4(1, 1, 1, 1, "Overseer");
@@ -5944,35 +5974,44 @@ bool gt_P6_Zerg_GreenAttackWAVES_Func (bool testConds, bool runActions) {
     }
 
     AIAttackWaveSetGatherPoint(gv_p06_ZERG_GREEN_SW, PointFromId(31));
+    AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(6, 8, 12, 15, "Zergling");
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Hydralisk");
     AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 190, true);
+    AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(4, 4, 5, 6, "Baneling");
     AIAttackWaveAddUnits4(3, 3, 4, 5, "Mutalisk");
     AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 220, true);
+    AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(8, 8, 10, 6, "Zergling");
     AIAttackWaveAddUnits4(1, 1, 1, 2, "Hydralisk");
     AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 120, true);
+    AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(6, 6, 8, 8, "Baneling");
     AIAttackWaveAddUnits4(2, 2, 5, 8, "Roach");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Overseer");
     AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 135, true);
+    AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(6, 6, 8, 12, "Zergling");
     AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 120, true);
+    AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(3, 3, 7, 10, "Roach");
     AIAttackWaveAddUnits4(4, 4, 6, 8, "Baneling");
     AIAttackWaveAddUnits4(0, 0, 1, 1, "Infestor");
     AIAttackWaveAddUnits4(0, 0, 1, 1, "Overseer");
     AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 95, true);
+    AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(10, 10, 9, 13, "Zergling");
     AIAttackWaveAddUnits4(1, 1, 2, 3, "Hydralisk");
     AIAttackWaveAddUnits4(0, 1, 1, 1, "Overseer");
     AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 165, true);
     while (true) {
+        AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(8, 8, 9, 13, "Zergling");
         AIAttackWaveAddUnits4(1, 1, 2, 3, "Hydralisk");
         AIAttackWaveAddUnits4(1, 1, 1, 1, "Overseer");
         AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 140, true);
+        AIAttackWaveSetTargetPlayer(gv_p06_ZERG_GREEN_SW, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(2, 2, 4, 5, "Roach");
         AIAttackWaveAddUnits4(4, 4, 5, 6, "Mutalisk");
         AIAttackWaveSend(gv_p06_ZERG_GREEN_SW, 140, true);
