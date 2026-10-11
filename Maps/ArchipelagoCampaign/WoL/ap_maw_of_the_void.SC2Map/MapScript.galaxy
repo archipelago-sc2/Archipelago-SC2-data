@@ -400,6 +400,8 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
@@ -518,7 +520,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -994,6 +995,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init04Music, true, true);
     TriggerExecute(gt_Init05Environment, true, true);
     TriggerExecute(gt_Init06Difficulties, true, true);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroQ, true, false);
     return true;
 }
@@ -1070,6 +1072,10 @@ bool gt_Init02Players_Func (bool testConds, bool runActions) {
     PlayerSetColorIndex(gv_pLAYER_03_HighTOSS, 3, true);
     PlayerSetColorIndex(gv_pLAYER_04_DarkTOSS, 3, true);
     PlayerSetColorIndex(gv_pLAYER_05_WORLDSHIP, 1, true);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_02_ScriptedTOSS, "AP_GhostSpawnShields", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_03_HighTOSS, "AP_GhostSpawnShields", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_04_DarkTOSS, "AP_GhostSpawnShields", 1);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_05_WORLDSHIP, "AP_GhostSpawnShields", 1);
     return true;
 }
 
@@ -4816,12 +4822,13 @@ bool gt_P04AttackWavesMiddle_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
     Wait(60.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
     AIAttackWaveAddUnits4(2, 2, 3, 4, "Zealot");
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Stalker");
     AIAttackWaveAddWaypoint(lv_thisAI, PointFromId(364), false);
     AIAttackWaveSend(lv_thisAI, 180, true);
+    AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
     AIAttackWaveAddUnits4(3, 3, 5, 5, "Zealot");
     AIAttackWaveAddUnits4(1, 1, 2, 1, "Archon");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Carrier");
@@ -4829,6 +4836,7 @@ bool gt_P04AttackWavesMiddle_Func (bool testConds, bool runActions) {
     AIAttackWaveSend(lv_thisAI, 180, true);
     while (true) {
         Wait(30.0, c_timeAI);
+        AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits4(0, 0, 2, 0, "Scout");
         AIAttackWaveAddUnits4(0, 0, 0, 2, "VoidRay");
         AIAttackWaveAddWaypoint(lv_thisAI, PointFromId(350), false);
@@ -4876,60 +4884,16 @@ bool gt_P03AttackWavesLeft_Func (bool testConds, bool runActions) {
 
     TriggerExecute(gt_StartAI, true, false);
     TriggerStop(gt_P04AttackWavesMiddle);
-    AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
-    Wait(90.0, c_timeAI);
-    AIAttackWaveAddUnits4(1, 1, 2, 2, "Scout");
-    AIAttackWaveAddUnits4(0, 0, 0, 1, "VoidRay");
-    AIAttackWaveAddUnits4(1, 1, 2, 2, "Carrier");
-    AIAttackWaveAddUnits4(0, 0, 0, 1, "Observer");
-    gf_P03AttackWaveWaypointsRoute(lv_thisAI, true);
-    AIAttackWaveSend(lv_thisAI, 120, true);
-    Wait(120.0, c_timeAI);
-    AIAttackWaveAddUnits4(4, 4, 4, 0, "Zealot");
-    AIAttackWaveAddUnits4(0, 0, 2, 3, "Stalker");
-    AIAttackWaveAddUnits4(0, 0, 2, 5, "Sentry");
-    AIAttackWaveAddUnits4(1, 1, 1, 2, "Colossus");
-    gf_P03AttackWaveWaypointsRoute(lv_thisAI, false);
-    AIAttackWaveSend(lv_thisAI, 120, false);
-    Wait(60.0, c_timeAI);
-    AIAttackWaveAddUnits4(2, 2, 3, 4, "VoidRay");
-    AIAttackWaveAddUnits4(0, 0, 1, 1, "Observer");
-    gf_P03AttackWaveWaypointsRoute(lv_thisAI, true);
-    AIAttackWaveSend(lv_thisAI, 120, true);
-    Wait(120.0, c_timeAI);
-    AIAttackWaveAddUnits4(2, 2, 3, 2, "Immortal");
-    AIAttackWaveAddUnits4(0, 0, 0, 2, "Sentry");
-    gf_P03AttackWaveWaypointsRoute(lv_thisAI, false);
-    AIAttackWaveSend(lv_thisAI, 120, false);
-    AIAttackWaveAddUnits4(1, 1, 2, 2, "Carrier");
-    AIAttackWaveAddUnits4(0, 0, 2, 3, "Phoenix");
-    gf_P03AttackWaveWaypointsRoute(lv_thisAI, true);
-    AIAttackWaveSend(lv_thisAI, 120, true);
-    Wait(60.0, c_timeAI);
-    AIAttackWaveAddUnits4(1, 1, 2, 3, "Scout");
-    AIAttackWaveAddUnits4(2, 2, 3, 3, "Colossus");
-    AIAttackWaveAddUnits4(0, 0, 0, 1, "Observer");
-    gf_P03AttackWaveWaypointsRoute(lv_thisAI, false);
-    AIAttackWaveSend(lv_thisAI, 120, true);
-    Wait(90.0, c_timeAI);
-    AIAttackWaveAddUnits4(2, 2, 3, 3, "Zealot");
-    AIAttackWaveAddUnits4(2, 2, 2, 2, "Stalker");
-    AIAttackWaveAddUnits4(0, 0, 2, 3, "Sentry");
-    AIAttackWaveAddUnits4(0, 0, 0, 1, "HighTemplar");
-    AIAttackWaveAddUnits4(0, 0, 1, 1, "Observer");
-    gf_P03AttackWaveWaypointsRoute(lv_thisAI, false);
-    AIAttackWaveSend(lv_thisAI, 120, false);
-    AIAttackWaveAddUnits4(1, 1, 2, 2, "Carrier");
-    gf_P03AttackWaveWaypointsRoute(lv_thisAI, true);
-    AIAttackWaveSend(lv_thisAI, 120, true);
     while (true) {
         Wait(90.0, c_timeAI);
+        AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits4(1, 1, 2, 2, "Scout");
-        AIAttackWaveAddUnits4(2, 2, 3, 4, "Carrier");
+        AIAttackWaveAddUnits4(2, 2, 3, 4, "VoidRay");
         AIAttackWaveAddUnits4(0, 1, 1, 1, "Observer");
         gf_P03AttackWaveWaypointsRoute(lv_thisAI, true);
         AIAttackWaveSend(lv_thisAI, 120, true);
         Wait(90.0, c_timeAI);
+        AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits4(2, 2, 3, 3, "Immortal");
         AIAttackWaveAddUnits4(2, 2, 3, 3, "Colossus");
         AIAttackWaveAddUnits4(0, 0, 0, 3, "Sentry");
@@ -4937,11 +4901,13 @@ bool gt_P03AttackWavesLeft_Func (bool testConds, bool runActions) {
         gf_P03AttackWaveWaypointsRoute(lv_thisAI, false);
         AIAttackWaveSend(lv_thisAI, 120, true);
         Wait(60.0, c_timeAI);
+        AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits4(2, 2, 3, 5, "Zealot");
         AIAttackWaveAddUnits4(0, 0, 2, 3, "Sentry");
         AIAttackWaveAddUnits4(0, 0, 1, 1, "HighTemplar");
         gf_P03AttackWaveWaypointsRoute(lv_thisAI, false);
         AIAttackWaveSend(lv_thisAI, 120, false);
+        AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits4(2, 2, 3, 3, "VoidRay");
         AIAttackWaveAddUnits4(1, 1, 1, 1, "Observer");
         gf_P03AttackWaveWaypointsRoute(lv_thisAI, true);
