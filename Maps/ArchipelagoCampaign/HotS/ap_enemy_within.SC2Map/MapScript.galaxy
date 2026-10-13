@@ -1415,7 +1415,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         TriggerExecute(gt_onDifficultyBrutal, true, false);
@@ -1448,7 +1448,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         UISetResourceVisible(PlayerGroupSingle(gv_pLAYER_01_USER), c_resourceTypeVespene, false);
         UISetResourceVisible(PlayerGroupSingle(gv_pLAYER_01_USER), c_resourceTypeTerrazine, true);
         PathSetColor(PathLastCreated(), c_pathLocationWorld, Color(100.00, 100.00, 100.00));
-        lib15EF4C78_gf_SetHeroPanelUnit2(1, gv_tHE_ONE_QUEEN, gv_pLAYER_01_USER);
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_tHE_ONE_QUEEN, gv_pLAYER_01_USER);
         libNtve_gf_SendActorMessageToUnit(UnitFromId(275), "ModelSwap Beacon_Terran");
         libNtve_gf_SendActorMessageToUnit(UnitFromId(179), "ModelSwap Beacon_TerranSmall");
     }
@@ -1463,7 +1463,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
         TriggerExecute(gt_ProtossTechnology, true, false);
         UISetResourceVisible(PlayerGroupSingle(gv_pLAYER_01_USER), c_resourceTypeMinerals, false);
-        lib15EF4C78_gf_SetHeroPanelUnit2(1, gv_tHE_ONE_QUEEN, gv_pLAYER_01_USER);
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_tHE_ONE_QUEEN, gv_pLAYER_01_USER);
         libNtve_gf_SendActorMessageToUnit(UnitFromId(275), "ModelSwap Beacon_Protoss");
         libNtve_gf_SendActorMessageToUnit(UnitFromId(179), "ModelSwap Beacon_ProtossSmall");
     }
@@ -1550,8 +1550,8 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init01Technology, true, true);
     TriggerExecute(gt_Init04MusicSound, true, true);
     TriggerExecute(gt_Init05Environment, true, true);
-    TriggerExecute(gt_Init06Difficulties, true, true);
     TriggerExecute(gt_FactionSwapInit, true, true);
+    TriggerExecute(gt_Init06Difficulties, true, true);
     TriggerExecute(gt_IntroQ, true, true);
     TriggerExecute(gt_StartGameQ, true, false);
     return true;

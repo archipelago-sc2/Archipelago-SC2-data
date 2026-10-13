@@ -176,6 +176,7 @@ trigger gt_Init05Environment;
 trigger gt_Init06Difficulties;
 trigger gt_Init07Help;
 trigger gt_DEBUGWin;
+trigger gt_DEBUGHeroPanel;
 trigger gt_DEBUGStage2;
 trigger gt_IntroSequence;
 trigger gt_StartGameStage1;
@@ -600,7 +601,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 5;
+        libABFE498B_gv_aP_Triggers_Option_HeroPresence = 0;
         libABFE498B_gf_AP_Triggers_Debug_Tech(gv_p01_USER, 2);
     }
 
@@ -1122,6 +1123,46 @@ void gt_DEBUGWin_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Hero Panel
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGHeroPanel_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(EventPlayer()) == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/56115D3A"), true);
+    lib15EF4C78_gf_SetHeroPanelUnit(1, gv_zeratul, gv_p01_USER);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGHeroPanel_Init () {
+    gt_DEBUGHeroPanel = TriggerCreate("gt_DEBUGHeroPanel_Func");
+    TriggerAddEventChatMessage(gt_DEBUGHeroPanel, c_playerAny, "-panel", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: DEBUG: Stage 2
 //--------------------------------------------------------------------------------------------------
 bool gt_DEBUGStage2_Func (bool testConds, bool runActions) {
@@ -1573,7 +1614,9 @@ bool gt_ChangeOwnerofZeratul_Func (bool testConds, bool runActions) {
             lib15EF4C78_gf_SetHeroPanelUnit(lv_i, libABFE498B_gv_aP_Triggers_HeroUnit[lv_i], gv_p01_USER);
         }
     }
-
+    else {
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_zeratul, gv_p01_USER);
+    }
     return true;
 }
 
@@ -7815,6 +7858,7 @@ void InitTriggers () {
     gt_Init06Difficulties_Init();
     gt_Init07Help_Init();
     gt_DEBUGWin_Init();
+    gt_DEBUGHeroPanel_Init();
     gt_DEBUGStage2_Init();
     gt_IntroSequence_Init();
     gt_StartGameStage1_Init();
