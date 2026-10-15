@@ -3412,7 +3412,7 @@ int lib15EF4C78_gf_AP_Player_getKerriganLevel (int lp_player) {
 void lib15EF4C78_gf_CM_Mengsk_UpdateProdigalSonRank3Bonus (unit lp_unit) {
     // Automatic Variable Declarations
     // Implementation
-    if (((lp_unit == null) || (UnitGetType(lp_unit) != "AP_MarineMengsk") || (UnitXPGetCurrentLevel(lp_unit, "AP_MengskVeterancyMarineMengsk") < 4))) {
+    if (((lp_unit == null) || (UnitGetType(lp_unit) != "AP_MarineMengsk") || (UnitXPGetCurrentLevel(lp_unit, null) < 4))) {
         return ;
     }
 
@@ -3436,7 +3436,7 @@ void lib15EF4C78_gf_CM_Mengsk_ApplyBuildABoomCharges (unit lp_unit) {
         return ;
     }
 
-    lv_displayedRank = (UnitXPGetCurrentLevel(lp_unit, "AP_MengskVeterancyMarineMengsk") - 1);
+    lv_displayedRank = (UnitXPGetCurrentLevel(lp_unit, null) - 1);
     if ((lv_displayedRank < 0)) {
         lv_displayedRank = 0;
     }
@@ -3460,7 +3460,7 @@ void lib15EF4C78_gf_CM_Mengsk_GrantRoyalAcademyXP (unit lp_unit) {
         return ;
     }
 
-    UnitXPAddXP(lp_unit, null, 900.0);
+    lib15EF4C78_gf_CM_Mengsk_AwardXP(lp_unit, 900.0);
 }
 
 int lib15EF4C78_gf_CM_Mengsk_MarauderDisplayedRank (unit lp_unit) {
@@ -3471,7 +3471,7 @@ int lib15EF4C78_gf_CM_Mengsk_MarauderDisplayedRank (unit lp_unit) {
     // Variable Initialization
 
     // Implementation
-    lv_displayedRank = (UnitXPGetCurrentLevel(lp_unit, "AP_MengskVeterancyMarauderMengsk") - 1);
+    lv_displayedRank = (UnitXPGetCurrentLevel(lp_unit, null) - 1);
     if ((lv_displayedRank < 0)) {
         lv_displayedRank = 0;
     }
@@ -3537,6 +3537,148 @@ void lib15EF4C78_gf_CM_Mengsk_ForceMorphTrooper (unit lp_trooper, unit lp_pickup
     UnitGroupRemove(lib15EF4C78_gv_cM_Mengsk_WeaponPickerUppers, lp_trooper);
     libNtve_gf_SendActorMessageToUnit(lp_trooper, "Signal ClearWeapon");
     libNtve_gf_SendActorMessageToUnit(lp_trooper, (("Signal " + lp_actorSignal)));
+}
+
+void lib15EF4C78_gf_CM_Mengsk_SwapVeterancy (unit lp_unit, string lp_old, string lp_new) {
+    // Variable Declarations
+    fixed lv_xp;
+    fixed lv_life;
+    fixed lv_shields;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_xp = UnitXPGetCurrentXP(lp_unit, lp_old);
+    lv_life = UnitGetPropertyFixed(lp_unit, c_unitPropLife, c_unitPropCurrent);
+    lv_shields = UnitGetPropertyFixed(lp_unit, c_unitPropShields, c_unitPropCurrent);
+
+    // Implementation
+    UnitBehaviorAdd(lp_unit, "AP_MengskVeterancySwapping", lp_unit, 1);
+    if ((UnitHasBehavior(lp_unit, lp_new) == true)) {
+        lv_xp = MaxF(lv_xp, UnitXPGetCurrentXP(lp_unit, lp_new));
+    }
+    else {
+        UnitBehaviorAdd(lp_unit, lp_new, lp_unit, 1);
+    }
+    UnitXPSetCurrentXP(lp_unit, lp_new, lv_xp);
+    UnitBehaviorRemove(lp_unit, lp_old, c_unitBehaviorCountAll);
+    UnitSetPropertyFixed(lp_unit, c_unitPropLife, lv_life);
+    UnitSetPropertyFixed(lp_unit, c_unitPropShields, lv_shields);
+    UnitBehaviorRemove(lp_unit, "AP_MengskVeterancySwapping", c_unitBehaviorCountAll);
+}
+
+void lib15EF4C78_gf_CM_Mengsk_ActivateRank3Veterancy (unit lp_unit) {
+    // Automatic Variable Declarations
+    // Implementation
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMarineMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MarineMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyMarineMengskRank2", "AP_MengskVeterancyMarineMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMarauderMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MarauderMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyMarauderMengskRank2", "AP_MengskVeterancyMarauderMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMedicMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MedicMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyMedicMengskRank2", "AP_MengskVeterancyMedicMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyGhostMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_GhostMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyGhostMengskRank2", "AP_MengskVeterancyGhostMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyGoliathMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_GoliathMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyGoliathMengskRank2", "AP_MengskVeterancyGoliathMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancySiegeTankMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_SiegeTankMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancySiegeTankMengskRank2", "AP_MengskVeterancySiegeTankMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyThorMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_ThorMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyThorMengskRank2", "AP_MengskVeterancyThorMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyBansheeMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_BansheeMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyBansheeMengskRank2", "AP_MengskVeterancyBansheeMengsk");
+    }
+
+}
+
+string lib15EF4C78_gf_CM_Mengsk_LockedVeterancy (unit lp_unit) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMarineMengskRank2") == true)) {
+        return "AP_MengskVeterancyMarineMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMarauderMengskRank2") == true)) {
+        return "AP_MengskVeterancyMarauderMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMedicMengskRank2") == true)) {
+        return "AP_MengskVeterancyMedicMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyGhostMengskRank2") == true)) {
+        return "AP_MengskVeterancyGhostMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyGoliathMengskRank2") == true)) {
+        return "AP_MengskVeterancyGoliathMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancySiegeTankMengskRank2") == true)) {
+        return "AP_MengskVeterancySiegeTankMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyThorMengskRank2") == true)) {
+        return "AP_MengskVeterancyThorMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMedivacRank2") == true)) {
+        return "AP_MengskVeterancyMedivacRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyBansheeMengskRank2") == true)) {
+        return "AP_MengskVeterancyBansheeMengskRank2";
+    }
+
+    return "";
+}
+
+bool lib15EF4C78_gf_CM_Mengsk_IsRank2Capped (unit lp_unit) {
+    // Variable Declarations
+    string lv_veterancy;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_veterancy = lib15EF4C78_gf_CM_Mengsk_LockedVeterancy(lp_unit);
+
+    // Implementation
+    return ((lv_veterancy != "") && (UnitXPGetCurrentLevel(lp_unit, lv_veterancy) >= 3));
+}
+
+void lib15EF4C78_gf_CM_Mengsk_AwardXP (unit lp_unit, fixed lp_xp) {
+    // Variable Declarations
+    string lv_veterancy;
+    fixed lv_rank2XP;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lib15EF4C78_gf_CM_Mengsk_ActivateRank3Veterancy(lp_unit);
+    lv_veterancy = lib15EF4C78_gf_CM_Mengsk_LockedVeterancy(lp_unit);
+    if ((lv_veterancy != "")) {
+        lv_rank2XP = libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogBehavior, lv_veterancy, "VeterancyLevelArray[1].MinVeterancyXP", UnitGetOwner(lp_unit));
+        lv_rank2XP += libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogBehavior, lv_veterancy, "VeterancyLevelArray[2].MinVeterancyXP", UnitGetOwner(lp_unit));
+        lp_xp = MaxF(0.0, MinF(lp_xp, (lv_rank2XP - UnitXPGetCurrentXP(lp_unit, lv_veterancy))));
+    }
+
+    UnitXPAddXP(lp_unit, null, lp_xp);
+    if ((lib15EF4C78_gf_CM_Mengsk_IsRank2Capped(lp_unit) == true)) {
+        UnitGroupRemove(lib15EF4C78_gv_cM_Mengsk_XPHungryUnits, lp_unit);
+    }
+
 }
 
 void lib15EF4C78_gf_RemoveUnusedStartingUnits (unitgroup lp_startingUnits, string lp_desiredFaction, bool lp_hiveUpgrade) {
@@ -9418,8 +9560,18 @@ bool lib15EF4C78_gt_MedivacShockDivisionPickup_Func (bool testConds, bool runAct
 
     UnitBehaviorAdd(lv_medivac, "AP_SiegeTankSiegeModeProgressiveRangeIncease", lv_tank, UnitBehaviorCount(lv_tank, "AP_SiegeTankSiegeModeProgressiveRangeIncease"));
     UnitBehaviorAdd(lv_medivac, "AP_VeterancySuppressEffects", lv_medivac, 1);
-    UnitBehaviorAdd(lv_medivac, "AP_MengskVeterancyMedivac", lv_medivac, 1);
-    UnitXPSetCurrentXP(lv_medivac, "AP_MengskVeterancyMedivac", 0.0);
+    UnitBehaviorRemove(lv_medivac, "AP_SiegeTankMengskRank3Unlocked", c_unitBehaviorCountAll);
+    if ((UnitHasBehavior(lv_tank, "AP_SiegeTankMengskRank3Unlocked") == true)) {
+        UnitBehaviorAdd(lv_medivac, "AP_SiegeTankMengskRank3Unlocked", lv_tank, 1);
+    }
+
+    if ((UnitHasBehavior(lv_tank, "AP_MengskVeterancySiegeTankMengskRank2") == true)) {
+        UnitBehaviorAdd(lv_medivac, "AP_MengskVeterancyMedivacRank2", lv_medivac, 1);
+    }
+    else {
+        UnitBehaviorAdd(lv_medivac, "AP_MengskVeterancyMedivac", lv_medivac, 1);
+    }
+    UnitXPSetCurrentXP(lv_medivac, null, 0.0);
     UnitXPAddXP(lv_medivac, null, UnitXPGetCurrentXP(lv_tank, null));
     if ((UnitGroupHasUnit(lib15EF4C78_gv_cM_Mengsk_XPHungryUnits, lv_tank) == true)) {
         UnitGroupRemove(lib15EF4C78_gv_cM_Mengsk_XPHungryUnits, lv_tank);
@@ -9467,13 +9619,15 @@ bool lib15EF4C78_gt_MedivacShockDivisionDrop_Func (bool testConds, bool runActio
     UnitBehaviorRemove(lv_medivac, "AP_SiegeTankMengskAirlift", 1);
     UnitBehaviorRemove(lv_medivac, "AP_SiegeTankSiegeModeProgressiveRangeIncease", c_unitBehaviorCountAll);
     UnitBehaviorAdd(lv_tank, "AP_VeterancySuppressEffects", lv_tank, 1);
-    UnitXPSetCurrentXP(lv_tank, "AP_MengskVeterancySiegeTankMengsk", UnitXPGetCurrentXP(lv_medivac, "AP_MengskVeterancyMedivac"));
+    UnitXPSetCurrentXP(lv_tank, null, UnitXPGetCurrentXP(lv_medivac, null));
     if ((UnitGroupHasUnit(lib15EF4C78_gv_cM_Mengsk_XPHungryUnits, lv_medivac) == true)) {
         UnitGroupRemove(lib15EF4C78_gv_cM_Mengsk_XPHungryUnits, lv_medivac);
         UnitGroupAdd(lib15EF4C78_gv_cM_Mengsk_XPHungryUnits, lv_tank);
     }
 
     UnitBehaviorRemove(lv_medivac, "AP_MengskVeterancyMedivac", 1);
+    UnitBehaviorRemove(lv_medivac, "AP_MengskVeterancyMedivacRank2", 1);
+    UnitBehaviorRemove(lv_medivac, "AP_SiegeTankMengskRank3Unlocked", c_unitBehaviorCountAll);
     return true;
 }
 
@@ -9572,7 +9726,7 @@ bool lib15EF4C78_gt_CM_Mengsk_VeterancyEarned_Func (bool testConds, bool runActi
     for (;; autoB45ECD10_u -= 1) {
         autoB45ECD10_var = UnitGroupUnitFromEnd(autoB45ECD10_g, autoB45ECD10_u);
         if (autoB45ECD10_var == null) { break; }
-        UnitXPAddXP(autoB45ECD10_var, null, lv_xp);
+        lib15EF4C78_gf_CM_Mengsk_AwardXP(autoB45ECD10_var, lv_xp);
     }
     return true;
 }
@@ -9606,6 +9760,12 @@ bool lib15EF4C78_gt_CM_Mengsk_RegisterVeteranUnit_Func (bool testConds, bool run
     }
 
     lv_veteranUnit = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lib15EF4C78_gf_CM_Mengsk_ActivateRank3Veterancy(lv_veteranUnit);
+    if ((lib15EF4C78_gf_CM_Mengsk_IsRank2Capped(lv_veteranUnit) == true)) {
+        UnitGroupRemove(lib15EF4C78_gv_cM_Mengsk_XPHungryUnits, lv_veteranUnit);
+        return true;
+    }
+
     UnitGroupAdd(lib15EF4C78_gv_cM_Mengsk_XPHungryUnits, lv_veteranUnit);
     lib15EF4C78_gf_CM_Mengsk_GrantRoyalAcademyXP(lv_veteranUnit);
     return true;
