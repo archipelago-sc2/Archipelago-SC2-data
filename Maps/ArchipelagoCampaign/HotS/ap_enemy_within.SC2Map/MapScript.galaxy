@@ -3080,6 +3080,10 @@ bool gt_SwarmQueenusesParasiticInvasion_Func (bool testConds, bool runActions) {
         UnitIssueOrder(EventUnitTargetUnit(), Order(AbilityCommand("Consume", 0)), c_orderQueueReplace);
     }
     else if (auto9F41246F_val == "GiantYeti") {
+        if ((UnitGetOwner(EventUnitTargetUnit()) == gv_pLAYER_01_USER)) {
+            return true;
+        }
+
         gf_KillLargeHoldingPen(EventUnitTargetPoint());
         UnitSetOwner(EventUnitTargetUnit(), gv_pLAYER_01_USER, true);
         UnitSelect(EventUnitTargetUnit(), gv_pLAYER_01_USER, true);

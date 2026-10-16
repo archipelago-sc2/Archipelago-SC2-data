@@ -2073,6 +2073,11 @@
         <Find value="1"/>
         <Value value="AP_HaveSensorTowerEnhancedVision"/>
     </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="AP_HaveSensorTowerRange">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+        <Behavior value="AP_SensorTowerRangeBuff"/>
+    </CValidatorUnitCompareBehaviorCount>
     <CValidatorPlayerRequirement id="AP_NoFortifiedCarapace">
         <Find value="1"/>
         <Value value="AP_NotFortifiedCarapace"/>
@@ -6103,6 +6108,14 @@
     <CValidatorUnitCompareBehaviorCount id="AP_IsVanillaHallucination">
         <Value value="1"/>
         <Behavior value="Hallucination"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_CasterNotSentryHallucination">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_HallucinationTimedLife"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_CasterNotHighTemplarHallucination">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_HighTemplarSCBWHallucination"/>
     </CValidatorUnitCompareBehaviorCount>
     <CValidatorCombine id="IsHallucination" parent="CValidatorCombine">
         <!-- Override -->

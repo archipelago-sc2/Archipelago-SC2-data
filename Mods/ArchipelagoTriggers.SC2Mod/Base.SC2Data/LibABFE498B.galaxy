@@ -670,7 +670,7 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockGhostSpawn_TriggerFunc (bool testCond
 
     // Automatic Variable Declarations
     // Implementation
-    if ((libABFE498B_gv_aP_Triggers_TrapKillswitch == true)) {
+    if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == true)) {
         TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_85477AAE"), false);
         return true;
     }
@@ -727,7 +727,7 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockVoidDuplicate_TriggerFunc (bool testC
     unit auto2F873F0F_var;
 
     // Implementation
-    if ((libABFE498B_gv_aP_Triggers_TrapKillswitch == true)) {
+    if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == true)) {
         TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_6A50AAE8"), false);
         return true;
     }
@@ -2425,6 +2425,34 @@ void libABFE498B_gt_AP_Triggers_Debug_activateDebugMode_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_enableChecks
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_enableChecks_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    AP_Core_SaveLoad_EnableChecksOverride();
+    TriggerDebugOutput(1, StringToText("Save mismatch protection overridden. Mission checks are enabled."), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_enableChecks_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_enableChecks = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_enableChecks_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_enableChecks, c_playerAny, "-enablechecks", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_Debug_skipTransmissions
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_Debug_skipTransmissions_Func (bool testConds, bool runActions) {
@@ -2714,34 +2742,6 @@ bool libABFE498B_gt_AP_Triggers_Debug_takeControl_Func (bool testConds, bool run
 void libABFE498B_gt_AP_Triggers_Debug_takeControl_Init () {
     libABFE498B_gt_AP_Triggers_Debug_takeControl = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_takeControl_Func");
     TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_takeControl, c_playerAny, "-control", false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_Debug_enableChecks
-//--------------------------------------------------------------------------------------------------
-bool libABFE498B_gt_AP_Triggers_Debug_enableChecks_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    AP_Core_SaveLoad_EnableChecksOverride();
-    TriggerDebugOutput(1, StringToText("Save mismatch protection overridden. Mission checks are enabled."), true);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libABFE498B_gt_AP_Triggers_Debug_enableChecks_Init () {
-    libABFE498B_gt_AP_Triggers_Debug_enableChecks = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_enableChecks_Func");
-    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_enableChecks, c_playerAny, "-enablechecks", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3084,9 +3084,9 @@ void libABFE498B_gt_AP_Triggers_Debug_ArtanisAspectsActive_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_Debug_ghostTrap
+// Trigger: AP_Triggers_Debug_ghostSpawn
 //--------------------------------------------------------------------------------------------------
-bool libABFE498B_gt_AP_Triggers_Debug_ghostTrap_Func (bool testConds, bool runActions) {
+bool libABFE498B_gt_AP_Triggers_Debug_ghostSpawn_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_level;
     string lv_s;
@@ -3120,9 +3120,37 @@ bool libABFE498B_gt_AP_Triggers_Debug_ghostTrap_Func (bool testConds, bool runAc
 }
 
 //--------------------------------------------------------------------------------------------------
-void libABFE498B_gt_AP_Triggers_Debug_ghostTrap_Init () {
-    libABFE498B_gt_AP_Triggers_Debug_ghostTrap = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_ghostTrap_Func");
-    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_ghostTrap, c_playerAny, "-ghost", false);
+void libABFE498B_gt_AP_Triggers_Debug_ghostSpawn_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_ghostSpawn = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_ghostSpawn_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_ghostSpawn, c_playerAny, "-ghost", false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_ghostSpawnShow
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_ghostSpawnShow_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_07DA90ED"), true);
+    AP_GhostSpawn_ShowBuilding();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_ghostSpawnShow_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_ghostSpawnShow = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_ghostSpawnShow_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_ghostSpawnShow, c_playerAny, "-showghost", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3168,9 +3196,9 @@ void libABFE498B_gt_AP_Triggers_Debug_voidDuplicate_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Triggers_Debug_killTraps
+// Trigger: AP_Triggers_Debug_killMutators
 //--------------------------------------------------------------------------------------------------
-bool libABFE498B_gt_AP_Triggers_Debug_killTraps_Func (bool testConds, bool runActions) {
+bool libABFE498B_gt_AP_Triggers_Debug_killMutators_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
@@ -3184,24 +3212,25 @@ bool libABFE498B_gt_AP_Triggers_Debug_killTraps_Func (bool testConds, bool runAc
         return true;
     }
 
-    if ((libABFE498B_gv_aP_Triggers_TrapKillswitch == false)) {
+    if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == false)) {
         TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_64E7F97C"), true);
         libABFE498B_gf_AP_Triggers_unlockGhostSpawn(EventPlayer(), 0);
         libABFE498B_gf_AP_Triggers_unlockVoidDuplicate(EventPlayer(), 0);
-        libABFE498B_gv_aP_Triggers_TrapKillswitch = true;
+        libABFE498B_gv_aP_Triggers_MutatorKillswitch = true;
     }
     else {
         TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_AECDE6A0"), true);
-        libABFE498B_gv_aP_Triggers_TrapKillswitch = false;
+        libABFE498B_gv_aP_Triggers_MutatorKillswitch = false;
+        lib5BD4895D_gf_AP_Core_bankUpdatePrompt();
     }
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libABFE498B_gt_AP_Triggers_Debug_killTraps_Init () {
-    libABFE498B_gt_AP_Triggers_Debug_killTraps = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_killTraps_Func");
-    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_killTraps, c_playerAny, "-kill", true);
-    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_killTraps, c_playerAny, "-killtraps", true);
+void libABFE498B_gt_AP_Triggers_Debug_killMutators_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_killMutators = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_killMutators_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_killMutators, c_playerAny, "-kill", true);
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_killMutators, c_playerAny, "-killmutators", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3481,7 +3510,7 @@ bool libABFE498B_gt_AP_Triggers_SoAWarpInReinforcementsSetup_Func (bool testCond
     }
 
     lv_index += 1;
-    libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_index] = "Zealot";
+    libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_index] = "AP_ZealotAiur";
     libABFE498B_gv_aP_Triggers_SoAReinforcementRangedTypes[lv_index] = "AP_Dragoon";
     lv_index += 1;
     libABFE498B_gv_aP_Triggers_SoAReinforcementMeleeTypes[lv_index] = "AP_ZealotShakuras";
@@ -4034,9 +4063,10 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_ArtanisAspectsBoth_Init();
     libABFE498B_gt_AP_Triggers_Debug_ArtanisAspectsPassive_Init();
     libABFE498B_gt_AP_Triggers_Debug_ArtanisAspectsActive_Init();
-    libABFE498B_gt_AP_Triggers_Debug_ghostTrap_Init();
+    libABFE498B_gt_AP_Triggers_Debug_ghostSpawn_Init();
+    libABFE498B_gt_AP_Triggers_Debug_ghostSpawnShow_Init();
     libABFE498B_gt_AP_Triggers_Debug_voidDuplicate_Init();
-    libABFE498B_gt_AP_Triggers_Debug_killTraps_Init();
+    libABFE498B_gt_AP_Triggers_Debug_killMutators_Init();
     libABFE498B_gt_AP_Triggers_Debug_displayBase_Init();
     libABFE498B_gt_AP_Triggers_InitMusic_Init();
     libABFE498B_gt_AP_Triggers_ChangeMusic_Init();
