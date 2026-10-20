@@ -1121,11 +1121,10 @@
         <On Terms="AbilTransport.AP_MedivacTransport.PassengerKilled; AbilTransport AP_SiegeBreakerSiegedTransportable" Target="::actor.AP_SiegeBreakerSieged" Send="Signal Dead"/>
         <On Terms="UnitDeath" Target="::actor.AP_SiegeBreakerSieged" Send="Signal Dead"/>
         <On Terms="Signal.*.AP_SiegeBreakerLoadTransit" Send="RefSetFromMsg ::actor.AP_InfestedSiegeBreakerSieged ::Sender"/>
-        <On Terms="AbilTransport.AP_MedivacTransport.PassengerKilled; AbilTransport AP_InfestedSiegeBreakerSiegedTransportable" Target="::actor.AP_SiegeBreakerSieged" Send="Signal Dead"/>
+        <On Terms="AbilTransport.AP_MedivacTransport.PassengerKilled; AbilTransport AP_InfestedSiegeBreakerSiegedTransportable" Target="::actor.AP_InfestedSiegeBreakerSieged" Send="Signal Dead"/>
         <On Terms="UnitDeath" Target="::actor.AP_InfestedSiegeBreakerSieged" Send="Signal Dead"/>
-        <On Terms="UnitDeath" Target="::actor.AP_SiegeTankMengskSieged" Send="Signal Dead"/>
         <On Terms="Signal.*.AP_SiegeTankMengskSiegedTransit" Send="RefSetFromMsg ::actor.AP_SiegeTankMengskSieged ::Sender"/>
-        <On Terms="AbilTransport.AP_MedivacTransport.PassengerKilled; AbilTransport AP_SiegeTankMengskSiegedTransportable" Target="::actor.AP_SiegeBreakerSieged" Send="Signal Dead"/>
+        <On Terms="AbilTransport.AP_MedivacTransport.PassengerKilled; AbilTransport AP_SiegeTankMengskSiegedTransportable" Target="::actor.AP_SiegeTankMengskSieged" Send="Signal Dead"/>
         <On Terms="UnitDeath" Target="::actor.AP_SiegeTankMengskSieged" Send="Signal Dead"/>
         <On Terms="Signal.*.AP_BlackOpsTank" Target="AP_SiegeTankLoadTransit" Send="Signal AP_BlackOpsTank"/>
         <On Terms="Signal.*.AP_BlackOpsTank" Target="AP_SiegeBreakerLoadTransit" Send="Signal AP_BlackOpsTank"/>
@@ -41982,7 +41981,7 @@
     <CActorModel id="AP_SiegeTankMengskSiegedTransit">
         <Host Subject="_Unit"/>
         <HostSiteOps Ops="SOpAttachCenter AP_SiegeTankMengskSiegedCargoSOpOffset"/>
-        <On Terms="ActorCreation" Target="::Creator" Send="Signal AP_MengskSiegeTankLoadTransit"/>
+        <On Terms="ActorCreation" Target="::Creator" Send="Signal AP_SiegeTankMengskSiegedTransit"/>
         <On Terms="ActorCreation" Send="AnimPlay Start Stand,Work,Start"/>
         <On Terms="AnimDone; AnimName Start" Send="AnimPlay Work Stand,Work PlayForever"/>
         <On Terms="ActorCreation" Send="SetVisibility"/>
