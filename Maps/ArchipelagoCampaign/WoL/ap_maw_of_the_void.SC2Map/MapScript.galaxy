@@ -4912,6 +4912,7 @@ bool gt_P03AttackWavesLeft_Func (bool testConds, bool runActions) {
     AIAttackWaveAddUnits4(0, 0, 0, 2, "Sentry");
     gf_P03AttackWaveWaypointsRoute(lv_thisAI, false);
     AIAttackWaveSend(lv_thisAI, 120, false);
+    AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Carrier");
     AIAttackWaveAddUnits4(0, 0, 2, 3, "Phoenix");
     gf_P03AttackWaveWaypointsRoute(lv_thisAI, true);
@@ -4940,7 +4941,7 @@ bool gt_P03AttackWavesLeft_Func (bool testConds, bool runActions) {
         Wait(90.0, c_timeAI);
         AIAttackWaveSetTargetPlayer(lv_thisAI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits4(1, 1, 2, 2, "Scout");
-        AIAttackWaveAddUnits4(2, 2, 3, 4, "VoidRay");
+        AIAttackWaveAddUnits4(2, 2, 3, 4, "Carrier");
         AIAttackWaveAddUnits4(0, 1, 1, 1, "Observer");
         gf_P03AttackWaveWaypointsRoute(lv_thisAI, true);
         AIAttackWaveSend(lv_thisAI, 120, true);
