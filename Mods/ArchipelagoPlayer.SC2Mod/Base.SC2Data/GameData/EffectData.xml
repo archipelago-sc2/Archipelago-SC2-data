@@ -4536,6 +4536,14 @@
         <EditorCategories value="Race:Terran"/>
         <Behavior value="AP_SensorTowerRangeBuff"/>
     </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_SensorTowerRangeBunkerAB">
+        <EditorCategories value="Race:Terran"/>
+        <Behavior value="AP_SensorTowerRangeBunker"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="AP_SensorTowerRangeBunkerRB">
+        <EditorCategories value="Race:Terran"/>
+        <BehaviorLink value="AP_SensorTowerRangeBunker"/>
+    </CEffectRemoveBehavior>
     <CEffectApplyBehavior id="AP_MakePrecursorMerc">
         <Behavior value="AP_PrecursorMerc"/>
     </CEffectApplyBehavior>
@@ -17976,6 +17984,7 @@
     </CEffectEnumArea>
     <CEffectSet id="AP_SOAOverWatchSet">
         <ValidatorArray value="AP_SOAOverWatchLifeLimit"/>
+        <ValidatorArray value="NotUnderConstruction"/>
         <EffectArray value="AP_SOAOverWatchDamage"/>
         <EffectArray value="AP_SOAOverWatchCooldownAB"/>
     </CEffectSet>
@@ -25456,6 +25465,8 @@
             <SortArray value="TSDistance"/>
         </TargetSorts>
         <ValidatorArray value="AP_ArchonSuicideTargetsInRange"/>
+        <ValidatorArray value="AP_CasterNotHighTemplarHallucination"/>
+        <ValidatorArray value="AP_CasterNotSentryHallucination"/>
         <AreaArray MaxCount="1" Radius="6" Effect="AP_ArchonSuicideLaunch"/>
     </CEffectEnumArea>
     <CEffectCreatePersistent id="AP_ArchonSuicideReveal">

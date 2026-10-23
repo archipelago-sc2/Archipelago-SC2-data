@@ -418,6 +418,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     }
 
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
         libABFE498B_gv_aP_Triggers_Option_HeroPresence = 2;
@@ -461,7 +462,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1026,6 +1026,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init05Environment, true, true);
     TriggerExecute(gt_Init06Difficulties, true, true);
     libCamp_gf_RegisterFootageRecording(gt_BriefingQ);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroSequence, true, false);
     return true;
 }
@@ -1584,8 +1585,14 @@ void gt_TutorialReviewQ_Init () {
 // Trigger: Build Marines and SCVs Q
 //--------------------------------------------------------------------------------------------------
 bool gt_BuildMarinesandSCVsQ_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_zeratulSpeech;
+
     // Automatic Variable Declarations
     string auto8A83D09C_val;
+
+    // Variable Initialization
+    lv_zeratulSpeech = c_invalidTransmissionId;
 
     // Conditions
     if (testConds) {
@@ -1606,7 +1613,12 @@ bool gt_BuildMarinesandSCVsQ_Func (bool testConds, bool runActions) {
         libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
         libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
         // Transmission - SoundLink("TZeratul04Zeratul00001", 0)
-        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul04Zeratul00001", 0), c_transmissionDurationAdd, 0.0, true);
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul04Zeratul00001", 0), c_transmissionDurationAdd, 0.0, false);
+        lv_zeratulSpeech = TransmissionLastSent();
+        Wait(10.0, c_timeReal);
+        TransmissionClear(lv_zeratulSpeech);
+        // Transmission - SoundLink("AP_RaynorInterrupt", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("AP_RaynorInterrupt", 0), c_transmissionDurationAdd, 0.0, true);
         libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
         TriggerQueueExit();
     }

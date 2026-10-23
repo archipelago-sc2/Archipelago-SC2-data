@@ -69,6 +69,7 @@ static bool NukeRearming = false;
 static int NukeCounter = 0;
 static int NukeCooldownTics = 0;
 static int NukeKillsRecent = 0;
+static unit SpawnBuilding;
 static playergroup playersActive = PlayerGroupEmpty();
 static unitgroup BuildingsActive = UnitGroupEmpty();
 static unitgroup GhostsActive = UnitGroupEmpty();
@@ -292,6 +293,7 @@ bool AP_GhostSpawn_placeBuildingForPlayer(int player) {
         p = RegionRandomPoint(r);
         // p = UnitTypePlacementFromPoint(BUILDING_TYPE, player, p, 10); // placement still checks creep
         spawnBuilding = UnitGroupUnit(UnitCreate(1, BUILDING_TYPE, 0, player, p, 270.0), 1);
+        SpawnBuilding = spawnBuilding;
         if (!UnitIsAlive(spawnBuilding)) {
             // no spawn location found, try again
             continue;
@@ -556,6 +558,20 @@ static bool nukeTaunt(){
         line, 0.0, c_transmissionDurationAdd, true);
     libNtve_gf_SetAllSoundChannelVolumes(libNtve_ge_VolumeChannelMode_Game, PlayerGroupAll(), 0);
     return true;
+}
+
+void AP_GhostSpawn_ShowBuilding() {
+    point p;
+    if (!UnitIsAlive(SpawnBuilding)) {
+        log("no building to show.");
+        return;
+    }
+    p = UnitGetPosition(SpawnBuilding);
+    MinimapPing(PlayerGroupAll(), p , 5, Color(255, 255, 255));
+    VisRevealArea(1, RegionCircle(p, 3), 5, false);
+    libNtve_gf_SendActorMessageToUnit(SpawnBuilding, "HaloStart");
+    Wait(5, c_timeGame);
+    libNtve_gf_SendActorMessageToUnit(SpawnBuilding, "HaloStop");
 }
 
 bool AP_GhostSpawn_triggerOnNukeKillFunc(bool testConds, bool runActions) {
