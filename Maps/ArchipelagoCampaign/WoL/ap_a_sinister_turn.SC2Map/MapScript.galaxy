@@ -541,12 +541,24 @@ unitgroup gf_EnemiesWithinRange (unit lp_unit, fixed lp_range, unitfilter lp_fil
 // Trigger: Arch Init
 //--------------------------------------------------------------------------------------------------
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_p;
+    region lv_r;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_p = gv_p6_PROTOSS_ENEMY;
+    lv_r = RegionFromId(96);
+
     // Actions
     if (!runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
+    AP_GhostSpawn_playerOverride = lv_p;
+    AP_GhostSpawn_regionOverride = lv_r;
     TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Initialization);
@@ -1580,32 +1592,38 @@ bool gt_P6LeftBaseAttackWaves_Func (bool testConds, bool runActions) {
     AIAttackWaveSetTargetPlayer(gv_p6_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveSetGatherPoint(gv_p6_PROTOSS_ENEMY, PointFromId(321));
     Wait(120.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p6_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     gf_WaypointToSouthRamp(gv_p6_PROTOSS_ENEMY);
     AIAttackWaveAddUnits4(1, 1, 2, 3, "Stalker");
     AIAttackWaveSend(gv_p6_PROTOSS_ENEMY, 120, true);
     Wait(220.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p6_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     gf_WaypointToSouthRamp(gv_p6_PROTOSS_ENEMY);
     AIAttackWaveAddUnits4(1, 0, 0, 1, "Zealot");
     AIAttackWaveAddUnits4(0, 1, 4, 0, "Stalker");
     AIAttackWaveAddUnits4(0, 0, 0, 2, "Archon");
     AIAttackWaveSend(gv_p6_PROTOSS_ENEMY, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(190.0, 190.0, 130.0, 130.0), c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p6_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     gf_WaypointToSouthRamp(gv_p6_PROTOSS_ENEMY);
     AIAttackWaveAddUnits4(2, 2, 4, 4, "Stalker");
     AIAttackWaveAddUnits4(0, 0, 0, 2, "Sentry");
     AIAttackWaveSend(gv_p6_PROTOSS_ENEMY, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(160.0, 160.0, 100.0, 100.0), c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p6_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     gf_WaypointToSouthRamp(gv_p6_PROTOSS_ENEMY);
     AIAttackWaveAddUnits4(0, 0, 3, 0, "Stalker");
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Archon");
     AIAttackWaveSend(gv_p6_PROTOSS_ENEMY, 120, true);
     while (true) {
         Wait(libNtve_gf_DifficultyValueFixed(190.0, 190.0, 130.0, 130.0), c_timeAI);
+        AIAttackWaveSetTargetPlayer(gv_p6_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
         gf_WaypointToSouthRamp(gv_p6_PROTOSS_ENEMY);
         AIAttackWaveAddUnits4(3, 5, 7, 8, "Stalker");
         AIAttackWaveAddUnits4(0, 0, 2, 3, "Sentry");
         AIAttackWaveSend(gv_p6_PROTOSS_ENEMY, 120, true);
         Wait(libNtve_gf_DifficultyValueFixed(280.0, 280.0, 220.0, 220.0), c_timeAI);
+        AIAttackWaveSetTargetPlayer(gv_p6_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
         gf_WaypointToSouthRamp(gv_p6_PROTOSS_ENEMY);
         AIAttackWaveAddUnits4(0, 0, 2, 0, "Stalker");
         AIAttackWaveAddUnits4(2, 2, 2, 3, "Archon");
@@ -1643,20 +1661,24 @@ bool gt_P4RightBaseAttackWaves_Func (bool testConds, bool runActions) {
     AIAttackWaveSetTargetPlayer(gv_p4_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveSetGatherPoint(gv_p4_PROTOSS_ENEMY, PointFromId(469));
     Wait(40.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p4_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     gf_WaypointToEastRamp(gv_p4_PROTOSS_ENEMY);
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Zealot");
     AIAttackWaveAddUnits4(1, 1, 1, 2, "Stalker");
     AIAttackWaveSend(gv_p4_PROTOSS_ENEMY, 120, true);
     gf_WaypointToEastRamp(gv_p4_PROTOSS_ENEMY);
+    AIAttackWaveSetTargetPlayer(gv_p4_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveAddUnits4(1, 1, 3, 4, "Stalker");
     AIAttackWaveSend(gv_p4_PROTOSS_ENEMY, libNtve_gf_DifficultyValueInt(120, 120, 90, 90), true);
     Wait(libNtve_gf_DifficultyValueFixed(190.0, 190.0, 130.0, 130.0), c_timeAI);
     gf_WaypointToEastRamp(gv_p4_PROTOSS_ENEMY);
+    AIAttackWaveSetTargetPlayer(gv_p4_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveAddUnits4(2, 2, 5, 6, "Zealot");
     AIAttackWaveAddUnits4(1, 0, 2, 3, "Stalker");
     AIAttackWaveSend(gv_p4_PROTOSS_ENEMY, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(160.0, 160.0, 100.0, 100.0), c_timeAI);
     gf_WaypointToEastRamp(gv_p4_PROTOSS_ENEMY);
+    AIAttackWaveSetTargetPlayer(gv_p4_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveAddUnits4(1, 1, 4, 5, "Zealot");
     AIAttackWaveAddUnits4(1, 1, 3, 4, "Stalker");
     AIAttackWaveAddUnits4(0, 0, 0, 2, "Sentry");
@@ -1664,17 +1686,20 @@ bool gt_P4RightBaseAttackWaves_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_HIUpgrades, true, false);
     Wait(libNtve_gf_DifficultyValueFixed(160.0, 160.0, 100.0, 100.0), c_timeAI);
     gf_WaypointToEastRamp(gv_p4_PROTOSS_ENEMY);
+    AIAttackWaveSetTargetPlayer(gv_p4_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveAddUnits4(3, 3, 7, 10, "Zealot");
     AIAttackWaveSend(gv_p4_PROTOSS_ENEMY, 120, true);
     while (true) {
         Wait(libNtve_gf_DifficultyValueFixed(190.0, 190.0, 130.0, 130.0), c_timeAI);
         gf_WaypointToEastRamp(gv_p4_PROTOSS_ENEMY);
+        AIAttackWaveSetTargetPlayer(gv_p4_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
         AIAttackWaveAddUnits4(3, 3, 6, 7, "Zealot");
         AIAttackWaveAddUnits4(1, 1, 1, 2, "Stalker");
         AIAttackWaveAddUnits4(0, 0, 2, 3, "Sentry");
         AIAttackWaveSend(gv_p4_PROTOSS_ENEMY, 120, true);
         Wait(libNtve_gf_DifficultyValueFixed(280.0, 280.0, 220.0, 220.0), c_timeAI);
         gf_WaypointToEastRamp(gv_p4_PROTOSS_ENEMY);
+        AIAttackWaveSetTargetPlayer(gv_p4_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
         AIAttackWaveAddUnits4(2, 2, 3, 4, "Zealot");
         AIAttackWaveAddUnits4(2, 2, 5, 6, "Stalker");
         AIAttackWaveSend(gv_p4_PROTOSS_ENEMY, 120, true);
@@ -1750,43 +1775,54 @@ bool gt_P3MainBaseAttackWaves_Func (bool testConds, bool runActions) {
     AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveSetGatherPoint(gv_p3_PROTOSS_ENEMY, PointFromId(468));
     Wait(libNtve_gf_DifficultyValueFixed(80.0, 80.0, 50.0, 50.0), c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     gf_WaypointToEastRamp(gv_p3_PROTOSS_ENEMY);
     AIAttackWaveAddUnits4(3, 3, 5, 6, "Zealot");
     AIAttackWaveAddUnits4(2, 2, 3, 3, "Stalker");
     AIAttackWaveAddUnits4(1, 1, 1, 1, "Sentry");
     AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, true);
     Wait(libNtve_gf_DifficultyValueFixed(80.0, 80.0, 50.0, 50.0), c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     gf_WaypointToEastRamp(gv_p3_PROTOSS_ENEMY);
     AIAttackWaveAddUnits4(0, 0, 1, 2, "Archon");
     AIAttackWaveAddUnits4(0, 0, 1, 0, "Stalker");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Immortal");
     AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, false);
+    Wait(2.0, c_timeAI);
     gf_WaypointToSouthRamp(gv_p3_PROTOSS_ENEMY);
+    AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveAddUnits4(1, 1, 1, 2, "Stalker");
     AIAttackWaveAddUnits4(1, 1, 1, 1, "Archon");
     AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, true);
     Wait(libNtve_gf_DifficultyValueFixed(80.0, 80.0, 50.0, 50.0), c_timeAI);
     gf_WaypointToSouthRamp(gv_p3_PROTOSS_ENEMY);
+    AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveAddUnits4(0, 0, 1, 2, "VoidRay");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Immortal");
     AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, false);
+    Wait(2.0, c_timeAI);
     gf_WaypointToEastRamp(gv_p3_PROTOSS_ENEMY);
+    AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveAddUnits4(6, 6, 5, 2, "Zealot");
     AIAttackWaveAddUnits4(0, 0, 1, 2, "VoidRay");
     AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, true);
     while (true) {
         Wait(libNtve_gf_DifficultyValueFixed(80.0, 80.0, 50.0, 50.0), c_timeAI);
         gf_WaypointToEastRamp(gv_p3_PROTOSS_ENEMY);
+        AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
         AIAttackWaveAddUnits4(1, 1, 2, 3, "Stalker");
         AIAttackWaveAddUnits4(0, 0, 1, 2, "Archon");
         AIAttackWaveAddUnits4(0, 0, 0, 1, "HighTemplar");
         AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, false);
+        Wait(2.0, c_timeAI);
         gf_WaypointToSouthRamp(gv_p3_PROTOSS_ENEMY);
+        AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
         AIAttackWaveAddUnits4(0, 0, 2, 3, "Zealot");
         AIAttackWaveAddUnits4(2, 2, 1, 1, "Archon");
         AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, true);
         Wait(libNtve_gf_DifficultyValueFixed(80.0, 80.0, 50.0, 50.0), c_timeAI);
         gf_WaypointToEastRamp(gv_p3_PROTOSS_ENEMY);
+        AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
         AIAttackWaveAddUnits4(4, 4, 6, 5, "Stalker");
         AIAttackWaveAddUnits4(0, 0, 1, 2, "VoidRay");
         AIAttackWaveAddUnits4(0, 0, 0, 1, "Immortal");
@@ -1794,6 +1830,7 @@ bool gt_P3MainBaseAttackWaves_Func (bool testConds, bool runActions) {
         AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, true);
         Wait(libNtve_gf_DifficultyValueFixed(80.0, 80.0, 50.0, 50.0), c_timeAI);
         gf_WaypointToEastRamp(gv_p3_PROTOSS_ENEMY);
+        AIAttackWaveSetTargetPlayer(gv_p3_PROTOSS_ENEMY, PlayerGroupSingle(gv_p1_USER));
         AIAttackWaveAddUnits4(5, 5, 8, 6, "Zealot");
         AIAttackWaveAddUnits4(1, 1, 2, 5, "Stalker");
         AIAttackWaveSend(gv_p3_PROTOSS_ENEMY, 180, true);
@@ -2042,6 +2079,7 @@ bool gt_HybridPrepforWave_Func (bool testConds, bool runActions) {
 
     UnitSetPropertyFixed(gv_hybridPhysical, c_unitPropMovementSpeed, gv_hybridMovementSpeed);
     AIAttackWaveUseUnit(gv_p10_HYBRID_MANIFESTATIONS, gv_hybridPhysical);
+    AIAttackWaveSetTargetPlayer(gv_p10_HYBRID_MANIFESTATIONS, PlayerGroupSingle(gv_p1_USER));
     AIAttackWaveSend(gv_p10_HYBRID_MANIFESTATIONS, 0, false);
     BoardShowAll(false, PlayerGroupAll());
     TimerWindowShow(gv_timerWindow, PlayerGroupAll(), false);
