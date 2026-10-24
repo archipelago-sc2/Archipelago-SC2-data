@@ -7230,10 +7230,10 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="AP_BattlecruiserRangeAura" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
-    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="AP_MengskVeterancyBattlecruiserMengsk" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
+    <CRequirementSum id="AP_CountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit">
+        <OperandArray index="0" value="AP_CountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnitFull"/>
+        <OperandArray index="1" value="AP_CountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnitCapped"/>
+    </CRequirementSum>
     <CRequirementEq id="AP_EqCountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit1">
         <OperandArray index="0" value="AP_CountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit"/>
         <OperandArray index="1" value="1"/>
@@ -7317,10 +7317,10 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="AP_VikingMengskSpeed" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
-    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="AP_MengskVeterancyVikingMengsk" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
+    <CRequirementSum id="AP_CountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit">
+        <OperandArray index="0" value="AP_CountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnitFull"/>
+        <OperandArray index="1" value="AP_CountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnitCapped"/>
+    </CRequirementSum>
     <CRequirementGTE id="AP_GTECountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit3">
         <OperandArray index="0" value="AP_CountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit"/>
         <OperandArray index="1" value="3"/>
@@ -7733,10 +7733,10 @@
         <OperandArray value="AP_GTECountBehaviorMengskVeterancyMedicMengskCompleteOnlyAtUnit2"/>
         <OperandArray value="AP_LTCountBehaviorMengskVeterancyMedicMengskCompleteOnlyAtUnit3"/>
     </CRequirementAnd>
-    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnit">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="AP_MengskVeterancyWraithMengsk" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
+    <CRequirementSum id="AP_CountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnit">
+        <OperandArray index="0" value="AP_CountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnitFull"/>
+        <OperandArray index="1" value="AP_CountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnitCapped"/>
+    </CRequirementSum>
     <CRequirementGTE id="AP_GTECountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnit2">
         <OperandArray index="0" value="AP_CountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnit"/>
         <OperandArray index="1" value="2"/>
@@ -9854,4 +9854,143 @@
     <CRequirementCountUpgrade id="AP_KhaydarinMonolithStun">
         <Count Link="AP_KhaydarinMonolithStun" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeVikingMengskRank3Training">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_VikingMengskRank3Training" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountBehavior id="AP_CountBehaviorVikingMengskRank3Unlocked">
+        <Count Link="AP_VikingMengskRank3Unlocked" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementNot id="AP_NotVikingMengskRank3Unlocked">
+        <OperandArray index="0" value="AP_CountBehaviorVikingMengskRank3Unlocked"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_ShowVikingMengskUnlockRank3">
+        <OperandArray index="0" value="AP_CountUpgradeVikingMengskRank3Training"/>
+        <OperandArray index="1" value="AP_NotVikingMengskRank3Unlocked"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_UseVikingMengskUnlockRank3">
+        <OperandArray index="0" value="AP_ShowVikingMengskUnlockRank3"/>
+    </CRequirementAnd>
+    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnitFull">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_MengskVeterancyVikingMengsk" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnitCapped">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_MengskVeterancyVikingMengskRank2" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountUpgrade id="AP_CountUpgradeVikingMengskGiantslayerRounds">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_VikingMengskGiantslayerRounds" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeVikingMengskSmartServos">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_VikingMengskSmartServos" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeVikingMengskTacticalSuperiority">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_VikingMengskTacticalSuperiority" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeVikingDynamicAerialSystems">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_VikingDynamicAerialSystems" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeWraithMengskRank3Training">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_WraithMengskRank3Training" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountBehavior id="AP_CountBehaviorWraithMengskRank3Unlocked">
+        <Count Link="AP_WraithMengskRank3Unlocked" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementNot id="AP_NotWraithMengskRank3Unlocked">
+        <OperandArray index="0" value="AP_CountBehaviorWraithMengskRank3Unlocked"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_ShowWraithMengskUnlockRank3">
+        <OperandArray index="0" value="AP_CountUpgradeWraithMengskRank3Training"/>
+        <OperandArray index="1" value="AP_NotWraithMengskRank3Unlocked"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_UseWraithMengskUnlockRank3">
+        <OperandArray index="0" value="AP_ShowWraithMengskUnlockRank3"/>
+    </CRequirementAnd>
+    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnitFull">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_MengskVeterancyWraithMengsk" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnitCapped">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_MengskVeterancyWraithMengskRank2" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountUpgrade id="AP_WraithMengskEfficientStorageCount"><Count Link="AP_WraithMengskEfficientStorage" State="CompleteOnly"/></CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_WraithMengskMaddeningPathogenCount"><Count Link="AP_WraithMengskMaddeningPathogen" State="CompleteOnly"/></CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_WraithMengskPhantasmalBlastCount"><Count Link="AP_WraithMengskPhantasmalBlast" State="CompleteOnly"/></CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_WraithPulseAmplifierCount"><Count Link="AP_WraithPulseAmplifier" State="CompleteOnly"/></CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeLiberatorMengskRank3Training">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_LiberatorMengskRank3Training" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountBehavior id="AP_CountBehaviorLiberatorMengskRank3Unlocked">
+        <Count Link="AP_LiberatorMengskRank3Unlocked" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementNot id="AP_NotLiberatorMengskRank3Unlocked">
+        <OperandArray index="0" value="AP_CountBehaviorLiberatorMengskRank3Unlocked"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_ShowLiberatorMengskUnlockRank3">
+        <OperandArray index="0" value="AP_CountUpgradeLiberatorMengskRank3Training"/>
+        <OperandArray index="1" value="AP_NotLiberatorMengskRank3Unlocked"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_UseLiberatorMengskUnlockRank3">
+        <OperandArray index="0" value="AP_ShowLiberatorMengskUnlockRank3"/>
+    </CRequirementAnd>
+    <CRequirementCountUpgrade id="AP_LiberatorMengskSmartServosCount">
+        <Count Link="AP_LiberatorMengskSmartServos" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_LiberatorMengskSiegeProtocolCount">
+        <Count Link="AP_LiberatorMengskSiegeProtocol" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_LiberatorMengskPenetratingAmmunitionCount">
+        <Count Link="AP_LiberatorMengskPenetratingAmmunition" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_LiberatorMengskThermiteMissilesCount">
+        <Count Link="AP_LiberatorMengskThermiteMissiles" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeBattlecruiserMengskRank3Training">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_BattlecruiserMengskRank3Training" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountBehavior id="AP_CountBehaviorBattlecruiserMengskRank3Unlocked">
+        <Count Link="AP_BattlecruiserMengskRank3Unlocked" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementNot id="AP_NotBattlecruiserMengskRank3Unlocked">
+        <OperandArray index="0" value="AP_CountBehaviorBattlecruiserMengskRank3Unlocked"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_ShowBattlecruiserMengskUnlockRank3">
+        <OperandArray index="0" value="AP_CountUpgradeBattlecruiserMengskRank3Training"/>
+        <OperandArray index="1" value="AP_NotBattlecruiserMengskRank3Unlocked"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_UseBattlecruiserMengskUnlockRank3">
+        <OperandArray index="0" value="AP_ShowBattlecruiserMengskUnlockRank3"/>
+    </CRequirementAnd>
+    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnitFull">
+        <Count Link="AP_MengskVeterancyBattlecruiserMengsk" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="AP_CountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnitCapped">
+        <Count Link="AP_MengskVeterancyBattlecruiserMengskRank2" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountUpgrade id="AP_BattlecruiserMengskTacticalJumpCount">
+        <Count Link="AP_BattlecruiserMengskTacticalJump" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_BattlecruiserMengskEmergencyRepairsCount">
+        <Count Link="AP_BattlecruiserMengskEmergencyRepairs" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_BattlecruiserMengskPlasmaEfficiencyCount">
+        <Count Link="AP_BattlecruiserMengskPlasmaEfficiency" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementAnd id="AP_BattlecruiserMengskTacticalJumpOneCharge">
+        <OperandArray index="0" value="AP_BattlecruiserMengskTacticalJumpCount"/>
+        <OperandArray index="1" value="AP_EqCountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit1"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_BattlecruiserMengskTacticalJumpTwoCharges">
+        <OperandArray index="0" value="AP_BattlecruiserMengskTacticalJumpCount"/>
+        <OperandArray index="1" value="AP_GTECountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit2"/>
+    </CRequirementAnd>
 </Catalog>

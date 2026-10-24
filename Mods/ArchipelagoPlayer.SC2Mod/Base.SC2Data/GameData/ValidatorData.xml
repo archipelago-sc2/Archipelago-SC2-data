@@ -1509,8 +1509,10 @@
     <CValidatorCombine id="AP_LiberatorMengskAGTargets">
         <ResultFailed value="TargetIsOutOfRange"/>
         <CombineArray value="AP_LiberatorAGTargets"/>
-        <CombineArray value="AP_CasterLevelGTE3AndTargetInDamageArea"/>
+        <CombineArray value="AP_LiberatorMengskRank2AndTargetInDamageArea"/>
+        <Type value="Or"/>
     </CValidatorCombine>
+
     <CValidatorCombine id="AP_CasterLevelGTE3AndTargetInDamageArea">
         <Type value="And"/>
         <CombineArray value="AP_CasterLevelGTE3"/>
@@ -7556,7 +7558,7 @@
     <CValidatorCombine id="AP_VikingMengskCheatDeath">
         <Type value="And"/>
         <CombineArray value="AP_CasterVikingMengskAssault"/>
-        <CombineArray value="AP_CasterLevelGTE4"/>
+        <CombineArray value="AP_VikingMengskRank3GE"/>
         <CombineArray value="AP_NoVikingMengskCheatDeathCooldown"/>
     </CValidatorCombine>
     <CValidatorUnitType id="AP_CasterVikingMengskFighter">
@@ -9215,4 +9217,315 @@
         <WhichUnit Value="Target"/>
         <Filters value="Light;-"/>
     </CValidatorUnitFilters>
+    <CValidatorPlayerRequirement id="AP_HaveVikingMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveVikingMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowVikingMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveVikingMengskRank3Training"/>
+        <CombineArray value="AP_VikingMengskRank3LT"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowVikingMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveVikingMengskRank3Training"/>
+        <CombineArray value="AP_VikingMengskRank3GE"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_HaveVikingMengskTacticalSuperiority">
+        <Find value="1"/>
+        <Value value="AP_HaveVikingMengskTacticalSuperiority"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_VikingMengskCanRealign">
+        <Type value="Or"/>
+        <CombineArray value="AP_NoVikingMengskAttackDamageCooldown"/>
+        <CombineArray value="AP_HaveVikingMengskTacticalSuperiority"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_NoVikingMengskTacticalSuperiority">
+        <Find value="0"/>
+        <Value value="AP_HaveVikingMengskTacticalSuperiority"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="AP_NoVikingMengskDodge">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_VikingMengskDodge"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorCombine id="AP_VikingMengskDodgeActive">
+        <Type value="And"/>
+        <CombineArray value="AP_CasterVikingMengskFighter"/>
+        <CombineArray value="AP_VikingMengskRank3GE"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_VikingMengskDodgeCanTrack">
+        <Type value="And"/>
+        <CombineArray value="AP_VikingMengskDodgeActive"/>
+        <CombineArray value="AP_NoVikingMengskDodge"/>
+    </CValidatorCombine>
+    <!-- Royal Guard validator values match AP_LevelEq1..4: displayed ranks 0..3 use values 2..5. -->
+    <CValidatorUnitCompareVeterancyLevel id="AP_VikingMengskRank1GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_VikingMengskRank1LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_VikingMengskRank2GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_VikingMengskRank2LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_VikingMengskRank3GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_VikingMengskRank3LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorPlayerRequirement id="AP_HaveWraithMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveWraithMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowWraithMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveWraithMengskRank3Training"/>
+        <CombineArray value="AP_WraithMengskRank3LT"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowWraithMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveWraithMengskRank3Training"/>
+        <CombineArray value="AP_WraithMengskRank3GE"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank1GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank1LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank2GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank2LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank3GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank3LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareBehaviorCount id="AP_HasWraithMengskCloak">
+        <Value value="1"/>
+        <Behavior value="AP_WraithMengskCloak"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank0Eq">
+        <WhichUnit Value="Caster"/>
+        <Compare value="Eq"/>
+        <Value value="2"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank1Eq">
+        <WhichUnit Value="Caster"/>
+        <Compare value="Eq"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank2Eq">
+        <WhichUnit Value="Caster"/>
+        <Compare value="Eq"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_WraithMengskRank3Eq">
+        <WhichUnit Value="Caster"/>
+        <Compare value="Eq"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+
+    <CValidatorUnitCompareBehaviorCount id="AP_WraithMengskToxicNotPoisoned">
+        <WhichUnit Value="Target"/><Compare value="Eq"/><Value value="0"/><Behavior value="AP_WraithMengskToxicPoison"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+    <CValidatorPlayerRequirement id="AP_WraithMengskEfficientStorageOwned"><Find value="1"/><Value value="AP_WraithMengskEfficientStorageOwned"/></CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_WraithMengskMaddeningPathogenOwned"><Find value="1"/><Value value="AP_WraithMengskMaddeningPathogenOwned"/></CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_WraithMengskPhantasmalBlastOwned"><Find value="1"/><Value value="AP_WraithMengskPhantasmalBlastOwned"/></CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_WraithPulseAmplifierOwned"><Find value="1"/><Value value="AP_WraithPulseAmplifierOwned"/></CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_WraithMengskNotCloaked"><Negate value="1"/><CombineArray value="AP_CasterIsCloaked"/></CValidatorCombine>
+    <CValidatorUnitCompareSpeed id="AP_WraithPulseAmplifierMoving"><WhichUnit Value="Caster"/><Compare value="GT"/><Value value="0.125"/></CValidatorUnitCompareSpeed>
+    <CValidatorPlayerRequirement id="AP_HaveLiberatorMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveLiberatorMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowLiberatorMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveLiberatorMengskRank3Training"/>
+        <CombineArray value="AP_LiberatorMengskRank3LT"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowLiberatorMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveLiberatorMengskRank3Training"/>
+        <CombineArray value="AP_LiberatorMengskRank3GE"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareVeterancyLevel id="AP_LiberatorMengskRank1GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_LiberatorMengskRank1LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_LiberatorMengskRank2GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_LiberatorMengskRank2LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_LiberatorMengskRank3GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_LiberatorMengskRank3LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorCombine id="AP_LiberatorMengskRank2AndTargetInDamageArea">
+        <Type value="And"/>
+        <CombineArray value="AP_LiberatorMengskRank2GE"/>
+        <CombineArray value="AP_TargetInDamageArea"/>
+    </CValidatorCombine>
+
+    <CValidatorLocationCompareRange id="AP_LiberatorMengskAGNotOutOfRange">
+        <Compare value="LE"/>
+        <Range value="9"/>
+    </CValidatorLocationCompareRange>
+    <CValidatorCombine id="AP_LiberatorMengskMorphValidatorCombine">
+        <Type value="And"/>
+        <CombineArray value="CasterNotDead"/>
+        <CombineArray value="AP_HasLiberatorMorphBehavior"/>
+        <CombineArray value="AP_HasNoLiberatorYoink"/>
+        <CombineArray value="AP_LiberatorNotRecallingMothership"/>
+        <CombineArray value="AP_LiberatorNotRecallingMothershipCore"/>
+        <CombineArray value="AP_IsNotArbiterRecalling"/>
+        <CombineArray value="AP_LiberatorMengskAGNotOutOfRange"/>
+    </CValidatorCombine>
+
+    <CValidatorPlayerRequirement id="AP_LiberatorMengskSmartServosOwned">
+        <Find value="1"/>
+        <Value value="AP_LiberatorMengskSmartServosOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_LiberatorMengskSiegeProtocolOwned">
+        <Find value="1"/>
+        <Value value="AP_LiberatorMengskSiegeProtocolOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_LiberatorMengskPenetratingAmmunitionOwned">
+        <Find value="1"/>
+        <Value value="AP_LiberatorMengskPenetratingAmmunitionOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_LiberatorMengskThermiteMissilesOwned">
+        <Find value="1"/>
+        <Value value="AP_LiberatorMengskThermiteMissilesOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitFilters id="AP_LiberatorMengskPenetratingAmmunitionPrimaryDead">
+        <WhichUnit Value="Target"/>
+        <Filters value="Dead;-"/>
+    </CValidatorUnitFilters>
+    <CValidatorCombine id="AP_LiberatorMengskPenetratingAmmunitionCanBounce">
+        <Type value="And"/>
+        <CombineArray value="AP_LiberatorMengskPenetratingAmmunitionOwned"/>
+        <CombineArray value="AP_LiberatorMengskPenetratingAmmunitionPrimaryDead"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="AP_HaveBattlecruiserMengskRank3Training">
+        <Find value="1"/>
+        <Value value="AP_HaveBattlecruiserMengskRank3Training"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_ShowBattlecruiserMengskRank3Preview">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveBattlecruiserMengskRank3Training"/>
+        <CombineArray value="AP_BattlecruiserMengskRank3LT"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_ShowBattlecruiserMengskRank3">
+        <Type value="And"/>
+        <CombineArray value="AP_HaveBattlecruiserMengskRank3Training"/>
+        <CombineArray value="AP_BattlecruiserMengskRank3GE"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareVeterancyLevel id="AP_BattlecruiserMengskRank1GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_BattlecruiserMengskRank1LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="3"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_BattlecruiserMengskRank2GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_BattlecruiserMengskRank2LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="4"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_BattlecruiserMengskRank3GE">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorUnitCompareVeterancyLevel id="AP_BattlecruiserMengskRank3LT">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LT"/>
+        <Value value="5"/>
+    </CValidatorUnitCompareVeterancyLevel>
+    <CValidatorPlayerRequirement id="AP_BattlecruiserMengskTacticalJumpOwned">
+        <Find value="1"/>
+        <Value value="AP_BattlecruiserMengskTacticalJumpOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_BattlecruiserMengskEmergencyRepairsOwned">
+        <Find value="1"/>
+        <Value value="AP_BattlecruiserMengskEmergencyRepairsOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_BattlecruiserMengskPlasmaEfficiencyOwned">
+        <Find value="1"/>
+        <Value value="AP_BattlecruiserMengskPlasmaEfficiencyOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareCooldown id="AP_BattlecruiserMengskEmergencyRepairsReady">
+        <WhichUnit Value="Caster"/>
+        <CooldownLink value="Abil/AP_BattlecruiserMengskEmergencyRepairs"/>
+        <Ability value="AP_BattlecruiserMengskEmergencyRepairs"/>
+        <Compare value="LE"/>
+        <Value value="0"/>
+    </CValidatorUnitCompareCooldown>
+    <CValidatorUnitCompareChargeUsed id="AP_BattlecruiserMengskYamatoRecharging">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+        <Value value="0"/>
+        <ChargeLink value="Abil/AP_BattlecruiserMengskYamato"/>
+        <Location value="Unit"/>
+    </CValidatorUnitCompareChargeUsed>
 </Catalog>

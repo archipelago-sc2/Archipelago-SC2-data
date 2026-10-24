@@ -1877,10 +1877,11 @@
         <AbilSetId value="AP_LiberatorAATarget"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="AP_LiberatorMengskTargetAAMorphOrderSet"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorAAMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorMengskAAMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
     </CAbilEffectInstant>
+
     <CAbilEffectTarget id="AP_LiberatorAGTarget">
         <AbilSetId value="AP_LiberatorAGTarget"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -1917,10 +1918,11 @@
         <Effect index="0" value="AP_LiberatorMengskTargetMorphOrderInitialSet"/>
         <Range value="9"/>
         <Arc value="360"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercLiberatorAGMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorMengskAGMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
     </CAbilEffectTarget>
+
     <CAbilMorph id="AP_LiberatorMorphtoAA">
         <AbilSetId value="LiberatorAA"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
@@ -1999,7 +2001,7 @@
     <CAbilMorph id="AP_LiberatorMengskMorphtoAA">
         <AbilSetId value="LiberatorAA"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercLiberatorAAMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorMengskAAMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="IgnoreFacing" value="1"/>
@@ -2022,6 +2024,7 @@
             </SectionArray>
         </InfoArray>
     </CAbilMorph>
+
     <CAbilMorph id="AP_LiberatorMorphtoAG">
         <AbilSetId value="LiberatorAG"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
@@ -2094,7 +2097,7 @@
     <CAbilMorph id="AP_LiberatorMengskMorphtoAG">
         <AbilSetId value="LiberatorAG"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercLiberatorAGMode"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorMengskAGMode"/>
         <Flags index="IgnoreFacing" value="1"/>
         <Flags index="WaitUntilStopped" value="0"/>
         <InfoArray Unit="AP_LiberatorMengskAG">
@@ -2115,6 +2118,7 @@
             </SectionArray>
         </InfoArray>
     </CAbilMorph>
+
     <CAbilBehavior id="AP_LiberatorCloak">
         <AbilSetId value="Clok"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
@@ -13688,18 +13692,18 @@
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Cost>
-            <Charge>
+            <Charge Link="Abil/AP_BattlecruiserMengskYamato">
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Location value="Unit"/>
                 <TimeUse value="120"/>
             </Charge>
-            <Cooldown Link="Yamato" Location="Unit"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskYamato" Location="Unit"/>
         </Cost>
         <InterruptCost>
-            <Charge Link="Abil/Yamato"/>
-            <Cooldown Link="Abil/Yamato"/>
+            <Charge Link="Abil/AP_BattlecruiserMengskYamato"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskYamato"/>
         </InterruptCost>
         <TargetFilters value="-;Player,Ally"/>
         <Range value="10"/>
@@ -13725,19 +13729,18 @@
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Cost>
-            <Charge>
+            <Charge Link="Abil/AP_BattlecruiserMengskYamato">
                 <CountMax value="2"/>
                 <CountStart value="2"/>
                 <CountUse value="1"/>
-                <Link value="Abil/BattlecruiserMengskYamato"/>
                 <Location value="Unit"/>
                 <TimeUse value="120"/>
             </Charge>
-            <Cooldown Link="Yamato" Location="Unit"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskYamato" Location="Unit"/>
         </Cost>
         <InterruptCost>
-            <Charge Link="Abil/Yamato"/>
-            <Cooldown Link="Abil/Yamato"/>
+            <Charge Link="Abil/AP_BattlecruiserMengskYamato"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskYamato"/>
         </InterruptCost>
         <TargetFilters value="-;Player,Ally"/>
         <Range value="10"/>
@@ -13764,15 +13767,14 @@
         <Flags index="NoDeceleration" value="1"/>
         <Flags index="RequireTargetVision" value="0"/>
         <Cost>
-            <Charge>
+            <Charge Link="Abil/AP_BattlecruiserMengskHyperjump">
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
-                <Link value="Abil/HyperjumpNoVision"/>
                 <Location value="Unit"/>
                 <TimeUse value="60"/>
             </Charge>
-            <Cooldown Link="Abil/HyperjumpNoVision" Location="Unit"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskHyperjump" Location="Unit"/>
         </Cost>
         <Range value="500"/>
         <CastIntroTime value="0"/>
@@ -13793,15 +13795,14 @@
         <Flags index="NoDeceleration" value="1"/>
         <Flags index="RequireTargetVision" value="0"/>
         <Cost>
-            <Charge>
+            <Charge Link="Abil/AP_BattlecruiserMengskHyperjump">
                 <CountMax value="2"/>
                 <CountStart value="2"/>
                 <CountUse value="1"/>
-                <Link value="Abil/HyperjumpNoVision"/>
                 <Location value="Unit"/>
                 <TimeUse value="60"/>
             </Charge>
-            <Cooldown Link="Abil/HyperjumpNoVision" Location="Unit"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskHyperjump" Location="Unit"/>
         </Cost>
         <Range value="500"/>
         <CastIntroTime value="0"/>
@@ -17029,4 +17030,84 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PsiSpireStorm"/>
         <AutoCastValidatorArray value="AP_PsiSpireAutocast"/>
     </CAbilEffectTarget>
+    <CAbilEffectInstant id="AP_VikingMengskUnlockRank3">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_VikingMengskUnlockRank3Set"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_VikingMengskUnlockRank3"/>
+    </CAbilEffectInstant>
+
+    <CAbilEffectInstant id="AP_WraithMengskUnlockRank3">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_WraithMengskUnlockRank3Set"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_WraithMengskUnlockRank3"/>
+    </CAbilEffectInstant>
+    <CAbilBehavior id="AP_WraithMengskCloak">
+        <AbilSetId value="Clok"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="AP_WraithMengskCloakOn">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="AP_WraithMengskCloakOff">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Vital index="Energy" value="25"/>
+        </Cost>
+        <BehaviorArray value="AP_WraithMengskCloak"/>
+    </CAbilBehavior>
+
+    <CAbilEffectTarget id="AP_WraithMengskToxicCannister">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="AP_WraithMengskToxicLaunch"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Cost>
+            <Vital index="Energy" value="25"/>
+            <Cooldown Link="Abil/AP_WraithMengskToxicCannister" Location="Unit" TimeUse="2"/>
+            <Charge Link="Abil/AP_WraithMengskToxicCannister" Location="Unit">
+                <CountMax value="1"/>
+                <CountStart value="1"/>
+                <CountUse value="1"/>
+                <TimeUse value="30"/>
+                <HideCount value="1"/>
+            </Charge>
+        </Cost>
+        <Range value="8"/>
+        <AutoCastRange value="8"/>
+        <AutoCastFilters value="Visible;Self,Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AutoCastValidatorArray value="AP_WraithMengskToxicNotPoisoned"/>
+        <TargetFilters value="-;Self,Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <CursorEffect value="AP_WraithMengskToxicPoisonSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_WraithMengskToxicCannister" Requirements="AP_HaveWraithMengskVeterancyLevel2"/>
+    </CAbilEffectTarget>
+
+    <CAbilEffectInstant id="AP_WraithMengskPhantasmalBlast">
+        <Flags index="Transient" value="1"/><Effect index="0" value="AP_WraithMengskPhantasmalBlastSearch"/>
+        <Cost><Cooldown Link="Abil/AP_WraithMengskPhantasmalBlast" Location="Unit" TimeUse="30"/></Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_WraithMengskPhantasmalBlast" Requirements="AP_WraithMengskPhantasmalBlastOwned"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="AP_LiberatorMengskUnlockRank3">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_LiberatorMengskUnlockRank3Set"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_LiberatorMengskUnlockRank3"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="AP_BattlecruiserMengskUnlockRank3">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_BattlecruiserMengskUnlockRank3Set"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_BattlecruiserMengskUnlockRank3"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="AP_BattlecruiserMengskEmergencyRepairs">
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_BattlecruiserMengskEmergencyRepairsSet"/>
+        <Cost>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskEmergencyRepairs" Location="Unit" TimeUse="240"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_BattlecruiserMengskEmergencyRepairs" Requirements="AP_BattlecruiserMengskEmergencyRepairsOwned"/>
+    </CAbilEffectInstant>
 </Catalog>

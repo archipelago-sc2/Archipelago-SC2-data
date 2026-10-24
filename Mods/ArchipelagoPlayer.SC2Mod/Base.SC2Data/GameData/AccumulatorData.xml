@@ -157,4 +157,44 @@
         <CaseArray Validator="AP_RankDamageTargetIsLight" Accumulator="AP_1DamagePerRank"/>
         <CaseDefault value="AP_ZeroRankDamage"/>
     </CAccumulatorSwitch>
+    <CAccumulatorVeterancyLevel id="AP_6DamagePerRank">
+        <MinAccumulation value="0"/>
+        <Amount value="-6"/>
+        <BonusPerLevel value="6"/>
+        <PreviousValueFactor value="1"/>
+    </CAccumulatorVeterancyLevel>
+    <CAccumulatorVeterancyLevel id="AP_25DamagePerRank">
+        <MinAccumulation value="0"/>
+        <Amount value="-25"/>
+        <BonusPerLevel value="25"/>
+        <PreviousValueFactor value="1"/>
+    </CAccumulatorVeterancyLevel>
+
+    <CAccumulatorVeterancyLevel id="AP_LiberatorMengskPenetratingAmmunitionRankDamage">
+        <MinAccumulation value="0"/>
+        <Amount value="-6.25"/>
+        <BonusPerLevel value="6.25"/>
+        <PreviousValueFactor value="1"/>
+    </CAccumulatorVeterancyLevel>
+    <!-- AttributeBonus does not support accumulators. Apply target-specific rank bonuses to Amount instead. -->
+    <CAccumulatorConstant id="AP_NoAdditionalRankDamage">
+        <ApplicationRule value="Multiply"/>
+        <Amount value="1"/>
+    </CAccumulatorConstant>
+    <CAccumulatorSwitch id="AP_Armored1DamagePerRank">
+        <CaseArray Validator="AP_TargetIsArmored" Accumulator="AP_1DamagePerRank"/>
+        <CaseDefault value="AP_NoAdditionalRankDamage"/>
+    </CAccumulatorSwitch>
+    <CAccumulatorSwitch id="AP_Armored4DamagePerRank">
+        <CaseArray Validator="AP_TargetIsArmored" Accumulator="AP_4DamagePerRank"/>
+        <CaseDefault value="AP_NoAdditionalRankDamage"/>
+    </CAccumulatorSwitch>
+    <CAccumulatorSwitch id="AP_Armored5DamagePerRank">
+        <CaseArray Validator="AP_TargetIsArmored" Accumulator="AP_5DamagePerRank"/>
+        <CaseDefault value="AP_NoAdditionalRankDamage"/>
+    </CAccumulatorSwitch>
+    <CAccumulatorSwitch id="AP_Light1DamagePerRank">
+        <CaseArray Validator="AP_TargetIsLight" Accumulator="AP_1DamagePerRank"/>
+        <CaseDefault value="AP_NoAdditionalRankDamage"/>
+    </CAccumulatorSwitch>
 </Catalog>

@@ -897,7 +897,7 @@ Behavior/Tooltip/AP_BansheeCloak_Stukov=This unit is cloaked and will only be re
 Behavior/Tooltip/AP_BansheeMengskBacklashBarrageChannel=Firing a barrage of rockets at enemies in front of the Night Wolf.
 Behavior/Tooltip/AP_BatteryOvercharge=Restoration rate increased by <d ref="(Behavior,AP_BatteryOvercharge,Modification.HealDealtMultiplier - 1) * 100"/>%. Restoring shields does not consume energy.
 Behavior/Tooltip/AP_BattlecruiserBonusRange=+<d ref="Behavior,AP_BattlecruiserBonusRange,Modification.RangedWeaponRange"/> weapon range.
-Behavior/Tooltip/AP_BattlecruiserMengskBehemothReactorIndicator=Battlecruiser special abilities require 25 less energy to cast. Pride of Augustgrad cooldown-based ability cooldowns are 20% shorter.
+Behavior/Tooltip/AP_BattlecruiserMengskBehemothReactorIndicator=Special abilities cost 25 less energy. Pride of Augustgrad ability cooldowns are reduced by 20%.
 Behavior/Tooltip/AP_BloodHunterLifeSteal=Recovering life and shields.
 Behavior/Tooltip/AP_CenturionDodge=The next hit will be dodged.
 Behavior/Tooltip/AP_Charging=This Zealot is charging, allowing it to quickly close the distance with its target.
@@ -1117,9 +1117,9 @@ Behavior/Tooltip/AP_TimeFieldTaldarimFriendly=Attack and move speed increased by
 Behavior/Tooltip/AP_TimeWarpProduction=This structure is in an accelerated state.
 Behavior/Tooltip/AP_TorrasqueTimerBehavior=Cannot revive at this time.
 Behavior/Tooltip/AP_UltraliskBurrowChargeStun=This unit is stunned.
-Behavior/Tooltip/AP_VikingMengskAirAttackDamage=This unit has increased attack damage against air units.
-Behavior/Tooltip/AP_VikingMengskCheatDeath=When active, the Sky Fury blocks all incoming damage, up to a maximum of <d ref="Behavior,AP_VikingMengskCheatDeath,DamageResponse.ModifyLimit"/>.
-Behavior/Tooltip/AP_VikingMengskGroundAttackDamage=This unit has increased attack damage against ground units.
+Behavior/Tooltip/AP_VikingMengskAirAttackDamage=Air weapon damage increased by <d ref="(Behavior,AP_VikingMengskAirAttackDamage,DamageResponse.ModifyFraction-1)*100"/>%.
+Behavior/Tooltip/AP_VikingMengskCheatDeath=Absorbs up to <d ref="Behavior,AP_VikingMengskCheatDeath,DamageResponse.ModifyLimit"/> damage.
+Behavior/Tooltip/AP_VikingMengskGroundAttackDamage=Ground weapon damage increased by <d ref="(Behavior,AP_VikingMengskGroundAttackDamage,DamageResponse.ModifyFraction-1)*100"/>%.
 Behavior/Tooltip/AP_VileAcidSlowFlatAmount=Attack and movement speeds are slowed.
 Behavior/Tooltip/AP_VileAcidSlowFlatAmountHeroic=Attack and movement speeds are slowed.
 Behavior/Tooltip/AP_VileAcidSlowFlatAmountStructure=Attack speeds are slowed.
@@ -1141,7 +1141,7 @@ Behavior/Tooltip/AP_WarpRelocating=This structure is moving to a new location.
 Behavior/Tooltip/AP_WidowMineLingeringCloak=This unit is cloaked for <d ref="Behavior,AP_WidowMineLingeringCloak,Duration"/> seconds after unburrowing.
 Behavior/Tooltip/AP_WildMutation=This unit gains +<d ref="Behavior,AP_WildMutation,Modification.VitalMaxArray[1]"/> maximum life and <d ref="(Behavior,AP_WildMutation,Modification.AttackSpeedMultiplier - 1) * 100"/>% increased attack speed.
 Behavior/Tooltip/AP_WraithCloak=This unit is cloaked and will only be revealed by detector units or effects.
-Behavior/Tooltip/AP_WraithMengskResonatingFeedbackInterference=Target is currently stunned and unable to use any abilities.
+Behavior/Tooltip/AP_WraithMengskResonatingFeedbackInterference=Stunned and unable to use abilities.
 Behavior/Tooltip/AP_YggAutomatedExtractorEssence=The Yggdrasil can morph an Automated Extractor.
 Behavior/Tooltip/AP_YggBanelingNestEssence=The Yggdrasil can morph a Baneling Nest.
 Behavior/Tooltip/AP_YggBileLauncherEssence=The Yggdrasil can morph a Bile Launcher.
@@ -1819,7 +1819,7 @@ Button/Name/AP_LiberatorAGMode=Defender Mode
 Button/Name/AP_LiberatorAGRangeUpgrade=Advanced Ballistics
 Button/Name/AP_LiberatorCompressedRocketFuel=UED Missile Technology
 Button/Name/AP_LiberatorGuerillaMissiles=Guerilla Missiles
-Button/Name/AP_LiberatorMengsk=Build Emperor's Guardian
+Button/Name/AP_LiberatorMengsk=Build Crimson Seraph
 Button/Name/AP_LiberatorStructureAttack=Raid Artillery
 Button/Name/AP_LightningBomb=Disintegration
 Button/Name/AP_LockOn=Lock On
@@ -1885,7 +1885,7 @@ Button/Name/AP_MercShip=Ship Mercs
 Button/Name/AP_MercThor=Jotun
 Button/Name/AP_MercUltraliskSummon=Wise Old Torrasque
 Button/Name/AP_MercVehicle=Vehicle Mercs
-Button/Name/AP_MercWraith=Winged Nightmares
+Button/Name/AP_MercWraith=Phantom Squadron
 Button/Name/AP_MercZergling=Devouring Ones
 Button/Name/AP_MicroFiltering=Micro-Filtering
 Button/Name/AP_MindBolt=Kinetic Blast
@@ -2711,7 +2711,7 @@ Button/Name/AP_Wraith=Build Wraith
 Button/Name/AP_WraithAdvancedLaserTechnology=Advanced Laser Technology
 Button/Name/AP_WraithCloakOff=Decloak
 Button/Name/AP_WraithCloakOn=Cloak
-Button/Name/AP_WraithMengsk=Build Night Hawk
+Button/Name/AP_WraithMengsk=Build Winged Nightmare
 Button/Name/AP_WraithMengskResonatingFeedbackInterference=Resonating Feedback Interference
 Button/Name/AP_WrathwalkerAerialTracking=Aerial Tracking
 Button/Name/AP_WrathwalkerLongRangeChargedBlast=Eye of Wrath
@@ -2988,11 +2988,11 @@ Button/Tooltip/AP_BattlecruiserMengsk=Powerful Royal Guard warship. Can use Yama
 Button/Tooltip/AP_BattlecruiserMengskHyperjump=Warps to the target location. Battlecruiser is invulnerable while warping.
 Button/Tooltip/AP_BattlecruiserMengskRank1=<n/><c val="ffff8a">Rank 1:</c> Yamato Cannon and Tactical Jump hold an additional charge.
 Button/Tooltip/AP_BattlecruiserMengskRank1Preview=<n/><c val="777777">Rank 1: Yamato Cannon and Tactical Jump hold an additional charge.</c>
-Button/Tooltip/AP_BattlecruiserMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Yamato Cannon deals damage in an area around the target
+Button/Tooltip/AP_BattlecruiserMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Yamato Cannon deals damage in an area around the target.
 Button/Tooltip/AP_BattlecruiserMengskRank2Preview=<n/><c val="777777">Rank 2: Yamato Cannon deals damage in an area around the target.</c>
 Button/Tooltip/AP_BattlecruiserMengskRank3=<n/><c val="ffff8a">Rank 3:</c> Yamato Cannon fires <d ref="Effect,AP_BattlecruiserMengskYamatoMultiple,ValidateMax"/> additional times, choosing new targets.
 Button/Tooltip/AP_BattlecruiserMengskRank3Preview=<n/><c val="777777">Rank 3: Yamato Cannon fires <d ref="Effect,AP_BattlecruiserMengskYamatoMultiple,ValidateMax"/> additional times, choosing new targets.</c>
-Button/Tooltip/AP_BattlecruiserRangeAura=Grants nearby friendly ranged ground units +<d ref="Behavior,AP_BattlecruiserBonusRange,Modification.RangedWeaponRange"/> increased range.
+Button/Tooltip/AP_BattlecruiserRangeAura=Grants +1 weapon range to nearby friendly ranged ground units.
 Button/Tooltip/AP_BehemothPlating=Increases Battlecruiser armor by 2.
 Button/Tooltip/AP_BileLauncherArtilleryDucts=Increases the range of the Bile Launcher's Bombardment by <d ref="$UpgradeEffectArrayValue:AP_BileLauncherArtilleryDucts:Weapon,AP_BileLauncherBombardment,Range$"/>.
 Button/Tooltip/AP_BileLauncherBesideSpawningPool=The Bile Launcher deals +<d ref="Behavior,AP_BileLauncherBesideSpawningPool,Modification.DamageDealtScaled[Splash]"/> damage if placed beside a Spawning Pool.
@@ -3394,7 +3394,7 @@ Button/Tooltip/AP_HireMercLiberator=Request 2 Midnight Rider Mercenaries.<n/><n/
 Button/Tooltip/AP_HireMercMedic=Request 3 Skibi's Angels Mercenaries.<n/><n/>Medics with enhanced medical gear.<n/><n/><c val="#ColorAttackInfo">Can heal ground units.</c>
 Button/Tooltip/AP_HireMercReaper=Request 3 Death Head Mercenaries.<n/><n/>Former Omega Squadron Reapers with upgraded weaponry.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_HireMercThor=Request the Jotun Thor.<n/><n/>Stolen Thor outfitted with lethal pirate upgrades.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
-Button/Tooltip/AP_HireMercWraith=Request 2 Winged Nightmare Mercenaries.<n/><n/>Powerful Wraiths formerly of Arcturus Mengsk's Royal Guard.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
+Button/Tooltip/AP_HireMercWraith=Request 2 Phantom Squadron Mercenaries.<n/><n/>Powerful Wraiths formerly of Arcturus Mengsk's Royal Guard.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_HireSiegeBreakers=Request 2 Siege Breaker Mercenaries.<n/><n/>Elite unit of ex-Confederate Siege Tanks.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_HireSiegeBreakersPH=<c val="ff4040">Contract required. Visit the Cantina on the Hyperion to purchase.</c>
 Button/Tooltip/AP_HireSpartanCompany=Request 2 Spartan Company Mercenaries.<n/><n/>UED veterans using advanced Goliath prototypes.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
@@ -3582,11 +3582,11 @@ Button/Tooltip/AP_LiberatorAGMode=Deploys into Defender Mode. In this mode Liber
 Button/Tooltip/AP_LiberatorAGRangeUpgrade=Increases the range of Liberators in Defender Mode by 3.
 Button/Tooltip/AP_LiberatorCompressedRocketFuel=Increases Lexington Rockets range by 4.
 Button/Tooltip/AP_LiberatorGuerillaMissiles=Missiles fired by Liberators in Fighter Mode will apply a movement and attack speed debuff onto enemies. Effect lasts <d ref="Behavior,AP_LiberatorGuerillaMissilesDebuff,Duration"/> seconds.
-Button/Tooltip/AP_LiberatorMengsk=Royal Guard artillery fighter. Loaded with missiles that deal area damage to enemy air targets. Can switch into Defender Mode to provide siege support.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
+Button/Tooltip/AP_LiberatorMengsk=Royal Guard artillery fighter. Deals area damage to air units. Can switch into Defender Mode to attack ground units.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
 Button/Tooltip/AP_LiberatorMengskRank1=<n/><c val="ffff8a">Rank 1:</c> Attacks in Fighter Mode launch 2 extra missiles.
 Button/Tooltip/AP_LiberatorMengskRank1Preview=<n/><c val="777777">Rank 1: Attacks in Fighter Mode launch 2 extra missiles.</c>
-Button/Tooltip/AP_LiberatorMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Can attack targets in weapon range that are in attack zones created by other own units while in Defender Mode.
-Button/Tooltip/AP_LiberatorMengskRank2Preview=<n/><c val="777777">Rank 2: Can attack targets in weapon range that are in attack zones created by other own units while in Defender Mode.</c>
+Button/Tooltip/AP_LiberatorMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Can attack targets in range within other Crimson Seraphs' Defender zones.
+Button/Tooltip/AP_LiberatorMengskRank2Preview=<n/><c val="777777">Rank 2: Can attack targets in range within other Crimson Seraphs' Defender zones.</c>
 Button/Tooltip/AP_LiberatorMengskRank3=<n/><c val="ffff8a">Rank 3:</c> Can use anti-air missiles while in Defender Mode.
 Button/Tooltip/AP_LiberatorMengskRank3Preview=<n/><c val="777777">Rank 3: Can use anti-air missiles while in Defender Mode.</c>
 Button/Tooltip/AP_LiberatorStructureAttack=Liberators can attack structures while in Defender Mode.
@@ -3687,7 +3687,7 @@ Button/Tooltip/AP_MercThorWreckage=After their near-annihilation at the hands of
 Button/Tooltip/AP_MercUltralisk=One of the great mysteries of the Swarm, Wise Old Torrasque is an ultralisk that has evolved sapience and command abilities. Strangest of all is that he now sells the services as a mercenary force, even taking on contracts with the Terran Dominion to hunt the New Trinidad Pirates. Nobody knows what use an ultralisk could have for money.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_MercUltraliskSummon=Summon Wise Old Torrasque.<n/><n/>A legendary Ultralisk from the Brood War who has evolved sapience. Revives from a chrysalis on death.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_MercVehicle=Show available <c val="ffff8a">Vehicle</c> type units.
-Button/Tooltip/AP_MercWraith=Once the personal escort force for the Emperor, large swaths of the legendary Winged Nightmare squadron went AWOL after Arcturuss culpability for Tarsonis was made public. The traitors have since been scrubbed from the Royal Guards records, and go from job to job staying one step ahead of Arcturuss assassins.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
+Button/Tooltip/AP_MercWraith=Once the personal escort force for the Emperor, large swaths of the legendary Phantom Squadron went AWOL after Arcturuss culpability for Tarsonis was made public. The traitors have since been scrubbed from the Royal Guards records, and go from job to job staying one step ahead of Arcturuss assassins.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
 Button/Tooltip/AP_MercZergling=A deadly strain of zergling evolved by the Surtur Brood in the First Great War, the Devouring One personifies the brood's ceaseless slaughter of all in its path once unleashed. Though rarely seen after the Brood War, their legendary reputation still strikes fear into Dominion marines.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_MercZerglingSummon=Summon <d ref="Effect,AP_SummonZergMercenaryDummy,PeriodicPeriodArray[3]"/> Devouring Ones.<n/><n/>A powerful strain of Zerglings from the Brood War.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c><n/><c val="FF4040">Cannot be reconstituted or morph into Banelings.</c>
 Button/Tooltip/AP_MicroFiltering=This refinery is producing Vespene gas 25% faster
@@ -4496,19 +4496,18 @@ Button/Tooltip/AP_VanguardStriderStabilization=Vanguards can attack while moving
 Button/Tooltip/AP_ViciousGlaive=Attacks bounce three additional times, hitting up to six targets. Bounces also travel farther.
 Button/Tooltip/AP_VikingAssault=Durable support unit. Can switch into Fighter Mode to attack air units.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_VikingFighter=Durable support flyer. Loaded with strong anti-capital air missiles. Can switch into Assault Mode to attack ground units.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
-Button/Tooltip/AP_VikingMengskAssault=Durable support unit. Can switch into Fighter Mode to attack air units.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
-Button/Tooltip/AP_VikingMengskAttackDamage=After transforming, this unit gains <d ref="(Behavior,AP_VikingMengskAirAttackDamage,DamageResponse.ModifyFraction-1)*100"/>% increased attack damage for <d ref="Behavior,AP_VikingMengskAirAttackDamage,Duration"/> seconds. Cannot occur more than once every <d ref="Behavior,AP_VikingMengskAttackDamageCooldown,Cost.Cooldown.TimeUse"/> seconds.
-Button/Tooltip/AP_VikingMengskCheatDeath=When this unit takes fatal damage, the Sky Fury transforms to Fighter mode and temporarily gains a barrier that absorbs <d ref="Behavior,AP_VikingMengskCheatDeath,DamageResponse.ModifyLimit"/> damage for <d ref="Behavior,AP_VikingMengskCheatDeath,Duration"/> seconds. Can only occur once every <d ref="Behavior,AP_VikingMengskCheatDeathCooldown,Cost.Cooldown.TimeUse"/> seconds.
-Button/Tooltip/AP_VikingMengskDodge=This unit has a <d ref="Behavior,AP_VikingMengskFighterDodge,DamageResponse.Chance*100"/>% chance to evade attacks.
-Button/Tooltip/AP_VikingMengskFighter=Durable Royal Guard support flyer. Loaded with strong anti-capital air missiles. Can switch into Assault Mode to attack ground units.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
-Button/Tooltip/AP_VikingMengskRank1=<n/><c val="ffff8a">Rank 1:</c> Deals bonus damage to Massive targets.
-Button/Tooltip/AP_VikingMengskRank1Preview=<n/><c val="777777">Rank 1: Deals bonus damage to Massive targets.</c>
+Button/Tooltip/AP_VikingMengskAssault=Royal Guard support walker. Can switch into Fighter Mode to attack air units.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
+Button/Tooltip/AP_VikingMengskAttackDamage=Transforming increases attack damage by <d ref="(Behavior,AP_VikingMengskAirAttackDamage,DamageResponse.ModifyFraction-1)*100"/>% for <d ref="Behavior,AP_VikingMengskAirAttackDamage,Duration"/> seconds. Cooldown: <d ref="Behavior,AP_VikingMengskAttackDamageCooldown,Cost.Cooldown.TimeUse"/> seconds.
+Button/Tooltip/AP_VikingMengskCheatDeath=Fatal damage in Assault Mode triggers a transformation to Fighter Mode and a barrier that absorbs <d ref="Behavior,AP_VikingMengskCheatDeath,DamageResponse.ModifyLimit"/> damage for <d ref="Behavior,AP_VikingMengskCheatDeath,Duration"/> seconds. Cooldown: <d ref="Behavior,AP_VikingMengskCheatDeathCooldown,Cost.Cooldown.TimeUse"/> seconds.
+Button/Tooltip/AP_VikingMengskDodge=Dodges every third incoming weapon hit while in Fighter Mode.
+Button/Tooltip/AP_VikingMengskFighter=Royal Guard support fighter. Can switch into Assault Mode to attack ground units.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
+Button/Tooltip/AP_VikingMengskRank1=<n/><c val="ffff8a">Rank 1:</c> Deals +18 damage to Massive targets.
+Button/Tooltip/AP_VikingMengskRank1Preview=<n/><c val="777777">Rank 1: Deals +18 damage to Massive targets.</c>
 Button/Tooltip/AP_VikingMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Gains the Tactical Realignment ability.
 Button/Tooltip/AP_VikingMengskRank2Preview=<n/><c val="777777">Rank 2: Gains the Tactical Realignment ability.</c>
-Button/Tooltip/AP_VikingMengskRank3=<n/><c val="ffff8a">Rank 3:</c> Gains the Evasive Maneuvers and Phoenix Protocol abilities.
-Button/Tooltip/AP_VikingMengskRank3Preview=<n/><c val="777777">Rank 3: Gains the Evasive Maneuvers and Phoenix Protocol abilities.</c>
+Button/Tooltip/AP_VikingMengskRank3=<n/><c val="ffff8a">Rank 3:</c> Gains Evasive Maneuvers in Fighter Mode and Phoenix Protocol in Assault Mode.
+Button/Tooltip/AP_VikingMengskRank3Preview=<n/><c val="777777">Rank 3: Gains Evasive Maneuvers in Fighter Mode and Phoenix Protocol in Assault Mode.</c>
 Button/Tooltip/AP_VikingMengskSpeed=Movement speed increased by <d ref="$UpgradeEffectArrayValue:AP_VikingMengskSpeed:Unit,AP_VikingMengskFighter,Speed$/Unit,AP_VikingMengskFighter,Speed*100" player="0"/>%.
-Button/Tooltip/AP_VikingMengskWILDMissiles=W.I.L.D. Missiles ability fires an additional missile for each rank gained.
 Button/Tooltip/AP_VilePassive=Attacks debilitate targets, slowing attack and movement speeds by <d ref="(1 - Behavior,AP_VileAcidSlowFlatAmount,Modification.MoveSpeedMultiplier) * 100"/>%. Heroic units are slowed by <d ref="(1 - Behavior,AP_VileAcidSlowFlatAmountHeroic,Modification.MoveSpeedMultiplier) * 100"/>%.
 Button/Tooltip/AP_Viper=Advanced aerial caster. Can use Abduct, Disabling Cloud, and Consumption abilities.<n/><n/><c val="ffff8a">Can attack air units.</c>
 Button/Tooltip/AP_ViperAbductImprovedStunPassive=Abduct stuns units for an additional <d ref="Upgrade,AP_ViperAbductImprovedStun,EffectArray[0].Value"/> seconds.
@@ -4601,16 +4600,16 @@ Button/Tooltip/AP_WildMutation=Friendly zerg units and your biological units in 
 Button/Tooltip/AP_WormholeTransit=Teleports the Mothership to the target location <c val="FFFF8A">anywhere</c> on the map.<n/><n/><c val="FF4040">This ability shares a cooldown with Blink.</c>
 Button/Tooltip/AP_WormholeTransitInstall=Teleports the Mothership to the target location <c val="FFFF8A">anywhere</c> on the map.<n/><n/><c val="FF4040">This ability shares a cooldown with Blink.</c>
 Button/Tooltip/AP_Wraith=Highly mobile flying unit. Excellent at surgical strikes.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/AP_WraithAdvancedLaserTechnology=<c val="ffff8a">Burst Lasers</c> do more damage and hit both air and ground units. Replaces Gemini Missiles weapon.
+Button/Tooltip/AP_WraithAdvancedLaserTechnology=Winged Nightmares gain a single-target laser that hits air and ground units for 30 damage (+6 per rank, +3 per weapon upgrade). Replaces Burst Lasers and Gemini Missiles.
 Button/Tooltip/AP_WraithCloakOff=Decloaks the selected unit, making it visible to enemies.
 Button/Tooltip/AP_WraithCloakOn=Cloaks the unit, preventing enemy units from seeing or attacking it. A cloaked unit will only be revealed by detectors or effects.<n/><n/><c val="f078ff">Drains <d ref="-1 * (Behavior,AP_WraithCloak,Modification.VitalRegenArray[2] + Unit,AP_Wraith,EnergyRegenRate)" precision="1"/> energy per second.</c>
-Button/Tooltip/AP_WraithMengsk=Royal Gyard highly mobile flying unit. Excellent at surgical strikes.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/AP_WraithMengskRank1=<n/><c val="ffff8a">Rank 1:</c> Gains Resonating Feedback Interference ability.
-Button/Tooltip/AP_WraithMengskRank1Preview=<n/><c val="777777">Rank 1: Gains Resonating Feedback Interference ability.</c>
-Button/Tooltip/AP_WraithMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Increases attack range by 2.
-Button/Tooltip/AP_WraithMengskRank2Preview=<n/><c val="777777">Rank 2: Increases attack range by 2.</c>
-Button/Tooltip/AP_WraithMengskRank3=<n/><c val="ffff8a">Rank 3:</c> Gains Disruption Web ability.
-Button/Tooltip/AP_WraithMengskRank3Preview=<n/><c val="777777">Rank 3: Gains Disruption Web ability.</c>
+Button/Tooltip/AP_WraithMengsk=Highly mobile Royal Guard fighter. Can cloak.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
+Button/Tooltip/AP_WraithMengskRank1=<n/><c val="ffff8a">Rank 1:</c> Gains the Toxic Cannister ability.
+Button/Tooltip/AP_WraithMengskRank1Preview=<n/><c val="777777">Rank 1: Gains the Toxic Cannister ability.</c>
+Button/Tooltip/AP_WraithMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Gains Cloaked Superiority.
+Button/Tooltip/AP_WraithMengskRank2Preview=<n/><c val="777777">Rank 2: Gains Cloaked Superiority.</c>
+Button/Tooltip/AP_WraithMengskRank3=<n/><c val="ffff8a">Rank 3:</c> Toxic Cannister leaves a toxic cloud for 4 seconds.
+Button/Tooltip/AP_WraithMengskRank3Preview=<n/><c val="777777">Rank 3: Toxic Cannister leaves a toxic cloud for 4 seconds.</c>
 Button/Tooltip/AP_WraithMengskResonatingFeedbackInterference=Drains all energy from the target unit. Stuns the target for 1 second per 5 energy drained.
 Button/Tooltip/AP_WrathwalkerAerialTracking=Allows the Wrathwalker to attack air units.<n/><n/><c val="FFE303">War Council Upgrade.</c>
 Button/Tooltip/AP_WrathwalkerLongRangeChargedBlast=Increases Charged Blast weapon range by 1.
@@ -6810,7 +6809,7 @@ Unit/Name/AP_Liberator=Liberator
 Unit/Name/AP_LiberatorAG=Liberator
 Unit/Name/AP_LiberatorAGMissile=Liberator AG Missile
 Unit/Name/AP_LiberatorDamageMissile=Liberator Damage Missile
-Unit/Name/AP_LiberatorMengsk=Emperor's Guardian
+Unit/Name/AP_LiberatorMengsk=Crimson Seraph
 Unit/Name/AP_LiberatorMissile=Liberator Missile
 Unit/Name/AP_LightningBombWeapon=Lightning Bomb Weapon
 Unit/Name/AP_Locust=Locust
@@ -6847,7 +6846,7 @@ Unit/Name/AP_MercThorWreckage=Jotun Wreckage
 Unit/Name/AP_MercTorrasqueChrysalis=Torrasque Chrysalis
 Unit/Name/AP_MercTorrasqueCorpse=Torrasque Corpse
 Unit/Name/AP_MercUltralisk=Wise Old Torrasque
-Unit/Name/AP_MercWraith=Winged Nightmare
+Unit/Name/AP_MercWraith=Phantom Squadron
 Unit/Name/AP_MercZergling=Devouring One
 Unit/Name/AP_MindBoltWeapon=Kinetic Blast
 Unit/Name/AP_MissileTurret=Missile Turret
@@ -7083,7 +7082,7 @@ Unit/Name/AP_Wraith=Wraith
 Unit/Name/AP_WraithAirWeaponLeft=Wraith Air Left
 Unit/Name/AP_WraithAirWeaponRight=Wraith Air Right
 Unit/Name/AP_WraithGroundWeapon=Wraith Ground
-Unit/Name/AP_WraithMengsk=Night Hawk
+Unit/Name/AP_WraithMengsk=Winged Nightmare
 Unit/Name/AP_YamatoWeapon=Yamato
 Unit/Name/AP_Yggdrasil=Yggdrasil
 Unit/Name/AP_YoinkMissile=Abduct Missile
@@ -7627,7 +7626,7 @@ Weapon/EditorPrefix/AP_StalkerTaldarimAttackWeapon=AP - Stalker Taldarim -
 Weapon/Name/AP_90mmCannons=90mm Cannons
 Weapon/Name/AP_ATALaserBattery=ATA Laser Battery
 Weapon/Name/AP_ATSLaserBattery=ATS Laser Battery
-Weapon/Name/AP_ATXLaserBatteryMengsk=Laser Battery
+Weapon/Name/AP_ATXLaserBatteryMengsk=ATX Laser Battery
 Weapon/Name/AP_AcidSaliva=Acid Saliva
 Weapon/Name/AP_AcidSpew=Acid Spew
 Weapon/Name/AP_AcidSpines=Acid Spines
@@ -7916,7 +7915,7 @@ Weapon/Name/AP_WraithA=Gemini Missiles
 Weapon/Name/AP_WraithG=Burst Lasers
 Weapon/Name/AP_WreckingCrewAssault=Gatling Cannon
 Weapon/Name/AP_WreckingCrewFighter=Lanzer Torpedoes
-Weapon/Tip/AP_ATXLaserBatteryMengsk=Deals 75% base damage against air targets.
+Weapon/Tip/AP_ATXLaserBatteryMengsk=Attacks ground and air targets for equal damage while moving.
 Weapon/Tip/AP_AcidSpines=
 Weapon/Tip/AP_BullfrogSpit=Direct hits deal friendly-fire damage.
 Weapon/Tip/AP_CarrierPurifierBomberBomb=Deals friendly-fire damage.
@@ -7959,3 +7958,96 @@ Button/Tooltip/AP_LaunchBayEnhancedTargeting=Interceptors can be launched +2 ran
 Button/Tooltip/AP_LaunchBayOptimizedOrdnance=Interceptors attack 25% faster.
 Button/Tooltip/AP_PsiSpireEnhancedTargeting=Psionic Storm gains +2 cast range.
 Button/Tooltip/AP_PsiSpireOptimizedOrdnance=Psionic Storm cooldown recovers 25% faster.
+Upgrade/Name/AP_VikingMengskRank3Training=Promotion Granted
+Upgrade/Name/AP_VikingMengskGiantslayerRounds=Giantslayer Rounds
+Upgrade/Name/AP_VikingMengskSmartServos=Smart Servos
+Upgrade/Name/AP_VikingMengskTacticalSuperiority=Tactical Superiority
+Upgrade/Name/AP_VikingDynamicAerialSystems=Dynamic Aerial Systems
+Button/Name/AP_VikingMengskCombatDiagnosis=Combat Diagnosis
+Button/Name/AP_VikingMengskGiantslayerRounds=Giantslayer Rounds
+Button/Name/AP_VikingMengskSmartServos=Smart Servos
+Button/Name/AP_VikingMengskTacticalSuperiority=Tactical Superiority
+Button/Name/AP_VikingDynamicAerialSystems=Dynamic Aerial Systems
+Button/Tooltip/AP_VikingMengskGiantslayerRounds=Sky Furies deal an additional <c val="ffff8a">12</c> damage to Massive units upon reaching <c val="ffff8a">Rank 1</c>.
+Button/Tooltip/AP_VikingMengskSmartServos=Sky Furies transform <c val="ffff8a">3</c> times as quickly.
+Button/Tooltip/AP_VikingMengskTacticalSuperiority=Removes Tactical Realignment's cooldown and increases its duration by <c val="ffff8a">3</c> seconds.
+Button/Tooltip/AP_VikingDynamicAerialSystems=Increases Viking and Hel's Angel movement speed by <c val="ffff8a">25%</c> in Fighter and Assault modes.
+Button/Tooltip/AP_VikingMengskCombatDiagnosis=The stats for the Sky Fury are listed below:<n/><n/><c val="ffff8a">Life:</c> <d ref="Unit,AP_VikingMengskFighter,LifeMax"/> (+<d ref="Behavior,AP_MengskVeterancyVikingMengsk,VeterancyLevelArray[1].Modification.VitalMaxArray[Life]"/> per rank)<n/><c val="ffff8a">Air Weapon Damage:</c> <d ref="Effect,AP_LanzerTorpedoesMengskDamage,Amount"/> (+4 per rank), 2 missiles per attack<n/><c val="ffff8a">Ground Weapon Damage:</c> <d ref="Effect,AP_TwinGatlingCannonsMengsk,Amount"/> (+3 per rank)<n/><c val="ffff8a">Armor:</c> <d ref="Unit,AP_VikingMengskFighter,LifeArmor"/>
+Behavior/Name/AP_VikingMengskDodge=Evasive Maneuvers
+Behavior/Tooltip/AP_VikingMengskDodge=Dodges the next incoming weapon hit.
+Upgrade/Name/AP_WraithMengskRank3Training=Promotion Granted
+Button/Name/AP_WraithMengskCombatDiagnosis=Combat Diagnosis
+Button/Name/AP_WraithMengskCloakOn=Cloak
+Button/Name/AP_WraithMengskCloakOff=Decloak
+Button/Hotkey/AP_WraithMengskCloakOn=C
+Button/Hotkey/AP_WraithMengskCloakOff=D
+Button/Tooltip/AP_WraithMengskCloakOn=Cloaks the Winged Nightmare, hiding it from enemies without detection. Consumes energy while active.
+Button/Tooltip/AP_WraithMengskCloakOff=Decloaks the Winged Nightmare.
+Behavior/Name/AP_WraithMengskCloak=Cloaked
+Behavior/Tooltip/AP_WraithMengskCloak=Hidden from enemies without detection. Consumes energy while active.
+Button/Tooltip/AP_WraithMengskCombatDiagnosis=The stats for the Winged Nightmare are listed below:<n/><n/><c val="ffff8a">Life:</c> <d ref="Unit,AP_WraithMengsk,LifeMax"/> (+50 per rank)<n/><c val="ffff8a">Ground Weapon Damage:</c> <d ref="Effect,AP_WraithMengskGU,Amount"/> (+2 per rank)<n/><c val="ffff8a">Air Weapon Damage:</c> <d ref="Effect,AP_WraithMengskAU,Amount"/>, <d ref="Effect,AP_WraithMengskAU,Amount + Effect,AP_WraithMengskAU,AttributeBonus[Armored]"/> vs Armored (+2/+3 per rank), 2 missiles per attack<n/><c val="ffff8a">Advanced Laser Damage:</c> <d ref="Effect,AP_WraithMengskAGU,Amount"/> (+6 per rank)<n/><c val="ffff8a">Armor:</c> <d ref="Unit,AP_WraithMengsk,LifeArmor"/>
+Button/Name/AP_WraithMengskToxicCannister=Toxic Cannister
+Button/Tooltip/AP_WraithMengskToxicCannister=Poisons enemies in the target area, dealing 10 damage per second and causing them to flee for 2 seconds.<n/><n/>At Rank 3, leaves a toxic cloud for 4 seconds that refreshes these effects.<n/><n/><c val="#ColorAttackInfo">Massive and Heroic units are immune to fear.</c>
+Button/Name/AP_WraithMengskCloakedSuperiority=Cloaked Superiority
+Button/Tooltip/AP_WraithMengskCloakedSuperiority=While cloaked, ability cooldowns and charges recover 50% faster and damage taken is reduced by 20%.
+Behavior/Name/AP_WraithMengskCloakedSuperiority=Cloaked Superiority
+Behavior/Tooltip/AP_WraithMengskCloakedSuperiority=While cloaked, ability cooldowns and charges recover 50% faster and damage taken is reduced by 20%.
+Behavior/Name/AP_WraithMengskToxicPoison=Toxic Cannister
+Behavior/Tooltip/AP_WraithMengskToxicPoison=Taking 10 damage per second.
+Behavior/Name/AP_WraithMengskToxicFear=Fear
+Behavior/Tooltip/AP_WraithMengskToxicFear=Fleeing in terror. Cannot attack or receive commands.
+Button/Name/AP_WraithMengskEfficientStorage=Toxic Tyrant
+Upgrade/Name/AP_WraithMengskEfficientStorage=Toxic Tyrant
+Button/Name/AP_WraithMengskMaddeningPathogen=Maddening Pathogen
+Upgrade/Name/AP_WraithMengskMaddeningPathogen=Maddening Pathogen
+Button/Name/AP_WraithMengskPhantasmalBlast=Phantasmal Blast
+Upgrade/Name/AP_WraithMengskPhantasmalBlast=Phantasmal Blast
+Button/Name/AP_WraithPulseAmplifier=Pulse Amplifier
+Upgrade/Name/AP_WraithPulseAmplifier=Pulse Amplifier
+Button/Tooltip/AP_WraithMengskEfficientStorage=Toxic Cannister stores up to 2 charges, with a 2-second cooldown between uses.
+Button/Tooltip/AP_WraithMengskMaddeningPathogen=Toxic Cannister causes enemies to attack their allies for 2 seconds instead of fleeing.<n/><n/><c val="#ColorAttackInfo">Massive and Heroic units are immune.</c>
+Button/Tooltip/AP_WraithMengskPhantasmalBlast=Decloaking deals 50 damage to nearby enemies. Cooldown: 30 seconds.
+Button/Tooltip/AP_WraithPulseAmplifier=While moving, Wraiths and Phantom Squadron deal 75% more damage with Gemini Missiles and 200% more damage with Burst Lasers. Enables firing these weapons while moving.
+Upgrade/Name/AP_WraithAdvancedLaserTechnology=Advanced Laser Technology
+Behavior/Name/AP_WraithMengskToxicConfusion=Maddening Pathogen
+Behavior/Tooltip/AP_WraithMengskToxicConfusion=Confused: attacks nearby units on its own side.
+Upgrade/Name/AP_LiberatorMengskRank3Training=Promotion Granted
+Button/Name/AP_LiberatorMengskCombatDiagnosis=Combat Diagnosis
+Button/Tooltip/AP_LiberatorMengskCombatDiagnosis=The stats for the Crimson Seraph are listed below:<n/><n/><c val="ffff8a">Life:</c> <d ref="Unit,AP_LiberatorMengsk,LifeMax"/> (+80 per rank)<n/><c val="ffff8a">Air Weapon Damage:</c> <d ref="Effect,AP_LiberatorMengskMissileDamage,Amount"/> per missile (+2 per rank); 2 missiles, increasing to 4 at Rank 1<n/><c val="ffff8a">Ground Weapon Damage:</c> <d ref="Effect,AP_LiberatorMengskAGDamage,Amount"/> (+25 per rank)<n/><c val="ffff8a">Armor:</c> <d ref="Unit,AP_LiberatorMengsk,LifeArmor"/>
+Button/Name/AP_LiberatorMengskAGMode=Defender Mode
+Button/Name/AP_LiberatorMengskAAMode=Fighter Mode
+Button/Tooltip/AP_LiberatorMengskAGMode=Deploys into Defender Mode to attack ground units in the target area.
+Button/Tooltip/AP_LiberatorMengskAAMode=Returns to Fighter Mode to attack air units with area-damage missiles.
+Upgrade/Name/AP_LiberatorMengskSmartServos=Smart Servos
+Button/Name/AP_LiberatorMengskSmartServos=Smart Servos
+Button/Tooltip/AP_LiberatorMengskSmartServos=Crimson Seraphs transform between Fighter Mode and Defender Mode 3 times as fast.
+Upgrade/Name/AP_LiberatorMengskSiegeProtocol=Siege Protocol
+Button/Name/AP_LiberatorMengskSiegeProtocol=Siege Protocol
+Button/Tooltip/AP_LiberatorMengskSiegeProtocol=Crimson Seraphs can attack structures in Defender Mode.
+Upgrade/Name/AP_LiberatorMengskPenetratingAmmunition=Penetrating Ammunition
+Button/Name/AP_LiberatorMengskPenetratingAmmunition=Penetrating Ammunition
+Button/Tooltip/AP_LiberatorMengskPenetratingAmmunition=Killing a target in Defender Mode causes the shot to ricochet to one nearby enemy, dealing 25% damage.<n/><n/><c val="#ColorAttackInfo">Structures require Siege Protocol.</c>
+Upgrade/Name/AP_LiberatorMengskThermiteMissiles=Thermite Missiles
+Button/Name/AP_LiberatorMengskThermiteMissiles=Thermite Missiles
+Button/Tooltip/AP_LiberatorMengskThermiteMissiles=Crimson Seraph missiles deal +3 damage to Light units and have a 25% larger splash radius.
+Upgrade/Name/AP_BattlecruiserMengskRank3Training=Promotion Granted
+Button/Name/AP_BattlecruiserMengskCombatDiagnosis=Combat Diagnosis
+Button/Tooltip/AP_BattlecruiserMengskCombatDiagnosis=The stats for the Pride of Augustgrad are listed below:<n/><n/><c val="ffff8a">Life:</c> <d ref="Unit,AP_BattlecruiserMengsk,LifeMax"/> (+160 per rank)<n/><c val="ffff8a">Ground Weapon Damage:</c> <d ref="Effect,AP_ATSLaserBatteryMengskU,Amount"/> (+2 per rank)<n/><c val="ffff8a">Air Weapon Damage:</c> <d ref="Effect,AP_ATALaserBatteryMengskU,Amount"/> (+2 per rank)<n/><c val="ffff8a">Armor:</c> <d ref="Unit,AP_BattlecruiserMengsk,LifeArmor"/>
+Upgrade/Name/AP_BattlecruiserMengskTacticalJump=Tactical Jump
+Button/Name/AP_BattlecruiserMengskTacticalJump=Tactical Jump
+Button/Tooltip/AP_BattlecruiserMengskTacticalJump=Unlocks Tactical Jump for Pride of Augustgrad.
+Upgrade/Name/AP_BattlecruiserMengskEmergencyRepairs=Emergency Repairs
+Button/Name/AP_BattlecruiserMengskEmergencyRepairs=Emergency Repairs
+Button/Tooltip/AP_BattlecruiserMengskEmergencyRepairs=Upon taking fatal damage, gains 300 shields for 10 seconds and restores 2% of maximum life per second while shielded. Cooldown: 240 seconds.
+Upgrade/Name/AP_BattlecruiserMengskPlasmaEfficiency=Plasma Efficiency
+Button/Name/AP_BattlecruiserMengskPlasmaEfficiency=Plasma Efficiency
+Button/Tooltip/AP_BattlecruiserMengskPlasmaEfficiency=Each laser hit reduces Yamato Cannon's remaining recharge time by 0.15 seconds.
+Behavior/Name/AP_BattlecruiserMengskEmergencyRepairsShield=Emergency Repairs
+Behavior/Tooltip/AP_BattlecruiserMengskEmergencyRepairsShield=Restores 2% of maximum life per second while shielded.
+Weapon/Name/AP_ATSLaserBatteryMengsk=ATS Laser Battery
+Weapon/Name/AP_ATALaserBatteryMengsk=ATA Laser Battery
+Weapon/Name/AP_LiberatorMengskAGWeapon=Concord Cannon
+Weapon/Name/AP_LiberatorMengskAGWeaponAA=Concord Cannon
+Weapon/Name/AP_LiberatorMengskMissileLaunchers=Lexington Rockets
+Weapon/Name/AP_LiberatorMengskMissileLaunchersMoreAttacks=Lexington Rockets
+Weapon/Name/AP_LiberatorMengskMissileLaunchersWhileSieged=Lexington Rockets
