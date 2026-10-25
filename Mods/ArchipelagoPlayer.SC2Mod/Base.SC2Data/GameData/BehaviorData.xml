@@ -1333,6 +1333,12 @@
         <Duration value="1"/>
         <Modification RangedWeaponRange="1"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SensorTowerRangeBunker">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <DisableValidatorArray value="AP_HaveSensorTowerRange"/>
+        <Modification WeaponRange="1"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_MindControl">
         <!-- Not to be dispelled by Restoration -->
         <!--        <Alignment value="Negative"/>-->
@@ -7725,6 +7731,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_HighTemplarSCBWHallucination">
         <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Modification LifeArmorMultiplier="0" ShieldArmorMultiplier="0" SubgroupPriority="-100">
@@ -7794,6 +7801,8 @@
         <DisplayDuration index="Enemy" value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_HallucinationTimedLife">
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Duration value="60"/>
         <ExpireEffect value="KillHallucination"/>

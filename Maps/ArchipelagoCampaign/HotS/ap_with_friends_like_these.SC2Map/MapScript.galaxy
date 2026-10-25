@@ -1744,6 +1744,7 @@ bool gt_Debug_FirstBaseSetup_Func (bool testConds, bool runActions) {
     UnitAbilityShow(gv_hyperion, "SJHyperionBlink", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionFighters", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionYamato", true);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HyperionAllowBuild", 1);
     auto8C76A8C5_g = gv_firstBaseUnits;
     auto8C76A8C5_u = UnitGroupCount(auto8C76A8C5_g, c_unitCountAll);
     for (;; auto8C76A8C5_u -= 1) {
@@ -1797,6 +1798,7 @@ bool gt_Debug_SecondBaseSetup_Func (bool testConds, bool runActions) {
     UnitAbilityShow(gv_hyperion, "SJHyperionBlink", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionFighters", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionYamato", true);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HyperionAllowBuild", 1);
     autoB32318F6_g = gv_secondBaseUnits;
     autoB32318F6_u = UnitGroupCount(autoB32318F6_g, c_unitCountAll);
     for (;; autoB32318F6_u -= 1) {
@@ -1850,6 +1852,7 @@ bool gt_Debug_ThirdBaseSetup_Func (bool testConds, bool runActions) {
     UnitAbilityShow(gv_hyperion, "SJHyperionBlink", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionFighters", true);
     UnitAbilityShow(gv_hyperion, "SJHyperionYamato", true);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HyperionAllowBuild", 1);
     auto8CF45A5C_g = gv_thirdBaseUnits;
     auto8CF45A5C_u = UnitGroupCount(auto8CF45A5C_g, c_unitCountAll);
     for (;; auto8CF45A5C_u -= 1) {
@@ -2111,7 +2114,6 @@ bool gt_HyperionBlinkUsedQ_Func (bool testConds, bool runActions) {
     libSwaC_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     VisRevealerDestroy(gv_blinkRevealer);
-    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HyperionAllowBuild", 1);
     return true;
 }
 
@@ -2205,6 +2207,7 @@ bool gt_AoeEncounterQ_Func (bool testConds, bool runActions) {
     libSwaC_gf_AttachReticleEffectAndTextTagOnUnit(libSwaC_ge_CampaginReticleType_TerranEnemy, libSwaC_ge_CampaginReticleSize_Medium, null, UnitFromId(17), "Ref_Origin");
     gv_aoeEncounterBriefingModel = libNtve_gf_ActorLastCreated();
     UnitAbilityShow(gv_hyperion, "SJHyperionFighters", true);
+    libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HyperionAllowBuild", 1);
     TriggerExecute(gt_EncounterShipStop, true, false);
     UISetButtonHighlighted(PlayerGroupAll(), AbilityCommand("SJHyperionFighters", 0), true);
     libSwaC_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
