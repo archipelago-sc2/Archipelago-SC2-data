@@ -9982,9 +9982,21 @@
     <CRequirementCountUpgrade id="AP_BattlecruiserMengskEmergencyRepairsCount">
         <Count Link="AP_BattlecruiserMengskEmergencyRepairs" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
-    <CRequirementCountUpgrade id="AP_BattlecruiserMengskPlasmaEfficiencyCount">
+    <CRequirementCountUpgrade id="AP_BattlecruiserMengskTacticalMissileArrayCount">
         <Count Link="AP_BattlecruiserMengskPlasmaEfficiency" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
+    <CRequirementAnd id="AP_BattlecruiserMengskTacticalMissileArrayReady">
+        <OperandArray index="0" value="AP_BattlecruiserMengskTacticalMissileArrayCount"/>
+        <OperandArray index="1" value="AP_CountUnitNukeMengskCompleteOnly"/>
+    </CRequirementAnd>
+    <CRequirementOr id="AP_TacticalMissileSupplyUnlocked">
+        <OperandArray index="0" value="AP_CountUpgradeHaveGhostMengskCompleteOnly"/>
+        <OperandArray index="1" value="AP_BattlecruiserMengskTacticalMissileArrayCount"/>
+    </CRequirementOr>
+    <CRequirementOr id="AP_ShadowOpsUnlockedOrTacticalMissileArray">
+        <OperandArray index="0" value="AP_UnlockShadowOps"/>
+        <OperandArray index="1" value="AP_BattlecruiserMengskTacticalMissileArrayCount"/>
+    </CRequirementOr>
     <CRequirementAnd id="AP_BattlecruiserMengskTacticalJumpOneCharge">
         <OperandArray index="0" value="AP_BattlecruiserMengskTacticalJumpCount"/>
         <OperandArray index="1" value="AP_EqCountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit1"/>

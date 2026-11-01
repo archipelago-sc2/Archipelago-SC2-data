@@ -28274,7 +28274,6 @@
         <AttackTargetPriority value="20"/>
         <WeaponArray Link="AP_ATSLaserBatteryMengsk" Turret="AP_Battlecruiser"/>
         <WeaponArray Link="AP_ATALaserBatteryMengsk" Turret="AP_Battlecruiser"/>
-        <WeaponArray Link="AP_ATXLaserBatteryMengsk" Turret="FreeRotate"/>
         <EffectArray index="Create" value="AP_MengskVeteranTrigger"/>
         <Radius value="1.25"/>
         <SeparationRadius value="2.5"/>
@@ -28327,14 +28326,13 @@
             <LayoutButtons Face="AP_BattlecruiserRangeAura" Type="Passive" Requirements="AP_HaveBattlecruiserRangeAura" Row="1" Column="2"/>
             <LayoutButtons Face="AP_BattlecruiserMengskTacticalJump" Type="Passive" Requirements="AP_BattlecruiserMengskTacticalJumpOwned" Row="1" Column="3"/>
             <LayoutButtons Face="AP_BattlecruiserMengskEmergencyRepairs" Type="Passive" Requirements="AP_BattlecruiserMengskEmergencyRepairsOwned" Row="1" Column="4"/>
-            <LayoutButtons Face="AP_BattlecruiserMengskPlasmaEfficiency" Type="Passive" Requirements="AP_BattlecruiserMengskPlasmaEfficiencyOwned" Row="2" Column="2"/>
-            <LayoutButtons Face="AP_AllPurposeLaserBattery" Type="Passive" Requirements="AP_HaveAdvancedWeaponryBattlecruiser" Row="2" Column="3"/>
+            <LayoutButtons Face="AP_BattlecruiserMengskTacticalMissileArray" Type="AbilCmd" AbilCmd="AP_BattlecruiserMengskTacticalMissileArray,Execute" Row="2" Column="2"/>
         </CardLayouts>
         <AbilArray Link="AP_BattlecruiserMengskEmergencyRepairs"/>
         <BehaviorArray Link="AP_BattlecruiserMengskFieldTargetingSource"/>
         <BehaviorArray Link="AP_BattlecruiserMengskFieldTargetingIndicator"/>
         <BehaviorArray Link="AP_BattlecruiserMengskEmergencyRepairsGuard"/>
-        <BehaviorArray Link="AP_BattlecruiserMengskPlasmaEfficiency"/>
+        <AbilArray Link="AP_BattlecruiserMengskTacticalMissileArray"/>
     </CUnit>
     <CUnit id="AP_BattlecruiserMengskYamato" parent="MISSILE_INVULNERABLE">
         <Race value="Terr"/>
@@ -29507,6 +29505,7 @@
         <AbilArray Link="AP_FighterModeMengsk"/>
         <BehaviorArray Link="AP_MengskVeterancyVikingMengskRank2"/>
         <BehaviorArray Link="AP_VikingMengskFighterDodge"/>
+        <BehaviorArray Link="AP_VikingMengskTacticalSuperiorityIndicator"/>
         <BehaviorArray Link="AP_MengskVeteranTrigger"/>
         <BehaviorArray Link="AP_MengskVeteranL1Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranL2Tracker"/>
@@ -29546,7 +29545,6 @@
             <LayoutButtons Face="AP_VikingMengskSmartServos" Type="Passive" Requirements="AP_HaveVikingMengskSmartServos" Row="1" Column="2"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_VikingMengskUnlockRank3,Execute" Row="2" Column="4"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_VikingMengskPromotionGranted" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_VikingMengskTacticalSuperiority" Type="Passive" Requirements="AP_HaveVikingMengskTacticalSuperiority" Row="2" Column="1"/>
             <LayoutButtons Face="AP_VikingMengskSpeed" Type="Passive" Requirements="AP_HaveVikingMengskSpeedNoFighterMode" Row="2" Column="3"/>
         </CardLayouts>
         <Radius value="0.75"/>
@@ -29615,6 +29613,7 @@
         <AbilArray Link="AP_AssaultModeMengsk"/>
         <BehaviorArray Link="AP_MengskVeterancyVikingMengskRank2"/>
         <BehaviorArray Link="AP_VikingMengskFighterDodge"/>
+        <BehaviorArray Link="AP_VikingMengskTacticalSuperiorityIndicator"/>
         <BehaviorArray Link="AP_MengskVeteranTrigger"/>
         <BehaviorArray Link="AP_MengskVeteranL1Tracker"/>
         <BehaviorArray Link="AP_MengskVeteranL2Tracker"/>
@@ -29646,7 +29645,6 @@
             <LayoutButtons Face="AP_VikingMengskSmartServos" Type="Passive" Requirements="AP_HaveVikingMengskSmartServos" Row="1" Column="2"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_VikingMengskUnlockRank3,Execute" Row="2" Column="4"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_VikingMengskPromotionGranted" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_VikingMengskTacticalSuperiority" Type="Passive" Requirements="AP_HaveVikingMengskTacticalSuperiority" Row="2" Column="0"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -31223,7 +31221,7 @@
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="AP_WraithAdvancedLaserTechnology" Type="Passive" Requirements="AP_HaveWraithAdvancedLaserTechnology" Row="1" Column="2"/>
             <LayoutButtons Face="AP_WraithMengskCloakOn" Type="AbilCmd" AbilCmd="AP_WraithMengskCloak,0" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_WraithMengskCloakOff" Type="AbilCmd" AbilCmd="AP_WraithMengskCloak,1" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_WraithMengskCloakOff" Type="AbilCmd" AbilCmd="AP_WraithMengskCloak,1" Row="2" Column="0"/>
             <LayoutButtons Face="AP_WraithMengskVeterancy" Type="Passive" Row="1" Column="0"/>
             <LayoutButtons Face="AP_WraithMengskCombatDiagnosis" Type="Passive" Row="1" Column="1"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_WraithMengskUnlockRank3,Execute" Row="2" Column="4"/>
@@ -33199,12 +33197,13 @@
     </CUnit>
 
     <CUnit id="AP_WraithMengskToxicMissile" parent="MISSILE">
-        <Race value="Terr"/><Mover value="AP_TossGrenade"/>
+        <Race value="Terr"/><Mover value="AP_WraithMengskToxicMissile"/>
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:Campaign"/>
     </CUnit>
 
     <CUnit id="AP_LiberatorMengskPenetratingAmmunitionMissile" parent="MISSILE_INVULNERABLE">
         <Race value="Terr"/>
+        <Mover value="AP_LiberatorAGMissile"/>
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
     </CUnit>
 </Catalog>

@@ -9236,9 +9236,8 @@
         <Value value="AP_HaveVikingMengskTacticalSuperiority"/>
     </CValidatorPlayerRequirement>
     <CValidatorCombine id="AP_VikingMengskCanRealign">
-        <Type value="Or"/>
+        <Type value="And"/>
         <CombineArray value="AP_NoVikingMengskAttackDamageCooldown"/>
-        <CombineArray value="AP_HaveVikingMengskTacticalSuperiority"/>
     </CValidatorCombine>
     <CValidatorPlayerRequirement id="AP_NoVikingMengskTacticalSuperiority">
         <Find value="0"/>
@@ -9510,10 +9509,15 @@
         <Find value="1"/>
         <Value value="AP_BattlecruiserMengskEmergencyRepairsOwned"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_BattlecruiserMengskPlasmaEfficiencyOwned">
-        <Find value="1"/>
-        <Value value="AP_BattlecruiserMengskPlasmaEfficiencyOwned"/>
-    </CValidatorPlayerRequirement>
+    <CValidatorUnitType id="AP_CasterIsBattlecruiserMengsk">
+        <WhichUnit Value="Caster"/>
+        <Value value="AP_BattlecruiserMengsk"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="AP_GhostMengskNukeNoChannel">
+        <Type value="Or"/>
+        <CombineArray value="AP_HaveGhostMengskGuidedStrike"/>
+        <CombineArray value="AP_CasterIsBattlecruiserMengsk"/>
+    </CValidatorCombine>
     <CValidatorUnitCompareCooldown id="AP_BattlecruiserMengskEmergencyRepairsReady">
         <WhichUnit Value="Caster"/>
         <CooldownLink value="Abil/AP_BattlecruiserMengskEmergencyRepairs"/>
@@ -9521,11 +9525,4 @@
         <Compare value="LE"/>
         <Value value="0"/>
     </CValidatorUnitCompareCooldown>
-    <CValidatorUnitCompareChargeUsed id="AP_BattlecruiserMengskYamatoRecharging">
-        <WhichUnit Value="Caster"/>
-        <Compare value="GT"/>
-        <Value value="0"/>
-        <ChargeLink value="Abil/AP_BattlecruiserMengskYamato"/>
-        <Location value="Unit"/>
-    </CValidatorUnitCompareChargeUsed>
 </Catalog>

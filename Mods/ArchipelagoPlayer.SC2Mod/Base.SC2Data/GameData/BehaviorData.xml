@@ -9330,6 +9330,15 @@
             <Chance value="1"/>
         </DamageResponse>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_VikingMengskTacticalSuperiorityIndicator">
+        <Name value="Button/Name/AP_VikingMengskTacticalSuperiority"/>
+        <Tooltip value="Button/Tooltip/AP_VikingMengskTacticalSuperiority"/>
+        <InfoIcon value="Assets\Textures\btn-ability-mengsk-viking-freshperspective.dds"/>
+        <Alignment value="Positive"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Requirements value="AP_HaveVikingMengskTacticalSuperiority"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_VikingMengskGroundAttackDamage">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-mengsk-viking-freshperspective.dds"/>
@@ -9338,11 +9347,9 @@
         <BuffFlags index="UpdateDurationWhileDisabled" value="1"/>
         <Duration value="5"/>
         <InitialEffect value="AP_VikingMengskAttackDamageCooldownSet"/>
-        <DamageResponse Location="Attacker" ModifyFraction="1.5">
-            <RequireEffectArray value="AP_TwinGatlingCannonsMengsk"/>
-            <RequireEffectArray value="AP_VikingMengskGroundMassiveDamage"/>
-            <Chance value="1"/>
-        </DamageResponse>
+        <Modification>
+            <DamageDealtFraction index="Ranged" value="0.5"/>
+        </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_VikingMengskAirAttackDamage">
         <Alignment value="Positive"/>
@@ -9352,11 +9359,9 @@
         <BuffFlags index="UpdateDurationWhileDisabled" value="1"/>
         <Duration value="5"/>
         <InitialEffect value="AP_VikingMengskAttackDamageCooldownSet"/>
-        <DamageResponse Location="Attacker" ModifyFraction="1.5">
-            <RequireEffectArray value="AP_LanzerTorpedoesMengskDamage"/>
-            <RequireEffectArray value="AP_VikingMengskAirMassiveDamage"/>
-            <Chance value="1"/>
-        </DamageResponse>
+        <Modification>
+            <DamageDealtFraction index="Ranged" value="0.5"/>
+        </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_VikingMengskWeaponAir">
         <BehaviorFlags index="Permanent" value="1"/>
@@ -12489,14 +12494,5 @@
         <PeriodicEffect value="AP_BattlecruiserMengskEmergencyRepairsHeal"/>
         <DisplayDuration index="Self" value="1"/>
         <DisplayDuration index="Ally" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskPlasmaEfficiency">
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_BattlecruiserMengskPlasmaEfficiencyOwned"/>
-        <DamageResponse Location="Attacker" Handled="AP_BattlecruiserMengskPlasmaEfficiencyRefund">
-            <Chance value="1"/>
-            <RequireEffectArray value="AP_ATSLaserBatteryMengskU"/>
-            <RequireEffectArray value="AP_ATALaserBatteryMengskU"/>
-        </DamageResponse>
     </CBehaviorBuff>
 </Catalog>

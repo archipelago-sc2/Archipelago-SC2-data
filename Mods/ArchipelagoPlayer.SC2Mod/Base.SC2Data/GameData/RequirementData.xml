@@ -4573,7 +4573,7 @@
     <CRequirement id="AP_TrainNukeMengsk">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
         <NodeArray index="Use" Link="AP_NotCountUnitNukeMengskQueuedOrBetterAtUnit"/>
-        <NodeArray index="Show" Link="AP_CountUpgradeHaveGhostMengskCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_TacticalMissileSupplyUnlocked"/>
     </CRequirement>
     <CRequirement id="AP_NukeSiloOccupied">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
@@ -4583,7 +4583,7 @@
     <CRequirement id="AP_NukeSiloOccupiedMengsk">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
         <NodeArray index="Use" Link="AP_CountUpgradeNotPossibleNukeArmed"/>
-        <NodeArray index="Show" Link="AP_CountUpgradeHaveGhostMengskCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_TacticalMissileSupplyUnlocked"/>
     </CRequirement>
     <CRequirement id="AP_HaveUnfriendlyNukeIndicator">
         <NodeArray index="Use" Link="AP_CountUpgradeUnfriendlyNukeIndicatorCompleteOnly"/>
@@ -5613,7 +5613,7 @@
         <NodeArray index="Show" Link="AP_BuildStarportTechLab"/>
     </CRequirement>
     <CRequirement id="AP_UnlockShadowOps">
-        <NodeArray index="Show" Link="AP_UnlockShadowOps"/>
+        <NodeArray index="Show" Link="AP_ShadowOpsUnlockedOrTacticalMissileArray"/>
         <NodeArray index="Use" Link="AP_OrCountUnitAlias_BarracksCompleteOnlyTechTreeCheatCountUnitAlias_FactoryCompleteOnlyTechTreeCheat"/>
     </CRequirement>
     <CRequirement id="AP_UnlockEngineeringBay">
@@ -6614,8 +6614,9 @@
         <NodeArray index="Show" Link="AP_BattlecruiserMengskEmergencyRepairsCount"/>
         <NodeArray index="Use" Link="AP_BattlecruiserMengskEmergencyRepairsCount"/>
     </CRequirement>
-    <CRequirement id="AP_BattlecruiserMengskPlasmaEfficiencyOwned">
-        <NodeArray index="Show" Link="AP_BattlecruiserMengskPlasmaEfficiencyCount"/>
-        <NodeArray index="Use" Link="AP_BattlecruiserMengskPlasmaEfficiencyCount"/>
+    <CRequirement id="AP_BattlecruiserMengskTacticalMissileArray">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_BattlecruiserMengskTacticalMissileArrayCount"/>
+        <NodeArray index="Use" Link="AP_BattlecruiserMengskTacticalMissileArrayReady"/>
     </CRequirement>
 </Catalog>

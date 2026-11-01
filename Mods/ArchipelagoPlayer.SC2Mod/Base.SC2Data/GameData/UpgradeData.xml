@@ -3020,16 +3020,9 @@
         <EffectArray Operation="Subtract" Reference="Weapon,AP_DRAllPurposeLaserBattery,Options[Hidden]" Value="1"/>
         <EffectArray Operation="Subtract" Reference="Weapon,AP_DRAllPurposeLaserBattery,Options[Disabled]" Value="1"/>
         <EffectArray Operation="Subtract" Reference="Weapon,AP_DRAllPurposeCannons,Options[Disabled]" Value="1"/>
-        <EffectArray Reference="Weapon,AP_ATSLaserBatteryMengsk,Options[Hidden]" Value="1"/>
-        <EffectArray Reference="Weapon,AP_ATSLaserBatteryMengsk,Options[Disabled]" Value="1"/>
-        <EffectArray Reference="Weapon,AP_ATALaserBatteryMengsk,Options[Hidden]" Value="1"/>
-        <EffectArray Reference="Weapon,AP_ATALaserBatteryMengsk,Options[Disabled]" Value="1"/>
-        <EffectArray Operation="Subtract" Reference="Weapon,AP_ATXLaserBatteryMengsk,Options[Hidden]" Value="1"/>
-        <EffectArray Operation="Subtract" Reference="Weapon,AP_ATXLaserBatteryMengsk,Options[Disabled]" Value="1"/>
         <EditorCategories value="Race:Terran,UpgradeType:Talents"/>
         <AffectedUnitArray value="AP_Battlecruiser"/>
         <AffectedUnitArray value="AP_DukesRevenge"/>
-        <AffectedUnitArray value="AP_BattlecruiserMengsk"/>
     </CUpgrade>
     <CUpgrade id="AP_FullBoreCanisterAmmo">
         <Flags index="UpgradeCheat" value="0"/>
@@ -18328,7 +18321,9 @@
         <EffectArray Reference="Behavior,AP_VikingMengskGroundAttackDamage,Duration" Value="3"/>
         <Icon value="Assets\Textures\btn-ability-mengsk-viking-freshperspective.dds"/>
         <MaxLevel value="1"/>
-        <EffectArray Operation="Set" Reference="Behavior,AP_VikingMengskAttackDamageCooldown,Cost.Cooldown.TimeUse" Value="0"/>
+        <EffectArray Operation="Set" Reference="Behavior,AP_VikingMengskAttackDamageCooldown,Cost.Cooldown.TimeUse" Value="8"/>
+        <EffectArray Operation="Set" Reference="Behavior,AP_VikingMengskAttackDamageCooldown,Duration" Value="8"/>
+        <EffectArray Operation="Set" Reference="Effect,AP_VikingMengskAttackDamageCooldownMU,Cost.CooldownTimeUse" Value="8"/>
     </CUpgrade>
     <CUpgrade id="AP_VikingDynamicAerialSystems">
         <EffectArray Operation="Multiply" Reference="Unit,AP_VikingFighter,Speed" Value="1.25"/>
@@ -18454,10 +18449,12 @@
         <AffectedUnitArray value="AP_BattlecruiserMengsk"/>
         <EffectArray Operation="Set" Reference="Actor,AP_BattlecruiserMengsk,CustomUnitStatusFrame" Value="AP_Coop_UnitStatus_Mengsk/MengskBattlecruiser_StatusFrameS"/>
     </CUpgrade>
+    <!-- Retain the upgrade link used by item 321 for existing item unlocks. -->
     <CUpgrade id="AP_BattlecruiserMengskPlasmaEfficiency">
-        <Name value="Upgrade/Name/AP_BattlecruiserMengskPlasmaEfficiency"/>
-        <Icon value="Assets\Textures\btn-ability-mengsk-battlecruiser-yamatocannon.dds"/>
+        <Name value="Upgrade/Name/AP_BattlecruiserMengskTacticalMissileArray"/>
+        <Icon value="Assets\Textures\btn-ability-mengsk-ghost-tacticalmissilestrike.dds"/>
         <MaxLevel value="1"/>
         <AffectedUnitArray value="AP_BattlecruiserMengsk"/>
+        <AffectedUnitArray value="AP_GhostAcademy"/>
     </CUpgrade>
 </Catalog>

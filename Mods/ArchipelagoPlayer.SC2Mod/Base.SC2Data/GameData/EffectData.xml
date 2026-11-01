@@ -22590,7 +22590,6 @@
         <Weapon Weapon="AP_SILiberator" CooldownAmount="6"/>
     </CEffectModifyUnit>
     <CEffectSet id="AP_VikingMengskAttackDamageCooldownSet">
-        <ValidatorArray value="AP_NoVikingMengskTacticalSuperiority"/>
         <EditorCategories value=""/>
         <EffectArray value="AP_VikingMengskAttackDamageCooldownAB"/>
         <EffectArray value="AP_VikingMengskAttackDamageCooldownMU"/>
@@ -23413,7 +23412,7 @@
     </CEffectCreatePersistent>
     <CEffectSwitch id="AP_GhostMengskNukeSwitch">
         <EditorCategories value="Race:Terran"/>
-        <CaseArray Validator="AP_HaveGhostMengskGuidedStrike" Effect="AP_GhostMengskNukeGuidedCP"/>
+        <CaseArray Validator="AP_GhostMengskNukeNoChannel" Effect="AP_GhostMengskNukeGuidedCP"/>
         <CaseDefault value="AP_GhostMengskNukeCP"/>
     </CEffectSwitch>
     <CEffectUseCalldown id="AP_GhostMengskNukeCalldown">
@@ -28283,6 +28282,7 @@
     </CEffectApplyBehavior>
 
     <CEffectLaunchMissile id="AP_WraithMengskToxicLaunch">
+        <LaunchLocation Value="CasterUnit"/>
         <ImpactLocation Value="TargetPoint"/><ImpactOffset value="0,0,0.1"/>
         <ImpactEffect value="AP_WraithMengskToxicImpact"/><AmmoUnit value="AP_WraithMengskToxicMissile"/>
     </CEffectLaunchMissile>
@@ -28422,20 +28422,5 @@
         <VitalArray index="Life">
             <ChangeFraction value="0.02"/>
         </VitalArray>
-    </CEffectModifyUnit>
-    <CEffectSwitch id="AP_BattlecruiserMengskPlasmaEfficiencyRefund">
-        <ValidatorArray value="AP_EnemyTarget"/>
-        <ValidatorArray value="AP_BattlecruiserMengskPlasmaEfficiencyOwned"/>
-        <ValidatorArray value="AP_BattlecruiserMengskYamatoRecharging"/>
-        <CaseArray Validator="AP_BattlecruiserMengskRank1GE" Effect="AP_BattlecruiserMengskPlasmaEfficiencyRefundTwoCharges"/>
-        <CaseDefault value="AP_BattlecruiserMengskPlasmaEfficiencyRefundOneCharge"/>
-    </CEffectSwitch>
-    <CEffectModifyUnit id="AP_BattlecruiserMengskPlasmaEfficiencyRefundOneCharge">
-        <ImpactUnit Value="Caster"/>
-        <Cost Abil="AP_BattlecruiserMengskYamato,Execute" CooldownOperation="Add" ChargeTimeUse="-0.15"/>
-    </CEffectModifyUnit>
-    <CEffectModifyUnit id="AP_BattlecruiserMengskPlasmaEfficiencyRefundTwoCharges">
-        <ImpactUnit Value="Caster"/>
-        <Cost Abil="AP_BattlecruiserMengskYamatoTwoCharges,Execute" CooldownOperation="Add" ChargeTimeUse="-0.15"/>
     </CEffectModifyUnit>
 </Catalog>

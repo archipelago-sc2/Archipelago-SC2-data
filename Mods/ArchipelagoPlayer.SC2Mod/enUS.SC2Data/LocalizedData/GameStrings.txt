@@ -1117,9 +1117,9 @@ Behavior/Tooltip/AP_TimeFieldTaldarimFriendly=Attack and move speed increased by
 Behavior/Tooltip/AP_TimeWarpProduction=This structure is in an accelerated state.
 Behavior/Tooltip/AP_TorrasqueTimerBehavior=Cannot revive at this time.
 Behavior/Tooltip/AP_UltraliskBurrowChargeStun=This unit is stunned.
-Behavior/Tooltip/AP_VikingMengskAirAttackDamage=Air weapon damage increased by <d ref="(Behavior,AP_VikingMengskAirAttackDamage,DamageResponse.ModifyFraction-1)*100"/>%.
+Behavior/Tooltip/AP_VikingMengskAirAttackDamage=Ranged damage increased by <d ref="Behavior,AP_VikingMengskAirAttackDamage,Modification.DamageDealtFraction[Ranged]*100"/>%.
 Behavior/Tooltip/AP_VikingMengskCheatDeath=Absorbs up to <d ref="Behavior,AP_VikingMengskCheatDeath,DamageResponse.ModifyLimit"/> damage.
-Behavior/Tooltip/AP_VikingMengskGroundAttackDamage=Ground weapon damage increased by <d ref="(Behavior,AP_VikingMengskGroundAttackDamage,DamageResponse.ModifyFraction-1)*100"/>%.
+Behavior/Tooltip/AP_VikingMengskGroundAttackDamage=Ranged damage increased by <d ref="Behavior,AP_VikingMengskGroundAttackDamage,Modification.DamageDealtFraction[Ranged]*100"/>%.
 Behavior/Tooltip/AP_VileAcidSlowFlatAmount=Attack and movement speeds are slowed.
 Behavior/Tooltip/AP_VileAcidSlowFlatAmountHeroic=Attack and movement speeds are slowed.
 Behavior/Tooltip/AP_VileAcidSlowFlatAmountStructure=Attack speeds are slowed.
@@ -3817,7 +3817,7 @@ Button/Tooltip/AP_NoxiousCloud=Nearby enemy ground units take <d ref="(Effect,AP
 Button/Tooltip/AP_NukeArm=Arms the Silo with a Tactical Nuke.<n/><n/>Nukes take <d time="20"/> to land, but they deal up to 300 (+200 vs. structures) damage in a large radius.<n/><n/>Use a Ghost to designate the target.
 Button/Tooltip/AP_NukeCalldown=Calls down a Nuclear Strike at a target location. Nukes take <d time="20"/> to land, but they deal up to 300 (+200 vs. structures) damage to enemies in a large radius.
 Button/Tooltip/AP_NukeCalldownMengsk=Calls down a Tactical Missile Strike at a target location. Tactical Missiles take <c val="ffff8a"><d ref="Effect,AP_GhostMengskNukeCP,InitialDelay + Effect,AP_GhostMengskNukeCP,ExpireDelay + Effect,AP_GhostMengskNukeDetonateCP,InitialDelay"/></c> seconds to land, but they deal up to <c val="ffff8a"><d ref="Effect,AP_GhostMengskNukeDamage,Amount"/></c> (<c val="ffff8a">+<d ref="Effect,AP_GhostMengskNukeDamage,AttributeBonus[Structure]"/></c> vs. structures) damage to enemies in a small radius.<n/><n/>Charges refresh over time at a Shadow Ops.
-Button/Tooltip/AP_NukeMengskArm=Arms the Silo with a Tactical Missile.<n/><n/>Tactical Missiles take <d ref="Effect,AP_GhostMengskNukeCP,InitialDelay + Effect,AP_GhostMengskNukeCP,ExpireDelay + Effect,AP_GhostMengskNukeDetonateCP,InitialDelay"/> seconds to land, but they deal up to <d ref="Effect,AP_GhostMengskNukeDamage,Amount"/> (+<d ref="Effect,AP_GhostMengskNukeDamage,AttributeBonus[Structure]"/> vs. structures) damage in a small radius.<n/><n/>Use an Emperor's Shadow to designate the target.
+Button/Tooltip/AP_NukeMengskArm=Arms the Silo with a Tactical Missile.<n/><n/>Tactical Missiles take <d ref="Effect,AP_GhostMengskNukeCP,InitialDelay + Effect,AP_GhostMengskNukeCP,ExpireDelay + Effect,AP_GhostMengskNukeDetonateCP,InitialDelay"/> seconds to land, but they deal up to <d ref="Effect,AP_GhostMengskNukeDamage,Amount"/> (+<d ref="Effect,AP_GhostMengskNukeDamage,AttributeBonus[Structure]"/> vs. structures) damage in a small radius.<n/><n/>Use an Emperor's Shadow or a Pride of Augustgrad with Tactical Missile Array to designate the target.
 Button/Tooltip/AP_NydusNetwork=<c val="ffff8a">Enables:</c><n/>- Nydus Worm <n/>- Echidna Worm
 Button/Tooltip/AP_NydusRecall=Recalls the Worm to the Nydus Network, removing it and returning 100% of its mineral and gas value (after cost reductions). Nydus Recall takes <d time="3"/> to finish. Warning: once Nydus Recall is triggered, it cannot be canceled.
 Button/Tooltip/AP_NydusWorm=Friendly ground units can use a Nydus Worm to instantly travel to any other Nydus Worm or Nydus Network owned by the player.
@@ -4497,7 +4497,7 @@ Button/Tooltip/AP_ViciousGlaive=Attacks bounce three additional times, hitting u
 Button/Tooltip/AP_VikingAssault=Durable support unit. Can switch into Fighter Mode to attack air units.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_VikingFighter=Durable support flyer. Loaded with strong anti-capital air missiles. Can switch into Assault Mode to attack ground units.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
 Button/Tooltip/AP_VikingMengskAssault=Royal Guard support walker. Can switch into Fighter Mode to attack air units.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
-Button/Tooltip/AP_VikingMengskAttackDamage=Transforming increases attack damage by <d ref="(Behavior,AP_VikingMengskAirAttackDamage,DamageResponse.ModifyFraction-1)*100"/>% for <d ref="Behavior,AP_VikingMengskAirAttackDamage,Duration"/> seconds. Cooldown: <d ref="Behavior,AP_VikingMengskAttackDamageCooldown,Cost.Cooldown.TimeUse"/> seconds.
+Button/Tooltip/AP_VikingMengskAttackDamage=Transforming increases ranged damage by <d ref="Behavior,AP_VikingMengskAirAttackDamage,Modification.DamageDealtFraction[Ranged]*100"/>% for <d ref="Behavior,AP_VikingMengskAirAttackDamage,Duration"/> seconds. Cooldown: <d ref="Behavior,AP_VikingMengskAttackDamageCooldown,Cost.Cooldown.TimeUse"/> seconds.
 Button/Tooltip/AP_VikingMengskCheatDeath=Fatal damage in Assault Mode triggers a transformation to Fighter Mode and a barrier that absorbs <d ref="Behavior,AP_VikingMengskCheatDeath,DamageResponse.ModifyLimit"/> damage for <d ref="Behavior,AP_VikingMengskCheatDeath,Duration"/> seconds. Cooldown: <d ref="Behavior,AP_VikingMengskCheatDeathCooldown,Cost.Cooldown.TimeUse"/> seconds.
 Button/Tooltip/AP_VikingMengskDodge=Dodges every third incoming weapon hit while in Fighter Mode.
 Button/Tooltip/AP_VikingMengskFighter=Royal Guard support fighter. Can switch into Assault Mode to attack ground units.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
@@ -7970,7 +7970,7 @@ Button/Name/AP_VikingMengskTacticalSuperiority=Tactical Superiority
 Button/Name/AP_VikingDynamicAerialSystems=Dynamic Aerial Systems
 Button/Tooltip/AP_VikingMengskGiantslayerRounds=Sky Furies deal an additional <c val="ffff8a">12</c> damage to Massive units upon reaching <c val="ffff8a">Rank 1</c>.
 Button/Tooltip/AP_VikingMengskSmartServos=Sky Furies transform <c val="ffff8a">3</c> times as quickly.
-Button/Tooltip/AP_VikingMengskTacticalSuperiority=Removes Tactical Realignment's cooldown and increases its duration by <c val="ffff8a">3</c> seconds.
+Button/Tooltip/AP_VikingMengskTacticalSuperiority=Reduces Tactical Realignment's cooldown to <c val="ffff8a">8</c> seconds and increases its duration by <c val="ffff8a">3</c> seconds.
 Button/Tooltip/AP_VikingDynamicAerialSystems=Increases Viking and Hel's Angel movement speed by <c val="ffff8a">25%</c> in Fighter and Assault modes.
 Button/Tooltip/AP_VikingMengskCombatDiagnosis=The stats for the Sky Fury are listed below:<n/><n/><c val="ffff8a">Life:</c> <d ref="Unit,AP_VikingMengskFighter,LifeMax"/> (+<d ref="Behavior,AP_MengskVeterancyVikingMengsk,VeterancyLevelArray[1].Modification.VitalMaxArray[Life]"/> per rank)<n/><c val="ffff8a">Air Weapon Damage:</c> <d ref="Effect,AP_LanzerTorpedoesMengskDamage,Amount"/> (+4 per rank), 2 missiles per attack<n/><c val="ffff8a">Ground Weapon Damage:</c> <d ref="Effect,AP_TwinGatlingCannonsMengsk,Amount"/> (+3 per rank)<n/><c val="ffff8a">Armor:</c> <d ref="Unit,AP_VikingMengskFighter,LifeArmor"/>
 Behavior/Name/AP_VikingMengskDodge=Evasive Maneuvers
@@ -8039,9 +8039,9 @@ Button/Tooltip/AP_BattlecruiserMengskTacticalJump=Unlocks Tactical Jump for Prid
 Upgrade/Name/AP_BattlecruiserMengskEmergencyRepairs=Emergency Repairs
 Button/Name/AP_BattlecruiserMengskEmergencyRepairs=Emergency Repairs
 Button/Tooltip/AP_BattlecruiserMengskEmergencyRepairs=Upon taking fatal damage, gains 300 shields for 10 seconds and restores 2% of maximum life per second while shielded. Cooldown: 240 seconds.
-Upgrade/Name/AP_BattlecruiserMengskPlasmaEfficiency=Plasma Efficiency
-Button/Name/AP_BattlecruiserMengskPlasmaEfficiency=Plasma Efficiency
-Button/Tooltip/AP_BattlecruiserMengskPlasmaEfficiency=Each laser hit reduces Yamato Cannon's remaining recharge time by 0.15 seconds.
+Upgrade/Name/AP_BattlecruiserMengskTacticalMissileArray=Tactical Missile Array
+Button/Name/AP_BattlecruiserMengskTacticalMissileArray=Tactical Missile Array
+Button/Tooltip/AP_BattlecruiserMengskTacticalMissileArray=Calls down a Tactical Missile from a Shadow Ops without channeling or turning toward the target. Missiles take <c val="ffff8a"><d ref="Effect,AP_GhostMengskNukeGuidedCP,InitialDelay + Effect,AP_GhostMengskNukeGuidedCP,ExpireDelay + Effect,AP_GhostMengskNukeDetonateCP,InitialDelay"/></c> seconds to land and deal up to <c val="ffff8a"><d ref="Effect,AP_GhostMengskNukeDamage,Amount"/></c> damage (+<c val="ffff8a"><d ref="Effect,AP_GhostMengskNukeDamage,AttributeBonus[Structure]"/></c> vs. structures) in a small area.<n/><n/>Unlocks Shadow Ops and its Tactical Missile production command. Shares stored missiles with Emperor's Shadows; each Shadow Ops replenishes its missile after use.
 Behavior/Name/AP_BattlecruiserMengskEmergencyRepairsShield=Emergency Repairs
 Behavior/Tooltip/AP_BattlecruiserMengskEmergencyRepairsShield=Restores 2% of maximum life per second while shielded.
 Weapon/Name/AP_ATSLaserBatteryMengsk=ATS Laser Battery
