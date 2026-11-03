@@ -69,6 +69,10 @@ cp -r ./Mods/* "$SC2_MODS_DIR"
 - This mod contains some assets created by 321, including but not limited to:
     - UI elements for supporting half-supply units
     See their license.
+- This mod contains some assets created by Trigonomicon, including:
+	- Launch Bay warp in model
+	- Psi Spire warp in model
+	See their license.
 - This mod contains some assets created by AlleyV. See their license.
 - This mod contains some assets created by SoulFilcher. See their license. 
 - This mod contains some assets created by Solstice245. See their license.
