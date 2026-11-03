@@ -48991,15 +48991,6 @@
         <Model value="AP_BurrowChargeStun"/>
         <AutoScaleFromSelectionFactor value="1.000000"/>
     </CActorModel>
-    <CActorModel id="AP_LaunchBayBuildEnd" parent="ModelAddition">
-        <Inherits index="BaseModelScale" value="0"/>
-        <Inherits index="Opacity" value="0"/>
-        <On Terms="ActorCreation" Send="Create AP_ProtossWarpInFinish"/>
-        <On Terms="ActorCreation" Send="SetOpacity"/>
-        <On Terms="ActorCreation" Send="SetOpacity 1.000000 5.000000"/>
-        <On Terms="ActorCreation; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="SetOpacity 1 1"/>
-        <Model value="AP_LaunchBay"/>
-    </CActorModel>
     <CActorUnit id="AP_PhotonCannonPhase" parent="GenericUnitStandard" unitName="AP_PhotonCannonPhase">
         <Aliases value="_UnitLarge"/>
         <On Terms="AbilMorph.*.Finish; MorphTo AP_PhotonCannonPhase" Send="Create"/>
@@ -49053,15 +49044,6 @@
     <CActorSound id="AP_ProtossWarpInFinishSound" parent="SoundOneShot">
         <Sound value="Protoss_BuildingWarpIn"/>
     </CActorSound>
-    <CActorModel id="AP_PsiSpireBuildEnd" parent="ModelAddition">
-        <Inherits index="BaseModelScale" value="0"/>
-        <Inherits index="Opacity" value="0"/>
-        <On Terms="ActorCreation" Send="Create AP_ProtossWarpInFinish"/>
-        <On Terms="ActorCreation" Send="SetOpacity"/>
-        <On Terms="ActorCreation" Send="SetOpacity 1.000000 5.000000"/>
-        <On Terms="ActorCreation; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="SetOpacity 1 1"/>
-        <Model value="AP_PsiSpire"/>
-    </CActorModel>
     <CActorSound id="AP_LaunchBayInterceptorLaunchSound" parent="SoundOneShot">
         <On Terms="Abil.AP_LaunchBayHangar.Launch" Send="Create"/>
         <Sound value="Carrier_InterceptorLaunch2"/>
@@ -49141,19 +49123,12 @@
         <Aliases value="_UnitLarge"/>
         <Macros value="ProtossBuildingPowerUp"/>
         <Macros value="VoidMPUnpoweredAnim"/>
-        <On Terms="UnitConstruction.AP_LaunchBay.Start" Target="AP_LaunchBaySplat" Send="SetVisibility"/>
-        <On Terms="UnitBirth.AP_LaunchBay; ValidateUnit NotUnderConstruction" Target="AP_LaunchBaySplat" Send="SetVisibility 1"/>
         <On Terms="ProgressLevel.*.Start; Level 2" Send="StatusIncrement Level2"/>
-        <On Terms="ProgressLevel.*.Start; Level 2; IsStatus Level2 2" Send="Create AP_LaunchBayBuildEnd"/>
-        <On Terms="UnitBirth.AP_LaunchBay; ValidateUnit NotUnderConstruction" Target="AP_LaunchBayBuildEnd" Send="Destroy"/>
-        <On Terms="UnitConstruction.AP_LaunchBay.Start" Send="SetOpacity"/>
-        <On Terms="UnitBirth.AP_LaunchBay; ValidateUnit NotUnderConstruction" Send="SetOpacity 1.000000"/>
         <On Terms="Signal.*.ProtossPowerDown" Send="AnimSetPausedAll"/>
         <On Terms="Signal.*.ProtossPowerUp" Send="AnimSetPausedAll 0"/>
         <On Terms="Signal.*.ProtossPowerDown" Send="DestroyParticles"/>
-        <On Terms="Abil.AP_ProtossBuild.BuiltStart; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="Create AP_LaunchBayBuildEnd"/>
+        <On Terms="Abil.AP_ProtossBuild.BuiltStart; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="AnimPlay {} Stand,Build,End 0 -1.000000 -1.000000 1.500000 AsDuration"/>
         <CreepHeightClass value="Tiny"/>
-        <BuildModel value="GatewayBuild"/>
         <DeathArray index="Normal" SoundLink="PhotonCannon_Explode"/>
         <DeathArray index="Timeout" AnimProps="Birth" ModelLink="PhaseCannonWarpOut"/>
         <DeathArray index="UnderConstruction" ModelLink="PhotonCannonDeathUnderConstruction" SoundLink="PhotonCannon_Explode"/>
@@ -49291,7 +49266,6 @@
         <Macros value="ProtossBuildingPowerUp"/>
         <Macros value="VoidMPUnpoweredAnim"/>
         <CreepHeightClass value="Tiny"/>
-        <BuildModel value="GatewayBuild"/>
         <DeathArray index="Normal" ModelLink="ProtossSmallBuildingDeath" SoundLink="PhotonCannon_Explode"/>
         <DeathArray index="Timeout" AnimProps="Birth" ModelLink="PhaseCannonWarpOut"/>
         <DeathArray index="UnderConstruction" ModelLink="PhotonCannonDeathUnderConstruction" SoundLink="PhotonCannon_Explode"/>
@@ -49321,16 +49295,12 @@
         <On Terms="Signal.*.ProtossPowerDown" Send="AnimSetPausedAll"/>
         <On Terms="Signal.*.ProtossPowerDown" Target="AP_PsiSpireAttachment" Send="SetScale 0.010000 0.500000 PowerDown"/>
         <On Terms="Signal.*.ProtossPowerUp" Send="AnimSetPausedAll 0"/>
-        <On Terms="Signal.*.ProtossPowerUp" Target="AP_PsiSpireAttachment" Send="ClearScale 0.500000 PowerDown"/>
+		<On Terms="Signal.*.ProtossPowerUp" Target="AP_PsiSpireAttachment" Send="ClearScale 0.500000 PowerDown"/>
         <On Terms="Signal.*.ProtossPowerDown" Send="DestroyParticles"/>
         <On Terms="UnitConstruction.AP_PsiSpire.Start" Target="AP_PsiSpireSplat" Send="SetVisibility"/>
         <On Terms="UnitBirth.AP_PsiSpire; ValidateUnit NotUnderConstruction" Target="AP_PsiSpireSplat" Send="SetVisibility 1"/>
         <On Terms="ProgressLevel.*.Start; Level 2" Send="StatusIncrement Level2"/>
-        <On Terms="ProgressLevel.*.Start; Level 2; IsStatus Level2 2" Send="Create AP_PsiSpireBuildEnd"/>
-        <On Terms="UnitBirth.AP_PsiSpire; ValidateUnit NotUnderConstruction" Target="AP_PsiSpireBuildEnd" Send="Destroy"/>
-        <On Terms="UnitConstruction.AP_PsiSpire.Start" Send="SetOpacity"/>
-        <On Terms="UnitBirth.AP_PsiSpire; ValidateUnit NotUnderConstruction" Send="SetOpacity 1.000000"/>
-        <On Terms="Abil.AP_ProtossBuild.BuiltStart; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="Create AP_PsiSpireBuildEnd"/>
+        <On Terms="Abil.AP_ProtossBuild.BuiltStart; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="AnimPlay {} Stand,Build,End 0 -1.000000 -1.000000 1.500000 AsDuration"/>
     </CActorUnit>
     <CActorSplat id="AP_PsiSpireSplat" parent="GenericUnitSplat" unitName="AP_PsiSpire">
         <Model value="PylonSplat"/>
