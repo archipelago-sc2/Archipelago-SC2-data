@@ -49123,11 +49123,10 @@
         <Aliases value="_UnitLarge"/>
         <Macros value="ProtossBuildingPowerUp"/>
         <Macros value="VoidMPUnpoweredAnim"/>
-        <On Terms="ProgressLevel.*.Start; Level 2" Send="StatusIncrement Level2"/>
         <On Terms="Signal.*.ProtossPowerDown" Send="AnimSetPausedAll"/>
         <On Terms="Signal.*.ProtossPowerUp" Send="AnimSetPausedAll 0"/>
         <On Terms="Signal.*.ProtossPowerDown" Send="DestroyParticles"/>
-        <On Terms="Abil.AP_ProtossBuild.BuiltStart; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="AnimPlay {} Stand,Build,End 0 -1.000000 -1.000000 1.500000 AsDuration"/>
+        <On Terms="Abil.AP_ProtossBuild.BuiltStart; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="AnimPlay Birth Stand,Build,End 0 -1.000000 -1.000000 1.500000 AsDuration"/>
         <CreepHeightClass value="Tiny"/>
         <DeathArray index="Normal" SoundLink="PhotonCannon_Explode"/>
         <DeathArray index="Timeout" AnimProps="Birth" ModelLink="PhaseCannonWarpOut"/>
@@ -49297,10 +49296,7 @@
         <On Terms="Signal.*.ProtossPowerUp" Send="AnimSetPausedAll 0"/>
 		<On Terms="Signal.*.ProtossPowerUp" Target="AP_PsiSpireAttachment" Send="ClearScale 0.500000 PowerDown"/>
         <On Terms="Signal.*.ProtossPowerDown" Send="DestroyParticles"/>
-        <On Terms="UnitConstruction.AP_PsiSpire.Start" Target="AP_PsiSpireSplat" Send="SetVisibility"/>
-        <On Terms="UnitBirth.AP_PsiSpire; ValidateUnit NotUnderConstruction" Target="AP_PsiSpireSplat" Send="SetVisibility 1"/>
-        <On Terms="ProgressLevel.*.Start; Level 2" Send="StatusIncrement Level2"/>
-        <On Terms="Abil.AP_ProtossBuild.BuiltStart; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="AnimPlay {} Stand,Build,End 0 -1.000000 -1.000000 1.500000 AsDuration"/>
+        <On Terms="Abil.AP_ProtossBuild.BuiltStart; ValidatePlayer AP_HaveKaraxInstantStructureWarp" Send="AnimPlay Birth Stand,Build,End 0 -1.000000 -1.000000 1.500000 AsDuration"/>
     </CActorUnit>
     <CActorSplat id="AP_PsiSpireSplat" parent="GenericUnitSplat" unitName="AP_PsiSpire">
         <Model value="PylonSplat"/>
