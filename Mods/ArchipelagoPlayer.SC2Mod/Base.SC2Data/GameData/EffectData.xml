@@ -25673,6 +25673,9 @@
     <CEffectRemoveBehavior id="AP_CarrierAiurStopRepairDronesRB">
         <BehaviorLink value="AP_CarrierAiurStopRepairDrones"/>
     </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="AP_ScoutApialSensors">
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
     <CEffectCreatePersistent id="AP_ScoutNerazimAirWeapon">
         <EditorCategories value="Race:Protoss"/>
         <WhichLocation Value="TargetUnit"/>
@@ -25875,7 +25878,7 @@
     <CEffectCreatePersistent id="AP_ScoutPurifierAirWeapon">
         <EditorCategories value="Race:Protoss"/>
         <WhichLocation Value="TargetUnit"/>
-        <PeriodCount value="2"/>
+        <PeriodCount value="4"/>
         <PeriodicEffectArray value="AP_ScoutPurifierAirWeaponLMLeft"/>
         <PeriodicEffectArray value="AP_ScoutPurifierAirWeaponLMRight"/>
         <PeriodicEffectArray value="AP_ScoutPurifierAirWeaponSearchLeft"/>
@@ -25903,7 +25906,7 @@
         <SearchFilters value="Air,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray>
             <Arc value="90"/>
-            <MaxCount value="2"/>
+            <MaxCount value="1"/>
             <Radius value="6"/>
             <FacingAdjustment value="315"/>
             <Effect value="AP_ScoutPurifierAirWeaponLMLeft"/>
@@ -25916,7 +25919,7 @@
         <SearchFilters value="Air,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray>
             <Arc value="90"/>
-            <MaxCount value="2"/>
+            <MaxCount value="1"/>
             <Radius value="6"/>
             <FacingAdjustment value="45"/>
             <Effect value="AP_ScoutPurifierAirWeaponLMRight"/>
@@ -26085,11 +26088,6 @@
         <Abil value="AP_ScoutTaldarimVulcanBlasterUnmorph"/>
         <CmdFlags index="Preempt" value="1"/>
     </CEffectIssueOrder>
-    <CEffectEnumArea id="AP_ScoutTaldarimVulcanBlasterSearchStructure">
-        <EditorCategories value="Race:Protoss"/>
-        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="2" Effect="AP_ScoutTaldarimVulcanBlasterApplyAttackable"/>
-    </CEffectEnumArea>
     <CEffectApplyBehavior id="AP_ScoutTaldarimWeaponAirApply">
         <EditorCategories value="Race:Protoss"/>
         <WhichUnit Value="Caster"/>
@@ -26139,7 +26137,7 @@
     </CEffectCreatePersistent>
     <CEffectEnumArea id="AP_ScoutTaldarimVulcanBlasterSearch">
         <EditorCategories value="Race:Protoss"/>
-        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray Radius="2" Effect="AP_ScoutTaldarimVulcanBlasterApplyAttackable"/>
     </CEffectEnumArea>
     <CEffectSet id="AP_ScoutTaldarimVulcanBlasterEnd">

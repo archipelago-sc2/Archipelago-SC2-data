@@ -16183,9 +16183,20 @@
     </CUpgrade>
     <CUpgrade id="AP_ScoutNerazimPilot">
         <EditorCategories value="Race:Protoss"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilot,Modification.AttackSpeedMultiplier" Value="0.2"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilot,Modification.LifeArmorBonus" Value="2"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilot,Modification.ShieldArmorBonus" Value="2"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilot,Modification.DamageDealtScaled[Ranged]" Value="4"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilot,Modification.DamageDealtScaled[Spell]" Value="20"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilotBuff,Modification.AttackSpeedMultiplier" Value="0.2"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilotBuff,Modification.LifeArmorBonus" Value="2"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilot,Modification.ShieldArmorBonus" Value="2"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilotBuff,Modification.DamageDealtScaled[Ranged]" Value="4"/>
+        <EffectArray Reference="Behavior,AP_ScoutNerazimPilotBuff,Modification.DamageDealtScaled[Spell]" Value="20"/>
     </CUpgrade>
     <CUpgrade id="AP_ScoutPurifierSideMissiles">
-        <EffectArray Operation="Set" Reference="Effect,AP_ScoutPurifierAirWeapon,PeriodCount" Value="4"/>
+        <EffectArray Operation="Add" Reference="Effect,AP_ScoutPurifierAirWeaponSearchLeft,AreaArray[0].MaxCount" Value="1"/>
+        <EffectArray Operation="Add" Reference="Effect,AP_ScoutPurifierAirWeaponSearchRight,AreaArray[0].MaxCount" Value="1"/>
         <EditorCategories value="Race:Protoss"/>
     </CUpgrade>
     <CUpgrade id="AP_ScoutPurifierStructureTargeting">
@@ -16199,9 +16210,8 @@
     </CUpgrade>
     <CUpgrade id="AP_ScoutTaldarimArmorMeltingBlasters">
         <EffectArray Reference="Effect,AP_ScoutTaldarimGroundWeaponDamage,AttributeBonus[Armored]" Value="3"/>
-        <EffectArray Operation="Set" Reference="Effect,AP_ScoutTaldarimVulcanBlasterPersistent,PeriodicEffectArray[0]" Value="AP_ScoutTaldarimVulcanBlasterSearchStructure"/>
         <EffectArray Reference="Effect,AP_ScoutTaldarimGroundWeaponDamageUpgrade,AttributeBonus[Armored]" Value="3"/>
-        <EffectArray Operation="Set" Reference="Button,AP_ScoutTaldarimVulcanBlaster,Tooltip" Value="Button/Tooltip/AP_ScoutTaldarimVulcanBlasterUpgrade"/>
+        <EffectArray Reference="Effect,AP_ScoutTaldarimVulcanBlasterDamage,AttributeBonus[Structure]" Value="40"/>
         <EditorCategories value="Race:Protoss"/>
     </CUpgrade>
     <CUpgrade id="AP_ScoutTaldarimImprovedMissiles">
@@ -16209,6 +16219,9 @@
     </CUpgrade>
     <CUpgrade id="AP_ScoutTaldarimVulcanBlaster">
         <EditorCategories value="Race:Protoss"/>
+        <EffectArray Operation="Subtract" Reference="Abil,AP_ScoutTaldarimVulcanBlaster,Cost[0].Cooldown.TimeUse" Value="40.000000"/>
+        <EffectArray Reference="Behavior,AP_ScoutTaldarimVulcanBlasterInitial,Period" Value="0.250000"/>
+        <EffectArray Operation="Subtract" Reference="Behavior,AP_ScoutTaldarimVulcanBlasterInitial,PeriodCount" Value="1"/>
     </CUpgrade>
     <CUpgrade id="AP_ScoutPurifierCoronaBeam">
         <EditorCategories value="Race:Protoss"/>

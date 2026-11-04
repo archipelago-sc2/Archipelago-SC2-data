@@ -22041,7 +22041,7 @@
         <Sight value="9"/>
         <Height value="3.75"/>
         <VisionHeight value="4"/>
-        <Food value="-3"/>
+        <Food value="-2.5"/>
         <CostCategory value="Army"/>
         <CostResource index="Minerals" value="275"/>
         <CostResource index="Vespene" value="125"/>
@@ -22054,6 +22054,7 @@
         <AbilArray Link="move"/>
         <AbilArray Link="Warpable"/>
         <AbilArray Link="ProgressRally"/>
+        <AbilArray Link="AP_ScoutApialSensors"/>
         <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
         <WeaponArray Link="AP_ScoutMPAir"/>
         <WeaponArray Link="AP_ScoutMPGround"/>
@@ -22061,13 +22062,13 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_ScoutExpeditionaryHull" Type="Passive" Requirements="AP_HaveScoutExpeditionaryHull" Row="1" Column="4"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="AP_ScoutWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_ScoutApialSensors" Type="Passive" Requirements="AP_HaveScoutSCBWSightUpgrade" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
-            <LayoutButtons Face="AP_ScoutAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_ScoutAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_ScoutExpeditionaryHull" Type="Passive" Requirements="AP_HaveScoutExpeditionaryHull" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutApialSensors" Type="AbilCmd" AbilCmd="AP_ScoutApialSensors,0" Row="2" Column="0"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
@@ -31868,18 +31869,19 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="AP_ScoutNerazimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
             <LayoutButtons Face="AP_ScoutAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="1"/>
             <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
-            <LayoutButtons Face="AP_ScoutNerazimPilotUnload" Type="AbilCmd" AbilCmd="AP_ScoutNerazimPilot,UnloadAt" Row="2" Column="4"/>
-            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_ScoutNerazimPilotTraining" Type="Passive" Requirements="AP_ScoutNerazimHavePilot" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutNerazimCloakUpgrade" Type="Passive" Requirements="AP_ScoutNerazimHaveSuperCloak" Row="1" Column="4"/>
             <LayoutButtons Face="AP_ScoutNerazimCloak" Type="AbilCmd" AbilCmd="AP_ScoutNerazimCloak,On" Row="2" Column="0"/>
             <LayoutButtons Face="AP_ScoutNerazimDecloak" Type="AbilCmd" AbilCmd="AP_ScoutNerazimCloak,Off" Row="2" Column="1"/>
             <LayoutButtons Face="AP_ScoutNerazimPhantomDash" Type="AbilCmd" AbilCmd="AP_ScoutNerazimPhantomDash,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_ScoutNerazimPilot" Type="AbilCmd" AbilCmd="AP_ScoutNerazimPilot,Load" Row="2" Column="3"/>
-            <LayoutButtons Face="AP_ScoutNerazimCloakUpgrade" Type="Passive" Requirements="AP_ScoutNerazimHaveSuperCloak" Row="1" Column="3"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_ScoutNerazimPilotUnload" Type="AbilCmd" AbilCmd="AP_ScoutNerazimPilot,UnloadAt" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -31955,16 +31957,16 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_ScoutPurifierWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_ScoutPurifierSideMissiles" Type="Passive" Requirements="AP_ScoutPurifierHaveSideMissiles" Row="1" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_ScoutPurifierSideMissiles" Type="Passive" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ScoutPurifierWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
             <LayoutButtons Face="AP_ScoutPurifierStructureTargeting" Type="Passive" Requirements="AP_ScoutPurifierHaveStructureTargeting" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutPurifierSolariteReactor" Type="Passive" Requirements="AP_ScoutPurifierHaveSolariteReactor" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_ScoutPurifierSolariteReactorCooldown" Type="Passive" Behavior="AP_ScoutPurifierSolariteReactorCooldown" Requirements="AP_ScoutPurifierSolariteReactorCooldown" Row="1" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
             <LayoutButtons Face="AP_ScoutPurifierCoronaBeam" Type="AbilCmd" AbilCmd="AP_ScoutPurifierCoronaBeam,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_ScoutPurifierSolariteReactorCooldown" Type="Passive" Behavior="AP_ScoutPurifierSolariteReactorCooldown" Requirements="AP_ScoutPurifierSolariteReactorCooldown" Row="1" Column="4"/>
-            <LayoutButtons Face="AP_ScoutPurifierSolariteReactor" Type="Passive" Requirements="AP_ScoutPurifierHaveSolariteReactor" Row="1" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -32041,13 +32043,14 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_ScoutTaldarimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_ScoutTaldarimAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_ScoutTaldarimVulcanBooster" Type="Passive" Requirements="AP_ScoutTaldarimHaveVulcanBlaster" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ScoutTaldarimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_ScoutTaldarimAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutTaldarimArmorMeltingBlasters" Type="Passive" Requirements="AP_ScoutTaldarimHaveArmorMeltingBlasters" Row="1" Column="4"/>
             <LayoutButtons Face="AP_ScoutTaldarimVulcanBlaster" Type="AbilCmd" AbilCmd="AP_ScoutTaldarimVulcanBlaster,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_ScoutTaldarimArmorMeltingBlasters" Type="Passive" Requirements="AP_ScoutTaldarimHaveArmorMeltingBlasters" Row="1" Column="3"/>
             <LayoutButtons Face="AP_ScoutTaldarimVulcanBlasterCancel" Type="AbilCmd" AbilCmd="AP_ScoutTaldarimVulcanBlasterCancel,Execute" Row="2" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
         </CardLayouts>
@@ -32119,13 +32122,14 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_ScoutTaldarimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_ScoutTaldarimAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_ScoutTaldarimVulcanBooster" Type="Passive" Requirements="AP_ScoutTaldarimHaveVulcanBlaster" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ScoutTaldarimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_ScoutTaldarimAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutTaldarimArmorMeltingBlasters" Type="Passive" Requirements="AP_ScoutTaldarimHaveArmorMeltingBlasters" Row="1" Column="4"/>
             <LayoutButtons Face="AP_ScoutTaldarimVulcanBlaster" Type="AbilCmd" AbilCmd="AP_ScoutTaldarimVulcanBlaster,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_ScoutTaldarimArmorMeltingBlasters" Type="Passive" Requirements="AP_ScoutTaldarimHaveArmorMeltingBlasters" Row="1" Column="3"/>
             <LayoutButtons Face="AP_ScoutTaldarimVulcanBlasterCancel" Type="AbilCmd" AbilCmd="AP_ScoutTaldarimVulcanBlasterCancel,Execute" Row="2" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
         </CardLayouts>

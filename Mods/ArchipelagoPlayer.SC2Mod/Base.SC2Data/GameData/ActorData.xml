@@ -45905,6 +45905,17 @@
         <Model value="ProtossAOEStretchLineBlueStart"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModel>
+    <CActorModel id="AP_ScoutApialSensors" parent="ModelAddition">
+        <On Terms="Behavior.AP_ScoutApialSensors.On" Send="Create"/>
+        <On Terms="Behavior.AP_ScoutApialSensors.Off" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="SOpAttachOrigin SOpMoveDownBy1"/>
+        <Model value="OracleRevelationBehaviorModel"/>
+        <Scale value="5,5,1"/>
+    </CActorModel>
+    <CActorSound id="AP_ScoutApialSensorsSound" parent="SoundOneShot">
+        <On Terms="Behavior.AP_ScoutApialSensors.On" Send="Create"/>
+        <Sound value="Oracle_RevelationCast2"/>
+    </CActorSound>
     <CActorSiteOpRotationExplicit id="AP_SOpScoutNerazimRotation">
         <Forward value="0.000000,0.000000,1.000000"/>
         <Up value="0.000000,-1.000000,0.000000"/>
@@ -45943,6 +45954,7 @@
     <CActorModel id="AP_ScoutNerazimTransport" parent="ModelAddition">
         <On Terms="AbilTransport.AP_ScoutNerazimPilot.TransportLoad; AbilTransport AP_DarkTemplarShakuras" Send="Create"/>
         <On Terms="AbilTransport.AP_ScoutNerazimPilot.TransportUnload; AbilTransport AP_DarkTemplarShakuras" Send="Destroy"/>
+        <Inherits index="TintColor" value="0"/>
         <HostSiteOps Ops="SOpAttachCenter AP_SOpScoutNerazimTransportAttachmentOffset"/>
         <Scale value="0.800000"/>
     </CActorModel>
