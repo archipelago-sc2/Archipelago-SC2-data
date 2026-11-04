@@ -39236,7 +39236,8 @@
         <On Terms="Abil.attack.ReadyStop" Target="_BattlecruiserTurretATS" Send="LookAtDisengage"/>
         <On Terms="Abil.attack.ReadyStop" Target="_BattlecruiserTurretATA" Send="LookAtDisengage"/>
         <On Terms="Upgrade.AP_BattlecruiserAdvancedDefensiveMatrix.Add" Send="Create ShieldImpact"/>
-        <On Terms="Upgrade.AP_BattlecruiserRangeAura.Add" Send="Create AP_BattlecruiserBonusRange"/>
+        <On Terms="Upgrade.AP_BattlecruiserRangeAura.Add; !ScopeContains AP_BattlecruiserBonusRange" Send="Create AP_BattlecruiserBonusRange"/>
+        <On Terms="ActorCreation; ValidateUnit AP_HaveBattlecruiserRangeAura; !ScopeContains AP_BattlecruiserBonusRange" Send="Create AP_BattlecruiserBonusRange"/>
         <HostSiteOps Ops="SOpBankerBattlecruiser"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <EventDataFootprint Actor="UnitFootprint" Model="BattlecruiserFootprint"/>
