@@ -20,6 +20,7 @@ Note colour constants can be defined in fontstyles.sc2style. Use them with `#<co
 * #32CD32 - "Nerazim"
 * #f2bf16 - "Purifier"
 * #d40d24 - "Tal'darim"
+* #ff2233 - nerf notes - #ColorNerf
 
 ## Recommendations
 * Use `<d ref=""/>` tags whenever possible
