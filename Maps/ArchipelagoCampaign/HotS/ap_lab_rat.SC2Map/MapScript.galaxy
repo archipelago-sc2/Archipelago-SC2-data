@@ -1,9 +1,9 @@
 //==================================================================================================
-// 
+//
 // Generated Map Script
-// 
+//
 // Name:   Lab Rat
-// 
+//
 //==================================================================================================
 include "TriggerLibs/NativeLib"
 include "TriggerLibs/LibertyLib"
@@ -916,13 +916,13 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
     }
 
     // Overrides
-    AP_GhostSpawn_regionOverride = lv_r;
+    AP_SpawnSystem_regionOverride = lv_r;
     // set to true for a player that normally doesn't send attack waves against the player
     // may interfere with future attack waves
-    AP_GhostSpawn_waveTargetOverride = true; 
+    AP_SpawnSystem_waveTargetOverride = true;
     // set to true on map init to stop the spawn until you set it to false again
     // most no-build sections should be handled automatically, use this otherwise
-    AP_GhostSpawn_waitForSpawnOverride = true; 
+    AP_SpawnSystem_waitForSpawnOverride = true;
     TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM_SWITCHABLE_TO_PRIMAL_ZERG);
@@ -9611,7 +9611,7 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_StartAI, true, false);
     // set to true on map init to stop the spawn until you set it to false again
     // most no-build sections should be handled automatically, use this otherwise
-    AP_GhostSpawn_waitForSpawnOverride = false; 
+    AP_SpawnSystem_waitForSpawnOverride = false;
     SoundtrackStop(PlayerGroupAll(), c_soundtrackCategoryMusic, true);
     SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryMusic, "ZLab01MusicEscapeFromLab", c_soundtrackCueAny, c_soundtrackIndexAny, false);
     if ((libABFE498B_gv_aP_Triggers_skipCutscenes == false)) {
