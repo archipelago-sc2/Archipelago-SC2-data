@@ -48800,6 +48800,67 @@
         <EditorCategories value=""/>
         <LocalOffset value="-0.040000,0.250000,-0.150000"/>
     </CActorSiteOpLocalOffset>
+    <CActorUnit id="AP_NydusMutatorNetwork" parent="ZergBuildingEx" unitName="AP_NydusMutatorNetwork">
+        <Aliases value="_UnitHuge"/>
+        <Model value="NydusNetwork"/>
+        <BuildModel value="NydusNetwork"/>
+        <DeathArray index="Normal" ModelLink="NydusNetworkDeath" SoundLink="NydusNetwork_Explode"/>
+        <DeathArray index="UnderConstruction" ModelLink="NydusNetworkDeathUnderConstruction" SoundLink="NydusNetwork_Explode"/>
+        <PlacementModel value="NydusNetworkPlacement"/>
+        <PortraitModel value="NydusNetworkPortrait"/>
+        <BarOffset value="90"/>
+        <BarWidth value="135"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="Alert_ZergBuildError" GroupSound="Alert_ZergBuildError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="Alert_ZergBuildError" GroupSound="Alert_ZergBuildError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="Alert_ZergBuildError" GroupSound="Alert_ZergBuildError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="Alert_ZergBuildError" GroupSound="Alert_ZergBuildError"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Zerg-NydusNetwork.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-building-zerg-nydusnetwork.dds"/>
+        <SoundArray index="Ready" value="NydusNetwork_Ready"/>
+        <SoundArray index="What" value="NydusNetwork_What"/>
+        <UnitIcon value="Assets\Textures\btn-building-zerg-nydusnetwork.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Zerg-NydusNetwork.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorModel id="AP_NydusMutatorNetworkBuild" parent="ZergBuildingBuild">
+        <Model value="NydusNetworkBuild"/>
+    </CActorModel>
+    <CActorUnit id="AP_NydusMutatorWorm" parent="ZergBuildingEx" unitName="AP_NydusMutatorWorm">
+        <Aliases value="_UnitHuge"/>
+        <Macros value="BuildingFlattenTerrainMacro"/>
+        <Macros value="SnowVisualUnitMacroMP"/>
+        <Model value="NydusCanal"/>
+        <BuildModel value="NydusRumble"/>
+        <DeathArray index="Normal" ModelLink="NydusCanalDeath" SoundLink=""/>
+        <DeathArray index="Disintegrate" ModelLink="NydusCanalDeathAcid" SoundLink="Uni_DeathFXAcid"/>
+        <DeathArray index="Fire" ModelLink="NydusCanalDeathFire" SoundLink="Uni_DeathFXFireLarge"/>
+        <DeathArray index="UnderConstruction" ModelLink="NydusCanalDeathUnderConstruction" SoundLink="Zerg_ExplosionLarge"/>
+        <DeathArray index="Timeout" AnimProps="Unburrow" ModelLink="NydusCanal" SoundLink="NydusWorm_DeathThud"/>
+        <PlacementModel value="NydusCanalPlacement"/>
+        <PortraitModel value="AP_NydusWormPortrait"/>
+        <BarOffset value="115"/>
+        <BarWidth value="85"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Zerg-NydusWorm.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-building-zerg-nydusworm.dds"/>
+        <NameOffset value="70"/>
+        <SoundArray index="Birth" value=""/>
+        <SoundArray index="Ready" value="NydusWorm_Ready"/>
+        <SoundArray index="What" value="NydusWorm_What"/>
+        <SoundArray index="Yes" value="NydusWorm_What"/>
+        <SoundArray index="Construction" value="Zerg_RockBuildingMorph_What"/>
+        <UnitIcon value="Assets\Textures\btn-building-zerg-nydusworm.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Zerg-NydusWorm.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorModel id="AP_NydusMutatorWormBuild" parent="ZergBuildingBuild">
+        <Model value="NydusWormBuild"/>
+    </CActorModel>
     <CActorSimple id="AP_MirageIllusion">
         <Aliases value="_HallucinationTinter"/>
         <On Terms="Behavior.AP_MirageIllusion.On" Send="Create"/>
