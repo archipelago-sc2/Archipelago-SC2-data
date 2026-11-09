@@ -1,8 +1,8 @@
-include "Mutators/AP_Triggers_MutatorUI.h"
+include "Mutators/AP_Triggers_MutatorUI_h"
 
 // Constants
 static const string FRAME_MAIN_REF = "$ap_MutatorBar";
-static const int MUTATOR_MAX_COUNT = 2;
+static const int MUTATOR_MAX_COUNT = 3;
 static const int MUTATOR_UI_MAX_COUNT = 5; // Layout currently supports 5 different mutator icons
 
 // Globals
@@ -170,6 +170,10 @@ void RegisterMutators() {
     name = "Void Duplicate";
     tooltip = "Increased enemy attack wave size.";
     RegisterMutator(1, path, name, tooltip, 5);
+    path = "AP\\Assets\\Textures\\btn-NydusMutator.dds";
+    name = "Nydus Network";
+    tooltip = "Nydus Worms will emerge in your base.";
+    RegisterMutator(2, path, name, tooltip, 5);
 }
 
 static void DatabaseInit() {
