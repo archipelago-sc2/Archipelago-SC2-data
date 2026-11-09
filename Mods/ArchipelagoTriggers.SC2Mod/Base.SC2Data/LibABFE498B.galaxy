@@ -56,7 +56,9 @@ include "Libraries/AP_Triggers_BaseDetection"
 include "Libraries/AP_Triggers_Hex"
 include "Libraries/AP_Triggers_UnlockSystem"
 include "ItemDatabase/AP_Triggers_ItemDatabase"
+include "Mutators/AP_Triggers_SpawnSystem"
 include "Mutators/AP_Triggers_GhostSpawn"
+include "Mutators/AP_Triggers_NydusNetwork"
 include "Mutators/AP_Triggers_MutatorUI"
 
 void libABFE498B_InitCustomScript () {
@@ -594,33 +596,37 @@ void libABFE498B_gf_AP_Triggers_giveMiscTech (string lp_inputString) {
     }
 }
 
-void libABFE498B_gf_AP_Triggers_giveTrapItems (string lp_inputString) {
+void libABFE498B_gf_AP_Triggers_giveMutators (string lp_inputString) {
     // Variable Declarations
     int lv_currentPlayer;
-    string lv_ghostSpawnTrap;
-    string lv_voidDuplicateTrap;
+    string lv_ghostSpawn;
+    string lv_voidDuplicate;
     string lv_cloakEnable;
+    string lv_nydusNetwork;
 
     // Automatic Variable Declarations
     playergroup auto5A5F85FA_g;
 
     // Variable Initialization
-    lv_ghostSpawnTrap = "";
-    lv_voidDuplicateTrap = "";
+    lv_ghostSpawn = "";
+    lv_voidDuplicate = "";
     lv_cloakEnable = "";
+    lv_nydusNetwork = "";
 
     // Implementation
-    lv_ghostSpawnTrap = StringWord(lp_inputString, 1);
-    lv_voidDuplicateTrap = StringWord(lp_inputString, 2);
+    lv_ghostSpawn = StringWord(lp_inputString, 1);
+    lv_voidDuplicate = StringWord(lp_inputString, 2);
     lv_cloakEnable = StringWord(lp_inputString, 3);
+    lv_nydusNetwork = StringWord(lp_inputString, 4);
     auto5A5F85FA_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
     lv_currentPlayer = -1;
     while (true) {
         lv_currentPlayer = PlayerGroupNextPlayer(auto5A5F85FA_g, lv_currentPlayer);
         if (lv_currentPlayer < 0) { break; }
-        libABFE498B_gf_AP_Triggers_unlockGhostSpawn(lv_currentPlayer, StringToInt(lv_ghostSpawnTrap));
-        libABFE498B_gf_AP_Triggers_unlockVoidDuplicate(lv_currentPlayer, StringToInt(lv_voidDuplicateTrap));
+        libABFE498B_gf_AP_Triggers_unlockGhostSpawn(lv_currentPlayer, StringToInt(lv_ghostSpawn));
+        libABFE498B_gf_AP_Triggers_unlockVoidDuplicate(lv_currentPlayer, StringToInt(lv_voidDuplicate));
         libABFE498B_gf_AP_Triggers_unlockMutatorCloak(lv_currentPlayer, StringToInt(lv_cloakEnable));
+        libABFE498B_gf_AP_Triggers_unlockNydusNetwork(lv_currentPlayer, StringToInt(lv_nydusNetwork));
     }
 }
 
@@ -671,13 +677,11 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockGhostSpawn_TriggerFunc (bool testCond
     // Automatic Variable Declarations
     // Implementation
     if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == true)) {
-        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_85477AAE"), false);
         return true;
     }
 
     lp_level = MaxI(0, MinI(5, lp_level));
     if ((lp_player != lib5BD4895D_gf_AP_Core_getUser())) {
-        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_1FB03C8C"), false);
         return true;
     }
 
@@ -728,7 +732,6 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockVoidDuplicate_TriggerFunc (bool testC
 
     // Implementation
     if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == true)) {
-        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_6A50AAE8"), false);
         return true;
     }
 
@@ -761,6 +764,41 @@ bool auto_libABFE498B_gf_AP_Triggers_unlockVoidDuplicate_TriggerFunc (bool testC
 
         }
     }
+    return true;
+}
+
+trigger auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_Trigger = null;
+int auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_lp_player;
+int auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_lp_level;
+
+void libABFE498B_gf_AP_Triggers_unlockNydusNetwork (int lp_player, int lp_level) {
+    auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_lp_player = lp_player;
+    auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_lp_level = lp_level;
+
+    if (auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_Trigger == null) {
+        auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_Trigger = TriggerCreate("auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_Trigger, false, false);
+}
+
+bool auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_TriggerFunc (bool testConds, bool runActions) {
+    int lp_player = auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_lp_player;
+    int lp_level = auto_libABFE498B_gf_AP_Triggers_unlockNydusNetwork_lp_level;
+
+    // Automatic Variable Declarations
+    // Implementation
+    if ((libABFE498B_gv_aP_Triggers_MutatorKillswitch == true)) {
+        return true;
+    }
+
+    lp_level = MaxI(0, MinI(5, lp_level));
+    if ((lp_level == TechTreeUpgradeCount(lp_player, "AP_NydusNetwork", c_techCountCompleteOnly))) {
+        return true;
+    }
+
+    libNtve_gf_SetUpgradeLevelForPlayer(1, "AP_NydusNetwork", lp_level);
+    libABFE498B_gf_AP_Triggers_NydusNetwork_activate(0, lp_level);
     return true;
 }
 
@@ -1045,10 +1083,10 @@ bool auto_libABFE498B_gf_AP_Triggers_bankItemsRead_TriggerFunc (bool testConds, 
         libABFE498B_gf_AP_Triggers_giveMiscTech(lv_value);
     }
 
-    lv_key = libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_TRAP_ITEMS;
+    lv_key = libABFE498B_gv_aP_Triggers_BANK_ITEMS_KEY_MUTATORS;
     if ((BankKeyExists(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(libABFE498B_gv_aP_Triggers_bankItems, lv_section, lv_key);
-        libABFE498B_gf_AP_Triggers_giveTrapItems(lv_value);
+        libABFE498B_gf_AP_Triggers_giveMutators(lv_value);
     }
 
     if ((libABFE498B_gv_aP_Triggers_bankItemsInitialized == false)) {
@@ -1605,17 +1643,17 @@ void libABFE498B_gf_AP_Triggers_GhostSpawn_setOverrides (int lp_player, int lp_d
     // Implementation
     // Overrides
     // Use these to force specific aspects of the system on a per map basis
-    AP_GhostSpawn_playerOverride = lp_player;
+    AP_SpawnSystem_playerOverride = lp_player;
     AP_GhostSpawn_difficultyOverride = lp_difficulty;
-    AP_GhostSpawn_regionOverride = lp_spawnRegion;
-    AP_GhostSpawn_attackTargetOverride = lp_attackTarget;
-    AP_GhostSpawn_gatherPointOverride = lp_gatherPoint;
+    AP_SpawnSystem_regionOverride = lp_spawnRegion;
+    AP_SpawnSystem_attackTargetOverride = lp_attackTarget;
+    AP_SpawnSystem_gatherPointOverride = lp_gatherPoint;
     // set to true to make sure a ground path from spawn building to player base exists
     // usually not needed, AI will handle transport management automatically
-    AP_GhostSpawn_pathingCheckOverride = lp_pathingCheck;
+    AP_SpawnSystem_pathingCheckOverride = lp_pathingCheck;
     // set to true for a player that normally doesn't send attack waves against the player
     // may interfere with future attack waves
-    AP_GhostSpawn_waveTargetOverride = lp_waveTarget;
+    AP_SpawnSystem_waveTargetOverride = lp_waveTarget;
 }
 
 bool libABFE498B_gf_AP_Triggers_VoidDuplicate_Filter (string lp_type) {
@@ -1705,6 +1743,31 @@ unit libABFE498B_gf_AP_Triggers_VoidDuplicate_prepareUnit (unit lp_u) {
     }
 
     return null;
+}
+
+trigger auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_Trigger = null;
+int auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_lp_player;
+int auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_lp_level;
+
+void libABFE498B_gf_AP_Triggers_NydusNetwork_activate (int lp_player, int lp_level) {
+    auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_lp_player = lp_player;
+    auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_lp_level = lp_level;
+
+    if (auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_Trigger == null) {
+        auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_Trigger = TriggerCreate("auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_Trigger, false, false);
+}
+
+bool auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_TriggerFunc (bool testConds, bool runActions) {
+    int lp_player = auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_lp_player;
+    int lp_level = auto_libABFE498B_gf_AP_Triggers_NydusNetwork_activate_lp_level;
+
+    // Automatic Variable Declarations
+    // Implementation
+    AP_NydusNetwork_activate(lp_player, lp_level);
+    return true;
 }
 
 void libABFE498B_gf_AP_Triggers_Debug_Tech (int lp_player, int lp_level) {
@@ -2093,7 +2156,9 @@ bool libABFE498B_gt_AP_Triggers_PatchesInit_Func (bool testConds, bool runAction
     }
 
     lib6EE41A55_InitLib();
+    AP_SpawnSystem_init();
     AP_GhostSpawn_init();
+    AP_NydusNetwork_init();
     AP_Triggers_UnlockSystemInit();
     AP_Triggers_ItemDatabaseInit();
     AP_Triggers_MutatorUI_Init();
@@ -3234,6 +3299,76 @@ void libABFE498B_gt_AP_Triggers_Debug_killMutators_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_nydusNetwork
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_nydusNetwork_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_level;
+    string lv_s;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_s = StringWord(EventChatMessage(false), 2);
+
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((lv_s == "")) {
+        lv_level = 1;
+    }
+    else {
+        lv_level = MinI(5, MaxI(0, StringToInt(lv_s)));
+    }
+    TextExpressionSetToken("Param/Expression/lib_ABFE498B_BD81094D", "A", IntToText(lv_level));
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_BD81094D"), true);
+    AP_NydusNetwork_activate(0, lv_level);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_nydusNetwork_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_nydusNetwork = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_nydusNetwork_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_nydusNetwork, c_playerAny, "-nydus", false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Triggers_Debug_nydusNetworkShow
+//--------------------------------------------------------------------------------------------------
+bool libABFE498B_gt_AP_Triggers_Debug_nydusNetworkShow_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_ABFE498B_F9FB1EED"), true);
+    AP_NydusNetwork_ShowBuilding();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libABFE498B_gt_AP_Triggers_Debug_nydusNetworkShow_Init () {
+    libABFE498B_gt_AP_Triggers_Debug_nydusNetworkShow = TriggerCreate("libABFE498B_gt_AP_Triggers_Debug_nydusNetworkShow_Func");
+    TriggerAddEventChatMessage(libABFE498B_gt_AP_Triggers_Debug_nydusNetworkShow, c_playerAny, "-shownydus", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Triggers_Debug_displayBase
 //--------------------------------------------------------------------------------------------------
 bool libABFE498B_gt_AP_Triggers_Debug_displayBase_Func (bool testConds, bool runActions) {
@@ -4067,6 +4202,8 @@ void libABFE498B_InitTriggers () {
     libABFE498B_gt_AP_Triggers_Debug_ghostSpawnShow_Init();
     libABFE498B_gt_AP_Triggers_Debug_voidDuplicate_Init();
     libABFE498B_gt_AP_Triggers_Debug_killMutators_Init();
+    libABFE498B_gt_AP_Triggers_Debug_nydusNetwork_Init();
+    libABFE498B_gt_AP_Triggers_Debug_nydusNetworkShow_Init();
     libABFE498B_gt_AP_Triggers_Debug_displayBase_Init();
     libABFE498B_gt_AP_Triggers_InitMusic_Init();
     libABFE498B_gt_AP_Triggers_ChangeMusic_Init();
