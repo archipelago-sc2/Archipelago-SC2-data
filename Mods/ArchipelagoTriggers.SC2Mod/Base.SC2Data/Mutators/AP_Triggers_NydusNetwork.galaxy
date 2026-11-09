@@ -1,0 +1,511 @@
+include "Mutators/AP_Triggers_NydusNetwork_h"
+include "Mutators/AP_Triggers_MutatorUI"
+
+// Constants
+static const string NETWORK_TYPE = "AP_NydusMutatorNetwork";
+static const string WORM_TYPE = "AP_NydusMutatorWorm";
+static const string UNIT_TYPES = "AP_Zergling AP_Roach AP_Hydralisk AP_InfestedAbomination AP_Baneling AP_Ultralisk";
+static const int UNIT_TYPE_COUNT = 6;
+static const int MAX_LEVEL = 5;
+static const int MAX_RAMP = 5;
+static const int MUTATOR_UI_INDEX = 2;
+
+// Config
+// Level 1 values, these are overridden in the difficulty setup
+static fixed NydusInitialDelay = 300.0;
+static fixed NydusInterval = 180.0;
+static fixed NydusDuration = 120.0;
+static fixed NydusBuildTime = 20.0;
+static fixed NydusSpawnInterval = 20.0;
+static fixed NydusWormLife = 250;
+static fixed NydusNetworkLife = 850;
+static int NydusUnitLimit = 30;
+static int NydusRamp = 3; // subsequent worms spawn more units, up to this worm count
+
+// Globals
+static bool SetupDone = false;
+static bool NetworkActive = false;
+static int User = 1;
+static int IdleLimit = 10;
+static int Index = 0;
+static int WormCounter;
+static int Level;
+static unit Network;
+static playergroup PlayersActive = PlayerGroupEmpty();
+static playergroup UserGroup = PlayerGroupSingle(User);
+static unitgroup NetworksActive = UnitGroupEmpty();
+static unitgroup WormsActive = UnitGroupEmpty();
+static unitgroup UnitsActive = UnitGroupEmpty();
+static unitgroup UnitsIdle = UnitGroupEmpty();
+static trigger WormThread;
+static trigger WormDeath;
+static abilcmd AbilCmdAttackMove = AbilityCommand("attack", 0);
+static order UnburrowOrder = Order(AbilityCommand("AP_BurrowZerglingUp", 0));
+static color White = Color(100, 100, 100);
+static color Red = Color(100, 0, 0);
+
+static unitfilter UnitFilterStandard = UnitFilter(0, 0, (1 << c_targetFilterMissile),
+    (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)));
+static unitfilter UnitFilterThreat = UnitFilter(
+    (1 << c_targetFilterVisible), 0,
+    (1 << c_targetFilterWorker)
+    | (1 << c_targetFilterRawResource)
+    | (1 << c_targetFilterHarvestableResource)
+    | (1 << c_targetFilterMissile),
+    (1 << (c_targetFilterStasis - 32))
+    | (1 << (c_targetFilterUnderConstruction - 32))
+    | (1 << (c_targetFilterDead - 32))
+    | (1 << (c_targetFilterHidden - 32))
+);
+
+// Parameters for trigger threads
+static unit ParamWorm;
+
+static void log(string s) {
+    TriggerDebugOutput(1, StringToText("Nydus Network Mutator: " + s), true);
+}
+
+// Set values based on mutator level here
+static bool SetupDifficulty(int player, int level) {
+    int i; int j; int k;
+    string id;
+    string value;
+    // log("Setting up difficulty Level: " + IntToString(level));
+    Level = level;
+    NydusWormLife = 200 + 50 * level;              // 250, 300, 350, 400, 450
+    NydusNetworkLife = 700 + 150 * level;          // 850, 1000, 1150, 1300, 1450
+    NydusInitialDelay = 330 - 30 * level;          // 300, 270, 240, 210, 180
+    NydusInterval = 210 - 10 * level;              // 200, 190, 180, 170, 160
+    NydusBuildTime = 32 - 2 * level;               // 30, 28, 26, 24, 22
+    NydusDuration = 60 + 10 * level;               // 70, 80, 90, 100, 110
+    NydusSpawnInterval = 32 - 2 * level;           // 30, 28, 26, 24, 22
+    NydusUnitLimit = 20 + 10 * level;              // 30, 40, 50, 60, 70
+    NydusRamp = FixedToInt(2.5 + 0.5 * level);     // 3, 3, 4, 4, 5
+    id = "AP_NydusWormProgress";
+    value = FixedToString(NydusBuildTime - 2, 1);
+    CatalogFieldValueSet(c_gameCatalogBehavior, id, "Duration", player, value);
+    value = FixedToString(NydusNetworkLife, 1);
+    CatalogFieldValueSet(c_gameCatalogUnit, NETWORK_TYPE, "LifeStart", player, value);
+    CatalogFieldValueSet(c_gameCatalogUnit, NETWORK_TYPE, "LifeMax", player, value);
+    value = FixedToString(NydusWormLife, 1);
+    CatalogFieldValueSet(c_gameCatalogUnit, WORM_TYPE, "LifeStart", player, value);
+    CatalogFieldValueSet(c_gameCatalogUnit, WORM_TYPE, "LifeMax", player, value);
+    AP_MutatorUIUpdate(MUTATOR_UI_INDEX, level);
+    return true;
+}
+
+static bool SpawnSetup(int player, int level) {
+    User = lib5BD4895D_gf_AP_Core_getUser();
+    UserGroup = PlayerGroupSingle(User);
+    NetworkActive = true;
+    AP_Base_detect(player);
+    SetupDifficulty(player, level);
+    SetupDone = true;
+    return true;
+}
+
+static bool IsThreat(unit u) {
+    string id = UnitGetType(u);
+    if (
+        id == "AP_MissileTurret"
+        || id == "AP_SporeCrawler"
+        || id == "AP_InfestedMissileTurret"
+        || id == "AP_BileLauncher"
+        || id == "AP_PsiSpire"
+    ) {
+        // whitelist for static defense that usually doesn't hit buildings
+        return false;
+    }
+    if (id == "AP_Bunker") {
+        // Bunkers are only a threat if they have units
+        return UnitGroupCount(UnitCargoGroup(u), c_unitCountAlive) > 0;
+    }
+    // Assume only units with a weapon are a threat
+    // Workers have a weapon, but they are excluded by the filter already
+    return UnitWeaponCount(u) > 0;
+}
+
+static int ThreatLevel(point p) {
+    // determine if it is save to spawn a Nydus Worm here
+    // try to avoid spawning it right into a bunch of combat units
+    int i;
+    int threatLevel = 0;
+    unit u;
+    region r = RegionCircle(p, 10);
+    unitgroup g = UnitGroup(null, User, r, UnitFilterThreat, 0);
+    for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(g, i);
+        if (IsThreat(u)) {
+            threatLevel += 1;
+        }
+    }
+    return threatLevel;
+}
+
+static point GetWormTarget() {
+    int player = UnitGetOwner(Network);
+    int index = AP_Base_getBiggestBaseIndex(User);
+    int i = 20;
+    int threatLowest = 9999;
+    int threatCurrent;
+    region r;
+    point p;
+    point best = null;
+    point center;
+    for (i = 0; i < 20; i += 1) {
+        if (index != -1) {
+            r = AP_Base_getArea(User, index);
+            p = RegionRandomPoint(r);
+            center = RegionGetCenter(r);
+        }
+        else {
+            // Player doesn't have a base
+            center = PlayerStartLocation(User);
+            p = PointWithOffset(center, RandomFixed(-5, 5), RandomFixed(-5, 5));
+        }
+        p = UnitTypePlacementFromPoint(WORM_TYPE, player, p, 5);
+        if (!PointPathingPassable(p) || !PointPathingIsConnected(p, center)) {
+            continue;
+        }
+        threatCurrent = ThreatLevel(p);
+        if (threatCurrent <= 0) {
+            // log("no threat, spawn");
+            return p;
+        }
+        if (threatCurrent < threatLowest) {
+            threatLowest = threatCurrent;
+            best = p;
+        }
+    }
+    if (best == null) {
+        log("failed to find Worm spawn point.");
+    }
+    // log("lowest threat: " + IntToString(threatLowest));
+    return best;
+}
+
+static string GetUnitType(int index, bool burrowed) {
+    if (burrowed) {
+        return StringWord(UNIT_TYPES, index) + "Burrowed";
+    }
+    return StringWord(UNIT_TYPES, index);
+}
+
+static void SendWave(unit worm, int player, int counter, int step) {
+    string type = GetUnitType(1, false); // Zergling
+    int amount;
+    int i;
+    point p = UnitGetPosition(worm);
+    unit u;
+    unitgroup g;
+    counter = MinI(counter, NydusRamp);
+    amount = FixedToInt(3 + 0.5 * Level + 0.5 * counter);
+    g = UnitCreate(amount, type, c_unitCreateIgnoreBirth, player, p, 270);
+    AIAttackWaveUseGroup(player, g);
+    UnitGroupAddUnitGroup(UnitsActive, g);
+    if (Level == 1 && step == 2  || Level >= 2 && step == 1) {
+        type = GetUnitType(2, false); // Roach
+        amount = MinI(1 + counter, 3);
+        g = UnitCreate(amount, type, c_unitCreateIgnoreBirth, player, p, 270);
+        AIAttackWaveUseGroup(player, g);
+        UnitGroupAddUnitGroup(UnitsActive, g);
+    }
+    if (Level >= 2 && step == 2) {
+        type = GetUnitType(3, false); // Hydralisk
+        amount = FixedToInt(1 + 0.5 * counter);
+        g = UnitCreate(amount, type, c_unitCreateIgnoreBirth, player, p, 270);
+        AIAttackWaveUseGroup(player, g);
+        UnitGroupAddUnitGroup(UnitsActive, g);
+    }
+    if (Level >= 4 && step >= 1 && counter >= 3) {
+        type = GetUnitType(5, false); // Baneling
+        amount = Level - 3;
+        g = UnitCreate(amount, type, c_unitCreateIgnoreBirth, player, p, 270);
+        AIAttackWaveUseGroup(player, g);
+        UnitGroupAddUnitGroup(UnitsActive, g);
+    }
+    if (Level >= 3 && step == 2 && counter >= 2) {
+        if (Level >= 5 && counter >= 4) {
+            type = GetUnitType(6, false); // Ultralisk
+        }
+        else  {
+            type = GetUnitType(4, false); // Aberration
+        }
+        amount = 1;
+        g = UnitCreate(amount, type, c_unitCreateIgnoreBirth, player, p, 270);
+        AIAttackWaveUseGroup(player, g);
+        UnitGroupAddUnitGroup(UnitsActive, g);
+    }
+    for (i = 1; i <= UnitGroupCount(UnitsActive, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(UnitsActive, i);
+        UnitBehaviorAdd(u, "PermanentSuppressFoodUsed", u, 1);
+    }
+    if (AP_SpawnSystem_waveTargetOverride) {
+        AIAttackWaveSetTargetPlayer(player, UserGroup);
+    }
+    AIAttackWaveAddWaypoint(player, AP_SpawnSystem_getAttackLoc(), false);
+    AIAttackWaveSend(player, 0, false);
+}
+
+static void SpawnUnits(unit worm, actor a, int player, int counter) {
+    int step = 0;
+    while (UnitIsAlive(worm) && step < 3) {
+        ActorSend(a, "AnimPlay Spell Spell");
+        ActorSend(a, "Create NydusCanalTransportUnloadSound");
+        SendWave(worm, player, counter, step);
+        step += 1;
+        Wait(1, c_timeAI);
+    }
+}
+
+bool AP_NydusNetwork_triggerWormThread(bool testCond, bool runActions) {
+    unit worm = ParamWorm;
+    point p = UnitGetPosition(worm);
+    actor a = libNtve_gf_MainActorofUnit(worm);
+    int player = UnitGetOwner(worm);
+    int ping;
+    int cycles;
+    int counter = WormCounter;
+    unitgroup g;
+    string type;
+    string race = PlayerRace(User);
+    int amount;
+    string soundId;
+    soundlink alert;
+    // log("Spawning Worm: Difficulty " + IntToString(Level) + ", Counter " + IntToString(WormCounter));
+    ActorSend(a, "ModelSwap NydusRumble");
+    ActorSend(a, "AnimBracketStart BSD Birth Stand IGNORE");
+    ActorSend(a, "Create Nydus_ConstructionStart");
+    ping = PingCreate(UserGroup, "PingNydus", p, Red, NydusBuildTime);
+    DataTableSetPing(true, IntToString(UnitGetTag(worm)), ping);
+    PingSetScale(ping, .5);
+    UnitBehaviorAdd(worm, "AP_NydusWormProgress", worm, 1);
+    soundId = "AP_AlertNydusWorm" + race;
+    alert = SoundLink(soundId, 0);
+    SoundPlayForPlayer(alert, User, UserGroup, 100.0, 0);
+    Wait(NydusBuildTime - 4, c_timeAI);
+    ActorSend(a, "AnimClear BSD");
+    ActorSend(a, "ModelSwap NydusCanal");
+    ActorSend(a, "AnimPlay Birth Birth");
+    ActorSend(a, "Create AP_NydusWorm_Birth");
+    if (!UnitIsAlive(worm)) {
+        return false;
+    }
+    UnitBehaviorAdd(worm, "makeCreep4x4", worm, 1);
+    Wait(6, c_timeAI);
+    if (!UnitIsAlive(worm)) {
+        return false;
+    }
+    ActorSend(a, "AnimClear Birth");
+    ActorSend(a, "AnimPlay Lifetime Stand");
+    cycles = FixedToInt(NydusDuration / NydusSpawnInterval);
+    while (UnitIsAlive(worm) && cycles > 0){
+        while (UnitGroupCount(UnitsActive, c_unitCountAlive) > NydusUnitLimit) {
+            // log("Unit limit reached, holding back new spawns");
+            Wait(1, c_timeAI);
+        }
+        SpawnUnits(worm, a, player, counter);
+        Wait(NydusSpawnInterval, c_timeAI);
+        cycles -= 1;
+    }
+    if (!UnitIsAlive(worm)) {
+        return false;
+    }
+    PlayerCreateEffectUnit(player, "AP_DeathTimeout", worm);
+    return true;
+}
+
+static void SpawnWorm(int player) {
+    unit u;
+    point p;
+    if (!UnitIsAlive(Network)) {
+        return;
+    }
+    p = GetWormTarget();
+    u = UnitGroupUnit(UnitCreate(1, WORM_TYPE, 0, player, p, 270), 1);
+    TriggerAddEventUnitDied(WormDeath, UnitRefFromUnit(u));
+    ParamWorm = u;
+    //UnitSetProgressComplete(u, 1, 5);
+    TriggerExecute(WormThread, true, false);
+}
+
+static point GetIdleSpawnPoint(point network) {
+    int counter = 20;
+    fixed offset;
+    fixed angle;
+    point p;
+    do {
+        offset = RandomFixed(3, 5);
+        angle = libNtve_gf_RandomAngle();
+        p = PointWithOffsetPolar(network, offset, angle);
+        counter -= 1;
+        if (counter <= 0) {
+            log("failed to find idle spawn point");
+            break;
+        }
+    }
+    while (!PointPathingPassable(p) || !PointPathingIsConnected(p, network));
+    return p;
+}
+
+static void SpawnIdleUnit(int player, int counter) {
+    // Network periodically spawns some units and "loads" them
+    // Provides visual flavor and some protections
+    unit u;
+    string type;
+    point p;
+    if (!UnitIsAlive(Network)) {
+        return;
+    }
+    if (ModI(counter, 3) != 0) {
+        // spawn mostly Zerglings
+        type = GetUnitType(1, true);
+    }
+    else {
+        Index += 1;
+        if (Index > 1 + Level) {
+            Index = 1;
+        }
+        type = GetUnitType(Index, true);
+    }
+    p = GetIdleSpawnPoint(UnitGetPosition(Network));
+    u = UnitGroupUnit(UnitCreate(1, type, 0, player, p, libNtve_gf_RandomAngle()), 1);
+    AICast(u, UnburrowOrder, c_noMarker, c_castHold);
+    UnitGroupAdd(UnitsIdle, u);
+}
+
+static void LoadUnit(unit u) {
+    UnitRemove(u);
+}
+
+static void SpawnLoop(unit spawnBuilding) {
+    int player = UnitGetOwner(spawnBuilding);
+    int nydusCountdown;
+    int i;
+    int counter = 0;
+    point location = UnitGetPosition(spawnBuilding);
+    point p;
+    unit u;
+    actor a = libNtve_gf_MainActorofUnit(spawnBuilding);
+    unitgroup g;
+    order loadOrder = OrderTargetingPoint(AbilCmdAttackMove, location);
+    WormCounter = 0;
+    Wait(NydusInitialDelay, c_timeAI);
+    nydusCountdown = FixedToInt(NydusInterval / 5.0);
+    while (UnitIsAlive(spawnBuilding)) {
+        if (nydusCountdown <= 0) {
+            SpawnWorm(player);
+        }
+        if (
+            UnitGroupCount(UnitsIdle, c_unitCountAlive) <= IdleLimit
+            && ModI(counter, 5) == 0
+        ) {
+            SpawnIdleUnit(player, counter/5);
+        }
+        if (UnitGroupCount(UnitsIdle, c_unitCountAlive) > IdleLimit) {
+            u = UnitGroupUnit(UnitsIdle, 1);
+            AICast(u, loadOrder, c_noMarker, c_castHold);
+            u = UnitGroupUnit(UnitsIdle, 2);
+            AICast(u, loadOrder, c_noMarker, c_castHold);
+        }
+        for (i = 1; i <= UnitGroupCount(UnitsIdle, c_unitCountAll); i += 1) {
+            u = UnitGroupUnit(UnitsIdle, i);
+            p = UnitGetPosition(u);
+            if (DistanceSquaredBetweenPoints(location, p) < 9) {
+                LoadUnit(u);
+                ActorSend(a, "Create NydusCanalTransportLoadSound");
+            }
+        }
+        if (
+            counter >= NydusInterval
+            && UnitGroupCount(UnitsActive, c_unitCountAlive) < NydusUnitLimit
+            // hold back next worm if there are too many units already
+        ) {
+            counter = 0;
+            SpawnWorm(player);
+            WormCounter += 1;
+        }
+        counter += 1;
+        Wait(1, c_timeAI);
+    }
+}
+
+void AP_NydusNetwork_disable() {
+    int i;
+    unit u;
+    unitgroup g = NetworksActive;
+    AP_MutatorUIUpdate(MUTATOR_UI_INDEX, 0);
+    UnitGroupAddUnitGroup(g, WormsActive);
+    UnitGroupAddUnitGroup(g, UnitsActive);
+    UnitGroupAddUnitGroup(g, UnitsIdle);
+    for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
+        u = UnitGroupUnit(g, i);
+        UnitRemove(u);
+    }
+    return;
+}
+
+static void InitNetwork(unit u) {
+    Network = u;
+    UnitGroupAdd(NetworksActive, u);
+    // UnitSetProgressComplete(u, 1, 5);
+    SpawnLoop(Network);
+}
+
+static int GetSpawnPlayer() {
+    if (AP_SpawnSystem_playerOverride > 0) {
+        return AP_SpawnSystem_playerOverride;
+    }
+    return AP_Base_getBiggestPlayer();
+}
+
+bool AP_NydusNetwork_onWormDeathFunc(bool testCond, bool runActions) {
+    unit worm = EventUnit();
+    int ping = DataTableGetPing(true, IntToString(UnitGetTag(worm)));
+    PingDestroy(ping);
+    return true;
+}
+
+void AP_NydusNetwork_activate(int player, int level) {
+    unit u;
+    if (player <= 0) {
+        player = GetSpawnPlayer();
+    }
+    if (level <= 0) {
+        // log("Disabling Mutator.");
+        AP_NydusNetwork_disable();
+        return;
+    }
+    if (NetworkActive || UnitIsAlive(Network)) {
+        // log("Building already exists, updating difficulty only.");
+        SetupDifficulty(player, level);
+        return;
+    }
+    SpawnSetup(player, level);
+    u = AP_SpawnSystem_placeBuildingForPlayer(player, NETWORK_TYPE);
+    if (!UnitIsAlive(u)) {
+        log("Failed to spawn.");
+        return;
+    }
+    InitNetwork(u);
+    return;
+}
+
+void AP_NydusNetwork_ShowBuilding() {
+    point p;
+    if (!UnitIsAlive(Network)) {
+        log("no building to show.");
+        return;
+    }
+    p = UnitGetPosition(Network);
+    MinimapPing(PlayerGroupAll(), p , 5, Color(255, 255, 255));
+    VisRevealArea(1, RegionCircle(p, 3), 5, false);
+    libNtve_gf_SendActorMessageToUnit(Network, "HaloStart");
+    Wait(5, c_timeGame);
+    libNtve_gf_SendActorMessageToUnit(Network, "HaloStop");
+}
+void AP_NydusNetwork_init() {
+    int i;
+    WormThread = TriggerCreate("AP_NydusNetwork_triggerWormThread");
+    WormDeath = TriggerCreate("AP_NydusNetwork_onWormDeathFunc");
+}
