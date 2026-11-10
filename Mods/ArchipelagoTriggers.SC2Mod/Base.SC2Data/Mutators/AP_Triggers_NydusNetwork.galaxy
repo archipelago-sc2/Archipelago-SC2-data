@@ -5,7 +5,6 @@ include "Mutators/AP_Triggers_MutatorUI"
 static const string NETWORK_TYPE = "AP_NydusMutatorNetwork";
 static const string WORM_TYPE = "AP_NydusMutatorWorm";
 static const string UNIT_TYPES = "AP_Zergling AP_Roach AP_Hydralisk AP_InfestedAbomination AP_Baneling AP_Ultralisk";
-static const int UNIT_TYPE_COUNT = 6;
 static const int MAX_LEVEL = 5;
 static const int MAX_RAMP = 5;
 static const int MUTATOR_UI_INDEX = 2;
@@ -14,19 +13,27 @@ static const int MUTATOR_UI_INDEX = 2;
 // Level 1 values, these are overridden in the difficulty setup
 static fixed NydusInitialDelay = 300.0;
 static fixed NydusInterval = 180.0;
+static fixed NydusWaitForAttackDuration = 60.0;
 static fixed NydusDuration = 120.0;
 static fixed NydusBuildTime = 20.0;
 static fixed NydusSpawnInterval = 20.0;
 static fixed NydusWormLife = 250;
 static fixed NydusNetworkLife = 850;
 static int NydusUnitLimit = 30;
+static int NydusIdleLimit = 10;
 static int NydusRamp = 3; // subsequent worms spawn more units, up to this worm count
+
+// Overrides
+
+// If true, Nydus Worms will hold off on spawning until a unit of the user takes damage
+bool AP_NydusNetwork_waitForAttackOverride = true;
 
 // Globals
 static bool SetupDone = false;
 static bool NetworkActive = false;
+static bool NydusWaitForAttack = false;
+static bool NydusUserAttacked = false;
 static int User = 1;
-static int IdleLimit = 10;
 static int Index = 0;
 static int WormCounter;
 static int Level;
@@ -39,6 +46,7 @@ static unitgroup UnitsActive = UnitGroupEmpty();
 static unitgroup UnitsIdle = UnitGroupEmpty();
 static trigger WormThread;
 static trigger WormDeath;
+static trigger WormUserAttack;
 static abilcmd AbilCmdAttackMove = AbilityCommand("attack", 0);
 static order UnburrowOrder = Order(AbilityCommand("AP_BurrowZerglingUp", 0));
 static color White = Color(100, 100, 100);
@@ -80,6 +88,7 @@ static bool SetupDifficulty(int player, int level) {
     NydusDuration = 60 + 10 * level;               // 70, 80, 90, 100, 110
     NydusSpawnInterval = 32 - 2 * level;           // 30, 28, 26, 24, 22
     NydusUnitLimit = 20 + 10 * level;              // 30, 40, 50, 60, 70
+    NydusIdleLimit = 8 + 2 * level;                // 10, 12, 14, 16, 18
     NydusRamp = FixedToInt(2.5 + 0.5 * level);     // 3, 3, 4, 4, 5
     id = "AP_NydusWormProgress";
     value = FixedToString(NydusBuildTime - 2, 1);
@@ -327,6 +336,7 @@ static void SpawnWorm(int player) {
     ParamWorm = u;
     //UnitSetProgressComplete(u, 1, 5);
     TriggerExecute(WormThread, true, false);
+    WormCounter += 1;
 }
 
 static point GetIdleSpawnPoint(point network) {
@@ -397,15 +407,15 @@ static void SpawnLoop(unit spawnBuilding) {
             SpawnWorm(player);
         }
         if (
-            UnitGroupCount(UnitsIdle, c_unitCountAlive) <= IdleLimit
+            UnitGroupCount(UnitsIdle, c_unitCountAlive) <= NydusIdleLimit
             && ModI(counter, 5) == 0
         ) {
             SpawnIdleUnit(player, counter/5);
         }
-        if (UnitGroupCount(UnitsIdle, c_unitCountAlive) > IdleLimit) {
+        if (UnitGroupCount(UnitsIdle, c_unitCountAlive) > NydusIdleLimit) {
             u = UnitGroupUnit(UnitsIdle, 1);
             AICast(u, loadOrder, c_noMarker, c_castHold);
-            u = UnitGroupUnit(UnitsIdle, 2);
+            u = UnitGroupUnit(UnitsIdle, RandomInt(2, 5));
             AICast(u, loadOrder, c_noMarker, c_castHold);
         }
         for (i = 1; i <= UnitGroupCount(UnitsIdle, c_unitCountAll); i += 1) {
@@ -421,9 +431,22 @@ static void SpawnLoop(unit spawnBuilding) {
             && UnitGroupCount(UnitsActive, c_unitCountAlive) < NydusUnitLimit
             // hold back next worm if there are too many units already
         ) {
-            counter = 0;
-            SpawnWorm(player);
-            WormCounter += 1;
+            if (AP_NydusNetwork_waitForAttackOverride && !NydusWaitForAttack) {
+                NydusWaitForAttack = true;
+                TriggerEnable(WormUserAttack, true);
+                // log("Holding back worm spawn until user is attacked");
+            }
+            if (
+                !AP_NydusNetwork_waitForAttackOverride
+                || NydusUserAttacked
+                || counter >= NydusInterval + NydusWaitForAttackDuration
+            ) {
+                counter = 0;
+                SpawnWorm(player);
+                TriggerEnable(WormUserAttack, false);
+                NydusUserAttacked = false;
+                NydusWaitForAttack = false;
+            }
         }
         counter += 1;
         Wait(1, c_timeAI);
@@ -465,6 +488,17 @@ bool AP_NydusNetwork_onWormDeathFunc(bool testCond, bool runActions) {
     PingDestroy(ping);
     return true;
 }
+
+bool AP_NydusNetwork_onUserAttackFunc(bool testCond, bool runActions) {
+    if (EventPlayer() != User || EventUnitDamageSourcePlayer() == User) {
+        return false;
+    }
+    // log("User unit damaged");
+    TriggerEnable(TriggerGetCurrent(), false);
+    NydusUserAttacked = true;
+    return true;
+}
+
 
 void AP_NydusNetwork_activate(int player, int level) {
     unit u;
@@ -508,4 +542,7 @@ void AP_NydusNetwork_init() {
     int i;
     WormThread = TriggerCreate("AP_NydusNetwork_triggerWormThread");
     WormDeath = TriggerCreate("AP_NydusNetwork_onWormDeathFunc");
+    WormUserAttack = TriggerCreate("AP_NydusNetwork_onUserAttackFunc");
+    TriggerAddEventUnitDamaged(WormUserAttack, null, c_unitDamageTypeAny, c_unitDamageEither, null);
+    TriggerEnable(WormUserAttack, false);
 }
