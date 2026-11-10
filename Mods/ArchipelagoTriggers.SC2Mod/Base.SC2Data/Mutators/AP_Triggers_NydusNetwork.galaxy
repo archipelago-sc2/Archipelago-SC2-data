@@ -401,16 +401,12 @@ static void SpawnLoop(unit spawnBuilding) {
     order loadOrder = OrderTargetingPoint(AbilCmdAttackMove, location);
     WormCounter = 0;
     Wait(NydusInitialDelay, c_timeAI);
-    nydusCountdown = FixedToInt(NydusInterval / 5.0);
     while (UnitIsAlive(spawnBuilding)) {
-        if (nydusCountdown <= 0) {
-            SpawnWorm(player);
-        }
         if (
             UnitGroupCount(UnitsIdle, c_unitCountAlive) <= NydusIdleLimit
             && ModI(counter, 5) == 0
         ) {
-            SpawnIdleUnit(player, counter/5);
+            SpawnIdleUnit(player, counter / 5);
         }
         if (UnitGroupCount(UnitsIdle, c_unitCountAlive) > NydusIdleLimit) {
             u = UnitGroupUnit(UnitsIdle, 1);
