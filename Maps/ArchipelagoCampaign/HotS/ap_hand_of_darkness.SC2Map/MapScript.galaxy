@@ -1169,17 +1169,25 @@ void gf_CreateCreepinRegion (region lp_region) {
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_currentPlayer;
+    int lv_p;
+    region lv_r;
 
     // Automatic Variable Declarations
     playergroup auto9C5F1095_g;
 
     // Variable Initialization
+    lv_p = gv_p04_DOMINION_GREEN;
+    lv_r = RegionFromId(38);
 
     // Actions
     if (!runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_playerOverride = lv_p;
+    AP_GhostSpawn_regionOverride = lv_r;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);
