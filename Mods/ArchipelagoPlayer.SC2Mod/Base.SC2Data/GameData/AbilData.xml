@@ -906,7 +906,7 @@
     <CAbilMorph id="AP_SiegeMode">
         <AbilSetId value="SiegeMode"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="SiegeMode" Requirements="AP_UseSiegeMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_SiegeMode" Requirements="AP_HaveSiegeTankServoCoolant">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="IgnoreUnitCost" value="1"/>
@@ -932,10 +932,18 @@
             </SectionArray>
         </InfoArray>
     </CAbilMorph>
+    <CAbilMorph id="AP_SiegeModeNerfed" parent="AP_SiegeMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_SiegeMode" Requirements="AP_NotHaveSiegeTankServoCoolant">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Cost>
+            <Cooldown Link="AP_SiegeMode" Location="Unit" TimeUse="20"/>
+        </Cost>
+    </CAbilMorph>
     <CAbilMorph id="AP_Unsiege">
         <AbilSetId value="Unsieged"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Unsiege">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_Unsiege" Requirements="AP_HaveSiegeTankServoCoolant">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="IgnoreFacing" value="1"/>
@@ -949,6 +957,14 @@
                 <DurationArray index="Duration" value="3.5417"/>
             </SectionArray>
         </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="AP_UnsiegeNerfed" parent="AP_Unsiege">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_Unsiege" Requirements="AP_NotHaveSiegeTankServoCoolant">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Cost>
+            <Cooldown Link="AP_SiegeMode" Location="Unit" TimeUse="20"/>
+        </Cost>
     </CAbilMorph>
     <CAbilEffectTarget id="AP_SiegeTankJumpJet">
         <AbilSetId value="AP_SiegeTankJumpJet"/>
@@ -2270,11 +2286,14 @@
     <CAbilMorph id="AP_SiegeBreakerSiege">
         <AbilSetId value="SiegeMode"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="SiegeMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_SiegeMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="IgnoreUnitCost" value="1"/>
         <Flags index="SuppressMovement" value="1"/>
+        <Cost>
+            <Cooldown Link="AP_SiegeMode" Location="Unit" TimeUse="20"/>
+        </Cost>
         <InfoArray Unit="AP_SiegeBreakerSieged" RandomDelayMax="0.5">
             <SectionArray index="Abils">
                 <DurationArray index="Delay" value="0.5"/>
@@ -2299,12 +2318,15 @@
     <CAbilMorph id="AP_SiegeBreakerUnsiege">
         <AbilSetId value="Unsieged"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Unsiege">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_Unsiege">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="IgnoreFacing" value="1"/>
         <Flags index="IgnoreUnitCost" value="1"/>
         <Flags index="SuppressMovement" value="1"/>
+        <Cost>
+            <Cooldown Link="AP_SiegeMode" Location="Unit" TimeUse="20"/>
+        </Cost>
         <InfoArray Unit="AP_SiegeBreaker" RandomDelayMax="0.5">
             <SectionArray index="Actor">
                 <DurationArray index="Duration" value="3.5417"/>
