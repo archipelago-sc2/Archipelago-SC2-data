@@ -18,4 +18,89 @@
         <InitialDelay value="8"/>
         <ExpireDelay value="8"/>
     </CEffectCreatePersistent>
+    <CEffectApplyBehavior id="PrologueVoidArmorAB">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="PrologueVoidArmor"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="PrologueVoidArmorSearch">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="-;Neutral,Enemy,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="8" Effect="PrologueVoidArmorSet"/>
+    </CEffectEnumArea>
+    <CEffectModifyUnit id="PrologueVoidArmorMiniboost">
+        <EditorCategories value="Race:Protoss"/>
+        <VitalArray index="Shields">
+            <Change value="0.5"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectSet id="PrologueVoidArmorSet">
+        <EffectArray value="PrologueVoidArmorMiniboost"/>
+        <EffectArray value="PrologueVoidArmorAB"/>
+    </CEffectSet>
+    <CEffectSet id="ShadowBlade">
+        <EffectArray value="ShadowBladeCP"/>
+        <EffectArray value="AP_ShadowSliceController"/>
+        <EffectArray value="ShadowBladeTeleport"/>
+        <EffectArray value="ShadowBladeDamage"/>
+    </CEffectSet>
+    <CEffectTeleport id="ShadowBladeTeleport">
+        <EditorCategories value=""/>
+        <WhichUnit Value="Caster"/>
+        <TargetLocation Value="TargetUnit"/>
+    </CEffectTeleport>
+    <CEffectTeleport id="ShadowBladeTeleportBack">
+        <WhichUnit Value="Caster"/>
+        <TargetLocation Value="TargetPoint"/>
+    </CEffectTeleport>
+    <CEffectCreatePersistent id="ShadowBladeCP">
+        <WhichLocation Value="SourcePoint"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="ShadowBladeTeleportBack"/>
+        <PeriodicPeriodArray value="0.25"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="ShadowBladeDamage">
+        <ValidatorArray value="ShadowBladeDamageTargetFilters"/>
+        <ImpactLocation Value="TargetUnit"/>
+        <Amount value="150"/>
+        <AreaArray Radius="0.75" Fraction="0.5"/>
+        <AreaArray Radius="1.5" Fraction="0.25"/>
+        <SearchFilters value="-;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="ZeratulOrbitalStrike">
+        <EditorCategories value=""/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="ZeratulOrbitalStrikeDelayImpact"/>
+        <PeriodicPeriodArray value="5"/>
+        <RevealRadius value="8"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="ZeratulOrbitalStrikeDamage">
+        <EditorCategories value=""/>
+        <AINotifyFlags index="HurtFriend" value="1"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <AttributeBonus index="Structure" value="200"/>
+        <Amount value="750"/>
+        <AreaArray Radius="4" Fraction="1"/>
+        <AreaArray Radius="6" Fraction="0.5"/>
+        <AreaArray Radius="8" Fraction="0.25"/>
+        <SearchFilters value="-;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="ZeratulOrbitalStrikeDelayImpact">
+        <EditorCategories value=""/>
+        <ExpireDelay value="8"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="ZeratulOrbitalStrikeDamage"/>
+        <PeriodicPeriodArray value="1"/>
+        <RevealRadius value="8"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
 </Catalog>
