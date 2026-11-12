@@ -1,48 +1,184 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CActorSplat id="ShadowBladeCursor" parent="ProtossCursorSplat" abil="ShadowBlade">
+        <Model value="AP_VoidProtossAOECursorSplat"/>
+    </CActorSplat>
     <CActorDoodad id="AvernusBarrier">
         <Footprint value="FootprintDoodad1x1"/>
     </CActorDoodad>
     <CActorUnit id="ExplosivesFodder1" parent="DestructibleUnitStandard">
         <EditorCategories value=""/>
         <DeathArray index="Normal" VoiceLink=""/>
-        <SoundArray index="Birth" value=""/>
-        <SoundArray index="Ready" value=""/>
-        <SoundArray index="Help" value=""/>
-        <SoundArray index="What" value=""/>
-        <SoundArray index="Yes" value=""/>
-        <SoundArray index="Attack" value=""/>
-        <SoundArray index="Pissed" value=""/>
-        <SoundArray index="Movement" value=""/>
-        <SoundArray index="Turning" value=""/>
-        <SoundArray index="Board" value=""/>
-        <SoundArray index="Click" value=""/>
-        <SoundArray index="ClickError" value=""/>
-        <SoundArray index="Highlight" value=""/>
-        <GroupSoundArray index="What" value=""/>
-        <GroupSoundArray index="Yes" value=""/>
-        <GroupSoundArray index="Attack" value=""/>
-        <GroupSoundArray index="Board" value=""/>
     </CActorUnit>
     <CActorUnit id="ExplosivesFodder2" parent="DestructibleUnitStandard">
         <EditorCategories value=""/>
         <DeathArray index="Normal" VoiceLink=""/>
-        <SoundArray index="Birth" value=""/>
-        <SoundArray index="Ready" value=""/>
-        <SoundArray index="Help" value=""/>
-        <SoundArray index="What" value=""/>
-        <SoundArray index="Yes" value=""/>
-        <SoundArray index="Attack" value=""/>
-        <SoundArray index="Pissed" value=""/>
-        <SoundArray index="Movement" value=""/>
-        <SoundArray index="Turning" value=""/>
-        <SoundArray index="Board" value=""/>
-        <SoundArray index="Click" value=""/>
-        <SoundArray index="ClickError" value=""/>
-        <SoundArray index="Highlight" value=""/>
-        <GroupSoundArray index="What" value=""/>
-        <GroupSoundArray index="Yes" value=""/>
-        <GroupSoundArray index="Attack" value=""/>
-        <GroupSoundArray index="Board" value=""/>
     </CActorUnit>
+    <CActorSound id="ShadowBladeAttackSound" parent="SoundOneShot">
+        <EditorCategories value=""/>
+        <!--On Terms="Abil.ShadowBlade.SourceCastStart" Send="Create"/-->
+        <On Terms="Effect.ShadowBladeDamage.Start" Send="Create"/>
+        <Sound value="ShadowBladeImpact"/>
+    </CActorSound>
+    <CActorSound id="ShadowBladeImpactSound" parent="SoundOneShot">
+        <EditorCategories value=""/>
+        <On Terms="Abil.ShadowBlade.TargetCastStart" Send="Create"/>
+        <Sound value="ShadowBladeCast"/>
+    </CActorSound>
+    <CActorSound id="ShadowBladeImpactSound2" parent="SoundOneShot">
+        <EditorCategories value=""/>
+        <On Terms="Effect.ShadowBladeDamage.Start" Send="Create"/>
+        <Sound value="ShadowBladeExplosion"/>
+    </CActorSound>
+    <CActorModel id="ShadowBladeCastEffect" parent="ModelAnimationStyleOneShot">
+        <On Terms="Abil.ShadowBlade.SourceCastStart" Send="Create"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+    </CActorModel>
+    <CActorRange id="ShadowBladeRange" parent="RangeAbil" abil="ShadowBlade">
+        <EditorCategories value=""/>
+    </CActorRange>
+    <CActorModel id="ShadowBladeWeaponAttach" parent="ModelAnimationStyleContinuous">
+        <On Terms="ActorCreation" Send="SetTintColor {21,162,64 3.000000}"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachWeapon"/>
+        <Model value="MindSiphonWeapon"/>
+    </CActorModel>
+    <CActorModel id="ShadowBladeExplosion" parent="ModelAnimationStyleOneShot">
+        <On Terms="ActorCreation" Send="SetTintColor {21,162,64 3.000000}"/>
+        <On Terms="Abil.ShadowBlade.TargetCastStart" Send="Create"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModel>
+    <CActorModel id="TemporalFieldImpactModel">
+        <On Terms="ActorCreation; ValidateUnit IsCarrier" Send="SetScale 0.400000"/>
+        <On Terms="ActorCreation; ValidateUnit IsStalker" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsColossus" Send="SetScale 0.600000"/>
+        <On Terms="ActorCreation; ValidateUnit IsImmortal" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsArchon" Send="SetScale 0.800000"/>
+        <On Terms="ActorCreation; ValidateUnit IsWarpPrism" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsWarpPrismPhasing" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsPhoenix" Send="SetScale 0.600000"/>
+        <On Terms="ActorCreation; ValidateUnit IsVoidRay" Send="SetScale 0.600000"/>
+        <On Terms="ActorCreation; ValidateUnit IsBattlecruiser" Send="SetScale 0.600000"/>
+        <On Terms="ActorCreation; ValidateUnit IsSiegeTank" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsThor" Send="SetScale 0.400000"/>
+        <On Terms="ActorCreation; ValidateUnit IsBanshee" Send="SetScale 0.600000"/>
+        <On Terms="ActorCreation; ValidateUnit IsViking" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsHellion" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsHellionTank" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsMedivac" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsRaven" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsUltralisk" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsUltraliskBurrowed" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsQueen" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsQueenBurrowed" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsOverseer" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsOverlord" Send="SetScale 0.500000"/>
+        <On Terms="ActorCreation; ValidateUnit IsBroodLord" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsInfestor" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsInfestorBurrowed" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsHydralisk" Send="SetScale 0.700000"/>
+        <On Terms="ActorCreation; ValidateUnit IsHydraliskBurrowed" Send="SetScale 0.700000"/>
+    </CActorModel>
+    <CActorModel id="PrologueVoidArmor">
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.600000 DelayAnim"/>
+        <On Terms="ActorCreation" Send="StatusSet FailSafe 1"/>
+        <On Terms="TimerExpired; TimerName DelayAnim" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="TimerExpired; TimerName DelayAnim" Send="StatusSet FailSafe 0"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="AnimBracketState.*.AfterClosing; !AnimBracketExitReason ModelSwap; AnimName BSD" Send="Destroy"/>
+        <On Terms="Behavior.PrologueVoidArmor.On" Send="Create"/>
+        <On Terms="Behavior.PrologueVoidArmor.Off; IsStatus FailSafe 1" Send="Destroy"/>
+        <On Terms="Behavior.PrologueVoidArmor.Off; IsStatus FailSafe 0" Send="AnimBracketStop BSD"/>
+        <On Terms="ActorCreation" Send="Create PrologueVoidArmorStartSound"/>
+        <On Terms="Behavior.PrologueVoidArmor.Off" Send="Create PrologueVoidArmorEndSound"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <AutoScaleFactor value="1.000000"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModel>
+    <CActorModel id="PrologueVoidArmorLaunch" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.PrologueVoidArmorSearch.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="Create PrologueVoidArmorLaunchSound"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter SOp2DRotation" HoldPosition="1" HoldRotation="1"/>
+    </CActorModel>
+    <CActorSound id="PrologueVoidArmorStartSound" parent="SoundOneShot"/>
+    <CActorSound id="PrologueVoidArmorEndSound" parent="SoundOneShot"/>
+    <CActorSound id="PrologueVoidArmorLaunchSound" parent="SoundOneShot"/>
+    <!--                                                                                         -->
+    <!-- Zeratul ............................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="Zeratul">
+        <!-- Override -->
+        <On Terms="UnitMovementUpdate.*.Walk" Send="AnimClear Spell"/>
+        <On Terms="Abil.ShadowBlade.SourceCastStart" Send="$Spell 0 -1.000000 -1.000000 1.200000 AsDuration"/>
+        <On Terms="Abil.ShadowBlade.SourceCastStart" Target="_Unit" Send="Create TemporalFieldImpactModel"/>
+        <On Terms="Abil.ShadowBlade.SourceCastStart" Send="Create ShadowBladeWeaponAttach"/>
+        <On Terms="Abil.ShadowBlade.SourceFinishStop" Target="TemporalFieldImpactModel" Send="Destroy"/>
+        <On Terms="Abil.ShadowBlade.SourceFinishStop" Target="ShadowBladeWeaponAttach" Send="Destroy"/>
+        <On Terms="Abil.ZeratulOrbitalStrike.SourcePrepStart" Send="AnimBracketStart Spell Stand,Work,Start Stand,Work Stand,Work,End"/>
+        <On Terms="Abil.ZeratulOrbitalStrike.SourceChannelStop" Send="AnimBracketStop Spell"/>
+    </CActorUnit>
+    <CActorAction id="ZeratulOrbitalStrikeAction" parent="AoESplashShieldHitter" effectHit="ZeratulOrbitalStrikeDamage">
+        <EditorCategories value=""/>
+    </CActorAction>
+    <CActorSplat id="ZeratulOrbitalStrikeCursor" parent="ProtossCursorSplat" abil="ZeratulOrbitalStrike">
+        <EditorCategories value=""/>
+        <Model value="AP_VoidProtossAOECursorSplat"/>
+    </CActorSplat>
+    <CActorModel id="ZeratulOrbitalStrikeImpact" parent="ModelAnimationStyleOneShot">
+        <EditorCategories value=""/>
+        <On Terms="Effect.ZeratulOrbitalStrikeDamage.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="Create ZeratulOrbitalStrikeImpactSound"/>
+        <On Terms="ActorCreation" Send="Create ZeratulOrbitalStrikeImpactSound2"/>
+        <Scale value="2.000000,2.000000,1.000000"/>
+    </CActorModel>
+    <CActorSound id="ZeratulOrbitalStrikeImpactSound" parent="SoundOneShot">
+        <EditorCategories value=""/>
+        <Sound value="AP_SOA_Orbital_Strike_MissilePre_Impact2"/>
+    </CActorSound>
+    <CActorSound id="ZeratulOrbitalStrikeImpactSound2" parent="SoundOneShot">
+        <EditorCategories value=""/>
+        <Sound value="Protoss_ExplosionLarge"/>
+    </CActorSound>
+    <CActorModel id="ZeratulOrbitalStrikeMarker">
+        <EditorCategories value=""/>
+        <On Terms="Effect.ZeratulOrbitalStrike.Start" Send="Create"/>
+        <On Terms="Effect.ZeratulOrbitalStrike.Stop" Send="AnimBracketStop BSD"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentForceLooping"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="Create ZeratulOrbitalStrikeMarkerSound"/>
+        <Model value="AP_VoidProtossAOECursorSplat"/>
+        <Scale value="8.000000"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModel>
+    <CActorModel id="ZeratulOrbitalStrikeMissile" parent="ModelAnimationStyleOneShot">
+        <EditorCategories value=""/>
+        <On Terms="Effect.ZeratulOrbitalStrikeDelayImpact.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="Create ZeratulOrbitalStrikeMissileSound"/>
+        <Scale value="2.000000,2.000000,1.500000"/>
+    </CActorModel>
+    <CActorSound id="ZeratulOrbitalStrikeMissileSound" parent="SoundOneShot">
+        <EditorCategories value=""/>
+        <Sound value="Oracle_StasisTrap_Explode"/>
+    </CActorSound>
+    <CActorSound id="ZeratulOrbitalStrikeMarkerSound" parent="SoundOneShot">
+        <EditorCategories value=""/>
+    </CActorSound>
+    <CActorRange id="ZeratulOrbitalStrikeRange" parent="RangeAbil" abil="ZeratulOrbitalStrike">
+        <EditorCategories value=""/>
+    </CActorRange>
+    <CActorModel id="ZeratulOrbitalStrikeSplat">
+        <EditorCategories value=""/>
+        <On Terms="Effect.ZeratulOrbitalStrikeDamage.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimPlay Lifetime Death"/>
+        <On Terms="AnimDone; AnimName Lifetime" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="AnimSetCompletion Lifetime 60.000000"/>
+        <Model value="GhostNukeExplode"/>
+        <Scale value="1.500000,1.500000,1.000000"/>
+    </CActorModel>
 </Catalog>

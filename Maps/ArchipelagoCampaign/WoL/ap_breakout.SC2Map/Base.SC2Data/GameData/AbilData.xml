@@ -49,4 +49,39 @@
     <CAbilEffectTarget id="nuke">
         <Range value="11"/>
     </CAbilEffectTarget>
+    <CAbilEffectInstant id="PrologueVoidArmor">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Effect index="0" value="PrologueVoidArmorSearch"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Charge Link="Abil/PrologueZeratulVoidArmor"/>
+            <Cooldown Link="Abil/PrologueZeratulVoidArmor" TimeUse="20"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ZeratulVoidArmor"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="ShadowBlade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Cost>
+            <Cooldown TimeUse="10"/>
+        </Cost>
+        <TargetFilters value="Visible;Self,Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="5"/>
+        <FinishTime value="0.513"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <UninterruptibleArray index="Finish" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ZeratulShadowBlade"/>
+        <CursorEffect value="ShadowBladeDamage"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="ZeratulOrbitalStrike">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Cost>
+            <Charge CountMax="4" CountStart="4" CountUse="1"/>
+            <Cooldown TimeUse="5"/>
+        </Cost>
+        <Range value="12"/>
+        <PrepTime value="0.5"/>
+        <CursorEffect value="ZeratulOrbitalStrikeDamage"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ZeratulOrbitalStrike"/>
+    </CAbilEffectTarget>
 </Catalog>
