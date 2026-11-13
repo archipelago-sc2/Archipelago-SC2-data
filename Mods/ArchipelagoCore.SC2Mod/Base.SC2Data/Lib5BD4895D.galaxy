@@ -270,6 +270,12 @@ bool auto_lib5BD4895D_gf_AP_Core_bankCoreOptionsRead_TriggerFunc (bool testConds
         lib5BD4895D_gf_AP_Core_giveStartingResources(lv_value);
     }
 
+    lv_key = lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_KEY_BIGGER_RESOURCE_FIELDS;
+    if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true)) {
+        lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key);
+        lib5BD4895D_gf_AP_Core_giveBiggerResourceFields(lv_value);
+    }
+
     lv_key = lib5BD4895D_gv_aP_Core_BANK_CORE_OPTIONS_KEY_FACTION_COLORS;
     if ((BankKeyExists(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key) == true)) {
         lv_value = BankValueGetAsString(lib5BD4895D_gv_aP_Core_bankCoreOptions, lv_section, lv_key);
@@ -749,6 +755,67 @@ void lib5BD4895D_gf_AP_Core_onLoadFinished () {
     TriggerSendEvent(lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
+bool lib5BD4895D_gf_AP_Core_IsMineralField (unit lp_u) {
+    // Variable Declarations
+    string lv_type;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_type = "";
+
+    // Implementation
+    lv_type = UnitGetType(lp_u);
+    return (
+        lv_type == "MineralField"
+        || lv_type == "RichMineralField"
+        || lv_type == "UmojanLabMineralField"
+        || lv_type == "BattleStationMineralField"
+        || lv_type == "PurifierRichMineralField"
+    );
+}
+
+bool lib5BD4895D_gf_AP_Core_IsVespeneGeyser (unit lp_u) {
+    // Variable Declarations
+    string lv_type;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_type = "";
+
+    // Implementation
+    lv_type = UnitGetType(lp_u);
+    return (
+        lv_type == "VespeneGeyser"
+        || lv_type == "RichVespeneGeyser"
+        || lv_type == "SpacePlatformGeyser"
+        || lv_type == "ProtossVespeneGeyser"
+        || lv_type == "PurifierVespeneGeyser"
+        || lv_type == "ShakurasVespeneGeyser"
+    
+        || lv_type == "Refinery"
+        || lv_type == "Extractor"
+        || lv_type == "Assimilator"
+    
+        || lv_type == "AP_Refinery"
+        || lv_type == "AP_Extractor"
+        || lv_type == "AP_Assimilator"
+        || lv_type == "AP_AssimilatorProtossGeyser"
+        || lv_type == "AP_AssimilatorPurifierGeyser"
+        || lv_type == "AP_AssimilatorShakurasGeyser"
+    
+        || lv_type == "AP_RefineryRich"
+        || lv_type == "AP_ExtractorRich"
+        || lv_type == "AP_AssimilatorRich"
+    
+        || lv_type == "AP_AutomatedRefinery"
+        || lv_type == "AP_AutomatedExtractor"
+        || lv_type == "AP_AutomatedAssimilator"
+        || lv_type == "AP_AutomatedRefineryRich"
+        || lv_type == "AP_AutomatedExtractorRich"
+        || lv_type == "AP_AutomatedAssimilatorRich"
+    );
+}
+
 void lib5BD4895D_gf_AP_Core_giveStartingResources (string lp_inputString) {
     // Variable Declarations
     int lv_oldStartingMinerals;
@@ -780,6 +847,79 @@ void lib5BD4895D_gf_AP_Core_giveStartingResources (string lp_inputString) {
         lib5BD4895D_gf_AP_Core_giveBonusSupplies(lv_currentPlayer, lv_supplyAmount);
         PlayerModifyPropertyInt(lv_currentPlayer, c_playerPropSuppliesLimit, c_playerPropOperAdd, (lib5BD4895D_gv_aP_Core_BonusMaxSupply - lv_oldBonusMaxSupply));
     }
+}
+
+trigger auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_Trigger = null;
+string auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_lp_inputString;
+
+void lib5BD4895D_gf_AP_Core_giveBiggerResourceFields (string lp_inputString) {
+    auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_lp_inputString = lp_inputString;
+
+    if (auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_Trigger == null) {
+        auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_Trigger = TriggerCreate("auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_TriggerFunc");
+    }
+
+    TriggerExecute(auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_Trigger, false, false);
+}
+
+bool auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_TriggerFunc (bool testConds, bool runActions) {
+    string lp_inputString = auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_lp_inputString;
+
+    // Variable Declarations
+    int lv_biggerMineralFields;
+    int lv_biggerVespeneGeysers;
+    fixed lv_mineralFactor;
+    fixed lv_vespeneFactor;
+    int lv_old;
+    int lv_new;
+    unitgroup lv_g;
+
+    // Automatic Variable Declarations
+    fixed auto1852CC6F_at;
+    unitgroup autoDD576E87_g;
+    int autoDD576E87_u;
+    unit autoDD576E87_var;
+
+    // Variable Initialization
+    lv_biggerMineralFields = StringToInt(StringWord(lp_inputString, 1));
+    lv_biggerVespeneGeysers = StringToInt(StringWord(lp_inputString, 2));
+    lv_mineralFactor = (0.01 * (100 + 5 * lv_biggerMineralFields));
+    lv_vespeneFactor = (0.01 * (100 + 5 * lv_biggerVespeneGeysers));
+    lv_g = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterRawResource), 0, 0, 0), 0);
+
+    // Implementation
+    auto1852CC6F_at = 0;
+    while (!((lib5BD4895D_gv_aP_Core_initFinished == true)) && auto1852CC6F_at <= 10.0) {
+        Wait(0.0625, c_timeGame);
+        auto1852CC6F_at = auto1852CC6F_at + 0.0625;
+    }
+    Wait(0.25, c_timeGame);
+    UnitGroupAddUnitGroup(lv_g, UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterHarvestableResource), 0, 0, 0), 0));
+    autoDD576E87_g = lv_g;
+    autoDD576E87_u = UnitGroupCount(autoDD576E87_g, c_unitCountAll);
+    for (;; autoDD576E87_u -= 1) {
+        autoDD576E87_var = UnitGroupUnitFromEnd(autoDD576E87_g, autoDD576E87_u);
+        if (autoDD576E87_var == null) { break; }
+        if ((DataTableGetBool(true, ("BiggerResourcesHandled" + IntToString(UnitGetTag(autoDD576E87_var)))) == true)) {
+            continue;
+        }
+
+        if ((lib5BD4895D_gf_AP_Core_IsMineralField(autoDD576E87_var) == true)) {
+            lv_old = UnitGetPropertyInt(autoDD576E87_var, c_unitPropResources, c_unitPropCurrent);
+            lv_new = FixedToInt((lv_mineralFactor*lv_old));
+            UnitSetPropertyFixed(autoDD576E87_var, c_unitPropResources, lv_new);
+            DataTableSetBool(true, ("BiggerResourcesHandled" + IntToString(UnitGetTag(autoDD576E87_var))), true);
+        }
+
+        if ((lib5BD4895D_gf_AP_Core_IsVespeneGeyser(autoDD576E87_var) == true)) {
+            lv_old = UnitGetPropertyInt(autoDD576E87_var, c_unitPropResources, c_unitPropCurrent);
+            lv_new = FixedToInt((lv_vespeneFactor*lv_old));
+            UnitSetPropertyFixed(autoDD576E87_var, c_unitPropResources, lv_new);
+            DataTableSetBool(true, ("BiggerResourcesHandled" + IntToString(UnitGetTag(autoDD576E87_var))), true);
+        }
+
+    }
+    return true;
 }
 
 trigger auto_lib5BD4895D_gf_AP_Core_setFactionColorHandler_Trigger = null;
