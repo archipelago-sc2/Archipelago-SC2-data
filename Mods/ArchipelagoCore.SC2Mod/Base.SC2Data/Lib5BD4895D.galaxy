@@ -791,22 +791,18 @@ bool lib5BD4895D_gf_AP_Core_IsVespeneGeyser (unit lp_u) {
         || lv_type == "ProtossVespeneGeyser"
         || lv_type == "PurifierVespeneGeyser"
         || lv_type == "ShakurasVespeneGeyser"
-    
         || lv_type == "Refinery"
         || lv_type == "Extractor"
         || lv_type == "Assimilator"
-    
         || lv_type == "AP_Refinery"
         || lv_type == "AP_Extractor"
         || lv_type == "AP_Assimilator"
         || lv_type == "AP_AssimilatorProtossGeyser"
         || lv_type == "AP_AssimilatorPurifierGeyser"
         || lv_type == "AP_AssimilatorShakurasGeyser"
-    
         || lv_type == "AP_RefineryRich"
         || lv_type == "AP_ExtractorRich"
         || lv_type == "AP_AssimilatorRich"
-    
         || lv_type == "AP_AutomatedRefinery"
         || lv_type == "AP_AutomatedExtractor"
         || lv_type == "AP_AutomatedAssimilator"
@@ -883,8 +879,8 @@ bool auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_TriggerFunc (bool test
     // Variable Initialization
     lv_biggerMineralFields = StringToInt(StringWord(lp_inputString, 1));
     lv_biggerVespeneGeysers = StringToInt(StringWord(lp_inputString, 2));
-    lv_mineralFactor = (0.01 * (100 + 5 * lv_biggerMineralFields));
-    lv_vespeneFactor = (0.01 * (100 + 5 * lv_biggerVespeneGeysers));
+    lv_mineralFactor = (0.01 * (100 + 1 * lv_biggerMineralFields));
+    lv_vespeneFactor = (0.01 * (100 + 1 * lv_biggerVespeneGeysers));
     lv_g = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterRawResource), 0, 0, 0), 0);
 
     // Implementation
