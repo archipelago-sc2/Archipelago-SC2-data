@@ -748,6 +748,7 @@ Behavior/Name/AP_ScienceVesselCloakField=Cloaking Field
 Behavior/Name/AP_ScienceVesselSCBWDefensiveMatrix=Defensive Matrix
 Behavior/Name/AP_ScopophobiaTarget=Scopophobia
 Behavior/Name/AP_ScourgeSpawn=Summoned
+Behavior/Name/AP_ScoutApialSensors=Apial Sensors
 Behavior/Name/AP_ScoutNerazimCloak=Cloak
 Behavior/Name/AP_ScoutNerazimPilot=Pilot
 Behavior/Name/AP_ScoutNerazimPilotBuff=Pilot Buff
@@ -1071,6 +1072,7 @@ Behavior/Tooltip/AP_SOATimeFreeze=This unit is frozen in time. It cannot move or
 Behavior/Tooltip/AP_ScienceVesselSCBWDefensiveMatrix=While active, the Defensive Matrix blocks all incoming damage, up to a maximum of <c val="#ColorTooltipNumber"><d ref="Behavior,AP_ScienceVesselSCBWDefensiveMatrix@Dummy,Modification.VitalMaxArray[Shields]"/></c>.
 Behavior/Tooltip/AP_ScopophobiaTarget=This unit moves and attacks <d ref="100*(1 - Behavior,AP_ScopophobiaTarget,Modification.MoveSpeedMultiplier)"/>% slower.
 Behavior/Tooltip/AP_ScourgeSpawn=This unit was summoned by a Spire.
+Behavior/Tooltip/AP_ScoutApialSensors=This unit has increased sight range and detection
 Behavior/Tooltip/AP_ScoutNerazimCloak=This unit is cloaked and will only be revealed by detectors or effects.
 Behavior/Tooltip/AP_ScoutNerazimPilot=A unit is co-piloting the Mist Wing, providing bonus stats.
 Behavior/Tooltip/AP_ScoutNerazimPilotBuff=
@@ -2320,6 +2322,7 @@ Button/Name/AP_ScoutNerazimCloakUpgrade=Null Shroud
 Button/Name/AP_ScoutNerazimDecloak=Decloak
 Button/Name/AP_ScoutNerazimPhantomDash=Phantom Dash
 Button/Name/AP_ScoutNerazimPilot=Pilot
+Button/Name/AP_ScoutNerazimPilotTraining=Pilot Training
 Button/Name/AP_ScoutNerazimPilotUnload=Unload Pilot
 Button/Name/AP_ScoutNerazimWeaponRange=Combat Sensor Array
 Button/Name/AP_ScoutPurifier=Warp in Caladrius
@@ -2334,6 +2337,7 @@ Button/Name/AP_ScoutTaldarimAdvancedPhotonBlasters=Advanced Photon Blasters
 Button/Name/AP_ScoutTaldarimArmorMeltingBlasters=Armor Melting Blasters
 Button/Name/AP_ScoutTaldarimVulcanBlaster=Vulcan Blaster
 Button/Name/AP_ScoutTaldarimVulcanBlasterCancel=Cancel Vulcan Blaster
+Button/Name/AP_ScoutTaldarimVulcanBooster=Vulcan Booster
 Button/Name/AP_ScoutTaldarimWeaponRange=Combat Sensor Array
 Button/Name/AP_ScoutWeaponRange=Combat Sensor Array
 Button/Name/AP_SeismicSpines=Seismic Spines
@@ -4131,7 +4135,7 @@ Button/Tooltip/AP_ScourgeSpawnUpgrade=Spawn 2 Scourges for free, until you contr
 Button/Tooltip/AP_ScourgeSplashUpgrade=Scourge deal splash damage.
 Button/Tooltip/AP_Scout=Aiur Faction<n/>Versatile high-speed fighter.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_ScoutAdvancedPhotonBlasters=Improves Photon Blaster weapon damage.
-Button/Tooltip/AP_ScoutApialSensors=<c val="ffff8a">Scouts</c> gain increased sight range.
+Button/Tooltip/AP_ScoutApialSensors=<c val="ffff8a">Scouts</c> passively gain +<d ref="$UpgradeEffectArrayValue:AP_ScoutSCBWSightUpgrade:Unit,AP_ScoutMP,SightBonus[Dusk]$"/> sight range. Activating increases the sight range bonus by <d ref="Behavior,AP_ScoutApialSensors,Modification.SightBonus"/> and grants detection for <d ref="Behavior,AP_ScoutApialSensors,Duration"/> seconds.
 Button/Tooltip/AP_ScoutExpeditionaryHull=<c val="ffff8a">Scouts</c> gain +<d ref="$UpgradeEffectArrayValue:AP_ScoutExpeditionaryHull:Unit,AP_ScoutMP,ShieldsMax$"/> shields, +<d ref="$UpgradeEffectArrayValue:AP_ScoutExpeditionaryHull:Unit,AP_ScoutMP,LifeMax$"/> health, and +<d ref="$UpgradeEffectArrayValue:AP_ScoutExpeditionaryHull:Unit,AP_ScoutMP,ShieldArmor$"/> shield armor.<n/><n/><c val="FFE303">War Council Upgrade.</c>
 Button/Tooltip/AP_ScoutGraviticThrusters=<c val="ffff8a">Scouts</c> and its variants gain increased movement speed.
 Button/Tooltip/AP_ScoutNerazim=Nerazim Faction<n/>Specialized stealth fighter. Has Cloak and Phantom Dash abilities.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
@@ -4139,23 +4143,24 @@ Button/Tooltip/AP_ScoutNerazimCloak=Cloaks the unit, preventing enemy units from
 Button/Tooltip/AP_ScoutNerazimCloakUpgrade=The Mist Wing is undetectable on activating cloak for 5 seconds. Cloak no longer drains energy while active.
 Button/Tooltip/AP_ScoutNerazimDecloak=Decloaks the selected unit, making it visible to enemies.
 Button/Tooltip/AP_ScoutNerazimNullShroud=Cloaks the unit, preventing enemy units from seeing or attacking it. A cloaked unit will only be revealed by detectors or effects. <n/>The unit is undetectable for 5 seconds after cloaking.<n/><n/><c val="f078ff">Drains no energy per second, but prevents base energy regeneration.</c>
-Button/Tooltip/AP_ScoutNerazimPhantomDash=Dash forward to quickly close distance. Deals 30 damage (+10 if you have a pilot) to units in the path, if cloaked.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
-Button/Tooltip/AP_ScoutNerazimPilot=Load a unit to co-pilot the Mist Wing. A pilot provides +2 damage to all weapons, 10% attack speed and +1 armor for life and shields.<n/><n/><c val="#ColorAttackInfo">Can load 1 pilot at a time.</c>
+Button/Tooltip/AP_ScoutNerazimPhantomDash=Dash forward to quickly close distance. Deals <d ref="Effect,AP_ScoutNerazimPhantomDashDamage,Amount"/> damage (+<d ref="Behavior,AP_ScoutNerazimPilot,Modification.DamageDealtScaled[Spell]"/> if you have a pilot) to units in the path, if cloaked.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
+Button/Tooltip/AP_ScoutNerazimPilot=Load a unit to co-pilot the Mist Wing. A pilot provides +<d ref="Behavior,AP_ScoutNerazimPilot,Modification.DamageDealtScaled[Ranged]"/> damage to all weapons, <d ref="(Behavior,AP_ScoutNerazimPilot,Modification.AttackSpeedMultiplier - 1) * 100"/>% attack speed and +<d ref="Behavior,AP_ScoutNerazimPilot,Modification.LifeArmorBonus"/> armor for life and shields.<n/><n/><c val="#ColorAttackInfo">Can load 1 pilot at a time.</c>
+Button/Tooltip/AP_ScoutNerazimPilotTraining=Triples the bonuses granted by loading a pilot.
 Button/Tooltip/AP_ScoutNerazimPilotUnload=Unload your pilot. It will be cloaked for 5 seconds after unloading.</n></n>A pilot provides +2 damage to all weapons, 10% attack speed and +1 armor for life and shields.<n/><n/><c val="#ColorAttackInfo">Can load 1 pilot at a time.</c>
 Button/Tooltip/AP_ScoutNerazimWeaponRange=<c val="ffff8a">Mist Wings</c> gain +3 air attack range and +1 ground attack range.
 Button/Tooltip/AP_ScoutPurifier=Purifier Faction<n/>Specialized air-to-air fighter with no ground attack. Has the Corona Beam ability.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
 Button/Tooltip/AP_ScoutPurifierCoronaBeam=Channels a beam on the target unit, draining up to 100 of your shield and dealing up to 200 damage over 4 seconds. <n/>Deactivates if you run out of shields.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
-Button/Tooltip/AP_ScoutPurifierSideMissiles=Solarite Missiles fire up to 4 additional missiles at nearby enemies, 2 at each side of the Caladrius. The side missiles cannot hit your main attack target, and enemies can only be hit by one side missile at a time.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
+Button/Tooltip/AP_ScoutPurifierSideMissiles=Solarite Missiles fire up to <d ref="Effect,AP_ScoutPurifierAirWeaponSearchLeft,AreaArray[0].MaxCount + Effect,AP_ScoutPurifierAirWeaponSearchRight,AreaArray[0].MaxCount"/> additional missiles at nearby enemies, <d ref="Effect,AP_ScoutPurifierAirWeaponSearchLeft,AreaArray[0].MaxCount"/> at each side of the Caladrius. The side missiles cannot hit your main attack target, and enemies can only be hit by one side missile at a time.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
 Button/Tooltip/AP_ScoutPurifierSolariteReactor=If your shields fall below 20, recover 80 shields over 2 seconds.This effect cannot occur more than once every 40 seconds.
 Button/Tooltip/AP_ScoutPurifierSolariteReactorCooldown=Solarite Reactor cannot restore shields at this time.
 Button/Tooltip/AP_ScoutPurifierStructureTargeting=Allows Solarite Missiles to target ground structures. Side missiles will not hit structures.<n/><n/><c val="#ColorAttackInfo">Can attack ground structures.</c>
 Button/Tooltip/AP_ScoutPurifierWeaponRange=<c val="ffff8a">Caladrius</c> gain +3 attack range.
 Button/Tooltip/AP_ScoutTaldarim=Tal'darim Faction<n/>Specialized air-to-ground fighter. Has a weak anti-air attack, but a stronger anti-ground attack.<n/>Has the Vulcan Blaster ability.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_ScoutTaldarimAdvancedPhotonBlasters=Improves Photon Blaster weapon damage and Vulcan Blaster damage.
-Button/Tooltip/AP_ScoutTaldarimArmorMeltingBlasters=Twin Photon Blasters gain +3 damage against armored targets. Vulcan Blasters can attack buildings.
-Button/Tooltip/AP_ScoutTaldarimVulcanBlaster=The Oppressor slows down to activate powerful air to ground weapons. Cannot hit structures. <n/>Disables air to air missiles.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
+Button/Tooltip/AP_ScoutTaldarimArmorMeltingBlasters=Twin Photon Blasters gain +3 damage against armored targets. Vulcan Blasters gain +40 damage against structures.
+Button/Tooltip/AP_ScoutTaldarimVulcanBlaster=The Oppressor slows down to activate powerful air to ground weapons.<n/>Disables air to air missiles.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_ScoutTaldarimVulcanBlasterCancel=Cancels the Vulcan Blasters. Restores mobility and anti-air missiles.
-Button/Tooltip/AP_ScoutTaldarimVulcanBlasterUpgrade=The Oppressor slows down to activate powerful air to ground weapons.<n/>Disables air to air missiles.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
+Button/Tooltip/AP_ScoutTaldarimVulcanBooster=Reduces the cooldown of Vulcan Blaster by <d ref="$UpgradeEffectArrayValue:AP_ScoutTaldarimVulcanBlaster:Abil,AP_ScoutTaldarimVulcanBlaster,Cost[0].Cooldown.TimeUse$"/> seconds and allows attacking immediately on activation.
 Button/Tooltip/AP_ScoutTaldarimWeaponRange=<c val="ffff8a">Oppressors</c> gain +2 air attack range and +2 ground attack range. Also increases the area of effect for Vulcan Blasters.
 Button/Tooltip/AP_ScoutWeaponRange=<c val="ffff8a">Scouts</c> gain +3 air attack range and +1 ground attack range.
 Button/Tooltip/AP_SeismicSpines=Increases attack range by 2.
@@ -6378,7 +6383,7 @@ RequirementNode/Tooltip/AP_CountUnitLurkerDenCompleteOnlyTechTreeCheat=Mutate Hy
 RequirementNode/Tooltip/AP_CountUnitNukeCompleteOnly=Build Nuke at the Shadow Ops
 RequirementNode/Tooltip/AP_CountUpgradeAP_ScoutNerazimPhantomDashCompleteOnly3931428674=Find Phantom Dash (Mist Wing )
 RequirementNode/Tooltip/AP_CountUpgradeAP_ScoutPurifierCoronaBeamCompleteOnly2287534981=Find Corona Beam (Caladrius )
-RequirementNode/Tooltip/AP_CountUpgradeAP_ScoutTaldarimVulcanBlasterCompleteOnly683133775=Find Vulcan Blaster (Oppressor)
+RequirementNode/Tooltip/AP_CountUpgradeAP_ScoutTaldarimVulcanBlasterCompleteOnly683133775=Find Vulcan Booster (Oppressor)
 RequirementNode/Tooltip/AP_CountUpgradeAdeptDisruptiveTransferCompleteOnly=Find Disruptive Transfer (Adept)
 RequirementNode/Tooltip/AP_CountUpgradeAnnihilatorTwilightChassisCompleteOnly=Find Twilight Chassis (Annihilator)
 RequirementNode/Tooltip/AP_CountUpgradeArbiterAbilityEfficiencyCompleteOnly=Find Vessel of the Conclave (Arbiter)
