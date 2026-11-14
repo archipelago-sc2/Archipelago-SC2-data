@@ -74,6 +74,7 @@ const int ge_PRESET_EggNestState_Empty = 0;
 const int ge_PRESET_EggNestState_HalfFull = 1;
 const int ge_PRESET_EggNestState_Full = 2;
 const int ge_PRESET_EggNestState_Hatched = 3;
+const int ge_PRESET_EggNestState_Obliterated = 4;
 
 //--------------------------------------------------------------------------------------------------
 // Global Variables
@@ -202,7 +203,8 @@ void gf_AnimateEggNesttoState (int lp_eggNest, int lp_state);
 void gf_HatchBanelings (int lp_number, point lp_location);
 void gf_CorruptEggwithZagara (unit lp_eggToCorrupt, int lp_cluster);
 void gf_FeralBanelingAttack (region lp_sPAWN_REGION, region lp_aTTACK_REGION);
-void gf_MidEggNestSpawn (int lp_numberOfSpawns, region lp_region);
+void gf_CreateEggUnit (bool lp_selected, point lp_point, region lp_region, string lp_unit, int lp_count, bool lp_useDropPod);
+void gf_MidEggNestSpawn (bool lp_isLargeSpawn, region lp_region);
 void gf_VictoryDropNukeAtPoint (point lp_cHOSEN_POINT);
 
 //--------------------------------------------------------------------------------------------------
@@ -476,6 +478,15 @@ bool auto_gf_AnimateEggNesttoState_TriggerFunc (bool testConds, bool runActions)
         UnitKill(gv_eggNests[lp_eggNest].lv_eggNest);
     }
 
+    if ((lp_state == ge_PRESET_EggNestState_Obliterated) && (gv_eggNests[lp_eggNest].lv_state != ge_PRESET_EggNestState_Hatched)) {
+        PlayerCreateEffectPoint(gv_pLAYER_01_USER, "NukeDetonate", UnitGetPosition(gv_eggNests[lp_eggNest].lv_eggNest));
+        Wait(1.0, c_timeGame);
+        ActorSend(libNtve_gf_MainActorofUnit(gv_eggNests[lp_eggNest].lv_eggNest), "AnimGroupRemove C");
+        gv_eggNests[lp_eggNest].lv_state = ge_PRESET_EggNestState_Hatched;
+        gv_eggNests[lp_eggNest].lv_currentlyGrowing = false;
+        UnitKill(gv_eggNests[lp_eggNest].lv_eggNest);
+    }
+
     return true;
 }
 
@@ -698,12 +709,31 @@ bool auto_gf_FeralBanelingAttack_TriggerFunc (bool testConds, bool runActions) {
     return true;
 }
 
+void gf_CreateEggUnit (bool lp_selected, point lp_point, region lp_region, string lp_unit, int lp_count, bool lp_useDropPod) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_CreateUnitsAtPoint2(lp_count, lp_unit, 0, 1, lp_point);
+    UnitGroupAddUnitGroup(gv_midSpawnedUnits, UnitLastCreatedGroup());
+    if ((lp_useDropPod == true)) {
+        libSwaC_gf_CreateDropPod(libSwaC_ge_DropPodRace_Terran, lp_point, UnitLastCreatedGroup(), false, 1);
+    }
+
+    UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), PointWithOffsetPolar(UnitGetPosition(UnitLastCreated()), RandomFixed(1.0, 2.0), AngleBetweenPoints(RegionGetCenter(lp_region), UnitGetPosition(UnitLastCreated())))), c_orderQueueReplace);
+    if ((gv_midSpawnedUnitsSelected == true) && (UnitGroupCount(UnitGroupSelected(gv_pLAYER_01_USER), c_unitCountAlive) >= 1)) {
+        if ((lp_selected == true)) {
+            UnitSelect(UnitLastCreated(), gv_pLAYER_01_USER, true);
+        }
+
+    }
+
+}
+
 trigger auto_gf_MidEggNestSpawn_Trigger = null;
-int auto_gf_MidEggNestSpawn_lp_numberOfSpawns;
+bool auto_gf_MidEggNestSpawn_lp_isLargeSpawn;
 region auto_gf_MidEggNestSpawn_lp_region;
 
-void gf_MidEggNestSpawn (int lp_numberOfSpawns, region lp_region) {
-    auto_gf_MidEggNestSpawn_lp_numberOfSpawns = lp_numberOfSpawns;
+void gf_MidEggNestSpawn (bool lp_isLargeSpawn, region lp_region) {
+    auto_gf_MidEggNestSpawn_lp_isLargeSpawn = lp_isLargeSpawn;
     auto_gf_MidEggNestSpawn_lp_region = lp_region;
 
     if (auto_gf_MidEggNestSpawn_Trigger == null) {
@@ -714,22 +744,15 @@ void gf_MidEggNestSpawn (int lp_numberOfSpawns, region lp_region) {
 }
 
 bool auto_gf_MidEggNestSpawn_TriggerFunc (bool testConds, bool runActions) {
-    int lp_numberOfSpawns = auto_gf_MidEggNestSpawn_lp_numberOfSpawns;
+    bool lp_isLargeSpawn = auto_gf_MidEggNestSpawn_lp_isLargeSpawn;
     region lp_region = auto_gf_MidEggNestSpawn_lp_region;
 
     // Variable Declarations
-    int lv_MenskRandomTrooperTypeWeighted;
     bool lv_select;
 
     // Automatic Variable Declarations
-    int autoCB7F757D_n;
-    int autoCB7F757D_i;
-    const int auto1A34ECDE_n = 2;
-    int auto1A34ECDE_i;
-    string auto0708791A_val;
-    const int auto71964A15_n = 4;
-    int auto71964A15_i;
-    string auto8F55A60F_val;
+    string autoCFBCE851_val;
+    string autoDC19FBD0_val;
 
     // Variable Initialization
 
@@ -739,68 +762,39 @@ bool auto_gf_MidEggNestSpawn_TriggerFunc (bool testConds, bool runActions) {
         lv_select = true;
     }
 
-    autoCB7F757D_n = lp_numberOfSpawns;
-    for (autoCB7F757D_i = 1; autoCB7F757D_i <= autoCB7F757D_n; autoCB7F757D_i += 1) {
-        if ((RandomInt(1, 3) == 1)) {
-            for (auto71964A15_i = 1; auto71964A15_i <= auto71964A15_n; auto71964A15_i += 1) {
-                auto8F55A60F_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
-                if (auto8F55A60F_val == "Neut") {
-                    UnitCreate(1, "AP_Baneling", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
-                }
-                else if (auto8F55A60F_val == "Terr") {
-                    lv_MenskRandomTrooperTypeWeighted = RandomInt(1, 7);
-                    if ((lv_MenskRandomTrooperTypeWeighted <= 3)) {
-                        UnitCreate(1, "AP_TrooperMengskFlamethrower", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
-                    }
-
-                    if (((lv_MenskRandomTrooperTypeWeighted >= 4) && (lv_MenskRandomTrooperTypeWeighted <= 6))) {
-                        UnitCreate(1, "AP_TrooperMengskImproved", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
-                    }
-
-                    if ((lv_MenskRandomTrooperTypeWeighted == 7)) {
-                        UnitCreate(1, "AP_TrooperMengskAA", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
-                    }
-
-                }
-                else if (auto8F55A60F_val == "Prot") {
-                    UnitCreate(1, "AP_Archon", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
-                }
-                else {
-                }
-                UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), PointWithOffsetPolar(UnitGetPosition(UnitLastCreated()), RandomFixed(1.0, 2.0), AngleBetweenPoints(RegionGetCenter(lp_region), UnitGetPosition(UnitLastCreated())))), c_orderQueueReplace);
-                UnitGroupAdd(gv_midSpawnedUnits, UnitLastCreated());
-                if ((gv_midSpawnedUnitsSelected == true) && (UnitGroupCount(UnitGroupSelected(gv_pLAYER_01_USER), c_unitCountAlive) >= 1)) {
-                    if ((lv_select == true)) {
-                        UnitSelect(UnitLastCreated(), gv_pLAYER_01_USER, true);
-                    }
-
-                }
-
-            }
+    if ((lp_isLargeSpawn == true)) {
+        autoDC19FBD0_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoDC19FBD0_val == "Neut") {
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), lp_region, "AP_Baneling", 30, false);
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), lp_region, "AP_Zergling", 30, false);
+        }
+        else if (autoDC19FBD0_val == "Terr") {
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), lp_region, "AP_TrooperMengsk", 13, true);
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), lp_region, "AP_TrooperMengskImproved", 2, true);
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), lp_region, "AP_TrooperMengskFlamethrower", 3, true);
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), lp_region, "AP_TrooperMengskAA", 1, true);
+        }
+        else if (autoDC19FBD0_val == "Prot") {
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), null, "AP_Archon", 4, false);
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), null, "AP_HighTemplar", 3, false);
         }
         else {
-            for (auto1A34ECDE_i = 1; auto1A34ECDE_i <= auto1A34ECDE_n; auto1A34ECDE_i += 1) {
-                auto0708791A_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
-                if (auto0708791A_val == "Neut") {
-                    UnitCreate(1, "AP_Baneling", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
-                }
-                else if (auto0708791A_val == "Terr") {
-                    UnitCreate(1, "AP_TrooperMengsk", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
-                }
-                else if (auto0708791A_val == "Prot") {
-                }
-                else {
-                }
-                UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), PointWithOffsetPolar(UnitGetPosition(UnitLastCreated()), RandomFixed(1.0, 2.0), AngleBetweenPoints(RegionGetCenter(lp_region), UnitGetPosition(UnitLastCreated())))), c_orderQueueReplace);
-                UnitGroupAdd(gv_midSpawnedUnits, UnitLastCreated());
-                if ((gv_midSpawnedUnitsSelected == true) && (UnitGroupCount(UnitGroupSelected(gv_pLAYER_01_USER), c_unitCountAlive) >= 1)) {
-                    if ((lv_select == true)) {
-                        UnitSelect(UnitLastCreated(), gv_pLAYER_01_USER, true);
-                    }
-
-                }
-
-            }
+        }
+    }
+    else {
+        autoCFBCE851_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoCFBCE851_val == "Neut") {
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), null, "AP_Baneling", 15, false);
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), null, "AP_Zergling", 15, false);
+        }
+        else if (autoCFBCE851_val == "Terr") {
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), null, "AP_TrooperMengsk", 11, true);
+        }
+        else if (autoCFBCE851_val == "Prot") {
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), null, "AP_Archon", 1, false);
+            gf_CreateEggUnit(lv_select, RegionRandomPoint(lp_region), null, "AP_HighTemplar", 2, false);
+        }
+        else {
         }
     }
     return true;
@@ -922,7 +916,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(10), "Zerg", false);
     }
     else {
-        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         lib15EF4C78_gf_RemoveUnusedStartingUnits(UnitGroupFromId(10), libABFE498B_gv_aP_Triggers_Option_overridePlayerRace, true);
         if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr")) {
             PlayerSetRace(gv_pLAYER_01_USER, "Terr");
@@ -6692,6 +6685,7 @@ void gt_IntroMusic_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_MidQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string autoFAECA1C4_val;
     unitgroup autoA9D24406_g;
     int autoA9D24406_u;
     unit autoA9D24406_var;
@@ -6722,7 +6716,18 @@ bool gt_MidQ_Func (bool testConds, bool runActions) {
         TriggerExecute(gt_MidCinematicEnd, true, true);
     }
     else {
-        libSwaC_gf_SendTransmissionCampaign(gv_kerrigan, "zMission_Char01|Line00033", c_transmissionDurationAdd, 0.0, false, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        autoFAECA1C4_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoFAECA1C4_val == "Neut") {
+            libSwaC_gf_SendTransmissionCampaign(gv_kerrigan, "zMission_Char01|Line00033", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (autoFAECA1C4_val == "Terr") {
+            libSwaC_gf_SendTransmissionCampaign(null, "zMission_Char03|Line00004", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else if (autoFAECA1C4_val == "Prot") {
+            libSwaC_gf_SendTransmissionCampaign(null, "zEvoMission_Roach|Line00051", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+        }
+        else {
+        }
         autoA9D24406_g = UnitGroup("PathingBlocker1x1", 0, RegionFromId(3), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
         autoA9D24406_u = UnitGroupCount(autoA9D24406_g, c_unitCountAll);
         for (;; autoA9D24406_u -= 1) {
@@ -6820,6 +6825,9 @@ bool gt_MidCinematic_Func (bool testConds, bool runActions) {
     unitgroup auto42A7F1F7_g;
     int auto42A7F1F7_u;
     unit auto42A7F1F7_var;
+    string auto1385D30B_val;
+    string auto5AF76A11_val;
+    string auto03DE885C_val;
 
     // Actions
     if (!runActions) {
@@ -6855,9 +6863,30 @@ bool gt_MidCinematic_Func (bool testConds, bool runActions) {
     CinematicFade(true, 1.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, true);
     libSwaC_gf_SetAllSoundChannelVolumesCampaign(libSwaC_ge_VolumeChannelModeCampaign_CinematicInTransmission);
     SoundChannelSetVolume(PlayerGroupAll(), c_soundCategoryMusic, 100.0, 0.1);
-    libSwaC_gf_SendTransmissionCampaign(gv_kerrigan, "zMission_Char01|Line00031", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    auto1385D30B_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto1385D30B_val == "Neut") {
+        libSwaC_gf_SendTransmissionCampaign(gv_kerrigan, "zMission_Char01|Line00031", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto1385D30B_val == "Terr") {
+        libSwaC_gf_SendTransmissionCampaign(null, "zMission_Char03|Line00004", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto1385D30B_val == "Prot") {
+        libSwaC_gf_SendTransmissionCampaign(null, "zEvoMission_Roach|Line00056", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+    }
     TriggerExecute(gt_MidEggsplosions, true, false);
-    libSwaC_gf_SendTransmissionCampaign(null, "zMission_Char01|Line00032", c_transmissionDurationAdd, 0.0, false, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    auto5AF76A11_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto5AF76A11_val == "Neut") {
+        libSwaC_gf_SendTransmissionCampaign(null, "zMission_Char01|Line00032", c_transmissionDurationAdd, 0.0, false, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto5AF76A11_val == "Terr") {
+        libSwaC_gf_SendTransmissionCampaign(gv_zagara, "zMission_Char01|Line00055", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto5AF76A11_val == "Prot") {
+    }
+    else {
+    }
     TransmissionWait(TransmissionLastSent(), 2.0);
     Wait(1.2, c_timeReal);
     TriggerExecute(gt_MidEggHatching, true, false);
@@ -6868,7 +6897,18 @@ bool gt_MidCinematic_Func (bool testConds, bool runActions) {
     CameraApplyInfo(gv_pLAYER_01_USER, CameraInfoFromId(1906), SoundLengthSync(SoundLink(ConversationDataGetSound("zMission_Char01|Line00033", true), c_soundIndexAny)), -1, 10.0, true);
     libSwaC_gf_SetAllSoundChannelVolumesCampaign(libSwaC_ge_VolumeChannelModeCampaign_CinematicInTransmission);
     SoundChannelSetVolume(PlayerGroupAll(), c_soundCategoryMusic, 100.0, 0.1);
-    libSwaC_gf_SendTransmissionCampaign(gv_kerrigan, "zMission_Char01|Line00033", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    auto03DE885C_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto03DE885C_val == "Neut") {
+        libSwaC_gf_SendTransmissionCampaign(gv_kerrigan, "zMission_Char01|Line00033", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto03DE885C_val == "Terr") {
+        libSwaC_gf_SendTransmissionCampaign(null, "zMission_Char02|Line00036", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else if (auto03DE885C_val == "Prot") {
+        libSwaC_gf_SendTransmissionCampaign(null, "zEvoMission_Roach|Line00051", c_transmissionDurationAdd, 0.0, true, libSwaC_ge_CampaignTransmissionPortraitOptioins_HidePortraitAfter, libSwaC_ge_CampaignTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    }
+    else {
+    }
     gv_midCinematicCompleted = true;
     return true;
 }
@@ -7036,12 +7076,13 @@ void gt_MidCleanup_Init () {
 bool gt_MidEggHatching_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_i;
-    int lv_numberOfSpawns;
+    bool lv_apIsLargeSpawn;
     region lv_region;
 
     // Automatic Variable Declarations
     const int auto12890CC3_ae = 6;
     const int auto12890CC3_ai = 1;
+    string auto7444A824_val;
 
     // Variable Initialization
 
@@ -7061,16 +7102,27 @@ bool gt_MidEggHatching_Func (bool testConds, bool runActions) {
     lv_i = 1;
     for ( ; ( (auto12890CC3_ai >= 0 && lv_i <= auto12890CC3_ae) || (auto12890CC3_ai < 0 && lv_i >= auto12890CC3_ae) ) ; lv_i += auto12890CC3_ai ) {
         if (((lv_i == 1) || (lv_i == 4) || (lv_i == 6))) {
-            lv_numberOfSpawns = 20;
+            lv_apIsLargeSpawn = true;
             lv_region = RegionCircle(UnitGetPosition(gv_eggNests[lv_i].lv_eggNest), 1.5);
         }
         else {
-            lv_numberOfSpawns = 10;
+            lv_apIsLargeSpawn = false;
             lv_region = RegionCircle(UnitGetPosition(gv_eggNests[lv_i].lv_eggNest), 1.0);
         }
-        gf_AnimateEggNesttoState(lv_i, ge_PRESET_EggNestState_Hatched);
-        gf_MidEggNestSpawn(lv_numberOfSpawns, lv_region);
+        auto7444A824_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (auto7444A824_val == "Neut") {
+            gf_AnimateEggNesttoState(lv_i, ge_PRESET_EggNestState_Hatched);
+        }
+        else if (auto7444A824_val == "Terr") {
+            gf_AnimateEggNesttoState(lv_i, ge_PRESET_EggNestState_Obliterated);
+        }
+        else if (auto7444A824_val == "Prot") {
+            gf_AnimateEggNesttoState(lv_i, ge_PRESET_EggNestState_Hatched);
+        }
+        else {
+        }
         Wait(0.35, c_timeGame);
+        gf_MidEggNestSpawn(lv_apIsLargeSpawn, lv_region);
     }
     return true;
 }
@@ -7087,6 +7139,7 @@ bool gt_MidEggsplosions_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     const int autoE082AD5C_n = 8;
     int autoE082AD5C_i;
+    string autoE9DCB107_val;
 
     // Actions
     if (!runActions) {
@@ -7095,8 +7148,19 @@ bool gt_MidEggsplosions_Func (bool testConds, bool runActions) {
 
     Wait(1.0, c_timeReal);
     for (autoE082AD5C_i = 1; autoE082AD5C_i <= autoE082AD5C_n; autoE082AD5C_i += 1) {
-        PlayerCreateEffectPoint(gv_pLAYER_01_USER, "FungalGrowthInitialSet", RegionRandomPoint(RegionCircle(UnitGetPosition(gv_eggNests[RandomInt(1, 6)].lv_eggNest), 1.0)));
-        Wait(RandomFixed(0.5, 1.5), c_timeReal);
+        autoE9DCB107_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoE9DCB107_val == "Neut") {
+            PlayerCreateEffectPoint(gv_pLAYER_01_USER, "FungalGrowthInitialSet", RegionRandomPoint(RegionCircle(UnitGetPosition(gv_eggNests[RandomInt(1, 6)].lv_eggNest), 1.0)));
+            Wait(RandomFixed(0.5, 1.5), c_timeReal);
+        }
+        else if (autoE9DCB107_val == "Prot") {
+            PlayerCreateEffectPoint(gv_pLAYER_01_USER, "FungalGrowthInitialSet", RegionRandomPoint(RegionCircle(UnitGetPosition(gv_eggNests[RandomInt(1, 6)].lv_eggNest), 1.0)));
+            Wait(RandomFixed(0.5, 1.5), c_timeReal);
+        }
+        else if (autoE9DCB107_val == "Terr") {
+        }
+        else {
+        }
     }
     return true;
 }
