@@ -1,9 +1,9 @@
 //==================================================================================================
-// 
+//
 // Generated Map Script
-// 
+//
 // Name:   Amon's Fall
-// 
+//
 //==================================================================================================
 include "TriggerLibs/NativeLib"
 include "TriggerLibs/VoidLib"
@@ -2120,7 +2120,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
     }
 
     libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
-    AP_GhostSpawn_waveTargetOverride = true;
+    AP_SpawnSystem_waveTargetOverride = true;
     CinematicFade(false, 0.0, c_fadeStyleNormal, ColorWithAlpha(0.00, 0.00, 0.00, 0.00), 0.0, false);
     TriggerExecute(lib30B9E51A_gt_ArchipelagoPlayerLotvHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
@@ -2206,8 +2206,8 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("AP_KerriganEpilogue03PowerTeleport", 0), false);
         lv_point = PointFromId(9);
     }
-    AP_GhostSpawn_playerOverride = lv_player;
-    AP_GhostSpawn_regionOverride = lv_spawn;
+    AP_SpawnSystem_playerOverride = lv_player;
+    AP_SpawnSystem_regionOverride = lv_spawn;
     libABFE498B_gf_AP_Triggers_HeroInit(gv_pLAYER_01_USER, lv_point, UnitGroupEmpty());
     if ((libABFE498B_gv_aP_Triggers_Option_takeOverAIAllies == true)) {
         lv_remove = UnitGroup(null, gv_pLAYER_06_KERRIGAN_AI, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);

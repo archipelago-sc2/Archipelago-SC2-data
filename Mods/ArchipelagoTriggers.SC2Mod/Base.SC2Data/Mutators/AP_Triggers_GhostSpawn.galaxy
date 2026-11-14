@@ -1,4 +1,4 @@
-include "Mutators/AP_Triggers_GhostSpawn.h"
+include "Mutators/AP_Triggers_GhostSpawn_h"
 
 // Constants
 static const int MAX_TRIES = 20;
@@ -8,13 +8,8 @@ static const string NUKE_TYPE = "AP_Nuke";
 static const string NUKE_DAMAGE_EFFECT = "AP_NukeDamage";
 static const string GHOST_UPGRADE = "AP_GhostSpawn";
 static const string CLOAK_UPGRADE = "AP_MutatorCloakEnable";
-// if a ghost gets this many kills with a single nuke, trigger a taunt message
-static const int NUKE_TAUNT_KILL_THRESHOLD = 20;
-
-// used to track idle state
-static const int CUSTOM_VALUE_X = 15;
-static const int CUSTOM_VALUE_Y = 16;
-static const int CUSTOM_VALUE_TIMER = 17;
+// if a ghost gets this much supply in kills with a single nuke, trigger a taunt message
+static const fixed NUKE_TAUNT_KILL_THRESHOLD = 30;
 
 // Config
 // Some of these are overridden in the difficulty setup
@@ -39,28 +34,7 @@ static fixed EMPCooldown = 2;
 
 // Overrides
 // Use these to force specific aspects of the system on a per map basis
-int AP_GhostSpawn_playerOverride = 0;
 int AP_GhostSpawn_difficultyOverride = 1;
-region AP_GhostSpawn_regionOverride = null;
-point AP_GhostSpawn_attackTargetOverride = null;
-point AP_GhostSpawn_gatherPointOverride = null;
-// set to true to make sure a ground path from spawn building to player base exists
-// usually not needed, AI will handle transport management automatically
-bool AP_GhostSpawn_pathingCheckOverride = false;
- // if true, spawned ghost waves will attempt to join natural attack waves by the player
-bool AP_GhostSpawn_joinWavesOverride = true;
-// set to true for a player that normally doesn't send attack waves against the player
-// may interfere with future attack waves
-bool AP_GhostSpawn_waveTargetOverride = false;
-// set to true on map init to stop the spawn until you set it to false again
-// most no-build sections should be handled automatically, use this otherwise
-bool AP_GhostSpawn_waitForSpawnOverride = false;
-point AP_GhostSpawn_waypointOverride = null;
-// override with the unit type of transport available in the map
-// AI should be able to handle transports by itself in general
-// this allows you to force transports otherwise
-string AP_GhostSpawn_transportOverride = null;
-
 
 // Globals
 static bool SetupDone = false;
@@ -68,9 +42,9 @@ static bool SendingWave = false;
 static bool NukeRearming = false;
 static int NukeCounter = 0;
 static int NukeCooldownTics = 0;
-static int NukeKillsRecent = 0;
+static fixed NukeKillsRecent = 0;
 static unit SpawnBuilding;
-static playergroup playersActive = PlayerGroupEmpty();
+static playergroup PlayersActive = PlayerGroupEmpty();
 static unitgroup BuildingsActive = UnitGroupEmpty();
 static unitgroup GhostsActive = UnitGroupEmpty();
 static unitgroup GhostsGathering = UnitGroupEmpty();
@@ -115,6 +89,10 @@ static void log(string s) {
 // Set values based on difficulty here
 static bool SpawnSetupDifficulty(int player, int difficulty){
     int user = lib5BD4895D_gf_AP_Core_getUser();
+    if (player < 0 || player >= 16) {
+        log("invalid player for difficulty setup: " + IntToString(player));
+        return false;
+    }
     // AP_GhostSpawn_difficultyOverride = difficulty; // assume this gets set by passed client data
     GroupSize = 1 + ((1 + difficulty) / 2); // 2, 2, 3, 3, 4
     GhostsActiveMax = 2 * GroupSize; // 4, 4, 6, 6, 8
@@ -149,9 +127,13 @@ static bool SpawnSetupDifficulty(int player, int difficulty){
 
 static bool SpawnSetup(int player) {
     string value;
+    if (player < 0 || player >= 16) {
+        log("invalid player for spawn setup: " + IntToString(player));
+        return false;
+    }
     TriggerAddEventPlayerAIWave(TriggerOnAttackWave, player);
     TriggerEnable(TriggerOnCloakUpgrade, true);
-    AP_Base_detect(player);
+    AP_SpawnSystem_doSetup(false);
     SpawnSetupDifficulty(player, AP_GhostSpawn_difficultyOverride);
     CatalogFieldValueSet(c_gameCatalogUnit, UNIT_TYPE, "TacticalAIThink", player, "AP_GhostSpawn_ghostTactical");
     CatalogFieldValueSet(c_gameCatalogAbil, "AP_GhostSCBWLockdown", "Cost[0].Cooldown.Location", player, "Player");
@@ -177,8 +159,8 @@ static bool SpawnLoop(unit spawnBuilding) {
     unitgroup g;
     order gatherOrder;
     actorscope scope = ActorScopeFromUnit(spawnBuilding);
-    if (AP_GhostSpawn_gatherPointOverride != null) {
-        gatherPoint = AP_GhostSpawn_gatherPointOverride;
+    if (AP_SpawnSystem_gatherPointOverride != null) {
+        gatherPoint = AP_SpawnSystem_gatherPointOverride;
     }
     else if (gatherPoint == null || PointPathingCost(spawnLocation, gatherPoint) > 12) {
         // log("Failed to get valid gather point, using fallback");
@@ -222,21 +204,6 @@ static bool SpawnLoop(unit spawnBuilding) {
     return true;
 }
 
-static point GetAttackLoc() {
-    int user = lib5BD4895D_gf_AP_Core_getUser();
-    int index;
-    point attackTarget;
-        if (AP_GhostSpawn_attackTargetOverride != null){
-        attackTarget = AP_GhostSpawn_attackTargetOverride;
-    }
-    else {
-        AP_Base_detect(user);
-        index = AP_Base_getBiggestBaseIndex(user);
-        attackTarget = AP_Base_getLocation(user, index);
-    }
-    return attackTarget;
-}
-
 bool AP_GhostSpawn_disable() {
     int i;
     unit u;
@@ -259,115 +226,54 @@ bool AP_GhostSpawn_updateDifficulty(int difficulty) {
     return true;
 }
 
-bool AP_GhostSpawn_placeBuildingForPlayer(int player) {
-    int i;
-    int baseIndex;
-    point p;
-    unit spawnBuilding;
-    region r;
-    if (!libABFE498B_gv_aP_Triggers_isBuild) {
-        log("No build mission, do not spawn Ghost Building");
-        return false;
+void InitBuilding(unit u) {
+    if (!UnitIsAlive(u)) {
+        return;
     }
-    // log("Placing for player: " + IntToString(player));
-    while (libABFE498B_gv_aP_Triggers_IsNoBuild || AP_GhostSpawn_waitForSpawnOverride) {
-        Wait(5, c_timeAI);
-    }
-    while (!PlayerGroupHasPlayer(PlayerGroupActive(), player)) {
-        Wait(5, c_timeAI);
-    }
-    if (!SetupDone) {
-        SpawnSetup(player);
-    }
-    if (AP_GhostSpawn_regionOverride != null) {
-        r = AP_GhostSpawn_regionOverride;
-    }
-    else {
-        if (AP_Base_getCount(player) <= 0) {
-            return false;
-        }
-        baseIndex = AP_Base_getBiggestBaseIndex(player);
-        r = AP_Base_getInnerArea(player, baseIndex);
-    }
-    for (i = 0; i < MAX_TRIES; i+=1) {
-        p = RegionRandomPoint(r);
-        // p = UnitTypePlacementFromPoint(BUILDING_TYPE, player, p, 10); // placement still checks creep
-        spawnBuilding = UnitGroupUnit(UnitCreate(1, BUILDING_TYPE, 0, player, p, 270.0), 1);
-        SpawnBuilding = spawnBuilding;
-        if (!UnitIsAlive(spawnBuilding)) {
-            // no spawn location found, try again
-            continue;
-        }
-        p = UnitGetPosition(spawnBuilding);
-        if (!AP_GhostSpawn_pathingCheckOverride || PointPathingIsConnected(p, GetAttackLoc())) {
-            // success
-            PlayerGroupAdd(playersActive, player);
-            UnitGroupAdd(BuildingsActive, spawnBuilding);
-            SpawnLoop(spawnBuilding);
-            return true;
-        }
-        else {
-            log("No valid attack path, try again");
-            MinimapPing(PlayerGroupAll(), GetAttackLoc() , 5, Color(255, 255, 255));
-            UnitRemove(spawnBuilding);
-        }
-    }
-    if (!UnitIsAlive(spawnBuilding)) {
-        // found no valid location in 20 tries
-        log("Failed to spawn Ghost building!");
-    }
-    return false;
+    SpawnBuilding = u;
+    UnitGroupAdd(BuildingsActive, u);
+    PlayerGroupAdd(PlayersActive, UnitGetOwner(u));
+    SpawnLoop(SpawnBuilding);
 }
 
-static bool HasActiveEnemy(int user) {
-    int i;
-    int p;
-    bool result = false;
-    playergroup pg = PlayerGroupActive();
-    for (i = 1; i <= PlayerGroupCount(pg); i += 1) {
-        p = PlayerGroupPlayer(pg, i);
-        if (libNtve_gf_PlayerIsEnemy(p, user, libNtve_ge_PlayerRelation_EnemyMutual)) {
-            result = true;
-            break;
-        }
+bool AP_GhostSpawn_placeBuildingForPlayer(int player) {
+    unit u;
+    if (UnitIsAlive(SpawnBuilding)) {
+        log("Building already exists.");
+        return false;
     }
-    return result;
+    SpawnSetup(player);
+    u = AP_SpawnSystem_placeBuildingForPlayer(player, BUILDING_TYPE);
+    if (!UnitIsAlive(SpawnBuilding)) {
+        log("Failed to spawn.");
+        return false;
+    }
+    InitBuilding(u);
+    return true;
 }
 
 bool AP_GhostSpawn_placeBuilding() {
-    int p;
-    int user = lib5BD4895D_gf_AP_Core_getUser();
-    Wait(2, c_timeAI); // wait for options to settle
-    if (!libABFE498B_gv_aP_Triggers_isBuild) {
-        log("No build mission, do not spawn Ghost Building");
+    unit u;
+    if (UnitIsAlive(SpawnBuilding)) {
+        log("Building already exists.");
         return false;
     }
-    while (libABFE498B_gv_aP_Triggers_IsNoBuild || AP_GhostSpawn_waitForSpawnOverride) {
-        Wait(5, c_timeAI);
-        // log("waiting for no-build section to end...");
-    }
-    if (AP_GhostSpawn_playerOverride > 0) {
-        p = AP_GhostSpawn_playerOverride;
-    }
-    else {
-        while (!HasActiveEnemy(user)){
-            Wait(5, c_timeAI);
-        }
-        p = AP_Base_getBiggestPlayer();
-    }
-    if (p <= 0) {
-        log("No valid player, failed to spawn Ghost Building");
+    u = AP_SpawnSystem_placeBuilding(BUILDING_TYPE);
+    if (!UnitIsAlive(u)) {
+        log("Failed to spawn.");
         return false;
     }
-    return AP_GhostSpawn_placeBuildingForPlayer(p);
-}
+    SpawnSetup(UnitGetOwner(u));
+    InitBuilding(u);
+    return true;
+ }
 
 bool AP_GhostSpawn_triggerWaitForAttackWaveFunc(bool testConds, bool runActions) {
     int p = ParamPlayer;
     int index;
     unitgroup g = ParamGroup;
     unitgroup transports;
-    bool useTransport = AP_GhostSpawn_transportOverride != null;
+    bool useTransport = AP_SpawnSystem_transportOverride != null;
     unit transport;
     UnitGroupRemoveUnitGroup(GhostsGathering, g);
     UnitGroupAddUnitGroup(GhostsWaiting, g);
@@ -376,7 +282,7 @@ bool AP_GhostSpawn_triggerWaitForAttackWaveFunc(bool testConds, bool runActions)
         UnitGroupRemoveUnitGroup(GhostsWaiting, g);
         AIAttackWaveUseGroup(p, g);
         if (useTransport) {
-            transports = UnitGroup(AP_GhostSpawn_transportOverride, p, RegionEntireMap(), UnitFilterStandard, 0);
+            transports = UnitGroup(AP_SpawnSystem_transportOverride, p, RegionEntireMap(), UnitFilterStandard, 0);
             AISetGroupScriptControlled(transports, false);
             transport = libNtve_gf_ClosestUnitToPoint(UnitGroupCenterOfGroup(g), transports);
             AIAttackWaveUseUnit(p, transport);
@@ -384,13 +290,13 @@ bool AP_GhostSpawn_triggerWaitForAttackWaveFunc(bool testConds, bool runActions)
             // if transport override is used, force the AI to only use a single transport
             AISetGroupScriptControlled(transports, true);
         }
-        if (AP_GhostSpawn_waveTargetOverride) {
+        if (AP_SpawnSystem_waveTargetOverride) {
             AIAttackWaveSetTargetPlayer(p, PlayerGroupSingle(lib5BD4895D_gf_AP_Core_getUser()));
         }
-        if (AP_GhostSpawn_waypointOverride != null) {
-            AIAttackWaveAddWaypoint(p, AP_GhostSpawn_waypointOverride, useTransport);
+        if (AP_SpawnSystem_waypointOverride != null) {
+            AIAttackWaveAddWaypoint(p, AP_SpawnSystem_waypointOverride, useTransport);
         }
-        AIAttackWaveAddWaypoint(p, GetAttackLoc(), useTransport);
+        AIAttackWaveAddWaypoint(p, AP_SpawnSystem_getAttackLoc(), useTransport);
         SendingWave = true;
         AIAttackWaveSend(p, 0, false);
         Wait(2, c_timeAI);
@@ -415,7 +321,7 @@ bool AP_GhostSpawn_triggerOnAttackWaveFunc(bool testConds, bool runActions) {
         SendingWave = false;
         return false;
     }
-    if (!AP_GhostSpawn_joinWavesOverride || UnitGroupCount(GhostsWaiting, c_unitCountAlive) <= 0) {
+    if (!AP_SpawnSystem_joinWavesOverride || UnitGroupCount(GhostsWaiting, c_unitCountAlive) <= 0) {
         return false;
     }
     w = EventPlayerWave();
@@ -479,6 +385,7 @@ static bool detectIdle() {
     fixed oldY;
     fixed newY;
     fixed idleTime;
+    string name;
     UnitGroupRemoveUnitGroup(g, GhostsGathering);
     UnitGroupRemoveUnitGroup(g, GhostsWaiting);
     for (i = 1; i <= UnitGroupCount(g, c_unitCountAll); i += 1) {
@@ -486,25 +393,26 @@ static bool detectIdle() {
         if (AIIsSuicideUnit(u) || AIUnitIsInCombat(u)) {
             continue;
         }
+        name = IntToString(UnitGetTag(u));
         p = UnitGetPosition(u);
-        oldX = UnitGetCustomValue(u, CUSTOM_VALUE_X);
+        oldX = DataTableGetFixed(true, name + "IdleX");
         newX = PointGetX(p);
-        oldY = UnitGetCustomValue(u, CUSTOM_VALUE_Y);
+        oldY = DataTableGetFixed(true, name + "IdleY");
         newY = PointGetY(p);
         if (oldX == newX && oldY == newY) {
-            idleTime = UnitGetCustomValue (u, CUSTOM_VALUE_TIMER) + 5.0;
+            idleTime = DataTableGetFixed(true, name + "IdleTimer") + 5.0;
             if (idleTime >= IdleTimeMax) {
                 log("Ghost inactive, enable suicide");
                 AISetUnitSuicide(u, true);
             }
             else {
-                UnitSetCustomValue(u, CUSTOM_VALUE_TIMER, idleTime);
+                DataTableSetFixed(true, name + "IdleTimer", idleTime);
             }
         }
         else {
-            UnitSetCustomValue(u, CUSTOM_VALUE_X, newX);
-            UnitSetCustomValue(u, CUSTOM_VALUE_Y, newY);
-            UnitSetCustomValue(u, CUSTOM_VALUE_TIMER, 0.0);
+            DataTableSetFixed(true, name + "IdleX", newX);
+            DataTableSetFixed(true, name + "IdleY", newY);
+            DataTableSetFixed(true, name + "IdleTimer", 0.0);
         }
     }
     return false;
@@ -516,8 +424,8 @@ bool AP_GhostSpawn_triggerNukeRearmFunc(bool testConds, bool runActions) {
     unitgroup nukes;
     int  nukeCount;
     detectIdle();
-    for (i = 1; i <= PlayerGroupCount(playersActive); i+=1) {
-        p = PlayerGroupPlayer(playersActive, i);
+    for (i = 1; i <= PlayerGroupCount(PlayersActive); i+=1) {
+        p = PlayerGroupPlayer(PlayersActive, i);
         if (NukeCooldownTics > 0) {
             NukeCooldownTics -= 1;
             continue;
@@ -576,13 +484,17 @@ void AP_GhostSpawn_ShowBuilding() {
 
 bool AP_GhostSpawn_triggerOnNukeKillFunc(bool testConds, bool runActions) {
     int user = lib5BD4895D_gf_AP_Core_getUser();
-    if (EventUnitDamageEffect() != NUKE_DAMAGE_EFFECT ||
-        UnitGetOwner(EventUnit()) != user ||
-        UnitGetOwner(libNtve_gf_KillingUnit()) == user) {
+    fixed supply;
+    if (
+        EventUnitDamageEffect() != NUKE_DAMAGE_EFFECT
+        || UnitGetOwner(EventUnit()) != user
+        || UnitGetOwner(libNtve_gf_KillingUnit()) == user
+    ) {
         return false;
     }
+    supply = UnitGetPropertyFixed(EventUnit(), c_unitPropSuppliesUsed, true);
     if (NukeKillsRecent <= 0) {
-        NukeKillsRecent = 1;
+        NukeKillsRecent = supply;
         Wait(2, c_timeAI);
         if (NukeKillsRecent >= NUKE_TAUNT_KILL_THRESHOLD) {
             // only play taunt once per mission
@@ -592,7 +504,7 @@ bool AP_GhostSpawn_triggerOnNukeKillFunc(bool testConds, bool runActions) {
         NukeKillsRecent = 0;
     }
     else {
-        NukeKillsRecent += 1;
+        NukeKillsRecent += supply;
     }
     return true;
 }
@@ -605,10 +517,12 @@ bool AP_GhostSpawn_triggerOnBehaviorFunc(bool testCond, bool runActions) {
 }
 
 bool AP_GhostSpawn_triggerOnCloakUpgradeFunc(bool testCond, bool runActions) {
+    int level;
     if (EventUpgradeName() != CLOAK_UPGRADE) {
         return false;
     }
-    AP_GhostSpawn_updateDifficulty(TechTreeUpgradeCount(lib5BD4895D_gf_AP_Core_getUser(), GHOST_UPGRADE, c_techCountCompleteOnly));
+    level = TechTreeUpgradeCount(lib5BD4895D_gf_AP_Core_getUser(), GHOST_UPGRADE, c_techCountCompleteOnly);
+    AP_GhostSpawn_updateDifficulty(level);
     return true;
 }
 

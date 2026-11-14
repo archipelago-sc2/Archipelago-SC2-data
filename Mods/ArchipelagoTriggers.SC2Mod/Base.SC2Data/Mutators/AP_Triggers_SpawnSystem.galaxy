@@ -1,0 +1,245 @@
+// Utility for controller buildings and unit spawns for certain mutators
+include "Mutators/AP_Triggers_SpawnSystem_h"
+include "Libraries/AP_Triggers_BaseDetection"
+
+// Constants
+static const int MAX_TRIES = 20;
+
+// Config
+
+// Overrides: Shared handlers for spawn mutators, set on a per-map basis.
+
+// Player used for the mutator.
+// Will default to the player owning the biggest detected enemy base.
+int AP_SpawnSystem_playerOverride = 0;
+
+// Region used to spawn the building.
+// Will default to the biggest enemy base.
+region AP_SpawnSystem_regionOverride = null;
+
+// Specify an attack wave target point
+// Will default to just attack the user without a specific target point.
+point AP_SpawnSystem_attackTargetOverride = null;
+
+// Gather point used for spawned troops.
+// Will default to AI regular gather point, or an offset from the building.
+point AP_SpawnSystem_gatherPointOverride = null;
+
+// Set to true to make sure a ground path from spawn building to player base exists.
+// Usually not needed, AI will handle transport management automatically.
+bool AP_SpawnSystem_pathingCheckOverride = false;
+
+// If true, spawned troops will attempt to join natural attack waves by the player.
+bool AP_SpawnSystem_joinWavesOverride = true;
+
+// Set to true for a player that normally doesn't send attack waves against the user.
+// Requires all regular attack waves for the player to set their respective attack targets in the map.
+bool AP_SpawnSystem_waveTargetOverride = false;
+
+// Set to true on map init to stop the spawn until you set it to false again.
+// Most no-build sections should be handled automatically, use this otherwise.
+bool AP_SpawnSystem_waitForSpawnOverride = false;
+
+// Will force the AI attack path to use this waypoint for waves of spawned troops.
+point AP_SpawnSystem_waypointOverride = null;
+
+// Override with the unit type of transport available in the map.
+// AI should be able to handle transports by itself in general,
+// This allows you to force transports otherwise.
+string AP_SpawnSystem_transportOverride = null;
+
+
+// Globals
+static int user = 1;
+static playergroup playersActive = PlayerGroupEmpty();
+static bool SetupDone;
+static unitgroup BuildingsActive = UnitGroupEmpty();
+static unitfilter UnitFilterStandard = UnitFilter(0, 0, (1 << c_targetFilterMissile),
+    (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)));
+static unitfilter UnitFilterBuilding = UnitFilter(( 1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile),
+    (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)));
+
+// Functions
+static void log(string s) {
+    TriggerDebugOutput(1, StringToText("Spawn System: " + s), false);
+}
+
+bool AP_SpawnSystem_doSetup(bool force) {
+    int i;
+    int p;
+    if (SetupDone && !force) {
+        return true;
+    }
+    user = lib5BD4895D_gf_AP_Core_getUser();
+    playersActive = PlayerGroupActive();
+    for (i = 1; i <= PlayerGroupCount(playersActive); i += 1) {
+        p = PlayerGroupPlayer(playersActive, i);
+        AP_Base_detect(p);
+    }
+    SetupDone = true;
+    return true;
+}
+
+static bool HasActiveEnemy(int user) {
+    int i;
+    int p;
+    bool result = false;
+    playergroup pg = PlayerGroupActive();
+    for (i = 1; i <= PlayerGroupCount(pg); i += 1) {
+        p = PlayerGroupPlayer(pg, i);
+        if (libNtve_gf_PlayerIsEnemy(p, user, libNtve_ge_PlayerRelation_EnemyMutual)) {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
+static bool CanSpawnBuilding() {
+    if (!libABFE498B_gv_aP_Triggers_isBuild) {
+        // log("No build mission, do not spawn Building");
+        return false;
+    }
+    return true;
+}
+
+static void WaitForSpawnBuilding(int player) {
+    Wait(2, c_timeAI);
+    while (
+        libABFE498B_gv_aP_Triggers_IsNoBuild
+        || AP_SpawnSystem_waitForSpawnOverride
+    ) {
+        Wait(5, c_timeAI);
+    }
+    if (player <= 0) {
+        return;
+    }
+    while (
+        !HasActiveEnemy(user)
+        || !PlayerGroupHasPlayer(PlayerGroupActive(), player)
+    ) {
+        Wait(5, c_timeAI);
+    }
+}
+
+static region GetSpawnRegion(int player) {
+    int baseIndex;
+    region r;
+    if (AP_SpawnSystem_regionOverride != null) {
+        r = AP_SpawnSystem_regionOverride;
+    }
+    else {
+        if (AP_Base_getCount(player) <= 0) {
+            log("Found no base for player " + IntToString(player) + ", set a region override?");
+            return null;
+        }
+        baseIndex = AP_Base_getBiggestBaseIndex(player);
+        r = AP_Base_getInnerArea(player, baseIndex);
+    }
+    return r;
+}
+
+static int GetSpawnPlayer() {
+    if (AP_SpawnSystem_playerOverride > 0) {
+        return AP_SpawnSystem_playerOverride;
+    }
+    return AP_Base_getBiggestPlayer();
+}
+
+point AP_SpawnSystem_getAttackLoc() {
+    int user = lib5BD4895D_gf_AP_Core_getUser();
+    int index;
+    point attackTarget;
+        if (AP_SpawnSystem_attackTargetOverride != null){
+        attackTarget = AP_SpawnSystem_attackTargetOverride;
+    }
+    else {
+        AP_Base_detect(user);
+        index = AP_Base_getBiggestBaseIndex(user);
+        if (index != -1) {
+            attackTarget = AP_Base_getLocation(user, index);
+        }
+        else {
+            attackTarget = PlayerStartLocation(user);
+        }
+    }
+    return attackTarget;
+}
+
+unit AP_SpawnSystem_placeBuildingForPlayer(int player, string type) {
+    int i;
+    int baseIndex;
+    point p;
+    unit spawnBuilding;
+    region r;
+    unitgroup buildings;
+    region check;
+    // log("Attempt to spawn building: " + type);
+    if (!CanSpawnBuilding()) {
+        log("Cannot spawn building in current mission: " + type);
+        return null;
+    }
+    WaitForSpawnBuilding(player);
+    // log("Placing for player: " + IntToString(player));
+    AP_SpawnSystem_doSetup(false);
+    r = GetSpawnRegion(player);
+    if (r == null) {
+        log("Cannot find placement region for building: " + type);
+        return null;
+    }
+    for (i = 0; i < MAX_TRIES; i+=1) {
+        p = RegionRandomPoint(r);
+        check = RegionCircle(p, 4);
+        buildings = UnitGroup("",c_playerAny, check, UnitFilterBuilding, 0);
+        // try to place with some distance to nearby buildings, but skip that check for the last 5 attempts
+        if (UnitGroupCount(buildings, c_unitCountAlive) > 0 && i <= 15) {
+            log(type + " could not find free spot on attempt: " + IntToString(i));
+            continue;
+        }
+        spawnBuilding = UnitGroupUnit(UnitCreate(1, type, 0, player, p, 270.0), 1);
+        if (!UnitIsAlive(spawnBuilding)) {
+            // log(type + " failed to spawn on attempt: " + IntToString(i));
+            continue;
+        }
+        p = UnitGetPosition(spawnBuilding);
+        if (
+            !AP_SpawnSystem_pathingCheckOverride
+            || PointPathingIsConnected(p, AP_SpawnSystem_getAttackLoc())
+        ) {
+            // success
+            PlayerGroupAdd(playersActive, player);
+            UnitGroupAdd(BuildingsActive, spawnBuilding);
+            return spawnBuilding;
+        }
+        else {
+            // log("No valid attack path, try again");
+            // MinimapPing(PlayerGroupAll(), AP_SpawnSystem_getAttackLoc() , 5, Color(255, 255, 255));
+            UnitRemove(spawnBuilding);
+        }
+    }
+    if (!UnitIsAlive(spawnBuilding)) {
+        // unable to spawn building in 20 tries
+        log("Failed to spawn " + type);
+        return null;
+    }
+    return spawnBuilding;
+}
+
+unit AP_SpawnSystem_placeBuilding(string type) {
+    int p;
+    AP_SpawnSystem_doSetup(false);
+    if (!CanSpawnBuilding()) {
+        return null;
+    }
+    WaitForSpawnBuilding(0);
+    p = GetSpawnPlayer();
+    if (p <= 0) {
+        log("No valid player, failed to spawn " + type);
+        return null;
+    }
+    WaitForSpawnBuilding(p);
+    return AP_SpawnSystem_placeBuildingForPlayer(p, type);
+}
+
+void AP_SpawnSystem_init() {
+}

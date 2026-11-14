@@ -26,7 +26,7 @@ static unitfilter baseFilter = UnitFilter(
         (1 << (c_targetFilterHidden - 32)));
 
 static void log(string s) {
-    TriggerDebugOutput(1, StringToText("Base Detection: " + s), true);
+    TriggerDebugOutput(1, StringToText("Base Detection: " + s), false);
 }
 
 int AP_Base_getCount(int player) {
@@ -137,7 +137,7 @@ int AP_Base_getBiggestBaseIndex(int player) {
     int result;
     unitgroup g;
     structref <AP_Base> base;
-    if (count <= 0){
+    if (count <= 0) {
         return -1;
     }
     for (i = 1; i <= count; i += 1) {
@@ -148,6 +148,10 @@ int AP_Base_getBiggestBaseIndex(int player) {
             current = next;
             result = i;
         }
+    }
+    if (current <= 0) {
+        // All previously detected bases for the player have no more buildings left
+        return -1;
     }
     return result;
 }
