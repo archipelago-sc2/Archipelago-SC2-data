@@ -17831,4 +17831,16 @@
         <EffectArray Reference="Actor,AP_PsiSpireRange,Range" Value="1.000000"/>
         <EffectArray Reference="Actor,AP_PsiSpireStormModel,Scale" Value="0.25"/>
     </CUpgrade>
+    <CUpgrade id="AP_NukeFasterCalldown">
+        <EffectArray Operation="Subtract" Reference="Effect,AP_NukePersistent,PeriodicPeriodArray[1]" Value="10.000000"/>
+        <EffectArray Operation="Subtract" Reference="Effect,AP_NukePersistent2,PeriodCount" Value="30"/>
+        <EffectArray Operation="Subtract" Reference="Effect,AP_NukePersistent2,InitialDelay" Value="4.000000"/>
+    </CUpgrade>
+    <CUpgrade id="AP_NukeResourceEfficiency">
+        <EffectArray Operation="Subtract" Reference="Unit,AP_Nuke,CostResource[Minerals]" Value="25"/>
+        <EffectArray Operation="Subtract" Reference="Unit,AP_Nuke,CostResource[Vespene]" Value="50"/>
+    </CUpgrade>
+    <CUpgrade id="AP_NukeOptimizedLogistics">
+        <EffectArray Operation="Subtract" Reference="Abil,AP_ArmSiloWithNuke,InfoArray[Ammo1].Time" Value="40.000000"/>
+    </CUpgrade>
 </Catalog>

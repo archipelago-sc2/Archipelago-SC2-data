@@ -668,6 +668,7 @@ Behavior/Name/AP_NovaPsiStrikeWalkStopStun=NovaPsiStrikeWalkStopStun
 Behavior/Name/AP_NovaUnitLockdown=Lockdown
 Behavior/Name/AP_NovaWeaponInvictusLongshotLockdown=Lockdown
 Behavior/Name/AP_NoxiousDamage=Noxious Cloud
+Behavior/Name/AP_NukeFasterCalldown=Fission Propellant
 Behavior/Name/AP_ObserverSquadSight=Squad Sight
 Behavior/Name/AP_ObserverTargetLock=Target Lock
 Behavior/Name/AP_OdinInfested=Infested
@@ -794,6 +795,7 @@ Behavior/Name/AP_SwarmGrenade=Swarm Grenade
 Behavior/Name/AP_ThermalLancesFireBeam=Burning
 Behavior/Name/AP_ThorMengskArmorAuraSiegedTarget=Bulwark Field
 Behavior/Name/AP_ThorMengskArmorAuraTarget=Bulwark Field
+Behavior/Name/AP_ThorNukeFasterCalldown=Fission Propellant
 Behavior/Name/AP_TimeFieldAiur=Decelerated
 Behavior/Name/AP_TimeFieldAiurHeroic=Decelerated (Heroic)
 Behavior/Name/AP_TimeFieldPurifier=Accelerated
@@ -1008,6 +1010,7 @@ Behavior/Tooltip/AP_NovaHelmetGhostVisorDetector=Reveals the locations of enemy 
 Behavior/Tooltip/AP_NovaPlasmaPuddleDamageDebuff=This unit is slowed and takes damage over time.
 Behavior/Tooltip/AP_NovaUnitLockdown=This unit is stunned and its detection is disabled.
 Behavior/Tooltip/AP_NoxiousDamage=Taking damage over time.
+Behavior/Tooltip/AP_NukeFasterCalldown=Nuclear Missiles can be called down faster
 Behavior/Tooltip/AP_ObserverSquadSight=This unit's non-melee weapons have increased range.
 Behavior/Tooltip/AP_ObserverTargetLock=This unit is taking increased damage.
 Behavior/Tooltip/AP_OdinInfested=The Odin was infested by the Zerg.
@@ -1111,6 +1114,7 @@ Behavior/Tooltip/AP_SwarmGrenade=This unit is slowed and cannot attack or use en
 Behavior/Tooltip/AP_ThermalLancesFireBeam=This unit is taking additional damage over time.
 Behavior/Tooltip/AP_ThorMengskArmorAuraSiegedTarget=A Blackhammer in Overwatch Mode is granting this unit +<d ref="Behavior,AP_ThorMengskArmorAuraSiegedTarget,Modification.LifeArmorBonus"/> armor.
 Behavior/Tooltip/AP_ThorMengskArmorAuraTarget=A Blackhammer is granting this unit +<d ref="Behavior,AP_ThorMengskArmorAuraTarget,Modification.LifeArmorBonus"/> armor.
+Behavior/Tooltip/AP_ThorNukeFasterCalldown=Nuclear Missiles can be called down faster
 Behavior/Tooltip/AP_TimeFieldAiur=Attack and move speed reduced by <d ref="(1 - Behavior,AP_TimeFieldAiur,Modification.MoveSpeedMultiplier) * 100"/>%.
 Behavior/Tooltip/AP_TimeFieldAiurHeroic=Attack and move speed reduced by <d ref="(1 - Behavior,AP_TimeFieldAiurHeroic,Modification.MoveSpeedMultiplier) * 100"/>%.
 Behavior/Tooltip/AP_TimeFieldPurifier=Attack and move speed increased by <d ref="((Behavior,AP_TimeFieldPurifier,Modification.MoveSpeedMultiplier) * 100) - 100"/>%.
@@ -3818,8 +3822,8 @@ Button/Tooltip/AP_NovaWeaponPsiBlade=Dashes forward and deals <d ref="Effect,AP_
 Button/Tooltip/AP_NovaWeaponPsiBladeSwap=Damage: <d ref="Effect,AP_NovaWeaponPsiBladeDamageCloaked,Amount"/><n/>Range: Melee<n/>Fire Rate: <d ref="Weapon,AP_NovaWeaponPsiBlade,Period" precision="2"/> seconds<n/><n/>Special: Dash Attack
 Button/Tooltip/AP_NovaWeaponSwap=Select a different weapon.
 Button/Tooltip/AP_NoxiousCloud=Nearby enemy ground units take <d ref="(Effect,AP_NoxiousDamage,Amount) / Behavior,TimeScaleConversionBehavior,Duration)" precision="1"/> damage per second.
-Button/Tooltip/AP_NukeArm=Arms the Silo with a Tactical Nuke.<n/><n/>Nukes take <d time="20"/> to land, but they deal up to 300 (+200 vs. structures) damage in a large radius.<n/><n/>Use a Ghost to designate the target.
-Button/Tooltip/AP_NukeCalldown=Calls down a Nuclear Strike at a target location. Nukes take <d time="20"/> to land, but they deal up to 300 (+200 vs. structures) damage to enemies in a large radius.
+Button/Tooltip/AP_NukeArm=Arms the Silo with a Tactical Nuke.<n/><n/>Nukes take <d ref="Effect,AP_NukePersistent,PeriodicPeriodArray[1]+Effect,AP_NukePersistent,ExpireDelay+Effect,AP_NukeDetonate,InitialDelay"/> seconds to land, but they deal up to <d ref="Effect,AP_NukeDamage,Amount"/>(+<d ref="Effect,AP_NukeDamage,AttributeBonus[Structure]"/> vs. structures) damage to enemies in a large radius.<n/><n/>Use a Ghost to designate the target.
+Button/Tooltip/AP_NukeCalldown=Calls down a Nuclear Strike at a target location.<n/>Nukes take <d ref="Effect,AP_NukePersistent,PeriodicPeriodArray[1]+Effect,AP_NukePersistent,ExpireDelay+Effect,AP_NukeDetonate,InitialDelay"/> seconds to land, but they deal up to <d ref="Effect,AP_NukeDamage,Amount"/>(+<d ref="Effect,AP_NukeDamage,AttributeBonus[Structure]"/> vs. structures) damage to enemies in a large radius.
 Button/Tooltip/AP_NukeCalldownMengsk=Calls down a Tactical Missile Strike at a target location. Tactical Missiles take <c val="ffff8a"><d ref="Effect,AP_GhostMengskNukeCP,InitialDelay + Effect,AP_GhostMengskNukeCP,ExpireDelay + Effect,AP_GhostMengskNukeDetonateCP,InitialDelay"/></c> seconds to land, but they deal up to <c val="ffff8a"><d ref="Effect,AP_GhostMengskNukeDamage,Amount"/></c> (<c val="ffff8a">+<d ref="Effect,AP_GhostMengskNukeDamage,AttributeBonus[Structure]"/></c> vs. structures) damage to enemies in a small radius.<n/><n/>Charges refresh over time at a Shadow Ops.
 Button/Tooltip/AP_NukeMengskArm=Arms the Silo with a Tactical Missile.<n/><n/>Tactical Missiles take <d ref="Effect,AP_GhostMengskNukeCP,InitialDelay + Effect,AP_GhostMengskNukeCP,ExpireDelay + Effect,AP_GhostMengskNukeDetonateCP,InitialDelay"/> seconds to land, but they deal up to <d ref="Effect,AP_GhostMengskNukeDamage,Amount"/> (+<d ref="Effect,AP_GhostMengskNukeDamage,AttributeBonus[Structure]"/> vs. structures) damage in a small radius.<n/><n/>Use an Emperor's Shadow to designate the target.
 Button/Tooltip/AP_NydusNetwork=<c val="ffff8a">Enables:</c><n/>- Nydus Worm <n/>- Echidna Worm
@@ -4237,7 +4241,7 @@ Button/Tooltip/AP_Spectre=Infiltration unit. Can use Ultrasonic Pulse, Psionic L
 Button/Tooltip/AP_SpectreConsumption=Drains half the life from a friendly biological unit and gives the Spectre 2 energy for each point of life drained.
 Button/Tooltip/AP_SpectreHoldFire=Orders selected units to holster their weapons and avoid engaging enemies, unless given a direct command. Units holding fire will flee if attacked.
 Button/Tooltip/AP_SpectreImpalerRounds=Spectres deal <c val="ffff8a">+<d ref="Upgrade,AP_SpectreImpalerRounds,EffectArray[0].Value"/></c> damage to armored units.
-Button/Tooltip/AP_SpectreNukeCalldown=Calls down a Nuclear Strike at a target location. Nukes take <d time="20"/> to land, but they deal up to 300 (+200 vs. structures) damage to enemies in a large radius.
+Button/Tooltip/AP_SpectreNukeCalldown=Calls down a Nuclear Strike at a target location.<n/>Nukes take <d ref="Effect,AP_NukePersistent,PeriodicPeriodArray[1]+Effect,AP_NukePersistent,ExpireDelay+Effect,AP_NukeDetonate,InitialDelay"/> seconds to land, but they deal up to <d ref="Effect,AP_NukeDamage,Amount"/>(+<d ref="Effect,AP_NukeDamage,AttributeBonus[Structure]"/> vs. structures) damage to enemies in a large radius.
 Button/Tooltip/AP_SpectreShadowClones=The Spectre creates a clone of himself.  This clone can be used to draw fire away from friendly units.  The clone deals no damage and lasts <d ref="Behavior,ToshShadowCloneTimedLife,Duration"/> seconds.<n/>
 Button/Tooltip/AP_SpectreWeaponsFree=Orders selected units to fire at will. They will engage enemy units within range and chase them as normal.
 Button/Tooltip/AP_SpiderMine=Spider Mines pursue enemy units that come in range, and detonate for heavy area damage. Buried Spider Mines can only be seen by enemy Detectors.

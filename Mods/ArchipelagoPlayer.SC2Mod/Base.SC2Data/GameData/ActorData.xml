@@ -5317,6 +5317,7 @@
         <FogVisibility value="Visible"/>
         <On Terms="Effect.AP_NukePersistent.Start" Send="Create"/>
         <On Terms="Effect.AP_NukePersistent.Stop" Send="Destroy"/>
+        <On Terms="Effect.AP_NukePersistent.Start; ValidateEffect AP_NukeFasterCalldown" Send="AnimPlay Lifetime Stand 0 -1.000000 -1.000000 2.000000 AsTimeScale"/>
         <HostSiteOps Ops="SOpShadow"/>
         <Model value="GhostNukeIndicator"/>
     </CActorModel>
@@ -5338,6 +5339,8 @@
         <Filter index="Ally" value="1"/>
         <Inherits index="Scale" value="1"/>
         <FogVisibility value="Visible"/>
+        <Remove Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentForceLooping"/>
         <On Terms="Effect.AP_NukePersistent.Start" Send="Create"/>
         <On Terms="Effect.AP_NukePersistent.Stop" Send="AnimBracketStop BSD"/>
         <Host Subject="GhostNukeTargetBillboard" Actor="Create"/>
