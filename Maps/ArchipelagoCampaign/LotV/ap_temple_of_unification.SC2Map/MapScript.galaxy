@@ -326,7 +326,7 @@ bool auto_gf_ActivateDeactivateCelestialLock_TriggerFunc (bool testConds, bool r
 
         lv_friendlyUnitsPresent = false;
         lv_enemyUnitsPresent = false;
-        if ((UnitGroupCount(UnitGroup(null, gv_pLAYER_01_USER, gv_celestialLocks[lp_index].lv_captureRegion, UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0)) {
+        if ((UnitGroupCount(UnitGroup(null, gv_pLAYER_01_USER, gv_celestialLocks[lp_index].lv_captureRegion, UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterInvulnerable - 32))), 1), c_unitCountAlive) > 0)) {
             lv_friendlyUnitsPresent = true;
         }
 
@@ -881,6 +881,8 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(lib30B9E51A_gt_ArchipelagoPlayerLotvHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);
@@ -1765,7 +1767,7 @@ bool gt_CelestialLockController_Func (bool testConds, bool runActions) {
         for ( ; ( (autoDE13E207_ai >= 0 && lv_index <= autoDE13E207_ae) || (autoDE13E207_ai < 0 && lv_index >= autoDE13E207_ae) ) ; lv_index += autoDE13E207_ai ) {
             lv_friendlyUnitsPresent = false;
             lv_enemyUnitsPresent = false;
-            if (((UnitGroupCount(UnitGroup(null, gv_pLAYER_01_USER, gv_celestialLocks[lv_index].lv_captureRegion, UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), c_unitCountAlive) > 0))) {
+            if (((UnitGroupCount(UnitGroup(null, gv_pLAYER_01_USER, gv_celestialLocks[lv_index].lv_captureRegion, UnitFilter(0, 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterInvulnerable - 32))), 1), c_unitCountAlive) > 0))) {
                 lv_friendlyUnitsPresent = true;
             }
 
@@ -1783,7 +1785,7 @@ bool gt_CelestialLockController_Func (bool testConds, bool runActions) {
 
             }
             if ((gv_celestialLocks[lv_index].lv_state == ge_PRESET_CelestialLockState_EnemyControlled) && (TimerGetRemaining(gv_celestialLocks[lv_index].lv_bullyMicroCooldown) < 1)) {
-                lv_playerUnits = UnitGroup(null, gv_pLAYER_01_USER, gv_celestialLocks[lv_index].lv_captureRegion, UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+                lv_playerUnits = UnitGroup(null, gv_pLAYER_01_USER, gv_celestialLocks[lv_index].lv_captureRegion, UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile) | (1 << c_targetFilterCloaked), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterInvulnerable - 32))), 0);
                 if ((UnitGroupCount(lv_playerUnits, c_unitCountAlive) > 0)) {
                     TimerStart(gv_celestialLocks[lv_index].lv_bullyMicroCooldown, 5.0, false, c_timeAI);
                     auto5B2783AD_g = UnitGroupAlliance(gv_pLAYER_01_USER, c_unitAllianceEnemy, gv_celestialLocks[lv_index].lv_defenseRegion, UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -1795,7 +1797,7 @@ bool gt_CelestialLockController_Func (bool testConds, bool runActions) {
                     }
                 }
                 else {
-                    lv_playerUnits = UnitGroup(null, gv_pLAYER_01_USER, gv_celestialLocks[lv_index].lv_captureRegion, UnitFilter((1 << c_targetFilterCloaked), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+                    lv_playerUnits = UnitGroup(null, gv_pLAYER_01_USER, gv_celestialLocks[lv_index].lv_captureRegion, UnitFilter((1 << c_targetFilterCloaked), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterInvulnerable - 32))), 0);
                     if ((UnitGroupCount(lv_playerUnits, c_unitCountAlive) > 0)) {
                         TriggerExecute(gt_CelestialLockCloakWarningQ, true, false);
                     }

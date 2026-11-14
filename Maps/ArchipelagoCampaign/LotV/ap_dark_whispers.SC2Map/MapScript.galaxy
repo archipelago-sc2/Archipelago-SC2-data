@@ -696,6 +696,7 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
     AP_GhostSpawn_playerOverride = lv_player;
     AP_GhostSpawn_waveTargetOverride = true; 
     AP_GhostSpawn_waypointOverride = lv_waypoint; 
@@ -3910,6 +3911,10 @@ bool gt_TransmissionZergWaveSendQ_Func (bool testConds, bool runActions) {
         }
 
         if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+
+        if (!((TriggerActiveCount(TriggerGetCurrent()) <= 1))) {
             return false;
         }
     }

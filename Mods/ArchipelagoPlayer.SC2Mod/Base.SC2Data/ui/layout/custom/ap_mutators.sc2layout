@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+	<Frame type="Image" name="MutatorIconTemplate">
+		<Height val="50"/>
+		<Width val="50"/>
+		<Texture val="@@UI/HelpPanelBorder"/>
+		<TextureType val="HorizontalBorder"/>
+		<LayerColor val="##StandardBorder"/>
+		<Visible val="False"/>
+		<AcceptsMouse val="True"/>
+		<Tooltip val=""/>
+		<Frame type="Image" name="MutatorIcon">
+			<Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+			<Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+			<Height val="50"/>
+			<Width val="50"/>
+		</Frame>
+		<Frame type="Image" name="MutatorCountBackground">
+			<Anchor side="Bottom" relative="$parent" pos="Max" offset="3"/>
+			<Anchor side="Right" relative="$parent" pos="Max" offset="3"/>
+			<Height val="25"/>
+			<Width val="25"/>
+			<RenderPriority val="513"/>
+            <Texture val="@UI/Game_Console_Buttons_MenuBar_Counter"/>
+            <TextureType val="NineSlice"/>
+            <Color val="###StandardButtonCounter"/>
+			<Frame type="Label" name="MutatorCountLabel">
+				<Anchor side="Top" relative="$parent" pos="Min" offset="3"/>
+				<Anchor side="Right" relative="$parent" pos="Max" offset="2"/>
+				<Height val="20"/>
+				<Width val="20"/>
+				<Text val="4"/>
+            	<Color val="f5e4ff"/>
+			</Frame>
+		</Frame>
+	</Frame>
+
+	<Frame type="Button" name="ToggleTemplate" template="TriggerDialogFrame/TriggerControlButtonTemplate">
+		<Height val="25"/>
+		<Width val="25"/>
+		<Frame type="Image" name="BackgroundImage">
+			<Anchor side="Right" relative="$parent" pos="Max" offset="10"/>
+			<Anchor side="Bottom" relative="$parent" pos="Max" offset="10"/>
+			<Height val="45"/>
+			<Width val="45"/>
+			<Texture val="@@@UI/Game_Console_Tooltip_Background"/>
+			<TextureType val="Border"/>
+			<LayerColor val="##StandardBorder"/>
+		</Frame>
+		<Frame type="Image" name="NormalImage">
+			<Texture val="@@UI/TeamResourceSpinnerArrowNormal"/>
+			<TextureType val="Normal"/>
+		</Frame>
+		<Frame type="Image" name="HoverImage">
+			<Texture val="@@UI/TeamResourceSpinnerArrowHover"/>
+			<TextureType val="Normal"/>
+		</Frame>
+	</Frame>
+
+
+	<Frame type="Frame" name="GameUI/UIContainer/ConsoleUIContainer" file="GameUI">
+		<Frame type="Frame" name="MutatorIconFrame">
+			<Anchor side="Bottom" relative="$parent/CommandPanel" pos="Min" offset="-70"/>
+			<Anchor side="Right" relative="$parent" pos="Max" offset="-5"/>
+			<Height val="300"/>
+			<Width val="80"/>
+			<Visible val="False"/>
+			<Handle val="ap_MutatorBar"/>
+			<Frame type="Frame" name="MutatorIconContainer">
+				<Anchor side="Top" relative="$parent" pos="Min" offset="-30"/>
+				<Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+				<Height val="300"/>
+				<Width val="80"/>
+				<Visible val="False"/>
+				<Frame type="Image" name="MutatorIcon00" template="ap_mutators/MutatorIconTemplate">
+					<Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+					<Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+				</Frame>
+				<Frame type="Image" name="MutatorIcon01" template="ap_mutators/MutatorIconTemplate">
+					<Anchor side="Bottom" relative="$parent/MutatorIcon00" pos="Min" offset="0"/>
+					<Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+				</Frame>
+				<Frame type="Image" name="MutatorIcon02" template="ap_mutators/MutatorIconTemplate">
+					<Anchor side="Bottom" relative="$parent/MutatorIcon01" pos="Min" offset="0"/>
+					<Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+				</Frame>
+				<Frame type="Image" name="MutatorIcon03" template="ap_mutators/MutatorIconTemplate">
+					<Anchor side="Bottom" relative="$parent/MutatorIcon02" pos="Min" offset="0"/>
+					<Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+				</Frame>
+				<Frame type="Image" name="MutatorIcon04" template="ap_mutators/MutatorIconTemplate">
+					<Anchor side="Bottom" relative="$parent/MutatorIcon03" pos="Min" offset="0"/>
+					<Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+				</Frame>
+			</Frame>
+			<Frame type="Button" name="ToggleOn" template="ap_mutators/ToggleTemplate">
+				<Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+				<Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+				<Tooltip val="Show Mutators"/>
+				<Visible val="True"/>
+			</Frame>
+			<Frame type="Button" name="ToggleOff" template="ap_mutators/ToggleTemplate">
+				<Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+				<Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+				<Tooltip val="Hide Mutators"/>
+				<Frame type="Image" name="NormalImage">
+					<Rotation val="180"/>
+				</Frame>
+				<Frame type="Image" name="HoverImage">
+					<Rotation val="180"/>
+				</Frame>
+				<Visible val="False"/>
+			</Frame>
+		</Frame>
+	</Frame>
+</Desc>

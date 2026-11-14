@@ -463,6 +463,7 @@
         <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
         <Duration value="0.6"/>
         <Modification>
+            <AbilLinkDisableArray value="AP_HerculesTransport"/>
             <ModifyFlags index="SuppressMoving" value="1"/>
             <ModifyFlags index="SuppressTurning" value="1"/>
             <StateFlags index="Invulnerable" value="1"/>
@@ -487,6 +488,7 @@
         <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
         <Duration value="4.8"/>
         <Modification>
+            <AbilLinkDisableArray value="AP_HerculesTransport"/>
             <ModifyFlags index="SuppressMoving" value="1"/>
             <ModifyFlags index="SuppressTurning" value="1"/>
             <StateFlags index="Invulnerable" value="1"/>
@@ -502,6 +504,7 @@
         <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
         <Duration value="0.6"/>
         <Modification>
+            <AbilLinkDisableArray value="AP_HerculesTransport"/>
             <ModifyFlags index="SuppressMoving" value="1"/>
             <ModifyFlags index="SuppressTurning" value="1"/>
             <StateFlags index="Invulnerable" value="1"/>
@@ -1329,6 +1332,12 @@
         <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
         <Duration value="1"/>
         <Modification RangedWeaponRange="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SensorTowerRangeBunker">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <DisableValidatorArray value="AP_HaveSensorTowerRange"/>
+        <Modification WeaponRange="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_MindControl">
         <!-- Not to be dispelled by Restoration -->
@@ -4837,6 +4846,7 @@
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-building-protoss-pylon.dds"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
         <PowerLink value="PowerSource"/>
         <PoweredWhileUnderConstruction value="1"/>
     </CBehaviorPowerUser>
@@ -7721,6 +7731,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_HighTemplarSCBWHallucination">
         <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Modification LifeArmorMultiplier="0" ShieldArmorMultiplier="0" SubgroupPriority="-100">
@@ -7790,6 +7801,8 @@
         <DisplayDuration index="Enemy" value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_HallucinationTimedLife">
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Duration value="60"/>
         <ExpireEffect value="KillHallucination"/>
@@ -8553,7 +8566,7 @@
         <DamageResponse Handled="AP_ImpalingStrikeSet" Location="Attacker">
             <RequireEffectArray value="AP_TyrannozorKaiserBladesDamage"/>
             <RequireEffectArray value="AP_TyrannozorKaiserBladesSecondaryDamage"/>
-            <Chance value="0.3"/>
+            <Chance value="1"/>
         </DamageResponse>
         <InfoFlags index="Hidden" value="1"/>
         <DisableValidatorArray value="AP_HaveImpalingStrike"/>
@@ -8574,7 +8587,7 @@
         <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\Textures\btn-ability-zerg-dehaka-ultralisk-impalingstrike.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
-        <Duration value="4"/>
+        <Duration value="6"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_TyrannozorTyrantsProtectionCaster">
         <InfoFlags index="Hidden" value="1"/>
@@ -11090,6 +11103,13 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <MaxStackCount value="999"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_ScoutApialSensors">
+        <InfoIcon value="AP\Assets\Textures\btn-apial-sensors.dds"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <Duration value="10"/>
+        <Modification SightBonus="5" Detect="16"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_ScoutNerazimCloak">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
@@ -11242,11 +11262,13 @@
         <Duration value="2"/>
         <InitialEffect value="AP_ScoutTaldarimVulcanBlasterIssueMorph"/>
         <FinalEffect value="AP_ScoutTaldarimVulcanBlasterApply"/>
+        <PeriodCount value="0"/>
+        <PeriodicEffect value="AP_ScoutTaldarimVulcanBlasterPersistent"/>
         <Modification>
             <WeaponEnableArray value="AP_ScoutTaldarimVulcanBlasterDummy"/>
+            <WeaponEnableArray value="AP_ScoutTaldarimVulcanBlaster"/>
             <WeaponDisableArray value="AP_ScoutTaldarimAir"/>
             <WeaponDisableArray value="AP_ScoutTaldarimGround"/>
-            <WeaponDisableArray value="AP_ScoutTaldarimVulcanBlaster"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_ScoutTaldarimWeaponAlternate">
@@ -11267,6 +11289,7 @@
         <Duration value="3"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_PreventWarpInAnim">
+        <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
         <Duration value="2"/>
         <Period value="0.25"/>
@@ -12046,5 +12069,64 @@
         <Modification>
             <StateFlags index="SuppressFoodUsed" value="1"/>
         </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_KhaydarinBeamStun">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-protoss-alarak-stunnonheroicenemies.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="4"/>
+        <Modification>
+            <StateFlags index="Stun" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_KhaydarinBeamStunCooldown">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="12"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_LaunchBayHeight">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InitialEffect value="AP_LaunchBayReleaseHeight"/>
+        <FinalEffect value="AP_LaunchBayReturnHeight"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_PhaseCannonPowerBonuses">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="AP_CasterLocationHasPower"/>
+        <Period value="0.0625"/>
+        <PeriodicEffect value="AP_PhaseCannonMU"/>
+        <Modification MoveSpeedMultiplier="5">
+            <VitalRegenArray index="Life" value="10"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_PhotonCannonShields">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Requirements value="AP_PhotonCannonShields"/>
+        <DisableValidatorArray value="AP_CasterShieldsGT20"/>
+        <DisableValidatorArray value="NotUnderConstruction"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_PsiSpireStorm">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <TimeScaleSource Value="Global"/>
+        <Duration value="0.55"/>
+        <Period value="0.5"/>
+        <InitialEffect value="AP_PsiSpireStormU"/>
+        <PeriodicEffect value="AP_PsiSpireStormU"/>
+    </CBehaviorBuff>
+    <CBehaviorPowerSource id="AP_PowerSourceFake">
+        <InfoFlags index="Hidden" value="1"/>
+        <PowerLink value="PowerSource"/>
+    </CBehaviorPowerSource>
+    <CBehaviorBuff id="AP_NukeFasterCalldown">
+        <InfoIcon value="Assets\Textures\missilenuke_coop.dds"/>
+        <Requirements value="AP_NukeFasterCalldown"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_ThorNukeFasterCalldown">
+        <InfoIcon value="Assets\Textures\missilenuke_coop.dds"/>
+        <Requirements value="AP_ThorNukeFasterCalldown"/>
     </CBehaviorBuff>
 </Catalog>

@@ -439,6 +439,8 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     lib5BD4895D_gf_AP_Core_MapConfig_setChatboxPosition(c_anchorTopRight, 500, 350, 0, 250);
@@ -4120,17 +4122,19 @@ bool gt_OrlanP02AttackWaves_Func (bool testConds, bool runActions) {
     }
 
     AIAttackWaveSetGatherPoint(gv_p02_ORLAN_ENEMY, PointFromId(269));
-    AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
     Wait(60.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(3, 3, 5, 8, "Marine");
     AIAttackWaveAddWaypoint(gv_p02_ORLAN_ENEMY, PointFromId(211), false);
     AIAttackWaveSend(gv_p02_ORLAN_ENEMY, 120, true);
     Wait(30.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(5, 5, 6, 8, "Marine");
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Medic");
     AIAttackWaveAddWaypoint(gv_p02_ORLAN_ENEMY, PointFromId(211), false);
     AIAttackWaveSend(gv_p02_ORLAN_ENEMY, 120, true);
     Wait(30.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(6, 6, 7, 9, "Marine");
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Firebat");
     AIAttackWaveAddWaypoint(gv_p02_ORLAN_ENEMY, PointFromId(212), false);
@@ -4147,6 +4151,7 @@ bool gt_OrlanP02AttackWaves_Func (bool testConds, bool runActions) {
         TechTreeUpgradeAddLevel(auto34130251_var, "TerranShipWeaponsLevel2", libNtve_gf_DifficultyValueInt(0, 0, 0, 1));
         TechTreeUpgradeAddLevel(auto34130251_var, "TerranVehicleWeaponsLevel2", libNtve_gf_DifficultyValueInt(0, 0, 0, 1));
     }
+    AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(6, 6, 7, 10, "Marine");
     AIAttackWaveAddUnits4(1, 1, 0, 0, "Firebat");
     AIAttackWaveAddUnits4(1, 1, 2, 3, "Medic");
@@ -4165,6 +4170,7 @@ bool gt_OrlanP02AttackWaves_Func (bool testConds, bool runActions) {
         TechTreeUpgradeAddLevel(autoB5251DD6_var, "TerranShipArmorsLevel2", libNtve_gf_DifficultyValueInt(0, 0, 0, 1));
         TechTreeUpgradeAddLevel(autoB5251DD6_var, "TerranVehicleArmorsLevel2", libNtve_gf_DifficultyValueInt(0, 0, 0, 1));
     }
+    AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(5, 5, 7, 14, "Marine");
     AIAttackWaveAddUnits4(3, 3, 2, 2, "Firebat");
     AIAttackWaveAddUnits4(0, 0, 1, 1, "Goliath");
@@ -4182,6 +4188,7 @@ bool gt_OrlanP02AttackWaves_Func (bool testConds, bool runActions) {
         TechTreeUpgradeAddLevel(auto5DDEC14D_var, "TerranShipWeaponsLevel3", libNtve_gf_DifficultyValueInt(0, 0, 0, 1));
         TechTreeUpgradeAddLevel(auto5DDEC14D_var, "TerranVehicleWeaponsLevel3", libNtve_gf_DifficultyValueInt(0, 0, 0, 1));
     }
+    AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(6, 6, 8, 12, "Marine");
     AIAttackWaveAddUnits4(1, 1, 1, 1, "SiegeTank");
     AIAttackWaveAddUnits4(0, 0, 1, 2, "Goliath");
@@ -4189,6 +4196,7 @@ bool gt_OrlanP02AttackWaves_Func (bool testConds, bool runActions) {
     gf_OrlanAttackWaveWaypointWest();
     AIAttackWaveSend(gv_p02_ORLAN_ENEMY, 120, true);
     Wait(30.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(7, 7, 9, 12, "Marine");
     AIAttackWaveAddUnits4(2, 2, 3, 3, "Medic");
     AIAttackWaveAddUnits4(1, 1, 1, 1, "Wraith");
@@ -4196,17 +4204,20 @@ bool gt_OrlanP02AttackWaves_Func (bool testConds, bool runActions) {
     AIAttackWaveSend(gv_p02_ORLAN_ENEMY, 120, true);
     while (true) {
         Wait(30.0, c_timeAI);
+        AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(8, 8, 9, 10, "Marine");
         AIAttackWaveAddUnits4(2, 2, 3, 4, "Firebat");
         AIAttackWaveAddUnits4(1, 1, 2, 2, "Medic");
         AIAttackWaveAddUnits4(0, 0, 1, 1, "Raven");
         gf_OrlanAttackWaveWaypointEast();
         AIAttackWaveSend(gv_p02_ORLAN_ENEMY, 120, true);
+        AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(4, 4, 8, 12, "Marine");
         AIAttackWaveAddUnits4(0, 0, 1, 2, "Goliath");
         AIAttackWaveAddUnits4(2, 2, 2, 2, "SiegeTank");
         gf_OrlanAttackWaveWaypointWest();
         AIAttackWaveSend(gv_p02_ORLAN_ENEMY, 120, true);
+        AIAttackWaveSetTargetPlayer(gv_p02_ORLAN_ENEMY, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(7, 7, 9, 12, "Marine");
         AIAttackWaveAddUnits4(2, 2, 2, 2, "Wraith");
         AIAttackWaveAddUnits4(0, 0, 2, 2, "Medic");
