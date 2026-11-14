@@ -718,6 +718,7 @@ bool auto_gf_MidEggNestSpawn_TriggerFunc (bool testConds, bool runActions) {
     region lp_region = auto_gf_MidEggNestSpawn_lp_region;
 
     // Variable Declarations
+    int lv_MenskRandomTrooperTypeWeighted;
     bool lv_select;
 
     // Automatic Variable Declarations
@@ -747,7 +748,19 @@ bool auto_gf_MidEggNestSpawn_TriggerFunc (bool testConds, bool runActions) {
                     UnitCreate(1, "AP_Baneling", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
                 }
                 else if (auto8F55A60F_val == "Terr") {
-                    UnitCreate(1, "AP_TrooperMengsk", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
+                    lv_MenskRandomTrooperTypeWeighted = RandomInt(1, 7);
+                    if ((lv_MenskRandomTrooperTypeWeighted <= 3)) {
+                        UnitCreate(1, "AP_TrooperMengskFlamethrower", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
+                    }
+
+                    if (((lv_MenskRandomTrooperTypeWeighted >= 4) && (lv_MenskRandomTrooperTypeWeighted <= 6))) {
+                        UnitCreate(1, "AP_TrooperMengskImproved", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
+                    }
+
+                    if ((lv_MenskRandomTrooperTypeWeighted == 7)) {
+                        UnitCreate(1, "AP_TrooperMengskAA", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
+                    }
+
                 }
                 else if (auto8F55A60F_val == "Prot") {
                     UnitCreate(1, "AP_Archon", c_unitCreateIgnorePlacement, gv_pLAYER_01_USER, RegionRandomPoint(lp_region), libNtve_gf_RandomAngle());
