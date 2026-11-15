@@ -2443,12 +2443,24 @@ void gt_onDifficultyBrutal_Init () {
 // Trigger: Arch Init
 //--------------------------------------------------------------------------------------------------
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_p;
+    region lv_r;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_p = gv_pLAYER_05_VOIDFORCES;
+    lv_r = RegionFromId(11);
+
     // Actions
     if (!runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
+    AP_GhostSpawn_playerOverride = lv_p;
+    AP_GhostSpawn_regionOverride = lv_r;
     UISetAlertTypeVisible(PlayerGroupAll(), "AttackTownAlly_Prot", false);
     UISetAlertTypeVisible(PlayerGroupAll(), "AttackTownAlly_Terr", false);
     UISetAlertTypeVisible(PlayerGroupAll(), "AttackTownAlly_Zerg", false);
@@ -7024,6 +7036,7 @@ bool gt_RedirectAIAttackWavesvsPlayer_Func (bool testConds, bool runActions) {
     }
     else {
     }
+    AIAttackWaveSetTargetPlayer(gv_pLAYER_05_VOIDFORCES, PlayerGroupSingle(gv_pLAYER_01_USER));
     AIAttackWaveSend(gv_pLAYER_05_VOIDFORCES, 0, false);
     return true;
 }
@@ -7073,10 +7086,13 @@ bool gt_RedirectAIAttackWavesvsRaynor_Func (bool testConds, bool runActions) {
     auto56749D61_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto56749D61_val == "Terr") {
         AIAttackWaveAddWaypoint(gv_pLAYER_06_VOIDFORCES, PointFromId(240), false);
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_06_VOIDFORCES, PlayerGroupSingle(gv_pLAYER_10_ARTANIS_AI));
     }
     else if (auto56749D61_val == "Zerg") {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_06_VOIDFORCES, PlayerGroupSingle(gv_pLAYER_02_RAYNOR));
     }
     else {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_06_VOIDFORCES, PlayerGroupSingle(gv_pLAYER_02_RAYNOR));
     }
     AIAttackWaveSend(gv_pLAYER_06_VOIDFORCES, 0, false);
     return true;
@@ -7126,11 +7142,14 @@ bool gt_RedirectAIAttackWavesvsKerrigan_Func (bool testConds, bool runActions) {
     AIAttackWaveUseGroup(gv_pLAYER_07_VOIDFORCES, lv_wave);
     autoEAB7FC42_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (autoEAB7FC42_val == "Terr") {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_07_VOIDFORCES, PlayerGroupSingle(gv_pLAYER_03_KERRIGAN));
     }
     else if (autoEAB7FC42_val == "Zerg") {
         AIAttackWaveAddWaypoint(gv_pLAYER_07_VOIDFORCES, PointFromId(240), false);
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_07_VOIDFORCES, PlayerGroupSingle(gv_pLAYER_10_ARTANIS_AI));
     }
     else {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_07_VOIDFORCES, PlayerGroupSingle(gv_pLAYER_03_KERRIGAN));
     }
     AIAttackWaveSend(gv_pLAYER_07_VOIDFORCES, 0, false);
     return true;

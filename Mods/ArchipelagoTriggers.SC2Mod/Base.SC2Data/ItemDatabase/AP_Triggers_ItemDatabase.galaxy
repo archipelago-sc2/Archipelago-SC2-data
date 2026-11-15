@@ -28,6 +28,7 @@ static void UnlockBarracksAndShadowOps(int player) {
     UnlockShadowOps(player);
 }
 
+
 static void UnlockEngineeringBay(int player) {
     TechTreeUpgradeAddLevel(player, "AP_UnlockEngineeringBay" , 1);
 }
@@ -66,6 +67,13 @@ static void UnlockFactoryAndArmory(int player) {
 static void UnlockFactoryAndShadowOps(int player) {
     UnlockFactory(player);
     UnlockShadowOps(player);
+}
+
+static void UnlockGhostSpectreNuke(int player) {
+    UnlockBarracks(player);
+    UnlockFactory(player);
+    UnlockShadowOps(player);
+    TechTreeUpgradeAddLevel(player, "AP_HaveGhostOrSpectreOrThorNuke", 1);
 }
 
 static void UnlockStarport(int player) {
@@ -114,7 +122,6 @@ static void UnlockMercShips(int player) {
 }
 
 // Terran Unit Unlock Functions
-
 static void UnlockHellion(int player) {
     UnlockFactory(player);
     TechTreeUpgradeAddLevel(player, "AP_ToggleHellbat", 1);
@@ -122,6 +129,7 @@ static void UnlockHellion(int player) {
 
 static void UnlockEmperorsShadow(int player) {
     UnlockEliteBarracks(player);
+    UnlockShadowOps(player);
     TechTreeUpgradeAddLevel(player, "AP_HaveGhostMengsk", 1);
 }
 
@@ -133,8 +141,8 @@ static void RegisterTerranUnits() {
     AP_RegisterTerranUnit(2, "AP_UnlockFirebat", UnlockBarracks);
     AP_RegisterTerranUnit(3, "AP_UnlockMarauder", UnlockBarracks);
     AP_RegisterTerranUnit(4, "AP_UnlockReaper", UnlockBarracks);
-    AP_RegisterTerranUnit(15, "AP_UnlockGhost", UnlockBarracksAndShadowOps);
-    AP_RegisterTerranUnit(16, "AP_UnlockSpectre", UnlockBarracksAndShadowOps);
+    AP_RegisterTerranUnit(15, "AP_UnlockGhost", UnlockGhostSpectreNuke);
+    AP_RegisterTerranUnit(16, "AP_UnlockSpectre", UnlockGhostSpectreNuke);
     AP_RegisterTerranUnit(22, "AP_UnlockHerc", UnlockBarracks);
     AP_RegisterTerranUnit(24, "AP_UnlockDominionTrooper", UnlockBarracks);
 
@@ -174,7 +182,7 @@ static void RegisterTerranUnits() {
     AP_RegisterTerranUnit(32, "AP_UnlockBulwarkCompany", UnlockEliteFactory);
 
     // Elite Starport
-    AP_RegisterTerranUnit(25, "AP_UnlockPrideOfAugustgrad", UnlockEliteStarport);
+    AP_RegisterTerranUnit(25, "AP_UnlockPrideOfAugustgrad", UnlockEliteStarportAndFusionCore);
     AP_RegisterTerranUnit(26, "AP_UnlockSkyFury", UnlockEliteStarport);
     AP_RegisterTerranUnit(34, "AP_UnlockEmperorsGuardian", UnlockEliteStarport);
     AP_RegisterTerranUnit(35, "AP_UnlockNightHawk", UnlockEliteStarport);
@@ -837,7 +845,7 @@ static void RegisterTerranItems() {
 
     // Hercules
     AP_RegisterTerranItem(175, "AP_InternalFusionModuleHercules");
-    AP_RegisterTerranItem(176, "AP_HerculesHyperJump");
+    AP_RegisterTerranItem(176, "AP_HerculesHyperjump");
 
     // ********************** //
     // *  Elite Barracks    * //
@@ -1455,8 +1463,8 @@ static void RegisterZergItems() {
     AP_RegisterZergItem(12, "AP_HotSViciousGlaive");
     AP_RegisterZergItem(13, "AP_HotSRapidRegeneration");
     AP_RegisterZergItem(14, "AP_HotSExplosiveGlaive");
-    AP_RegisterZergItem(34, "AP_MutaliskRange");
-    AP_RegisterZergItem(35, "AP_MutaliskSeveringGlave");
+    AP_RegisterZergItem(34, "AP_MutaliskSeveringGlave");
+    AP_RegisterZergItem(35, "AP_MutaliskRange");
 
     // Swarm Host
     AP_RegisterZergItem(15, "AP_HotSBurrowSwarmHost");
@@ -1903,6 +1911,8 @@ static void RegisterProtossUnits() {
     AP_RegisterProtossUnit(50, "AP_UnlockPhotonCannon", UnlockForge);
     AP_RegisterProtossUnit(51, "AP_UnlockKhaydarinMonolith", UnlockForge);
     AP_RegisterProtossUnit(52, "AP_UnlockShieldBattery", UnlockForge);
+    AP_RegisterProtossUnit(53, "AP_UnlockPsiSpire", UnlockGatewayAndTemplarArchives);
+    AP_RegisterProtossUnit(54, "AP_UnlockLaunchBay", UnlockStargate);
 }
 
 // Protoss Item Unlock Functions
@@ -2386,17 +2396,36 @@ static void RegisterProtossItems() {
     AP_RegisterProtossItem(233, "AP_SOAAutoAssimilator");
     AP_RegisterProtossItem(242, "AP_AmplifiedAssimilators");
 
+    // Cannon
+    AP_RegisterProtossItem(275, "AP_PhotonCannonShields");
+    AP_RegisterProtossItem(276, "AP_PhotonCannonPhase");
+
+    // Khaydarin Monolith
+    AP_RegisterProtossItem(277, "AP_KhaydarinMonolithWeaponUpgrade");
+    AP_RegisterProtossItem(278, "AP_KhaydarinMonolithStun");
+
+    // Shield Battery
+
+    // Psi Spire
+    AP_RegisterProtossItem(279, "AP_PsiSpireRange");
+    AP_RegisterProtossItem(280, "AP_PsiSpireCripple");
+
+    // Launch Bay
+    AP_RegisterProtossItem(281, "AP_LaunchBayGravitonCatapult");
+    AP_RegisterProtossItem(282, "AP_LaunchBayIgnoreArmor");
+
     // Global
     AP_RegisterProtossItem(234, "AP_SOAWarpTech");
     AP_RegisterProtossItem(252, "AP_WarpHarmonizationStargate");
     AP_RegisterProtossItem(238, "AP_SuperiorWarpGates");
+    AP_RegisterProtossItem(239, "AP_KaraxTurretRange");
+    AP_RegisterProtossItem(240, "AP_KaraxTurretAttackSpeed");
+    AP_RegisterProtossItem(241, "AP_KaraxInstantStructureWarp");
     AP_RegisterProtossItem(247, "AP_OperationalEfficiencyFleetBeacon");
     AP_RegisterProtossItem(248, "AP_OperationalEfficiencyRoboticsBay");
     AP_RegisterProtossItem(249, "AP_OperationalEfficiencyTemplarArchive");
     AP_RegisterProtossItem(250, "AP_OperationalEfficiencyDarkShrine");
     AP_RegisterProtossItem(251, "AP_OperationalEfficiencyProtossProduction");
-    AP_RegisterProtossItem(239, "AP_KaraxTurretRange");
-    AP_RegisterProtossItem(240, "AP_KaraxTurretAttackSpeed");
     AP_RegisterProtossItem(254, "AP_ProtossBuildingShields");
     AP_RegisterProtossProgressive(2, "AP_WarpRelocateLevel1", "AP_WarpRelocateLevel2");
 
@@ -2460,7 +2489,6 @@ static void RegisterProtossItems() {
 
     // Probe
     AP_RegisterProtossItem(136, "AP_ProbePermanentCloak");
-    AP_RegisterProtossItem(241, "AP_KaraxInstantStructureWarp");
     AP_RegisterProtossItem(243, "AP_ProbeWarpin");
     AP_RegisterProtossItem(244, "AP_ElderProbes");
 

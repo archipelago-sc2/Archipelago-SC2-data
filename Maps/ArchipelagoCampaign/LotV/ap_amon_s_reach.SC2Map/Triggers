@@ -114,7 +114,11 @@
         <Item Type="Trigger" Id="CD149551"/>
     </Element>
     <Element Type="Trigger" Id="C6704685">
+        <Variable Type="Variable" Id="035C74AF"/>
+        <Variable Type="Variable" Id="30FCD9AA"/>
         <Event Type="FunctionCall" Id="78E7A252"/>
+        <Action Type="FunctionCall" Id="378E531A"/>
+        <Action Type="FunctionCall" Id="714B7A9B"/>
         <Action Type="FunctionCall" Id="FAACEE71"/>
         <Action Type="FunctionCall" Id="AC49B61A"/>
         <Action Type="FunctionCall" Id="B774D0E5"/>
@@ -125,8 +129,49 @@
         <Action Type="FunctionCall" Id="A161AF7F"/>
         <Action Type="FunctionCall" Id="AE9DF9E9"/>
     </Element>
+    <Element Type="Variable" Id="035C74AF">
+        <VariableType>
+            <Type Value="int"/>
+        </VariableType>
+        <Value Type="Param" Id="E74E15B2"/>
+    </Element>
+    <Element Type="Param" Id="E74E15B2">
+        <Variable Type="Variable" Id="58B643A6"/>
+    </Element>
+    <Element Type="Variable" Id="30FCD9AA">
+        <VariableType>
+            <Type Value="region"/>
+        </VariableType>
+        <Value Type="Param" Id="93009D41"/>
+    </Element>
+    <Element Type="Param" Id="93009D41">
+        <ValueType Type="region"/>
+        <ValueId Id="47"/>
+    </Element>
     <Element Type="FunctionCall" Id="78E7A252">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
+    </Element>
+    <Element Type="FunctionCall" Id="378E531A">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000136"/>
+        <Parameter Type="Param" Id="23D0AA9D"/>
+        <Parameter Type="Param" Id="EFD54255"/>
+    </Element>
+    <Element Type="Param" Id="23D0AA9D">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000219"/>
+        <Variable Type="Variable" Library="ABFE498B" Id="938D8AAF"/>
+    </Element>
+    <Element Type="Param" Id="EFD54255">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000220"/>
+        <Value>true</Value>
+        <ValueType Type="bool"/>
+    </Element>
+    <Element Type="FunctionCall" Id="714B7A9B">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
+        <ScriptCode>
+            AP_GhostSpawn_waveTargetOverride = true;
+            AP_GhostSpawn_playerOverride = lv_p;
+            AP_GhostSpawn_regionOverride = lv_r;
+        </ScriptCode>
     </Element>
     <Element Type="FunctionCall" Id="FAACEE71">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000116"/>

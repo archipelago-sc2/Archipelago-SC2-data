@@ -878,6 +878,8 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);
@@ -5634,10 +5636,10 @@ bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
     AIAttackWaveSetGatherPoint(gv_pLAYER_03_DOMINION_AI, PointFromId(175));
     autoE3694680_val = gv_gasOnCycle;
     if (autoE3694680_val == 2) {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits3(9, 9, 12, "Marine");
         AIAttackWaveAddUnits3(2, 2, 4, "Marauder");
         AIAttackWaveAddUnits3(1, 1, 2, "Medic");
@@ -5646,6 +5648,7 @@ bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
     else if (autoE3694680_val == 3) {
     }
     else if (autoE3694680_val == 4) {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits3(8, 8, 15, "Marine");
         AIAttackWaveAddUnits3(2, 2, 3, "Medic");
         AIAttackWaveAddUnits3(3, 3, 5, "VikingFighter");
@@ -5654,6 +5657,7 @@ bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
         AIAttackWaveSend(gv_pLAYER_03_DOMINION_AI, 150, false);
     }
     else if (autoE3694680_val == 5) {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits3(3, 3, 4, "SiegeTank");
         AIAttackWaveAddUnits3(2, 2, 3, "Thor");
         AIAttackWaveAddUnits3(0, 0, 3, "HellionTank");
@@ -5661,6 +5665,7 @@ bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
         AIAttackWaveSend(gv_pLAYER_03_DOMINION_AI, 150, false);
     }
     else if (autoE3694680_val == 6) {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits3(3, 3, 5, "Goliath");
         AIAttackWaveAddUnits3(4, 4, 6, "Hellion");
         AIAttackWaveAddUnits3(2, 2, 3, "Banshee");
@@ -5669,6 +5674,7 @@ bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
         AIAttackWaveSend(gv_pLAYER_03_DOMINION_AI, 160, false);
     }
     else if (autoE3694680_val == 7) {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits3(9, 9, 12, "Marine");
         AIAttackWaveAddUnits3(4, 4, 5, "SiegeTank");
         AIAttackWaveAddUnits3(2, 2, 4, "VikingFighter");
@@ -5677,8 +5683,11 @@ bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
         AIAttackWaveSend(gv_pLAYER_03_DOMINION_AI, 160, false);
     }
     else if (autoE3694680_val == 8) {
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits3(3, 3, 4, "Battlecruiser");
         AIAttackWaveSend(gv_pLAYER_03_DOMINION_AI, 100, false);
+        Wait(0.5, c_timeGame);
+        AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
         AIAttackWaveAddUnits3(4, 4, 5, "Thor");
         AIAttackWaveAddUnits3(3, 3, 4, "Goliath");
         AIAttackWaveAddWaypoint(gv_pLAYER_03_DOMINION_AI, RegionGetCenter(RegionFromId(9)), false);
@@ -5686,6 +5695,7 @@ bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
     }
     else {
         if ((ModI(gv_gasOnCycle, 2) == 1)) {
+            AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
             AIAttackWaveAddUnits3(3, 3, 4, "Banshee");
             AIAttackWaveAddUnits3(2, 2, 4, "VikingFighter");
             AIAttackWaveAddUnits3(2, 2, 3, "SiegeTank");
@@ -5694,6 +5704,7 @@ bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
             AIAttackWaveSend(gv_pLAYER_03_DOMINION_AI, 160, false);
         }
         else {
+            AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
             AIAttackWaveAddUnits3(3, 3, 4, "Battlecruiser");
             AIAttackWaveAddUnits3(4, 4, 5, "Thor");
             AIAttackWaveAddWaypoint(gv_pLAYER_03_DOMINION_AI, RegionGetCenter(RegionFromId(9)), false);
@@ -5725,6 +5736,7 @@ bool gt_AIBridgeAttack_Func (bool testConds, bool runActions) {
     UIAlertUnit("Trigger", gv_pLAYER_01_USER, StringExternal("Param/Value/758B1158"), null, UnitFromId(66));
     UnitIssueOrder(UnitFromId(66), Order(AbilityCommand("ExtendingBridgeNWWide8Out", 0)), c_orderQueueReplace);
     Wait(2.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_pLAYER_03_DOMINION_AI, PlayerGroupSingle(gv_pLAYER_01_USER));
     AIAttackWaveAddUnits3(8, 8, 10, "Marine");
     AIAttackWaveAddUnits3(2, 2, 3, "SiegeTank");
     AIAttackWaveAddUnits3(2, 2, 3, "Medic");

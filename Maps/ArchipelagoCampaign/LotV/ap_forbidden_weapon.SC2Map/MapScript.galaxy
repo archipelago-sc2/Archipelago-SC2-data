@@ -813,6 +813,8 @@ bool gt_ArchiInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(lib30B9E51A_gt_ArchipelagoPlayerLotvHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);
@@ -2601,6 +2603,8 @@ bool gt_SentryIntroQ_Func (bool testConds, bool runActions) {
         AISetUnitScriptControlled(auto036E766F_var, true);
         UnitGroupAdd(gv_sentryIntroAttackWaveGroup, auto036E766F_var);
         gf_MakeConstructingUnitFaceAngle(auto036E766F_var, 315.0);
+        libABFE498B_gf_AP_Triggers_VoidDuplicate_prepareUnit(auto036E766F_var);
+        UnitGroupAdd(gv_sentryIntroAttackWaveGroup, UnitLastCreated());
     }
     libVoiC_gf_SetAllSoundChannelVolumesCampaign(libVoiC_ge_VolumeChannelModeCampaign_Speech);
     libVCMI_gf_SendTransmissionCampaign(null, "pMission_Purifier01|Line00090", c_transmissionDurationAdd, 0.0, true, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);

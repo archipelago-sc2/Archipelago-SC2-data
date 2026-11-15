@@ -1364,12 +1364,24 @@ bool auto_gf_CreateUnitforWarpConduit_TriggerFunc (bool testConds, bool runActio
 // Trigger: Arch Init
 //--------------------------------------------------------------------------------------------------
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_p;
+    region lv_r;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_p = gv_pLAYER_02_DOMINION2;
+    lv_r = RegionFromId(47);
+
     // Actions
     if (!runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
+    AP_GhostSpawn_playerOverride = lv_p;
+    AP_GhostSpawn_regionOverride = lv_r;
     TriggerExecute(lib30B9E51A_gt_ArchipelagoPlayerLotvHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);

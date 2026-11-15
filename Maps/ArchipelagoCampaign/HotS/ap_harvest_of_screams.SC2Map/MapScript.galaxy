@@ -1066,6 +1066,17 @@ bool auto_gf_CreateUrsadonAttackAtLocation_TriggerFunc (bool testConds, bool run
     VisRevealArea(gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(lv_sPAWNED_URSADON), 4.0), 10.0, false);
     UnitIssueOrder(lv_sPAWNED_URSADON, OrderTargetingPoint(AbilityCommand("attack", 0), lp_aTTACK_POINT), c_orderQueueReplace);
     AISetUnitSuicide(lv_sPAWNED_URSADON, true);
+    libABFE498B_gf_AP_Triggers_VoidDuplicate_prepareUnit(lv_sPAWNED_URSADON);
+    lv_sPAWNED_URSADON = UnitLastCreated();
+    if ((libNtve_gf_DifficultyValueInt(0, 0, 1, 1) == 1)) {
+        UnitSetPropertyFixed(lv_sPAWNED_URSADON, c_unitPropLifeMax, 185.0);
+        UnitSetPropertyFixed(lv_sPAWNED_URSADON, c_unitPropLifePercent, 100.0);
+    }
+
+    UnitBehaviorAdd(lv_sPAWNED_URSADON, "YetiJump", lv_sPAWNED_URSADON, 1);
+    VisRevealArea(gv_pLAYER_01_USER, RegionCircle(UnitGetPosition(lv_sPAWNED_URSADON), 4.0), 10.0, false);
+    UnitIssueOrder(lv_sPAWNED_URSADON, OrderTargetingPoint(AbilityCommand("attack", 0), lp_aTTACK_POINT), c_orderQueueReplace);
+    AISetUnitSuicide(lv_sPAWNED_URSADON, true);
     return true;
 }
 
@@ -1085,6 +1096,8 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);

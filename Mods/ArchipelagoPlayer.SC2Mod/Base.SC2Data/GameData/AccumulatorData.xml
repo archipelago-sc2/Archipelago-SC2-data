@@ -23,6 +23,12 @@
         <BonusPerLevel value="0.5"/>
         <PreviousValueFactor value="1"/>
     </CAccumulatorVeterancyLevel>
+    <CAccumulatorVeterancyLevel id="AP_0.6DamagePerRank">
+        <MinAccumulation value="0"/>
+        <Amount value="-0.6"/>
+        <BonusPerLevel value="0.6"/>
+        <PreviousValueFactor value="1"/>
+    </CAccumulatorVeterancyLevel>
     <CAccumulatorVeterancyLevel id="AP_2DamagePerRank">
         <MinAccumulation value="0"/>
         <Amount value="-2"/>
@@ -45,6 +51,12 @@
         <MinAccumulation value="0"/>
         <Amount value="-5"/>
         <BonusPerLevel value="5"/>
+        <PreviousValueFactor value="1"/>
+    </CAccumulatorVeterancyLevel>
+    <CAccumulatorVeterancyLevel id="AP_8DamagePerRank">
+        <MinAccumulation value="0"/>
+        <Amount value="-8"/>
+        <BonusPerLevel value="8"/>
         <PreviousValueFactor value="1"/>
     </CAccumulatorVeterancyLevel>
     <CAccumulatorVeterancyLevel id="AP_10DamagePerRank">
@@ -122,4 +134,27 @@
     <CAccumulatorBehavior id="AP_BattlecruiserRangeBuff">
         <Behavior value="AP_BattlecruiserBonusRange"/>
     </CAccumulatorBehavior>
+
+    <CAccumulatorVeterancyLevel id="AP_15DamagePerRank">
+        <MinAccumulation value="0"/>
+        <Amount value="-15"/>
+        <BonusPerLevel value="15"/>
+        <PreviousValueFactor value="1"/>
+    </CAccumulatorVeterancyLevel>
+    <!-- AttributeBonus does not support accumulators; add conditional rank damage to Amount. -->
+    <CAccumulatorConstant id="AP_ZeroRankDamage">
+        <Amount value="0"/>
+    </CAccumulatorConstant>
+    <CAccumulatorSwitch id="AP_4DamagePerRankVsArmored">
+        <CaseArray Validator="AP_RankDamageTargetIsArmored" Accumulator="AP_4DamagePerRank"/>
+        <CaseDefault value="AP_ZeroRankDamage"/>
+    </CAccumulatorSwitch>
+    <CAccumulatorSwitch id="AP_5DamagePerRankVsArmored">
+        <CaseArray Validator="AP_RankDamageTargetIsArmored" Accumulator="AP_5DamagePerRank"/>
+        <CaseDefault value="AP_ZeroRankDamage"/>
+    </CAccumulatorSwitch>
+    <CAccumulatorSwitch id="AP_1DamagePerRankVsLight">
+        <CaseArray Validator="AP_RankDamageTargetIsLight" Accumulator="AP_1DamagePerRank"/>
+        <CaseDefault value="AP_ZeroRankDamage"/>
+    </CAccumulatorSwitch>
 </Catalog>

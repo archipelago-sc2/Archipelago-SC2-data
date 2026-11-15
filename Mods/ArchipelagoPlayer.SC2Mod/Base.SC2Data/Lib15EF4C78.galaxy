@@ -3409,19 +3409,6 @@ int lib15EF4C78_gf_AP_Player_getKerriganLevel (int lp_player) {
     return lib15EF4C78_gv_zS_KerriganLevel[lp_player];
 }
 
-void lib15EF4C78_gf_CM_Mengsk_UpdateProdigalSonRank3Bonus (unit lp_unit) {
-    // Automatic Variable Declarations
-    // Implementation
-    if (((lp_unit == null) || (UnitGetType(lp_unit) != "AP_MarineMengsk") || (UnitXPGetCurrentLevel(lp_unit, null) < 4))) {
-        return ;
-    }
-
-    if ((UnitHasBehavior(lp_unit, "AP_MarineMengskProdigalSonRank3Bonus") == false)) {
-        UnitBehaviorAdd(lp_unit, "AP_MarineMengskProdigalSonRank3Bonus", lp_unit, 1);
-    }
-
-}
-
 void lib15EF4C78_gf_CM_Mengsk_ApplyBuildABoomCharges (unit lp_unit) {
     // Variable Declarations
     int lv_index;
@@ -3561,6 +3548,7 @@ void lib15EF4C78_gf_CM_Mengsk_SwapVeterancy (unit lp_unit, string lp_old, string
     }
     UnitXPSetCurrentXP(lp_unit, lp_new, lv_xp);
     UnitBehaviorRemove(lp_unit, lp_old, c_unitBehaviorCountAll);
+    UnitBehaviorRemove(lp_unit, "AP_MarauderMengskSovereignNeosteelRankBonus", c_unitBehaviorCountAll);
     UnitSetPropertyFixed(lp_unit, c_unitPropLife, lv_life);
     UnitSetPropertyFixed(lp_unit, c_unitPropShields, lv_shields);
     UnitBehaviorRemove(lp_unit, "AP_MengskVeterancySwapping", c_unitBehaviorCountAll);
@@ -8734,7 +8722,7 @@ bool lib15EF4C78_gt_CM_Mengsk_MarineMengskUpgrades_Func (bool testConds, bool ru
 
     // Conditions
     if (testConds) {
-        if (!(((EventUpgradeName() == "AP_MarineMengskProdigalSon") || (EventUpgradeName() == "AP_MarineMengskBuildABoom")))) {
+        if (!((EventUpgradeName() == "AP_MarineMengskBuildABoom"))) {
             return false;
         }
 
@@ -8755,15 +8743,7 @@ bool lib15EF4C78_gt_CM_Mengsk_MarineMengskUpgrades_Func (bool testConds, bool ru
         auto60C9F39A_var = UnitGroupUnitFromEnd(auto60C9F39A_g, auto60C9F39A_u);
         if (auto60C9F39A_var == null) { break; }
         lv_unit = auto60C9F39A_var;
-        if ((EventUpgradeName() == "AP_MarineMengskProdigalSon")) {
-            lib15EF4C78_gf_CM_Mengsk_UpdateProdigalSonRank3Bonus(lv_unit);
-        }
-        else {
-            if ((EventUpgradeName() == "AP_MarineMengskBuildABoom")) {
-                lib15EF4C78_gf_CM_Mengsk_ApplyBuildABoomCharges(lv_unit);
-            }
-
-        }
+        lib15EF4C78_gf_CM_Mengsk_ApplyBuildABoomCharges(lv_unit);
     }
     return true;
 }

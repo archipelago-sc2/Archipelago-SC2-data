@@ -847,6 +847,8 @@ void gf_AssignEscortsToShuttles (unitgroup lp_shuttleGroup, unitgroup lp_escortG
         auto444FEC11_var = UnitGroupUnitFromEnd(auto444FEC11_g, auto444FEC11_u);
         if (auto444FEC11_var == null) { break; }
         AISetUnitScriptControlled(auto444FEC11_var, false);
+        libABFE498B_gf_AP_Triggers_VoidDuplicate_prepareUnit(auto444FEC11_var);
+        AIAttackWaveUseUnit(gv_pLAYER_02_SHUTTLE_BLUE, UnitLastCreated());
         gf_SaveEscortShuttles(lp_shuttleGroup, auto444FEC11_var, lp_escortGroup);
     }
 }
@@ -1134,6 +1136,8 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
     TriggerExecute(libA472B13C_gt_AP_HotS_Constructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     TriggerExecute(gt_Init03Units, true, false);
