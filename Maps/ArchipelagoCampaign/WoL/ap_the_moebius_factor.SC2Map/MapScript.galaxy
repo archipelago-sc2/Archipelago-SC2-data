@@ -754,13 +754,21 @@ void gt_ObjectiveRescueComplete_Init () {
 // Trigger: Arch Init
 //--------------------------------------------------------------------------------------------------
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    point lv_waypoint;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_waypoint = PointFromId(870);
+
     // Actions
     if (!runActions) {
         return true;
     }
 
     libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_GhostSpawn_waveTargetOverride = true;
+    AP_GhostSpawn_waypointOverride = lv_waypoint;
     TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     lib5BD4895D_gf_AP_Core_MapConfig_setChatboxPosition(c_anchorTopRight, 500, 350, 0, 110);
@@ -5641,18 +5649,20 @@ bool gt_ZergP05AttackWavesBase_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_BASE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveSetGatherPoint(gv_p05_ZERG_BASE, PointFromId(326));
     Wait(90.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_BASE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(0, 1, 2, 3, "Mutalisk");
     gf_AddAirAttackWaypoints(gv_p05_ZERG_BASE);
     AIAttackWaveSend(gv_p05_ZERG_BASE, 120, true);
     Wait(60.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_BASE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(4, 4, 7, 10, "Zergling");
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Roach");
     AIAttackWaveAddWaypoint(gv_p05_ZERG_BASE, PointFromId(870), false);
     AIAttackWaveSend(gv_p05_ZERG_BASE, 150, false);
     Wait(60.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_BASE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(3, 3, 3, 4, "Mutalisk");
     gf_AddAirAttackWaypoints(gv_p05_ZERG_BASE);
     AIAttackWaveAddWaypoint(gv_p05_ZERG_BASE, PointFromId(620), false);
@@ -5662,6 +5672,7 @@ bool gt_ZergP05AttackWavesBase_Func (bool testConds, bool runActions) {
     gf_AddUpgradeForEnemies(libNtve_gf_DifficultyValueInt(0, 0, 1, 0), "ZergFlyerArmorsLevel1");
     Wait(30.0, c_timeAI);
     Wait(60.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_BASE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(10, 10, 14, 18, "Zergling");
     AIAttackWaveAddUnits4(1, 1, 1, 2, "Hydralisk");
     AIAttackWaveAddWaypoint(gv_p05_ZERG_BASE, PointFromId(870), false);
@@ -5672,6 +5683,7 @@ bool gt_ZergP05AttackWavesBase_Func (bool testConds, bool runActions) {
     gf_AddUpgradeForEnemies(libNtve_gf_DifficultyValueInt(0, 0, 0, 1), "ZergGroundArmorsLevel2");
     Wait(30.0, c_timeAI);
     Wait(90.0, c_timeAI);
+    AIAttackWaveSetTargetPlayer(gv_p05_ZERG_BASE, PlayerGroupSingle(gv_p01_USER));
     AIAttackWaveAddUnits4(5, 5, 6, 5, "Mutalisk");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Corruptor");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "BroodLord");
@@ -5686,6 +5698,7 @@ bool gt_ZergP05AttackWavesBase_Func (bool testConds, bool runActions) {
     Wait(30.0, c_timeAI);
     while (true) {
         Wait(90.0, c_timeAI);
+        AIAttackWaveSetTargetPlayer(gv_p05_ZERG_BASE, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(8, 8, 10, 12, "Zergling");
         AIAttackWaveAddUnits4(0, 0, 1, 2, "Hydralisk");
         AIAttackWaveAddUnits4(1, 1, 1, 0, "Roach");
@@ -5697,6 +5710,7 @@ bool gt_ZergP05AttackWavesBase_Func (bool testConds, bool runActions) {
         Wait(90.0, c_timeAI);
         gf_AddUpgradeForEnemies(libNtve_gf_DifficultyValueInt(0, 0, 0, 1), "ZergMissileWeaponsLevel3");
         gf_AddUpgradeForEnemies(libNtve_gf_DifficultyValueInt(0, 0, 0, 1), "ZergFlyerWeaponsLevel3");
+        AIAttackWaveSetTargetPlayer(gv_p05_ZERG_BASE, PlayerGroupSingle(gv_p01_USER));
         AIAttackWaveAddUnits4(4, 4, 5, 5, "Mutalisk");
         AIAttackWaveAddUnits4(0, 0, 1, 2, "BroodLord");
         AIAttackWaveAddUnits4(0, 0, 1, 1, "Overseer");

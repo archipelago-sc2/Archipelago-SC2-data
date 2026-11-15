@@ -9905,6 +9905,8 @@
         <LoadValidatorArray value="RequiresTerran"/>
         <LoadValidatorArray value="AP_IsNotHellionTank"/>
         <UnloadValidatorArray value="AP_BunkerUnload"/>
+        <LoadCargoEffect value="AP_SensorTowerRangeBunkerAB"/>
+        <UnloadCargoEffect value="AP_SensorTowerRangeBunkerRB"/>
     </CAbilTransport>
     <CAbilRedirectTarget id="AP_AttackRedirect">
         <Abil value="attack"/>
@@ -13946,7 +13948,7 @@
                 <TimeUse value="20"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_TrainInfestedDiamondBack" Requirements="AP_UnlockInfestedDiamondBack"/>
+            <Button DefaultButtonFace="AP_TrainInfestedDiamondBack" Requirements="AP_UnlockInfestedDiamondback"/>
             <Unit value="AP_SICocoonInfestedDiamondBack"/>
             <Flags index="InheritRally" value="1"/>
         </InfoArray>
@@ -15668,15 +15670,22 @@
         <CastOutroTime value="0.8"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_ArchonSiphon" Requirements="AP_HaveArchonSiphon"/>
     </CAbilEffectTarget>
+    <CAbilEffectInstant id="AP_ScoutApialSensors">
+        <Cost>
+            <Cooldown TimeUse="25"/>
+        </Cost>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ScoutApialSensors" Requirements="AP_HaveScoutSCBWSightUpgrade"/>
+    </CAbilEffectInstant>
     <CAbilTransport id="AP_ScoutNerazimPilot">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
-        <DataCollection value="AP_MedivacTransport"/>
-        <CmdButtonArray index="Load" DefaultButtonFace="AP_ScoutNerazimPilot" Requirements="AP_ScoutNerazimHavePilot"/>
+        <CmdButtonArray index="Load" DefaultButtonFace="AP_ScoutNerazimPilot"/>
         <CmdButtonArray index="UnloadAll">
             <Flags index="Hidden" value="1"/>
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="UnloadAt" DefaultButtonFace="AP_ScoutNerazimPilotUnload" Requirements="AP_ScoutNerazimHavePilot"/>
+        <CmdButtonArray index="UnloadAt" DefaultButtonFace="AP_ScoutNerazimPilotUnload"/>
         <CmdButtonArray index="UnloadUnit">
             <Flags index="Hidden" value="1"/>
         </CmdButtonArray>
@@ -15695,7 +15704,6 @@
         <UnloadCargoEffect value="AP_ScoutNerazimPilotUnload"/>
         <UnloadPeriod value="1"/>
         <LoadValidatorArray value="AP_IsNotAirUnit"/>
-        <LoadValidatorArray value="AP_ScoutNerazimHasPilot"/>
     </CAbilTransport>
     <CAbilBehavior id="AP_ScoutNerazimCloak">
         <AbilSetId value="Clok"/>
@@ -15750,7 +15758,7 @@
         <Cost>
             <Cooldown TimeUse="60"/>
         </Cost>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ScoutTaldarimVulcanBlaster" Requirements="AP_ScoutTaldarimHaveVulcanBlaster"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ScoutTaldarimVulcanBlaster"/>
     </CAbilEffectInstant>
     <CAbilMorph id="AP_ScoutTaldarimVulcanBlasterMorph">
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>

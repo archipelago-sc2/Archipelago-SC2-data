@@ -1415,7 +1415,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Terr";
         libABFE498B_gf_AP_Triggers_setDifficulty("B");
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         TriggerExecute(gt_onDifficultyBrutal, true, false);
@@ -1438,7 +1438,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         UnitSetPropertyFixed(gv_tHE_ONE_QUEEN, c_unitPropMovementSpeed, 1.2);
         UnitSetScale(gv_tHE_ONE_QUEEN, 50.0, 50.0, 50.0);
         UnitSetPropertyFixed(gv_tHE_ONE_QUEEN, c_unitPropEnergyPercent, 100.0);
-        UnitSetPropertyFixed(gv_tHE_ONE_QUEEN, c_unitPropLifeMax, gv_swarmQueenLife[1]);
         UnitSetPropertyFixed(gv_tHE_ONE_QUEEN, c_unitPropLifePercent, 100.0);
         PlayerSetRace(gv_pLAYER_01_USER, libABFE498B_gv_aP_Triggers_Option_overridePlayerRace);
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
@@ -1448,7 +1447,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         UISetResourceVisible(PlayerGroupSingle(gv_pLAYER_01_USER), c_resourceTypeVespene, false);
         UISetResourceVisible(PlayerGroupSingle(gv_pLAYER_01_USER), c_resourceTypeTerrazine, true);
         PathSetColor(PathLastCreated(), c_pathLocationWorld, Color(100.00, 100.00, 100.00));
-        lib15EF4C78_gf_SetHeroPanelUnit2(1, gv_tHE_ONE_QUEEN, gv_pLAYER_01_USER);
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_tHE_ONE_QUEEN, gv_pLAYER_01_USER);
         libNtve_gf_SendActorMessageToUnit(UnitFromId(275), "ModelSwap Beacon_Terran");
         libNtve_gf_SendActorMessageToUnit(UnitFromId(179), "ModelSwap Beacon_TerranSmall");
     }
@@ -1463,7 +1462,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_01_USER);
         TriggerExecute(gt_ProtossTechnology, true, false);
         UISetResourceVisible(PlayerGroupSingle(gv_pLAYER_01_USER), c_resourceTypeMinerals, false);
-        lib15EF4C78_gf_SetHeroPanelUnit2(1, gv_tHE_ONE_QUEEN, gv_pLAYER_01_USER);
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_tHE_ONE_QUEEN, gv_pLAYER_01_USER);
         libNtve_gf_SendActorMessageToUnit(UnitFromId(275), "ModelSwap Beacon_Protoss");
         libNtve_gf_SendActorMessageToUnit(UnitFromId(179), "ModelSwap Beacon_ProtossSmall");
     }
@@ -1550,8 +1549,8 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init01Technology, true, true);
     TriggerExecute(gt_Init04MusicSound, true, true);
     TriggerExecute(gt_Init05Environment, true, true);
-    TriggerExecute(gt_Init06Difficulties, true, true);
     TriggerExecute(gt_FactionSwapInit, true, true);
+    TriggerExecute(gt_Init06Difficulties, true, true);
     TriggerExecute(gt_IntroQ, true, true);
     TriggerExecute(gt_StartGameQ, true, false);
     return true;
@@ -3080,6 +3079,10 @@ bool gt_SwarmQueenusesParasiticInvasion_Func (bool testConds, bool runActions) {
         UnitIssueOrder(EventUnitTargetUnit(), Order(AbilityCommand("Consume", 0)), c_orderQueueReplace);
     }
     else if (auto9F41246F_val == "GiantYeti") {
+        if ((UnitGetOwner(EventUnitTargetUnit()) == gv_pLAYER_01_USER)) {
+            return true;
+        }
+
         gf_KillLargeHoldingPen(EventUnitTargetPoint());
         UnitSetOwner(EventUnitTargetUnit(), gv_pLAYER_01_USER, true);
         UnitSelect(EventUnitTargetUnit(), gv_pLAYER_01_USER, true);

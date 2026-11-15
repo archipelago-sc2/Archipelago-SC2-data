@@ -397,7 +397,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_setGameSpeed("5");
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
         libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
         TriggerExecute(gt_onDifficultyBrutal, true, false);
         libABFE498B_gf_AP_Triggers_giveTerranDefaultTech(gv_p1_USER);
     }
@@ -1411,6 +1410,10 @@ bool gt_StartGame_Func (bool testConds, bool runActions) {
     }
 
     UIAlertPoint("Trigger", gv_p1_USER, StringExternal("Param/Value/B544795D"), null, PointFromId(505));
+    if ((UnitGetType(gv_raynor) == "Raynor01")) {
+        lib15EF4C78_gf_SetHeroPanelUnit(1, gv_raynor, gv_p1_USER);
+    }
+
     UnitGroupIssueOrder(gv_raynorsMarines, Order(AbilityCommand("AP_BurrowHydraliskUp", 0)), c_orderQueueReplace);
     TriggerExecute(gt_ObjectiveDestroyLogisticalHQCreateQ, true, true);
     TriggerExecute(gt_ObjectiveRaynorMustSurviveCreateQ, true, true);

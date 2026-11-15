@@ -1333,6 +1333,12 @@
         <Duration value="1"/>
         <Modification RangedWeaponRange="1"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SensorTowerRangeBunker">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <DisableValidatorArray value="AP_HaveSensorTowerRange"/>
+        <Modification WeaponRange="1"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_MindControl">
         <!-- Not to be dispelled by Restoration -->
         <!--        <Alignment value="Negative"/>-->
@@ -7725,6 +7731,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_HighTemplarSCBWHallucination">
         <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Modification LifeArmorMultiplier="0" ShieldArmorMultiplier="0" SubgroupPriority="-100">
@@ -7794,6 +7801,8 @@
         <DisplayDuration index="Enemy" value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_HallucinationTimedLife">
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Duration value="60"/>
         <ExpireEffect value="KillHallucination"/>
@@ -11080,6 +11089,13 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <MaxStackCount value="999"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_ScoutApialSensors">
+        <InfoIcon value="AP\Assets\Textures\btn-apial-sensors.dds"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <Duration value="10"/>
+        <Modification SightBonus="5" Detect="16"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_ScoutNerazimCloak">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
@@ -11232,11 +11248,13 @@
         <Duration value="2"/>
         <InitialEffect value="AP_ScoutTaldarimVulcanBlasterIssueMorph"/>
         <FinalEffect value="AP_ScoutTaldarimVulcanBlasterApply"/>
+        <PeriodCount value="0"/>
+        <PeriodicEffect value="AP_ScoutTaldarimVulcanBlasterPersistent"/>
         <Modification>
             <WeaponEnableArray value="AP_ScoutTaldarimVulcanBlasterDummy"/>
+            <WeaponEnableArray value="AP_ScoutTaldarimVulcanBlaster"/>
             <WeaponDisableArray value="AP_ScoutTaldarimAir"/>
             <WeaponDisableArray value="AP_ScoutTaldarimGround"/>
-            <WeaponDisableArray value="AP_ScoutTaldarimVulcanBlaster"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_ScoutTaldarimWeaponAlternate">
@@ -11257,6 +11275,7 @@
         <Duration value="3"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_PreventWarpInAnim">
+        <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
         <Duration value="2"/>
         <Period value="0.25"/>
@@ -12322,4 +12341,12 @@
         <InfoFlags index="Hidden" value="1"/>
         <PowerLink value="PowerSource"/>
     </CBehaviorPowerSource>
+    <CBehaviorBuff id="AP_NukeFasterCalldown">
+        <InfoIcon value="Assets\Textures\missilenuke_coop.dds"/>
+        <Requirements value="AP_NukeFasterCalldown"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_ThorNukeFasterCalldown">
+        <InfoIcon value="Assets\Textures\missilenuke_coop.dds"/>
+        <Requirements value="AP_ThorNukeFasterCalldown"/>
+    </CBehaviorBuff>
 </Catalog>

@@ -3530,6 +3530,8 @@ bool gt_Init02Players_Func (bool testConds, bool runActions) {
     PlayerSetColorIndex(gv_pLAYER_10_ARTANIS_AI, 2, true);
     PlayerSetColorIndex(gv_pLAYER_11_ARTANISEXPANSIONS, 6, true);
     libVCMI_gf_PM_DetectionUpgradesApply();
+    UISetFrameVisible(PlayerGroupAll(), c_syncFrameTypeResourcePanel, false);
+    UISetFrameVisible(PlayerGroupAll(), c_syncFrameTypeSupply, false);
     return true;
 }
 
@@ -13373,6 +13375,7 @@ bool gt_MidCleanup_Func (bool testConds, bool runActions) {
     }
     TriggerExecute(gt_StartAI, true, false);
     libABFE498B_gf_AP_Triggers_resetBase(gv_pLAYER_01_USER);
+    lib5BD4895D_gf_AP_Core_bankUpdatePrompt();
     Wait(0.5, c_timeReal);
     if ((gv_cinematicCompleted == true)) {
         lv_fadeDuration = 1.5;

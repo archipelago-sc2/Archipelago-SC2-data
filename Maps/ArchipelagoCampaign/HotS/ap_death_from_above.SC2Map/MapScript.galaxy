@@ -1224,8 +1224,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Terr")) {
             PlayerSetRace(gv_pLAYER_01_USER, "Terr");
             lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_pLAYER_01_USER, lib5BD4895D_gv_aP_Core_Faction_RAYNORS_RAIDERS);
-            libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HaveGhostMengsk", 1);
-            libNtve_gf_SetUpgradeLevelForPlayer(gv_pLAYER_01_USER, "AP_HaveGhostOrSpectreOrThorNuke", 1);
         }
         else {
             if ((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot")) {
@@ -2258,8 +2256,9 @@ bool gt_DEBUGStage357_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    TimerStart(gv_psifieldpowerup, 15.0, false, c_timeAI);
-    TimerStart(gv_fieldPowerUpWarning01, 5.0, false, c_timeAI);
+    TriggerDebugOutput(1, StringExternal("Param/Value/F2B9C4EB"), true);
+    TimerStart(gv_psifieldpowerup, 5.0, false, c_timeAI);
+    TimerStart(gv_fieldPowerUpWarning01, 1.0, false, c_timeAI);
     return true;
 }
 
@@ -7564,7 +7563,8 @@ bool gt_MidCineDehakaPlatform03Cleanup_Func (bool testConds, bool runActions) {
     UnitSetPropertyFixed(gv_dEHAKA, c_unitPropLifePercent, 100.0);
     UnitGroupSelect(UnitGroupSelected(gv_pLAYER_01_USER), gv_pLAYER_01_USER, false);
     UnitSelect(gv_dEHAKA, gv_pLAYER_01_USER, true);
-    gf_DehakaHeroPanelReset();
+    TechTreeAbilityAllow(gv_pLAYER_01_USER, AbilityCommand("Drag", 0), true);
+    gf_DehakaHeroPanelSet();
     libSwaC_gf_ResetHeroAbilityCooldowns(libSwaC_ge_HeroUnit_Kerrigan);
     UnitSetPropertyFixed(gv_kERRIGAN, c_unitPropLifePercent, 100.0);
     UnitSetPropertyFixed(gv_kERRIGAN, c_unitPropEnergyPercent, 100.0);
