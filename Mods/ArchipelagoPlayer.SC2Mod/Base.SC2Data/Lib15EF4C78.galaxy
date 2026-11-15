@@ -3653,35 +3653,35 @@ void lib15EF4C78_gf_CM_Mengsk_SwapVeterancy (unit lp_unit, string lp_old, string
 void lib15EF4C78_gf_CM_Mengsk_ActivateRank3Veterancy (unit lp_unit) {
     // Automatic Variable Declarations
     // Implementation
-    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMarineMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MarineMengskRank3Unlocked") == true))) {
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMarineMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MengskRank3Unlocked") == true))) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyMarineMengskRank2", "AP_MengskVeterancyMarineMengsk");
     }
 
-    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMarauderMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MarauderMengskRank3Unlocked") == true))) {
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMarauderMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MengskRank3Unlocked") == true))) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyMarauderMengskRank2", "AP_MengskVeterancyMarauderMengsk");
     }
 
-    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMedicMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MedicMengskRank3Unlocked") == true))) {
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyMedicMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MengskRank3Unlocked") == true))) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyMedicMengskRank2", "AP_MengskVeterancyMedicMengsk");
     }
 
-    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyGhostMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_GhostMengskRank3Unlocked") == true))) {
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyGhostMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MengskRank3Unlocked") == true))) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyGhostMengskRank2", "AP_MengskVeterancyGhostMengsk");
     }
 
-    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyGoliathMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_GoliathMengskRank3Unlocked") == true))) {
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyGoliathMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MengskRank3Unlocked") == true))) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyGoliathMengskRank2", "AP_MengskVeterancyGoliathMengsk");
     }
 
-    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancySiegeTankMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_SiegeTankMengskRank3Unlocked") == true))) {
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancySiegeTankMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MengskRank3Unlocked") == true))) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancySiegeTankMengskRank2", "AP_MengskVeterancySiegeTankMengsk");
     }
 
-    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyThorMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_ThorMengskRank3Unlocked") == true))) {
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyThorMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MengskRank3Unlocked") == true))) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyThorMengskRank2", "AP_MengskVeterancyThorMengsk");
     }
 
-    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyBansheeMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_BansheeMengskRank3Unlocked") == true))) {
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyBansheeMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_MengskRank3Unlocked") == true))) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyBansheeMengskRank2", "AP_MengskVeterancyBansheeMengsk");
     }
 
@@ -9636,9 +9636,9 @@ bool lib15EF4C78_gt_MedivacShockDivisionPickup_Func (bool testConds, bool runAct
 
     UnitBehaviorAdd(lv_medivac, "AP_SiegeTankSiegeModeProgressiveRangeIncease", lv_tank, UnitBehaviorCount(lv_tank, "AP_SiegeTankSiegeModeProgressiveRangeIncease"));
     UnitBehaviorAdd(lv_medivac, "AP_VeterancySuppressEffects", lv_medivac, 1);
-    UnitBehaviorRemove(lv_medivac, "AP_SiegeTankMengskRank3Unlocked", c_unitBehaviorCountAll);
-    if ((UnitHasBehavior(lv_tank, "AP_SiegeTankMengskRank3Unlocked") == true)) {
-        UnitBehaviorAdd(lv_medivac, "AP_SiegeTankMengskRank3Unlocked", lv_tank, 1);
+    UnitBehaviorRemove(lv_medivac, "AP_MengskRank3Unlocked", c_unitBehaviorCountAll);
+    if ((UnitHasBehavior(lv_tank, "AP_MengskRank3Unlocked") == true)) {
+        UnitBehaviorAdd(lv_medivac, "AP_MengskRank3Unlocked", lv_tank, 1);
     }
 
     if ((UnitHasBehavior(lv_tank, "AP_MengskVeterancySiegeTankMengskRank2") == true)) {
@@ -9703,7 +9703,7 @@ bool lib15EF4C78_gt_MedivacShockDivisionDrop_Func (bool testConds, bool runActio
 
     UnitBehaviorRemove(lv_medivac, "AP_MengskVeterancyMedivac", 1);
     UnitBehaviorRemove(lv_medivac, "AP_MengskVeterancyMedivacRank2", 1);
-    UnitBehaviorRemove(lv_medivac, "AP_SiegeTankMengskRank3Unlocked", c_unitBehaviorCountAll);
+    UnitBehaviorRemove(lv_medivac, "AP_MengskRank3Unlocked", c_unitBehaviorCountAll);
     return true;
 }
 
