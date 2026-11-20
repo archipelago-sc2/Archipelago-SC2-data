@@ -1,9 +1,9 @@
 //==================================================================================================
-//
+// 
 // Generated Map Script
-//
+// 
 // Name:   Ghosts in the Fog
-//
+// 
 //==================================================================================================
 include "TriggerLibs/NativeLib"
 include "TriggerLibs/LibertyLib"
@@ -996,13 +996,23 @@ bool auto_gf_AnimateVespeneDistributioncinematic_TriggerFunc (bool testConds, bo
 // Trigger: Arch Init
 //--------------------------------------------------------------------------------------------------
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    region lv_r;
+    int lv_p;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_r = RegionFromId(35);
+    lv_p = gv_pLAYER_06_TALDARIM;
+
     // Actions
     if (!runActions) {
         return true;
     }
 
     libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
+    AP_SpawnSystem_playerOverride = lv_p;
+    AP_SpawnSystem_regionOverride = lv_r;
     AP_SpawnSystem_waveTargetOverride = true;
     TriggerExecute(lib2F7F8645_gt_AP_Player_LotVPrologueConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);

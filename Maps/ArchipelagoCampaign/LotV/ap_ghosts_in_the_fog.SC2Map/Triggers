@@ -76,6 +76,8 @@
         <Item Type="Trigger" Id="DDBBA146"/>
     </Element>
     <Element Type="Trigger" Id="69909331">
+        <Variable Type="Variable" Id="D97D419F"/>
+        <Variable Type="Variable" Id="C8083E91"/>
         <Event Type="FunctionCall" Id="B31F1A3F"/>
         <Action Type="FunctionCall" Id="15A8C86F"/>
         <Action Type="FunctionCall" Id="D6ED5EB9"/>
@@ -87,6 +89,25 @@
         <Action Type="FunctionCall" Id="B2B22FE2"/>
         <Action Type="FunctionCall" Id="C9E7A8BC"/>
         <Action Type="FunctionCall" Id="7B466255"/>
+    </Element>
+    <Element Type="Variable" Id="D97D419F">
+        <VariableType>
+            <Type Value="region"/>
+        </VariableType>
+        <Value Type="Param" Id="404D824A"/>
+    </Element>
+    <Element Type="Param" Id="404D824A">
+        <ValueType Type="region"/>
+        <ValueId Id="35"/>
+    </Element>
+    <Element Type="Variable" Id="C8083E91">
+        <VariableType>
+            <Type Value="int"/>
+        </VariableType>
+        <Value Type="Param" Id="0923A97A"/>
+    </Element>
+    <Element Type="Param" Id="0923A97A">
+        <Variable Type="Variable" Id="AD38CDA1"/>
     </Element>
     <Element Type="FunctionCall" Id="B31F1A3F">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
@@ -108,6 +129,8 @@
     <Element Type="FunctionCall" Id="D6ED5EB9">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
         <ScriptCode>
+            AP_SpawnSystem_playerOverride = lv_p;
+            AP_SpawnSystem_regionOverride = lv_r;
             AP_SpawnSystem_waveTargetOverride = true;
         </ScriptCode>
     </Element>
@@ -2588,9 +2611,6 @@
         <Variable Type="Variable" Id="00218D2A"/>
     </Element>
     <Element Type="Comment" Id="90A368CD">
-        <Comment>
-
-        </Comment>
     </Element>
     <Element Type="FunctionCall" Id="177D770E">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="5084725D"/>
@@ -16771,9 +16791,6 @@
         <ValueGameType Type="Upgrade"/>
     </Element>
     <Element Type="Comment" Id="1BE56F9B">
-        <Comment>
-
-        </Comment>
     </Element>
     <Element Type="FunctionCall" Id="C309114E">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000242"/>
@@ -16881,9 +16898,6 @@
         <ValueGameType Type="Upgrade"/>
     </Element>
     <Element Type="Comment" Id="7A7AF763">
-        <Comment>
-
-        </Comment>
     </Element>
     <Element Type="Trigger" Id="7921757C">
         <Action Type="Comment" Id="EB413915"/>
@@ -16981,9 +16995,6 @@
         <ValueGameType Type="Upgrade"/>
     </Element>
     <Element Type="Comment" Id="B386B876">
-        <Comment>
-
-        </Comment>
     </Element>
     <Element Type="FunctionCall" Id="C30A56CA">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000242"/>
@@ -17091,9 +17102,6 @@
         <ValueGameType Type="Upgrade"/>
     </Element>
     <Element Type="Comment" Id="E32FCB78">
-        <Comment>
-
-        </Comment>
     </Element>
     <Element Type="Trigger" Id="BE743CF1">
         <Variable Type="Variable" Id="E1575B83"/>
@@ -18413,9 +18421,6 @@
         <ValueType Type="int"/>
     </Element>
     <Element Type="Comment" Id="8837C02F">
-        <Comment>
-
-        </Comment>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="A1B37466"/>
     </Element>
     <Element Type="FunctionCall" Id="FAEA4F00">
@@ -21280,9 +21285,6 @@
         <Preset Type="PresetValue" Library="Ntve" Id="00000545"/>
     </Element>
     <Element Type="Comment" Id="E9EC8EAF">
-        <Comment>
-
-        </Comment>
     </Element>
     <Element Type="FunctionCall" Id="9B879E98">
         <FunctionDef Type="FunctionDef" Library="A3DDD02B" Id="174C7573"/>
