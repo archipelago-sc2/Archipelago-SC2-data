@@ -453,6 +453,7 @@ void AP_NydusNetwork_disable() {
     int i;
     unit u;
     unitgroup g = NetworksActive;
+    NetworkActive = false;
     AP_MutatorUIUpdate(MUTATOR_UI_INDEX, 0);
     UnitGroupAddUnitGroup(g, WormsActive);
     UnitGroupAddUnitGroup(g, UnitsActive);
