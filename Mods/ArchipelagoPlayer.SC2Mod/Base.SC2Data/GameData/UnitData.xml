@@ -2243,6 +2243,7 @@
         <LifeStart value="100"/>
         <LifeMax value="100"/>
         <LifeArmorName value="Unit/LifeArmorName/TerranInfantryArmor"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/AP_TerranShieldArmor"/>
         <EnergyStart value="50"/>
         <EnergyMax value="200"/>
         <EnergyRegenRate value="0.5625"/>
@@ -2275,6 +2276,7 @@
         <BehaviorArray Link="AP_OcularImplantsIndicator"/>
         <BehaviorArray Link="AP_GhostPermanentCloak"/>
         <BehaviorArray Link="AP_GhostResourceEfficiencyMorph"/>
+        <BehaviorArray Link="AP_NukeFasterCalldown"/>
         <WeaponArray Link="AP_C10CanisterRifle"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -2484,6 +2486,7 @@
         <AbilArray Link="AP_SpectreResourceEfficiencyMorph"/>
         <BehaviorArray Link="AP_SpectrePermanentCloak"/>
         <BehaviorArray Link="AP_SpectreResourceEfficiencyMorph"/>
+        <BehaviorArray Link="AP_NukeFasterCalldown"/>
         <WeaponArray Link="AP_Specter"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -2581,6 +2584,7 @@
         <AbilArray Link="AP_TacNukeStrikeThor"/>
         <BehaviorArray Link="AP_ScavengingSystemsMechDeath"/>
         <BehaviorArray Link="AP_ThorDontDie"/>
+        <BehaviorArray Link="AP_ThorNukeFasterCalldown"/>
         <WeaponArray Link="AP_JavelinMissileLaunchers"/>
         <WeaponArray Link="AP_ThorsHammer"/>
         <CardLayouts>
@@ -7914,6 +7918,7 @@
         <AbilArray Link="AP_ScannerSweep"/>
         <AbilArray Link="AP_CalldownMULE"/>
         <AbilArray Link="AP_SupplyDrop"/>
+        <AbilArray Link="AP_CommandCenterHyperjump"/>
         <BehaviorArray Link="AP_TerranBuildingBurnDown"/>
         <BehaviorArray Link="AP_CommandCenterQueue"/>
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
@@ -7994,6 +7999,7 @@
         <AbilArray Link="stop"/>
         <AbilArray Link="attack"/>
         <AbilArray Link="AP_CommandCenterTransport"/>
+        <AbilArray Link="AP_CommandCenterHyperjump"/>
         <BehaviorArray Link="AP_TerranBuildingBurnDown"/>
         <BehaviorArray Link="AP_CommandCenterQueue"/>
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
@@ -8012,7 +8018,8 @@
             <LayoutButtons Face="AP_PlanetaryFortressAttackAirlift" Type="Passive" Requirements="AP_HavePlanetaryFortressWeapon" Row="2" Column="2"/>
             <LayoutButtons Face="AP_PlanetaryFortressAdvancedTargeting" Type="Passive" Requirements="AP_HavePlanetaryFortressAirAttackFlying" Row="1" Column="3"/>
             <LayoutButtons Face="AP_PlanetaryFortressAdvancedTargeting" Type="Passive" Requirements="AP_HavePlanetaryFortressAirAttackLand" Row="1" Column="3"/>
-            <LayoutButtons Face="AP_JuggernautThrusters" Type="Passive" Requirements="AP_HaveJuggernautThrusters" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_JuggernautThrusters" Type="Passive" Requirements="AP_HaveJuggernautThrusters" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_CommandCenterHyperjump" Type="AbilCmd" AbilCmd="AP_CommandCenterHyperjump,Execute" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="2.5"/>
         <SeparationRadius value="2.5"/>
@@ -8761,10 +8768,9 @@
             <LayoutButtons Face="AP_K5CreepBonuses" Type="Passive" Requirements="AP_HaveK5CreepBonuses" Row="1" Column="1"/>
             <LayoutButtons Face="AP_CreepTumorSuperCloak" Type="Passive" Requirements="AP_CreepTumorSuperCloak" Row="1" Column="2"/>
         </CardLayouts>
-        <Radius value="1"/>
-        <SeparationRadius value="1"/>
+        <Radius value="0.5"/>
+        <SeparationRadius value="0.5"/>
         <InnerRadius value="0.5"/>
-        <Footprint value="CreepTumor"/>
         <PlacementFootprint value="CreepTumor"/>
         <ScoreResult value="BuildOrder"/>
         <SubgroupPriority value="2"/>
@@ -8790,12 +8796,8 @@
         <FlagArray index="ArmorDisabledWhileConstructing" value="1"/>
         <FogVisibility value="Snapshot"/>
         <PlaneArray index="Ground" value="1"/>
-        <Collide index="Burrow" value="1"/>
-        <Collide index="Ground" value="1"/>
         <Collide index="Structure" value="1"/>
-        <Collide index="RoachBurrow" value="1"/>
-        <Collide index="ForceField" value="1"/>
-        <Collide index="Small" value="1"/>
+        <Collide index="CreepTumor" value="1"/>
         <Attributes index="Armored" value="1"/>
         <Attributes index="Biological" value="1"/>
         <Attributes index="Structure" value="1"/>
@@ -8823,10 +8825,9 @@
             <LayoutButtons Face="AP_K5CreepBonuses" Type="Passive" Requirements="AP_HaveK5CreepBonuses" Row="1" Column="1"/>
             <LayoutButtons Face="AP_CreepTumorSuperCloak" Type="Passive" Requirements="AP_CreepTumorSuperCloak" Row="1" Column="2"/>
         </CardLayouts>
-        <Radius value="1"/>
-        <SeparationRadius value="1"/>
+        <Radius value="0.5"/>
+        <SeparationRadius value="0.5"/>
         <InnerRadius value="0.5"/>
-        <Footprint value="Footprint1x1Underground"/>
         <SubgroupPriority value="2"/>
         <MinimapRadius value="0.75"/>
         <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
@@ -8853,13 +8854,8 @@
         <FlagArray index="ArmorDisabledWhileConstructing" value="1"/>
         <FogVisibility value="Snapshot"/>
         <PlaneArray index="Ground" value="1"/>
-        <Collide index="Burrow" value="1"/>
-        <Collide index="Ground" value="1"/>
         <Collide index="Structure" value="1"/>
-        <Collide index="RoachBurrow" value="1"/>
-        <Collide index="ForceField" value="1"/>
         <Collide index="CreepTumor" value="1"/>
-        <Collide index="Small" value="1"/>
         <Attributes index="Armored" value="1"/>
         <Attributes index="Biological" value="1"/>
         <Attributes index="Structure" value="1"/>
@@ -8884,10 +8880,9 @@
             <LayoutButtons Face="AP_K5CreepBonuses" Type="Passive" Requirements="AP_HaveK5CreepBonuses" Row="1" Column="1"/>
             <LayoutButtons Face="AP_CreepTumorSuperCloak" Type="Passive" Requirements="AP_CreepTumorSuperCloak" Row="1" Column="2"/>
         </CardLayouts>
-        <Radius value="1"/>
-        <SeparationRadius value="1"/>
+        <Radius value="0.5"/>
+        <SeparationRadius value="0.5"/>
         <InnerRadius value="0.5"/>
-        <Footprint value="CreepTumorBurrowed"/>
         <ScoreMake value="50"/>
         <ScoreKill value="250"/>
         <SubgroupPriority value="2"/>
@@ -8913,12 +8908,8 @@
         <FogVisibility value="Snapshot"/>
         <EditorFlags index="NoPlacement" value="1"/>
         <PlaneArray index="Ground" value="1"/>
-        <Collide index="Burrow" value="1"/>
-        <Collide index="Ground" value="1"/>
         <Collide index="Structure" value="1"/>
-        <Collide index="RoachBurrow" value="1"/>
-        <Collide index="ForceField" value="1"/>
-        <Collide index="Small" value="1"/>
+        <Collide index="CreepTumor" value="1"/>
         <Attributes index="Armored" value="1"/>
         <Attributes index="Biological" value="1"/>
         <Attributes index="Structure" value="1"/>
@@ -8940,10 +8931,9 @@
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="AP_CreepTumorSuperCloak" Type="Passive" Requirements="AP_CreepTumorSuperCloak" Row="1" Column="2"/>
         </CardLayouts>
-        <Radius value="1"/>
-        <SeparationRadius value="1"/>
+        <Radius value="0.5"/>
+        <SeparationRadius value="0.5"/>
         <InnerRadius value="0.5"/>
-        <Footprint value="CreepTumor"/>
         <PlacementFootprint value="CreepTumor"/>
         <ScoreResult value="BuildOrder"/>
         <SubgroupPriority value="2"/>
@@ -10585,6 +10575,7 @@
         <AbilArray Link="AP_ZerglingRespawn"/>
         <AbilArray Link="AP_ZerglingRespawnCounter"/>
         <AbilArray Link="AP_ZerglingRespawnTrain"/>
+        <AbilArray Link="AP_CommandCenterHyperjump"/>
         <BehaviorArray Link="AP_TerranBuildingBurnDown"/>
         <BehaviorArray Link="AP_CommandCenterQueue"/>
         <BehaviorArray Link="AP_FireSuppressionSystem"/>
@@ -11278,6 +11269,7 @@
         <CostCategory value="Army"/>
         <CostResource index="Minerals" value="150"/>
         <CostResource index="Vespene" value="150"/>
+        <RepairTime value="30"/>
         <AttackTargetPriority value="20"/>
         <DamageDealtXP value="1"/>
         <DamageTakenXP value="1"/>
@@ -22050,7 +22042,7 @@
         <Sight value="9"/>
         <Height value="3.75"/>
         <VisionHeight value="4"/>
-        <Food value="-3"/>
+        <Food value="-2.5"/>
         <CostCategory value="Army"/>
         <CostResource index="Minerals" value="275"/>
         <CostResource index="Vespene" value="125"/>
@@ -22063,6 +22055,7 @@
         <AbilArray Link="move"/>
         <AbilArray Link="Warpable"/>
         <AbilArray Link="ProgressRally"/>
+        <AbilArray Link="AP_ScoutApialSensors"/>
         <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
         <WeaponArray Link="AP_ScoutMPAir"/>
         <WeaponArray Link="AP_ScoutMPGround"/>
@@ -22070,13 +22063,13 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_ScoutExpeditionaryHull" Type="Passive" Requirements="AP_HaveScoutExpeditionaryHull" Row="1" Column="4"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="AP_ScoutWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_ScoutApialSensors" Type="Passive" Requirements="AP_HaveScoutSCBWSightUpgrade" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
-            <LayoutButtons Face="AP_ScoutAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_ScoutAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_ScoutExpeditionaryHull" Type="Passive" Requirements="AP_HaveScoutExpeditionaryHull" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutApialSensors" Type="AbilCmd" AbilCmd="AP_ScoutApialSensors,0" Row="2" Column="0"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
@@ -29727,7 +29720,7 @@
             <LayoutButtons Face="AP_SiegeTankMengskSmartServos" Type="Passive" Requirements="AP_HaveSiegeTankMengskSmartServos" Row="2" Column="2"/>
             <LayoutButtons Face="AP_SiegeTankMengskAirlift" Type="Passive" Requirements="AP_TankModeHaveSiegeTankMengskAirlift" Row="2" Column="3"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_SiegeTankMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_SiegeTankMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.875"/>
         <SeparationRadius value="1"/>
@@ -29811,7 +29804,7 @@
             <LayoutButtons Face="AP_SiegeTankMengskSmartServos" Type="Passive" Requirements="AP_HaveSiegeTankMengskSmartServos" Row="2" Column="2"/>
             <LayoutButtons Face="AP_SiegeTankMengskAirlift" Type="Passive" Requirements="AP_HaveSiegeTankMengskAirlift" Row="2" Column="3"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_SiegeTankMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_SiegeTankMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.875"/>
         <SeparationRadius value="1"/>
@@ -29914,7 +29907,7 @@
             <LayoutButtons Face="AP_ThorMengskInfernoBlitz" Type="Passive" Requirements="AP_WalkerModeHaveThorMengskInfernoBlitz" Row="1" Column="4"/>
             <LayoutButtons Face="AP_ThorMengskSmartServos" Type="Passive" Requirements="AP_HaveThorMengskSmartServos" Row="2" Column="2"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_ThorMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_ThorMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="1"/>
         <SeparationRadius value="1"/>
@@ -30003,7 +29996,7 @@
             <LayoutButtons Face="AP_ThorMengskInfernoBlitz" Type="Passive" Requirements="AP_HaveThorMengskInfernoBlitz" Row="1" Column="4"/>
             <LayoutButtons Face="AP_ThorMengskSmartServos" Type="Passive" Requirements="AP_HaveThorMengskSmartServos" Row="2" Column="2"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_ThorMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_ThorMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="1"/>
         <SeparationRadius value="1"/>
@@ -30120,7 +30113,7 @@
             <LayoutButtons Face="AP_MarauderMengskBolsteredBarrier" Type="Passive" Requirements="AP_HaveMarauderMengskBolsteredBarrier" Row="1" Column="4"/>
             <LayoutButtons Face="AP_MarauderMengskSovereignNeosteel" Type="Passive" Requirements="AP_HaveMarauderMengskSovereignNeosteel" Row="2" Column="2"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_MarauderMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MarauderMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.5625"/>
         <InnerRadius value="0.375"/>
@@ -30265,7 +30258,7 @@
             <LayoutButtons Face="AP_GhostMengskNemesisRounds" Type="Passive" Requirements="AP_ShowGhostMengskNemesisRoundsBase" Row="1" Column="3"/>
             <LayoutButtons Face="AP_GhostMengskSuperCloak" Type="AbilCmd" AbilCmd="AP_GhostMengskSuperCloak,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_GhostMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_GhostMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <InnerRadius value="0.5"/>
         <CargoSize value="2"/>
@@ -30759,7 +30752,7 @@
             <LayoutButtons Face="AP_MarineMengskCombatDiagnosis" Type="Passive" Row="1" Column="1"/>
             <LayoutButtons Face="AP_MarineMengskBuildABoom" Type="Passive" Requirements="AP_HaveMarineMengskBuildABoom" Row="2" Column="2"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_MarineMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MarineMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.375"/>
         <SeparationRadius value="0.375"/>
@@ -30861,7 +30854,7 @@
             <LayoutButtons Face="AP_GoliathMengskJumpJetsMKII" Type="Passive" Requirements="AP_HaveGoliathMengskJumpJetsMKII" Row="2" Column="1"/>
             <LayoutButtons Face="AP_GoliathMengskMoebiusDefenseMatrix" Type="Passive" Requirements="AP_HaveGoliathMengskMoebiusDefenseMatrix" Row="2" Column="2"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_GoliathMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_GoliathMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.6875"/>
         <InnerRadius value="0.5"/>
@@ -30959,7 +30952,7 @@
             <LayoutButtons Face="AP_MedicMengskHospiceCare" Type="Passive" Row="1" Column="3" Requirements="AP_MedicMengskHospiceCareResearched"/>
             <LayoutButtons Face="AP_MedicMengskRoyalAcademyDegree" Type="Passive" Row="1" Column="4" Requirements="AP_MedicMengskRoyalAcademyDegreeResearched"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_MedicMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MedicMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.375"/>
         <SeparationRadius value="0.375"/>
@@ -31347,7 +31340,7 @@
             <LayoutButtons Face="AP_BansheeMengskBacklashBarrageOn" Type="AbilCmd" AbilCmd="AP_BansheeMengskBacklashBarrage,On" Row="2" Column="2"/>
             <LayoutButtons Face="AP_BansheeMengskBacklashBarrageOff" Type="AbilCmd" AbilCmd="AP_BansheeMengskBacklashBarrage,Off" Row="2" Column="3"/>
             <LayoutButtons Face="AP_PromotionGranted" Type="AbilCmd" AbilCmd="AP_BansheeMengskUnlockRank3,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_BansheeMengskPromotionGranted" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_PromotionGranted" Type="Passive" Requirements="AP_MengskPromotionGranted" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -32003,18 +31996,19 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="AP_ScoutNerazimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
             <LayoutButtons Face="AP_ScoutAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="1"/>
             <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
-            <LayoutButtons Face="AP_ScoutNerazimPilotUnload" Type="AbilCmd" AbilCmd="AP_ScoutNerazimPilot,UnloadAt" Row="2" Column="4"/>
-            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_ScoutNerazimPilotTraining" Type="Passive" Requirements="AP_ScoutNerazimHavePilot" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutNerazimCloakUpgrade" Type="Passive" Requirements="AP_ScoutNerazimHaveSuperCloak" Row="1" Column="4"/>
             <LayoutButtons Face="AP_ScoutNerazimCloak" Type="AbilCmd" AbilCmd="AP_ScoutNerazimCloak,On" Row="2" Column="0"/>
             <LayoutButtons Face="AP_ScoutNerazimDecloak" Type="AbilCmd" AbilCmd="AP_ScoutNerazimCloak,Off" Row="2" Column="1"/>
             <LayoutButtons Face="AP_ScoutNerazimPhantomDash" Type="AbilCmd" AbilCmd="AP_ScoutNerazimPhantomDash,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_ScoutNerazimPilot" Type="AbilCmd" AbilCmd="AP_ScoutNerazimPilot,Load" Row="2" Column="3"/>
-            <LayoutButtons Face="AP_ScoutNerazimCloakUpgrade" Type="Passive" Requirements="AP_ScoutNerazimHaveSuperCloak" Row="1" Column="3"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
+            <LayoutButtons Face="AP_ScoutNerazimPilotUnload" Type="AbilCmd" AbilCmd="AP_ScoutNerazimPilot,UnloadAt" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -32090,16 +32084,16 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_ScoutPurifierWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_ScoutPurifierSideMissiles" Type="Passive" Requirements="AP_ScoutPurifierHaveSideMissiles" Row="1" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_ScoutPurifierSideMissiles" Type="Passive" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ScoutPurifierWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
             <LayoutButtons Face="AP_ScoutPurifierStructureTargeting" Type="Passive" Requirements="AP_ScoutPurifierHaveStructureTargeting" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutPurifierSolariteReactor" Type="Passive" Requirements="AP_ScoutPurifierHaveSolariteReactor" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_ScoutPurifierSolariteReactorCooldown" Type="Passive" Behavior="AP_ScoutPurifierSolariteReactorCooldown" Requirements="AP_ScoutPurifierSolariteReactorCooldown" Row="1" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
             <LayoutButtons Face="AP_ScoutPurifierCoronaBeam" Type="AbilCmd" AbilCmd="AP_ScoutPurifierCoronaBeam,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_ScoutPurifierSolariteReactorCooldown" Type="Passive" Behavior="AP_ScoutPurifierSolariteReactorCooldown" Requirements="AP_ScoutPurifierSolariteReactorCooldown" Row="1" Column="4"/>
-            <LayoutButtons Face="AP_ScoutPurifierSolariteReactor" Type="Passive" Requirements="AP_ScoutPurifierHaveSolariteReactor" Row="1" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
@@ -32176,13 +32170,14 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_ScoutTaldarimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_ScoutTaldarimAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_ScoutTaldarimVulcanBooster" Type="Passive" Requirements="AP_ScoutTaldarimHaveVulcanBlaster" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ScoutTaldarimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_ScoutTaldarimAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutTaldarimArmorMeltingBlasters" Type="Passive" Requirements="AP_ScoutTaldarimHaveArmorMeltingBlasters" Row="1" Column="4"/>
             <LayoutButtons Face="AP_ScoutTaldarimVulcanBlaster" Type="AbilCmd" AbilCmd="AP_ScoutTaldarimVulcanBlaster,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_ScoutTaldarimArmorMeltingBlasters" Type="Passive" Requirements="AP_ScoutTaldarimHaveArmorMeltingBlasters" Row="1" Column="3"/>
             <LayoutButtons Face="AP_ScoutTaldarimVulcanBlasterCancel" Type="AbilCmd" AbilCmd="AP_ScoutTaldarimVulcanBlasterCancel,Execute" Row="2" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
         </CardLayouts>
@@ -32254,13 +32249,14 @@
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="AP_ScoutTaldarimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="0"/>
-            <LayoutButtons Face="AP_ScoutTaldarimAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="1"/>
-            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AP_ScoutTaldarimVulcanBooster" Type="Passive" Requirements="AP_ScoutTaldarimHaveVulcanBlaster" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ScoutTaldarimWeaponRange" Type="Passive" Requirements="AP_HaveScoutWeaponRange" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_ScoutTaldarimAdvancedPhotonBlasters" Type="Passive" Requirements="AP_HaveScoutAdvancedPhotonBlasters" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_ScoutGraviticThrusters" Type="Passive" Requirements="AP_HaveScoutSCBWSpeedUpgrade" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ScoutTaldarimArmorMeltingBlasters" Type="Passive" Requirements="AP_ScoutTaldarimHaveArmorMeltingBlasters" Row="1" Column="4"/>
             <LayoutButtons Face="AP_ScoutTaldarimVulcanBlaster" Type="AbilCmd" AbilCmd="AP_ScoutTaldarimVulcanBlaster,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AP_ScoutTaldarimArmorMeltingBlasters" Type="Passive" Requirements="AP_ScoutTaldarimHaveArmorMeltingBlasters" Row="1" Column="3"/>
             <LayoutButtons Face="AP_ScoutTaldarimVulcanBlasterCancel" Type="AbilCmd" AbilCmd="AP_ScoutTaldarimVulcanBlasterCancel,Execute" Row="2" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
         </CardLayouts>
@@ -32823,6 +32819,7 @@
         <LifeMax value="1250"/>
         <LifeArmor value="1"/>
         <LifeArmorName value="Unit/LifeArmorName/TerranBuildingPlating"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/AP_TerranShieldArmor"/>
         <StationaryTurningRate value="719.4726"/>
         <TurningRate value="719.4726"/>
         <Sight value="9"/>
@@ -32854,6 +32851,126 @@
         <SubgroupPriority value="3"/>
         <MinimapRadius value="1.5"/>
         <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
+    </CUnit>
+    <CUnit id="AP_NydusMutatorNetwork">
+        <Subtitle value="UnitSubtitle/AP_NydusNetworkMutator"/>
+        <DeathRevealRadius value="3"/>
+        <Facing value="344.9707"/>
+        <Race value="Zerg"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDefeat" value="1"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="PenaltyRevealed" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="TownAlert" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="ArmorDisabledWhileConstructing" value="1"/>
+        <FogVisibility value="Snapshot"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Collide index="Burrow" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="Structure" value="1"/>
+        <Collide index="RoachBurrow" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <LifeStart value="850"/>
+        <LifeMax value="850"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="0.2734"/>
+        <LifeArmorName value="Unit/LifeArmorName/ZergBuildingArmor"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <Sight value="9"/>
+        <CostCategory value="Technology"/>
+        <CostResource index="Minerals" value="200"/>
+        <CostResource index="Vespene" value="150"/>
+        <RepairTime value="60"/>
+        <AttackTargetPriority value="11"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="Rally"/>
+        <AbilArray Link="BuildInProgress"/>
+        <BehaviorArray Link="AP_ZergBuildingDies6"/>
+        <CardLayouts>
+            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+            <LayoutButtons Face="SetRallyPoint" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+        </CardLayouts>
+        <Radius value="1.5"/>
+        <SeparationRadius value="1.5"/>
+        <Footprint value="AP_Footprint2x2UndergroundCreep"/>
+        <PlacementFootprint value="AP_Footprint2x2UndergroundCreep"/>
+        <ScoreMake value="350"/>
+        <ScoreKill value="400"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="2"/>
+        <MinimapRadius value="1.5"/>
+        <HotkeyCategory value="Unit/Category/AP_ZergUnitsGround"/>
+    </CUnit>
+    <CUnit id="AP_NydusMutatorWorm">
+        <DeathRevealRadius value="3"/>
+        <EffectArray index="Create" value="AP_NydusMutatorAlertDummy"/>
+        <Facing value="29.9707"/>
+        <Race value="Zerg"/>
+        <Mob value="Multiplayer"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDefeat" value="1"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="PenaltyRevealed" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="TownAlert" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <FlagArray index="AIThreatGround" value="1"/>
+        <FlagArray index="AIThreatAir" value="1"/>
+        <FlagArray index="AIHighPrioTarget" value="1"/>
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="ArmorDisabledWhileConstructing" value="0"/>
+        <FogVisibility value="Snapshot"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Collide index="Burrow" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="Structure" value="1"/>
+        <Collide index="RoachBurrow" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <LifeStart value="250"/>
+        <LifeMax value="250"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="0.2734"/>
+        <LifeArmorName value="Unit/LifeArmorName/ZergBuildingArmor"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <Sight value="10"/>
+        <CostCategory value="Technology"/>
+        <CostResource index="Minerals" value="50"/>
+        <CostResource index="Vespene" value="50"/>
+        <RepairTime value="60"/>
+        <AttackTargetPriority value="11"/>
+        <AbilArray Link="Rally"/>
+        <AbilArray Link="BuildInProgress"/>
+        <AbilArray Link="stop"/>
+        <CardLayouts>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="SetRallyPoint" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
+            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+        </CardLayouts>
+        <Radius value="1"/>
+        <SeparationRadius value="1"/>
+        <Footprint value="Footprint3x3IgnoreCreepContour"/>
+        <PlacementFootprint value="Footprint3x3IgnoreCreepContour"/>
+        <ScoreMake value="200"/>
+        <ScoreKill value="200"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="2"/>
+        <MinimapRadius value="1"/>
+        <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
+        <AIEvalFactor value="0.2"/>
     </CUnit>
     <CUnit id="AP_SkirmisherSuicideMissile" parent="MISSILE_INVULNERABLE">
         <Race value="Zerg"/>

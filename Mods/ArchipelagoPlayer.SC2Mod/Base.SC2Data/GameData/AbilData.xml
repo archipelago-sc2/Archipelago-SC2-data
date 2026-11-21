@@ -9904,6 +9904,8 @@
         <LoadValidatorArray value="RequiresTerran"/>
         <LoadValidatorArray value="AP_IsNotHellionTank"/>
         <UnloadValidatorArray value="AP_BunkerUnload"/>
+        <LoadCargoEffect value="AP_SensorTowerRangeBunkerAB"/>
+        <UnloadCargoEffect value="AP_SensorTowerRangeBunkerRB"/>
     </CAbilTransport>
     <CAbilRedirectTarget id="AP_AttackRedirect">
         <Abil value="attack"/>
@@ -13942,7 +13944,7 @@
                 <TimeUse value="20"/>
                 <Flags index="EnableChargeTimeQueuing" value="1"/>
             </Charge>
-            <Button DefaultButtonFace="AP_TrainInfestedDiamondBack" Requirements="AP_UnlockInfestedDiamondBack"/>
+            <Button DefaultButtonFace="AP_TrainInfestedDiamondBack" Requirements="AP_UnlockInfestedDiamondback"/>
             <Unit value="AP_SICocoonInfestedDiamondBack"/>
             <Flags index="InheritRally" value="1"/>
         </InfoArray>
@@ -15664,15 +15666,22 @@
         <CastOutroTime value="0.8"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_ArchonSiphon" Requirements="AP_HaveArchonSiphon"/>
     </CAbilEffectTarget>
+    <CAbilEffectInstant id="AP_ScoutApialSensors">
+        <Cost>
+            <Cooldown TimeUse="25"/>
+        </Cost>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ScoutApialSensors" Requirements="AP_HaveScoutSCBWSightUpgrade"/>
+    </CAbilEffectInstant>
     <CAbilTransport id="AP_ScoutNerazimPilot">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
-        <DataCollection value="AP_MedivacTransport"/>
-        <CmdButtonArray index="Load" DefaultButtonFace="AP_ScoutNerazimPilot" Requirements="AP_ScoutNerazimHavePilot"/>
+        <CmdButtonArray index="Load" DefaultButtonFace="AP_ScoutNerazimPilot"/>
         <CmdButtonArray index="UnloadAll">
             <Flags index="Hidden" value="1"/>
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="UnloadAt" DefaultButtonFace="AP_ScoutNerazimPilotUnload" Requirements="AP_ScoutNerazimHavePilot"/>
+        <CmdButtonArray index="UnloadAt" DefaultButtonFace="AP_ScoutNerazimPilotUnload"/>
         <CmdButtonArray index="UnloadUnit">
             <Flags index="Hidden" value="1"/>
         </CmdButtonArray>
@@ -15691,7 +15700,6 @@
         <UnloadCargoEffect value="AP_ScoutNerazimPilotUnload"/>
         <UnloadPeriod value="1"/>
         <LoadValidatorArray value="AP_IsNotAirUnit"/>
-        <LoadValidatorArray value="AP_ScoutNerazimHasPilot"/>
     </CAbilTransport>
     <CAbilBehavior id="AP_ScoutNerazimCloak">
         <AbilSetId value="Clok"/>
@@ -15746,7 +15754,7 @@
         <Cost>
             <Cooldown TimeUse="60"/>
         </Cost>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ScoutTaldarimVulcanBlaster" Requirements="AP_ScoutTaldarimHaveVulcanBlaster"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_ScoutTaldarimVulcanBlaster"/>
     </CAbilEffectInstant>
     <CAbilMorph id="AP_ScoutTaldarimVulcanBlasterMorph">
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
@@ -16893,49 +16901,49 @@
     <CAbilEffectInstant id="AP_MarineMengskUnlockRank3">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <Effect index="0" value="AP_MarineMengskUnlockRank3Set"/>
+        <Effect index="0" value="AP_MengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_MarineMengskUnlockRank3"/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_MarauderMengskUnlockRank3">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <Effect index="0" value="AP_MarauderMengskUnlockRank3Set"/>
+        <Effect index="0" value="AP_MengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_MarauderMengskUnlockRank3"/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_MedicMengskUnlockRank3">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <Effect index="0" value="AP_MedicMengskUnlockRank3Set"/>
+        <Effect index="0" value="AP_MengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_MedicMengskUnlockRank3"/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_GhostMengskUnlockRank3">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <Effect index="0" value="AP_GhostMengskUnlockRank3Set"/>
+        <Effect index="0" value="AP_MengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_GhostMengskUnlockRank3"/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_GoliathMengskUnlockRank3">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <Effect index="0" value="AP_GoliathMengskUnlockRank3Set"/>
+        <Effect index="0" value="AP_MengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_GoliathMengskUnlockRank3"/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_SiegeTankMengskUnlockRank3">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <Effect index="0" value="AP_SiegeTankMengskUnlockRank3Set"/>
+        <Effect index="0" value="AP_MengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_SiegeTankMengskUnlockRank3"/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_ThorMengskUnlockRank3">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <Effect index="0" value="AP_ThorMengskUnlockRank3Set"/>
+        <Effect index="0" value="AP_MengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_ThorMengskUnlockRank3"/>
     </CAbilEffectInstant>
     <CAbilEffectInstant id="AP_BansheeMengskUnlockRank3">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <Effect index="0" value="AP_BansheeMengskUnlockRank3Set"/>
+        <Effect index="0" value="AP_MengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_BansheeMengskUnlockRank3"/>
     </CAbilEffectInstant>
     <CAbilArmMagazine id="AP_LaunchBayHangar">

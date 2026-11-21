@@ -2075,6 +2075,11 @@
         <Find value="1"/>
         <Value value="AP_HaveSensorTowerEnhancedVision"/>
     </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="AP_HaveSensorTowerRange">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+        <Behavior value="AP_SensorTowerRangeBuff"/>
+    </CValidatorUnitCompareBehaviorCount>
     <CValidatorPlayerRequirement id="AP_NoFortifiedCarapace">
         <Find value="1"/>
         <Value value="AP_NotFortifiedCarapace"/>
@@ -4652,6 +4657,8 @@
         <CombineArray value="NotStructure"/>
         <CombineArray value="IsPhotonCannon"/>
         <CombineArray value="AP_IsKhaydarinMonolith"/>
+        <CombineArray value="AP_IsPsiSpire"/>
+        <CombineArray value="AP_IsLaunchBay"/>
         <CombineArray value="AP_IsAnyBunker"/>
         <CombineArray value="IsMissileTurret"/>
         <CombineArray value="AP_IsSpineCrawler"/>
@@ -6105,6 +6112,14 @@
     <CValidatorUnitCompareBehaviorCount id="AP_IsVanillaHallucination">
         <Value value="1"/>
         <Behavior value="Hallucination"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_CasterNotSentryHallucination">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_HallucinationTimedLife"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_CasterNotHighTemplarHallucination">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_HighTemplarSCBWHallucination"/>
     </CValidatorUnitCompareBehaviorCount>
     <CValidatorCombine id="IsHallucination" parent="CValidatorCombine">
         <!-- Override -->
@@ -9217,6 +9232,10 @@
         <WhichUnit Value="Target"/>
         <Filters value="Light;-"/>
     </CValidatorUnitFilters>
+    <CValidatorPlayerRequirement id="AP_NukeFasterCalldown">
+        <Find value="1"/>
+        <Value value="AP_NukeFasterCalldown"/>
+    </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HaveVikingMengskRank3Training">
         <WhichPlayer Value="Caster"/>
         <ResultNoPlayer value="Error"/>
@@ -9363,12 +9382,31 @@
         <WhichUnit Value="Target"/><Compare value="Eq"/><Value value="0"/><Behavior value="AP_WraithMengskToxicPoison"/>
     </CValidatorUnitCompareBehaviorCount>
 
-    <CValidatorPlayerRequirement id="AP_WraithMengskEfficientStorageOwned"><Find value="1"/><Value value="AP_WraithMengskEfficientStorageOwned"/></CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_WraithMengskMaddeningPathogenOwned"><Find value="1"/><Value value="AP_WraithMengskMaddeningPathogenOwned"/></CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_WraithMengskPhantasmalBlastOwned"><Find value="1"/><Value value="AP_WraithMengskPhantasmalBlastOwned"/></CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_WraithPulseAmplifierOwned"><Find value="1"/><Value value="AP_WraithPulseAmplifierOwned"/></CValidatorPlayerRequirement>
-    <CValidatorCombine id="AP_WraithMengskNotCloaked"><Negate value="1"/><CombineArray value="AP_CasterIsCloaked"/></CValidatorCombine>
-    <CValidatorUnitCompareSpeed id="AP_WraithPulseAmplifierMoving"><WhichUnit Value="Caster"/><Compare value="GT"/><Value value="0.125"/></CValidatorUnitCompareSpeed>
+    <CValidatorPlayerRequirement id="AP_WraithMengskEfficientStorageOwned">
+        <Find value="1"/>
+        <Value value="AP_WraithMengskEfficientStorageOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_WraithMengskMaddeningPathogenOwned">
+        <Find value="1"/>
+        <Value value="AP_WraithMengskMaddeningPathogenOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_WraithMengskPhantasmalBlastOwned">
+        <Find value="1"/>
+        <Value value="AP_WraithMengskPhantasmalBlastOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_WraithPulseAmplifierOwned">
+        <Find value="1"/>
+        <Value value="AP_WraithPulseAmplifierOwned"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_WraithMengskNotCloaked">
+        <Negate value="1"/>
+        <CombineArray value="AP_CasterIsCloaked"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareSpeed id="AP_WraithPulseAmplifierMoving">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+        <Value value="0.125"/>
+    </CValidatorUnitCompareSpeed>
     <CValidatorPlayerRequirement id="AP_HaveLiberatorMengskRank3Training">
         <Find value="1"/>
         <Value value="AP_HaveLiberatorMengskRank3Training"/>

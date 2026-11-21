@@ -41,7 +41,7 @@
                 <Face value="AP_ShieldBattery"/>
                 <Type value="AbilCmd"/>
                 <AbilCmd value="AP_HeroProbeBuild,Build22"/>
-                <SubmenuCardId value=""/>
+                <Requirements value="AP_HaveProbePermanentCloak"/>
                 <Row value="2"/>
                 <Column value="2"/>
             </LayoutButtons>
@@ -53,7 +53,14 @@
                 <Row value="1"/>
                 <Column value="0"/>
             </LayoutButtons>
-            <LayoutButtons index="9" Face="RoboticsFacility" Type="AbilCmd" AbilCmd="AP_HeroProbeBuild,Build28" Row="1" Column="2"/>
+            <LayoutButtons index="9">
+                <Face value="RoboticsFacility"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="AP_HeroProbeBuild,Build28"/>
+                <SubmenuCardId value="PBl2"/>
+                <Row value="1"/>
+                <Column value="2"/>
+            </LayoutButtons>
             <LayoutButtons Face="AP_HarvestSolarite" Type="AbilCmd" AbilCmd="ParasiticInvasion,Execute" Row="1" Column="0"/>
             <LayoutButtons Face="AP_Pylon" Type="AbilCmd" AbilCmd="AP_HeroProbeBuild,Build2" Row="2" Column="0"/>
             <LayoutButtons Face="AP_PhotonCannon" Type="AbilCmd" AbilCmd="AP_HeroProbeBuild,Build8" Row="2" Column="1"/>
@@ -228,7 +235,7 @@
         <CostResource index="Vespene" value="0"/>
     </CUnit>
     <CUnit id="InvisiblePylon">
-        <BehaviorArray index="0" Link="AP_WarpPrismPowerSource"/>
+        <BehaviorArray index="0" Link="WarpPrismPowerSource"/>
     </CUnit>
     <CUnit id="KarakMale">
         <AbilArray Link="Consume"/>
@@ -338,6 +345,8 @@
         <SeparationRadius value="0.375"/>
         <InnerRadius value="0.375"/>
         <Collide index="ForceField" value="1"/>
+        <LifeStart value="20"/>
+        <LifeMax value="20"/>
     </CUnit>
     <CUnit id="SwarmQueen">
         <CardLayouts index="0">

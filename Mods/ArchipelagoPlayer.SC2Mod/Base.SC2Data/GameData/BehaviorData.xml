@@ -1333,6 +1333,12 @@
         <Duration value="1"/>
         <Modification RangedWeaponRange="1"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_SensorTowerRangeBunker">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <DisableValidatorArray value="AP_HaveSensorTowerRange"/>
+        <Modification WeaponRange="1"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_MindControl">
         <!-- Not to be dispelled by Restoration -->
         <!--        <Alignment value="Negative"/>-->
@@ -7725,6 +7731,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_HighTemplarSCBWHallucination">
         <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Modification LifeArmorMultiplier="0" ShieldArmorMultiplier="0" SubgroupPriority="-100">
@@ -7794,6 +7801,8 @@
         <DisplayDuration index="Enemy" value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_HallucinationTimedLife">
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BehaviorFlags index="EnabledWhileDead" value="1"/>
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Duration value="60"/>
         <ExpireEffect value="KillHallucination"/>
@@ -11029,6 +11038,13 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <MaxStackCount value="999"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_ScoutApialSensors">
+        <InfoIcon value="AP\Assets\Textures\btn-apial-sensors.dds"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <Duration value="10"/>
+        <Modification SightBonus="5" Detect="16"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_ScoutNerazimCloak">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
@@ -11181,11 +11197,13 @@
         <Duration value="2"/>
         <InitialEffect value="AP_ScoutTaldarimVulcanBlasterIssueMorph"/>
         <FinalEffect value="AP_ScoutTaldarimVulcanBlasterApply"/>
+        <PeriodCount value="0"/>
+        <PeriodicEffect value="AP_ScoutTaldarimVulcanBlasterPersistent"/>
         <Modification>
             <WeaponEnableArray value="AP_ScoutTaldarimVulcanBlasterDummy"/>
+            <WeaponEnableArray value="AP_ScoutTaldarimVulcanBlaster"/>
             <WeaponDisableArray value="AP_ScoutTaldarimAir"/>
             <WeaponDisableArray value="AP_ScoutTaldarimGround"/>
-            <WeaponDisableArray value="AP_ScoutTaldarimVulcanBlaster"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_ScoutTaldarimWeaponAlternate">
@@ -11206,6 +11224,7 @@
         <Duration value="3"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_PreventWarpInAnim">
+        <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
         <Duration value="2"/>
         <Period value="0.25"/>
@@ -11986,43 +12005,7 @@
             <StateFlags index="SuppressFoodUsed" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_MarineMengskRank3Unlocked">
-        <InfoFlags index="Hidden" value="1"/>
-        <BehaviorFlags index="Permanent" value="1"/>
-        <BehaviorFlags index="EnabledWhileDead" value="1"/>
-        <MaxStackCount value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_MarauderMengskRank3Unlocked">
-        <InfoFlags index="Hidden" value="1"/>
-        <BehaviorFlags index="Permanent" value="1"/>
-        <BehaviorFlags index="EnabledWhileDead" value="1"/>
-        <MaxStackCount value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_MedicMengskRank3Unlocked">
-        <InfoFlags index="Hidden" value="1"/>
-        <BehaviorFlags index="Permanent" value="1"/>
-        <BehaviorFlags index="EnabledWhileDead" value="1"/>
-        <MaxStackCount value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_GhostMengskRank3Unlocked">
-        <InfoFlags index="Hidden" value="1"/>
-        <BehaviorFlags index="Permanent" value="1"/>
-        <BehaviorFlags index="EnabledWhileDead" value="1"/>
-        <MaxStackCount value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_GoliathMengskRank3Unlocked">
-        <InfoFlags index="Hidden" value="1"/>
-        <BehaviorFlags index="Permanent" value="1"/>
-        <BehaviorFlags index="EnabledWhileDead" value="1"/>
-        <MaxStackCount value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_SiegeTankMengskRank3Unlocked">
-        <InfoFlags index="Hidden" value="1"/>
-        <BehaviorFlags index="Permanent" value="1"/>
-        <BehaviorFlags index="EnabledWhileDead" value="1"/>
-        <MaxStackCount value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_ThorMengskRank3Unlocked">
+    <CBehaviorBuff id="AP_MengskRank3Unlocked">
         <InfoFlags index="Hidden" value="1"/>
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
@@ -12042,7 +12025,6 @@
                 <AdditiveAttackSpeedFactor value="0.25"/>
             </Modification>
         </VeterancyLevelArray>
-
         <XPFraction index="Kills" value="0"/>
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
@@ -12060,7 +12042,6 @@
                 <VitalMaxArray index="Life" value="60"/>
             </Modification>
         </VeterancyLevelArray>
-
         <XPFraction index="Kills" value="0"/>
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
@@ -12083,7 +12064,6 @@
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
         </VeterancyLevelArray>
-
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
@@ -12105,7 +12085,6 @@
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
         </VeterancyLevelArray>
-
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
@@ -12125,7 +12104,6 @@
                 <VitalRegenArray index="Shields" value="1"/>
             </Modification>
         </VeterancyLevelArray>
-
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
@@ -12143,7 +12121,6 @@
                 <VitalMaxArray index="Life" value="70"/>
             </Modification>
         </VeterancyLevelArray>
-
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
@@ -12161,7 +12138,6 @@
                 <VitalMaxArray index="Life" value="120"/>
             </Modification>
         </VeterancyLevelArray>
-
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
@@ -12171,7 +12147,6 @@
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
         <VeterancyLevelArray MinVeterancyXP="1800" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1"/>
         <VeterancyLevelArray MinVeterancyXP="4200" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2"/>
-
     </CBehaviorVeterancy>
     <CBehaviorBuff id="AP_MengskVeterancySwapping">
         <InfoFlags index="Hidden" value="1"/>
@@ -12181,12 +12156,6 @@
         <InfoIcon value="AP\Assets\Textures\btn-upgrade-terran-psychic-amplifier.dds"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Requirements value="AP_HaveGhostMengskPsychicEnhancer"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BansheeMengskRank3Unlocked">
-        <InfoFlags index="Hidden" value="1"/>
-        <BehaviorFlags index="Permanent" value="1"/>
-        <BehaviorFlags index="EnabledWhileDead" value="1"/>
-        <MaxStackCount value="1"/>
     </CBehaviorBuff>
     <CBehaviorVeterancy id="AP_MengskVeterancyBansheeMengskRank2">
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -12267,6 +12236,23 @@
         <InfoFlags index="Hidden" value="1"/>
         <PowerLink value="PowerSource"/>
     </CBehaviorPowerSource>
+    <CBehaviorBuff id="AP_NukeFasterCalldown">
+        <InfoIcon value="Assets\Textures\missilenuke_coop.dds"/>
+        <Requirements value="AP_NukeFasterCalldown"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_ThorNukeFasterCalldown">
+        <InfoIcon value="Assets\Textures\missilenuke_coop.dds"/>
+        <Requirements value="AP_ThorNukeFasterCalldown"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_NydusWormProgress">
+        <InfoFlags index="Hidden" value="1"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <DisplayDuration index="Neutral" value="1"/>
+        <DisplayDuration index="Enemy" value="1"/>
+        <BuffFlags index="Countdown" value="0"/>
+        <Duration value="20"/>
+    </CBehaviorBuff>
     <CBehaviorVeterancy id="AP_MengskVeterancyVikingMengskRank2">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <XPFraction index="Kills" value="0"/>

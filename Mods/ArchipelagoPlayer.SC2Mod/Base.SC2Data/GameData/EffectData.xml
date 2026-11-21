@@ -1670,6 +1670,7 @@
     <CEffectCreatePersistent id="AP_NukePersistent">
         <EditorCategories value="Race:Terran"/>
         <Flags index="Channeled" value="1"/>
+        <ExpireDelay value="3.75"/>
         <PeriodCount value="2"/>
         <PeriodicEffectArray value="AP_NukePersistent2"/>
         <PeriodicEffectArray value="AP_NukeAINotify"/>
@@ -1684,7 +1685,7 @@
     <CEffectCreatePersistent id="AP_NukePersistent2">
         <EditorCategories value="Race:Terran"/>
         <Alert value="CalldownLaunchObserver"/>
-        <Flags index="Channeled" value="1"/>
+        <Flags index="Channeling" value="1"/>
         <InitialDelay value="8.75"/>
         <ExpireEffect value="AP_NukeDetonate"/>
         <FinalEffect value="AP_NukeSuicide"/>
@@ -4544,6 +4545,14 @@
         <EditorCategories value="Race:Terran"/>
         <Behavior value="AP_SensorTowerRangeBuff"/>
     </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_SensorTowerRangeBunkerAB">
+        <EditorCategories value="Race:Terran"/>
+        <Behavior value="AP_SensorTowerRangeBunker"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="AP_SensorTowerRangeBunkerRB">
+        <EditorCategories value="Race:Terran"/>
+        <BehaviorLink value="AP_SensorTowerRangeBunker"/>
+    </CEffectRemoveBehavior>
     <CEffectApplyBehavior id="AP_MakePrecursorMerc">
         <Behavior value="AP_PrecursorMerc"/>
     </CEffectApplyBehavior>
@@ -17985,6 +17994,7 @@
     </CEffectEnumArea>
     <CEffectSet id="AP_SOAOverWatchSet">
         <ValidatorArray value="AP_SOAOverWatchLifeLimit"/>
+        <ValidatorArray value="NotUnderConstruction"/>
         <EffectArray value="AP_SOAOverWatchDamage"/>
         <EffectArray value="AP_SOAOverWatchCooldownAB"/>
     </CEffectSet>
@@ -25493,6 +25503,8 @@
             <SortArray value="TSDistance"/>
         </TargetSorts>
         <ValidatorArray value="AP_ArchonSuicideTargetsInRange"/>
+        <ValidatorArray value="AP_CasterNotHighTemplarHallucination"/>
+        <ValidatorArray value="AP_CasterNotSentryHallucination"/>
         <AreaArray MaxCount="1" Radius="6" Effect="AP_ArchonSuicideLaunch"/>
     </CEffectEnumArea>
     <CEffectCreatePersistent id="AP_ArchonSuicideReveal">
@@ -25699,6 +25711,9 @@
     <CEffectRemoveBehavior id="AP_CarrierAiurStopRepairDronesRB">
         <BehaviorLink value="AP_CarrierAiurStopRepairDrones"/>
     </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="AP_ScoutApialSensors">
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
     <CEffectCreatePersistent id="AP_ScoutNerazimAirWeapon">
         <EditorCategories value="Race:Protoss"/>
         <WhichLocation Value="TargetUnit"/>
@@ -25901,7 +25916,7 @@
     <CEffectCreatePersistent id="AP_ScoutPurifierAirWeapon">
         <EditorCategories value="Race:Protoss"/>
         <WhichLocation Value="TargetUnit"/>
-        <PeriodCount value="2"/>
+        <PeriodCount value="4"/>
         <PeriodicEffectArray value="AP_ScoutPurifierAirWeaponLMLeft"/>
         <PeriodicEffectArray value="AP_ScoutPurifierAirWeaponLMRight"/>
         <PeriodicEffectArray value="AP_ScoutPurifierAirWeaponSearchLeft"/>
@@ -25929,7 +25944,7 @@
         <SearchFilters value="Air,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray>
             <Arc value="90"/>
-            <MaxCount value="2"/>
+            <MaxCount value="1"/>
             <Radius value="6"/>
             <FacingAdjustment value="315"/>
             <Effect value="AP_ScoutPurifierAirWeaponLMLeft"/>
@@ -25942,7 +25957,7 @@
         <SearchFilters value="Air,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray>
             <Arc value="90"/>
-            <MaxCount value="2"/>
+            <MaxCount value="1"/>
             <Radius value="6"/>
             <FacingAdjustment value="45"/>
             <Effect value="AP_ScoutPurifierAirWeaponLMRight"/>
@@ -26111,11 +26126,6 @@
         <Abil value="AP_ScoutTaldarimVulcanBlasterUnmorph"/>
         <CmdFlags index="Preempt" value="1"/>
     </CEffectIssueOrder>
-    <CEffectEnumArea id="AP_ScoutTaldarimVulcanBlasterSearchStructure">
-        <EditorCategories value="Race:Protoss"/>
-        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="2" Effect="AP_ScoutTaldarimVulcanBlasterApplyAttackable"/>
-    </CEffectEnumArea>
     <CEffectApplyBehavior id="AP_ScoutTaldarimWeaponAirApply">
         <EditorCategories value="Race:Protoss"/>
         <WhichUnit Value="Caster"/>
@@ -26165,7 +26175,7 @@
     </CEffectCreatePersistent>
     <CEffectEnumArea id="AP_ScoutTaldarimVulcanBlasterSearch">
         <EditorCategories value="Race:Protoss"/>
-        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray Radius="2" Effect="AP_ScoutTaldarimVulcanBlasterApplyAttackable"/>
     </CEffectEnumArea>
     <CEffectSet id="AP_ScoutTaldarimVulcanBlasterEnd">
@@ -28045,69 +28055,13 @@
     <CEffectSet id="AP_RepairFixSet">
         <EffectArray value="AP_RepairFixMU"/>
     </CEffectSet>
-    <CEffectSet id="AP_MarineMengskUnlockRank3Set">
-        <EffectArray value="AP_MarineMengskUnlockRank3Apply"/>
+    <CEffectSet id="AP_MengskUnlockRank3Set">
+        <EffectArray value="AP_MengskUnlockRank3Apply"/>
         <EffectArray value="AP_MengskVeteranTrigger"/>
     </CEffectSet>
-    <CEffectApplyBehavior id="AP_MarineMengskUnlockRank3Apply">
+    <CEffectApplyBehavior id="AP_MengskUnlockRank3Apply">
         <WhichUnit Value="Caster"/>
-        <Behavior value="AP_MarineMengskRank3Unlocked"/>
-    </CEffectApplyBehavior>
-    <CEffectSet id="AP_MarauderMengskUnlockRank3Set">
-        <EffectArray value="AP_MarauderMengskUnlockRank3Apply"/>
-        <EffectArray value="AP_MengskVeteranTrigger"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="AP_MarauderMengskUnlockRank3Apply">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_MarauderMengskRank3Unlocked"/>
-    </CEffectApplyBehavior>
-    <CEffectSet id="AP_MedicMengskUnlockRank3Set">
-        <EffectArray value="AP_MedicMengskUnlockRank3Apply"/>
-        <EffectArray value="AP_MengskVeteranTrigger"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="AP_MedicMengskUnlockRank3Apply">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_MedicMengskRank3Unlocked"/>
-    </CEffectApplyBehavior>
-    <CEffectSet id="AP_GhostMengskUnlockRank3Set">
-        <EffectArray value="AP_GhostMengskUnlockRank3Apply"/>
-        <EffectArray value="AP_MengskVeteranTrigger"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="AP_GhostMengskUnlockRank3Apply">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_GhostMengskRank3Unlocked"/>
-    </CEffectApplyBehavior>
-    <CEffectSet id="AP_GoliathMengskUnlockRank3Set">
-        <EffectArray value="AP_GoliathMengskUnlockRank3Apply"/>
-        <EffectArray value="AP_MengskVeteranTrigger"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="AP_GoliathMengskUnlockRank3Apply">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_GoliathMengskRank3Unlocked"/>
-    </CEffectApplyBehavior>
-    <CEffectSet id="AP_SiegeTankMengskUnlockRank3Set">
-        <EffectArray value="AP_SiegeTankMengskUnlockRank3Apply"/>
-        <EffectArray value="AP_MengskVeteranTrigger"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="AP_SiegeTankMengskUnlockRank3Apply">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_SiegeTankMengskRank3Unlocked"/>
-    </CEffectApplyBehavior>
-    <CEffectSet id="AP_ThorMengskUnlockRank3Set">
-        <EffectArray value="AP_ThorMengskUnlockRank3Apply"/>
-        <EffectArray value="AP_MengskVeteranTrigger"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="AP_ThorMengskUnlockRank3Apply">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_ThorMengskRank3Unlocked"/>
-    </CEffectApplyBehavior>
-    <CEffectSet id="AP_BansheeMengskUnlockRank3Set">
-        <EffectArray value="AP_BansheeMengskUnlockRank3Apply"/>
-        <EffectArray value="AP_MengskVeteranTrigger"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="AP_BansheeMengskUnlockRank3Apply">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_BansheeMengskRank3Unlocked"/>
+        <Behavior value="AP_MengskRank3Unlocked"/>
     </CEffectApplyBehavior>
     <CEffectApplyBehavior id="AP_KhaydarinBeamStunAB">
         <Behavior value="AP_KhaydarinBeamStun"/>
@@ -28232,6 +28186,14 @@
     </CEffectEnumArea>
     <CEffectSet id="AP_PsiSpireWeapon">
         <EditorCategories value="Race:Protoss"/>
+    </CEffectSet>
+    <CEffectDamage id="AP_DeathTimeout">
+        <Flags index="Kill" value="1"/>
+        <Kind value="NoProc"/>
+        <Death value="Timeout"/>
+    </CEffectDamage>
+    <CEffectSet id="AP_NydusMutatorAlertDummy">
+        <Alert value="AP_NydusDetect"/>
     </CEffectSet>
     <CEffectSet id="AP_VikingMengskUnlockRank3Set">
         <EffectArray value="AP_VikingMengskUnlockRank3Apply"/>

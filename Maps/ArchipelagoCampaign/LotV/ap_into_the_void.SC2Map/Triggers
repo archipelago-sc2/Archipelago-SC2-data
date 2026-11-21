@@ -516,9 +516,9 @@
     <Element Type="FunctionCall" Id="0F0FEB99">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
         <ScriptCode>
-            AP_GhostSpawn_waveTargetOverride = true;
-            AP_GhostSpawn_playerOverride = lv_p;
-            AP_GhostSpawn_regionOverride = lv_r;
+            AP_SpawnSystem_waveTargetOverride = true;
+            AP_SpawnSystem_playerOverride = lv_p;
+            AP_SpawnSystem_regionOverride = lv_r;
         </ScriptCode>
     </Element>
     <Element Type="Comment" Id="26F2CB44">
@@ -11746,6 +11746,9 @@
         <Action Type="FunctionCall" Id="7D401610"/>
         <Action Type="FunctionCall" Id="832F4F5C"/>
         <Action Type="FunctionCall" Id="65EFF5C0"/>
+        <Action Type="Comment" Id="1564B13D"/>
+        <Action Type="FunctionCall" Id="855903A8"/>
+        <Action Type="FunctionCall" Id="F46783A7"/>
     </Element>
     <Element Type="Comment" Id="66C7F48B">
         <Comment>
@@ -13555,6 +13558,53 @@
     </Element>
     <Element Type="FunctionCall" Id="65EFF5C0">
         <FunctionDef Type="FunctionDef" Library="VCMI" Id="EBB02FBF"/>
+    </Element>
+    <Element Type="Comment" Id="1564B13D">
+        <Comment>
+            Hide UI for no-build section
+        </Comment>
+    </Element>
+    <Element Type="FunctionCall" Id="855903A8">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="AE5AF605"/>
+        <Parameter Type="Param" Id="2629C601"/>
+        <Parameter Type="Param" Id="9F439E94"/>
+        <Parameter Type="Param" Id="3D78D560"/>
+    </Element>
+    <Element Type="Param" Id="2629C601">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="2F2BFE5E"/>
+        <FunctionCall Type="FunctionCall" Id="E91A73EE"/>
+    </Element>
+    <Element Type="FunctionCall" Id="E91A73EE">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+    </Element>
+    <Element Type="Param" Id="9F439E94">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="0E1B0C62"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="D3B0AF73"/>
+    </Element>
+    <Element Type="Param" Id="3D78D560">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="898D9753"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000121"/>
+    </Element>
+    <Element Type="FunctionCall" Id="F46783A7">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="AE5AF605"/>
+        <Parameter Type="Param" Id="29F18A06"/>
+        <Parameter Type="Param" Id="8CFD1ADB"/>
+        <Parameter Type="Param" Id="1EE3C850"/>
+    </Element>
+    <Element Type="Param" Id="29F18A06">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="2F2BFE5E"/>
+        <FunctionCall Type="FunctionCall" Id="99232D2E"/>
+    </Element>
+    <Element Type="FunctionCall" Id="99232D2E">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+    </Element>
+    <Element Type="Param" Id="8CFD1ADB">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="0E1B0C62"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="259E20FC"/>
+    </Element>
+    <Element Type="Param" Id="1EE3C850">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="898D9753"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000121"/>
     </Element>
     <Element Type="Trigger" Id="EEA2C8E7">
         <Action Type="Comment" Id="1C8A4E4C"/>
@@ -15479,7 +15529,7 @@
     </Element>
     <Element Type="Comment" Id="8E5086C8">
         <Comment>
-             
+
         </Comment>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="DEA91B62"/>
     </Element>
@@ -15616,7 +15666,7 @@
     </Element>
     <Element Type="Comment" Id="B4516A77">
         <Comment>
-             
+
         </Comment>
         <SubFunctionType Type="SubFuncType" Library="Ntve" Id="DEA91B62"/>
     </Element>
@@ -48087,12 +48137,12 @@
     </Element>
     <Element Type="Comment" Id="59B91F53">
         <Comment>
-             
+
         </Comment>
     </Element>
     <Element Type="Comment" Id="BC2D35EF">
         <Comment>
-             
+
         </Comment>
     </Element>
     <Element Type="FunctionCall" Id="B6DE05A8">
@@ -50094,7 +50144,7 @@
     </Element>
     <Element Type="Comment" Id="AF9F5EF8">
         <Comment>
-             
+
         </Comment>
     </Element>
     <Element Type="FunctionCall" Id="2DB82A4F">
@@ -51029,7 +51079,7 @@
     </Element>
     <Element Type="Comment" Id="1A57CD4F">
         <Comment>
-             
+
         </Comment>
     </Element>
     <Element Type="FunctionCall" Id="A3DAAF9B">
@@ -51485,7 +51535,7 @@
     </Element>
     <Element Type="Comment" Id="5BED8BE9">
         <Comment>
-             
+
         </Comment>
     </Element>
     <Element Type="FunctionCall" Id="7526979F">
@@ -51941,7 +51991,7 @@
     </Element>
     <Element Type="Comment" Id="0A63C34F">
         <Comment>
-             
+
         </Comment>
     </Element>
     <Element Type="Category" Id="234B6594">
@@ -77855,8 +77905,8 @@
     </Element>
     <Element Type="Comment" Id="40DFA773">
         <Comment>
-            If Narud&apos;s target isn&apos;t too far to the side of him, make him look at the target.  
-            Otherwise, look as far in that direction as you can.  
+            If Narud&apos;s target isn&apos;t too far to the side of him, make him look at the target.
+            Otherwise, look as far in that direction as you can.
             This is to ensure he doesn&apos;t clip into the doodads behind him.
         </Comment>
     </Element>
@@ -81047,7 +81097,7 @@
     </Element>
     <Element Type="Comment" Id="A5D24002">
         <Comment>
-            Setup forward bases when 
+            Setup forward bases when
             towers die and smoke clears
         </Comment>
     </Element>
@@ -86421,7 +86471,7 @@
     </Element>
     <Element Type="Comment" Id="8B2E2F43">
         <Comment>
-            Setup forward bases when 
+            Setup forward bases when
             towers die and smoke clears
         </Comment>
     </Element>
@@ -93546,7 +93596,7 @@
     </Element>
     <Element Type="Comment" Id="91E68C72">
         <Comment>
-            Setup forward bases when 
+            Setup forward bases when
             towers die and smoke clears
         </Comment>
     </Element>
@@ -114042,6 +114092,7 @@
         <Action Type="FunctionCall" Id="FB6CB437"/>
         <Action Type="FunctionCall" Id="D6FDCA01"/>
         <Action Type="FunctionCall" Id="52BA42EE"/>
+        <Action Type="FunctionCall" Id="DFC27AA3"/>
         <Action Type="FunctionCall" Id="7197C4BF"/>
         <Action Type="Comment" Id="A5C9D259"/>
         <Action Type="FunctionCall" Id="4C4B0242"/>
@@ -116009,6 +116060,9 @@
     <Element Type="Param" Id="2C3CAA9B">
         <ParameterDef Type="ParamDef" Library="ABFE498B" Id="533B7D95"/>
         <Variable Type="Variable" Id="34A58E06"/>
+    </Element>
+    <Element Type="FunctionCall" Id="DFC27AA3">
+        <FunctionDef Type="FunctionDef" Library="5BD4895D" Id="9C53A121"/>
     </Element>
     <Element Type="FunctionCall" Id="7197C4BF">
         <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000242"/>
