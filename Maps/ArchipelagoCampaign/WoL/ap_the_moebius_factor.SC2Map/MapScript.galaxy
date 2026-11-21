@@ -842,7 +842,6 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_FactionSwapInit_Init () {
     gt_FactionSwapInit = TriggerCreate("gt_FactionSwapInit_Func");
-    TriggerAddEventGeneric(gt_FactionSwapInit, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -860,6 +859,7 @@ bool gt_Initialization_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_Init04Music, true, true);
     TriggerExecute(gt_Init05Environment, true, true);
     TriggerExecute(gt_Init06Difficulties, true, true);
+    TriggerExecute(gt_FactionSwapInit, true, true);
     TriggerExecute(gt_IntroSequence, true, false);
     return true;
 }
