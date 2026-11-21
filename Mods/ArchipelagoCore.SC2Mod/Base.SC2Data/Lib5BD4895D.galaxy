@@ -59,6 +59,7 @@ void lib5BD4895D_InitVariables () {
     for (init_i = 0; init_i <= 7; init_i += 1) {
         lib5BD4895D_gv_aP_Core_rainbowColors[init_i] = 1;
     }
+    lib5BD4895D_gv_aP_Core_PreviousVespeneBuildingLocation = RegionGetCenter(RegionEntireMap());
     lib5BD4895D_gv_aP_Core_tradeFlavorName = "Void Trade";
     lib5BD4895D_gv_aP_Core_objectiveUsedCategories = 4;
     lib5BD4895D_gv_aP_Core_objectiveDefaultTimer = TimerCreate();
@@ -813,6 +814,38 @@ bool lib5BD4895D_gf_AP_Core_IsVespeneGeyser (unit lp_u) {
     );
 }
 
+bool lib5BD4895D_gf_AP_Core_IsVespeneBuilding (unit lp_u) {
+    // Variable Declarations
+    string lv_type;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_type = "";
+
+    // Implementation
+    lv_type = UnitGetType(lp_u);
+    return (
+        lv_type == "Refinery"
+        || lv_type == "Extractor"
+        || lv_type == "Assimilator"
+        || lv_type == "AP_Refinery"
+        || lv_type == "AP_Extractor"
+        || lv_type == "AP_Assimilator"
+        || lv_type == "AP_AssimilatorProtossGeyser"
+        || lv_type == "AP_AssimilatorPurifierGeyser"
+        || lv_type == "AP_AssimilatorShakurasGeyser"
+        || lv_type == "AP_RefineryRich"
+        || lv_type == "AP_ExtractorRich"
+        || lv_type == "AP_AssimilatorRich"
+        || lv_type == "AP_AutomatedRefinery"
+        || lv_type == "AP_AutomatedExtractor"
+        || lv_type == "AP_AutomatedAssimilator"
+        || lv_type == "AP_AutomatedRefineryRich"
+        || lv_type == "AP_AutomatedExtractorRich"
+        || lv_type == "AP_AutomatedAssimilatorRich"
+    );
+}
+
 void lib5BD4895D_gf_AP_Core_giveStartingResources (string lp_inputString) {
     // Variable Declarations
     int lv_oldStartingMinerals;
@@ -882,16 +915,20 @@ bool auto_lib5BD4895D_gf_AP_Core_giveBiggerResourceFields_TriggerFunc (bool test
     lv_biggerVespeneGeysers = StringToInt(StringWord(lp_inputString, 2));
     lv_mineralFactor = (0.01 * (100 + 1 * lv_biggerMineralFields));
     lv_vespeneFactor = (0.01 * (100 + 1 * lv_biggerVespeneGeysers));
-    lv_g = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterRawResource), 0, 0, 0), 0);
+    lv_g = UnitGroupEmpty();
 
     // Implementation
+    lib5BD4895D_gv_aP_Core_MineralFieldFactor = lv_mineralFactor;
+    lib5BD4895D_gv_aP_Core_VespeneGeyserFactor = lv_vespeneFactor;
     auto1852CC6F_at = 0;
     while (!((lib5BD4895D_gv_aP_Core_initFinished == true)) && auto1852CC6F_at <= 10.0) {
         Wait(0.0625, c_timeGame);
         auto1852CC6F_at = auto1852CC6F_at + 0.0625;
     }
     Wait(0.25, c_timeGame);
+    UnitGroupAddUnitGroup(lv_g, UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterRawResource), 0, 0, 0), 0));
     UnitGroupAddUnitGroup(lv_g, UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterHarvestableResource), 0, 0, 0), 0));
+    UnitGroupAddUnitGroup(lv_g, UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter((1 << c_targetFilterGround) | (1 << c_targetFilterStructure), 0, 0, 0), 0));
     autoDD576E87_g = lv_g;
     autoDD576E87_u = UnitGroupCount(autoDD576E87_g, c_unitCountAll);
     for (;; autoDD576E87_u -= 1) {
@@ -2826,6 +2863,59 @@ void lib5BD4895D_gt_AP_Core_rainbowColorsInit_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: AP_Core_fixResourceFields
+//--------------------------------------------------------------------------------------------------
+bool lib5BD4895D_gt_AP_Core_fixResourceFields_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_old;
+    int lv_new;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!(((lib5BD4895D_gf_AP_Core_IsMineralField(EventUnit()) == true) || (lib5BD4895D_gf_AP_Core_IsVespeneGeyser(EventUnit()) == true)))) {
+            return false;
+        }
+
+        if (!((DataTableGetBool(true, ("BiggerResourcesHandled" + IntToString(UnitGetTag(EventUnit())))) == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((lib5BD4895D_gf_AP_Core_IsVespeneGeyser(EventUnit()) == true) && (DistanceSquaredBetweenPoints(UnitGetPosition(EventUnit()), lib5BD4895D_gv_aP_Core_PreviousVespeneBuildingLocation) <= 1)) {
+        return true;
+    }
+
+    lv_old = UnitGetPropertyInt(EventUnit(), c_unitPropResources, c_unitPropCurrent);
+    if ((lib5BD4895D_gf_AP_Core_IsMineralField(EventUnit()) == true)) {
+        lv_new = FixedToInt((lib5BD4895D_gv_aP_Core_MineralFieldFactor*lv_old));
+    }
+    else {
+        lv_new = FixedToInt((lib5BD4895D_gv_aP_Core_VespeneGeyserFactor*lv_old));
+    }
+    UnitSetPropertyFixed(EventUnit(), c_unitPropResources, lv_new);
+    DataTableSetBool(true, ("BiggerResourcesHandled" + IntToString(UnitGetTag(EventUnit()))), true);
+    if ((lib5BD4895D_gf_AP_Core_IsVespeneBuilding(EventUnit()) == true)) {
+        lib5BD4895D_gv_aP_Core_PreviousVespeneBuildingLocation = UnitGetPosition(EventUnit());
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib5BD4895D_gt_AP_Core_fixResourceFields_Init () {
+    lib5BD4895D_gt_AP_Core_fixResourceFields = TriggerCreate("lib5BD4895D_gt_AP_Core_fixResourceFields_Func");
+    TriggerAddEventUnitRegion(lib5BD4895D_gt_AP_Core_fixResourceFields, null, RegionEntireMap(), true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Core_tradeStart
 //--------------------------------------------------------------------------------------------------
 bool lib5BD4895D_gt_AP_Core_tradeStart_Func (bool testConds, bool runActions) {
@@ -2928,6 +3018,7 @@ void lib5BD4895D_InitTriggers () {
     lib5BD4895D_gt_AP_Core_onShowButtonChatbox_Init();
     lib5BD4895D_gt_AP_Core_updateChatbox_Init();
     lib5BD4895D_gt_AP_Core_rainbowColorsInit_Init();
+    lib5BD4895D_gt_AP_Core_fixResourceFields_Init();
     lib5BD4895D_gt_AP_Core_tradeStart_Init();
     lib5BD4895D_gt_AP_Core_objectiveTimerUpdate_Init();
 }

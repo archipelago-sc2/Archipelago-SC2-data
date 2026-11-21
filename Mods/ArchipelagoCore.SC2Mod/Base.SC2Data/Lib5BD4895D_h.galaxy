@@ -137,6 +137,9 @@ bool[21] lib5BD4895D_gv_aP_Core_rainbowKiller;
 int lib5BD4895D_gv_aP_Core_BonusMaxSupply;
 int lib5BD4895D_gv_aP_Core_BonusMinerals;
 int lib5BD4895D_gv_aP_Core_BonusVespene;
+fixed lib5BD4895D_gv_aP_Core_MineralFieldFactor;
+fixed lib5BD4895D_gv_aP_Core_VespeneGeyserFactor;
+point lib5BD4895D_gv_aP_Core_PreviousVespeneBuildingLocation;
 string lib5BD4895D_gv_aP_Core_tradeFlavorName;
 unit lib5BD4895D_gv_aP_Core_tradeUnit;
 string lib5BD4895D_gv_aP_Core_tradeSendUnitType;
@@ -180,6 +183,7 @@ void lib5BD4895D_gf_AP_Core_setFactionColor (string lp_faction, int lp_colorInde
 void lib5BD4895D_gf_AP_Core_onLoadFinished ();
 bool lib5BD4895D_gf_AP_Core_IsMineralField (unit lp_u);
 bool lib5BD4895D_gf_AP_Core_IsVespeneGeyser (unit lp_u);
+bool lib5BD4895D_gf_AP_Core_IsVespeneBuilding (unit lp_u);
 void lib5BD4895D_gf_AP_Core_giveStartingResources (string lp_inputString);
 void lib5BD4895D_gf_AP_Core_giveBiggerResourceFields (string lp_inputString);
 void lib5BD4895D_gf_AP_Core_setFactionColorHandler (string lp_inputString);
@@ -246,6 +250,7 @@ trigger lib5BD4895D_gt_AP_Core_onHideButtonChatbox;
 trigger lib5BD4895D_gt_AP_Core_onShowButtonChatbox;
 trigger lib5BD4895D_gt_AP_Core_updateChatbox;
 trigger lib5BD4895D_gt_AP_Core_rainbowColorsInit;
+trigger lib5BD4895D_gt_AP_Core_fixResourceFields;
 trigger lib5BD4895D_gt_AP_Core_tradeStart;
 trigger lib5BD4895D_gt_AP_Core_objectiveTimerUpdate;
 
