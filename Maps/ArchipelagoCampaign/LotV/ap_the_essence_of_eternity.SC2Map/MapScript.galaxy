@@ -1,9 +1,9 @@
 //==================================================================================================
-// 
+//
 // Generated Map Script
-// 
+//
 // Name:   The Essence of Eternity
-// 
+//
 //==================================================================================================
 include "TriggerLibs/NativeLib"
 include "TriggerLibs/LibertyLib"
@@ -1079,9 +1079,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         libABFE498B_gf_AP_Triggers_HeroInitFacingAngle(gv_pLAYER_01_USER, UnitGetPosition(gv_zAGARA2), libNtve_gf_ConvertUnitToUnitGroup(gv_zAGARA2), 135.0);
         TriggerEnable(gt_ObjectiveTerranSurvivalCreate, false);
     }
-    AP_GhostSpawn_playerOverride = lv_player;
-    AP_GhostSpawn_regionOverride = lv_region;
-    AP_GhostSpawn_gatherPointOverride = lv_point;
+    AP_SpawnSystem_playerOverride = lv_player;
+    AP_SpawnSystem_regionOverride = lv_region;
+    AP_SpawnSystem_gatherPointOverride = lv_point;
     if ((libABFE498B_gv_aP_Triggers_Option_takeOverAIAllies == true)) {
         if (((libABFE498B_gv_aP_Triggers_Option_HeroPresence & 1) == 1)) {
             lv_group = UnitGroupFilter("AP_K5Kerrigan", c_playerAny, libABFE498B_gv_aP_Triggers_HeroUnits, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -9094,7 +9094,7 @@ void gt_ObjectiveTerranSurvivalComplete_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Objective Terran Survival Failed Q 
+// Trigger: Objective Terran Survival Failed Q
 //--------------------------------------------------------------------------------------------------
 bool gt_ObjectiveTerranSurvivalFailedQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations

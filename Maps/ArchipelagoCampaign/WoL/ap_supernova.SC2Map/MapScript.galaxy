@@ -426,12 +426,24 @@ void gt_onDifficultyBrutal_Init () {
 // Trigger: Arch Init
 //--------------------------------------------------------------------------------------------------
 bool gt_ArchInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    region lv_r;
+    int lv_p;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_r = RegionFromId(3);
+    lv_p = gv_pLAYER02_PROTOSS;
+
     // Actions
     if (!runActions) {
         return true;
     }
 
+    AP_SpawnSystem_playerOverride = lv_p;
+    AP_SpawnSystem_regionOverride = lv_r;
+    AP_SpawnSystem_waveTargetOverride = true;
+    libABFE498B_gv_aP_Triggers_VoidDuplicate_TargetOverride = true;
     TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
     TriggerExecute(gt_Init02Players, true, false);
     lib5BD4895D_gf_AP_Core_MapConfig_setMapInit(gt_Init06Difficulties);
@@ -2524,33 +2536,37 @@ bool gt_ProtossP02AttackWaves_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSetGatherPoint(gv_pLAYER02_PROTOSS, PointFromId(123));
     AIAttackWaveAddWaypoint(gv_pLAYER02_PROTOSS, PointFromId(433), false);
     AIAttackWaveAddUnits4(3, 3, 5, 5, "Zealot");
     AIAttackWaveAddUnits4(2, 2, 3, 4, "Stalker");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
     AIAttackWaveAddWaypoint(gv_pLAYER02_PROTOSS, PointFromId(36), false);
     AIAttackWaveAddUnits4(2, 2, 4, 4, "Stalker");
     AIAttackWaveAddUnits4(1, 1, 2, 3, "Immortal");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
     AIAttackWaveAddWaypoint(gv_pLAYER02_PROTOSS, PointFromId(433), false);
     AIAttackWaveAddUnits4(2, 2, 3, 3, "Immortal");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Scout");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
     AIAttackWaveAddWaypoint(gv_pLAYER02_PROTOSS, PointFromId(36), false);
     AIAttackWaveAddUnits4(3, 3, 4, 6, "Zealot");
     AIAttackWaveAddUnits4(4, 4, 5, 6, "Sentry");
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Observer");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
     AIAttackWaveAddWaypoint(gv_pLAYER02_PROTOSS, PointFromId(36), false);
     AIAttackWaveAddUnits4(3, 3, 3, 3, "Immortal");
     AIAttackWaveAddUnits4(0, 0, 3, 2, "Stalker");
     AIAttackWaveAddUnits4(0, 0, 0, 2, "Phoenix");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
     AIAttackWaveAddWaypoint(gv_pLAYER02_PROTOSS, PointFromId(36), false);
@@ -2564,6 +2580,7 @@ bool gt_ProtossP02AttackWaves_Func (bool testConds, bool runActions) {
     }
 
     AIAttackWaveAddUnits4(0, 0, 0, 1, "Scout");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
     while (true) {
         Wait(libNtve_gf_DifficultyValueFixed(60.0, 60.0, 30.0, 0.0), c_timeAI);
@@ -2577,18 +2594,21 @@ bool gt_ProtossP02AttackWaves_Func (bool testConds, bool runActions) {
             AIAttackWaveUseUnit(gv_pLAYER02_PROTOSS, UnitFromId(539));
         }
 
+        AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
         AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
         Wait(libNtve_gf_DifficultyValueFixed(60.0, 60.0, 30.0, 0.0), c_timeAI);
         AIAttackWaveAddWaypoint(gv_pLAYER02_PROTOSS, PointFromId(36), false);
         AIAttackWaveAddUnits4(4, 4, 6, 8, "Zealot");
         AIAttackWaveAddUnits4(2, 2, 3, 4, "Stalker");
         AIAttackWaveAddUnits4(1, 1, 2, 2, "Archon");
+        AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
         AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
         Wait(libNtve_gf_DifficultyValueFixed(60.0, 60.0, 30.0, 0.0), c_timeAI);
         AIAttackWaveAddWaypoint(gv_pLAYER02_PROTOSS, PointFromId(36), false);
         AIAttackWaveAddUnits4(1, 1, 2, 2, "Immortal");
         AIAttackWaveAddUnits4(0, 0, 1, 3, "Sentry");
         AIAttackWaveAddUnits4(2, 2, 3, 4, "Archon");
+        AIAttackWaveSetTargetPlayer(gv_pLAYER02_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
         AIAttackWaveSend(gv_pLAYER02_PROTOSS, 120, true);
     }
     return true;
@@ -2616,14 +2636,15 @@ bool gt_ProtossP03AttackWaves_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    AIAttackWaveSetTargetPlayer(gv_pLAYER03_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSetGatherPoint(gv_pLAYER03_PROTOSS, PointFromId(322));
     Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 60.0, 30.0), c_timeAI);
     AIAttackWaveAddUnits4(3, 3, 5, 6, "Zealot");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER03_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER03_PROTOSS, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 60.0, 30.0), c_timeAI);
     AIAttackWaveAddUnits4(3, 3, 4, 5, "Stalker");
     AIAttackWaveAddUnits4(0, 1, 2, 3, "Sentry");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER03_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER03_PROTOSS, 120, true);
     return true;
 }
@@ -2650,28 +2671,32 @@ bool gt_ProtossP04AttackWaves_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    AIAttackWaveSetTargetPlayer(gv_pLAYER04_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSetGatherPoint(gv_pLAYER04_PROTOSS, PointFromId(262));
     Wait(libNtve_gf_DifficultyValueFixed(480.0, 480.0, 400.0, 320.0), c_timeAI);
     AIAttackWaveAddUnits4(2, 2, 5, 6, "Sentry");
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Immortal");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER04_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER04_PROTOSS, 120, true);
     Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
     AIAttackWaveAddUnits4(2, 2, 2, 5, "Sentry");
     AIAttackWaveAddUnits4(1, 1, 2, 2, "Colossus");
+    AIAttackWaveSetTargetPlayer(gv_pLAYER04_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
     AIAttackWaveSend(gv_pLAYER04_PROTOSS, 120, true);
     while (true) {
         Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
         AIAttackWaveAddUnits4(2, 2, 3, 4, "Stalker");
         AIAttackWaveAddUnits4(1, 1, 2, 3, "Immortal");
+        AIAttackWaveSetTargetPlayer(gv_pLAYER04_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
         AIAttackWaveSend(gv_pLAYER04_PROTOSS, 120, true);
         Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
         AIAttackWaveAddUnits4(6, 6, 7, 6, "Sentry");
         AIAttackWaveAddUnits4(0, 0, 1, 2, "Immortal");
+        AIAttackWaveSetTargetPlayer(gv_pLAYER04_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
         AIAttackWaveSend(gv_pLAYER04_PROTOSS, 120, true);
         Wait(libNtve_gf_DifficultyValueFixed(90.0, 90.0, 55.0, 20.0), c_timeAI);
         AIAttackWaveAddUnits4(3, 3, 3, 6, "Sentry");
         AIAttackWaveAddUnits4(1, 1, 2, 2, "Colossus");
+        AIAttackWaveSetTargetPlayer(gv_pLAYER04_PROTOSS, PlayerGroupSingle(gv_pLAYER01_USER));
         AIAttackWaveSend(gv_pLAYER04_PROTOSS, 120, true);
     }
     return true;
