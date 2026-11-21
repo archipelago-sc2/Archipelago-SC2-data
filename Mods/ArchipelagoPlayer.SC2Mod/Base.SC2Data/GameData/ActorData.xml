@@ -4579,10 +4579,12 @@
     <CActorMissile id="AP_WraithGroundAttackMissile" parent="GenericAttackMissile" unitName="AP_WraithGroundWeapon"/>
     <CActorSound id="AP_CloakOff">
         <On Terms="Behavior.AP_WraithCloak.Off" Send="Create"/>
+        <On Terms="Behavior.AP_WraithMengskCloak.Off" Send="Create"/>
         <Sound value="AP_Wraith_CloakOff"/>
     </CActorSound>
     <CActorSound id="AP_CloakOn">
         <On Terms="Behavior.AP_WraithCloak.On" Send="Create"/>
+        <On Terms="Behavior.AP_WraithMengskCloak.On" Send="Create"/>
         <Sound value="AP_Wraith_CloakOn"/>
     </CActorSound>
     <CActorUnit id="AP_VikingAssault" parent="GenericUnitBase" unitName="AP_VikingAssault">
@@ -44287,8 +44289,13 @@
         <ImpactMap index="None" Model="LiberatorAttackImpact" Sound="Liberator_AA_Launch_Impact"/>
         <ShieldFlashType value="Full"/>
     </CActorAction>
+    <CActorMissile id="AP_LiberatorMengskDamageAttackMissile" parent="GenericAttackMissile" unitName="AP_LiberatorMengskDamageMissile">
+        <Model value="LiberatorDamageMissile"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_LiberatorMengskThermiteMissilesOwned" Send="ModelSwap AP_PhoenixScoutMissileWeaponLeft"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_LiberatorMengskThermiteMissilesOwned" Send="SetTintColor {64,128,255 2.000000}"/>
+    </CActorMissile>
     <CActorAction id="AP_LiberatorMengskDamageAttack" parent="GenericAttack" effectImpact="AP_LiberatorMengskMissileDamage" effectLaunch="AP_LiberatorMengskDamageMissileLM">
-        <Missile value="AP_LiberatorDamageAttackMissile"/>
+        <Missile value="AP_LiberatorMengskDamageAttackMissile"/>
         <LaunchAttachQuery Methods="AMFilterWeaponSetA0"/>
         <LaunchAssets Sound="Liberator_AA_Launch"/>
         <ImpactSiteOps Ops="SOpAttachCenter SOpRandomPointInCircle1Dot5"/>
@@ -49423,6 +49430,7 @@
         <ImpactMap index="None" Sound="AP_WraithMengskToxicImpact"/>
     </CActorAction>
     <CActorSplat id="AP_WraithMengskToxicCursorSplat" parent="TerranCursorSplat" abil="AP_WraithMengskToxicCannister"/>
+    <CActorRange id="AP_WraithMengskToxicRange" parent="RangeAbil" abil="AP_WraithMengskToxicCannister"/>
     <CActorModel id="AP_WraithMengskToxicImpact" parent="ModelAnimationStyleOneShot">
         <On Terms="Effect.AP_WraithMengskToxicImpact.Start; At Effect" Send="Create"/>
         <On Terms="ActorCreation" Send="SetTintColor 37,220,100 0.000000 OneShot GasTint"/>
@@ -49470,28 +49478,13 @@
         <Model value="AP_WraithMengskPhantasmalBlastModel"/>
     </CActorModel>
     <CActorMissile id="AP_LiberatorMengskPenetratingAmmunitionMissile" parent="GenericAttackMissile" unitName="AP_LiberatorMengskPenetratingAmmunitionMissile">
-        <Model value="Invisible"/>
+        <Model value="ATSLaserBatteryLMWeapon"/>
     </CActorMissile>
-    <CActorSiteOpEffect id="AP_SOpLiberatorMengskPenetratingAmmunitionLaunch">
-        <Location value="MissileUnitOrPoint"/>
-        <HoldPosition value="1"/>
-        <HoldRotation value="1"/>
-    </CActorSiteOpEffect>
-    <CActorBeamSimple id="AP_LiberatorMengskPenetratingAmmunitionBeam" parent="BeamSimpleAnimationStyleOneShot">
-        <Inherits index="CloakEffect" value="1"/>
-        <Inherits index="Visibility" value="1"/>
-        <On Terms="Effect.AP_LiberatorMengskPenetratingAmmunitionLaunch.Start; At Caster" Send="Create"/>
-        <On Terms="Effect.AP_LiberatorMengskPenetratingAmmunitionDamage.Start; At Target" Send="Create AP_LiberatorImpactHoldingSite"/>
-        <On Terms="Effect.AP_LiberatorMengskPenetratingAmmunitionDamage.Start" Send="RefSet ::HostImpact AP_LiberatorImpactHoldingSite"/>
-        <Host Subject="_Selectable"/>
-        <Model value="LiberatorAttackBeam"/>
-        <HostLaunchSiteOps Ops="AP_SOpLiberatorMengskPenetratingAmmunitionLaunch"/>
-        <HostImpact Subject="_Missile" Actor="Find"/>
-    </CActorBeamSimple>
-    <CActorModel id="AP_LiberatorMengskPenetratingAmmunitionImpact" parent="ModelAnimationStyleOneShot">
-        <On Terms="Effect.AP_LiberatorMengskPenetratingAmmunitionDamage.Start; At Target" Send="Create"/>
-        <Model value="LiberatorAGAttackImpact"/>
-    </CActorModel>
+    <CActorAction id="AP_LiberatorMengskPenetratingAmmunitionAttack" parent="GenericAttack" effectLaunch="AP_LiberatorMengskPenetratingAmmunitionLaunch" effectImpact="AP_LiberatorMengskPenetratingAmmunitionDamage">
+        <LaunchRequest Subject="_ImpactGuide" Actor="Find"/>
+        <Missile value="AP_LiberatorMengskPenetratingAmmunitionMissile"/>
+        <ImpactMap index="None" Model="LiberatorAGAttackImpact"/>
+    </CActorAction>
     <CActorSound id="AP_BattlecruiserMengskEmergencyRepairsShieldFX0" parent="SoundOneShot">
         <On Terms="Behavior.AP_BattlecruiserMengskEmergencyRepairsShield.On" Send="Create"/>
         <On Terms="Behavior.AP_BattlecruiserMengskEmergencyRepairsShield.Off" Send="Destroy"/>
