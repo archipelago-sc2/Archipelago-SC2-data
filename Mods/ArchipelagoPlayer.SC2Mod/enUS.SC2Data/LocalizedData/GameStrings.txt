@@ -1433,6 +1433,7 @@ Button/Name/AP_CloakOnReaper=Permanently Cloaked
 Button/Name/AP_CloakOnSpectre=Cloak
 Button/Name/AP_CloakingFieldMothership=Cloaking Field
 Button/Name/AP_Colossus=Warp In Colossus
+Button/Name/AP_ColossusExtendedThermalLance=Extended Thermal Lance
 Button/Name/AP_ColossusHallucination=Summon Colossus Hallucination
 Button/Name/AP_ColossusPurifier=Warp in Colossus
 Button/Name/AP_ColossusRapidIgnition=Pacification Protocols
@@ -1863,6 +1864,7 @@ Button/Name/AP_MarineMengskCombatShield=Shield of the Dominion
 Button/Name/AP_MarineMengskProdigalSon=The Prodigal Son
 Button/Name/AP_MarineMengskSpiderMineLob=Toss Spider Mine
 Button/Name/AP_MarineMengskSpiderMines=Deploy Spider Mine
+Button/Name/AP_MarineU238Shells=U-238 Shells
 Button/Name/AP_MatrixOverload=Matrix Overload
 Button/Name/AP_MatrixOverloadEnergizer=Matrix Overload
 Button/Name/AP_Medic=Train Medic
@@ -2367,6 +2369,7 @@ Button/Name/AP_ShieldOverload=Shield Overload
 Button/Name/AP_ShockwaveMissilePattern=Shockwave Missile Battery
 Button/Name/AP_ShrikeTurret=Shrike Turret
 Button/Name/AP_ShroudOfAdun=Shroud of Adun
+Button/Name/AP_SiegeMode=Siege Mode
 Button/Name/AP_SiegeModeMengsk=Siege Mode
 Button/Name/AP_SiegeModeProgressiveRangeIncrease=Graduating Range
 Button/Name/AP_SiegeTank=Build Siege Tank
@@ -2611,6 +2614,7 @@ Button/Name/AP_UltraliskPassive=Ultralisk
 Button/Name/AP_UltraliskTorrasquePassive=Ultralisk
 Button/Name/AP_UltraliskWeaponCooldown=Ultralisk Weapon Cooldown
 Button/Name/AP_UltrasonicPulse=Ultrasonic Pulse
+Button/Name/AP_Unsiege=Tank Mode
 Button/Name/AP_UnsiegeMengsk=Tank Mode
 Button/Name/AP_UpgradeToPlanetaryFortress=Upgrade to Planetary Fortress
 Button/Name/AP_UpgradeToRoboticsFacilityWarp=Transform to Warp Robotics Facility
@@ -3105,6 +3109,7 @@ Button/Tooltip/AP_CloakOnSpectre=Cloaks the unit, preventing enemy units from se
 Button/Tooltip/AP_CloakOnSpectreFree=Cloaks the unit, preventing enemy units from seeing or attacking it. A cloaked unit will only be revealed by detectors or effects.
 Button/Tooltip/AP_CloakingFieldMothership=Cloaks friendly units and structures near the Mothership.
 Button/Tooltip/AP_Colossus=Powerful battle strider. Can walk up and down cliffs. Attacks incinerate multiple enemies at once.<n/><n/><c val="ffff8a">Can attack ground units.</c>
+Button/Tooltip/AP_ColossusExtendedThermalLance=The Colossus gains <c val="#ColorTooltipNumber">+<d ref="Upgrade,AP_ColossusExtendedThermalLance,EffectArray[0].Value"/></c> range, reverting its range <c val="#ColorNerf">nerf</c>.
 Button/Tooltip/AP_ColossusHallucination=These hallucinated copies function like the original unit, but they cannot use active abilities, deal damage, warp in structures, or gather resources, and they die more easily. Hallucinations last <d time="60"/> before they disappear.
 Button/Tooltip/AP_ColossusPurifier=Purifier Faction<n/>Battle strider with a powerful area attack. Can walk up and down cliffs.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/AP_ColossusPurifierWithFireLance=Purifier Faction<n/>Battle strider with a powerful area attack. Can walk up and down cliffs. Attacks set fire to the ground, dealing extra damage to enemies over time.<n/><n/><c val="ffff8a">Can attack ground units.</c>
@@ -3651,6 +3656,7 @@ Button/Tooltip/AP_MarineMengskRank3=<n/><c val="ffff8a">Rank 3:</c> Gains Hail o
 Button/Tooltip/AP_MarineMengskRank3Preview=<n/><c val="777777">Rank 3: Gains Hail of Lead ability.</c>
 Button/Tooltip/AP_MarineMengskSpiderMineLob=Throws a Spider Mine at the target location, causing it to explode on impact for up to <c val="ffff8a"><d ref="Effect,AP_MarineMengskSpiderMineLobDamage,Amount"/></c> damage to enemy units. Does <c val="ffff8a">NOT</c> damage friendly units.
 Button/Tooltip/AP_MarineMengskSpiderMines=Spider Mines pursue enemy units that come in range, and detonate for <c val="ffff8a"><d ref="Effect,AP_MarineMengskSpiderMineLobDamage,Amount"/></c> damage. Buried Spider Mines can only be seen by enemy <c val="FFE303">Detectors</c>.<n/><n/><c val="ffff8a">Gain <d ref="Abil,AP_MarineMengskSpiderMines,Cost[0].Charge.CountUse"/> charge of Spider Mines per Rank.</c>
+Button/Tooltip/AP_MarineU238Shells=The Marine gains <c val="#ColorTooltipNumber">+<d ref="Upgrade,AP_MarineU238Shells,EffectArray[0].Value"/></c> range, reverting its range <c val="#ColorNerf">nerf</c>.
 Button/Tooltip/AP_MasteryMengskRoyalGuardMengskRanks=<n/><n/><c val="ffff8a">This unit will also unlock new abilities or passive bonuses with each Rank.</c><n/>
 Button/Tooltip/AP_MatrixOverload=All friendly units gain <d ref="Behavior,AP_MatrixOverloadTarget,Modification.MoveSpeedMultiplier*100-100"/>% movement speed and <d ref="Behavior,AP_MatrixOverloadTarget,Modification.AttackSpeedMultiplier*100-100"/>% attack speed within Pylon power fields. Effect lasts for up to <d ref="Behavior,AP_MatrixOverloadTarget,Duration"/> seconds after leaving.<n/><n/><c val="ffff8a">Passive ability.</c>
 Button/Tooltip/AP_MatrixOverloadEnergizer=All friendly units gain a <d ref="Behavior,AP_MatrixOverloadTarget,Modification.MoveSpeedMultiplier*100-100"/>% bonus to movement speed and a <d ref="Behavior,AP_MatrixOverloadTarget,Modification.AttackSpeedMultiplier*100-100"/>% bonus to attack speed while positioned within an Energizer's power field. Effect lasts for up to <d ref="Behavior,AP_MatrixOverloadTarget,Duration"/> seconds after leaving the power field.<n/><n/><c val="ffff8a">Passive ability.</c>
@@ -4193,6 +4199,8 @@ Button/Tooltip/AP_ShrikeTurret=Bunkers are outfitted with an automated turret.
 Button/Tooltip/AP_ShroudOfAdun=Increases Shields by 80.
 Button/Tooltip/AP_SiegeBreaker=A small but elite unit of ex-Confederate siege tank pilots. They claim they can solve all of your problems with one shot from their customized and over-charged cannons.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/AP_SiegeBreakerSieged=A small but elite unit of ex-Confederate siege tank pilots. They claim they can solve all of your problems with one shot from their customized and over-charged cannons.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
+Button/Tooltip/AP_SiegeMode=Deploys into Siege Mode. In this mode Siege Tanks have very long range and inflict area damage. Siege Tanks in this mode cannot move or attack targets at close range.
+Button/Tooltip/AP_SiegeMode_AppenderNerf=<n/><n/><c val="#ColorNerf">Nerfed:</c> Siege Mode has a <d ref="Abil,AP_SiegeModeNerfed,Cost[0].Cooldown.TimeUse"/>s cooldown.
 Button/Tooltip/AP_SiegeModeMengsk=Deploys into Siege Mode. In this mode Shock Divisions have very long range and inflict area damage. Shock Divisions in this mode cannot move or attack targets at close range.
 Button/Tooltip/AP_SiegeModeProgressiveRangeIncrease=Increases the Siege Tank's attack range by 1 every 3 seconds while in Siege Mode, up to a maximum of 5 additional range.
 Button/Tooltip/AP_SiegeTank=Heavy tank. Long-range artillery in Siege Mode.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
@@ -4484,6 +4492,7 @@ Button/Tooltip/AP_UltraliskOrganicCarapace=Increases Ultralisk life by 100.
 Button/Tooltip/AP_UltraliskPassive=Ultralisk Cavern enables you to morph Ultralisks.
 Button/Tooltip/AP_UltraliskTorrasquePassive=Torrasque Strain<n/><n/>Ultralisk Cavern enables you to morph Ultralisks.
 Button/Tooltip/AP_UltrasonicPulse=Stuns enemy units in target area for a short time.<n/><n/><c val="#ColorAttackInfo">Heroic units are immune.</c>
+Button/Tooltip/AP_Unsiege=Reverts to Tank Mode. In this mode Siege Tanks can move, but they do less damage.
 Button/Tooltip/AP_UnsiegeMengsk=Reverts to Tank Mode. In this mode Shock Divisions can move, but they do less damage.
 Button/Tooltip/AP_UpgradeToPlanetaryFortress=Adds a powerful turret, and increases armor. Removes Lift Off, Scanner Sweep, and MULE abilities.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/AP_UpgradeToRoboticsFacilityWarp=Upgrades this Robotics Facility to a Warp Robotics Facility, allowing it to warp in units to any location powered by a Pylon.
