@@ -119,7 +119,7 @@
         <LaunchAttachQuery Methods="AMFilterVikingFighter AP_AMPatternVikingMengskFighterMassive"/>
         <LaunchAssets Model="VikingMengskFighterAttackLaunch" Sound="VikingFighter_AttackLaunch"/>
         <Beam value="VikingFighterAttackBeam"/>
-        <ImpactMap index="None" Model="VikingMengskFighterAttackImpact" Sound="VikingFighter_AttackImpact" ModelReaction="VikingFighterAttackImpactReaction"/>
+        <ImpactMap index="None" Model="AP_VikingMengskFighterAttackImpact" Sound="VikingFighter_AttackImpact" ModelReaction="VikingFighterAttackImpactReaction"/>
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
         <ImpactMap index="Shield" Sound="VikingFighterAttackImpactShield" ModelReaction="VikingFighterAttackImpactReactionShield"/>
         <ImpactPhysics Name="LanzerTorpedoImpact" MatchKeys="Basic" Physics="LanzerTorpedoAttackDeathForce"/>
@@ -131,7 +131,7 @@
         <LaunchAttachQuery Methods="AMFilterVikingFighter AP_AMPatternVikingMengskFighter"/>
         <LaunchAssets Sound="VikingFighter_AttackLaunch"/>
         <Beam value="AP_VikingFighterAttackBeam"/>
-        <ImpactMap index="None" Sound="VikingFighter_AttackImpact" ModelReaction="VikingFighterAttackImpactReaction"/>
+        <ImpactMap index="None" Model="AP_VikingMengskFighterAttackImpact" Sound="VikingFighter_AttackImpact" ModelReaction="VikingFighterAttackImpactReaction"/>
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
         <ImpactMap index="Shield" Sound="VikingFighterAttackImpactShield" ModelReaction="VikingFighterAttackImpactReactionShield"/>
         <ImpactPhysics Name="LanzerTorpedoImpact" MatchKeys="Basic" Physics="LanzerTorpedoAttackDeathForce"/>
@@ -4901,8 +4901,8 @@
         <On Terms="ActorCreation" Send="AnimGroupApply A"/>
         <On Terms="ActorCreation" Send="AnimBlendTimeApply"/>
         <On Terms="Upgrade.AP_BattlecruiserAdvancedDefensiveMatrix.Add" Send="Create ShieldImpact"/>
-        <On Terms="Upgrade.AP_BattlecruiserRangeAura.Add" Send="Create AP_BattlecruiserBonusRange"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveBattlecruiserRangeAura" Send="Create AP_BattlecruiserBonusRange"/>
+        <On Terms="Upgrade.AP_BattlecruiserMengskRangeAura.Add" Send="Create AP_BattlecruiserBonusRange"/>
+        <On Terms="ActorCreation; ValidateUnit AP_HaveBattlecruiserMengskRangeAura" Send="Create AP_BattlecruiserBonusRange"/>
         <HostSiteOps Ops="SOpBankerBattlecruiser"/>
         <Model value="Battlecruiser"/>
         <BuildModel value="ProtossUnitBirth"/>
@@ -31291,8 +31291,8 @@
         <On Terms="Behavior.AP_HyperjumpTeleportOut.On" Send="Create AP_JacksonsRevengeHyperjumpLaunch"/>
         <On Terms="Behavior.AP_HyperjumpTeleportIn.On" Send="Create AP_JacksonsRevengeHyperjumpImpact"/>
         <On Terms="Upgrade.AP_BattlecruiserAdvancedDefensiveMatrix.Add" Send="Create ShieldImpact"/>
-        <On Terms="Upgrade.AP_BattlecruiserRangeAura.Add" Send="Create AP_BattlecruiserBonusRange"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveBattlecruiserRangeAura" Send="Create AP_BattlecruiserBonusRange"/>
+        <On Terms="Upgrade.AP_BattlecruiserMengskRangeAura.Add" Send="Create AP_BattlecruiserBonusRange"/>
+        <On Terms="ActorCreation; ValidateUnit AP_HaveBattlecruiserMengskRangeAura" Send="Create AP_BattlecruiserBonusRange"/>
         <HostSiteOps Ops="SOpBankerBattlecruiser"/>
         <DeathArray index="Normal" ModelLink="AP_DukesRevengeDeath" SoundLink=""/>
         <DeathArray index="Squish" ModelLink="BattlecruiserDeathSquish"/>
@@ -39148,8 +39148,8 @@
         <LaunchAssets Model="BattlecruiserMengskYamatoAttackLaunch" Sound="Battlecruiser_YamatoAttackLaunch"/>
         <ImpactSiteOps Ops="SOpAttachHarness SOpForwardLaunchGuide SOp2DRotation"/>
         <ImpactAttachQuery Methods="Origin"/>
-        <ImpactMap index="None" Sound="Battlecruiser_YamatoAttackImpact" ModelReaction="BattlecruiserMengskYamatoAttackImpactReaction"/>
-        <ImpactMap index="Shield" Sound="BattlecruiserMengskYamatoAttackImpactShield" ModelReaction="BattlecruiserMengskYamatoAttackImpactReactionShield"/>
+        <ImpactMap index="None" Model="AP_BattlecruiserMengskYamatoAoEAttackImpact" Sound="Battlecruiser_YamatoAttackImpact" ModelReaction="BattlecruiserMengskYamatoAttackImpactReaction"/>
+        <ImpactMap index="Shield" Model="AP_BattlecruiserMengskYamatoAoEAttackImpact" Sound="BattlecruiserMengskYamatoAttackImpactShield" ModelReaction="BattlecruiserMengskYamatoAttackImpactReactionShield"/>
         <ImpactMap index="Miss" Model="None"/>
         <ImpactModel value="AP_BattlecruiserMengskYamatoAoEAttackImpactModel"/>
         <ImpactPhysics Name="YamatoImpact" MatchKeys="Basic" Physics="BattlecruiserYamatoAttackForce"/>
@@ -39195,6 +39195,10 @@
         <Remove Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
         <HostSiteOps Ops="SOpAttachHarness SOpHigherOfTerrainAndWater SOp2DRotation" HoldPosition="1" HoldRotation="1"/>
     </CActorModel>
+    <CActorRange id="AP_BattlecruiserMengskYamatoRange" parent="RangeAbil" abil="AP_BattlecruiserMengskYamato">
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.250000"/>
+    </CActorRange>
     <CActorRange id="AP_BattlecruiserMengskYamatoTwoChargesRange" parent="RangeAbil" abil="AP_BattlecruiserMengskYamatoTwoCharges">
         <Icon value="Assets\Textures\RadarIcon2.dds"/>
         <IconArcLength value="3.250000"/>
@@ -39241,8 +39245,8 @@
         <On Terms="Abil.attack.ReadyStop" Target="_BattlecruiserTurretATS" Send="LookAtDisengage"/>
         <On Terms="Abil.attack.ReadyStop" Target="_BattlecruiserTurretATA" Send="LookAtDisengage"/>
         <On Terms="Upgrade.AP_BattlecruiserAdvancedDefensiveMatrix.Add" Send="Create ShieldImpact"/>
-        <On Terms="Upgrade.AP_BattlecruiserRangeAura.Add; !ScopeContains AP_BattlecruiserBonusRange" Send="Create AP_BattlecruiserBonusRange"/>
-        <On Terms="ActorCreation; ValidateUnit AP_HaveBattlecruiserRangeAura; !ScopeContains AP_BattlecruiserBonusRange" Send="Create AP_BattlecruiserBonusRange"/>
+        <On Terms="Upgrade.AP_BattlecruiserMengskRangeAura.Add; !ScopeContains AP_BattlecruiserBonusRange" Send="Create AP_BattlecruiserBonusRange"/>
+        <On Terms="ActorCreation; ValidateUnit AP_HaveBattlecruiserMengskRangeAura; !ScopeContains AP_BattlecruiserBonusRange" Send="Create AP_BattlecruiserBonusRange"/>
         <HostSiteOps Ops="SOpBankerBattlecruiser"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <EventDataFootprint Actor="UnitFootprint" Model="BattlecruiserFootprint"/>
@@ -39375,9 +39379,9 @@
         <LaunchAssets Sound="Battlecruiser_YamatoAttackLaunch"/>
         <ImpactSiteOps Ops="SOpAttachHarness SOpForwardLaunchGuide SOp2DRotation"/>
         <ImpactAttachQuery Methods="Origin"/>
-        <ImpactMap index="None" Sound="Battlecruiser_YamatoAttackImpact"/>
+        <ImpactMap index="None" Model="AP_BattlecruiserMengskYamatoAttackImpact" Sound="Battlecruiser_YamatoAttackImpact"/>
         <ImpactMap index="Miss" Model="None"/>
-        <ImpactModel value="BattlecruiserMengskYamatoAttackImpactModel"/>
+        <ImpactModel value="AP_BattlecruiserMengskYamatoAttackImpactModel"/>
         <ImpactPhysics Name="YamatoImpact" MatchKeys="Basic" Physics="BattlecruiserYamatoAttackForce"/>
         <ImpactPhysics Name="YamatoImpactAir" MatchKeys="BasicAir" Physics="BattlecruiserYamatoAttackForce"/>
         <ShieldFlashType value="Full"/>
@@ -40790,6 +40794,7 @@
         <On Terms="Behavior.AP_VikingMengskGroundAttackDamage.Off" Send="Destroy"/>
         <HostSiteOps Ops="AP_SOpAttachForearmLeft AP_VikingMengskDamageBoostGroundOffset"/>
         <Model value="AP_Viking_Mengsk_COOP_DamageBoost"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_HaveVikingMengskTacticalSuperiority" Send="AnimSetTimeScaleGlobal 0.625000"/>
     </CActorModel>
     <CActorModel id="AP_VikingMengskDamageBoostGroundRight" parent="ModelAddition">
         <EditorCategories value=""/>
@@ -40797,6 +40802,7 @@
         <On Terms="Behavior.AP_VikingMengskGroundAttackDamage.Off" Send="Destroy"/>
         <HostSiteOps Ops="AP_SOpAttachForearmRight AP_VikingMengskDamageBoostGroundOffset"/>
         <Model value="AP_Viking_Mengsk_COOP_DamageBoost"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_HaveVikingMengskTacticalSuperiority" Send="AnimSetTimeScaleGlobal 0.625000"/>
     </CActorModel>
     <CActorModel id="AP_VikingMengskDamageBoostAirLeft" parent="ModelAddition">
         <EditorCategories value=""/>
@@ -40804,6 +40810,7 @@
         <On Terms="Behavior.AP_VikingMengskAirAttackDamage.Off" Send="Destroy"/>
         <HostSiteOps Ops="SOpAttachWeapon09 AP_VikingMengskDamageBoostAirOffset"/>
         <Model value="AP_Viking_Mengsk_COOP_DamageBoost"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_HaveVikingMengskTacticalSuperiority" Send="AnimSetTimeScaleGlobal 0.625000"/>
     </CActorModel>
     <CActorModel id="AP_VikingMengskDamageBoostAirRight" parent="ModelAddition">
         <EditorCategories value=""/>
@@ -40811,6 +40818,7 @@
         <On Terms="Behavior.AP_VikingMengskAirAttackDamage.Off" Send="Destroy"/>
         <HostSiteOps Ops="SOpAttachWeapon13 AP_VikingMengskDamageBoostAirOffset"/>
         <Model value="AP_Viking_Mengsk_COOP_DamageBoost"/>
+        <On Terms="ActorCreation; ValidatePlayer AP_HaveVikingMengskTacticalSuperiority" Send="AnimSetTimeScaleGlobal 0.625000"/>
     </CActorModel>
     <CActorSiteOpLocalOffset id="AP_VikingMengskDamageBoostGroundOffset">
         <EditorCategories value=""/>
@@ -40823,10 +40831,21 @@
     <CActorAction id="AP_VikingMengskGroundMassiveAttack" parent="GenericAttack" effectAttack="AP_VikingMengskGroundMassiveDamage">
         <LaunchAttachQuery Methods="AMFilterWeaponSetA0"/>
 <!--        <LaunchAssets Sound="VikingAssault_AttackLaunch"/>-->
-        <ImpactMap index="None" Sound="Viking_AssaultAttackImpact"/>
+        <ImpactMap index="None" Model="AP_ShrikeTurretAttackImpact" Sound="Viking_AssaultAttackImpact"/>
+        <ImpactModel value="AP_VikingMengskRankedGroundImpact"/>
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
         <ImpactPhysics Name="GatlingCannonImpact" MatchKeys="Basic" Physics="VikingAssaultAttackForce"/>
     </CActorAction>
+    <CActorModel id="AP_VikingMengskGroundImpact" parent="GenericAttackImpactModel">
+        <On Terms="ActorCreation; ValidateEffect AP_VikingMengskGroundStandardMassiveImpact" Send="ModelSwap AP_ShrikeTurretAttackImpact"/>
+        <On Terms="ActorCreation; ValidateEffect AP_VikingMengskGroundStandardMassiveImpact" Send="SetScale 2.00000,2.00000,2.00000"/>
+        <On Terms="ActorCreation; ValidateEffect AP_VikingMengskGiantslayerMissileImpact" Send="ModelSwap AP_ShrikeTurretAttackImpact"/>
+        <On Terms="ActorCreation; ValidateEffect AP_VikingMengskGiantslayerMissileImpact" Send="SetScale 2.600000,2.600000,2.600000"/>
+        <On Terms="ActorCreation; ValidateEffect AP_VikingMengskGiantslayerMissileImpact" Send="SetTintColor {255,64,64 1.200000}"/>
+    </CActorModel>
+    <CActorModel id="AP_VikingMengskRankedGroundImpact" parent="AP_VikingMengskGroundImpact">
+        <On Terms="ActorCreation; ValidateEffect AP_NotMassive" Send="Destroy"/>
+    </CActorModel>
     <CActorUnit id="AP_VikingMengskAssaultMorph" parent="GenericUnitBaseMorphTransition" unitName="AP_AssaultMorphModel">
         <CustomUnitStatusFrame value="AP_Coop_UnitStatus_Mengsk/MengskViking_StatusFrame"/>
         <StatusBarOn index="Custom" value="1"/>
@@ -41042,6 +41061,7 @@
         <LaunchAttachQuery Methods="AMFilterWeaponSetA0"/>
 <!--        <LaunchAssets Sound="VikingAssault_AttackLaunch"/>-->
         <ImpactMap index="None" Model="AP_VikingMengksAssaultAttackImpact" Sound="Viking_AssaultAttackImpact"/>
+        <ImpactModel value="AP_VikingMengskGroundImpact"/>
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
         <ImpactPhysics Name="GatlingCannonImpact" MatchKeys="Basic" Physics="VikingAssaultAttackForce"/>
     </CActorAction>
@@ -41217,7 +41237,6 @@
     <CActorAction id="AP_VikingMengskFighterAttack" parent="AP_VikingMengskFighterAttackBase" effectImpact="AP_LanzerTorpedoesMengskDamage" effectLaunch="AP_LanzerTorpedoesMengskLM">
         <On Terms="Effect.AP_LanzerTorpedoesMengskLM.Start; At Caster" Send="Create"/>
     </CActorAction>
-
     <CActorMissile id="AP_VikingMengskFighterAttackMissile">
         <Aliases value="_Unit"/>
         <Aliases value="_Missile"/>
@@ -41245,9 +41264,18 @@
         <Sound value="Viking_Land"/>
     </CActorSound>
     <CActorAction id="AP_VikingMengskAirMassiveAttack" parent="AP_VikingMengskAirMassiveAttackBase" effectImpact="AP_VikingMengskAirMassiveDamage" effectLaunch="AP_VikingMengskAirMassiveLM">
-        <On Terms="Effect.AP_VikingMengskAirMassiveLM.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.AP_VikingMengskAirMassiveLM.Start; At Caster; !ValidateEffect AP_IsMassive" Send="Create"/>
     </CActorAction>
-
+    <CActorAction id="AP_VikingMengskAirMassiveAttackSiegeTankImpact" parent="AP_VikingMengskAirMassiveAttackBase" effectImpact="AP_VikingMengskAirMassiveDamage" effectLaunch="AP_VikingMengskAirMassiveLM">
+        <On Terms="Effect.AP_VikingMengskAirMassiveLM.Start; At Caster; ValidateEffect AP_VikingMengskSiegeTankMissileImpact" Send="Create"/>
+        <On Terms="ActorCreation" Send="SetScale .8800000"/>
+        <ImpactMap index="None" Model="AP_SiegeTankMengskSiegedAttackAirImpact"/>
+    </CActorAction>
+    <CActorAction id="AP_VikingMengskAirMassiveAttackGiantslayerImpact" parent="AP_VikingMengskAirMassiveAttackBase" effectImpact="AP_VikingMengskAirMassiveDamage" effectLaunch="AP_VikingMengskAirMassiveLM">
+        <On Terms="Effect.AP_VikingMengskAirMassiveLM.Start; At Caster; ValidateEffect AP_VikingMengskGiantslayerMissileImpact" Send="Create"/>
+        <On Terms="ActorCreation" Send="SetScale .8600000"/>
+        <ImpactMap index="None" Model="AP_VikingMengskGiantslayerRoundsImpact"/>
+    </CActorAction>
     <CActorMissile id="AP_VikingMengskAirMassiveAttackMissile">
         <Aliases value="_Unit"/>
         <Aliases value="_Missile"/>
@@ -44290,6 +44318,7 @@
         <LaunchAssets Sound="Liberator_AA_Launch"/>
         <ImpactSiteOps Ops="SOpAttachCenter SOpRandomPointInCircle1Dot5"/>
         <ImpactMap index="None" Model="LiberatorAttackImpact" Sound="Liberator_AA_Launch_Impact"/>
+        <ImpactModel value="AP_LiberatorMengskMissileImpactModel"/>
         <ShieldFlashType value="Full"/>
     </CActorAction>
     <CActorMissile id="AP_LiberatorMengskDamageAttackMissile" parent="GenericAttackMissile" unitName="AP_LiberatorMengskDamageMissile">
@@ -44303,8 +44332,12 @@
         <LaunchAssets Sound="Liberator_AA_Launch"/>
         <ImpactSiteOps Ops="SOpAttachCenter SOpRandomPointInCircle1Dot5"/>
         <ImpactMap index="None" Model="LiberatorAttackImpact" Sound="Liberator_AA_Launch_Impact"/>
+        <ImpactModel value="AP_LiberatorMengskMissileImpactModel"/>
         <ShieldFlashType value="Full"/>
     </CActorAction>
+    <CActorModel id="AP_LiberatorMengskMissileImpactModel" parent="GenericAttackImpactModel">
+        <On Terms="ActorCreation; ValidateEffect AP_LiberatorMengskThermiteMissilesOwned" Send="SetTintColor {64,128,255 2.000000}"/>
+    </CActorModel>
     <CActorAction id="AP_LiberatorMengskAGAttack" parent="GenericAttack" effectImpact="AP_LiberatorMengskAGDamage" effectLaunch="AP_LiberatorMengskAGMissileLM">
         <Missile value="AP_LiberatorAGAttackMissile"/>
         <LaunchAssets Sound="Liberator_AG_Launch"/>
@@ -44356,6 +44389,35 @@
         </Wireframe>
         <HighlightTooltip value="Unit/Name/AP_LiberatorMengsk"/>
     </CActorUnit>
+    <CActorRange id="AP_LiberatorMengskAGTargetRange" parent="RangeAbil" abil="AP_LiberatorMengskAGTarget">
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.250000"/>
+    </CActorRange>
+    <CActorRange id="AP_LiberatorMengskDefenderRank2Range">
+        <On Terms="SelectionLocalUpdate.AP_LiberatorMengskAG.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AP_LiberatorMengskAG.Stop" Send="Destroy"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_LiberatorMengskAG; Selected" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom AP_LiberatorMengskAG" Send="Destroy"/>
+        <On Terms="ActorCreation; !ValidateUnit AP_CasterLevelEq3" Send="SetVisibility"/>
+        <On Terms="Behavior.AP_MengskVeteranL3Tracker.On" Send="SetVisibility 1"/>
+        <On Terms="Behavior.AP_MengskVeteranL3Tracker.Off" Send="SetVisibility"/>
+        <Weapon value="AP_LiberatorMengskAGWeapon"/>
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.000000"/>
+    </CActorRange>
+    <CActorRange id="AP_LiberatorMengskDefenderRank3Range">
+        <On Terms="SelectionLocalUpdate.AP_LiberatorMengskAG.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AP_LiberatorMengskAG.Stop" Send="Destroy"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo AP_LiberatorMengskAG; Selected" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom AP_LiberatorMengskAG" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetVisibility"/>
+        <On Terms="ActorCreation; ValidateUnit AP_LiberatorMengskRank3GE" Send="SetVisibility 1"/>
+        <On Terms="Behavior.AP_MengskVeteranL4Tracker.On" Send="SetVisibility 1"/>
+        <On Terms="Behavior.AP_MengskVeteranL4Tracker.Off" Send="SetVisibility"/>
+        <Weapon value="AP_LiberatorMengskAGWeaponAA"/>
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.000000"/>
+    </CActorRange>
     <CActorSplat id="AP_LiberatorMengskAGTargetCursorSplat" parent="CursorSplat" abil="AP_LiberatorMengskAGTarget">
         <Model value="LiberatorAGTargetCursorSplat"/>
     </CActorSplat>
@@ -44414,9 +44476,10 @@
         <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
         <On Terms="WeaponStart.AP_WraithMengskA.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
         <On Terms="WeaponStart.AP_WraithMengskG.AttackStart" Send="AnimBracketStart Attack Attack"/>
-        <On Terms="WeaponStart.AP_WraithMengskAG.AttackStart" Send="AnimBracketStart Attack Attack"/>
         <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
         <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="ButtonHover.AP_WraithMengskHorrifyingBlast.On" Send="Create AP_WraithMengskHorrifyingBlastRange"/>
+        <On Terms="ButtonHover.AP_WraithMengskHorrifyingBlast.Off" Target="AP_WraithMengskHorrifyingBlastRange" Send="Destroy"/>
         <Model value="AP_WraithMengsk"/>
         <HostSiteOps Ops="AP_SOpBankerWraith"/>
         <AnimBlendTime value="0.300000"/>
@@ -44466,11 +44529,14 @@
         <ImpactMap index="None" Sound="AP_Wraith_GroundAttackImpact"/>
     </CActorAction>
     <CActorAction id="AP_WraithMengskAirGroundAttack" parent="GenericAttack" effectImpact="AP_WraithMengskAGU" effectLaunch="AP_WraithMengskAGLaunchMissile">
-        <Missile value="AP_WraithGroundAttackMissile"/>
+        <Missile value="AP_WraithMengskAdvancedLaserMissile"/>
         <LaunchAssets Sound="AP_WraithGroundAttackLaunch"/>
-        <LaunchAttachQuery Methods="AMFilterWeaponBottom"/>
-        <ImpactMap index="None" Model="AP_WraithGroundAttackImpact" Sound="AP_Wraith_GroundAttackImpact"/>
+        <LaunchAttachQuery Methods="AP_AMPatternWraithMengskAdvancedLaser"/>
+        <ImpactMap index="None" Model="AP_WraithMengskAdvancedLaserImpact" Sound="AP_Wraith_GroundAttackImpact"/>
     </CActorAction>
+    <CActorMissile id="AP_WraithMengskAdvancedLaserMissile" parent="GenericAttackMissile" unitName="AP_WraithMengskAdvancedLaserMissile">
+        <Model value="AP_WraithMengskAdvancedLaserMissile"/>
+    </CActorMissile>
     <CActorModel id="AP_WraithMengskResonatingFeedbackInterferenceBehavior" parent="ModelAnimationStyleContinuous">
         <Model value="RavenScramblerMissileBehavior"/>
         <On Terms="Behavior.AP_WraithMengskResonatingFeedbackInterference.On" Send="Create"/>
@@ -49438,7 +49504,6 @@
         <EventDataSound Name="TerranExplosionMedium" Actor="UnitSound" Sound="Terran_ExplosionMedium"/>
         <EventDataSound Name="TerranExplosionLarge" Actor="UnitSound" Sound="Terran_ExplosionLarge"/>
     </CActorModel>
-
     <CActorMissile id="AP_WraithMengskToxicMissile" parent="GenericAttackMissile" unitName="AP_WraithMengskToxicMissile">
         <On Terms="ActorCreation" Send="SetTintColor 37,220,100 0.000000 OneShot GasTint"/>
         <On Terms="ActorCreation" Send="Create AP_WraithMengskToxicFlightSound"/>
@@ -49462,6 +49527,8 @@
         <Sound value="AP_WraithMengskToxicGasRelease"/>
     </CActorSound>
     <CActorSound id="AP_WraithMengskToxicCloudSound" parent="SoundContinuous">
+        <Sharing value="PerEffectTree"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
         <Host Subject="::Creator"/>
         <Sound value="AP_WraithMengskToxicCloud"/>
         <Layers Sound="AP_WraithMengskToxicCloudLayer"/>
@@ -49472,8 +49539,8 @@
         <LaunchAssets Sound="AP_WraithMengskToxicLaunch"/>
         <ImpactMap index="None" Sound="AP_WraithMengskToxicImpact"/>
     </CActorAction>
-    <CActorSplat id="AP_WraithMengskToxicCursorSplat" parent="TerranCursorSplat" abil="AP_WraithMengskToxicCannister"/>
-    <CActorRange id="AP_WraithMengskToxicRange" parent="RangeAbil" abil="AP_WraithMengskToxicCannister"/>
+    <CActorSplat id="AP_WraithMengskToxicCursorSplat" parent="TerranCursorSplat" abil="AP_WraithMengskToxicCanister"/>
+    <CActorRange id="AP_WraithMengskToxicRange" parent="RangeAbil" abil="AP_WraithMengskToxicCanister"/>
     <CActorModel id="AP_WraithMengskToxicImpact" parent="ModelAnimationStyleOneShot">
         <On Terms="Effect.AP_WraithMengskToxicImpact.Start; At Effect" Send="Create"/>
         <On Terms="ActorCreation" Send="SetTintColor 37,220,100 0.000000 OneShot GasTint"/>
@@ -49486,40 +49553,77 @@
         <Model value="AP_WraithMengskToxicImpact"/>
     </CActorModel>
     <CActorModel id="AP_WraithMengskToxicCloud" parent="ModelAnimationStyleContinuous">
+        <Sharing value="PerEffectTree"/>
         <On Terms="Effect.AP_WraithMengskToxicCloud.Start; At Effect" Send="Create"/>
-        <On Terms="Effect.AP_WraithMengskToxicCloud.Stop" Send="Destroy"/>
+        <On Terms="Effect.AP_WraithMengskToxicCloud.Stop; At Effect; FromEffectTreeDescendant" Send="Destroy"/>
         <On Terms="ActorCreation" Send="Create AP_WraithMengskToxicCloudSound"/>
         <On Terms="ActorCreation" Send="TimerSet 3.000000 ToxicCloudVisualEnd"/>
         <On Terms="TimerExpired; TimerName ToxicCloudVisualEnd" Send="Destroy"/>
-        <On Terms="AnimBracketStart; AnimName BSD" Send="AnimSetTime BSD 1.500000"/>
+        <On Terms="AnimBracketStart; AnimName BSD" Send="AnimSetTime BSD 3.600000"/>
         <HostSiteOps Ops="SOpTargetPointStationary SOpShadowSyncGround"/>
         <ScopeBearingsTracking value="ForceOff"/>
-        <Model value="AP_WraithMengskToxicCloud"/><ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <Model value="AP_WraithMengskToxicCloud"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModel>
     <CActorModel id="AP_WraithMengskToxicFear" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.AP_WraithMengskToxicFear.On" Send="Create"/>
         <On Terms="Behavior.AP_WraithMengskToxicFear.Off" Send="AnimBracketStop BSD"/>
         <On Terms="ActorOrphan" Send="Destroy"/>
-        <Model value="AP_WraithMengskToxicFear"/><Host Subject="_Selectable"/><HostSiteOps Ops="SOpAttachOverhead"/>
+        <Model value="AP_WraithMengskToxicFear"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
     </CActorModel>
     <CActorModel id="AP_WraithMengskToxicPoison" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.AP_WraithMengskToxicPoison.On" Send="Create"/>
         <On Terms="Behavior.AP_WraithMengskToxicPoison.Off" Send="Destroy"/>
         <On Terms="ActorOrphan" Send="Destroy"/>
-        <Model value="AP_WraithMengskToxicPoison"/><Host Subject="_Selectable"/><HostSiteOps Ops="SOpAttachCenter"/>
+        <Model value="AP_WraithMengskToxicPoison"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
     </CActorModel>
-
     <CActorModel id="AP_WraithMengskToxicConfusionModel" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.AP_WraithMengskToxicConfusion.On" Send="Create"/>
         <On Terms="Behavior.AP_WraithMengskToxicConfusion.Off" Send="Destroy"/>
         <On Terms="ActorOrphan" Send="Destroy"/>
-        <Model value="AP_WraithMengskToxicConfusionModel"/><Host Subject="_Selectable"/><HostSiteOps Ops="SOpAttachOverhead"/>
+        <Model value="AP_WraithMengskToxicConfusionModel"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
     </CActorModel>
-    <CActorModel id="AP_WraithMengskPhantasmalBlastModel" parent="ModelAnimationStyleOneShot">
-        <On Terms="Effect.AP_WraithMengskPhantasmalBlastSearch.Start; At Caster" Send="Create"/>
-        <On Terms="ActorCreation" Send="SetTintColor 160,80,255"/>
-        <Model value="AP_WraithMengskPhantasmalBlastModel"/>
+    <CActorRange id="AP_WraithMengskHorrifyingBlastRange">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="SelectionLocalUpdate.*.Stop" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <!-- Matches the radius of AP_WraithMengskHorrifyingBlastSearch. -->
+        <Range value="3.5"/>
+    </CActorRange>
+    <CActorModel id="AP_WraithMengskHorrifyingBlastShockwave" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.AP_WraithMengskHorrifyingBlastSearch.Start; At Caster" Send="Create"/>
+        <On Terms="ActorCreation" Send="SetScale 0.550000"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOriginStationary"/>
+        <Model value="AP_WraithMengskHorrifyingBlastShockwave"/>
+        <ModelFlags index="AllowHitTest" value="0"/>
     </CActorModel>
+    <CActorModel id="AP_WraithMengskHorrifyingBlastHologram" parent="ModelAnimationStyleContinuous">
+        <On Terms="Effect.AP_WraithMengskHorrifyingBlastSearch.Start; At Caster" Send="Create"/>
+        <On Terms="ActorCreation" Send="SetOpacity 0.365000"/>
+        <On Terms="ActorCreation" Send="SetTintColor 64,128,255"/>
+        <On Terms="ActorCreation" Send="SetScale 0.001000"/>
+        <On Terms="ActorCreation" Send="SetScale 0.50000 0.100000"/>
+        <On Terms="ActorCreation" Send="AnimPlay Work Stand,Work PlayForever"/>
+        <On Terms="ActorCreation" Send="TimerSet 1.300000 Shrink"/>
+        <On Terms="TimerExpired; TimerName Shrink" Send="SetScale 0.001000 0.200000"/>
+        <On Terms="TimerExpired; TimerName Shrink" Send="TimerSet 0.200000 Expire"/>
+        <On Terms="TimerExpired; TimerName Expire" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOrigin SOpMoveUpByDot15"/>
+        <Model value="AP_WraithMengskHorrifyingBlastHologram"/>
+        <ModelFlags index="AllowHitTest" value="0"/>
+    </CActorModel>
+    <CActorSound id="AP_WraithMengskHorrifyingBlastSound" parent="SoundOneShot">
+        <On Terms="Effect.AP_WraithMengskHorrifyingBlastSearch.Start; At Caster" Send="Create"/>
+        <Sound value="AP_WraithMengskHorrifyingBlastSound"/>
+    </CActorSound>
     <CActorMissile id="AP_LiberatorMengskPenetratingAmmunitionMissile" parent="GenericAttackMissile" unitName="AP_LiberatorMengskPenetratingAmmunitionMissile">
         <Model value="ATSLaserBatteryLMWeapon"/>
     </CActorMissile>
@@ -49528,21 +49632,6 @@
         <Missile value="AP_LiberatorMengskPenetratingAmmunitionMissile"/>
         <ImpactMap index="None" Model="LiberatorAGAttackImpact"/>
     </CActorAction>
-    <CActorSound id="AP_BattlecruiserMengskEmergencyRepairsShieldFX0" parent="SoundOneShot">
-        <On Terms="Behavior.AP_BattlecruiserMengskEmergencyRepairsShield.On" Send="Create"/>
-        <On Terms="Behavior.AP_BattlecruiserMengskEmergencyRepairsShield.Off" Send="Destroy"/>
-        <Sound value="Battlecruiser_DefensiveMatrixBirth"/>
-    </CActorSound>
-    <CActorSound id="AP_BattlecruiserMengskEmergencyRepairsShieldFX1" parent="SoundOneShot">
-        <On Terms="Behavior.AP_BattlecruiserMengskEmergencyRepairsShield.Off" Send="Create"/>
-        <Sound value="Battlecruiser_DefensiveMatrixDeath"/>
-    </CActorSound>
-    <CActorModel id="AP_BattlecruiserMengskEmergencyRepairsShieldFX2" parent="ModelAddition">
-        <On Terms="Behavior.AP_BattlecruiserMengskEmergencyRepairsShield.On" Send="Create"/>
-        <On Terms="Behavior.AP_BattlecruiserMengskEmergencyRepairsShield.Off" Send="AnimBracketStop BSD"/>
-        <AutoScaleFactor value="2.100000"/>
-        <Model value="AP_DefensiveMatrixModel"/>
-    </CActorModel>
     <CActorRange id="AP_BattlecruiserMengskTacticalMissileArrayRange" parent="RangeAbil" abil="AP_BattlecruiserMengskTacticalMissileArray">
         <Icon value="Assets\Textures\RadarIcon2.dds"/>
         <IconArcLength value="3.250000"/>

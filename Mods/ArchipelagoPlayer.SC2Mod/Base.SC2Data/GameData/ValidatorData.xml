@@ -1512,7 +1512,6 @@
         <CombineArray value="AP_LiberatorMengskRank2AndTargetInDamageArea"/>
         <Type value="Or"/>
     </CValidatorCombine>
-
     <CValidatorCombine id="AP_CasterLevelGTE3AndTargetInDamageArea">
         <Type value="And"/>
         <CombineArray value="AP_CasterLevelGTE3"/>
@@ -7175,9 +7174,9 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_MercTorrasqueTimerBehavior"/>
     </CValidatorUnitCompareBehaviorCount>
-    <CValidatorPlayerRequirement id="AP_HaveBattlecruiserRangeAura">
+    <CValidatorPlayerRequirement id="AP_HaveBattlecruiserMengskRangeAura">
         <Find value="1"/>
-        <Value value="AP_HaveBattlecruiserRangeAura"/>
+        <Value value="AP_HaveBattlecruiserMengskRangeAura"/>
     </CValidatorPlayerRequirement>
     <CValidatorUnitCompareBehaviorCount id="AP_HasBattlecruiserBonusRangeBehavior">
         <WhichUnit Value="Caster"/>
@@ -7561,6 +7560,10 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_VikingMengskAttackDamageCooldown"/>
     </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="AP_NoVikingMengskAttackDamageCooldownUpgraded">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_VikingMengskAttackDamageCooldownUpgraded"/>
+    </CValidatorUnitCompareBehaviorCount>
     <CValidatorUnitCompareBehaviorCount id="AP_HasVikingMengskAttackDamageCooldown">
         <WhichUnit Value="Caster"/>
         <Value value="1"/>
@@ -7940,13 +7943,13 @@
     <CValidatorUnitType id="AP_IsStarportMengsk">
         <Value value="AP_StarportMengsk"/>
     </CValidatorUnitType>
-    <CValidatorPlayerRequirement id="AP_HaveWraithAdvancedLaserTechnology">
+    <CValidatorPlayerRequirement id="AP_HaveWraithMengskAdvancedLaserTechnology">
         <Find value="1"/>
-        <Value value="AP_HaveWraithAdvancedLaserTechnology"/>
+        <Value value="AP_HaveWraithMengskAdvancedLaserTechnology"/>
     </CValidatorPlayerRequirement>
-    <CValidatorCombine id="AP_NotHaveWraithAdvancedLaserTechnology">
+    <CValidatorCombine id="AP_NotHaveWraithMengskAdvancedLaserTechnology">
         <Negate value="1"/>
-        <CombineArray value="AP_HaveWraithAdvancedLaserTechnology"/>
+        <CombineArray value="AP_HaveWraithMengskAdvancedLaserTechnology"/>
     </CValidatorCombine>
     <CValidatorUnitCompareBehaviorCount id="AP_HasWraithCloak">
         <Value value="1"/>
@@ -8090,10 +8093,6 @@
         <Value value="1"/>
         <Behavior value="AP_LiberatorCloak"/>
     </CValidatorUnitCompareBehaviorCount>
-    <CValidatorPlayerRequirement id="AP_HaveBattlecruiserMengskSpellcaster">
-        <Find value="1"/>
-        <Value value="AP_HaveBattlecruiserMengskSpellcaster"/>
-    </CValidatorPlayerRequirement>
     <CValidatorUnitCompareBehaviorCount id="AP_HasBattlecruiserCloak">
         <Value value="1"/>
         <Behavior value="AP_BattlecruiserCloak"/>
@@ -9236,6 +9235,32 @@
         <Find value="1"/>
         <Value value="AP_NukeFasterCalldown"/>
     </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_HaveVikingMengskGiantslayerRounds">
+        <WhichPlayer Value="Caster"/>
+        <Find value="1"/>
+        <Value value="AP_HaveVikingMengskGiantslayerRounds"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_VikingMengskGiantslayerMissileImpact">
+        <Type value="And"/>
+        <CombineArray value="AP_IsMassive"/>
+        <CombineArray value="AP_VikingMengskRank1GE"/>
+        <CombineArray value="AP_HaveVikingMengskGiantslayerRounds"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_VikingMengskNotGiantslayerMissileImpact">
+        <CombineArray value="AP_VikingMengskGiantslayerMissileImpact"/>
+        <Negate value="1"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_VikingMengskSiegeTankMissileImpact">
+        <Type value="And"/>
+        <CombineArray value="AP_IsMassive"/>
+        <CombineArray value="AP_VikingMengskNotGiantslayerMissileImpact"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_VikingMengskGroundStandardMassiveImpact">
+        <Type value="And"/>
+        <CombineArray value="AP_IsMassive"/>
+        <CombineArray value="AP_VikingMengskRank1GE"/>
+        <CombineArray value="AP_VikingMengskNotGiantslayerMissileImpact"/>
+    </CValidatorCombine>
     <CValidatorPlayerRequirement id="AP_HaveVikingMengskRank3Training">
         <WhichPlayer Value="Caster"/>
         <ResultNoPlayer value="Error"/>
@@ -9259,6 +9284,7 @@
     <CValidatorCombine id="AP_VikingMengskCanRealign">
         <Type value="And"/>
         <CombineArray value="AP_NoVikingMengskAttackDamageCooldown"/>
+        <CombineArray value="AP_NoVikingMengskAttackDamageCooldownUpgraded"/>
     </CValidatorCombine>
     <CValidatorPlayerRequirement id="AP_NoVikingMengskTacticalSuperiority">
         <Find value="0"/>
@@ -9278,7 +9304,6 @@
         <CombineArray value="AP_VikingMengskDodgeActive"/>
         <CombineArray value="AP_NoVikingMengskDodge"/>
     </CValidatorCombine>
-    <!-- Royal Guard validator values match AP_LevelEq1..4: displayed ranks 0..3 use values 2..5. -->
     <CValidatorUnitCompareVeterancyLevel id="AP_VikingMengskRank1GE">
         <WhichUnit Value="Caster"/>
         <Compare value="GE"/>
@@ -9377,23 +9402,29 @@
         <Compare value="Eq"/>
         <Value value="5"/>
     </CValidatorUnitCompareVeterancyLevel>
-
     <CValidatorUnitCompareBehaviorCount id="AP_WraithMengskToxicNotPoisoned">
-        <WhichUnit Value="Target"/><Compare value="Eq"/><Value value="0"/><Behavior value="AP_WraithMengskToxicPoison"/>
+        <WhichUnit Value="Target"/>
+        <Compare value="Eq"/>
+        <Value value="0"/>
+        <Behavior value="AP_WraithMengskToxicPoison"/>
     </CValidatorUnitCompareBehaviorCount>
-
-    <CValidatorPlayerRequirement id="AP_WraithMengskEfficientStorageOwned">
+    <CValidatorPlayerRequirement id="AP_WraithMengskToxicTyrantOwned">
         <Find value="1"/>
-        <Value value="AP_WraithMengskEfficientStorageOwned"/>
+        <Value value="AP_WraithMengskToxicTyrantOwned"/>
     </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_WraithMengskMaddeningPathogenOwned">
         <Find value="1"/>
         <Value value="AP_WraithMengskMaddeningPathogenOwned"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_WraithMengskPhantasmalBlastOwned">
+    <CValidatorPlayerRequirement id="AP_WraithMengskHorrifyingBlastOwned">
+        <WhichPlayer Value="Caster"/>
         <Find value="1"/>
-        <Value value="AP_WraithMengskPhantasmalBlastOwned"/>
+        <Value value="AP_WraithMengskHorrifyingBlastOwned"/>
     </CValidatorPlayerRequirement>
+    <CValidatorUnitFilters id="AP_WraithMengskHorrifyingBlastFearAllowed">
+        <WhichUnit Value="Target"/>
+        <Filters value="-;Massive,Heroic,Structure,Dead"/>
+    </CValidatorUnitFilters>
     <CValidatorPlayerRequirement id="AP_WraithPulseAmplifierOwned">
         <Find value="1"/>
         <Value value="AP_WraithPulseAmplifierOwned"/>
@@ -9456,7 +9487,6 @@
         <CombineArray value="AP_LiberatorMengskRank2GE"/>
         <CombineArray value="AP_TargetInDamageArea"/>
     </CValidatorCombine>
-
     <CValidatorLocationCompareRange id="AP_LiberatorMengskAGNotOutOfRange">
         <Compare value="LE"/>
         <Range value="9"/>
@@ -9471,7 +9501,6 @@
         <CombineArray value="AP_IsNotArbiterRecalling"/>
         <CombineArray value="AP_LiberatorMengskAGNotOutOfRange"/>
     </CValidatorCombine>
-
     <CValidatorPlayerRequirement id="AP_LiberatorMengskSmartServosOwned">
         <Find value="1"/>
         <Value value="AP_LiberatorMengskSmartServosOwned"/>
@@ -9545,9 +9574,9 @@
         <Find value="1"/>
         <Value value="AP_BattlecruiserMengskTacticalJumpOwned"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_BattlecruiserMengskEmergencyRepairsOwned">
+    <CValidatorPlayerRequirement id="AP_BattlecruiserMengskPlasmaRecyclingOwned">
         <Find value="1"/>
-        <Value value="AP_BattlecruiserMengskEmergencyRepairsOwned"/>
+        <Value value="AP_BattlecruiserMengskPlasmaRecyclingOwned"/>
     </CValidatorPlayerRequirement>
     <CValidatorUnitType id="AP_CasterIsBattlecruiserMengsk">
         <WhichUnit Value="Caster"/>
@@ -9558,11 +9587,4 @@
         <CombineArray value="AP_HaveGhostMengskGuidedStrike"/>
         <CombineArray value="AP_CasterIsBattlecruiserMengsk"/>
     </CValidatorCombine>
-    <CValidatorUnitCompareCooldown id="AP_BattlecruiserMengskEmergencyRepairsReady">
-        <WhichUnit Value="Caster"/>
-        <CooldownLink value="Abil/AP_BattlecruiserMengskEmergencyRepairs"/>
-        <Ability value="AP_BattlecruiserMengskEmergencyRepairs"/>
-        <Compare value="LE"/>
-        <Value value="0"/>
-    </CValidatorUnitCompareCooldown>
 </Catalog>

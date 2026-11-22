@@ -2344,7 +2344,6 @@
         </Amount>
         <Death value="Fire"/>
     </CEffectDamage>
-
     <CEffectSet id="AP_LiberatorAGDamageSet">
         <EditorCategories value="Race:Zerg"/>
         <EffectArray value="AP_LiberatorTurretFace"/>
@@ -2473,7 +2472,6 @@
         <SearchFilters value="Air;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <AttributeBonus index="Light" value="0"/>
     </CEffectDamage>
-
     <CEffectEnumArea id="AP_LiberatorMissileDummy">
         <EditorCategories value="Race:Terran"/>
         <AreaArray/>
@@ -2736,7 +2734,6 @@
         <PeriodicPeriodArray value="0.25"/>
         <AINotifyEffect value="AP_LiberatorTargetMorphSearchArea"/>
     </CEffectCreatePersistent>
-
     <CEffectApplyBehavior id="AP_LiberatorTargetMorphSearchAB">
         <EditorCategories value="Race:Terran"/>
         <Behavior value="AP_LiberatorTargetMorphAGAttackable"/>
@@ -21707,6 +21704,13 @@
         <EffectArray value="AP_HunterlingClawsDamage"/>
         <EffectArray value="AP_ZerglingArmorShredTargetAB"/>
     </CEffectSet>
+    <CEffectModifyUnit id="AP_BattlecruiserMengskPlasmaRecyclingRefund">
+        <EditorCategories value="Race:Terran"/>
+        <ValidatorArray value="AP_BattlecruiserMengskPlasmaRecyclingOwned"/>
+        <ValidatorArray value="AP_IsNotFriendly"/>
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="AP_BattlecruiserMengskYamato,Execute" ChargeTimeUse="-0.15"/>
+    </CEffectModifyUnit>
     <CEffectSwitch id="AP_BattlecruiserMengskAttackSwitch">
         <EditorCategories value="Race:Terran"/>
         <CaseArray Validator="AP_GroundUnitFilter" Effect="AP_ATSLaserBatteryMengskLM"/>
@@ -21714,8 +21718,13 @@
     </CEffectSwitch>
     <CEffectLaunchMissile id="AP_ATALaserBatteryMengskLM">
         <EditorCategories value="Race:Terran"/>
-        <ImpactEffect value="AP_ATALaserBatteryMengskU"/>
+        <ImpactEffect value="AP_ATALaserBatteryMengskImpact"/>
     </CEffectLaunchMissile>
+    <CEffectSet id="AP_ATALaserBatteryMengskImpact">
+        <EditorCategories value="Race:Terran"/>
+        <EffectArray value="AP_ATALaserBatteryMengskU"/>
+        <EffectArray value="AP_BattlecruiserMengskPlasmaRecyclingRefund"/>
+    </CEffectSet>
     <CEffectDamage id="AP_ATALaserBatteryMengskU" parent="DU_WEAP_MISSILE">
         <EditorCategories value="Race:Terran"/>
         <Visibility value="Visible"/>
@@ -21725,8 +21734,13 @@
     </CEffectDamage>
     <CEffectLaunchMissile id="AP_ATSLaserBatteryMengskLM">
         <EditorCategories value="Race:Terran"/>
-        <ImpactEffect value="AP_ATSLaserBatteryMengskU"/>
+        <ImpactEffect value="AP_ATSLaserBatteryMengskImpact"/>
     </CEffectLaunchMissile>
+    <CEffectSet id="AP_ATSLaserBatteryMengskImpact">
+        <EditorCategories value="Race:Terran"/>
+        <EffectArray value="AP_ATSLaserBatteryMengskU"/>
+        <EffectArray value="AP_BattlecruiserMengskPlasmaRecyclingRefund"/>
+    </CEffectSet>
     <CEffectDamage id="AP_ATSLaserBatteryMengskU" parent="DU_WEAP_MISSILE">
         <EditorCategories value="Race:Terran"/>
         <Visibility value="Visible"/>
@@ -22599,10 +22613,18 @@
     <CEffectModifyUnit id="AP_SetSILiberatorCooldown">
         <Weapon Weapon="AP_SILiberator" CooldownAmount="6"/>
     </CEffectModifyUnit>
-    <CEffectSet id="AP_VikingMengskAttackDamageCooldownSet">
+    <CEffectSwitch id="AP_VikingMengskAttackDamageCooldownSet">
+        <CaseArray Validator="AP_HaveVikingMengskTacticalSuperiority" Effect="AP_VikingMengskAttackDamageCooldownUpgradedSet"/>
+        <CaseDefault value="AP_VikingMengskAttackDamageCooldownBaseSet"/>
+    </CEffectSwitch>
+    <CEffectSet id="AP_VikingMengskAttackDamageCooldownBaseSet">
         <EditorCategories value=""/>
         <EffectArray value="AP_VikingMengskAttackDamageCooldownAB"/>
         <EffectArray value="AP_VikingMengskAttackDamageCooldownMU"/>
+    </CEffectSet>
+    <CEffectSet id="AP_VikingMengskAttackDamageCooldownUpgradedSet">
+        <EffectArray value="AP_VikingMengskAttackDamageCooldownUpgradedAB"/>
+        <EffectArray value="AP_VikingMengskAttackDamageCooldownUpgradedMU"/>
     </CEffectSet>
     <CEffectModifyUnit id="AP_VikingMengskCheatDeathCooldownMU">
         <EditorCategories value="Race:Terran"/>
@@ -22619,6 +22641,11 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_VikingMengskAttackDamageCooldown"/>
     </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_VikingMengskAttackDamageCooldownUpgradedAB">
+        <EditorCategories value=""/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AP_VikingMengskAttackDamageCooldownUpgraded"/>
+    </CEffectApplyBehavior>
     <CEffectApplyBehavior id="AP_VikingMengskCheatDeathCooldownAB">
         <EditorCategories value=""/>
         <WhichUnit Value="Caster"/>
@@ -22628,6 +22655,11 @@
         <EditorCategories value="Race:Terran"/>
         <ImpactUnit Value="Caster"/>
         <Cost Behavior="AP_VikingMengskAttackDamageCooldown" CooldownTimeUse="15"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="AP_VikingMengskAttackDamageCooldownUpgradedMU">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactUnit Value="Caster"/>
+        <Cost Behavior="AP_VikingMengskAttackDamageCooldownUpgraded" CooldownOperation="Set" CooldownTimeUse="8"/>
     </CEffectModifyUnit>
     <CEffectIssueOrder id="AP_VikingMengskCheatDeathIssueOrder">
         <EditorCategories value=""/>
@@ -22654,7 +22686,6 @@
         <WhichUnit Value="Caster"/>
     </CEffectApplyBehavior>
     <CEffectDamage id="AP_VikingMengskGroundMassiveDamage" parent="DU_WEAP">
-        <!-- L1 - unused - fallback -->
         <EditorCategories value="Race:Terran"/>
         <AttributeBonus index="Massive" value="18"/>
         <Kind value="Ranged"/>
@@ -22713,7 +22744,6 @@
         <WhichUnit Value="Caster"/>
     </CEffectApplyBehavior>
     <CEffectDamage id="AP_TwinGatlingCannonsMengsk" parent="DU_WEAP">
-        <!-- L1 -->
         <EditorCategories value="Race:Terran"/>
         <Kind value="Ranged"/>
         <Amount value="18">
@@ -22729,12 +22759,10 @@
         <PeriodicPeriodArray value="0"/>
         <PeriodicPeriodArray value="0.1"/>
     </CEffectCreatePersistent>
-    <CEffectDamage id="AP_LanzerTorpedoesMengskDamage" parent="DU_WEAP_SPLASH">
-        <!-- L1 -->
+    <CEffectDamage id="AP_LanzerTorpedoesMengskDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
         <Visibility value="Visible"/>
         <Kind value="Ranged"/>
-        <KindSplash value="Splash"/>
         <Amount value="21">
             <AccumulatorArray value="AP_4DamagePerRank"/>
         </Amount>
@@ -22755,12 +22783,11 @@
         <PeriodicPeriodArray value="0"/>
         <PeriodicPeriodArray value="0.1"/>
     </CEffectCreatePersistent>
-    <CEffectDamage id="AP_VikingMengskAirMassiveDamage" parent="DU_WEAP_SPLASH">
+    <CEffectDamage id="AP_VikingMengskAirMassiveDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
         <AttributeBonus index="Massive" value="18"/>
         <Visibility value="Visible"/>
         <Kind value="Ranged"/>
-        <KindSplash value="Splash"/>
         <Amount value="21">
             <AccumulatorArray value="AP_4DamagePerRank"/>
         </Amount>
@@ -23417,12 +23444,15 @@
         <InitialDelay value="0.75"/>
         <ExpireDelay value="2"/>
         <ExpireEffect value="AP_GhostMengskNukeDetonateCP"/>
-        <FinalEffect value="AP_GhostMengskNukeSuicide"/>
         <AINotifyEffect value="NukeDamage"/>
     </CEffectCreatePersistent>
+    <CEffectSet id="AP_GhostMengskNukeGuidedLaunch">
+        <EffectArray value="AP_GhostMengskNukeGuidedCP"/>
+        <EffectArray value="AP_GhostMengskNukeSuicide"/>
+    </CEffectSet>
     <CEffectSwitch id="AP_GhostMengskNukeSwitch">
         <EditorCategories value="Race:Terran"/>
-        <CaseArray Validator="AP_GhostMengskNukeNoChannel" Effect="AP_GhostMengskNukeGuidedCP"/>
+        <CaseArray Validator="AP_GhostMengskNukeNoChannel" Effect="AP_GhostMengskNukeGuidedLaunch"/>
         <CaseDefault value="AP_GhostMengskNukeCP"/>
     </CEffectSwitch>
     <CEffectUseCalldown id="AP_GhostMengskNukeCalldown">
@@ -24351,7 +24381,6 @@
         <CaseArray Validator="AP_LiberatorMengskRank1GE" Effect="AP_LiberatorMengskWeaponMoreAttacks"/>
         <CaseDefault value="AP_LiberatorMengskWeapon"/>
     </CEffectSwitch>
-
     <CEffectRemoveBehavior id="AP_LiberatorMengskWeaponClear">
         <EditorCategories value=""/>
         <WhichUnit Value="Caster"/>
@@ -24371,7 +24400,6 @@
         <CaseArray Validator="AP_LiberatorMengskRank3GE" Effect="AP_LiberatorAGMengskWeaponL4"/>
         <CaseDefault value="AP_LiberatorAGMengskWeapon"/>
     </CEffectSwitch>
-
     <CEffectRemoveBehavior id="AP_LiberatorAGMengskWeaponClear">
         <EditorCategories value=""/>
         <WhichUnit Value="Caster"/>
@@ -24426,6 +24454,7 @@
     </CEffectDamage>
     <CEffectLaunchMissile id="AP_WraithMengskAGLaunchMissile" parent="AP_WraithAGLaunchMissile">
         <ImpactEffect value="AP_WraithMengskAGU"/>
+        <AmmoUnit value="AP_WraithMengskAdvancedLaserMissile"/>
     </CEffectLaunchMissile>
     <CEffectDamage id="AP_WraithMengskAGU" parent="DU_WEAP">
         <EditorCategories value="Race:Terran"/>
@@ -28233,7 +28262,6 @@
         <ValidateMin value="2"/>
         <EffectSuccess value="AP_VikingMengskDodgeHandled"/>
     </CEffectUserData>
-
     <CEffectSet id="AP_WraithMengskUnlockRank3Set">
         <EffectArray value="AP_WraithMengskUnlockRank3Apply"/>
         <EffectArray value="AP_MengskVeteranTrigger"/>
@@ -28242,14 +28270,17 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_WraithMengskRank3Unlocked"/>
     </CEffectApplyBehavior>
-
     <CEffectLaunchMissile id="AP_WraithMengskToxicLaunch">
         <LaunchLocation Value="CasterUnit"/>
-        <ImpactLocation Value="TargetPoint"/><ImpactOffset value="0,0,0.1"/>
-        <ImpactEffect value="AP_WraithMengskToxicImpact"/><AmmoUnit value="AP_WraithMengskToxicMissile"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactOffset value="0,0,0.1"/>
+        <ImpactEffect value="AP_WraithMengskToxicImpact"/>
+        <AmmoUnit value="AP_WraithMengskToxicMissile"/>
     </CEffectLaunchMissile>
     <CEffectCreatePersistent id="AP_WraithMengskToxicImpact">
-        <WhichLocation Value="TargetPoint"/><PeriodCount value="1"/><PeriodicPeriodArray value="0.01"/>
+        <WhichLocation Value="TargetPoint"/>
+        <PeriodCount value="1"/>
+        <PeriodicPeriodArray value="0.01"/>
         <InitialEffect value="AP_WraithMengskToxicRankSwitch"/>
     </CEffectCreatePersistent>
     <CEffectSwitch id="AP_WraithMengskToxicRankSwitch">
@@ -28257,14 +28288,19 @@
         <CaseDefault value="AP_WraithMengskToxicSearch"/>
     </CEffectSwitch>
     <CEffectCreatePersistent id="AP_WraithMengskToxicCloud">
-        <WhichLocation Value="TargetPoint"/><InitialEffect value="AP_WraithMengskToxicSearch"/>
-        <PeriodCount value="16"/><PeriodicPeriodArray value="0.25"/><PeriodicEffectArray value="AP_WraithMengskToxicSearch"/>
+        <WhichLocation Value="TargetPoint"/>
+        <InitialEffect value="AP_WraithMengskToxicSearch"/>
+        <PeriodCount value="16"/>
+        <PeriodicPeriodArray value="0.25"/>
+        <PeriodicEffectArray value="AP_WraithMengskToxicSearch"/>
     </CEffectCreatePersistent>
     <CEffectSet id="AP_WraithMengskToxicSearch">
-        <EffectArray value="AP_WraithMengskToxicPoisonSearch"/><EffectArray value="AP_WraithMengskToxicFearSearch"/>
+        <EffectArray value="AP_WraithMengskToxicPoisonSearch"/>
+        <EffectArray value="AP_WraithMengskToxicFearSearch"/>
     </CEffectSet>
     <CEffectEnumArea id="AP_WraithMengskToxicPoisonSearch">
-        <ImpactLocation Value="TargetPoint"/><SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray Radius="3" Effect="AP_WraithMengskToxicPoisonAB"/>
     </CEffectEnumArea>
     <CEffectEnumArea id="AP_WraithMengskToxicFearSearch">
@@ -28272,39 +28308,67 @@
         <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Massive,Heroic,Structure"/>
         <AreaArray Radius="3" Effect="AP_WraithMengskToxicControlSwitch"/>
     </CEffectEnumArea>
-    <CEffectApplyBehavior id="AP_WraithMengskToxicPoisonAB"><Behavior value="AP_WraithMengskToxicPoison"/></CEffectApplyBehavior>
-    <CEffectApplyBehavior id="AP_WraithMengskToxicFearAB"><Behavior value="AP_WraithMengskToxicFear"/></CEffectApplyBehavior>
-    <CEffectDamage id="AP_WraithMengskToxicDamage" parent="DU_WEAP">
-        <Kind value="Spell"/><Amount value="5"/><ArmorReduction value="0"/>
-        <ResponseFlags index="Acquire" value="0"/><ResponseFlags index="Flee" value="0"/>
+    <CEffectApplyBehavior id="AP_WraithMengskToxicPoisonAB">
+        <Behavior value="AP_WraithMengskToxicPoison"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_WraithMengskToxicFearAB">
+        <Behavior value="AP_WraithMengskToxicFear"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="AP_WraithMengskToxicDamage">
+        <Kind value="Spell"/>
+        <Amount value="5"/>
+        <ResponseFlags index="Acquire" value="0"/>
+        <ResponseFlags index="Flee" value="0"/>
         <SearchFlags index="CallForHelp" value="0"/>
     </CEffectDamage>
     <CEffectIssueOrder id="AP_WraithMengskToxicStop">
-        <WhichUnit Value="Target"/><Player Value="Target"/>
+        <WhichUnit Value="Target"/>
+        <Player Value="Target"/>
         <Abil value="stop"/>
         <CmdFlags index="Preempt" value="1"/>
     </CEffectIssueOrder>
-
     <CEffectSwitch id="AP_WraithMengskToxicControlSwitch">
-        <CaseArray Validator="AP_WraithMengskMaddeningPathogenOwned" Effect="AP_WraithMengskToxicConfusionAB"/><CaseDefault value="AP_WraithMengskToxicFearAB"/>
+        <CaseArray Validator="AP_WraithMengskMaddeningPathogenOwned" Effect="AP_WraithMengskToxicConfusionAB"/>
+        <CaseDefault value="AP_WraithMengskToxicFearAB"/>
     </CEffectSwitch>
-    <CEffectApplyBehavior id="AP_WraithMengskToxicConfusionAB"><Behavior value="AP_WraithMengskToxicConfusion"/></CEffectApplyBehavior>
+    <CEffectApplyBehavior id="AP_WraithMengskToxicConfusionAB">
+        <Behavior value="AP_WraithMengskToxicConfusion"/>
+    </CEffectApplyBehavior>
     <CEffectSet id="AP_WraithMengskToxicConfusionInitial">
-        <EffectArray value="AP_WraithMengskToxicStop"/><EffectArray value="AP_WraithMengskToxicConfusionAttackSearch"/>
+        <EffectArray value="AP_WraithMengskToxicStop"/>
+        <EffectArray value="AP_WraithMengskToxicConfusionAttackSearch"/>
         <EffectArray value="AP_DarkArachonConfusionInitialApplyBehavior"/>
     </CEffectSet>
     <CEffectEnumArea id="AP_WraithMengskToxicConfusionAttackSearch">
         <ExcludeArray Value="Target"/>
         <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <TargetSorts><SortArray value="TSRandom"/></TargetSorts>
+        <TargetSorts>
+            <SortArray value="TSRandom"/>
+        </TargetSorts>
         <AreaArray MaxCount="1" Radius="4" Effect="AP_DarkArchonConfusionAttack"/>
     </CEffectEnumArea>
-    <CEffectEnumArea id="AP_WraithMengskPhantasmalBlastSearch">
-        <ValidatorArray value="AP_WraithMengskNotCloaked"/><ImpactLocation Value="CasterUnit"/>
+    <CEffectSet id="AP_WraithMengskHorrifyingBlastCast">
+        <ValidatorArray value="AP_WraithMengskNotCloaked"/>
+        <ValidatorArray value="AP_WraithMengskHorrifyingBlastOwned"/>
+        <EffectArray value="AP_WraithMengskHorrifyingBlastSearch"/>
+    </CEffectSet>
+    <CEffectEnumArea id="AP_WraithMengskHorrifyingBlastSearch">
+        <ImpactLocation Value="CasterUnit"/>
         <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="3" Effect="AP_WraithMengskPhantasmalBlastDamage"/>
+        <AreaArray Radius="3.5" Effect="AP_WraithMengskHorrifyingBlastHit"/>
     </CEffectEnumArea>
-    <CEffectDamage id="AP_WraithMengskPhantasmalBlastDamage" parent="DU_WEAP"><Kind value="Spell"/><Amount value="50"/><ArmorReduction value="0"/></CEffectDamage>
+    <CEffectSet id="AP_WraithMengskHorrifyingBlastHit">
+        <EffectArray value="AP_WraithMengskHorrifyingBlastDamage"/>
+        <EffectArray value="AP_WraithMengskHorrifyingBlastFear"/>
+    </CEffectSet>
+    <CEffectDamage id="AP_WraithMengskHorrifyingBlastDamage">
+        <Kind value="Spell"/>
+        <Amount value="25"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="AP_WraithMengskHorrifyingBlastFear">
+        <ValidatorArray value="AP_WraithMengskHorrifyingBlastFearAllowed"/>
+        <Behavior value="AP_WraithMengskToxicFear"/>
+    </CEffectApplyBehavior>
     <CEffectSet id="AP_LiberatorMengskUnlockRank3Set">
         <EffectArray value="AP_LiberatorMengskUnlockRank3Apply"/>
         <EffectArray value="AP_MengskVeteranTrigger"/>
@@ -28336,7 +28400,7 @@
     </CEffectLaunchMissile>
     <CEffectDamage id="AP_LiberatorMengskPenetratingAmmunitionDamage" parent="DU_WEAP">
         <Kind value="Ranged"/>
-        <Amount value="31.25">
+        <Amount value="41.25">
             <AccumulatorArray value="AP_LiberatorMengskPenetratingAmmunitionRankDamage"/>
         </Amount>
         <ImpactLocation Value="TargetUnit"/>
@@ -28350,39 +28414,4 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_BattlecruiserMengskRank3Unlocked"/>
     </CEffectApplyBehavior>
-    <CEffectSet id="AP_BattlecruiserMengskEmergencyRepairsSet">
-        <EffectArray value="AP_BattlecruiserMengskEmergencyRepairsStartCooldown"/>
-        <EffectArray value="AP_BattlecruiserMengskEmergencyRepairsCapacityAB"/>
-        <EffectArray value="AP_BattlecruiserMengskEmergencyRepairsFillShields"/>
-        <EffectArray value="AP_BattlecruiserMengskEmergencyRepairsShieldAB"/>
-        <EffectArray value="AP_BattlecruiserMengskEmergencyRepairsCapacityRB"/>
-    </CEffectSet>
-    <CEffectModifyUnit id="AP_BattlecruiserMengskEmergencyRepairsStartCooldown">
-        <ImpactUnit Value="Caster"/>
-        <Cost Abil="AP_BattlecruiserMengskEmergencyRepairs,Execute" CooldownOperation="Set" CooldownTimeUse="240"/>
-    </CEffectModifyUnit>
-    <CEffectApplyBehavior id="AP_BattlecruiserMengskEmergencyRepairsCapacityAB">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_BattlecruiserMengskEmergencyRepairsCapacity"/>
-    </CEffectApplyBehavior>
-    <CEffectModifyUnit id="AP_BattlecruiserMengskEmergencyRepairsFillShields">
-        <ImpactUnit Value="Caster"/>
-        <VitalArray index="Shields">
-            <Change value="300"/>
-        </VitalArray>
-    </CEffectModifyUnit>
-    <CEffectApplyBehavior id="AP_BattlecruiserMengskEmergencyRepairsShieldAB">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_BattlecruiserMengskEmergencyRepairsShield"/>
-    </CEffectApplyBehavior>
-    <CEffectRemoveBehavior id="AP_BattlecruiserMengskEmergencyRepairsCapacityRB">
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="AP_BattlecruiserMengskEmergencyRepairsCapacity"/>
-    </CEffectRemoveBehavior>
-    <CEffectModifyUnit id="AP_BattlecruiserMengskEmergencyRepairsHeal">
-        <ImpactUnit Value="Caster"/>
-        <VitalArray index="Life">
-            <ChangeFraction value="0.02"/>
-        </VitalArray>
-    </CEffectModifyUnit>
 </Catalog>

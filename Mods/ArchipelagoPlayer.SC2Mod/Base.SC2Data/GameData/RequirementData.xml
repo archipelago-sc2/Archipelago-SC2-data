@@ -1958,8 +1958,8 @@
     <CRequirement id="AP_HaveValkyrieAntiGravityDrive">
         <NodeArray index="Show" Link="AP_CountUpgradeValkyrieAntiGravityDriveCompleteOnly"/>
     </CRequirement>
-    <CRequirement id="AP_HaveWraithAdvancedLaserTechnology">
-        <NodeArray index="Show" Link="AP_CountUpgradeWraithAdvancedLaserTechnologyCompleteOnly"/>
+    <CRequirement id="AP_HaveWraithMengskAdvancedLaserTechnology">
+        <NodeArray index="Show" Link="AP_CountUpgradeWraithMengskAdvancedLaserTechnologyCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_UseHyperfluxor">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
@@ -4395,9 +4395,10 @@
         <NodeArray index="Show" Link="AP_CountBehaviorMercTorrasqueTimerBehaviorCompleteOnlyAtUnit"/>
         <CanBeSuppressed index="Show" value="1"/>
     </CRequirement>
-    <CRequirement id="AP_HaveBattlecruiserRangeAura">
+    <CRequirement id="AP_HaveBattlecruiserMengskRangeAura">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
-        <NodeArray index="Use" Link="AP_CountUpgradeBattlecruiserRangeAuraCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeBattlecruiserMengskRangeAuraCompleteOnly"/>
+        <NodeArray index="Use" Link="AP_CountUpgradeBattlecruiserMengskRangeAuraCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_HaveMengskVeterancyBattlecruiserMengskGELevel2">
         <NodeArray index="Show" Link="AP_GTECountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit2"/>
@@ -4485,18 +4486,25 @@
         <NodeArray index="Use" Link="AP_CountUpgradeNotPossibleFighterModeCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_HaveMengskVeterancyVikingMengskGELevel3">
+        <NodeArray index="Show" Link="AP_VikingMengskRealignmentOffCooldown"/>
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit3"/>
     </CRequirement>
     <CRequirement id="AP_HaveMengskVeterancyVikingMengskLevel4">
+        <NodeArray index="Show" Link="AP_CountUpgradeVikingMengskRank3Training"/>
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit4"/>
     </CRequirement>
     <CRequirement id="AP_HaveVikingMengskCheatDeathCooldown">
         <EditorCategories value="TechType:Ability"/>
-        <NodeArray index="Show" Link="AP_CountBehaviorVikingMengskCheatDeathCooldownCompleteOnlyAtUnit"/>
+        <NodeArray index="Show" Link="AP_VikingMengskCheatDeathCooldownWithTraining"/>
+        <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit4"/>
     </CRequirement>
     <CRequirement id="AP_HaveVikingMengskAttackDamageCooldown">
         <EditorCategories value="TechType:Ability"/>
         <NodeArray index="Show" Link="AP_CountBehaviorVikingMengskAttackDamageCooldownCompleteOnlyAtUnit"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveVikingMengskAttackDamageCooldownUpgraded">
+        <EditorCategories value="TechType:Ability"/>
+        <NodeArray index="Show" Link="AP_CountBehaviorVikingMengskAttackDamageCooldownUpgradedCompleteOnlyAtUnit"/>
     </CRequirement>
     <CRequirement id="AP_HaveVikingMengskSpeed">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
@@ -4959,10 +4967,6 @@
     <CRequirement id="AP_ViralPlasmaPurchased">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
         <NodeArray index="Show" Link="AP_CountUpgradeViralPlasmaCompleteOnly"/>
-    </CRequirement>
-    <CRequirement id="AP_HaveBattlecruiserMengskSpellcaster">
-        <EditorCategories value="Race:Terran,TechType:Upgrade"/>
-        <NodeArray index="Show" Link="AP_BattlecruiserMengskSpellcasterCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_HaveBioMechanicalStockpiling">
         <EditorCategories value="Race:Zerg,TechType:Upgrade"/>
@@ -6552,17 +6556,17 @@
         <NodeArray index="Use" Link="AP_CountUpgradeWraithMengskRank3Training"/>
         <NodeArray index="Show" Link="AP_CountUpgradeWraithMengskRank3Training"/>
     </CRequirement>
-    <CRequirement id="AP_WraithMengskEfficientStorageOwned">
-        <NodeArray index="Use" Link="AP_WraithMengskEfficientStorageCount"/>
-        <NodeArray index="Show" Link="AP_WraithMengskEfficientStorageCount"/>
+    <CRequirement id="AP_WraithMengskToxicTyrantOwned">
+        <NodeArray index="Use" Link="AP_WraithMengskToxicTyrantCount"/>
+        <NodeArray index="Show" Link="AP_WraithMengskToxicTyrantCount"/>
     </CRequirement>
     <CRequirement id="AP_WraithMengskMaddeningPathogenOwned">
         <NodeArray index="Use" Link="AP_WraithMengskMaddeningPathogenCount"/>
         <NodeArray index="Show" Link="AP_WraithMengskMaddeningPathogenCount"/>
     </CRequirement>
-    <CRequirement id="AP_WraithMengskPhantasmalBlastOwned">
-        <NodeArray index="Use" Link="AP_WraithMengskPhantasmalBlastCount"/>
-        <NodeArray index="Show" Link="AP_WraithMengskPhantasmalBlastCount"/>
+    <CRequirement id="AP_WraithMengskHorrifyingBlastOwned">
+        <NodeArray index="Use" Link="AP_WraithMengskHorrifyingBlastCount"/>
+        <NodeArray index="Show" Link="AP_WraithMengskHorrifyingBlastCount"/>
     </CRequirement>
     <CRequirement id="AP_WraithPulseAmplifierOwned">
         <NodeArray index="Use" Link="AP_WraithPulseAmplifierCount"/>
@@ -6612,9 +6616,9 @@
         <NodeArray index="Show" Link="AP_BattlecruiserMengskTacticalJumpCount"/>
         <NodeArray index="Use" Link="AP_BattlecruiserMengskTacticalJumpCount"/>
     </CRequirement>
-    <CRequirement id="AP_BattlecruiserMengskEmergencyRepairsOwned">
-        <NodeArray index="Show" Link="AP_BattlecruiserMengskEmergencyRepairsCount"/>
-        <NodeArray index="Use" Link="AP_BattlecruiserMengskEmergencyRepairsCount"/>
+    <CRequirement id="AP_BattlecruiserMengskPlasmaRecyclingOwned">
+        <NodeArray index="Show" Link="AP_BattlecruiserMengskPlasmaRecyclingCount"/>
+        <NodeArray index="Use" Link="AP_BattlecruiserMengskPlasmaRecyclingCount"/>
     </CRequirement>
     <CRequirement id="AP_BattlecruiserMengskTacticalMissileArray">
         <CanBeSuppressed index="Use" value="0"/>

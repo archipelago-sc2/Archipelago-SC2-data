@@ -9056,15 +9056,15 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <PeriodicEffect value="AP_BattlecruiserBonusRangeSearch"/>
         <Period value="0.5"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserRangeAura"/>
+        <DisableValidatorArray value="AP_HaveBattlecruiserMengskRangeAura"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_BattlecruiserBonusRangeIndicator">
         <!-- Indicator of passive upgrade - full command card -->
         <BehaviorFlags index="Permanent" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserRangeAura"/>
+        <DisableValidatorArray value="AP_HaveBattlecruiserMengskRangeAura"/>
         <InfoIcon value="Assets\Textures\btn-ability-mengsk-battlecruiser-decksights.dds"/>
-        <Name value="Button/Name/AP_BattlecruiserRangeAura"/>
-        <Tooltip value="Button/Tooltip/AP_BattlecruiserRangeAura"/>
+        <Name value="Button/Name/AP_BattlecruiserMengskRangeAura"/>
+        <Tooltip value="Button/Tooltip/AP_BattlecruiserMengskRangeAura"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_MothershipAiurShieldArmor">
         <Alignment value="Positive"/>
@@ -9318,6 +9318,12 @@
             <Cooldown Location="Unit" TimeUse="15"/>
         </Cost>
     </CBehaviorBuff>
+    <CBehaviorBuff id="AP_VikingMengskAttackDamageCooldownUpgraded" parent="AP_VikingMengskAttackDamageCooldown">
+        <Duration value="8"/>
+        <Cost>
+            <Cooldown Location="Unit" TimeUse="8"/>
+        </Cost>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AP_VikingMengskCheatDeathCooldown">
         <Alignment value="Negative"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -9340,7 +9346,7 @@
         </DamageResponse>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_VikingMengskTacticalSuperiorityIndicator">
-        <InfoIcon value="Assets\Textures\btn-ability-mengsk-viking-freshperspective.dds"/>
+        <InfoIcon value="Assets\Textures\btn-progression-mengsk-13-completeannihilation.dds"/>
         <BehaviorFlags index="Permanent" value="1"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Requirements value="AP_HaveVikingMengskTacticalSuperiority"/>
@@ -10205,7 +10211,6 @@
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
-
     <CBehaviorBuff id="AP_LiberatorMengskWeapon">
         <BehaviorFlags index="Permanent" value="1"/>
         <InfoFlags index="Hidden" value="1"/>
@@ -10324,27 +10329,27 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <XPFraction index="Kills" value="0"/>
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
-        <VeterancyLevelArray MinVeterancyXP="1200" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+        <VeterancyLevelArray MinVeterancyXP="1500" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="60"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
         </VeterancyLevelArray>
-        <VeterancyLevelArray MinVeterancyXP="2800" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+        <VeterancyLevelArray MinVeterancyXP="3500" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="60"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray>
-            <MinVeterancyXP value="4800"/>
+            <MinVeterancyXP value="6000"/>
             <LevelGainEffect value="AP_MengskVeteranMaxedTrigger"/>
             <LevelLossEffect value="AP_MengskVeteranTrigger"/>
             <RankNameSchema value="Behavior/RankName/AP_MengskRank3"/>
             <Modification>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="60"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -10847,35 +10852,6 @@
         <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
         <Modification>
             <VitalRegenArray index="Energy" value="-2.0625"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskL2EnergyBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserMengskSpellcaster"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE2"/>
-        <Modification>
-            <VitalMaxArray index="Energy" value="50"/>
-            <VitalRegenArray index="Energy" value="0.5"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskL3EnergyBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserMengskSpellcaster"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE3"/>
-        <Modification>
-            <VitalMaxArray index="Energy" value="50"/>
-            <VitalRegenArray index="Energy" value="0.5"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskL4EnergyBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserMengskSpellcaster"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE4"/>
-        <Modification>
-            <VitalMaxArray index="Energy" value="50"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_BattlecruiserMengskL2ShieldBuff">
@@ -12291,16 +12267,16 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <XPFraction index="Kills" value="0"/>
         <VeterancyLevelArray RankNameSchema="Behavior/RankName/AP_MengskRank0"/>
-        <VeterancyLevelArray MinVeterancyXP="1200" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
+        <VeterancyLevelArray MinVeterancyXP="1500" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank1">
             <Modification>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="60"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
         </VeterancyLevelArray>
-        <VeterancyLevelArray MinVeterancyXP="2800" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2">
+        <VeterancyLevelArray MinVeterancyXP="3500" LevelGainEffect="AP_MengskVeteranLevelUpDummy" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
-                <VitalMaxArray index="Life" value="50"/>
+                <VitalMaxArray index="Life" value="60"/>
                 <VitalMaxArray index="Energy" value="50"/>
                 <VitalRegenArray index="Energy" value="0.5"/>
             </Modification>
@@ -12316,7 +12292,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WraithMengskCloak">
         <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <RemoveValidatorArray value="CanSpendEnergy"/>
         <RemoveValidatorArray value="hasEnergy"/>
@@ -12326,10 +12302,9 @@
             <VitalRegenArray index="Energy" value="-1.5"/>
         </Modification>
     </CBehaviorBuff>
-
     <CBehaviorBuff id="AP_WraithMengskCloakedSuperiority">
         <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <InfoIcon value="Assets\Textures\btn-ability-hornerhan-wraith-permanentcloak.dds"/>
         <DisableValidatorArray value="AP_WraithMengskRank2GE"/>
         <DisableValidatorArray value="AP_IsCloaked"/>
         <Modification>
@@ -12341,14 +12316,21 @@
         </DamageResponse>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WraithMengskToxicPoison">
-        <Alignment value="Negative"/><InfoIcon value="Assets\Textures\btn-ability-mengsk-topbar-contaminatedstrike.dds"/>
-        <Duration value="2"/><Period value="0.5"/><PeriodicEffect value="AP_WraithMengskToxicDamage"/>
-        <MaxStackCount value="1"/><BuffFlags index="RefreshStack" value="1"/>
+        <Alignment value="Negative"/>
+        <InfoIcon value="AP\Assets\Textures\btn-ability-terran-toxic-canister.dds"/>
+        <Duration value="2"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="AP_WraithMengskToxicDamage"/>
+        <MaxStackCount value="1"/>
+        <BuffFlags index="RefreshStack" value="1"/>
         <DisplayDuration index="Enemy" value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WraithMengskToxicFear">
-        <Alignment value="Negative"/><InfoIcon value="Assets\Textures\fearex3_coop.dds"/>
-        <Duration value="2"/><MaxStackCount value="1"/><BuffFlags index="RefreshStack" value="1"/>
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\fearex3_coop.dds"/>
+        <Duration value="2"/>
+        <MaxStackCount value="1"/>
+        <BuffFlags index="RefreshStack" value="1"/>
         <FinalEffect value="AP_WraithMengskToxicStop"/>
         <Modification>
             <ModifyFlags index="DisableWeapons" value="1"/>
@@ -12357,30 +12339,56 @@
         </Modification>
         <DisplayDuration index="Enemy" value="1"/>
     </CBehaviorBuff>
-
     <CBehaviorBuff id="AP_WraithMengskToxicConfusion">
-        <Alignment value="Negative"/><InfoIcon value="Assets\Textures\btn-ability-protoss-confusion.dds"/>
-        <Duration value="2"/><MaxStackCount value="1"/><BuffFlags index="RefreshStack" value="1"/>
-        <Period value="0.5"/><InitialEffect value="AP_WraithMengskToxicConfusionInitial"/>
-        <PeriodicEffect value="AP_WraithMengskToxicConfusionAttackSearch"/><FinalEffect value="AP_DarkArchonConfusionEndSet"/>
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-confusion.dds"/>
+        <Duration value="2"/>
+        <MaxStackCount value="1"/>
+        <BuffFlags index="RefreshStack" value="1"/>
+        <Period value="0.5"/>
+        <InitialEffect value="AP_WraithMengskToxicConfusionInitial"/>
+        <PeriodicEffect value="AP_WraithMengskToxicConfusionAttackSearch"/>
+        <FinalEffect value="AP_DarkArchonConfusionEndSet"/>
         <Modification>
-            <StateFlags index="Passive" value="1"/><StateFlags index="IgnorePlayerAlliedFlags" value="1"/>
+            <StateFlags index="Passive" value="1"/>
+            <StateFlags index="IgnorePlayerAlliedFlags" value="1"/>
             <StateFlags index="Uncommandable" value="1"/>
         </Modification>
         <DisplayDuration index="Enemy" value="1"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_WraithMengskPhantasmalBlastCloakTracker">
-        <InfoFlags index="Hidden" value="1"/><DisableValidatorArray value="AP_IsCloaked"/>
+    <CBehaviorBuff id="AP_WraithMengskHorrifyingBlastCooldown">
+        <Cost>
+            <Cooldown Link="Behavior/AP_WraithMengskHorrifyingBlastCooldown" Location="Unit" TimeUse="30"/>
+        </Cost>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_WraithMengskHorrifyingBlastCloakTracker">
+        <InfoFlags index="Hidden" value="1"/>
+        <DisableValidatorArray value="AP_IsCloaked"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WraithPulseAmplifierAir">
-        <InfoFlags index="Hidden" value="1"/><DisableValidatorArray value="AP_WraithPulseAmplifierOwned"/>
+        <Alignment value="Positive"/>
+        <DisableValidatorArray value="AP_WraithPulseAmplifierOwned"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-swann-improvedburstlaser.dds"/>
+        <Name value="Button/Name/AP_WraithPulseAmplifier"/>
+        <Tooltip value="Button/Tooltip/AP_WraithPulseAmplifier"/>
         <DisableValidatorArray value="AP_WraithPulseAmplifierMoving"/>
-        <DamageResponse Location="Attacker" ModifyFraction="1.75"><Chance value="1"/><RequireEffectArray value="AP_WraithAU"/><RequireEffectArray value="AP_MercWraithAU"/></DamageResponse>
+        <DamageResponse Location="Attacker" ModifyFraction="2">
+            <Chance value="1"/>
+            <RequireEffectArray value="AP_WraithAU"/>
+            <RequireEffectArray value="AP_MercWraithAU"/>
+        </DamageResponse>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WraithPulseAmplifierGround">
-        <InfoFlags index="Hidden" value="1"/><DisableValidatorArray value="AP_WraithPulseAmplifierOwned"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <DisableValidatorArray value="AP_WraithPulseAmplifierOwned"/>
         <DisableValidatorArray value="AP_WraithPulseAmplifierMoving"/>
-        <DamageResponse Location="Attacker" ModifyFraction="3"><Chance value="1"/><RequireEffectArray value="AP_WraithGU"/><RequireEffectArray value="AP_MercWraithGU"/></DamageResponse>
+        <DamageResponse Location="Attacker" ModifyFraction="3">
+            <Chance value="1"/>
+            <RequireEffectArray value="AP_WraithGU"/>
+            <RequireEffectArray value="AP_MercWraithGU"/>
+        </DamageResponse>
     </CBehaviorBuff>
     <CBehaviorVeterancy id="AP_MengskVeterancyLiberatorMengskRank2">
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -12399,7 +12407,6 @@
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
-
     <CBehaviorBuff id="AP_LiberatorMengskRank3Unlocked">
         <InfoFlags index="Hidden" value="1"/>
         <BehaviorFlags index="Permanent" value="1"/>
@@ -12434,35 +12441,6 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <PeriodicEffect value="AP_BattlecruiserBonusRangeSearch"/>
         <Period value="0.5"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserRangeAura"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskEmergencyRepairsGuard">
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_BattlecruiserMengskEmergencyRepairsOwned"/>
-        <DisableValidatorArray value="AP_BattlecruiserMengskEmergencyRepairsReady"/>
-        <DamageResponse Fatal="1" Handled="AP_BattlecruiserMengskEmergencyRepairsSet" ModifyFraction="0">
-            <Chance value="1"/>
-        </DamageResponse>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskEmergencyRepairsCapacity">
-        <InfoFlags index="Hidden" value="1"/>
-        <Duration value="0.0625"/>
-        <Modification>
-            <VitalMaxArray index="Shields" value="300"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskEmergencyRepairsShield">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-defensivematrix.dds"/>
-        <Duration value="10"/>
-        <MaxStackCount value="1"/>
-        <RemoveValidatorArray value="hasShields"/>
-        <Modification>
-            <VitalMaxArray index="Shields" value="300"/>
-        </Modification>
-        <Period value="1"/>
-        <PeriodicEffect value="AP_BattlecruiserMengskEmergencyRepairsHeal"/>
-        <DisplayDuration index="Self" value="1"/>
-        <DisplayDuration index="Ally" value="1"/>
+        <DisableValidatorArray value="AP_HaveBattlecruiserMengskRangeAura"/>
     </CBehaviorBuff>
 </Catalog>
