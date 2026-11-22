@@ -309,6 +309,28 @@ void libABFE498B_gf_AP_Triggers_setWarCouncil (bool lp_value) {
 
 }
 
+void libABFE498B_gf_AP_Triggers_setHideGeneralNerfs (bool lp_value) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup auto5538BF59_g;
+
+    // Variable Initialization
+
+    // Implementation
+    if ((lp_value == true)) {
+        auto5538BF59_g = lib5BD4895D_gv_aP_Core_affectedPlayers;
+        lv_player = -1;
+        while (true) {
+            lv_player = PlayerGroupNextPlayer(auto5538BF59_g, lv_player);
+            if (lv_player < 0) { break; }
+            libNtve_gf_SetUpgradeLevelForPlayer(lv_player, "AP_HideGeneralNerfs", 1);
+        }
+    }
+
+}
+
 void libABFE498B_gf_AP_Triggers_setOptions (string lp_inputString) {
     // Variable Declarations
     string lv_skipCutscenes;
@@ -331,6 +353,7 @@ void libABFE498B_gf_AP_Triggers_setOptions (string lp_inputString) {
     string lv_difficultyDamageModifierEvent;
     string lv_unitOptionsValue;
     string lv_warCouncilNerfs;
+    string lv_hideGeneralNerfs;
     string lv_heroPresence;
     int lv_currentPlayer;
 
@@ -358,6 +381,7 @@ void libABFE498B_gf_AP_Triggers_setOptions (string lp_inputString) {
     lv_difficultyDamageModifierEvent = "";
     lv_unitOptionsValue = "";
     lv_warCouncilNerfs = "";
+    lv_hideGeneralNerfs = "";
     lv_heroPresence = "";
 
     // Implementation
@@ -380,7 +404,8 @@ void libABFE498B_gf_AP_Triggers_setOptions (string lp_inputString) {
     lv_difficultyDamageModifier = StringWord(lp_inputString, 17);
     lv_unitOptionsValue = StringWord(lp_inputString, 18);
     lv_warCouncilNerfs = StringWord(lp_inputString, 19);
-    lv_heroPresence = StringWord(lp_inputString, 20);
+    lv_hideGeneralNerfs = StringWord(lp_inputString, 20);
+    lv_heroPresence = StringWord(lp_inputString, 21);
     TextExpressionSetToken("Param/Expression/lib_ABFE498B_DA7A6A87", "A", StringToText(lv_heroPresence));
     TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_DA7A6A87"), false);
     libABFE498B_gf_AP_Triggers_setDifficulty(lv_difficulty);
@@ -415,6 +440,7 @@ void libABFE498B_gf_AP_Triggers_setOptions (string lp_inputString) {
     }
     libABFE498B_gf_AP_Triggers_setMercenaryHighlander(StringEqual(lv_unitOptionsValue, "1", c_stringCase));
     libABFE498B_gf_AP_Triggers_setWarCouncil(StringEqual(lv_warCouncilNerfs, "1", c_stringCase));
+    libABFE498B_gf_AP_Triggers_setHideGeneralNerfs(StringEqual(lv_hideGeneralNerfs, "1", c_stringCase));
     libABFE498B_gv_aP_Triggers_Option_HeroPresence = StringToInt(lv_heroPresence);
     TextExpressionSetToken("Param/Expression/lib_ABFE498B_FCA6D672", "A", IntToText(libABFE498B_gv_aP_Triggers_Option_HeroPresence));
     TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ABFE498B_FCA6D672"), false);

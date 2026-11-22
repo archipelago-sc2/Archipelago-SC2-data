@@ -97,6 +97,10 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="AP_MarineU238Shells" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
+    <CRequirementAnd id="AP_HaveMarineU238ShellsAndNotHideGeneralNerfs">
+        <OperandArray value="AP_NotHideGeneralNerfs"/>
+        <OperandArray value="AP_CountUpgradeMarineU238ShellsCompleteOnly"/>
+    </CRequirementAnd>
     <CRequirementCountUpgrade id="AP_CountUpgradeBearclawNozzlesCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="AP_BearclawNozzles" State="CompleteOnly"/>
@@ -6047,6 +6051,13 @@
         <Count Link="AP_WarCouncilNerfs" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
     </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_CountUpgradeHideGeneralNerfsCompleteOnly">
+        <Count Link="AP_HideGeneralNerfs" State="CompleteOnly"/>
+        <Flags index="TechTreeCheat" value="0"/>
+    </CRequirementCountUpgrade>
+    <CRequirementNot id="AP_NotHideGeneralNerfs">
+        <OperandArray index="0" value="AP_CountUpgradeHideGeneralNerfsCompleteOnly"/>
+    </CRequirementNot>
     <CRequirementCountUpgrade id="AP_CountUpgradeGraviticDriveCompleteOnly">
         <Count Link="AP_GraviticDrive" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
@@ -6150,6 +6161,10 @@
         <Count Link="AP_ColossusExtendedThermalLance" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
     </CRequirementCountUpgrade>
+    <CRequirementAnd id="AP_HaveColossusExtendedThermalLanceAndNotHideGeneralNerfs">
+        <OperandArray value="AP_NotHideGeneralNerfs"/>
+        <OperandArray value="AP_CountUpgradeColossusExtendedThermalLanceCompleteOnly"/>
+    </CRequirementAnd>
     <CRequirementCountUpgrade id="AP_CountUpgradeAlarakColossusChargedBlastChargeTimeCompleteOnly">
         <Count Link="AP_AlarakColossusChargedBlastChargeTime" State="CompleteOnly"/>
         <Flags index="TechTreeCheat" value="0"/>
