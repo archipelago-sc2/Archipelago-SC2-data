@@ -2777,6 +2777,10 @@
         <Find value="1"/>
         <Value value="AP_HaveMultiTaskMAFServosViking"/>
     </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_HaveVikingMengskSmartServos">
+        <Find value="1"/>
+        <Value value="AP_HaveVikingMengskSmartServos"/>
+    </CValidatorPlayerRequirement>
     <CValidatorPlayerRequirement id="AP_HaveMultiTaskMAFServosThor">
         <Find value="1"/>
         <Value value="AP_HaveMultiTaskMAFServosThor"/>
@@ -7208,16 +7212,6 @@
         <CombineArray value="AP_HasHavocSquadSightBehavior"/>
         <CombineArray value="AP_HasBattlecruiserBonusRangeBehavior"/>
     </CValidatorCombine>
-    <CValidatorUnitCompareBehaviorCount id="AP_HasBattlecruiserBonusRangeSourceBehavior">
-        <WhichUnit Value="Caster"/>
-        <Compare value="GE"/>
-        <Value value="1"/>
-        <Behavior value="AP_BattlecruiserBonusRangeSource"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CValidatorUnitCompareBehaviorCount id="AP_HasNotBattlecruiserBonusRangeSourceBehavior">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="AP_BattlecruiserBonusRangeSource"/>
-    </CValidatorUnitCompareBehaviorCount>
     <CValidatorLocationCompareRange id="AP_InRangeOfLeapTargetPoint">
         <ResultFailed value="Error,Error/AP_LeapAttackError"/>
         <Compare value="GT"/>
@@ -7563,11 +7557,6 @@
     <CValidatorUnitCompareBehaviorCount id="AP_NoVikingMengskAttackDamageCooldownUpgraded">
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_VikingMengskAttackDamageCooldownUpgraded"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CValidatorUnitCompareBehaviorCount id="AP_HasVikingMengskAttackDamageCooldown">
-        <WhichUnit Value="Caster"/>
-        <Value value="1"/>
-        <Behavior value="AP_VikingMengskAttackDamageCooldown"/>
     </CValidatorUnitCompareBehaviorCount>
     <CValidatorUnitCompareBehaviorCount id="AP_NoVikingMengskCheatDeathCooldown">
         <WhichUnit Value="Caster"/>

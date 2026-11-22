@@ -9051,21 +9051,6 @@
         <Modification RangedWeaponRange="1"/>
         <InfoIcon value="Assets\Textures\btn-ability-mengsk-battlecruiser-decksights.dds"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserBonusRangeSource">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <PeriodicEffect value="AP_BattlecruiserBonusRangeSearch"/>
-        <Period value="0.5"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserMengskRangeAura"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserBonusRangeIndicator">
-        <!-- Indicator of passive upgrade - full command card -->
-        <BehaviorFlags index="Permanent" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserMengskRangeAura"/>
-        <InfoIcon value="Assets\Textures\btn-ability-mengsk-battlecruiser-decksights.dds"/>
-        <Name value="Button/Name/AP_BattlecruiserMengskRangeAura"/>
-        <Tooltip value="Button/Tooltip/AP_BattlecruiserMengskRangeAura"/>
-    </CBehaviorBuff>
     <CBehaviorBuff id="AP_MothershipAiurShieldArmor">
         <Alignment value="Positive"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
@@ -9270,13 +9255,6 @@
         <InfoFlags index="Hidden" value="1"/>
         <BehaviorFlags index="Permanent" value="1"/>
         <DisableValidatorArray value="AP_LevelEq4"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskBehemothReactorIndicator">
-        <!-- Indicator of passive upgrade - full command card -->
-        <BehaviorFlags index="Permanent" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserBehemothReactor"/>
-        <InfoIcon value="Assets\Textures\btn-upgrade-terran-behemothreactor.dds"/>
-        <Name value="Button/Name/AP_BattlecruiserBehemothReactor"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_GoliathMengskAntiAirCountermeasures">
         <InfoFlags index="Hidden" value="1"/>
@@ -10248,14 +10226,6 @@
             <WeaponArray Link="AP_LiberatorMengskMissileLaunchersWhileSieged"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="AP_LiberatorCompressedRocketFuelIndicator">
-        <!-- Indicator of passive upgrade - full command card -->
-        <BehaviorFlags index="Permanent" value="1"/>
-        <DisableValidatorArray value="AP_HaveLiberatorImprovedAARange"/>
-        <InfoIcon value="AP\Assets\Textures\btn-ued-rocketry-technology.dds"/>
-        <Name value="Button/Name/AP_LiberatorCompressedRocketFuel"/>
-        <Tooltip value="Button/Tooltip/AP_LiberatorCompressedRocketFuel"/>
-    </CBehaviorBuff>
     <CBehaviorBuff id="AP_GuardianExplosiveSporesFate">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Duration value="2"/>
@@ -10357,31 +10327,6 @@
         <BehaviorFlags index="Permanent" value="1"/>
         <BehaviorFlags index="EnabledWhileDead" value="1"/>
     </CBehaviorVeterancy>
-    <CBehaviorBuff id="AP_WraithMengskWeaponRangeBuff">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="AP_WraithMengskRank2GE"/>
-        <Modification WeaponRange="2" WeaponScanBonus="2"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_WraithMengskResonatingFeedbackInterference">
-        <Alignment value="Negative"/>
-        <InfoIcon value="Assets\Textures\btn-upgrade-swann-defensivematrix.dds"/>
-        <BehaviorCategories index="Restorable" value="1"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <Modification>
-            <ModifyFlags index="DisableAbils" value="1"/>
-            <ModifyFlags index="Reveal" value="1"/>
-            <ModifyFlags index="Detected" value="1"/>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
-            <StateFlags index="Stun" value="1"/>
-            <StateFlags index="SuppressDetection" value="1"/>
-        </Modification>
-        <DisplayDuration index="Self" value="1"/>
-        <DisplayDuration index="Ally" value="1"/>
-        <DisplayDuration index="Neutral" value="1"/>
-        <DisplayDuration index="Enemy" value="1"/>
-    </CBehaviorBuff>
     <CBehaviorBuff id="AP_WraithMengskCloakEnergyDrainL1">
         <InfoFlags index="Hidden" value="1"/>
         <DisableValidatorArray value="AP_WraithMengskRank0Eq"/>
@@ -10783,143 +10728,6 @@
         <DamageResponse Handled="AP_DefilerSCBWDarkSwarm@DamageDummy" ModifyFraction="0" ModifyMinimumDamage="1">
             <Chance value="1"/>
         </DamageResponse>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_LiberatorMengskL2EnergyBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_CloakingTechnologyLiberator"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE2"/>
-        <Modification>
-            <VitalMaxArray index="Energy" value="50"/>
-            <VitalRegenArray index="Energy" value="0.5"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_LiberatorMengskL3EnergyBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_CloakingTechnologyLiberator"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE3"/>
-        <Modification>
-            <VitalMaxArray index="Energy" value="50"/>
-            <VitalRegenArray index="Energy" value="0.5"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_LiberatorMengskL4EnergyBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_CloakingTechnologyLiberator"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE4"/>
-        <Modification>
-            <VitalMaxArray index="Energy" value="50"/>
-            <VitalRegenArray index="Energy" value="0.5"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_LiberatorMengskCloakEnergyDrainL1">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_LevelEq1"/>
-        <DisableValidatorArray value="AP_HasLiberatorCloak"/>
-        <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
-        <Modification>
-            <VitalRegenArray index="Energy" value="-0.5625"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_LiberatorMengskCloakEnergyDrainL2">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_LevelEq2"/>
-        <DisableValidatorArray value="AP_HasLiberatorCloak"/>
-        <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
-        <Modification>
-            <VitalRegenArray index="Energy" value="-1.0625"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_LiberatorMengskCloakEnergyDrainL3">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_LevelEq3"/>
-        <DisableValidatorArray value="AP_HasLiberatorCloak"/>
-        <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
-        <Modification>
-            <VitalRegenArray index="Energy" value="-1.5625"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_LiberatorMengskCloakEnergyDrainL4">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_LevelEq4"/>
-        <DisableValidatorArray value="AP_HasLiberatorCloak"/>
-        <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
-        <Modification>
-            <VitalRegenArray index="Energy" value="-2.0625"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskL2ShieldBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserAdvancedDefensiveMatrix"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE2"/>
-        <Modification>
-            <VitalMaxArray index="Shields" value="50"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskL3ShieldBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserAdvancedDefensiveMatrix"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE3"/>
-        <Modification>
-            <VitalMaxArray index="Shields" value="50"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskL4ShieldBuff">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_HaveBattlecruiserAdvancedDefensiveMatrix"/>
-        <DisableValidatorArray value="AP_CasterLevelGTE4"/>
-        <Modification>
-            <VitalMaxArray index="Shields" value="50"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskCloakEnergyDrainL1">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_LevelEq1"/>
-        <DisableValidatorArray value="AP_HasBattlecruiserCloak"/>
-        <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
-        <Modification>
-            <VitalRegenArray index="Energy" value="-0.5625"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskCloakEnergyDrainL2">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_LevelEq2"/>
-        <DisableValidatorArray value="AP_HasBattlecruiserCloak"/>
-        <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
-        <Modification>
-            <VitalRegenArray index="Energy" value="-1.0625"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskCloakEnergyDrainL3">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_LevelEq3"/>
-        <DisableValidatorArray value="AP_HasBattlecruiserCloak"/>
-        <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
-        <Modification>
-            <VitalRegenArray index="Energy" value="-1.5625"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="AP_BattlecruiserMengskCloakEnergyDrainL4">
-        <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_LevelEq4"/>
-        <DisableValidatorArray value="AP_HasBattlecruiserCloak"/>
-        <DisableValidatorArray value="AP_NotArbiterMPCloakFieldEffect"/>
-        <Modification>
-            <VitalRegenArray index="Energy" value="-2.0625"/>
-        </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_BanelingLaunchRefill">
         <InfoFlags index="Hidden" value="1"/>
@@ -12365,7 +12173,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WraithMengskHorrifyingBlastCloakTracker">
         <InfoFlags index="Hidden" value="1"/>
-        <DisableValidatorArray value="AP_IsCloaked"/>
+        <DisableValidatorArray value="AP_HasWraithMengskCloak"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WraithPulseAmplifierAir">
         <Alignment value="Positive"/>

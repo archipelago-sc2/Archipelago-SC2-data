@@ -2349,11 +2349,6 @@
         <EffectArray value="AP_LiberatorTurretFace"/>
         <EffectArray value="AP_LiberatorAGDamage"/>
     </CEffectSet>
-    <CEffectSet id="AP_LiberatorMengskAGDamageSet">
-        <EditorCategories value="Race:Zerg"/>
-        <EffectArray value="AP_LiberatorMengskTurretFace"/>
-        <EffectArray value="AP_LiberatorMengskPenetratingAmmunitionPrimaryImpact"/>
-    </CEffectSet>
     <CEffectLaunchMissile id="AP_LiberatorAGMissileLM">
         <EditorCategories value="Race:Terran"/>
         <ImpactEffect value="AP_LiberatorAGDamage"/>
@@ -2499,15 +2494,6 @@
         <WhichLocation Value="TargetUnit"/>
         <Flags index="Channeled" value="1"/>
         <InitialEffect value="AP_LiberatorMissileBurstPersistent"/>
-        <FinalEffect value="AP_LiberatorMissileImpact_Set"/>
-        <PeriodCount value="1"/>
-        <PeriodicPeriodArray value="0.75"/>
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="AP_LiberatorMengskMissileLaunchersPersistent">
-        <EditorCategories value="Race:Terran"/>
-        <WhichLocation Value="TargetUnit"/>
-        <Flags index="Channeled" value="1"/>
-        <InitialEffect value="AP_LiberatorMengskMissileBurstPersistent"/>
         <FinalEffect value="AP_LiberatorMissileImpact_Set"/>
         <PeriodCount value="1"/>
         <PeriodicPeriodArray value="0.75"/>
@@ -21711,11 +21697,6 @@
         <ImpactUnit Value="Caster"/>
         <Cost Abil="AP_BattlecruiserMengskYamato,Execute" ChargeTimeUse="-0.15"/>
     </CEffectModifyUnit>
-    <CEffectSwitch id="AP_BattlecruiserMengskAttackSwitch">
-        <EditorCategories value="Race:Terran"/>
-        <CaseArray Validator="AP_GroundUnitFilter" Effect="AP_ATSLaserBatteryMengskLM"/>
-        <CaseDefault value="AP_ATALaserBatteryMengskLM"/>
-    </CEffectSwitch>
     <CEffectLaunchMissile id="AP_ATALaserBatteryMengskLM">
         <EditorCategories value="Race:Terran"/>
         <ImpactEffect value="AP_ATALaserBatteryMengskImpact"/>
@@ -24464,33 +24445,6 @@
             <AccumulatorArray value="AP_6DamagePerRank"/>
         </Amount>
     </CEffectDamage>
-    <CEffectSwitch id="AP_WraithMengskResonatingFeedbackInterferenceSwitchInitial">
-        <EditorCategories value="Race:Terran"/>
-        <CaseArray Validator="IsDead" Effect="AP_RavenScramblerDummy"/>
-        <CaseDefault value="AP_WraithMengskResonatingFeedbackInterferenceLM"/>
-    </CEffectSwitch>
-    <CEffectLaunchMissile id="AP_WraithMengskResonatingFeedbackInterferenceLM">
-        <EditorCategories value="Race:Terran"/>
-        <!--ImpactEffect value="BattlecruiserTargetTriggerHyperJumpCD"/-->
-        <AmmoUnit value="AP_RavenScramblerMissile"/>
-        <ValidatorArray value="AP_TargetNotTacticalJumping"/>
-        <FinishEffect value="AP_WraithMengskResonatingFeedbackInterferenceDummy"/>
-    </CEffectLaunchMissile>
-    <CEffectSet id="AP_WraithMengskResonatingFeedbackInterferenceDummy">
-        <EditorCategories value="Race:Terran"/>
-    </CEffectSet>
-    <CEffectSet id="AP_WraithMengskDisruptionWebCreatePersistentSet" parent="AP_CorsairMPDisruptionWebCreatePersistentSet">
-        <EffectArray index="1" value="AP_WraithMengskDisruptionWebSearch"/>
-        <EffectArray index="2" value="AP_WraithMengskDisruptionWebCreatePersistent"/>
-    </CEffectSet>
-    <CEffectCreatePersistent id="AP_WraithMengskDisruptionWebCreatePersistent" parent="AP_CorsairMPDisruptionWebCreatePersistent">
-        <PeriodCount value="90"/>
-        <InitialEffect value="AP_WraithMengskDisruptionWebSearch"/>
-        <PeriodicEffectArray index="0" value="AP_WraithMengskDisruptionWebSearch"/>
-    </CEffectCreatePersistent>
-    <CEffectEnumArea id="AP_WraithMengskDisruptionWebSearch" parent="AP_CorsairMPDisruptionWebSearch">
-        <AreaArray index="0" Radius="3" Effect="AP_CorsairMPDisruptionWebSet"/>
-    </CEffectEnumArea>
     <CEffectSet id="AP_GuardianExplosiveSporesLaunch">
         <EffectArray value="AP_GuardianExplosiveSporesLM"/>
         <EditorCategories value="Race:Terran"/>

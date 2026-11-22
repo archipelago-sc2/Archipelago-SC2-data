@@ -9056,40 +9056,6 @@ void lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Player_NightHawkResonatingFeedbackInterferenceEffect
-//--------------------------------------------------------------------------------------------------
-bool lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_registrant;
-    unit lv_registrant2;
-    fixed lv_targetEnergy;
-    fixed lv_stunDuration;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_registrant = EventPlayerEffectUsedUnit(c_effectUnitCaster);
-    lv_registrant2 = EventPlayerEffectUsedUnit(c_effectUnitTarget);
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_targetEnergy = UnitGetPropertyFixed(lv_registrant2, c_unitPropEnergy, c_unitPropCurrent);
-    lv_stunDuration = (lv_targetEnergy / 5.0);
-    UnitSetPropertyFixed(lv_registrant2, c_unitPropEnergy, 0.0);
-    UnitBehaviorAdd(lv_registrant2, "AP_WraithMengskResonatingFeedbackInterference", lv_registrant, 1);
-    UnitBehaviorSetDuration(lv_registrant2, "AP_WraithMengskResonatingFeedbackInterference", lv_stunDuration);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Init () {
-    lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect = TriggerCreate("lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Func");
-    TriggerAddEventPlayerEffectUsed(lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect, c_playerAny, "AP_WraithMengskResonatingFeedbackInterferenceDummy");
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: AP_Player_ToxicCanisterFear
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_AP_Player_ToxicCanisterFear_Func (bool testConds, bool runActions) {
@@ -10881,7 +10847,6 @@ void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_CM_Mengsk_MedicMengskUpgrades_Init();
     lib15EF4C78_gt_CM_Mengsk_MarauderMengskUpgrades_Init();
     lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Init();
-    lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Init();
     lib15EF4C78_gt_AP_Player_ToxicCanisterFear_Init();
     lib15EF4C78_gt_AP_Player_WraithItemsCloakOn_Init();
     lib15EF4C78_gt_AP_Player_WraithItemsCloakOff_Init();

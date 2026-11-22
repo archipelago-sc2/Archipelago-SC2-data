@@ -13678,7 +13678,7 @@
         <CursorEffect value="AP_HunterlingLeapImpactDamageSearch"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_BattlecruiserMengskYamato">
-        <AbilSetId value="AP_BattlecruiserMengskYamato"/>
+        <AbilSetId value="yamato"/>
         <Alignment value="Negative"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="AP_BattlecruiserMengskYamatoLevelSwitch"/>
@@ -13712,10 +13712,12 @@
         <AINotifyEffect value="Yamato"/>
         <ProgressButtonArray index="Prep" value="AP_YamatoGunMengsk"/>
         <EffectRange value="0,500"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_YamatoGunMengsk" Requirements="AP_HaveMengskVeterancyBattlecruiserMengskLevel1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_YamatoGunMengsk" Requirements="AP_HaveMengskVeterancyBattlecruiserMengskLevel1">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_BattlecruiserMengskYamatoTwoCharges">
-        <AbilSetId value="AP_BattlecruiserMengskYamato"/>
+        <AbilSetId value="yamato"/>
         <Alignment value="Negative"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="AP_BattlecruiserMengskYamatoLevelSwitch"/>
@@ -13749,7 +13751,9 @@
         <AINotifyEffect value="Yamato"/>
         <ProgressButtonArray index="Prep" value="AP_YamatoGunMengsk"/>
         <EffectRange value="0,500"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_YamatoGunMengsk" Requirements="AP_HaveMengskVeterancyBattlecruiserMengskGELevel2"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_YamatoGunMengsk" Requirements="AP_HaveMengskVeterancyBattlecruiserMengskGELevel2">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_BattlecruiserMengskHyperjump">
         <AbilSetId value="FleetwideJump"/>
@@ -15010,7 +15014,7 @@
         <UseMarkerArray index="Approach" value="0"/>
         <UseMarkerArray index="Prep" value="0"/>
         <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MedicHeal" Requirements="AP_MedicMengskHealRank0"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealMengskRank0" Requirements="AP_MedicMengskHealRank0"/>
         <AcquireAttackers value="1"/>
         <FollowRange value="1.5"/>
     </CAbilEffectTarget>
@@ -15045,7 +15049,7 @@
         <UseMarkerArray index="Approach" value="0"/>
         <UseMarkerArray index="Prep" value="0"/>
         <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MedicHeal" Requirements="AP_MedicMengskHealRank1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealMengskRank1" Requirements="AP_MedicMengskHealRank1"/>
         <AcquireAttackers value="1"/>
         <FollowRange value="1.5"/>
     </CAbilEffectTarget>
@@ -15080,7 +15084,7 @@
         <UseMarkerArray index="Approach" value="0"/>
         <UseMarkerArray index="Prep" value="0"/>
         <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MedicHeal" Requirements="AP_MedicMengskHealRank2"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealMengskRank2" Requirements="AP_MedicMengskHealRank2"/>
         <AcquireAttackers value="1"/>
         <FollowRange value="3.5"/>
     </CAbilEffectTarget>
@@ -15116,53 +15120,9 @@
         <UseMarkerArray index="Approach" value="0"/>
         <UseMarkerArray index="Prep" value="0"/>
         <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MedicHeal" Requirements="AP_HaveMedicMengskDoubleBeamHeal"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealMengskRank3" Requirements="AP_HaveMedicMengskDoubleBeamHeal"/>
         <AcquireAttackers value="1"/>
         <FollowRange value="3.5"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="AP_WraithMengskResonatingFeedbackInterference">
-        <Alignment value="Negative"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <InfoTooltipPriority value="1"/>
-        <Effect index="0" value="AP_WraithMengskResonatingFeedbackInterferenceSwitchInitial"/>
-        <Flags index="AllowMovement" value="1"/>
-        <Flags index="ChannelingMinimum" value="0"/>
-        <Flags index="AutoCast" value="1"/>
-        <Cost>
-            <Vital index="Energy" value="75"/>
-        </Cost>
-        <TargetFilters value="CanHaveEnergy,Visible,HasEnergy;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <Range value="5"/>
-        <AutoCastRange value="5"/>
-        <AutoCastValidatorArray value="AP_TargetHasGE40Energy"/>
-        <UninterruptibleArray index="Prep" value="1"/>
-        <UninterruptibleArray index="Cast" value="1"/>
-        <UninterruptibleArray index="Channel" value="1"/>
-        <UninterruptibleArray index="Finish" value="1"/>
-        <ValidatedArray index="Wait" value="1"/>
-        <ValidatedArray index="Channel" value="0"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_WraithMengskResonatingFeedbackInterference" Requirements="AP_HaveWraithMengskVeterancyLevel2"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="AP_WraithMengskDisruptionWeb">
-        <AbilSetId value="AP_CorsairMPDisruptionWeb"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Effect index="0" value="AP_WraithMengskDisruptionWebCreatePersistentSet"/>
-        <Flags index="AllowMovement" value="1"/>
-        <Flags index="AutoCast" value="1"/>
-        <Flags index="NoDeceleration" value="1"/>
-        <Cost>
-            <Vital index="Energy" value="125"/>
-        </Cost>
-        <Range value="9"/>
-        <AutoCastFilters value="Visible;Player,Ally,Neutral"/>
-        <AutoCastRange value="9"/>
-        <AutoCastValidatorArray value="noMarkers"/>
-        <AutoCastValidatorArray value="AP_IsNotDisruptionWebbed"/>
-        <AutoCastValidatorArray value="TargetIsGround"/>
-        <AutoCastValidatorArray value="TargetCanAttack"/>
-        <AutoCastValidatorArray value="AP_DisruptionWebFilters"/>
-        <CursorEffect value="AP_WraithMengskDisruptionWebSearch"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_WraithMengskDisruptionWeb" Requirements="AP_HaveWraithMengskVeterancyLevel4"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_GuardianExplosiveSpores">
         <Alignment value="Negative"/>
