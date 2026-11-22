@@ -197,11 +197,11 @@ trigger gt_GhostEMPSafetySet;
 trigger gt_RavenPatrolStart;
 trigger gt_GiveMindBlast;
 trigger gt_GivePsiShield;
-trigger gt_GiveVoidPrison;
 trigger gt_TIPNukeReadyFirstQ;
 trigger gt_MissileTurretDestroyed;
 trigger gt_AIStartSafety;
 trigger gt_FinalBaseCliffReveal;
+trigger gt_GiveVoidPrison;
 trigger gt_CellBlockACompleted;
 trigger gt_CellBlockACompletedQ;
 trigger gt_CellBlockAReminderQ;
@@ -2910,38 +2910,6 @@ void gt_GivePsiShield_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Give Void Prison
-//--------------------------------------------------------------------------------------------------
-bool gt_GiveVoidPrison_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((gv_gameOver == false))) {
-            return false;
-        }
-
-        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulStun", 0), true);
-    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("ZeratulStun", 0), true);
-    gv_flashPrison = true;
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_GiveVoidPrison_Init () {
-    gt_GiveVoidPrison = TriggerCreate("gt_GiveVoidPrison_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: TIP - Nuke Ready First Q
 //--------------------------------------------------------------------------------------------------
 bool gt_TIPNukeReadyFirstQ_Func (bool testConds, bool runActions) {
@@ -3110,6 +3078,38 @@ bool gt_FinalBaseCliffReveal_Func (bool testConds, bool runActions) {
 void gt_FinalBaseCliffReveal_Init () {
     gt_FinalBaseCliffReveal = TriggerCreate("gt_FinalBaseCliffReveal_Func");
     TriggerAddEventTimePeriodic(gt_FinalBaseCliffReveal, 0.5, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Give Void Prison
+//--------------------------------------------------------------------------------------------------
+bool gt_GiveVoidPrison_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulStun", 0), true);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("ZeratulStun", 0), true);
+    gv_flashPrison = true;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_GiveVoidPrison_Init () {
+    gt_GiveVoidPrison = TriggerCreate("gt_GiveVoidPrison_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7425,11 +7425,11 @@ void InitTriggers () {
     gt_RavenPatrolStart_Init();
     gt_GiveMindBlast_Init();
     gt_GivePsiShield_Init();
-    gt_GiveVoidPrison_Init();
     gt_TIPNukeReadyFirstQ_Init();
     gt_MissileTurretDestroyed_Init();
     gt_AIStartSafety_Init();
     gt_FinalBaseCliffReveal_Init();
+    gt_GiveVoidPrison_Init();
     gt_CellBlockACompleted_Init();
     gt_CellBlockACompletedQ_Init();
     gt_CellBlockAReminderQ_Init();
