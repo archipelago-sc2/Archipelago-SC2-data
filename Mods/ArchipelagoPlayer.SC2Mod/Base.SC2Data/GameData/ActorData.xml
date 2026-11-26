@@ -3852,33 +3852,33 @@
     </CActorUnit>
     <CActorSound id="AP_TankModeSound" parent="SoundOneShot">
         <Sound value="SiegeTank_MorphToTank"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTank; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTank; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
         <On Terms="UnitDeath.AP_SiegeTank" Send="Destroy"/>
     </CActorSound>
     <CActorSound id="AP_SiegeModeSound" parent="SoundOneShot">
         <Sound value="SiegeTank_MorphToSiege"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTankSieged; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTankSiegedTransportable; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTankSieged; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTankSiegedTransportable; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
         <On Terms="UnitDeath.AP_SiegeTankSieged" Send="Destroy"/>
         <On Terms="UnitDeath.AP_SiegeTankSiegedTransportable" Send="Destroy"/>
     </CActorSound>
     <CActorSound id="AP_TankModeSoundServos" parent="SoundOneShot">
         <Sound value="AP_SiegeTank_MorphToTank_Servo"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTank; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreaker; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreaker; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTank; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreaker; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreaker; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
         <On Terms="UnitDeath.AP_SiegeTank" Send="Destroy"/>
         <On Terms="UnitDeath.AP_SiegeBreaker" Send="Destroy"/>
         <On Terms="UnitDeath.AP_InfestedSiegeBreaker" Send="Destroy"/>
     </CActorSound>
     <CActorSound id="AP_SiegeModeSoundServos" parent="SoundOneShot">
         <Sound value="AP_SiegeTank_MorphToSiege_Servo"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTankSieged; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTankSiegedTransportable; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreakerSieged; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreakerSiegedTransportable; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreakerSieged; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreakerSiegedTransportable; ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTankSieged; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeTankSiegedTransportable; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreakerSieged; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreakerSiegedTransportable; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreakerSieged; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreakerSiegedTransportable; ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
         <On Terms="UnitDeath.AP_SiegeTankSieged" Send="Destroy"/>
         <On Terms="UnitDeath.AP_SiegeTankSiegedTransportable" Send="Destroy"/>
         <On Terms="UnitDeath.AP_SiegeBreakerSieged" Send="Destroy"/>
@@ -30492,10 +30492,10 @@
         <HighlightTooltip value="Unit/Name/AP_SiegeBreaker"/>
     </CActorUnit>
     <CActorSound id="AP_SiegeBreakerSiegeModeSound" parent="SoundOneShot">
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreakerSieged; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreakerSiegedTransportable; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreakerSieged; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreakerSiegedTransportable; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreakerSieged; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreakerSiegedTransportable; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreakerSieged; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreakerSiegedTransportable; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
         <Sound value="AP_SiegeBreaker_MorphToSiege"/>
     </CActorSound>
     <CActorUnit id="AP_SiegeBreakerSieged" parent="GenericUnitMorph" unitName="AP_SiegeBreakerSieged">
@@ -30657,8 +30657,8 @@
         </Wireframe>
     </CActorUnit>
     <CActorSound id="AP_SiegeBreakerTankModeSound" parent="SoundOneShot">
-        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreaker; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreaker; !ValidatePlayer AP_HaveMultiTaskMAFServosSiegeTank" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_SiegeBreaker; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo AP_InfestedSiegeBreaker; !ValidatePlayer AP_HaveSiegeTankSmartServos" Send="Create"/>
         <Sound value="AP_SiegeBreaker_MorphToTank"/>
     </CActorSound>
     <CActorUnit id="AP_InfestedSiegeBreaker" parent="GenericUnitMorph" unitName="AP_InfestedSiegeBreaker">

@@ -2337,7 +2337,15 @@
     <CUpgrade id="AP_MarineStimpack">
         <Flags index="UpgradeCheat" value="0"/>
         <EditorCategories value="Race:Terran,UpgradeType:Talents"/>
-        <AffectedUnitArray value="Marine"/>
+        <AffectedUnitArray value="AP_Marine"/>
+    </CUpgrade>
+    <CUpgrade id="AP_MarineU238Shells">
+        <Flags index="UpgradeCheat" value="0"/>
+        <EditorCategories value="Race:Terran"/>
+        <EffectArray Reference="Weapon,AP_GaussRifle,Range" Value="1"/>
+        <EffectArray Reference="Weapon,AP_KelmorianMinerGaussRifle,Range" Value="1"/>
+        <AffectedUnitArray value="AP_Marine"/>
+        <AffectedUnitArray value="AP_WarPig"/>
     </CUpgrade>
     <CUpgrade id="AP_BearclawNozzles">
         <Flags index="UpgradeCheat" value="0"/>
@@ -2782,6 +2790,13 @@
         <AffectedUnitArray value="AP_InfestedSiegeBreaker"/>
         <AffectedUnitArray value="AP_InfestedSiegeBreakerSieged"/>
         <AffectedUnitArray value="AP_InfestedSiegeBreakerSiegedTransportable"/>
+    </CUpgrade>
+    <CUpgrade id="AP_SiegeTankServoCoolant">
+        <AffectedUnitArray value="AP_SiegeTankSieged"/>
+        <AffectedUnitArray value="AP_SiegeTankSiegedTransportable"/>
+        <AffectedUnitArray value="AP_SiegeBreaker"/>
+        <AffectedUnitArray value="AP_SiegeBreakerSieged"/>
+        <AffectedUnitArray value="AP_SiegeBreakerSiegedTransportable"/>
     </CUpgrade>
     <CUpgrade id="AP_AdvancedHealingAI">
         <Flags index="UpgradeCheat" value="0"/>
@@ -6948,18 +6963,28 @@
         <AffectedUnitArray value="AP_SwarmHostRooted"/>
         <AffectedUnitArray value="AP_SwarmHostBurrowed"/>
     </CUpgrade>
-    <CUpgrade id="AP_MultiTaskMAFServosSiegeTank">
+    <CUpgrade id="AP_SiegeTankSmartServos">
         <Icon value="Assets\Textures\btn-upgrade-terran-transformationservos.dds"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeMode,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeMode,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeMode,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeMode,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeMode,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeModeNerfed,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeModeNerfed,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeModeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeModeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeModeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiege,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiege,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiege,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiege,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiege,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiegeModeNerfed,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiegeModeNerfed,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiegeModeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiegeModeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerSiegeModeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_InfestedSiegeBreakerSiege,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_InfestedSiegeBreakerSiege,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_InfestedSiegeBreakerSiege,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
@@ -6970,11 +6995,21 @@
         <EffectArray Operation="Divide" Reference="Abil,AP_Unsiege,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_Unsiege,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_Unsiege,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_UnsiegeNerfed,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_UnsiegeNerfed,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_UnsiegeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_UnsiegeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_UnsiegeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiege,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiege,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiege,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiege,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiege,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiegeNerfed,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiegeNerfed,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiegeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiegeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
+        <EffectArray Operation="Divide" Reference="Abil,AP_SiegeBreakerUnsiegeNerfed,InfoArray[0].SectionArray[Stats].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_InfestedSiegeBreakerUnsiege,InfoArray[0].SectionArray[Actor].DurationArray[Delay]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_InfestedSiegeBreakerUnsiege,InfoArray[0].SectionArray[Actor].DurationArray[Duration]" Value="4.000000"/>
         <EffectArray Operation="Divide" Reference="Abil,AP_InfestedSiegeBreakerUnsiege,InfoArray[0].SectionArray[Stats].DurationArray[Delay]" Value="4.000000"/>
@@ -13657,6 +13692,13 @@
         <EffectArray Operation="Set" Reference="Weapon,AP_ColossusPurifierThermalLancesUpgraded,Options[Disabled]" Value="0"/>
         <AffectedUnitArray value="AP_ColossusPurifier"/>
     </CUpgrade>
+    <CUpgrade id="AP_ColossusExtendedThermalLance">
+        <EffectArray Reference="Weapon,AP_ColossusPurifierThermalLances,Range" Value="2"/>
+        <EffectArray Reference="Weapon,AP_ColossusPurifierThermalLances,MinScanRange" Value="2"/>
+        <EffectArray Reference="Weapon,AP_ColossusPurifierThermalLancesUpgraded,Range" Value="2"/>
+        <EffectArray Reference="Weapon,AP_ColossusPurifierThermalLancesUpgraded,MinScanRange" Value="2"/>
+        <AffectedUnitArray value="AP_ColossusPurifier"/>
+    </CUpgrade>
     <CUpgrade id="AP_AlarakColossusChargedBlastChargeTime">
         <Icon value="Assets\Textures\btn-upgrade-protoss-wrathwalker-chargetimeimproved.dds"/>
         <EffectArray Operation="Set" Reference="Weapon,AP_ColossusTaldarimChargedBeam,Options[Disabled]" Value="1"/>
@@ -13786,6 +13828,7 @@
     <CUpgrade id="AP_WarCouncilNerfs">
         <EffectArray Operation="Set" Reference="Button,AP_VoidSentryShieldRepairDouble,Tooltip" Value="Button/Tooltip/AP_VoidSentryShieldRepairDoubleWCNerf"/>
     </CUpgrade>
+    <CUpgrade id="AP_HideGeneralNerfs"/>
     <CUpgrade id="AP_AlarakHavocAbilityRange">
         <Icon value="Assets\Textures\btn-upgrade-protoss-alarak-rangeincrease.dds"/>
         <EffectArray Reference="Abil,AP_ObserverTargetLock,Range[0]" Value="3"/>
@@ -14108,6 +14151,8 @@
         <EffectArray Reference="Effect,AP_GlaiveWurmE4,AreaArray[0].Radius" Value="1"/>
         <EffectArray Reference="Effect,AP_GlaiveWurmE5,AreaArray[0].Radius" Value="1"/>
     </CUpgrade>
+    <CUpgrade id="AP_InfestorConsume"/>
+    <CUpgrade id="AP_InfestorNeuralParasite"/>
     <CUpgrade id="AP_InfestorInfestedTerran"/>
     <CUpgrade id="AP_InfestorMicrobialShroud"/>
     <CUpgrade id="AP_AnabolicSynthesis">

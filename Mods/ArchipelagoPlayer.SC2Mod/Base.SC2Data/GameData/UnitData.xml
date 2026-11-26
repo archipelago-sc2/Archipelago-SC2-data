@@ -235,6 +235,7 @@
         <AbilArray Link="AP_HealpackMarine"/>
         <AbilArray Link="AP_MagrailMunitionsMarine"/>
         <AbilArray Link="Warpable"/>
+        <BehaviorArray Link="AP_MarineNerfIndicator"/>
         <WeaponArray Link="AP_GaussRifle"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -242,18 +243,12 @@
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="AP_CombatShield" Type="Passive" Requirements="AP_UseCombatShield" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_LaserTargetingSystem" Type="Passive" Requirements="AP_HaveLaserTargetingSystemMarine" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_MarineU238Shells" Type="Passive" Requirements="AP_HaveMarineU238Shells" Row="1" Column="4"/>
             <LayoutButtons Face="AP_Stim" Type="AbilCmd" AbilCmd="AP_Stimpack,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_HealpackSmall" Type="AbilCmd" AbilCmd="AP_HealpackMarine,Execute" Row="2" Column="0"/>
             <LayoutButtons Face="AP_SuperStimpackSmall" Type="AbilCmd" AbilCmd="AP_SuperStimpackMarine,0" Row="2" Column="0"/>
-            <LayoutButtons>
-                <Face value="AP_CombatShield"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseCombatShield"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons Face="AP_LaserTargetingSystem" Type="Passive" Requirements="AP_HaveLaserTargetingSystemMarine" Row="1" Column="1"/>
             <LayoutButtons Face="AP_MagrailMunitions" Type="AbilCmd" AbilCmd="AP_MagrailMunitionsMarine,Execute" Row="2" Column="1"/>
         </CardLayouts>
         <Radius value="0.375"/>
@@ -1882,9 +1877,11 @@
         <AbilArray Link="attack"/>
         <AbilArray Link="move"/>
         <AbilArray Link="AP_SiegeMode"/>
+        <AbilArray Link="AP_SiegeModeNerfed"/>
         <AbilArray Link="AP_SiegeTankJumpJet"/>
         <AbilArray Link="AP_DeploySpiderMines"/>
         <AbilArray Link="Warpable"/>
+        <BehaviorArray Link="AP_SiegeTankNerfIndicator"/>
         <BehaviorArray Link="AP_ScavengingSystemsMechDeath"/>
         <BehaviorArray Link="AP_SiegeTankShapedHullIndicator"/>
         <BehaviorArray Link="AP_SiegeTankEnhancedCombustionEnginesIndicator"/>
@@ -1895,29 +1892,16 @@
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="SiegeMode" Type="AbilCmd" AbilCmd="AP_SiegeMode,0" Row="2" Column="0"/>
-            <LayoutButtons>
-                <Face value="AP_MaelstromRounds"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseMaelstromRoundsReq"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons>
-                <Face value="AP_ShapedBlast"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseShapedBlastReq"/>
-                <Row value="1"/>
-                <Column value="1"/>
-            </LayoutButtons>
-            <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosSiegeTank" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_MaelstromRounds" Type="Passive" Requirements="AP_UseMaelstromRoundsReq" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ShapedBlast" Type="Passive" Requirements="AP_UseShapedBlastReq" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveSiegeTankSmartServos" Row="1" Column="2"/>
             <LayoutButtons Face="AP_SiegeModeProgressiveRangeIncrease" Type="Passive" Requirements="AP_TankModeHaveSiegeTankSiegeModeProgressiveRangeIncease" Row="1" Column="3"/>
+            <LayoutButtons Face="AP_ImprovedSiegeMode" Type="Passive" Requirements="AP_TankModeHaveImprovedSiegeMode" Row="1" Column="4"/>
+            <LayoutButtons Face="AP_SiegeMode" Type="AbilCmd" AbilCmd="AP_SiegeMode,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_SiegeMode" Type="AbilCmd" AbilCmd="AP_SiegeModeNerfed,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_SiegeTankJumpJet,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_DeploySpiderMines" Type="AbilCmd" AbilCmd="AP_DeploySpiderMines,Execute" Row="2" Column="3"/>
             <LayoutButtons Face="AP_LaserTargetingSystem" Type="Passive" Requirements="AP_HaveLaserTargetingSystemSiegeTank" Row="2" Column="4"/>
-            <LayoutButtons Face="AP_ImprovedSiegeMode" Type="Passive" Requirements="AP_TankModeHaveImprovedSiegeMode" Row="1" Column="4"/>
         </CardLayouts>
         <Radius value="0.875"/>
         <SeparationRadius value="1"/>
@@ -1982,9 +1966,11 @@
         <AbilArray Link="stop"/>
         <AbilArray Link="attack"/>
         <AbilArray Link="AP_Unsiege"/>
+        <AbilArray Link="AP_UnsiegeNerfed"/>
         <AbilArray Link="AP_SiegeTankSiegedJumpJet"/>
         <AbilArray Link="AP_DeploySpiderMines"/>
         <AbilArray Link="AP_SiegeTankSiegedTransportableMorph"/>
+        <BehaviorArray Link="AP_SiegeTankNerfIndicator"/>
         <BehaviorArray Link="AP_ScavengingSystemsMechDeath"/>
         <BehaviorArray Link="AP_SiegeTankSiegeModeProgressiveRangeApplySafeguard"/>
         <BehaviorArray Link="AP_SiegeTankShapedHullIndicator"/>
@@ -1995,24 +1981,11 @@
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="Unsiege" Type="AbilCmd" AbilCmd="AP_Unsiege,0" Row="2" Column="1"/>
-            <LayoutButtons>
-                <Face value="AP_MaelstromRounds"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseMaelstromRounds"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons>
-                <Face value="AP_ShapedBlast"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseShapedBlast"/>
-                <Row value="1"/>
-                <Column value="1"/>
-            </LayoutButtons>
-            <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosSiegeTank" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_Unsiege" Type="AbilCmd" AbilCmd="AP_Unsiege,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_Unsiege" Type="AbilCmd" AbilCmd="AP_UnsiegeNerfed,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_MaelstromRounds" Type="Passive" Requirements="AP_UseMaelstromRounds" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ShapedBlast" Type="Passive" Requirements="AP_UseShapedBlast" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveSiegeTankSmartServos" Row="1" Column="2"/>
             <LayoutButtons Face="AP_SiegeModeProgressiveRangeIncrease" Type="Passive" Requirements="AP_HaveSiegeTankSiegeModeProgressiveRangeIncease" Row="1" Column="3"/>
             <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_SiegeTankSiegedJumpJet,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_DeploySpiderMines" Type="AbilCmd" AbilCmd="AP_DeploySpiderMines,Execute" Row="2" Column="3"/>
@@ -2039,7 +2012,7 @@
         <HotkeyCategory value="Unit/Category/AP_TerranUnitsGround"/>
     </CUnit>
     <CUnit id="AP_SiegeTankSiegedTransportable" parent="AP_SiegeTankSieged">
-        <AbilArray index="5" removed="1"/>
+        <AbilArray index="6" removed="1"/>
         <BehaviorArray Link="AP_SiegeTankTransportHookIndicator"/>
         <CargoSize value="8"/>
     </CUnit>
@@ -4518,6 +4491,7 @@
         <AbilArray Link="AP_SuperStimpackMarine"/>
         <AbilArray Link="AP_HealpackMarine"/>
         <AbilArray Link="AP_MagrailMunitionsMarine"/>
+        <BehaviorArray Link="AP_MarineNerfIndicator"/>
         <WeaponArray Link="AP_KelmorianMinerGaussRifle"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -4525,18 +4499,12 @@
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="AP_CombatShield" Type="Passive" Requirements="AP_UseCombatShield" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_LaserTargetingSystem" Type="Passive" Requirements="AP_HaveLaserTargetingSystemMarine" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_MarineU238Shells" Type="Passive" Requirements="AP_HaveMarineU238Shells" Row="1" Column="4"/>
             <LayoutButtons Face="AP_Stim" Type="AbilCmd" AbilCmd="AP_Stimpack,0" Row="2" Column="0"/>
             <LayoutButtons Face="AP_HealpackSmall" Type="AbilCmd" AbilCmd="AP_HealpackMarine,Execute" Row="2" Column="0"/>
             <LayoutButtons Face="AP_SuperStimpackSmall" Type="AbilCmd" AbilCmd="AP_SuperStimpackMarine,0" Row="2" Column="0"/>
-            <LayoutButtons>
-                <Face value="AP_CombatShield"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseCombatShield"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons Face="AP_LaserTargetingSystem" Type="Passive" Requirements="AP_HaveLaserTargetingSystemMarine" Row="1" Column="1"/>
             <LayoutButtons Face="AP_MagrailMunitions" Type="AbilCmd" AbilCmd="AP_MagrailMunitionsMarine,Execute" Row="2" Column="1"/>
         </CardLayouts>
         <Radius value="0.375"/>
@@ -4889,8 +4857,10 @@
         <AbilArray Link="attack"/>
         <AbilArray Link="move"/>
         <AbilArray Link="AP_SiegeBreakerSiege"/>
+        <AbilArray Link="AP_SiegeBreakerSiegeModeNerfed"/>
         <AbilArray Link="AP_MercSiegeTankJumpJet"/>
         <AbilArray Link="AP_DeploySpiderMines"/>
+        <BehaviorArray Link="AP_SiegeTankNerfIndicator"/>
         <BehaviorArray Link="AP_SiegeTankShapedHullIndicator"/>
         <BehaviorArray Link="AP_SiegeTankEnhancedCombustionEnginesIndicator"/>
         <WeaponArray Link="AP_SiegeBreaker" Turret="AP_SiegeTank"/>
@@ -4900,24 +4870,11 @@
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="SiegeMode" Type="AbilCmd" AbilCmd="AP_SiegeBreakerSiege,0" Row="2" Column="0"/>
-            <LayoutButtons>
-                <Face value="AP_MaelstromRounds"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseMaelstromRoundsReq"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons>
-                <Face value="AP_ShapedBlast"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseShapedBlastReq"/>
-                <Row value="1"/>
-                <Column value="1"/>
-            </LayoutButtons>
-            <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosSiegeTank" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_SiegeMode" Type="AbilCmd" AbilCmd="AP_SiegeBreakerSiege,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_SiegeMode" Type="AbilCmd" AbilCmd="AP_SiegeBreakerSiegeModeNerfed,0" Row="2" Column="0"/>
+            <LayoutButtons Face="AP_MaelstromRounds" Type="Passive" Requirements="AP_UseMaelstromRoundsReq" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ShapedBlast" Type="Passive" Requirements="AP_UseShapedBlastReq" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveSiegeTankSmartServos" Row="1" Column="2"/>
             <LayoutButtons Face="AP_SiegeModeProgressiveRangeIncrease" Type="Passive" Requirements="AP_TankModeHaveSiegeTankSiegeModeProgressiveRangeIncease" Row="1" Column="3"/>
             <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_MercSiegeTankJumpJet,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_DeploySpiderMines" Type="AbilCmd" AbilCmd="AP_DeploySpiderMines,Execute" Row="2" Column="3"/>
@@ -4982,9 +4939,11 @@
         <AbilArray Link="stop"/>
         <AbilArray Link="attack"/>
         <AbilArray Link="AP_SiegeBreakerUnsiege"/>
+        <AbilArray Link="AP_SiegeBreakerUnsiegeNerfed"/>
         <AbilArray Link="AP_MercSiegeTankSiegedJumpJet"/>
         <AbilArray Link="AP_DeploySpiderMines"/>
         <AbilArray Link="AP_SiegeBreakerSiegedTransportableMorph"/>
+        <BehaviorArray Link="AP_SiegeTankNerfIndicator"/>
         <BehaviorArray Link="AP_SiegeTankSiegeModeProgressiveRangeApplySafeguard"/>
         <BehaviorArray Link="AP_SiegeTankShapedHullIndicator"/>
         <WeaponArray Link="AP_ArcliteShockCannon" Turret="AP_SiegeTankSieged"/>
@@ -4994,24 +4953,11 @@
             <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
             <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons Face="Unsiege" Type="AbilCmd" AbilCmd="AP_SiegeBreakerUnsiege,0" Row="2" Column="1"/>
-            <LayoutButtons>
-                <Face value="AP_MaelstromRounds"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseMaelstromRounds"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons>
-                <Face value="AP_ShapedBlast"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="AP_UseShapedBlast"/>
-                <Row value="1"/>
-                <Column value="1"/>
-            </LayoutButtons>
-            <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveMultiTaskMAFServosSiegeTank" Row="1" Column="2"/>
+            <LayoutButtons Face="AP_Unsiege" Type="AbilCmd" AbilCmd="AP_SiegeBreakerUnsiege,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_Unsiege" Type="AbilCmd" AbilCmd="AP_SiegeBreakerUnsiegeNerfed,0" Row="2" Column="1"/>
+            <LayoutButtons Face="AP_MaelstromRounds" Type="Passive" Requirements="AP_UseMaelstromRounds" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ShapedBlast" Type="Passive" Requirements="AP_UseShapedBlast" Row="1" Column="1"/>
+            <LayoutButtons Face="AP_NovaMultiTaskMAFServos" Type="Passive" Requirements="AP_HaveSiegeTankSmartServos" Row="1" Column="2"/>
             <LayoutButtons Face="AP_SiegeModeProgressiveRangeIncrease" Type="Passive" Requirements="AP_HaveSiegeTankSiegeModeProgressiveRangeIncease" Row="1" Column="3"/>
             <LayoutButtons Face="AP_SiegeTankJumpJet" Type="AbilCmd" AbilCmd="AP_MercSiegeTankSiegedJumpJet,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="AP_DeploySpiderMines" Type="AbilCmd" AbilCmd="AP_DeploySpiderMines,Execute" Row="2" Column="3"/>
@@ -5040,7 +4986,7 @@
         <AIEvaluateAlias value="SiegeTankSieged"/>
     </CUnit>
     <CUnit id="AP_SiegeBreakerSiegedTransportable" parent="AP_SiegeBreakerSieged">
-        <AbilArray index="5" removed="1"/>
+        <AbilArray index="6" removed="1"/>
         <BehaviorArray Link="AP_SiegeTankTransportHookIndicator"/>
         <CargoSize value="8"/>
     </CUnit>
@@ -12667,6 +12613,7 @@
         <AbilArray Link="AP_InfestorConsumption"/>
         <AbilArray Link="AP_InfestedTerrans"/>
         <AbilArray Link="AP_AmorphousArmorcloud"/>
+        <BehaviorArray Link="AP_InfestorNerfIndicator"/>
         <BehaviorArray Link="AP_CreepFrenzy13Crawler"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -12755,6 +12702,7 @@
         <AbilArray Link="stop"/>
         <AbilArray Link="move"/>
         <AbilArray Link="AP_BurrowInfestorUp"/>
+        <BehaviorArray Link="AP_InfestorNerfIndicator"/>
         <BehaviorArray Link="AP_CreepFrenzy13Crawler"/>
         <CardLayouts>
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
@@ -14666,6 +14614,7 @@
         <AbilArray Link="move"/>
         <AbilArray Link="Warpable"/>
         <AbilArray Link="ProgressRally"/>
+        <BehaviorArray Link="AP_ColossusNerfIndicator"/>
         <BehaviorArray Link="AP_SOAHeroicShieldProcBuff"/>
         <WeaponArray Link="AP_ColossusPurifierThermalLances" Turret="Colossus"/>
         <WeaponArray Link="AP_ColossusPurifierThermalLancesUpgraded" Turret="Colossus"/>
@@ -14676,6 +14625,7 @@
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
             <LayoutButtons Face="AP_ColossusRapidIgnition" Type="Passive" Requirements="AP_HaveColossusRapidIgnition" Row="1" Column="0"/>
+            <LayoutButtons Face="AP_ColossusExtendedThermalLance" Type="Passive" Requirements="AP_HaveColossusExtendedThermalLance" Row="1" Column="1"/>
             <LayoutButtons Face="AP_CliffWalk" Type="Passive" Row="2" Column="0"/>
             <LayoutButtons Face="AP_VoidColossusFireBeam" Type="Passive" Requirements="AP_HaveColossusFireLance" Row="2" Column="1"/>
         </CardLayouts>
