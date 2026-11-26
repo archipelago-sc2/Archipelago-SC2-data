@@ -1958,8 +1958,8 @@
     <CRequirement id="AP_HaveValkyrieAntiGravityDrive">
         <NodeArray index="Show" Link="AP_CountUpgradeValkyrieAntiGravityDriveCompleteOnly"/>
     </CRequirement>
-    <CRequirement id="AP_HaveWraithAdvancedLaserTechnology">
-        <NodeArray index="Show" Link="AP_CountUpgradeWraithAdvancedLaserTechnologyCompleteOnly"/>
+    <CRequirement id="AP_HaveWraithMengskAdvancedLaserTechnology">
+        <NodeArray index="Show" Link="AP_CountUpgradeWraithMengskAdvancedLaserTechnologyCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_UseHyperfluxor">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
@@ -4395,9 +4395,10 @@
         <NodeArray index="Show" Link="AP_CountBehaviorMercTorrasqueTimerBehaviorCompleteOnlyAtUnit"/>
         <CanBeSuppressed index="Show" value="1"/>
     </CRequirement>
-    <CRequirement id="AP_HaveBattlecruiserRangeAura">
+    <CRequirement id="AP_HaveBattlecruiserMengskRangeAura">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
-        <NodeArray index="Use" Link="AP_CountUpgradeBattlecruiserRangeAuraCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeBattlecruiserMengskRangeAuraCompleteOnly"/>
+        <NodeArray index="Use" Link="AP_CountUpgradeBattlecruiserMengskRangeAuraCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_HaveMengskVeterancyBattlecruiserMengskGELevel2">
         <NodeArray index="Show" Link="AP_GTECountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit2"/>
@@ -4406,10 +4407,12 @@
         <NodeArray index="Show" Link="AP_EqCountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit1"/>
     </CRequirement>
     <CRequirement id="AP_HaveMengskVeterancyBattlecruiserMengskGELevel2AndHyperjump">
-        <NodeArray index="Show" Link="AP_AndGTECountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit2CountUpgradeTacticalJumpCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_BattlecruiserMengskTacticalJumpTwoCharges"/>
+        <NodeArray index="Use" Link="AP_BattlecruiserMengskTacticalJumpTwoCharges"/>
     </CRequirement>
     <CRequirement id="AP_HaveMengskVeterancyBattlecruiserMengskLevel1AndHyperjump">
-        <NodeArray index="Show" Link="AP_AndEqCountBehaviorMengskVeterancyBattlecruiserMengskCompleteOnlyAtUnit1CountUpgradeTacticalJumpCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_BattlecruiserMengskTacticalJumpOneCharge"/>
+        <NodeArray index="Use" Link="AP_BattlecruiserMengskTacticalJumpOneCharge"/>
     </CRequirement>
     <CRequirement id="AP_HaveVoidRayPurifierAntiGroundArmor">
         <EditorCategories value="Race:Protoss,TechType:Upgrade"/>
@@ -4483,18 +4486,25 @@
         <NodeArray index="Use" Link="AP_CountUpgradeNotPossibleFighterModeCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_HaveMengskVeterancyVikingMengskGELevel3">
+        <NodeArray index="Show" Link="AP_VikingMengskRealignmentOffCooldown"/>
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit3"/>
     </CRequirement>
     <CRequirement id="AP_HaveMengskVeterancyVikingMengskLevel4">
+        <NodeArray index="Show" Link="AP_CountUpgradeVikingMengskRank3Training"/>
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit4"/>
     </CRequirement>
     <CRequirement id="AP_HaveVikingMengskCheatDeathCooldown">
         <EditorCategories value="TechType:Ability"/>
-        <NodeArray index="Show" Link="AP_CountBehaviorVikingMengskCheatDeathCooldownCompleteOnlyAtUnit"/>
+        <NodeArray index="Show" Link="AP_VikingMengskCheatDeathCooldownWithTraining"/>
+        <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyVikingMengskCompleteOnlyAtUnit4"/>
     </CRequirement>
     <CRequirement id="AP_HaveVikingMengskAttackDamageCooldown">
         <EditorCategories value="TechType:Ability"/>
         <NodeArray index="Show" Link="AP_CountBehaviorVikingMengskAttackDamageCooldownCompleteOnlyAtUnit"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveVikingMengskAttackDamageCooldownUpgraded">
+        <EditorCategories value="TechType:Ability"/>
+        <NodeArray index="Show" Link="AP_CountBehaviorVikingMengskAttackDamageCooldownUpgradedCompleteOnlyAtUnit"/>
     </CRequirement>
     <CRequirement id="AP_HaveVikingMengskSpeed">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
@@ -4571,7 +4581,7 @@
     <CRequirement id="AP_TrainNukeMengsk">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
         <NodeArray index="Use" Link="AP_NotCountUnitNukeMengskQueuedOrBetterAtUnit"/>
-        <NodeArray index="Show" Link="AP_CountUpgradeHaveGhostMengskCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_TacticalMissileSupplyUnlocked"/>
     </CRequirement>
     <CRequirement id="AP_NukeSiloOccupied">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
@@ -4581,7 +4591,7 @@
     <CRequirement id="AP_NukeSiloOccupiedMengsk">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
         <NodeArray index="Use" Link="AP_CountUpgradeNotPossibleNukeArmed"/>
-        <NodeArray index="Show" Link="AP_CountUpgradeHaveGhostMengskCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_TacticalMissileSupplyUnlocked"/>
     </CRequirement>
     <CRequirement id="AP_HaveUnfriendlyNukeIndicator">
         <NodeArray index="Use" Link="AP_CountUpgradeUnfriendlyNukeIndicatorCompleteOnly"/>
@@ -4756,12 +4766,6 @@
     </CRequirement>
     <CRequirement id="AP_HaveWraithMengskVeterancyLevel2">
         <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnit2"/>
-    </CRequirement>
-    <CRequirement id="AP_HaveWraithMengskVeterancyLevel3">
-        <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnit3"/>
-    </CRequirement>
-    <CRequirement id="AP_HaveWraithMengskVeterancyLevel4">
-        <NodeArray index="Use" Link="AP_GTECountBehaviorMengskVeterancyWraithMengskCompleteOnlyAtUnit4"/>
     </CRequirement>
     <CRequirement id="AP_HaveGuardianPropellantSacs">
         <EditorCategories value="Race:Zerg,TechType:Ability"/>
@@ -4957,10 +4961,6 @@
     <CRequirement id="AP_ViralPlasmaPurchased">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
         <NodeArray index="Show" Link="AP_CountUpgradeViralPlasmaCompleteOnly"/>
-    </CRequirement>
-    <CRequirement id="AP_HaveBattlecruiserMengskSpellcaster">
-        <EditorCategories value="Race:Terran,TechType:Upgrade"/>
-        <NodeArray index="Show" Link="AP_BattlecruiserMengskSpellcasterCompleteOnly"/>
     </CRequirement>
     <CRequirement id="AP_HaveBioMechanicalStockpiling">
         <EditorCategories value="Race:Zerg,TechType:Upgrade"/>
@@ -5593,7 +5593,7 @@
         <NodeArray index="Show" Link="AP_BuildStarportTechLab"/>
     </CRequirement>
     <CRequirement id="AP_UnlockShadowOps">
-        <NodeArray index="Show" Link="AP_UnlockShadowOps"/>
+        <NodeArray index="Show" Link="AP_ShadowOpsUnlockedOrTacticalMissileArray"/>
         <NodeArray index="Use" Link="AP_OrCountUnitAlias_BarracksCompleteOnlyTechTreeCheatCountUnitAlias_FactoryCompleteOnlyTechTreeCheat"/>
     </CRequirement>
     <CRequirement id="AP_UnlockEngineeringBay">
@@ -5809,11 +5809,11 @@
     <CRequirement id="AP_UnlockSkyFury">
         <NodeArray index="Show" Link="AP_UnlockSkyFury"/>
     </CRequirement>
-    <CRequirement id="AP_UnlockEmperorsGuardian">
-        <NodeArray index="Show" Link="AP_UnlockEmperorsGuardian"/>
+    <CRequirement id="AP_UnlockCrimsonSeraph">
+        <NodeArray index="Show" Link="AP_UnlockCrimsonSeraph"/>
     </CRequirement>
-    <CRequirement id="AP_UnlockNightHawk">
-        <NodeArray index="Show" Link="AP_UnlockNightHawk"/>
+    <CRequirement id="AP_UnlockWingedNightmare">
+        <NodeArray index="Show" Link="AP_UnlockWingedNightmare"/>
     </CRequirement>
     <CRequirement id="AP_UnlockNightWolf">
         <NodeArray index="Show" Link="AP_UnlockNightWolf"/>
@@ -5852,8 +5852,8 @@
     <CRequirement id="AP_UnlockDeathHeads">
         <NodeArray index="Show" Link="AP_UnlockDeathHeads"/>
     </CRequirement>
-    <CRequirement id="AP_UnlockWingedNightmares">
-        <NodeArray index="Show" Link="AP_UnlockWingedNightmares"/>
+    <CRequirement id="AP_UnlockPhantomSquadron">
+        <NodeArray index="Show" Link="AP_UnlockPhantomSquadron"/>
     </CRequirement>
     <CRequirement id="AP_UnlockMidnightRiders">
         <NodeArray index="Show" Link="AP_UnlockMidnightRiders"/>
@@ -6509,5 +6509,126 @@
     </CRequirement>
     <CRequirement id="AP_ThorNukeFasterCalldown">
         <NodeArray index="Show" Link="AP_ThorNukeFasterCalldown"/>
+    </CRequirement>
+    <CRequirement id="AP_VikingMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowVikingMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseVikingMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_VikingMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorVikingMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveVikingMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeVikingMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeVikingMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveVikingMengskGiantslayerRounds">
+        <NodeArray index="Show" Link="AP_CountUpgradeVikingMengskGiantslayerRounds"/>
+        <NodeArray index="Use" Link="AP_CountUpgradeVikingMengskGiantslayerRounds"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveVikingMengskSmartServos">
+        <NodeArray index="Show" Link="AP_CountUpgradeVikingMengskSmartServos"/>
+        <NodeArray index="Use" Link="AP_CountUpgradeVikingMengskSmartServos"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveVikingMengskTacticalSuperiority">
+        <NodeArray index="Show" Link="AP_CountUpgradeVikingMengskTacticalSuperiority"/>
+        <NodeArray index="Use" Link="AP_CountUpgradeVikingMengskTacticalSuperiority"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveVikingDynamicAerialSystems">
+        <NodeArray index="Show" Link="AP_CountUpgradeVikingDynamicAerialSystems"/>
+        <NodeArray index="Use" Link="AP_CountUpgradeVikingDynamicAerialSystems"/>
+    </CRequirement>
+    <CRequirement id="AP_WraithMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowWraithMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseWraithMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_WraithMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorWraithMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveWraithMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeWraithMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeWraithMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_WraithMengskToxicTyrantOwned">
+        <NodeArray index="Use" Link="AP_WraithMengskToxicTyrantCount"/>
+        <NodeArray index="Show" Link="AP_WraithMengskToxicTyrantCount"/>
+    </CRequirement>
+    <CRequirement id="AP_WraithMengskMaddeningPathogenOwned">
+        <NodeArray index="Use" Link="AP_WraithMengskMaddeningPathogenCount"/>
+        <NodeArray index="Show" Link="AP_WraithMengskMaddeningPathogenCount"/>
+    </CRequirement>
+    <CRequirement id="AP_WraithMengskHorrifyingBlastOwned">
+        <NodeArray index="Use" Link="AP_WraithMengskHorrifyingBlastCount"/>
+        <NodeArray index="Show" Link="AP_WraithMengskHorrifyingBlastCount"/>
+    </CRequirement>
+    <CRequirement id="AP_WraithPulseAmplifierOwned">
+        <NodeArray index="Use" Link="AP_WraithPulseAmplifierCount"/>
+        <NodeArray index="Show" Link="AP_WraithPulseAmplifierCount"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowLiberatorMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseLiberatorMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorLiberatorMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveLiberatorMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeLiberatorMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeLiberatorMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskSmartServosOwned">
+        <NodeArray index="Show" Link="AP_LiberatorMengskSmartServosCount"/>
+        <NodeArray index="Use" Link="AP_LiberatorMengskSmartServosCount"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskSiegeProtocolOwned">
+        <NodeArray index="Show" Link="AP_LiberatorMengskSiegeProtocolCount"/>
+        <NodeArray index="Use" Link="AP_LiberatorMengskSiegeProtocolCount"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskSiegeProtocolNoDefenderMode">
+        <NodeArray index="Use" Link="AP_CountUpgradeNotPossibleDefenderModeCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_LiberatorMengskSiegeProtocolCount"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskPenetratingAmmunitionNoDefenderMode">
+        <NodeArray index="Use" Link="AP_CountUpgradeNotPossibleDefenderModeCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_LiberatorMengskPenetratingAmmunitionCount"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskPenetratingAmmunitionOwned">
+        <NodeArray index="Show" Link="AP_LiberatorMengskPenetratingAmmunitionCount"/>
+        <NodeArray index="Use" Link="AP_LiberatorMengskPenetratingAmmunitionCount"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskThermiteMissilesOwned">
+        <NodeArray index="Show" Link="AP_LiberatorMengskThermiteMissilesCount"/>
+        <NodeArray index="Use" Link="AP_LiberatorMengskThermiteMissilesCount"/>
+    </CRequirement>
+    <CRequirement id="AP_LiberatorMengskThermiteMissilesNoFighterMode">
+        <NodeArray index="Use" Link="AP_CountUpgradeNotPossibleFighterModeCompleteOnly"/>
+        <NodeArray index="Show" Link="AP_LiberatorMengskThermiteMissilesCount"/>
+    </CRequirement>
+    <CRequirement id="AP_BattlecruiserMengskUnlockRank3">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_ShowBattlecruiserMengskUnlockRank3"/>
+        <NodeArray index="Use" Link="AP_UseBattlecruiserMengskUnlockRank3"/>
+    </CRequirement>
+    <CRequirement id="AP_BattlecruiserMengskPromotionGranted">
+        <NodeArray index="Show" Link="AP_CountBehaviorBattlecruiserMengskRank3Unlocked"/>
+    </CRequirement>
+    <CRequirement id="AP_HaveBattlecruiserMengskRank3Training">
+        <NodeArray index="Use" Link="AP_CountUpgradeBattlecruiserMengskRank3Training"/>
+        <NodeArray index="Show" Link="AP_CountUpgradeBattlecruiserMengskRank3Training"/>
+    </CRequirement>
+    <CRequirement id="AP_BattlecruiserMengskTacticalJumpOwned">
+        <NodeArray index="Show" Link="AP_BattlecruiserMengskTacticalJumpCount"/>
+        <NodeArray index="Use" Link="AP_BattlecruiserMengskTacticalJumpCount"/>
+    </CRequirement>
+    <CRequirement id="AP_BattlecruiserMengskPlasmaRecyclingOwned">
+        <NodeArray index="Show" Link="AP_BattlecruiserMengskPlasmaRecyclingCount"/>
+        <NodeArray index="Use" Link="AP_BattlecruiserMengskPlasmaRecyclingCount"/>
+    </CRequirement>
+    <CRequirement id="AP_BattlecruiserMengskTacticalMissileArray">
+        <CanBeSuppressed index="Use" value="0"/>
+        <NodeArray index="Show" Link="AP_BattlecruiserMengskTacticalMissileArrayCount"/>
+        <NodeArray index="Use" Link="AP_BattlecruiserMengskTacticalMissileArrayReady"/>
     </CRequirement>
 </Catalog>

@@ -19902,14 +19902,14 @@
         <EditorCategories value="Race:Terran"/>
     </CModel>
     <CModel id="AP_VikingMengskFighterPortrait" parent="VikingPortraitBase">
-        <Model value="Assets\Portraits\Terran\VikingPortrait\VikingPortrait.m3"/>
-        <Image value="Assets\Textures\VikingFighterPortrait_Static.dds"/>
-        <Lighting value="VikingFighterPortrait"/>
+        <Model value="AP\Assets\Portraits\Terran\VikingMengsk\Viking_mengsk_Collection_Portrait.m3"/>
+        <Image value="AP\Assets\Textures\viking_mengsk_collection_portrait_static.dds"/>
+        <Lighting value="AP_VikingMercenaryAssaultPortrait"/>
     </CModel>
     <CModel id="AP_VikingMengskAssaultPortrait" parent="VikingAssaultPortraitBase">
-        <Model value="Assets\Portraits\Terran\VikingPortrait\VikingPortrait.m3"/>
-        <Image value="Assets\Textures\VikingFighterPortrait_Static.dds"/>
-        <Lighting value="VikingAssaultPortrait"/>
+        <Model value="AP\Assets\Portraits\Terran\VikingMengsk\Viking_mengsk_Collection_Portrait.m3"/>
+        <Image value="AP\Assets\Textures\viking_mengsk_collection_portrait_static.dds"/>
+        <Lighting value="AP_VikingMercenaryAssaultPortrait"/>
     </CModel>
     <CModel id="AP_VikingMengskAssault" parent="VikingAssaultBase">
         <Model value="Assets\COOP\Mengsk\Units\Viking_Mengsk_COOP_Assault\Viking_Mengsk_COOP_Assault.m3"/>
@@ -20156,6 +20156,10 @@
     </CModel>
     <CModel id="AP_VikingMengskFighterAttackImpact" parent="ImpactFX">
         <Model value="Assets\Effects\Terran\VikingFighterMissileImpact\VikingFighterMissileImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="AP_VikingMengskGiantslayerRoundsImpact" parent="ImpactFX">
+        <Model value="Assets\COOP\Mengsk\Effects\SiegeTank_Mengsk_COOP_Impact_Air_Upgraded\SiegeTank_Mengsk_COOP_Impact_Air_Upgraded.m3"/>
         <EditorCategories value="Race:Terran"/>
     </CModel>
     <CModel id="AP_VikingMengskFighterAttackLaunch" parent="LaunchFX">
@@ -21263,6 +21267,23 @@
     </CModel>
     <CModel id="AP_WraithMengsk" parent="AP_Wraith">
         <Model value="AP\Assets\Units\Terran\WraithMengsk\Wraith_Mengsk_COOP.m3"/>
+        <AttachProps Id="Ref_Weapon Left">
+            <Keys index="Weapon" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon Right">
+            <Keys index="Weapon" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon Bottom">
+            <Keys index="Weapon" value="2"/>
+        </AttachProps>
+    </CModel>
+    <CModel id="AP_WraithMengskAdvancedLaserMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_Wraith_Coop_Missile\MiraHorner_Wraith_Coop_Missile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="AP_WraithMengskAdvancedLaserImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_Wraith_Coop_Missile_Impact\MiraHorner_Wraith_Coop_Missile_Impact.m3"/>
+        <EditorCategories value="Race:Terran"/>
     </CModel>
     <CModel id="AP_WraithMengskDeath" parent="AP_WraithDeath">
         <Model value="AP\Assets\Units\Terran\WraithMengsk\Wraith_Mengsk_COOP_Death.m3"/>
@@ -22756,5 +22777,51 @@
         <Model value="Assets\Effects\Zerg\Void_Thrasher_Attack_Beam\Void_Thrasher_Attack_Beam.m3"/>
         <ScaleMax value="0.200000,0.200000,0.200000"/>
         <ScaleMin value="0.200000,0.200000,0.200000"/>
+    </CModel>
+    <CModel id="AP_WraithMengskToxicMissile" parent="AP_NovaGadgetFlashBangGrenadesWeapon"/>
+    <CModel id="AP_WraithMengskToxicImpact" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Zerg\ParasiteImpact\ParasiteImpact.m3"/>
+        <ScaleMin value="1.56,1.56,1.56"/>
+        <ScaleMax value="1.56,1.56,1.56"/>
+        <RadiusLoose value="1"/>
+    </CModel>
+    <CModel id="AP_WraithMengskToxicCloud" parent="PersistentSpellFX">
+        <Model value="Assets\COOP\Mengsk\Effects\Artillery_Mengsk_COOP_DirtyBomb_Impact\Artillery_Mengsk_COOP_DirtyBomb_Impact.m3"/>
+        <ScaleMin value="0.5,0.5,0.5"/>
+        <ScaleMax value="0.5,0.5,0.5"/>
+    </CModel>
+    <CModel id="AP_WraithMengskToxicFear" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Neutral\Fear_Coop\Fear_Coop.m3"/>
+    </CModel>
+    <CModel id="AP_WraithMengskToxicPoison" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Zerg\DiseaseCloud\DiseaseCloud.m3"/>
+    </CModel>
+    <CModel id="AP_WraithMengskToxicConfusionModel" parent="AP_DarkArchonConfusionModel"/>
+    <CModel id="AP_WraithMengskHorrifyingBlastShockwave" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Zerg\HybridPsionicShockwave\HybridPsionicShockwave.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="AP_WraithMengskHorrifyingBlastHologram" parent="PersistentSpellFX">
+        <Model value="Assets\Units\Protoss\Hologram_Skin_Hybrid_Behemoth\Hologram_Skin_Hybrid_Behemoth.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="AP_BattlecruiserMengskPortrait" parent="FXAPortrait" Race="Terran">
+        <FacialController value="LocalizedData\Facial\BattlecruiserPortrait.fxa"/>
+        <Model value="AP\Assets\Portraits\Terran\BattlecruiserMengsk\Battlecruiser_Mengsk_Collection_Portrait.m3"/>
+        <Image value="AP\Assets\Textures\battlecruiser_mengsk_collection_portrait_static.dds"/>
+        <Lighting value="CarrierPortrait"/>
+    </CModel>
+    <CModel id="AP_WraithMengskPortrait" parent="AP_WraithPortrait">
+        <Model value="AP\Assets\Portraits\Terran\WraithMengsk\Wraith_Mengsk_RoyalGuard_Portrait.m3"/>
+        <Image value="AP\Assets\Textures\Wraith_RoyalGuard_Portrait_Static.dds"/>
+        <Lighting value="AP_WraithPortrait"/>
+    </CModel>
+    <CModel id="AP_LiberatorMengskPortrait" parent="LiberatorPortrait">
+        <Model value="AP\Assets\Portraits\Terran\LiberatorMengsk\Liberator_Mengsk_RoyalGuard_Portrait.m3"/>
+        <Image value="AP\Assets\Textures\liberator_mengsk_royalguard_portrait_static.dds"/>
+        <Lighting value="Liberator_Silver_Portrait"/>
+    </CModel>
+    <CModel id="AP_LiberatorMengskAGPortrait" parent="AP_LiberatorMengskPortrait">
+        <Image value="AP\Assets\Textures\liberator_defender_mengsk_royalguard_portrait_static.dds"/>
     </CModel>
 </Catalog>

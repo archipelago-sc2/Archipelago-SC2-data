@@ -22,6 +22,8 @@ void lib15EF4C78_InitVariables () {
     }
 
     lib15EF4C78_InitVariables_completed = true;
+    lib15EF4C78_gv_aP_ToxicCanisterFearRunners = UnitGroupEmpty();
+    lib15EF4C78_gv_aP_WraithItemsCloakedUnits = UnitGroupEmpty();
 
     lib15EF4C78_gv_stukov_HordeGroup = UnitGroupEmpty();
     lib15EF4C78_gv_stukov_BunkerGroup = UnitGroupEmpty();
@@ -285,8 +287,12 @@ include "AP_Player_LotVShowHideCampaignTeachingHook_h"
 include "AP_Player_CanAutoHarvest_h"
 include "AP_Player_StickyProtossBuildButtons"
 
-void lib15EF4C78_InitCustomScript () {
+void AP_Player_InitCustomScripts() {
     initStickyBuildKeys();
+}
+
+void lib15EF4C78_InitCustomScript () {
+    AP_Player_InitCustomScripts();
 }
 
 // Presets
@@ -3685,6 +3691,22 @@ void lib15EF4C78_gf_CM_Mengsk_ActivateRank3Veterancy (unit lp_unit) {
         lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyBansheeMengskRank2", "AP_MengskVeterancyBansheeMengsk");
     }
 
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyVikingMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_VikingMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyVikingMengskRank2", "AP_MengskVeterancyVikingMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyWraithMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_WraithMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyWraithMengskRank2", "AP_MengskVeterancyWraithMengsk");
+    }
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyLiberatorMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_LiberatorMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyLiberatorMengskRank2", "AP_MengskVeterancyLiberatorMengsk");
+    }
+
+    if (((UnitHasBehavior(lp_unit, "AP_MengskVeterancyBattlecruiserMengskRank2") == true) && (UnitHasBehavior(lp_unit, "AP_BattlecruiserMengskRank3Unlocked") == true))) {
+        lib15EF4C78_gf_CM_Mengsk_SwapVeterancy(lp_unit, "AP_MengskVeterancyBattlecruiserMengskRank2", "AP_MengskVeterancyBattlecruiserMengsk");
+    }
+
+
 }
 
 string lib15EF4C78_gf_CM_Mengsk_LockedVeterancy (unit lp_unit) {
@@ -3724,6 +3746,22 @@ string lib15EF4C78_gf_CM_Mengsk_LockedVeterancy (unit lp_unit) {
 
     if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyBansheeMengskRank2") == true)) {
         return "AP_MengskVeterancyBansheeMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyVikingMengskRank2") == true)) {
+        return "AP_MengskVeterancyVikingMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyWraithMengskRank2") == true)) {
+        return "AP_MengskVeterancyWraithMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyLiberatorMengskRank2") == true)) {
+        return "AP_MengskVeterancyLiberatorMengskRank2";
+    }
+
+    if ((UnitHasBehavior(lp_unit, "AP_MengskVeterancyBattlecruiserMengskRank2") == true)) {
+        return "AP_MengskVeterancyBattlecruiserMengskRank2";
     }
 
     return "";
@@ -9018,37 +9056,105 @@ void lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: AP_Player_NightHawkResonatingFeedbackInterferenceEffect
+// Trigger: AP_Player_ToxicCanisterFear
 //--------------------------------------------------------------------------------------------------
-bool lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Func (bool testConds, bool runActions) {
+bool lib15EF4C78_gt_AP_Player_ToxicCanisterFear_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    unit lv_registrant;
-    unit lv_registrant2;
-    fixed lv_targetEnergy;
-    fixed lv_stunDuration;
+    unit lv_scaredUnit;
+    point lv_firstDestination;
 
-    // Automatic Variable Declarations
     // Variable Initialization
-    lv_registrant = EventPlayerEffectUsedUnit(c_effectUnitCaster);
-    lv_registrant2 = EventPlayerEffectUsedUnit(c_effectUnitTarget);
+    lv_scaredUnit = null;
+    lv_firstDestination = null;
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    lv_targetEnergy = UnitGetPropertyFixed(lv_registrant2, c_unitPropEnergy, c_unitPropCurrent);
-    lv_stunDuration = (lv_targetEnergy / 5.0);
-    UnitSetPropertyFixed(lv_registrant2, c_unitPropEnergy, 0.0);
-    UnitBehaviorAdd(lv_registrant2, "AP_WraithMengskResonatingFeedbackInterference", lv_registrant, 1);
-    UnitBehaviorSetDuration(lv_registrant2, "AP_WraithMengskResonatingFeedbackInterference", lv_stunDuration);
+    lv_scaredUnit = EventUnit();
+    if (((lv_scaredUnit == null) || (UnitIsAlive(lv_scaredUnit) == false) || (UnitHasBehavior2(lv_scaredUnit, "AP_WraithMengskToxicFear") == false) || (UnitGroupHasUnit(lib15EF4C78_gv_aP_ToxicCanisterFearRunners, lv_scaredUnit) == true))) {
+        return true;
+    }
+    UnitGroupAdd(lib15EF4C78_gv_aP_ToxicCanisterFearRunners, lv_scaredUnit);
+    lv_firstDestination = PointWithOffsetPolar(UnitGetPosition(lv_scaredUnit), 5.0, libNtve_gf_RandomAngle());
+    UnitIssueOrder(lv_scaredUnit, OrderTargetingPoint(AbilityCommand("move", 0), lv_firstDestination), c_orderQueueReplace);
+    Wait(1.0, c_timeGame);
+    while ((UnitIsAlive(lv_scaredUnit) == true) && (UnitHasBehavior2(lv_scaredUnit, "AP_WraithMengskToxicFear") == true)) {
+        UnitIssueOrder(lv_scaredUnit, OrderTargetingPoint(AbilityCommand("move", 0), RegionRandomPoint(RegionCircle(UnitGetPosition(lv_scaredUnit), 3.0))), c_orderQueueReplace);
+        Wait(0.5, c_timeGame);
+    }
+    UnitGroupRemove(lib15EF4C78_gv_aP_ToxicCanisterFearRunners, lv_scaredUnit);
+
     return true;
 }
 
+void lib15EF4C78_gt_AP_Player_ToxicCanisterFear_Init () {
+    lib15EF4C78_gt_AP_Player_ToxicCanisterFear = TriggerCreate("lib15EF4C78_gt_AP_Player_ToxicCanisterFear_Func");
+    TriggerAddEventUnitBehaviorChange(lib15EF4C78_gt_AP_Player_ToxicCanisterFear, null, "AP_WraithMengskToxicFear", c_unitBehaviorChangeCreate);
+}
+
 //--------------------------------------------------------------------------------------------------
-void lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Init () {
-    lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect = TriggerCreate("lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Func");
-    TriggerAddEventPlayerEffectUsed(lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect, c_playerAny, "AP_WraithMengskResonatingFeedbackInterferenceDummy");
+// Trigger: AP_Player_WraithItemsCloakOn
+//--------------------------------------------------------------------------------------------------
+bool lib15EF4C78_gt_AP_Player_WraithItemsCloakOn_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_cloakingWraith;
+
+    // Variable Initialization
+    lv_cloakingWraith = null;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_cloakingWraith = EventUnit();
+    if ((lv_cloakingWraith != null) && (UnitIsAlive(lv_cloakingWraith) == true) && (UnitGetType(lv_cloakingWraith) == "AP_WraithMengsk")) {
+        UnitGroupAdd(lib15EF4C78_gv_aP_WraithItemsCloakedUnits, lv_cloakingWraith);
+    }
+
+    return true;
+}
+
+void lib15EF4C78_gt_AP_Player_WraithItemsCloakOn_Init () {
+    lib15EF4C78_gt_AP_Player_WraithItemsCloakOn = TriggerCreate("lib15EF4C78_gt_AP_Player_WraithItemsCloakOn_Func");
+    TriggerAddEventUnitBehaviorChange(lib15EF4C78_gt_AP_Player_WraithItemsCloakOn, null, "AP_WraithMengskHorrifyingBlastCloakTracker", c_unitBehaviorChangeActivate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AP_Player_WraithItemsCloakOff
+//--------------------------------------------------------------------------------------------------
+bool lib15EF4C78_gt_AP_Player_WraithItemsCloakOff_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_decloakingWraith;
+
+    // Variable Initialization
+    lv_decloakingWraith = null;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_decloakingWraith = EventUnit();
+    if (((lv_decloakingWraith == null) || (UnitGroupHasUnit(lib15EF4C78_gv_aP_WraithItemsCloakedUnits, lv_decloakingWraith) == false))) {
+        return true;
+    }
+    UnitGroupRemove(lib15EF4C78_gv_aP_WraithItemsCloakedUnits, lv_decloakingWraith);
+    Wait(0.0, c_timeGame);
+    if (((UnitIsAlive(lv_decloakingWraith) == false) || (UnitGetType(lv_decloakingWraith) != "AP_WraithMengsk") || (UnitTestState(lv_decloakingWraith, c_unitStateCloaked) == true) || (TechTreeUpgradeCount(UnitGetOwner(lv_decloakingWraith), "AP_WraithMengskHorrifyingBlast", c_techCountCompleteOnly) < 1) || (UnitGetCooldown(lv_decloakingWraith, "Behavior/AP_WraithMengskHorrifyingBlastCooldown") > 0.0))) {
+        return true;
+    }
+    UnitModifyCooldown(lv_decloakingWraith, "Behavior/AP_WraithMengskHorrifyingBlastCooldown", 30.0, c_cooldownOperationSet);
+    UnitCreateEffectUnit(lv_decloakingWraith, "AP_WraithMengskHorrifyingBlastCast", lv_decloakingWraith);
+
+    return true;
+}
+
+void lib15EF4C78_gt_AP_Player_WraithItemsCloakOff_Init () {
+    lib15EF4C78_gt_AP_Player_WraithItemsCloakOff = TriggerCreate("lib15EF4C78_gt_AP_Player_WraithItemsCloakOff_Func");
+    TriggerAddEventUnitBehaviorChange(lib15EF4C78_gt_AP_Player_WraithItemsCloakOff, null, "AP_WraithMengskHorrifyingBlastCloakTracker", c_unitBehaviorChangeDeactivate);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -10741,7 +10847,9 @@ void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_CM_Mengsk_MedicMengskUpgrades_Init();
     lib15EF4C78_gt_CM_Mengsk_MarauderMengskUpgrades_Init();
     lib15EF4C78_gt_AP_Player_ToggleHellionHellbat_Init();
-    lib15EF4C78_gt_AP_Player_NightHawkResonatingFeedbackInterferenceEffect_Init();
+    lib15EF4C78_gt_AP_Player_ToxicCanisterFear_Init();
+    lib15EF4C78_gt_AP_Player_WraithItemsCloakOn_Init();
+    lib15EF4C78_gt_AP_Player_WraithItemsCloakOff_Init();
     lib15EF4C78_gt_CM_Mengsk_WeaponPickupRegister_Init();
     lib15EF4C78_gt_CM_Mengsk_WeaponPickerUpperRegister_Init();
     lib15EF4C78_gt_CM_Mengsk_WeaponPickerUpperUnregister_Init();

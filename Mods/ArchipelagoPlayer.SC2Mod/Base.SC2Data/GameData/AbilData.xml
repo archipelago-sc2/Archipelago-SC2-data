@@ -1877,7 +1877,7 @@
         <AbilSetId value="AP_LiberatorAATarget"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="AP_LiberatorMengskTargetAAMorphOrderSet"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorAAMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorMengskAAMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
     </CAbilEffectInstant>
@@ -1917,7 +1917,7 @@
         <Effect index="0" value="AP_LiberatorMengskTargetMorphOrderInitialSet"/>
         <Range value="9"/>
         <Arc value="360"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercLiberatorAGMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorMengskAGMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
     </CAbilEffectTarget>
@@ -1999,7 +1999,7 @@
     <CAbilMorph id="AP_LiberatorMengskMorphtoAA">
         <AbilSetId value="LiberatorAA"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercLiberatorAAMode">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorMengskAAMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="IgnoreFacing" value="1"/>
@@ -2094,7 +2094,7 @@
     <CAbilMorph id="AP_LiberatorMengskMorphtoAG">
         <AbilSetId value="LiberatorAG"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MercLiberatorAGMode"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_LiberatorMengskAGMode"/>
         <Flags index="IgnoreFacing" value="1"/>
         <Flags index="WaitUntilStopped" value="0"/>
         <InfoArray Unit="AP_LiberatorMengskAG">
@@ -2626,7 +2626,6 @@
         <Name value="Abil/Name/AP_BarracksLiftOff"/>
     </CAbilMorph>
     <CAbilMorph id="AP_BarracksMengskLiftOff" parent="TerranBuildingLiftOff" unit="AP_BarracksMengskFlying">
-        <Name value="Abil/Name/AP_BarracksMengskLiftOff"/>
     </CAbilMorph>
     <CAbilMorph id="AP_BarracksReactorMorph">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
@@ -2784,7 +2783,6 @@
         </InfoArray>
     </CAbilMorphPlacement>
     <CAbilMorphPlacement id="AP_BarracksMengskLand" parent="TerranBuildingLand" unit="AP_BarracksMengsk">
-        <Name value="Abil/Name/AP_BarracksMengskLand"/>
         <InfoArray index="0" Unit="AP_BarracksMengsk" CollideRange="0">
             <SectionArray index="Abils">
                 <DurationArray index="Delay" value="2"/>
@@ -3363,7 +3361,6 @@
         <Name value="Abil/Name/AP_FactoryLiftOff"/>
     </CAbilMorph>
     <CAbilMorphPlacement id="AP_FactoryMengskLand" parent="TerranBuildingLand" unit="AP_FactoryMengsk">
-        <Name value="Abil/Name/AP_FactoryMengskLand"/>
         <InfoArray index="0" Unit="AP_FactoryMengsk" CollideRange="0">
             <SectionArray index="Abils">
                 <DurationArray index="Delay" value="2"/>
@@ -5249,7 +5246,6 @@
         <Name value="Abil/Name/AP_StarportLiftOff"/>
     </CAbilMorph>
     <CAbilMorphPlacement id="AP_StarportMengskLand" parent="TerranBuildingLand" unit="AP_StarportMengsk">
-        <Name value="Abil/Name/AP_StarportMengskLand"/>
         <InfoArray index="0" Unit="AP_StarportMengsk" CollideRange="0">
             <SectionArray index="Abils">
                 <DurationArray index="Delay" value="2"/>
@@ -5257,7 +5253,6 @@
         </InfoArray>
     </CAbilMorphPlacement>
     <CAbilMorph id="AP_StarportMengskLiftOff" parent="TerranBuildingLiftOff" unit="AP_StarportMengskFlying">
-        <Name value="Abil/Name/AP_StarportMengskLiftOff"/>
     </CAbilMorph>
     <CAbilArmMagazine id="AP_HeroArmNuke">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
@@ -10191,7 +10186,7 @@
                 <TimeStart value="300"/>
                 <TimeUse value="300"/>
             </Cooldown>
-            <Button DefaultButtonFace="AP_HireMercWraith" State="Restricted" Requirements="AP_UnlockWingedNightmares"/>
+            <Button DefaultButtonFace="AP_HireMercWraith" State="Restricted" Requirements="AP_UnlockPhantomSquadron"/>
             <Unit value="AP_MercWraith"/>
             <Unit value="AP_MercWraith"/>
         </InfoArray>
@@ -13683,25 +13678,25 @@
         <CursorEffect value="AP_HunterlingLeapImpactDamageSearch"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_BattlecruiserMengskYamato">
-        <AbilSetId value="AP_BattlecruiserMengskYamato"/>
+        <AbilSetId value="yamato"/>
         <Alignment value="Negative"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="AP_BattlecruiserMengskYamatoLevelSwitch"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Cost>
-            <Charge>
+            <Charge Link="Abil/AP_BattlecruiserMengskYamato">
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
                 <Location value="Unit"/>
                 <TimeUse value="120"/>
             </Charge>
-            <Cooldown Link="Yamato" Location="Unit"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskYamato" Location="Unit"/>
         </Cost>
         <InterruptCost>
-            <Charge Link="Abil/Yamato"/>
-            <Cooldown Link="Abil/Yamato"/>
+            <Charge Link="Abil/AP_BattlecruiserMengskYamato"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskYamato"/>
         </InterruptCost>
         <TargetFilters value="-;Player,Ally"/>
         <Range value="10"/>
@@ -13717,29 +13712,30 @@
         <AINotifyEffect value="Yamato"/>
         <ProgressButtonArray index="Prep" value="AP_YamatoGunMengsk"/>
         <EffectRange value="0,500"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_YamatoGunMengsk" Requirements="AP_HaveMengskVeterancyBattlecruiserMengskLevel1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_YamatoGunMengsk" Requirements="AP_HaveMengskVeterancyBattlecruiserMengskLevel1">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_BattlecruiserMengskYamatoTwoCharges">
-        <AbilSetId value="AP_BattlecruiserMengskYamato"/>
+        <AbilSetId value="yamato"/>
         <Alignment value="Negative"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="AP_BattlecruiserMengskYamatoLevelSwitch"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Cost>
-            <Charge>
+            <Charge Link="Abil/AP_BattlecruiserMengskYamato">
                 <CountMax value="2"/>
                 <CountStart value="2"/>
                 <CountUse value="1"/>
-                <Link value="Abil/BattlecruiserMengskYamato"/>
                 <Location value="Unit"/>
                 <TimeUse value="120"/>
             </Charge>
-            <Cooldown Link="Yamato" Location="Unit"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskYamato" Location="Unit"/>
         </Cost>
         <InterruptCost>
-            <Charge Link="Abil/Yamato"/>
-            <Cooldown Link="Abil/Yamato"/>
+            <Charge Link="Abil/AP_BattlecruiserMengskYamato"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskYamato"/>
         </InterruptCost>
         <TargetFilters value="-;Player,Ally"/>
         <Range value="10"/>
@@ -13755,7 +13751,9 @@
         <AINotifyEffect value="Yamato"/>
         <ProgressButtonArray index="Prep" value="AP_YamatoGunMengsk"/>
         <EffectRange value="0,500"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_YamatoGunMengsk" Requirements="AP_HaveMengskVeterancyBattlecruiserMengskGELevel2"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_YamatoGunMengsk" Requirements="AP_HaveMengskVeterancyBattlecruiserMengskGELevel2">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_BattlecruiserMengskHyperjump">
         <AbilSetId value="FleetwideJump"/>
@@ -13766,15 +13764,14 @@
         <Flags index="NoDeceleration" value="1"/>
         <Flags index="RequireTargetVision" value="0"/>
         <Cost>
-            <Charge>
+            <Charge Link="Abil/AP_BattlecruiserMengskHyperjump">
                 <CountMax value="1"/>
                 <CountStart value="1"/>
                 <CountUse value="1"/>
-                <Link value="Abil/HyperjumpNoVision"/>
                 <Location value="Unit"/>
                 <TimeUse value="60"/>
             </Charge>
-            <Cooldown Link="Abil/HyperjumpNoVision" Location="Unit"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskHyperjump" Location="Unit"/>
         </Cost>
         <Range value="500"/>
         <CastIntroTime value="0"/>
@@ -13795,15 +13792,14 @@
         <Flags index="NoDeceleration" value="1"/>
         <Flags index="RequireTargetVision" value="0"/>
         <Cost>
-            <Charge>
+            <Charge Link="Abil/AP_BattlecruiserMengskHyperjump">
                 <CountMax value="2"/>
                 <CountStart value="2"/>
                 <CountUse value="1"/>
-                <Link value="Abil/HyperjumpNoVision"/>
                 <Location value="Unit"/>
                 <TimeUse value="60"/>
             </Charge>
-            <Cooldown Link="Abil/HyperjumpNoVision" Location="Unit"/>
+            <Cooldown Link="Abil/AP_BattlecruiserMengskHyperjump" Location="Unit"/>
         </Cost>
         <Range value="500"/>
         <CastIntroTime value="0"/>
@@ -13840,11 +13836,11 @@
             <Unit value="AP_VikingMengskFighter"/>
         </InfoArray>
         <InfoArray index="Train3" Time="60">
-            <Button DefaultButtonFace="AP_LiberatorMengsk" State="Restricted" Requirements="AP_UnlockEmperorsGuardian"/>
+            <Button DefaultButtonFace="AP_LiberatorMengsk" State="Restricted" Requirements="AP_UnlockCrimsonSeraph"/>
             <Unit value="AP_LiberatorMengsk"/>
         </InfoArray>
         <InfoArray index="Train4" Time="50">
-            <Button DefaultButtonFace="AP_WraithMengsk" State="Restricted" Requirements="AP_UnlockNightHawk"/>
+            <Button DefaultButtonFace="AP_WraithMengsk" State="Restricted" Requirements="AP_UnlockWingedNightmare"/>
             <Unit value="AP_WraithMengsk"/>
         </InfoArray>
         <InfoArray index="Train5" Time="60">
@@ -15018,7 +15014,7 @@
         <UseMarkerArray index="Approach" value="0"/>
         <UseMarkerArray index="Prep" value="0"/>
         <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MedicHeal" Requirements="AP_MedicMengskHealRank0"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealMengskRank0" Requirements="AP_MedicMengskHealRank0"/>
         <AcquireAttackers value="1"/>
         <FollowRange value="1.5"/>
     </CAbilEffectTarget>
@@ -15053,7 +15049,7 @@
         <UseMarkerArray index="Approach" value="0"/>
         <UseMarkerArray index="Prep" value="0"/>
         <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MedicHeal" Requirements="AP_MedicMengskHealRank1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealMengskRank1" Requirements="AP_MedicMengskHealRank1"/>
         <AcquireAttackers value="1"/>
         <FollowRange value="1.5"/>
     </CAbilEffectTarget>
@@ -15088,7 +15084,7 @@
         <UseMarkerArray index="Approach" value="0"/>
         <UseMarkerArray index="Prep" value="0"/>
         <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MedicHeal" Requirements="AP_MedicMengskHealRank2"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealMengskRank2" Requirements="AP_MedicMengskHealRank2"/>
         <AcquireAttackers value="1"/>
         <FollowRange value="3.5"/>
     </CAbilEffectTarget>
@@ -15124,53 +15120,9 @@
         <UseMarkerArray index="Approach" value="0"/>
         <UseMarkerArray index="Prep" value="0"/>
         <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MedicHeal" Requirements="AP_HaveMedicMengskDoubleBeamHeal"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_HealMengskRank3" Requirements="AP_HaveMedicMengskDoubleBeamHeal"/>
         <AcquireAttackers value="1"/>
         <FollowRange value="3.5"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="AP_WraithMengskResonatingFeedbackInterference">
-        <Alignment value="Negative"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <InfoTooltipPriority value="1"/>
-        <Effect index="0" value="AP_WraithMengskResonatingFeedbackInterferenceSwitchInitial"/>
-        <Flags index="AllowMovement" value="1"/>
-        <Flags index="ChannelingMinimum" value="0"/>
-        <Flags index="AutoCast" value="1"/>
-        <Cost>
-            <Vital index="Energy" value="75"/>
-        </Cost>
-        <TargetFilters value="CanHaveEnergy,Visible,HasEnergy;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <Range value="5"/>
-        <AutoCastRange value="5"/>
-        <AutoCastValidatorArray value="AP_TargetHasGE40Energy"/>
-        <UninterruptibleArray index="Prep" value="1"/>
-        <UninterruptibleArray index="Cast" value="1"/>
-        <UninterruptibleArray index="Channel" value="1"/>
-        <UninterruptibleArray index="Finish" value="1"/>
-        <ValidatedArray index="Wait" value="1"/>
-        <ValidatedArray index="Channel" value="0"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_WraithMengskResonatingFeedbackInterference" Requirements="AP_HaveWraithMengskVeterancyLevel2"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="AP_WraithMengskDisruptionWeb">
-        <AbilSetId value="AP_CorsairMPDisruptionWeb"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Effect index="0" value="AP_WraithMengskDisruptionWebCreatePersistentSet"/>
-        <Flags index="AllowMovement" value="1"/>
-        <Flags index="AutoCast" value="1"/>
-        <Flags index="NoDeceleration" value="1"/>
-        <Cost>
-            <Vital index="Energy" value="125"/>
-        </Cost>
-        <Range value="9"/>
-        <AutoCastFilters value="Visible;Player,Ally,Neutral"/>
-        <AutoCastRange value="9"/>
-        <AutoCastValidatorArray value="noMarkers"/>
-        <AutoCastValidatorArray value="AP_IsNotDisruptionWebbed"/>
-        <AutoCastValidatorArray value="TargetIsGround"/>
-        <AutoCastValidatorArray value="TargetCanAttack"/>
-        <AutoCastValidatorArray value="AP_DisruptionWebFilters"/>
-        <CursorEffect value="AP_WraithMengskDisruptionWebSearch"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_WraithMengskDisruptionWeb" Requirements="AP_HaveWraithMengskVeterancyLevel4"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="AP_GuardianExplosiveSpores">
         <Alignment value="Negative"/>
@@ -17036,5 +16988,81 @@
         <CursorEffect value="AP_PsiSpireStormSA"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PsiSpireStorm"/>
         <AutoCastValidatorArray value="AP_PsiSpireAutocast"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="AP_VikingMengskUnlockRank3">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_VikingMengskUnlockRank3Set"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_VikingMengskUnlockRank3"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="AP_WraithMengskUnlockRank3">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_WraithMengskUnlockRank3Set"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_WraithMengskUnlockRank3"/>
+    </CAbilEffectInstant>
+    <CAbilBehavior id="AP_WraithMengskCloak">
+        <AbilSetId value="Clok"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="AP_WraithMengskCloakOn">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="AP_WraithMengskCloakOff">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Vital index="Energy" value="25"/>
+        </Cost>
+        <BehaviorArray value="AP_WraithMengskCloak"/>
+    </CAbilBehavior>
+    <CAbilEffectTarget id="AP_WraithMengskToxicCanister">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="AP_WraithMengskToxicLaunch"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Cost>
+            <Cooldown Link="Abil/AP_WraithMengskToxicCanister" Location="Unit" TimeUse="2"/>
+            <Charge Link="Abil/AP_WraithMengskToxicCanister" Location="Unit">
+                <CountMax value="1"/>
+                <CountStart value="1"/>
+                <CountUse value="1"/>
+                <TimeUse value="30"/>
+                <HideCount value="1"/>
+            </Charge>
+        </Cost>
+        <Range value="8"/>
+        <AutoCastRange value="8"/>
+        <AutoCastFilters value="Visible;Self,Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AutoCastValidatorArray value="AP_WraithMengskToxicNotPoisoned"/>
+        <TargetFilters value="-;Self,Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <CursorEffect value="AP_WraithMengskToxicPoisonSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_WraithMengskToxicCanister" Requirements="AP_HaveWraithMengskVeterancyLevel2"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="AP_LiberatorMengskUnlockRank3">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_LiberatorMengskUnlockRank3Set"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_LiberatorMengskUnlockRank3"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="AP_BattlecruiserMengskUnlockRank3">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <Effect index="0" value="AP_BattlecruiserMengskUnlockRank3Set"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_BattlecruiserMengskUnlockRank3"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="AP_BattlecruiserMengskTacticalMissileArray" parent="AP_GhostMengskNuke">
+        <Flags index="Transient" value="1"/>
+        <Arc value="360"/>
+        <PrepTime index="0" value="0"/>
+        <CastIntroTime index="0" value="0"/>
+        <CastOutroTime index="0" value="0"/>
+        <FinishTime index="0" value="0"/>
+        <CancelableArray index="Channel" value="0"/>
+        <UninterruptibleArray index="Channel" value="0"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_BattlecruiserMengskTacticalMissileArray" Requirements="AP_BattlecruiserMengskTacticalMissileArray"/>
     </CAbilEffectTarget>
 </Catalog>

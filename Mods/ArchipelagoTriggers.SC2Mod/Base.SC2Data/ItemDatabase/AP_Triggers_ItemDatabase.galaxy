@@ -184,8 +184,8 @@ static void RegisterTerranUnits() {
     // Elite Starport
     AP_RegisterTerranUnit(25, "AP_UnlockPrideOfAugustgrad", UnlockEliteStarportAndFusionCore);
     AP_RegisterTerranUnit(26, "AP_UnlockSkyFury", UnlockEliteStarport);
-    AP_RegisterTerranUnit(34, "AP_UnlockEmperorsGuardian", UnlockEliteStarport);
-    AP_RegisterTerranUnit(35, "AP_UnlockNightHawk", UnlockEliteStarport);
+    AP_RegisterTerranUnit(34, "AP_UnlockCrimsonSeraph", UnlockEliteStarport);
+    AP_RegisterTerranUnit(35, "AP_UnlockWingedNightmare", UnlockEliteStarport);
     AP_RegisterTerranUnit(36, "AP_UnlockNightWolf", UnlockEliteStarport);
 
     // Mercenaries
@@ -199,7 +199,7 @@ static void RegisterTerranUnits() {
     AP_RegisterTerranUnit(48, "AP_UnlockJacksonsRevenge", UnlockMercShips);
     AP_RegisterTerranUnit(49, "AP_UnlockSkibisAngels", UnlockMercInfantry);
     AP_RegisterTerranUnit(50, "AP_UnlockDeathHeads", UnlockMercInfantry);
-    AP_RegisterTerranUnit(51, "AP_UnlockWingedNightmares", UnlockMercShips);
+    AP_RegisterTerranUnit(51, "AP_UnlockPhantomSquadron", UnlockMercShips);
     AP_RegisterTerranUnit(52, "AP_UnlockMidnightRiders", UnlockMercShips);
     AP_RegisterTerranUnit(53, "AP_UnlockBrynhilds", UnlockMercShips);
     AP_RegisterTerranUnit(54, "AP_UnlockJotun", UnlockMercVehicles);
@@ -766,7 +766,7 @@ static void RegisterTerranItems() {
     AP_RegisterTerranItem(221, "AP_ResourceEfficiencyMedivac");
 
     // Wraith
-    AP_RegisterTerranItem(76, "AP_WraithAdvancedLaserTechnology");
+    AP_RegisterTerranItem(76, "AP_WraithPulseAmplifier"); // Pulse Amplifier (Wraith / Phantom Squadron)
     AP_RegisterTerranItem(108, "AP_CloakDistortionField");
     AP_RegisterTerranItem(122, "AP_HHWraithFury");
     AP_RegisterTerranItem(123, "AP_InternalizedTechModuleWraith");
@@ -780,7 +780,7 @@ static void RegisterTerranItems() {
     AP_RegisterTerranItemFunc(110, "AP_AresClassWeaponsSystemViking", VikingRangeFunc); // Phobos
     AP_RegisterTerranItem(125, "AP_HHVikingPiercingAttacks"); // Shredder Rounds
     AP_RegisterTerranItem(126, "AP_HHVikingRockets"); // WILD Missiles
-    AP_RegisterTerranItem(220, "AP_VikingMengskSpeed"); // Aesir Turbines
+    AP_RegisterTerranItem(220, "AP_VikingDynamicAerialSystems"); // Dynamic Aerial Systems
 
     // Banshee
     AP_RegisterTerranItem(111, "AP_ClusterWarheads"); // Shockwave Missile Battery
@@ -802,7 +802,6 @@ static void RegisterTerranItems() {
     AP_RegisterTerranItem(148, "AP_InternalizedTechModuleBattlecruiser");
     AP_RegisterTerranItem(181, "AP_BattlecruiserBehemothPlating");
     AP_RegisterTerranItem(182, "AP_BattlecruiserCovertOpsEngines"); // Moirai Impulse Drive
-    AP_RegisterTerranItem(218, "AP_BattlecruiserRangeAura");
     AP_RegisterTerranProgressive(10, "AP_HurricaneMissiles", "AP_BattlecruiserAdvancedMissilePods");
     AP_RegisterTerranProgressiveFunc(12, BattlecruiserShieldsFunc);
 
@@ -907,6 +906,34 @@ static void RegisterTerranItems() {
     // ********************** //
     // *  Elite Starport    * //
     // ********************** //
+
+    // Sky Fury
+    AP_RegisterTerranItem(308, "AP_VikingMengskRank3Training"); // Promotion Granted
+    AP_RegisterTerranItem(309, "AP_VikingMengskGiantslayerRounds"); // Giantslayer Rounds
+    AP_RegisterTerranItem(310, "AP_VikingMengskSpeed"); // Aesir Turbines
+    AP_RegisterTerranItem(311, "AP_VikingMengskSmartServos"); // Smart Servos
+    AP_RegisterTerranItem(312, "AP_VikingMengskTacticalSuperiority"); // Tactical Superiority
+
+    // Winged Nightmare
+    AP_RegisterTerranItem(313, "AP_WraithMengskRank3Training"); // Promotion Granted
+    AP_RegisterTerranItem(314, "AP_WraithMengskToxicTyrant");
+    AP_RegisterTerranItem(315, "AP_WraithMengskMaddeningPathogen");
+    AP_RegisterTerranItem(316, "AP_WraithMengskHorrifyingBlast");
+    AP_RegisterTerranItem(317, "AP_WraithMengskAdvancedLaserTechnology");
+
+    // Crimson Seraph
+    AP_RegisterTerranItem(318, "AP_LiberatorMengskRank3Training"); // Promotion Granted
+    AP_RegisterTerranItem(319, "AP_LiberatorMengskSmartServos"); // Smart Servos
+    AP_RegisterTerranItem(320, "AP_LiberatorMengskSiegeProtocol"); // Siege Protocol
+    AP_RegisterTerranItem(321, "AP_LiberatorMengskPenetratingAmmunition"); // Ricochet Ammunition
+    AP_RegisterTerranItem(322, "AP_LiberatorMengskThermiteMissiles"); // Thermite Missiles
+
+    // Pride of Augustgrad
+    AP_RegisterTerranItem(323, "AP_BattlecruiserMengskRank3Training"); // Promotion Granted
+    AP_RegisterTerranItem(324, "AP_BattlecruiserMengskTacticalJump"); // Tactical Jump
+    AP_RegisterTerranItem(325, "AP_BattlecruiserMengskPlasmaRecycling"); // Plasma Recycling
+    AP_RegisterTerranItem(326, "AP_BattlecruiserMengskTacticalMissileArray"); // Tactical Missile Array
+    AP_RegisterTerranItem(218, "AP_BattlecruiserMengskRangeAura"); // Field-Assist Targeting System
 
     // Night Wolves
     AP_RegisterTerranItem(261, "AP_BansheeMengskShockwaveArtillery");
