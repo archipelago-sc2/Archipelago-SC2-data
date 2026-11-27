@@ -57,6 +57,7 @@ unit gv_ghostEMP;
 unit gv_tosh;
 playergroup gv_dominionPlayers;
 playergroup gv_raynorsRaiders;
+string gv_heroName;
 int gv_inCombatIndicator;
 unit[8] gv_initialMarines;
 point[8] gv_initialMarinePoints;
@@ -90,6 +91,7 @@ timer gv_maraudersComeOnline;
 bool gv_sendingSpecialWaves;
 bool gv_flashMindblast;
 bool gv_flashNuke;
+bool gv_flashPrison;
 bool gv_flashConsumption;
 bool gv_flashPsiShield;
 actor gv_actorMindblastIndicator;
@@ -115,6 +117,7 @@ void InitGlobals () {
     gv_tosh = UnitFromId(326);
     gv_dominionPlayers = PlayerGroupEmpty();
     gv_raynorsRaiders = PlayerGroupEmpty();
+    gv_heroName = "Tosh";
     gv_textTagMindBlast = c_textTagNone;
     gv_shadowOps = UnitFromId(485);
     gv_firstNuke = true;
@@ -174,6 +177,7 @@ trigger gt_DEBUGSection2;
 trigger gt_DEBUGSection3;
 trigger gt_DEBUGFreePrisoner1;
 trigger gt_DEBUGFreePrisoner2;
+trigger gt_DEBUGNuke;
 trigger gt_DEBUGVictory;
 trigger gt_IntroSequence;
 trigger gt_StartGame;
@@ -196,6 +200,8 @@ trigger gt_GivePsiShield;
 trigger gt_TIPNukeReadyFirstQ;
 trigger gt_MissileTurretDestroyed;
 trigger gt_AIStartSafety;
+trigger gt_FinalBaseCliffReveal;
+trigger gt_GiveVoidPrison;
 trigger gt_CellBlockACompleted;
 trigger gt_CellBlockACompletedQ;
 trigger gt_CellBlockAReminderQ;
@@ -260,6 +266,7 @@ trigger gt_ButtonFlashTurnoffMindblast;
 trigger gt_ButtonFlashTurnoffConsumption;
 trigger gt_ButtonFlashTurnoffPsiShield;
 trigger gt_ButtonFlashTurnoffNuke;
+trigger gt_ButtonFlashTurnoffVoidPrison;
 trigger gt_StatEnemiesKilledByNukes;
 trigger gt_StatEnemiesKilledbyAnyone;
 trigger gt_StatToshLowestHealth;
@@ -825,14 +832,6 @@ bool gt_ArchInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
-        libABFE498B_gv_aP_Triggers_DebugMode = true;
-        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
-        libABFE498B_gf_AP_Triggers_setDifficulty("B");
-        GameSetSpeedValue(c_gameSpeedFaster);
-        TriggerExecute(gt_onDifficultyBrutal, true, false);
-    }
-
     TriggerExecute(lib88187CC2_gt_ArchipelagoPlayerWoLHandlersConstructor, true, false);
     TriggerExecute(gt_Init01Technology, true, true);
     TriggerExecute(gt_Init02Players, true, false);
@@ -892,12 +891,22 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
+        libABFE498B_gv_aP_Triggers_DebugMode = true;
+        libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        libABFE498B_gv_aP_Triggers_Option_overridePlayerRace = "Prot";
+        libABFE498B_gf_AP_Triggers_setDifficulty("B");
+        GameSetSpeedValue(c_gameSpeedFaster);
+        TriggerExecute(gt_onDifficultyBrutal, true, false);
+    }
+
     lv_unitgroup = UnitGroup(null, gv_p2_RAYNOR_LIGHTBLUE, RegionFromId(12), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     UnitGroupAddUnitGroup(lv_unitgroup, UnitGroup(null, gv_p8_ALLIED_PINK, RegionFromId(5), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     UnitGroupAddUnitGroup(lv_unitgroup, UnitGroup(null, gv_p9_ALLIED_GREEN, RegionFromId(6), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
     autoE2FE5211_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (autoE2FE5211_val == "Zerg") {
         libABFE498B_gv_aP_Triggers_skipCutscenes = true;
+        gv_heroName = "Tosh";
         lib15EF4C78_gf_RemoveUnusedStartingUnits(lv_unitgroup, libABFE498B_gv_aP_Triggers_Option_overridePlayerRace, false);
         PlayerSetRace(gv_p1_USER, "Zerg");
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_p1_USER, lib5BD4895D_gv_aP_Core_Faction_KERRIGAN_SWARM);
@@ -941,6 +950,9 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         PlayerSetRace(gv_p1_USER, "Prot");
         lib5BD4895D_gf_AP_Core_MapConfig_setPlayerFaction(gv_p1_USER, lib5BD4895D_gv_aP_Core_Faction_DAELAAM);
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_p1_USER);
+        libNtve_gf_ReplaceUnit(gv_tosh, "Zeratul", libNtve_ge_ReplaceUnitOptions_OldUnitsRelative);
+        gv_tosh = libNtve_gf_LastReplacedUnit();
+        gv_heroName = "Zeratul";
         auto5ECF8DAE_g = gv_raynorsRaiders;
         auto5ECF8DAE_var = -1;
         while (true) {
@@ -977,9 +989,11 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         }
     }
     else {
+        gv_heroName = "Tosh";
         lib15EF4C78_gf_RemoveUnusedStartingUnits(lv_unitgroup, "Terr", false);
         gv_nonActivatedDiamondbacks = UnitGroup("AP_Diamondback", 0, RegionFromId(26), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     }
+    lib15EF4C78_gf_SetHeroPanelUnit(1, gv_tosh, gv_p1_USER);
     Wait(1.0, c_timeGame);
     if ((lib5BD4895D_gv_aP_Core_testMode == true)) {
         TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("VoodooShield", 0), false);
@@ -1043,6 +1057,10 @@ bool gt_Init01Technology_Func (bool testConds, bool runActions) {
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("MindBlast", 0), false);
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("Consumption", 0), false);
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("VoodooShield", 0), false);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulOrbitalStrike", 0), false);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ShadowBlade", 0), false);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("PrologueVoidArmor", 0), false);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulStun", 0), false);
     gf_UpgradeForAllies(1, "AP_TerranInfantryArmorsPreplacedNoBuild");
     gf_UpgradeForAllies(1, "SiegeTech");
     libABFE498B_gf_AP_Triggers_giveTerranDefaultTech(gv_p12_ALLIED_CELLBLOCK_B);
@@ -1684,6 +1702,9 @@ bool gt_DEBUGSection2_Func (bool testConds, bool runActions) {
     UnitSetPosition(gv_tosh, PointFromId(414), false);
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("MindBlast", 0), true);
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("VoodooShield", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ShadowBlade", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("PrologueVoidArmor", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulStun", 0), true);
     return true;
 }
 
@@ -1771,6 +1792,9 @@ bool gt_DEBUGSection3_Func (bool testConds, bool runActions) {
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("MindBlast", 0), true);
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("VoodooShield", 0), true);
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("Consumption", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ShadowBlade", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("PrologueVoidArmor", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulStun", 0), true);
     return true;
 }
 
@@ -1883,6 +1907,49 @@ void gt_DEBUGFreePrisoner2_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: DEBUG: Nuke
+//--------------------------------------------------------------------------------------------------
+bool gt_DEBUGNuke_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_DebugMode == true))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_PlayerInCinematicMode(gv_p1_USER) == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/C4A65182"), true);
+    UnitMagazineArm(gv_shadowOps, AbilityCommand("HeroArmNuke", 0), libNtve_gf_DifficultyValueInt(5, 5, 4, 4));
+    UnitAbilityAddChargeUsed(gv_tosh, "ZeratulOrbitalStrike", "Abil/ZeratulOrbitalStrike", -4.0);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("HeroNuclearStrike", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulOrbitalStrike", 0), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DEBUGNuke_Init () {
+    gt_DEBUGNuke = TriggerCreate("gt_DEBUGNuke_Func");
+    TriggerAddEventChatMessage(gt_DEBUGNuke, c_playerAny, "-nuke", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: DEBUG: Victory
 //--------------------------------------------------------------------------------------------------
 bool gt_DEBUGVictory_Func (bool testConds, bool runActions) {
@@ -1945,10 +2012,6 @@ bool gt_IntroSequence_Func (bool testConds, bool runActions) {
     if (auto0F3E0390_val == "Zerg") {
     }
     else if (auto0F3E0390_val == "Prot") {
-        UnitSetPropertyFixed(gv_tosh, c_unitPropShieldsMax, 200.0);
-        UnitSetPropertyFixed(gv_tosh, c_unitPropShields, 200.0);
-        UnitSetPropertyFixed(gv_tosh, c_unitPropLifeMax, 100.0);
-        UnitSetPropertyFixed(gv_tosh, c_unitPropLife, 100.0);
     }
     else {
         UnitBehaviorAdd(UnitFromId(24), "FastBuild", UnitFromId(24), 1);
@@ -2015,6 +2078,8 @@ void gt_StartGame_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_OpeningDialogueQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto33FC1AB6_val;
+
     // Conditions
     if (testConds) {
         if (!((gv_gameOver == false))) {
@@ -2031,8 +2096,15 @@ bool gt_OpeningDialogueQ_Func (bool testConds, bool runActions) {
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
     UIAlertUnit("Trigger", gv_p1_USER, StringToText(""), null, gv_tosh);
-    // Transmission - SoundLink("TTosh03ATosh00021", -1)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ATosh00021", 0), c_transmissionDurationAdd, 0.0, true);
+    auto33FC1AB6_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto33FC1AB6_val == "Prot") {
+        // Transmission - SoundLink("TZeratul03Zeratul00041", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul03Zeratul00041", -1), c_transmissionDurationAdd, 0.0, true);
+    }
+    else {
+        // Transmission - SoundLink("TTosh03ATosh00021", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ATosh00021", 0), c_transmissionDurationAdd, 0.0, true);
+    }
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     return true;
@@ -2791,7 +2863,9 @@ bool gt_GiveMindBlast_Func (bool testConds, bool runActions) {
     }
 
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("MindBlast", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ShadowBlade", 0), true);
     UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("MindBlast", 0), true);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("ShadowBlade", 0), true);
     gv_flashMindblast = true;
     return true;
 }
@@ -2823,7 +2897,9 @@ bool gt_GivePsiShield_Func (bool testConds, bool runActions) {
     }
 
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("VoodooShield", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("PrologueVoidArmor", 0), true);
     UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("VoodooShield", 0), true);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("PrologueVoidArmor", 0), true);
     gv_flashPsiShield = true;
     return true;
 }
@@ -2838,6 +2914,8 @@ void gt_GivePsiShield_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_TIPNukeReadyFirstQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string autoCB16A843_val;
+
     // Conditions
     if (testConds) {
         if (!((gv_gameOver == false))) {
@@ -2865,15 +2943,24 @@ bool gt_TIPNukeReadyFirstQ_Func (bool testConds, bool runActions) {
     TriggerQueueEnter();
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
-    // Transmission - SoundLink("TTosh03ARaynor00010", -1)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00010", 0), c_transmissionDurationAdd, 0.0, true);
-    // Transmission - SoundLink("TTosh03ARaynor00026", -1)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00026", 0), c_transmissionDurationAdd, 0.0, true);
+    autoCB16A843_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoCB16A843_val == "Prot") {
+        // Transmission - SoundLink("TZeratul04Zeratul00007", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul04Zeratul00007", -1), c_transmissionDurationAdd, 0.0, true);
+    }
+    else {
+        // Transmission - SoundLink("TTosh03ARaynor00010", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00010", 0), c_transmissionDurationAdd, 0.0, true);
+        // Transmission - SoundLink("TTosh03ARaynor00026", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00026", 0), c_transmissionDurationAdd, 0.0, true);
+        SoundPlay(SoundLink("Alert_TerranNukeReady", -1), PlayerGroupAll(), 100.0, 0.0);
+    }
     TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("HeroNuclearStrike", 0), true);
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulOrbitalStrike", 0), true);
     UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("HeroNuclearStrike", 0), true);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("ZeratulOrbitalStrike", 0), true);
     gv_flashNuke = true;
     UnitMagazineArm(gv_shadowOps, AbilityCommand("HeroArmNuke", 0), libNtve_gf_DifficultyValueInt(5, 5, 4, 4));
-    SoundPlay(SoundLink("Alert_TerranNukeReady", -1), PlayerGroupAll(), 100.0, 0.0);
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     Wait(libCamp_gv_campaignHintDelay, c_timeReal);
     TriggerQueueExit();
@@ -2963,6 +3050,69 @@ void gt_AIStartSafety_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Final Base Cliff Reveal
+//--------------------------------------------------------------------------------------------------
+bool gt_FinalBaseCliffReveal_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace == "Prot"))) {
+            return false;
+        }
+
+        if (!((libNtve_gf_UnitInRegion(gv_tosh, RegionFromId(60)) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    VisRevealArea(1, RegionFromId(61), 2.0, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_FinalBaseCliffReveal_Init () {
+    gt_FinalBaseCliffReveal = TriggerCreate("gt_FinalBaseCliffReveal_Func");
+    TriggerAddEventTimePeriodic(gt_FinalBaseCliffReveal, 0.5, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Give Void Prison
+//--------------------------------------------------------------------------------------------------
+bool gt_GiveVoidPrison_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TechTreeAbilityAllow(gv_p1_USER, AbilityCommand("ZeratulStun", 0), true);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("ZeratulStun", 0), true);
+    gv_flashPrison = true;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_GiveVoidPrison_Init () {
+    gt_GiveVoidPrison = TriggerCreate("gt_GiveVoidPrison_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Cell Block A Completed
 //--------------------------------------------------------------------------------------------------
 bool gt_CellBlockACompleted_Func (bool testConds, bool runActions) {
@@ -3033,6 +3183,8 @@ void gt_CellBlockACompleted_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_CellBlockACompletedQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto1F298689_val;
+
     // Conditions
     if (testConds) {
         if (!((gv_gameOver == false))) {
@@ -3049,8 +3201,15 @@ bool gt_CellBlockACompletedQ_Func (bool testConds, bool runActions) {
     TriggerQueueEnter();
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
-    // Transmission - SoundLink("TTosh03ARaynor00007", 0)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00007", 0), c_transmissionDurationAdd, 0.0, true);
+    auto1F298689_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto1F298689_val == "Prot") {
+        // Transmission - SoundLink("TZeratul02Zeratul00031", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul02Zeratul00031", -1), c_transmissionDurationAdd, 0.0, true);
+    }
+    else {
+        // Transmission - SoundLink("TTosh03ARaynor00007", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00007", 0), c_transmissionDurationAdd, 0.0, true);
+    }
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     return true;
@@ -3066,6 +3225,8 @@ void gt_CellBlockACompletedQ_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_CellBlockAReminderQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto886D0B6A_val;
+
     // Conditions
     if (testConds) {
         if (!((gv_gameOver == false))) {
@@ -3105,8 +3266,15 @@ bool gt_CellBlockAReminderQ_Func (bool testConds, bool runActions) {
     Wait(2.0, c_timeReal);
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
-    // Transmission - SoundLink("TTosh03AHorner00005", -1)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03AHorner00005", 0), c_transmissionDurationAdd, 0.0, true);
+    auto886D0B6A_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto886D0B6A_val == "Prot") {
+        // Transmission - SoundLink("TZeratul03Zeratul00044", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul03Zeratul00044", -1), c_transmissionDurationAdd, 0.0, true);
+    }
+    else {
+        // Transmission - SoundLink("TTosh03AHorner00005", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03AHorner00005", 0), c_transmissionDurationAdd, 0.0, true);
+    }
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     return true;
@@ -3415,6 +3583,8 @@ void gt_CellBlockBCompleted_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_CellBlockBCompletedQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto1E594848_val;
+
     // Conditions
     if (testConds) {
         if (!((gv_gameOver == false))) {
@@ -3431,8 +3601,15 @@ bool gt_CellBlockBCompletedQ_Func (bool testConds, bool runActions) {
     TriggerQueueEnter();
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
-    // Transmission - SoundLink("TTosh03ARaynor00008", 0)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00008", 0), c_transmissionDurationAdd, 0.0, true);
+    auto1E594848_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto1E594848_val == "Prot") {
+        // Transmission - SoundLink("TZeratul02Zeratul00046", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul02Zeratul00046", -1), c_transmissionDurationAdd, 0.0, true);
+    }
+    else {
+        // Transmission - SoundLink("TTosh03ARaynor00008", 0)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00008", 0), c_transmissionDurationAdd, 0.0, true);
+    }
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     return true;
@@ -3448,6 +3625,8 @@ void gt_CellBlockBCompletedQ_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_CellBlockBReminderQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string autoA58B0812_val;
+
     // Conditions
     if (testConds) {
         if (!((gv_gameOver == false))) {
@@ -3488,10 +3667,17 @@ bool gt_CellBlockBReminderQ_Func (bool testConds, bool runActions) {
     Wait(2.0, c_timeReal);
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
-    // Transmission - SoundLink("TTosh03AHorner00013", -1)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03AHorner00013", 0), c_transmissionDurationAdd, 0.0, true);
-    // Transmission - SoundLink("TTosh03ARaynor00002", -1)
-    libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00002", 0), c_transmissionDurationAdd, 0.0, true);
+    autoA58B0812_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (autoA58B0812_val == "Prot") {
+        // Transmission - SoundLink("TZeratul02Zeratul00029", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul02Zeratul00029", -1), c_transmissionDurationAdd, 0.0, true);
+    }
+    else {
+        // Transmission - SoundLink("TTosh03AHorner00013", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03AHorner00013", 0), c_transmissionDurationAdd, 0.0, true);
+        // Transmission - SoundLink("TTosh03ARaynor00002", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00002", 0), c_transmissionDurationAdd, 0.0, true);
+    }
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     return true;
@@ -3734,20 +3920,38 @@ bool gt_CellBlockSpawners_Func (bool testConds, bool runActions) {
         auto80B18FBC_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
         if (auto80B18FBC_val == "Zerg") {
             lv_type = "AP_StukovInfestedDiamondBack";
+            if ((UnitGroupCount(UnitGroup(lv_type, gv_p0_NEUTRAL, RegionFromId(18), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < 1)) {
+                UnitCreate(1, lv_type, 0, gv_p0_NEUTRAL, RegionGetCenter(RegionFromId(18)), 43.0);
+                UnitSetState(UnitLastCreated(), c_unitStateTargetable, false);
+                UnitSetState(UnitLastCreated(), c_unitStateStatusBar, false);
+                UnitSetState(UnitLastCreated(), c_unitStateInvulnerable, true);
+            }
+
         }
         else if (auto80B18FBC_val == "Prot") {
             lv_type = "AP_Dragoon";
+            if ((UnitGroupCount(UnitGroup(lv_type, gv_p0_NEUTRAL, RegionFromId(18), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < 2)) {
+                UnitCreate(1, lv_type, 0, gv_p0_NEUTRAL, RegionGetCenter(RegionFromId(18)), 43.0);
+                UnitSetState(UnitLastCreated(), c_unitStateTargetable, false);
+                UnitSetState(UnitLastCreated(), c_unitStateStatusBar, false);
+                UnitSetState(UnitLastCreated(), c_unitStateInvulnerable, true);
+                UnitCreate(1, lv_type, 0, gv_p0_NEUTRAL, RegionGetCenter(RegionFromId(18)), 43.0);
+                UnitSetState(UnitLastCreated(), c_unitStateTargetable, false);
+                UnitSetState(UnitLastCreated(), c_unitStateStatusBar, false);
+                UnitSetState(UnitLastCreated(), c_unitStateInvulnerable, true);
+            }
+
         }
         else {
             lv_type = "AP_Diamondback";
-        }
-        if ((UnitGroupCount(UnitGroup(lv_type, gv_p0_NEUTRAL, RegionFromId(18), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < 1)) {
-            UnitCreate(1, lv_type, 0, gv_p0_NEUTRAL, RegionGetCenter(RegionFromId(18)), 43.0);
-            UnitSetState(UnitLastCreated(), c_unitStateTargetable, false);
-            UnitSetState(UnitLastCreated(), c_unitStateStatusBar, false);
-            UnitSetState(UnitLastCreated(), c_unitStateInvulnerable, true);
-        }
+            if ((UnitGroupCount(UnitGroup(lv_type, gv_p0_NEUTRAL, RegionFromId(18), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) < 1)) {
+                UnitCreate(1, lv_type, 0, gv_p0_NEUTRAL, RegionGetCenter(RegionFromId(18)), 43.0);
+                UnitSetState(UnitLastCreated(), c_unitStateTargetable, false);
+                UnitSetState(UnitLastCreated(), c_unitStateStatusBar, false);
+                UnitSetState(UnitLastCreated(), c_unitStateInvulnerable, true);
+            }
 
+        }
     }
 
     if ((gv_bonusClear02 == true)) {
@@ -3791,6 +3995,8 @@ void gt_CellBlockSpawners_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_DialogueMindBlastQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto881E690E_val;
+
     // Conditions
     if (testConds) {
         if (!((gv_gameOver == false))) {
@@ -3811,8 +4017,15 @@ bool gt_DialogueMindBlastQ_Func (bool testConds, bool runActions) {
     TriggerQueueEnter();
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
-    // Transmission - SoundLink("TTosh03ATosh00023", 0)
-    libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TTosh03ATosh00023", -1), c_transmissionDurationAdd, 0.0, true);
+    auto881E690E_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto881E690E_val == "Prot") {
+        // Transmission - SoundLink("TZeratul03Zeratul00047", -1)
+        libCamp_gf_SendTransmissionCampaign(null, SoundLink("TZeratul03Zeratul00047", -1), c_transmissionDurationAdd, 0.0, true);
+    }
+    else {
+        // Transmission - SoundLink("TTosh03ATosh00023", 0)
+        libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TTosh03ATosh00023", -1), c_transmissionDurationAdd, 0.0, true);
+    }
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     return true;
@@ -3828,6 +4041,8 @@ void gt_DialogueMindBlastQ_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_DialogueDetectionQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    string auto30E06F80_val;
+
     // Conditions
     if (testConds) {
         if (!((gv_gameOver == false))) {
@@ -3852,10 +4067,18 @@ bool gt_DialogueDetectionQ_Func (bool testConds, bool runActions) {
     TriggerQueueEnter();
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Speech);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
-    // Transmission - SoundLink("TTosh03ATosh00020", 0)
-    libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TTosh03ATosh00020", -1), c_transmissionDurationAdd, 0.0, true);
-    // Transmission - SoundLink("TTosh03ATosh00022", 0)
-    libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TTosh03ATosh00022", -1), c_transmissionDurationAdd, 0.0, true);
+    auto30E06F80_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto30E06F80_val == "Prot") {
+        TriggerExecute(gt_GiveVoidPrison, true, false);
+        // Transmission - SoundLink("TZeratul01Zeratul00069", 0)
+        libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TZeratul01Zeratul00069", 0), c_transmissionDurationAdd, 0.0, true);
+    }
+    else {
+        // Transmission - SoundLink("TTosh03ATosh00020", 0)
+        libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TTosh03ATosh00020", -1), c_transmissionDurationAdd, 0.0, true);
+        // Transmission - SoundLink("TTosh03ATosh00022", 0)
+        libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TTosh03ATosh00022", -1), c_transmissionDurationAdd, 0.0, true);
+    }
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     return true;
@@ -3906,9 +4129,9 @@ bool gt_DialogueRaynorsForcesQ_Func (bool testConds, bool runActions) {
     else {
         // Transmission - SoundLink("TTosh03ARaynor00027", -1)
         libCamp_gf_SendTransmissionCampaign(null, SoundLink("TTosh03ARaynor00027", 0), c_transmissionDurationAdd, 0.0, true);
+        // Transmission - SoundLink("TTosh03ATosh00001", 0)
+        libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TTosh03ATosh00001", -1), c_transmissionDurationAdd, 0.0, true);
     }
-    // Transmission - SoundLink("TTosh03ATosh00001", 0)
-    libCamp_gf_SendTransmissionCampaign(gv_tosh, SoundLink("TTosh03ATosh00001", -1), c_transmissionDurationAdd, 0.0, true);
     libCamp_gf_SetAllSoundChannelVolumesCampaign(libNtve_ge_VolumeChannelMode_Game);
     TriggerQueueExit();
     return true;
@@ -4750,7 +4973,7 @@ bool gt_ALLYAttackWavesMainBaseProtoss_Func (bool testConds, bool runActions) {
     if (autoFFFDCC7C_val == 0) {
         AIAttackWaveSetTargetPlayer(gv_p2_RAYNOR_LIGHTBLUE, PlayerGroupSingle(gv_p5_DOMINION_GREY));
         gf_SetWaypoints(gv_p2_RAYNOR_LIGHTBLUE, 1, gv_waypointCount);
-        AIAttackWaveAddUnits4(1, 1, 1, 1, "AP_ZealotShakuras");
+        AIAttackWaveAddUnits4(2, 2, 2, 2, "AP_ZealotShakuras");
         AIAttackWaveAddUnits4(1, 1, 1, 1, "AP_SentryAiur");
         if ((TimerGetRemaining(gv_maraudersComeOnline) <= 0.0)) {
             AIAttackWaveAddUnits4(1, 1, 1, 1, "AP_StalkerShakuras");
@@ -4760,7 +4983,7 @@ bool gt_ALLYAttackWavesMainBaseProtoss_Func (bool testConds, bool runActions) {
     else if (autoFFFDCC7C_val == 1) {
         AIAttackWaveSetTargetPlayer(gv_p2_RAYNOR_LIGHTBLUE, PlayerGroupSingle(gv_p4_DOMINION_PURPLE));
         gf_SetWaypoints(gv_p2_RAYNOR_LIGHTBLUE, 1, gv_waypointCount);
-        AIAttackWaveAddUnits4(2, 2, 2, 2, "AP_ZealotShakuras");
+        AIAttackWaveAddUnits4(3, 3, 3, 3, "AP_ZealotShakuras");
         AIAttackWaveAddUnits4(2, 2, 2, 2, "AP_SentryAiur");
         AIAttackWaveAddUnits4(1, 1, 1, 1, "AP_StalkerShakuras");
     }
@@ -4831,6 +5054,7 @@ bool gt_ALLYAttackWavesCellBlockA_Func (bool testConds, bool runActions) {
     unitgroup autoCF6BBBEF_g;
     int autoCF6BBBEF_u;
     unit autoCF6BBBEF_var;
+    string auto5E229ED5_val;
 
     // Variable Initialization
 
@@ -4850,6 +5074,7 @@ bool gt_ALLYAttackWavesCellBlockA_Func (bool testConds, bool runActions) {
         lv_type = "AP_Diamondback";
     }
     libNtve_gf_RescueUnit(UnitGroupUnit(UnitGroup(lv_type, 0, RegionFromId(18), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), 1), gv_p11_ALLIED_CELLBLOCK_A, true);
+    libNtve_gf_RescueUnit(UnitGroupUnit(UnitGroup(lv_type, 0, RegionFromId(18), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), 1), gv_p11_ALLIED_CELLBLOCK_A, true);
     autoCF6BBBEF_g = UnitGroup(lv_type, gv_p11_ALLIED_CELLBLOCK_A, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoCF6BBBEF_u = UnitGroupCount(autoCF6BBBEF_g, c_unitCountAll);
     for (;; autoCF6BBBEF_u -= 1) {
@@ -4859,7 +5084,13 @@ bool gt_ALLYAttackWavesCellBlockA_Func (bool testConds, bool runActions) {
         UnitSetState(autoCF6BBBEF_var, c_unitStateStatusBar, true);
         UnitSetState(autoCF6BBBEF_var, c_unitStateInvulnerable, false);
     }
-    AIAttackWaveAddUnits4(1, 1, 1, 1, lv_type);
+    auto5E229ED5_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+    if (auto5E229ED5_val == "Prot") {
+        AIAttackWaveAddUnits4(2, 2, 2, 2, lv_type);
+    }
+    else {
+        AIAttackWaveAddUnits4(1, 1, 1, 1, lv_type);
+    }
     gf_SetWaypoints(gv_p11_ALLIED_CELLBLOCK_A, 8, gv_waypointCount);
     AIAttackWaveSend(gv_p11_ALLIED_CELLBLOCK_A, 0, false);
     return true;
@@ -5582,6 +5813,7 @@ bool gt_TIPMindblastQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     int autoAC7A6831_ae;
     const int autoAC7A6831_ai = 1;
+    string autoAE4F58A5_val;
 
     // Variable Initialization
     lv_indicatorTimeout = TimerCreate();
@@ -5620,7 +5852,13 @@ bool gt_TIPMindblastQ_Func (bool testConds, bool runActions) {
     if ((UnitGroupCount(lv_initialMarineGroup, c_unitCountAlive) >= 4)) {
         libNtve_gf_CreateModelAtPoint("BriefingUnitSelectLargeRed", libNtve_gf_CenterOfUnitGroup(lv_initialMarineGroup));
         gv_actorMindblastIndicator = libNtve_gf_ActorLastCreated();
-        TextTagCreate(StringExternal("Param/Value/52AB2985"), 22, UnitGetPosition(UnitFromId(1887)), 2.0, true, false, PlayerGroupAll());
+        autoAE4F58A5_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
+        if (autoAE4F58A5_val == "Prot") {
+            TextTagCreate(StringExternal("Param/Value/C5C96A51"), 22, UnitGetPosition(UnitFromId(1887)), 2.0, true, false, PlayerGroupAll());
+        }
+        else {
+            TextTagCreate(StringExternal("Param/Value/52AB2985"), 22, UnitGetPosition(UnitFromId(1887)), 2.0, true, false, PlayerGroupAll());
+        }
         gv_textTagMindBlast = TextTagLastCreated();
         TextTagSetPosition(TextTagLastCreated(), PointWithOffset(PointFromId(1158), 0.0, 0.0), 1.0);
         TextTagSetColor(TextTagLastCreated(), c_textTagColorText, Color(0.00, 100.00, 0.00));
@@ -5651,6 +5889,13 @@ void gt_TIPMindblastQ_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_TIPConsumptionQ_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libABFE498B_gv_aP_Triggers_Option_overridePlayerRace != "Prot"))) {
+            return false;
+        }
+    }
+
     // Actions
     if (!runActions) {
         return true;
@@ -5745,6 +5990,7 @@ bool gt_ButtonFlashTurnoffMindblast_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("MindBlast", 0), false);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("ShadowBlade", 0), false);
     Wait(2.0, c_timeGame);
     libNtve_gf_KillModel(gv_actorMindblastIndicator);
     TextTagDestroy(gv_textTagMindBlast);
@@ -5755,6 +6001,7 @@ bool gt_ButtonFlashTurnoffMindblast_Func (bool testConds, bool runActions) {
 void gt_ButtonFlashTurnoffMindblast_Init () {
     gt_ButtonFlashTurnoffMindblast = TriggerCreate("gt_ButtonFlashTurnoffMindblast_Func");
     TriggerAddEventButtonPressed(gt_ButtonFlashTurnoffMindblast, c_playerAny, "MindBlast");
+    TriggerAddEventButtonPressed(gt_ButtonFlashTurnoffMindblast, c_playerAny, "ZeratulShadowBlade");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5804,6 +6051,7 @@ bool gt_ButtonFlashTurnoffPsiShield_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("VoodooShield", 0), false);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("PrologueVoidArmor", 0), false);
     return true;
 }
 
@@ -5811,6 +6059,7 @@ bool gt_ButtonFlashTurnoffPsiShield_Func (bool testConds, bool runActions) {
 void gt_ButtonFlashTurnoffPsiShield_Init () {
     gt_ButtonFlashTurnoffPsiShield = TriggerCreate("gt_ButtonFlashTurnoffPsiShield_Func");
     TriggerAddEventButtonPressed(gt_ButtonFlashTurnoffPsiShield, c_playerAny, "VoodooShield");
+    TriggerAddEventButtonPressed(gt_ButtonFlashTurnoffPsiShield, c_playerAny, "ZeratulVoidArmor");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5832,13 +6081,43 @@ bool gt_ButtonFlashTurnoffNuke_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("HeroNuclearStrike", 0), false);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("ZeratulOrbitalStrike", 0), false);
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void gt_ButtonFlashTurnoffNuke_Init () {
     gt_ButtonFlashTurnoffNuke = TriggerCreate("gt_ButtonFlashTurnoffNuke_Func");
-    TriggerAddEventButtonPressed(gt_ButtonFlashTurnoffNuke, c_playerAny, "NukeCalldown");
+    TriggerAddEventButtonPressed(gt_ButtonFlashTurnoffNuke, c_playerAny, "HeroNukeCalldown");
+    TriggerAddEventButtonPressed(gt_ButtonFlashTurnoffNuke, c_playerAny, "ZeratulOrbitalStrike");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Button Flash Turn off Void Prison
+//--------------------------------------------------------------------------------------------------
+bool gt_ButtonFlashTurnoffVoidPrison_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_flashPrison == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    UISetButtonHighlighted(PlayerGroupActive(), AbilityCommand("ZeratulStun", 0), false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ButtonFlashTurnoffVoidPrison_Init () {
+    gt_ButtonFlashTurnoffVoidPrison = TriggerCreate("gt_ButtonFlashTurnoffVoidPrison_Func");
+    TriggerAddEventButtonPressed(gt_ButtonFlashTurnoffVoidPrison, c_playerAny, "ZeratulStun");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6125,7 +6404,8 @@ bool gt_DefeatToshDies_Func (bool testConds, bool runActions) {
     TriggerQueueClear(c_triggerQueueRemove);
     Wait(2.0, c_timeGame);
     TriggerExecute(gt_ObjectiveClearMainPrisonFailed, true, false);
-    libCamp_gf_DisplayCampaignMessage(PlayerGroupAll(), libCamp_ge_CampaignMessageType_MissionFailed, StringExternal("Param/Value/F6A2D66D"), libCamp_ge_CampaignMessageFormatNotFormat_FormatMessage);
+    TextExpressionSetToken("Param/Expression/F6A2D66D", "A", StringToText(gv_heroName));
+    libCamp_gf_DisplayCampaignMessage(PlayerGroupAll(), libCamp_ge_CampaignMessageType_MissionFailed, TextExpressionAssemble("Param/Expression/F6A2D66D"), libCamp_ge_CampaignMessageFormatNotFormat_FormatMessage);
     Wait(libCamp_gv_campaignObjectiveDelay, c_timeReal);
     TriggerExecute(gt_Defeat, true, false);
     return true;
@@ -6243,11 +6523,13 @@ bool gt_ObjectiveClearMainPrisonCreateQ_Func (bool testConds, bool runActions) {
     libNtve_gf_CreatePingFacingAngle(PlayerGroupAll(), "PingObjective", RegionGetCenter(RegionFromId(8)), ColorWithAlpha(0.00, 100.00, 0.00, 0.00), 0.0, 270.0);
     gv_mainPrisonPing = PingLastCreated();
     PingSetTooltip(gv_mainPrisonPing, StringExternal("Param/Value/8D06E3F4"));
-    ObjectiveCreate(StringExternal("Param/Value/19F8DA70"), StringExternal("Param/Value/C829731D"), c_objectiveStateHidden, true);
+    TextExpressionSetToken("Param/Expression/19F8DA70", "A", StringToText(gv_heroName));
+    ObjectiveCreate(TextExpressionAssemble("Param/Expression/19F8DA70"), StringExternal("Param/Value/C829731D"), c_objectiveStateHidden, true);
     gv_objectiveToshMustSurvive = ObjectiveLastCreated();
     lib5BD4895D_gf_AP_Core_addCategoryObjectiveSimple(gv_objectiveToshMustSurvive, lib5BD4895D_ge_APObjectiveCategory_Primary, false);
     lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_objectiveToshMustSurvive, true);
-    libCamp_gf_RegisterMissionObjective(libCamp_ge_MissionObjective_TTosh03AObjective4, ObjectiveLastCreated(), StringExternal("Param/Value/30EB4842"));
+    TextExpressionSetToken("Param/Expression/30EB4842", "A", StringToText(gv_heroName));
+    libCamp_gf_RegisterMissionObjective(libCamp_ge_MissionObjective_TTosh03AObjective4, ObjectiveLastCreated(), TextExpressionAssemble("Param/Expression/30EB4842"));
     TriggerQueueExit();
     return true;
 }
@@ -7123,6 +7405,7 @@ void InitTriggers () {
     gt_DEBUGSection3_Init();
     gt_DEBUGFreePrisoner1_Init();
     gt_DEBUGFreePrisoner2_Init();
+    gt_DEBUGNuke_Init();
     gt_DEBUGVictory_Init();
     gt_IntroSequence_Init();
     gt_StartGame_Init();
@@ -7145,6 +7428,8 @@ void InitTriggers () {
     gt_TIPNukeReadyFirstQ_Init();
     gt_MissileTurretDestroyed_Init();
     gt_AIStartSafety_Init();
+    gt_FinalBaseCliffReveal_Init();
+    gt_GiveVoidPrison_Init();
     gt_CellBlockACompleted_Init();
     gt_CellBlockACompletedQ_Init();
     gt_CellBlockAReminderQ_Init();
@@ -7209,6 +7494,7 @@ void InitTriggers () {
     gt_ButtonFlashTurnoffConsumption_Init();
     gt_ButtonFlashTurnoffPsiShield_Init();
     gt_ButtonFlashTurnoffNuke_Init();
+    gt_ButtonFlashTurnoffVoidPrison_Init();
     gt_StatEnemiesKilledByNukes_Init();
     gt_StatEnemiesKilledbyAnyone_Init();
     gt_StatToshLowestHealth_Init();

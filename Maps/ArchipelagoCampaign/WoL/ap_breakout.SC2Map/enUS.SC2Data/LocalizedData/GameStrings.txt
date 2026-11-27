@@ -1,6 +1,14 @@
 ﻿Abil/Name/AP_TrainInfestedAI=AP_TrainInfestedAI
 Actor/Name/ExplosivesFodder1=Explosives Fodder 1
 Actor/Name/ExplosivesFodder2=Explosives Fodder 2
+Behavior/Name/PrologueVoidArmor=Void Armor
+Behavior/Tooltip/PrologueVoidArmor=This unit has increased shields.
+Button/Name/ZeratulOrbitalStrike=Solarite Shell
+Button/Name/ZeratulShadowBlade=Shadow Blade
+Button/Name/ZeratulVoidArmor=Void Armor
+Button/Tooltip/ZeratulOrbitalStrike=Channel for <d ref="Effect,ZeratulOrbitalStrike,PeriodicPeriodArray[0]"/> seconds to call down a powerful Air Strike, dealing up to <d ref="Effect,ZeratulOrbitalStrikeDamage,Amount"/> (+ <d ref="Effect,ZeratulOrbitalStrikeDamage,AttributeBonus[Structure]"/> to structures) damage in a large area.
+Button/Tooltip/ZeratulShadowBlade=Teleports to the target enemy unit and deals <d ref="Effect,ShadowBladeDamage,Amount"/> damage. Also hits nearby enemy units in a small area. <n/><n/><c val="ffff8a">Can target ground and air units.</c>
+Button/Tooltip/ZeratulVoidArmor=Grants nearby friendly units +<d ref="Behavior,PrologueVoidArmor,Modification.VitalMaxArray[Shields]"/> shields for <d ref="Behavior,PrologueVoidArmor,Duration"/> seconds.
 DocInfo/Author=Blizzard Entertainment
 DocInfo/DescLong=
 DocInfo/DescShort=TTosh03a
@@ -20,15 +28,16 @@ MapInfo/Player11/Name=Prison Raiders
 MapInfo/Player12/Name=Raynor's Raiders
 Model/Name/ExplosivesFodder1=Explosives Fodder 1
 Model/Name/ExplosivesFodder2=Explosives Fodder 2
+Param/Expression/19F8DA70=~A~ Must Survive
+Param/Expression/30EB4842=~A~ Must Survive
 Param/Expression/80B7A938=Enemy units killed by nukes = ~A~
+Param/Expression/F6A2D66D=~A~ has been killed.
 Param/Value/05DF4AC2=Kill Guards at Cell Block B
 Param/Value/06967444=
 Param/Value/0C27CF7E=Cell Block B
-Param/Value/19F8DA70=Tosh Must Survive
 Param/Value/1A489F89=Kill Guards at Cell Block A
 Param/Value/2175072A=Enemy Units Killed by Tosh
 Param/Value/2E860ECD=Enemies Killed by Nuke
-Param/Value/30EB4842=Tosh Must Survive
 Param/Value/313B6A5B=
 Param/Value/326FC940=Destroyed Dominion Security first defensive base.
 Param/Value/34520BAE=Raceswap Changes
@@ -53,11 +62,13 @@ Param/Value/98C738B2=Kill Guards at Cell Block B
 Param/Value/9B76C4AF=DEBUG: Skip to Section 2
 Param/Value/9BE9A0A2=DEBUG: Skip to Section 1
 Param/Value/9C05BA17=
-Param/Value/9F580AB8=<n/>If you play as Protoss, Tosh now has 100 Life and 200 Shields.<n/><n/>- There is no Heal for your Life Points, damage is permanent!<n/>- Tosh has no passive Shield Regeneration<n/>- Tosh has no Shield Armor (compared to +2 Life Armor)<n/>- But: Using Psi-Shield gives you 300 additional maximum shields<n/>- This effectively restores all your base shields
+Param/Value/9F580AB8=<n/>If you play as Protoss, Tosh gets replaced by <c val="ffff8a">Zeratul</c>.<n/><n/>Zeratul is permanently cloaked and gains access to these abilities over the course of the mission:<n/>- <c val="ffff8a">Blink</c><n/>- <c val="ffff8a">Shadow Blade</c>, which is now a ranged ability, that deals damage in an area and can hit air units.<n/>- <c val="ffff8a">Void Prison</c><n/>- <c val="ffff8a">Void Armor</c>
 Param/Value/A2C0BAEE=Raceswap Changes
 Param/Value/A5253672=Cell Block A is near a Dominion vehicle depot. Kill the guards so that the prisoners can assist in the assault on the prison entrance.
 Param/Value/AEA83BA8=Arcturus Mengsk has incarcerated countless political dissidents and all of Tosh's Spectres at New Folsom. Liberating the prison will allow the inmates to escape and strike a major blow against the Dominion.
 Param/Value/B84B328A=Cell Block A
+Param/Value/C4A65182=DEBUG: Unlock + Refresh Nukes
+Param/Value/C5C96A51=Shadow Blade
 Param/Value/C829731D=Only Tosh has the special abilities needed to penetrate the Dominion defenses and free the New Folsom prisoners. If Tosh dies, the mission is a failure.
 Param/Value/CECCCDBD=Clear Forward Positions
 Param/Value/D2D30F59=Destroy the Main Prison Base
@@ -68,7 +79,6 @@ Param/Value/EEE3E8BD=Prison Wings Liberated
 Param/Value/F0003528=Enemy Units Killed
 Param/Value/F0DF8BF5=Cell Block B is near a Dominion armor depot. Kill the guards so that the prisoners can assist in the assault on the prison entrance.
 Param/Value/F513B674=Bonus Credits Earned
-Param/Value/F6A2D66D=Gabriel Tosh has been killed.
 Param/Value/FDD20C03=Destroy the Main Prison Defenses
 Unit/Name/ExplosivesFodder1=Explosives Fodder 1 (Unnamed)
 Unit/Name/ExplosivesFodder2=Explosives Fodder 2

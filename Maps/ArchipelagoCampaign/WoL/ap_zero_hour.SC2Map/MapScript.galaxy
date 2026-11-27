@@ -2412,7 +2412,6 @@ bool gt_RebelMarines01Intro_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_dropship;
     text lv_text;
-    unitgroup lv_warpGates;
 
     // Automatic Variable Declarations
     string auto7FBA8388_val;
@@ -2432,7 +2431,6 @@ bool gt_RebelMarines01Intro_Func (bool testConds, bool runActions) {
     unit autoA6F500DF_var;
 
     // Variable Initialization
-    lv_warpGates = UnitGroupEmpty();
 
     // Conditions
     if (testConds) {
@@ -2459,9 +2457,8 @@ bool gt_RebelMarines01Intro_Func (bool testConds, bool runActions) {
     auto7FBA8388_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto7FBA8388_val == "Prot") {
         lv_text = StringExternal("Param/Value/9A4F963B");
-        lv_warpGates = UnitGroup("AP_WarpGate", gv_pLAYER06_REBELS, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
         for (auto347E14DF_i = 1; auto347E14DF_i <= auto347E14DF_n; auto347E14DF_i += 1) {
-            UnitGroupIssueOrder(lv_warpGates, OrderTargetingPoint(AbilityCommand("AP_WarpGateTrain", 6), UnitTypePlacementTestsFromPoint("AP_Adept", 6, PointFromId(409), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask)), c_orderQueueReplace);
+            libABFE498B_gf_AP_Triggers_warpInUnit("AP_Adept", gv_pLAYER06_REBELS, UnitTypePlacementTestsFromPoint("AP_Adept", 6, PointFromId(409), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask), false);
             Wait(0.5, c_timeGame);
         }
         UnitGroupAddUnitGroup(gv_rebelMarines01, UnitGroup("AP_Adept", gv_pLAYER06_REBELS, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
@@ -2551,7 +2548,6 @@ void gt_RebelMarines01Intro_Init () {
 bool gt_RebelMarines02Intro_Func (bool testConds, bool runActions) {
     // Variable Declarations
     text lv_text;
-    unitgroup lv_warpGates;
 
     // Automatic Variable Declarations
     string auto01EBA989_val;
@@ -2568,7 +2564,6 @@ bool gt_RebelMarines02Intro_Func (bool testConds, bool runActions) {
     unit auto192AF5CA_var;
 
     // Variable Initialization
-    lv_warpGates = UnitGroupEmpty();
 
     // Conditions
     if (testConds) {
@@ -2597,13 +2592,12 @@ bool gt_RebelMarines02Intro_Func (bool testConds, bool runActions) {
     auto01EBA989_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto01EBA989_val == "Prot") {
         lv_text = StringExternal("Param/Value/64C2C72F");
-        lv_warpGates = UnitGroup("AP_WarpGate", gv_pLAYER06_REBELS, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
         for (auto4CAB33DD_i = 1; auto4CAB33DD_i <= auto4CAB33DD_n; auto4CAB33DD_i += 1) {
-            UnitGroupIssueOrder(lv_warpGates, OrderTargetingPoint(AbilityCommand("AP_WarpGateTrain", 17), UnitTypePlacementTestsFromPoint("AP_Dragoon", 6, PointFromId(901), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask)), c_orderQueueReplace);
+            libABFE498B_gf_AP_Triggers_warpInUnit("AP_Dragoon", gv_pLAYER06_REBELS, UnitTypePlacementTestsFromPoint("AP_Dragoon", 6, PointFromId(901), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask), false);
             Wait(0.5, c_timeGame);
         }
         UnitGroupAddUnitGroup(gv_rebelMarines02, UnitGroup("AP_Dragoon", gv_pLAYER06_REBELS, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
-        UnitGroupIssueOrder(lv_warpGates, OrderTargetingPoint(AbilityCommand("AP_WarpGateTrain", 5), UnitTypePlacementTestsFromPoint("AP_SentryAiur", 6, PointFromId(1149), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask)), c_orderQueueReplace);
+        libABFE498B_gf_AP_Triggers_warpInUnit("AP_SentryAiur", gv_pLAYER06_REBELS, UnitTypePlacementTestsFromPoint("AP_SentryAiur", 6, PointFromId(1149), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask), false);
         Wait(0.5, c_timeGame);
         UnitGroupAddUnitGroup(gv_rebelMarines02, UnitGroup("AP_SentryAiur", gv_pLAYER06_REBELS, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
         autoE8D964E7_g = gv_rebelMarines02;
@@ -2684,7 +2678,6 @@ bool gt_RebelMarines03Intro_Func (bool testConds, bool runActions) {
     // Variable Declarations
     text lv_text;
     unit lv_dropship;
-    unitgroup lv_warpGates;
 
     // Automatic Variable Declarations
     string auto35EE0790_val;
@@ -2701,7 +2694,6 @@ bool gt_RebelMarines03Intro_Func (bool testConds, bool runActions) {
     unit auto513903B0_var;
 
     // Variable Initialization
-    lv_warpGates = UnitGroupEmpty();
 
     // Conditions
     if (testConds) {
@@ -2728,13 +2720,12 @@ bool gt_RebelMarines03Intro_Func (bool testConds, bool runActions) {
     auto35EE0790_val = libABFE498B_gv_aP_Triggers_Option_overridePlayerRace;
     if (auto35EE0790_val == "Prot") {
         lv_text = StringExternal("Param/Value/ED7B81DA");
-        lv_warpGates = UnitGroup("AP_WarpGate", gv_pLAYER06_REBELS, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
         for (auto1EFCF474_i = 1; auto1EFCF474_i <= auto1EFCF474_n; auto1EFCF474_i += 1) {
-            UnitGroupIssueOrder(lv_warpGates, OrderTargetingPoint(AbilityCommand("AP_WarpGateTrain", 8), UnitTypePlacementTestsFromPoint("AP_ZealotPurifier", 6, PointFromId(322), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask)), c_orderQueueReplace);
+            libABFE498B_gf_AP_Triggers_warpInUnit("AP_ZealotPurifier", gv_pLAYER06_REBELS, UnitTypePlacementTestsFromPoint("AP_ZealotPurifier", 6, PointFromId(322), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask), false);
             Wait(0.5, c_timeGame);
         }
         UnitGroupAddUnitGroup(gv_rebelMarines03, UnitGroup("AP_ZealotPurifier", gv_pLAYER06_REBELS, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
-        UnitGroupIssueOrder(lv_warpGates, OrderTargetingPoint(AbilityCommand("AP_WarpGateTrain", 11), UnitTypePlacementTestsFromPoint("AP_StalkerPurifier", 6, PointFromId(322), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask)), c_orderQueueReplace);
+        libABFE498B_gf_AP_Triggers_warpInUnit("AP_StalkerPurifier", gv_pLAYER06_REBELS, UnitTypePlacementTestsFromPoint("AP_StalkerPurifier", 6, PointFromId(322), 2.0, c_placementTestPowerMask | c_placementTestIgnoreBlockersMask | c_placementTestIgnoreInvisibleMask | c_placementTestCliffMask), false);
         Wait(0.5, c_timeGame);
         UnitGroupAddUnitGroup(gv_rebelMarines03, UnitGroup("AP_StalkerPurifier", gv_pLAYER06_REBELS, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0));
         autoE0744AEC_g = gv_rebelMarines03;

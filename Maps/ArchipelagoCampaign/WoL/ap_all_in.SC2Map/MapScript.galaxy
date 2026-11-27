@@ -825,8 +825,7 @@ bool gt_FactionSwapInit_Func (bool testConds, bool runActions) {
         lib5BD4895D_gf_AP_Core_Util_FixPlayerMaxSupplyAfterRaceSwap(gv_pLAYER_USER);
     }
     libABFE498B_gf_AP_Triggers_HeroInit(gv_pLAYER_USER, PointFromId(2076), UnitGroupFromId(8));
-    lib15EF4C78_gf_SetHeroPanelUnit(1, null, gv_pLAYER_USER);
-    lib15EF4C78_gf_SetHeroPanelUnit(2, libABFE498B_gv_aP_Triggers_HeroUnit[1], gv_pLAYER_USER);
+    lib15EF4C78_gf_SetHeroPanelUnit((UnitGroupCount(libABFE498B_gv_aP_Triggers_HeroUnits, c_unitCountAll)+1), gv_artifact, gv_pLAYER_USER);
     return true;
 }
 
