@@ -16926,4 +16926,64 @@
         <Effect index="0" value="AP_BansheeMengskUnlockRank3Set"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PromotionGranted" Requirements="AP_BansheeMengskUnlockRank3"/>
     </CAbilEffectInstant>
+    <CAbilEffectTarget id="AP_RoyalGuardStationHeal">
+        <Alignment value="Positive"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Effect index="0" value="AP_RoyalGuardStationHeal"/>
+        <TargetFilters value="Visible;Self,Ally,Enemy,Neutral,Structure,Missile,UnderConstruction,Uncommandable,Dead,Hidden,Invulnerable,Stasis"/>
+        <TargetSorts RequestCount="1">
+            <SortArray value="TSLifeFraction"/>
+            <SortArray value="TSDistance"/>
+        </TargetSorts>
+        <Range value="6"/>
+        <Arc value="360"/>
+        <AutoCastAcquireLevel value="Defensive"/>
+        <AutoCastFilters value="Visible;Self,Ally,Enemy,Neutral,Structure,Missile,UnderConstruction,Uncommandable,Dead,Hidden,Invulnerable,Stasis"/>
+        <AutoCastRange value="6"/>
+        <AutoCastValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <SmartValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <Marker Link="Abil/AP_RoyalGuardStationHeal"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <DefaultError value="RequiresHealTarget"/>
+        <AcquireAttackers value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_RoyalGuardStationHeal" Requirements="AP_RoyalGuardStationRequireParent"/>
+    </CAbilEffectTarget>
+    <CAbilBuild id="AP_BarracksMengskAcademyAddOns" parent="TerranAddOns">
+        <Name value="Abil/Name/AP_BarracksMengskAcademyAddOns"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <BuildMorphAbil value="AP_BarracksMengskLiftOff"/>
+        <InfoArray index="Build1" Unit="AP_RoyalGuardAcademy" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardAcademyBuild" State="Restricted"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="AP_RoyalGuardHealingStation" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardHealingStationBuild" State="Restricted"/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilBuild id="AP_FactoryMengskAcademyAddOns" parent="TerranAddOns">
+        <Name value="Abil/Name/AP_FactoryMengskAcademyAddOns"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <BuildMorphAbil value="AP_FactoryMengskLiftOff"/>
+        <InfoArray index="Build1" Unit="AP_RoyalGuardAcademy" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardAcademyBuild" State="Restricted"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="AP_RoyalGuardHealingStation" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardHealingStationBuild" State="Restricted"/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilBuild id="AP_StarportMengskAcademyAddOns" parent="TerranAddOns">
+        <Name value="Abil/Name/AP_StarportMengskAcademyAddOns"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <BuildMorphAbil value="AP_StarportMengskLiftOff"/>
+        <InfoArray index="Build1" Unit="AP_RoyalGuardAcademy" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardAcademyBuild" State="Restricted"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="AP_RoyalGuardHealingStation" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardHealingStationBuild" State="Restricted"/>
+        </InfoArray>
+    </CAbilBuild>
 </Catalog>

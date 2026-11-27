@@ -48938,4 +48938,120 @@
         </Wireframe>
         <WireframeShieldColor value="255,0,128,0"/>
     </CActorUnit>
+    <CActorUnit id="AP_RoyalGuardHealingStation" parent="AP_TechLabBase" unitName="AP_RoyalGuardHealingStation">
+        <GroupIcon>
+            <Image index="0" value="AP\Assets\Textures\wireframe-terran-royal-healbot.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image index="0" value="AP\Assets\Textures\wireframe-terran-royal-healbot.dds"/>
+        </Wireframe>
+        <Model value="AP_RoyalGuardHealingStation"/>
+        <PlacementModel value="AP_RoyalGuardHealingStationPlacement"/>
+        <LookAtPriorityList value="AP_RoyalGuardStationTurret"/>
+        <BuildModel value="Invisible"/>
+        <On Terms="UnitConstruction.AP_RoyalGuardHealingStation.Start" Send="Create AP_RoyalGuardHealingStationBuildBody"/>
+        <On Terms="TurretTarget.AP_RoyalGuardStationYaw.Set" Target="AP_RoyalGuardStationTurret" Send="LookAtEngage Continue"/>
+        <On Terms="TurretTarget.AP_RoyalGuardStationYaw.Set" Send="TimerKill StationTurretReset"/>
+        <On Terms="TurretTarget.AP_RoyalGuardStationYaw.Clear" Target="AP_RoyalGuardStationTurret" Send="RefClear ::HostTarget"/>
+        <On Terms="TurretTarget.AP_RoyalGuardStationYaw.Clear" Send="TimerSet 5.000000 StationTurretReset"/>
+        <On Terms="TimerExpired; TimerName StationTurretReset" Target="AP_RoyalGuardStationTurret" Send="LookAtStop"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.125000 StationAttachmentCheck"/>
+        <On Terms="UnitConstruction.AP_RoyalGuardHealingStation.Finish; ValidateUnit AP_RoyalGuardStationHasParent" Send="AnimPlay StationReattach Stand,Work,End 0 0.000000"/>
+        <On Terms="UnitConstruction.AP_RoyalGuardHealingStation.Finish; ValidateUnit AP_RoyalGuardStationHasNoParent" Send="AnimBracketStart StationOffline Stand,Work Stand,Work Stand,Work,End ClosingFull"/>
+        <On Terms="UnitConstruction.AP_RoyalGuardHealingStation.Finish; ValidateUnit AP_RoyalGuardStationHasNoParent" Send="StatusSet StationDetached 1"/>
+        <On Terms="UnitConstruction.AP_RoyalGuardHealingStation.Finish" Send="TimerSet 0.125000 StationAttachmentCheck"/>
+        <On Terms="TimerExpired; TimerName StationAttachmentCheck; IsStatus StationDetached 0; ValidateUnit AP_RoyalGuardStationShowDetached" Send="AnimBracketStart StationOffline Stand,Work,Start Stand,Work Stand,Work,End ClosingFull"/>
+        <On Terms="TimerExpired; TimerName StationAttachmentCheck; IsStatus StationDetached 0; ValidateUnit AP_RoyalGuardStationShowDetached" Send="StatusSet StationDetached 1"/>
+        <On Terms="TimerExpired; TimerName StationAttachmentCheck; IsStatus StationDetached 1; ValidateUnit AP_RoyalGuardStationHasParent" Send="AnimBracketStop StationOffline"/>
+        <On Terms="TimerExpired; TimerName StationAttachmentCheck; IsStatus StationDetached 1; ValidateUnit AP_RoyalGuardStationHasParent" Send="StatusSet StationDetached 0"/>
+        <On Terms="TimerExpired; TimerName StationAttachmentCheck" Send="TimerSet 0.125000 StationAttachmentCheck"/>
+    </CActorUnit>
+    <CActorModel id="AP_RoyalGuardHealingStationBuild" parent="AP_StarportTechLabBuild"/>
+    <CActorLookAt id="AP_RoyalGuardStationTurret" parent="UnitTurret">
+        <On Terms="TurretEnable.AP_RoyalGuardStationYaw" Send="Create"/>
+        <Types Id="DefaultLookAtTurret" Name="LookAtType/CycloneTurret">
+            <Start Group="Turret" Weight="1" Time="250"/>
+            <Stop Group="Turret" Weight="1" Time="250"/>
+        </Types>
+    </CActorLookAt>
+    <CActorBeamSimple id="AP_RoyalGuardStationHealBeam" parent="BeamSimpleAnimationStyleContinuous">
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Effect.AP_RoyalGuardStationHeal.TargetStart" Send="Create"/>
+        <On Terms="Effect.AP_RoyalGuardStationHeal.TargetStop" Send="Destroy"/>
+        <Model value="AP_NanoRepairBeam"/>
+        <HostForProps Subject="_Unit" Scope="Caster" Actor="Find"/>
+        <HostLaunch Subject="_Unit" Scope="Caster" Actor="Find"/>
+        <HostLaunchSiteOps Ops="SOpAttachWeapon"/>
+        <HostImpact Subject="_Unit" Scope="Target" Actor="Find"/>
+        <HostImpactSiteOps Ops="SOpAttachCenter"/>
+    </CActorBeamSimple>
+    <CActorUnit id="AP_RoyalGuardAcademy" parent="TerranBuilding" unitName="AP_RoyalGuardAcademy">
+        <Model value="AP_RoyalGuardAcademy"/>
+        <BuildModel value="Invisible"/>
+        <Macros value="BuildingFlattenTerrainMacro"/>
+        <On Terms="UnitConstruction.AP_RoyalGuardAcademy.Start" Send="Create AP_RoyalGuardAcademyBuildBody"/>
+        <On Terms="Abil.BuildInProgress.Attach; IsStatus AcademyOnline 0" Send="StatusSet AcademyOnline 1"/>
+        <On Terms="Abil.BuildInProgress.Reattach; IsStatus AcademyOnline 0" Send="StatusSet AcademyOnline 1"/>
+        <On Terms="Abil.BuildInProgress.Detach; IsStatus AcademyOnline 1" Send="StatusSet AcademyOnline 0"/>
+        <On Terms="UnitBirth.*.EditorPlaced; ValidateUnit AP_RoyalGuardAcademyHasLink" Send="StatusSet AcademyOnline 1"/>
+        <On Terms="StatusOn.*.AcademyOnline" Send="AnimBracketStart AcademyOnline Stand,Work,Start Stand,Work Stand,Work,End ClosingFull"/>
+        <On Terms="StatusOff.*.AcademyOnline" Send="AnimBracketStop AcademyOnline"/>
+        <DeathArray index="Normal" ModelLink="TechLabDeath" SoundLink="TechLab_Explode"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="TechLab_Explode"/>
+        <PlacementModel value="AP_RoyalGuardAcademyPlacement"/>
+        <PlacementSound value="Terran_BuildingPlacement"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="80"/>
+        <BarWidth value="75"/>
+        <GroupIcon>
+            <Image value="AP\Assets\Textures\wireframe-terran-royal-indoctrinator.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-building-terran-ghostacademy.dds"/>
+        <HighlightTooltip value="Unit/Name/AP_RoyalGuardAcademy"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <SoundArray index="Birth" value="TechLab_Birth"/>
+        <SoundArray index="Ready" value="TechLab_Ready"/>
+        <SoundArray index="Help" value="TechLabHelp"/>
+        <SoundArray index="What" value="TechLab_What"/>
+        <SoundArray index="Yes" value="TechLabYes"/>
+        <SoundArray index="Construction" value="Terran_ConstructionWhat"/>
+        <SoundArray index="Click" value="TechLabClick"/>
+        <SoundArray index="ClickError" value="TechLabClickError"/>
+        <SoundArray index="Highlight" value="TechLabHighlight"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Textures\btn-building-terran-ghostacademy.dds"/>
+        <Wireframe>
+            <Image value="AP\Assets\Textures\wireframe-terran-royal-indoctrinator.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorModel id="AP_RoyalGuardAcademyBuild" parent="AP_StarportTechLabBuild"/>
+    <CActorModel id="AP_RoyalGuardAcademyBuildBody" parent="ModelConstruction">
+        <Aliases value="_RoyalGuardAddonBuildBody"/>
+        <On Terms="ActorCreation" Send="Create AP_RoyalGuardAddonConstruction"/>
+        <Remove Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+        <On Terms="UnitConstruction.*.Finish" Send="TimerSet 0.250000 RoyalGuardBodyHandoff"/>
+        <On Terms="TimerExpired; TimerName RoyalGuardBodyHandoff" Send="Destroy"/>
+        <Model value="AP_RoyalGuardAcademy"/>
+        <HostSiteOps Ops="SOpShadow TerranBuildingFacing"/>
+    </CActorModel>
+    <CActorModel id="AP_RoyalGuardHealingStationBuildBody" parent="ModelConstruction">
+        <Aliases value="_RoyalGuardAddonBuildBody"/>
+        <On Terms="ActorCreation" Send="Create AP_RoyalGuardAddonConstruction"/>
+        <Remove Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+        <On Terms="UnitConstruction.*.Finish" Send="TimerSet 0.250000 RoyalGuardBodyHandoff"/>
+        <On Terms="TimerExpired; TimerName RoyalGuardBodyHandoff" Send="Destroy"/>
+        <Model value="AP_RoyalGuardHealingStation"/>
+        <HostSiteOps Ops="SOpShadow TerranBuildingFacing"/>
+    </CActorModel>
+    <CActorProgress id="AP_RoyalGuardAddonConstruction">
+        <On Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+        <On Terms="UnitConstruction.*.Cancel" Send="Destroy"/>
+        <StageArray AnimProps="Birth,A,Start,Alternate" BlendTime="0.000000"/>
+        <StageArray AnimProps="Birth,A,Stand,Alternate"/>
+        <StageArray AnimProps="Birth,B,Start,Alternate"/>
+        <StageArray AnimProps="Birth,B,Stand,Alternate"/>
+        <StageArray AnimProps="Birth,C,Start,Alternate"/>
+        <StageArray AnimProps="Birth,C,Stand,Alternate"/>
+        <Supporter Subject="_RoyalGuardAddonBuildBody"/>
+    </CActorProgress>
 </Catalog>

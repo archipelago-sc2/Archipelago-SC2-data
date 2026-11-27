@@ -3657,6 +3657,50 @@ bool lib15EF4C78_gf_CM_Mengsk_IsRank2Capped (unit lp_unit) {
     return ((lv_veterancy != "") && (UnitXPGetCurrentLevel(lp_unit, lv_veterancy) >= 3));
 }
 
+bool lib15EF4C78_gf_CM_Mengsk_AcademyIsAttached (unit lp_academy, unit lp_producer) {
+    // Variable Declarations
+    string lv_producerType;
+
+    // Implementation
+    if (((lp_academy == null) || (lp_producer == null) || (UnitIsAlive(lp_academy) == false) || (UnitIsAlive(lp_producer) == false))) {
+        return false;
+    }
+    lv_producerType = UnitGetType(lp_producer);
+    if (((lv_producerType == "AP_BarracksMengsk") || (lv_producerType == "AP_FactoryMengsk") || (lv_producerType == "AP_StarportMengsk"))
+        && (UnitAddOnChild(lp_producer, 0) == lp_academy) && (UnitAddOnParent(lp_academy) == lp_producer)) {
+        return true;
+    }
+    return false;
+}
+
+fixed lib15EF4C78_gf_CM_Mengsk_AcademyScaleXP (unit lp_recipient, fixed lp_xp) {
+    // Variable Declarations
+    unitgroup lv_cargo;
+    unit lv_passenger;
+    int lv_index;
+
+    // Variable Initialization
+    lv_index = 1;
+
+    // Implementation
+    if ((UnitHasBehavior(lp_recipient, "AP_RoyalGuardAcademyTraining") == true)) {
+        return (lp_xp * (1.0 + lib15EF4C78_gv_cM_Mengsk_AcademyXPBonus));
+    }
+    // Shock Division veterancy is awarded to the transport during airlift.
+    if (((UnitHasBehavior(lp_recipient, "AP_MengskVeterancyMedivac") == true) || (UnitHasBehavior(lp_recipient, "AP_MengskVeterancyMedivacRank2") == true))) {
+        lv_cargo = UnitCargoGroup(lp_recipient);
+        lv_passenger = UnitGroupUnit(lv_cargo, lv_index);
+        while ((lv_passenger != null)) {
+            if ((UnitGetType(lv_passenger) == "AP_SiegeTankMengskSiegedTransportable") && (UnitHasBehavior(lv_passenger, "AP_RoyalGuardAcademyTraining") == true)) {
+                return (lp_xp * (1.0 + lib15EF4C78_gv_cM_Mengsk_AcademyXPBonus));
+            }
+            lv_index = (lv_index + 1);
+            lv_passenger = UnitGroupUnit(lv_cargo, lv_index);
+        }
+    }
+    return lp_xp;
+}
+
 void lib15EF4C78_gf_CM_Mengsk_AwardXP (unit lp_unit, fixed lp_xp) {
     // Variable Declarations
     string lv_veterancy;
@@ -3666,6 +3710,7 @@ void lib15EF4C78_gf_CM_Mengsk_AwardXP (unit lp_unit, fixed lp_xp) {
     // Variable Initialization
 
     // Implementation
+    lp_xp = lib15EF4C78_gf_CM_Mengsk_AcademyScaleXP(lp_unit, lp_xp);
     lib15EF4C78_gf_CM_Mengsk_ActivateRank3Veterancy(lp_unit);
     lv_veterancy = lib15EF4C78_gf_CM_Mengsk_LockedVeterancy(lp_unit);
     if ((lv_veterancy != "")) {
@@ -9778,6 +9823,50 @@ void lib15EF4C78_gt_CM_Mengsk_RegisterVeteranUnit_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: CM_Mengsk_AcademyMarkTrainedUnit
+//--------------------------------------------------------------------------------------------------
+bool lib15EF4C78_gt_CM_Mengsk_AcademyMarkTrainedUnit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_producer;
+    unit lv_trained;
+    unit lv_academy;
+    fixed lv_startingXP;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_producer = EventUnit();
+    lv_trained = EventUnitProgressUnit();
+    if (((lv_producer == null) || (lv_trained == null) || (UnitIsAlive(lv_trained) == false)
+        || (UnitHasBehavior(lv_trained, "AP_RoyalGuardHealingTarget") == false)
+        || (UnitHasBehavior(lv_trained, "AP_RoyalGuardAcademyTraining") == true)
+        || (UnitGetOwner(lv_trained) != UnitGetOwner(lv_producer)))) {
+        return true;
+    }
+    lv_academy = UnitAddOnChild(lv_producer, 0);
+    if (((lv_academy == null) || (UnitGetType(lv_academy) != "AP_RoyalGuardAcademy")
+        || (lib15EF4C78_gf_CM_Mengsk_AcademyIsAttached(lv_academy, lv_producer) == false)
+        || (UnitFilterMatch(lv_academy, UnitGetOwner(lv_producer), UnitFilter(0, 0, 0, (1 << (c_targetFilterUnderConstruction - 32)))) == false))) {
+        return true;
+    }
+    // Include XP already awarded on creation, such as a Medic's Royal Academy Degree.
+    lv_startingXP = UnitXPGetCurrentXP(lv_trained, null);
+    if ((lv_startingXP > 0.0)) {
+        lib15EF4C78_gf_CM_Mengsk_AwardXP(lv_trained, (lv_startingXP * lib15EF4C78_gv_cM_Mengsk_AcademyXPBonus));
+    }
+    UnitBehaviorAdd(lv_trained, "AP_RoyalGuardAcademyTraining", lv_trained, 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void lib15EF4C78_gt_CM_Mengsk_AcademyMarkTrainedUnit_Init () {
+    lib15EF4C78_gt_CM_Mengsk_AcademyMarkTrainedUnit = TriggerCreate("lib15EF4C78_gt_CM_Mengsk_AcademyMarkTrainedUnit_Func");
+    TriggerAddEventUnitTrainProgress(lib15EF4C78_gt_CM_Mengsk_AcademyMarkTrainedUnit, null, c_unitProgressStageComplete);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: CM_Mengsk_RemoveVeteranUnit
 //--------------------------------------------------------------------------------------------------
 bool lib15EF4C78_gt_CM_Mengsk_RemoveVeteranUnit_Func (bool testConds, bool runActions) {
@@ -10684,6 +10773,7 @@ void lib15EF4C78_InitTriggers () {
     lib15EF4C78_gt_MedivacShockDivisionDrop_Init();
     lib15EF4C78_gt_CM_Mengsk_VeterancyEarned_Init();
     lib15EF4C78_gt_CM_Mengsk_RegisterVeteranUnit_Init();
+    lib15EF4C78_gt_CM_Mengsk_AcademyMarkTrainedUnit_Init();
     lib15EF4C78_gt_CM_Mengsk_RemoveVeteranUnit_Init();
     lib15EF4C78_gt_CM_Mengsk_VeteranDing_Init();
     lib15EF4C78_gt_AP_Player_Merc_ArrayInit_Init();

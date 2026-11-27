@@ -28073,4 +28073,23 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="AP_BansheeMengskRank3Unlocked"/>
     </CEffectApplyBehavior>
+    <CEffectCreateHealer id="AP_RoyalGuardStationHeal" parent="AP_HealingDroneHeal">
+        <ValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <PeriodicValidator value="AP_RoyalGuardStationHealValid"/>
+        <InitialEffect value="AP_RoyalGuardStationAim"/>
+        <FinalEffect value="AP_RoyalGuardStationClearAim"/>
+        <RechargeVitalRate value="12"/>
+    </CEffectCreateHealer>
+    <CEffectModifyUnit id="AP_RoyalGuardStationAim">
+        <ValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <ImpactUnit Value="Caster"/>
+        <ModifyTurret Turret="AP_RoyalGuardStationYaw">
+            <Target Value="TargetUnit"/>
+            <Flags index="Tracking" value="1"/>
+        </ModifyTurret>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="AP_RoyalGuardStationClearAim">
+        <ImpactUnit Value="Caster"/>
+        <ModifyTurret Action="ClearTarget" Turret="AP_RoyalGuardStationYaw"/>
+    </CEffectModifyUnit>
 </Catalog>

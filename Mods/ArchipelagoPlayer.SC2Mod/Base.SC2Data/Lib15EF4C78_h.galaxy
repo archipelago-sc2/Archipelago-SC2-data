@@ -81,6 +81,7 @@ const string lib15EF4C78_gv_supplicantWarpTrainActualUnitCancelEventLink = "AP_S
 const string lib15EF4C78_gv_cM_SupplicantWarpGateMarkerPrefix = "AP_CM_SupplicantCreatorWarpGate";
 const int lib15EF4C78_gv_aP_Player_TOWN_HALL_ID_COUNT = 18;
 const string lib15EF4C78_gv_aP_Player_UNIT_MIND_CONTROLLED_EVENT = "AP_Player_UNIT_MIND_CONTROLLED_EVENT";
+const fixed lib15EF4C78_gv_cM_Mengsk_AcademyXPBonus = 0.33;
 const fixed lib15EF4C78_gv_cUC_HeroUpdateFrequency = 0.25;
 const int lib15EF4C78_gv_cUC_HeroMaxCount = 20;
 const int lib15EF4C78_gv_cUC_HEROUISHIELDBARHEIGHT = 8;
@@ -429,6 +430,8 @@ void lib15EF4C78_gf_CM_Mengsk_SwapVeterancy (unit lp_unit, string lp_old, string
 void lib15EF4C78_gf_CM_Mengsk_ActivateRank3Veterancy (unit lp_unit);
 string lib15EF4C78_gf_CM_Mengsk_LockedVeterancy (unit lp_unit);
 bool lib15EF4C78_gf_CM_Mengsk_IsRank2Capped (unit lp_unit);
+bool lib15EF4C78_gf_CM_Mengsk_AcademyIsAttached (unit lp_academy, unit lp_producer);
+fixed lib15EF4C78_gf_CM_Mengsk_AcademyScaleXP (unit lp_recipient, fixed lp_xp);
 void lib15EF4C78_gf_CM_Mengsk_AwardXP (unit lp_unit, fixed lp_xp);
 void lib15EF4C78_gf_RemoveUnusedStartingUnits (unitgroup lp_startingUnits, string lp_desiredFaction, bool lp_hiveUpgrade);
 void lib15EF4C78_gf_ReplaceGasStructure (unit lp_gasStructure, string lp_desiredFaction);
@@ -596,6 +599,7 @@ trigger lib15EF4C78_gt_MedivacShockDivisionPickup;
 trigger lib15EF4C78_gt_MedivacShockDivisionDrop;
 trigger lib15EF4C78_gt_CM_Mengsk_VeterancyEarned;
 trigger lib15EF4C78_gt_CM_Mengsk_RegisterVeteranUnit;
+trigger lib15EF4C78_gt_CM_Mengsk_AcademyMarkTrainedUnit;
 trigger lib15EF4C78_gt_CM_Mengsk_RemoveVeteranUnit;
 trigger lib15EF4C78_gt_CM_Mengsk_VeteranDing;
 trigger lib15EF4C78_gt_AP_Player_Merc_ArrayInit;
