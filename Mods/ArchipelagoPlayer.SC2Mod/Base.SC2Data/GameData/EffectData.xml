@@ -508,32 +508,6 @@
         <EffectArray value="AP_D8ClusterBombLM"/>
         <EffectArray value="MakePrecursor"/>
     </CEffectSet>
-    <CEffectDamage id="AP_MarineMengskSpiderMineLobDamage">
-        <EditorCategories value="Race:Terran"/>
-        <ResponseFlags index="Acquire" value="1"/>
-        <ResponseFlags index="Flee" value="1"/>
-        <ArmorReduction value="1"/>
-        <Visibility value="Visible"/>
-        <Flags index="Notification" value="1"/>
-        <Kind value="Splash"/>
-        <KindSplash value="Splash"/>
-        <Amount value="70"/>
-        <Death value="Blast"/>
-        <AreaArray Radius="0.4687" Fraction="1"/>
-        <AreaArray Radius="0.7812" Fraction="0.5"/>
-        <AreaArray Radius="1.25" Fraction="0.25"/>
-        <ExcludeArray Value="Outer"/>
-        <ExcludeArray Value="Target"/>
-        <SearchFilters value="Ground;Player,Ally,Self,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <SearchFlags index="CallForHelp" value="1"/>
-    </CEffectDamage>
-    <CEffectLaunchMissile id="AP_MarineMengskSpiderMineLobLaunchMissile">
-        <EditorCategories value="Race:Terran"/>
-        <ImpactLocation Value="TargetPoint"/>
-        <ImpactEffect value="AP_MarineMengskSpiderMineLobDamage"/>
-        <AmmoUnit value="AP_MarineMengskSpiderMineLobWeapon"/>
-        <ValidatorArray index="0" value="HasVision"/>
-    </CEffectLaunchMissile>
     <CEffectSet id="AP_SpawnReaperSpiderMineSet">
         <EditorCategories value="Race:Terran"/>
         <EffectArray value="AP_SpawnSpiderMine"/>
@@ -23989,33 +23963,16 @@
         <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EditorCategories value=""/>
         <EffectArray value="AP_MengskVeteranLevelUpDummy"/>
-        <EffectArray value="AP_MarineMengskSpiderMinesAddCharge"/>
-        <EffectArray value="AP_MarineMengskSpiderMinesAddBuildABoomCharge"/>
     </CEffectSet>
     <CEffectSet id="AP_MarineMengskLevelUpMaxedSet">
         <ValidatorArray value="AP_NotMengskVeterancySwapping"/>
         <EffectArray value="AP_MengskVeteranMaxedTrigger"/>
-        <EffectArray value="AP_MarineMengskSpiderMinesAddCharge"/>
-        <EffectArray value="AP_MarineMengskSpiderMinesAddBuildABoomCharge"/>
     </CEffectSet>
-    <CEffectModifyUnit id="AP_MarineMengskSpiderMinesAddCharge">
-        <ValidatorArray value="AP_CasterLevelGTE2"/>
-        <EditorCategories value="Race:Zerg"/>
-        <ImpactUnit Value="Source"/>
-        <Cost Abil="AP_MarineMengskSpiderMines,Execute" ChargeCountUse="-1"/>
-    </CEffectModifyUnit>
-    <CEffectModifyUnit id="AP_MarineMengskSpiderMinesAddBuildABoomCharge">
-        <ValidatorArray value="AP_CasterLevelGTE2"/>
-        <ValidatorArray value="AP_HaveMarineMengskBuildABoom"/>
-        <EditorCategories value="Race:Zerg"/>
-        <ImpactUnit Value="Source"/>
-        <Cost Abil="AP_MarineMengskSpiderMines,Execute" ChargeCountUse="-1"/>
-    </CEffectModifyUnit>
-    <CEffectModifyUnit id="AP_MarineMengskSpiderMinesRemoveCharge">
-        <EditorCategories value="Race:Zerg"/>
-        <ImpactUnit Value="Source"/>
-        <Cost Abil="AP_MarineMengskSpiderMines,Execute" ChargeCountUse="1"/>
-    </CEffectModifyUnit>
+    <CEffectApplyBehavior id="AP_MarineMengskRoyalStimpack">
+        <EditorCategories value="Race:Terran"/>
+        <Behavior value="AP_MarineMengskRoyalStimpack"/>
+        <WhichUnit Value="Source"/>
+    </CEffectApplyBehavior>
     <CEffectSet id="AP_WarpRelocateStartSet">
         <EditorCategories value="Race:Protoss"/>
         <EffectArray value="AP_WarpRelocatingAB"/>
@@ -28162,4 +28119,51 @@
     <CEffectSet id="AP_NydusMutatorAlertDummy">
         <Alert value="AP_NydusDetect"/>
     </CEffectSet>
+    <CEffectCreateHealer id="AP_RoyalGuardStationHeal" parent="AP_HealingDroneHeal">
+        <ValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <PeriodicValidator value="AP_RoyalGuardStationHealValid"/>
+        <InitialEffect value="AP_RoyalGuardStationAim"/>
+        <FinalEffect value="AP_RoyalGuardStationClearAim"/>
+        <DrainVitalCostFactor value="0.333333"/>
+        <RechargeVitalRate value="9"/>
+    </CEffectCreateHealer>
+    <CEffectCreateHealer id="AP_RoyalGuardStationHealFree">
+        <ValidatorArray value="noMarkers"/>
+        <ValidatorArray value="NotWarpingIn"/>
+        <ValidatorArray value="HiddenCompareAB"/>
+        <ValidatorArray value="HiddenCompareBA"/>
+        <ValidatorArray value="NotSpineCrawlerUprooted"/>
+        <ValidatorArray value="NotSporeCrawlerUprooted"/>
+        <ValidatorArray value="NotVortexd"/>
+        <ValidatorArray value="NotUncommandable"/>
+        <ValidatorArray value="SourceNotHidden"/>
+        <ValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <EditorCategories value="Race:Terran"/>
+        <PeriodicValidator value="AP_RoyalGuardStationHealValid"/>
+        <InitialEffect value="AP_RoyalGuardStationAim"/>
+        <FinalEffect value="AP_RoyalGuardStationClearAim"/>
+        <RechargeVitalRate value="9"/>
+    </CEffectCreateHealer>
+    <CEffectSwitch id="AP_RoyalGuardStationHealSwitch">
+        <EditorCategories value="Race:Terran"/>
+        <CaseArray Validator="AP_HaveRoyalMedbotEfficiency" Effect="AP_RoyalGuardStationHealFree"/>
+        <CaseDefault value="AP_RoyalGuardStationHeal"/>
+    </CEffectSwitch>
+    <CEffectApplyBehavior id="AP_EliteFirstBuildFreeMarkAB">
+        <EditorCategories value="Race:Terran"/>
+        <WhichUnit Value="Target"/>
+        <Behavior value="AP_EliteFirstBuildFreeMarker"/>
+    </CEffectApplyBehavior>
+    <CEffectModifyUnit id="AP_RoyalGuardStationAim">
+        <ValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <ImpactUnit Value="Caster"/>
+        <ModifyTurret Turret="AP_RoyalGuardStationYaw">
+            <Target Value="TargetUnit"/>
+            <Flags index="Tracking" value="1"/>
+        </ModifyTurret>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="AP_RoyalGuardStationClearAim">
+        <ImpactUnit Value="Caster"/>
+        <ModifyTurret Action="ClearTarget" Turret="AP_RoyalGuardStationYaw"/>
+    </CEffectModifyUnit>
 </Catalog>

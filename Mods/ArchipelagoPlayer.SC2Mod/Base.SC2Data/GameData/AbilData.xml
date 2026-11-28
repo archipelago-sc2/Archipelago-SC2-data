@@ -691,41 +691,27 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_SpiderMine" Requirements="AP_HaveReaperSpiderMines"/>
         <Effect index="0" value="AP_SpawnReaperSpiderMineSet"/>
     </CAbilEffectTarget>
-    <CAbilEffectTarget id="AP_MarineMengskSpiderMines">
+    <CAbilEffectInstant id="AP_MarineMengskRoyalStimpack">
+        <AbilSetId value="Stimpack"/>
+        <AINotifyEffect value="Stimpack"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <Placeholder value="SpiderMine"/>
-        <Range value="2"/>
+        <InfoTooltipPriority value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="RequireTargetVision" value="0"/>
+        <Flags index="Transient" value="1"/>
+        <Flags index="PassengerAcquirePassengers" value="1"/>
+        <Effect index="0" value="AP_MarineMengskRoyalStimpack"/>
         <Cost>
-            <Charge Link="Abil/AP_MarineMengskSpiderMines">
-                <CountMax value="5"/>
-                <CountStart value="2"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-            </Charge>
+            <Charge Link="Abil/AP_MarineMengskRoyalStimpack"/>
+            <Cooldown Link="Abil/AP_MarineMengskRoyalStimpack" Location="Unit" TimeUse="30"/>
         </Cost>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_SpiderMine" Requirements="AP_HaveMarineMengskVeterancyLevel2"/>
-        <Effect index="0" value="AP_SpawnReaperSpiderMineSet"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="AP_MarineMengskSpiderMineLob">
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <Effect index="0" value="AP_MarineMengskSpiderMineLobLaunchMissile"/>
-        <Cost>
-            <Charge Link="Abil/AP_MarineMengskSpiderMines">
-                <CountMax value="5"/>
-                <CountStart value="2"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-            </Charge>
-            <Cooldown Location="Unit" TimeUse="30"/>
-        </Cost>
-        <Range value="7"/>
-        <PrepTime value="0.361"/>
-        <UninterruptibleArray index="Prep" value="1"/>
-        <CursorEffect value="AP_MarineMengskSpiderMineLobDamage"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MarineMengskSpiderMineLob" Requirements="AP_HaveMarineMengskSpiderMineLob"/>
-        <Flags index="AllowMovement" value="1"/>
-        <Alignment value="Negative"/>
-    </CAbilEffectTarget>
+        <AutoCastRange value="7"/>
+        <AutoCastValidatorArray value="AP_CasterIsFiringOrAnimatingWeapon"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_MarineMengskRoyalStimpack" Requirements="AP_HaveMarineMengskVeterancyLevel2">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+    </CAbilEffectInstant>
     <CAbilSpecialize id="AP_MakeReaperSpiderMines">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <InfoArray index="Specialize1" Time="12" Alert="SpiderMineComplete" Effect="AP_ReaperReplenishMines">
@@ -10363,13 +10349,13 @@
             <Button DefaultButtonFace="AP_BuildDevastatorTurret" State="Restricted" Requirements="AP_UnlockDevastatorTurret"/>
         </InfoArray>
         <InfoArray index="Build26" Unit="AP_StarportMengsk" Time="50">
-            <Button DefaultButtonFace="AP_StarportMengsk" State="Restricted" Requirements="AP_UnlockEliteStarport"/>
+            <Button DefaultButtonFace="AP_StarportMengsk" State="Restricted" Requirements="AP_BuildEliteStarportPaid"/>
         </InfoArray>
         <InfoArray index="Build27" Unit="AP_FactoryMengsk" Time="60">
-            <Button DefaultButtonFace="AP_FactoryMengsk" State="Restricted" Requirements="AP_UnlockEliteFactory"/>
+            <Button DefaultButtonFace="AP_FactoryMengsk" State="Restricted" Requirements="AP_BuildEliteFactoryPaid"/>
         </InfoArray>
         <InfoArray index="Build28" Unit="AP_BarracksMengsk" Time="60">
-            <Button DefaultButtonFace="AP_BarracksMengsk" State="Restricted" Requirements="AP_UnlockEliteBarracks"/>
+            <Button DefaultButtonFace="AP_BarracksMengsk" State="Restricted" Requirements="AP_BuildEliteBarracksPaid"/>
         </InfoArray>
         <InfoArray index="Build29" Unit="AP_TradeStructure" Time="40">
             <Button DefaultButtonFace="AP_TradeStructure" State="Restricted" Requirements="AP_NotHaveTradeStructure"/>
@@ -10377,6 +10363,49 @@
         <FidgetDelayMin value="5"/>
         <FidgetDelayMax value="10"/>
         <ConstructionMover value="Construction"/>
+    </CAbilBuild>
+    <CAbilBuild id="AP_TerranBuildEliteFirstFree">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <FlagArray index="IgnoreUnitCost" value="1"/>
+        <FlagArray index="Interruptible" value="1"/>
+        <FlagArray index="PeonDisableCollision" value="1"/>
+        <InfoArray index="Build1" Unit="AP_BarracksMengsk" Time="30">
+            <Charge>
+                <CountMax value="1"/>
+                <CountStart value="1"/>
+                <CountUse value="1"/>
+                <HideCount value="1"/>
+                <Link value="AP_EliteBarracksFirstBuildFree"/>
+                <Location value="Player"/>
+            </Charge>
+            <Button DefaultButtonFace="AP_BarracksMengskFirstBuildFree" State="Restricted" Requirements="AP_BuildEliteBarracksFirstFree"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="AP_FactoryMengsk" Time="30">
+            <Charge>
+                <CountMax value="1"/>
+                <CountStart value="1"/>
+                <CountUse value="1"/>
+                <HideCount value="1"/>
+                <Link value="AP_EliteFactoryFirstBuildFree"/>
+                <Location value="Player"/>
+            </Charge>
+            <Button DefaultButtonFace="AP_FactoryMengskFirstBuildFree" State="Restricted" Requirements="AP_BuildEliteFactoryFirstFree"/>
+        </InfoArray>
+        <InfoArray index="Build3" Unit="AP_StarportMengsk" Time="25">
+            <Charge>
+                <CountMax value="1"/>
+                <CountStart value="1"/>
+                <CountUse value="1"/>
+                <HideCount value="1"/>
+                <Link value="AP_EliteStarportFirstBuildFree"/>
+                <Location value="Player"/>
+            </Charge>
+            <Button DefaultButtonFace="AP_StarportMengskFirstBuildFree" State="Restricted" Requirements="AP_BuildEliteStarportFirstFree"/>
+        </InfoArray>
+        <FidgetDelayMin value="5"/>
+        <FidgetDelayMax value="10"/>
+        <ConstructionMover value="Construction"/>
+        <EffectArray index="Start" value="AP_EliteFirstBuildFreeMarkAB"/>
     </CAbilBuild>
     <CAbilBuild id="AP_TerranBuildDrop">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
@@ -17037,4 +17066,65 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="AP_PsiSpireStorm"/>
         <AutoCastValidatorArray value="AP_PsiSpireAutocast"/>
     </CAbilEffectTarget>
+    <CAbilEffectTarget id="AP_RoyalGuardStationHeal">
+        <Alignment value="Positive"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Effect index="0" value="AP_RoyalGuardStationHealSwitch"/>
+        <TargetFilters value="Visible;Self,Ally,Enemy,Neutral,Structure,Missile,UnderConstruction,Uncommandable,Dead,Hidden,Invulnerable,Stasis"/>
+        <TargetSorts RequestCount="1">
+            <SortArray value="TSLifeFraction"/>
+            <SortArray value="TSDistance"/>
+        </TargetSorts>
+        <Range value="6"/>
+        <Arc value="360"/>
+        <AutoCastAcquireLevel value="Defensive"/>
+        <AutoCastFilters value="Visible;Self,Ally,Enemy,Neutral,Structure,Missile,UnderConstruction,Uncommandable,Dead,Hidden,Invulnerable,Stasis"/>
+        <AutoCastRange value="6"/>
+        <AutoCastValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <AutoCastValidatorArray value="AP_RoyalGuardStationHealHasEnergy"/>
+        <SmartValidatorArray value="AP_RoyalGuardStationHealValid"/>
+        <Marker Link="Abil/AP_RoyalGuardStationHeal"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <DefaultError value="RequiresHealTarget"/>
+        <AcquireAttackers value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AP_RoyalGuardStationHeal" Requirements="AP_RoyalGuardStationRequireParent"/>
+    </CAbilEffectTarget>
+    <CAbilBuild id="AP_BarracksMengskAcademyAddOns" parent="TerranAddOns">
+        <Name value="Abil/Name/AP_BarracksMengskAcademyAddOns"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <BuildMorphAbil value="AP_BarracksMengskLiftOff"/>
+        <InfoArray index="Build1" Unit="AP_RoyalGuardAcademy" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardAcademyBuild" State="Restricted" Requirements="AP_BuildRoyalIndoctrinator"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="AP_RoyalGuardHealingStation" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardHealingStationBuild" State="Restricted"/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilBuild id="AP_FactoryMengskAcademyAddOns" parent="TerranAddOns">
+        <Name value="Abil/Name/AP_FactoryMengskAcademyAddOns"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <BuildMorphAbil value="AP_FactoryMengskLiftOff"/>
+        <InfoArray index="Build1" Unit="AP_RoyalGuardAcademy" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardAcademyBuild" State="Restricted" Requirements="AP_BuildRoyalIndoctrinator"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="AP_RoyalGuardHealingStation" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardHealingStationBuild" State="Restricted"/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilBuild id="AP_StarportMengskAcademyAddOns" parent="TerranAddOns">
+        <Name value="Abil/Name/AP_StarportMengskAcademyAddOns"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <BuildMorphAbil value="AP_StarportMengskLiftOff"/>
+        <InfoArray index="Build1" Unit="AP_RoyalGuardAcademy" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardAcademyBuild" State="Restricted" Requirements="AP_BuildRoyalIndoctrinator"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="AP_RoyalGuardHealingStation" Time="25">
+            <Button DefaultButtonFace="AP_RoyalGuardHealingStationBuild" State="Restricted"/>
+        </InfoArray>
+    </CAbilBuild>
 </Catalog>

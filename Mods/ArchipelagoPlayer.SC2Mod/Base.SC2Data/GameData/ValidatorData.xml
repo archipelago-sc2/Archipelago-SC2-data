@@ -25,10 +25,20 @@
         <Find value="1"/>
         <Value value="AP_HaveDisruptorPermanentCloak"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_HaveMarineMengskBuildABoom">
+    <CValidatorPlayerRequirement id="AP_HaveMarineMengskResilientArmor">
         <Find value="1"/>
-        <Value value="AP_HaveMarineMengskBuildABoom"/>
+        <Value value="AP_HaveMarineMengskResilientArmor"/>
     </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_HaveMarineMengskVeterancyLevel3">
+        <Find value="1"/>
+        <Value value="AP_HaveMarineMengskVeterancyLevel3"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="AP_MarineMengskHasRoyalStimpack">
+        <WhichUnit Value="Target"/>
+        <Compare value="GE"/>
+        <Value value="1"/>
+        <Behavior value="AP_MarineMengskRoyalStimpack"/>
+    </CValidatorUnitCompareBehaviorCount>
     <CValidatorPlayerRequirement id="AP_HaveMarineMengskProdigalSon">
         <Find value="1"/>
         <Value value="AP_HaveMarineMengskProdigalSon"/>
@@ -9234,4 +9244,86 @@
         <Find value="1"/>
         <Value value="AP_NukeFasterCalldown"/>
     </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="AP_RoyalGuardStationHasLink">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+        <Value value="0"/>
+        <Behavior value="AP_RoyalGuardStationLink"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorLocationCompareRange id="AP_RoyalGuardStationHealInRange">
+        <WhichLocation Value="TargetUnit"/>
+        <Compare value="LE"/>
+        <Range value="6"/>
+    </CValidatorLocationCompareRange>
+    <CValidatorUnitCompareBehaviorCount id="AP_RoyalGuardStationHealTarget">
+        <WhichUnit Value="Target"/>
+        <Compare value="GT"/>
+        <Value value="0"/>
+        <Behavior value="AP_RoyalGuardHealingTarget"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorPlayerRequirement id="AP_HaveRoyalMedbotEfficiency">
+        <Find value="1"/>
+        <Value value="AP_HaveRoyalMedbotEfficiency"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_RoyalGuardStationHealHasEnergy">
+        <Type value="Or"/>
+        <CombineArray value="AP_HaveRoyalMedbotEfficiency"/>
+        <CombineArray value="healCasterMinEnergy"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_RoyalGuardStationHealValid">
+        <Type value="And"/>
+        <CombineArray value="AP_RoyalGuardStationHasParent"/>
+        <CombineArray value="AP_RoyalGuardStationHealTarget"/>
+        <CombineArray value="AP_RoyalGuardStationHealInRange"/>
+        <CombineArray value="NotWarpingIn"/>
+        <CombineArray value="HiddenCompareAB"/>
+        <CombineArray value="HiddenCompareBA"/>
+        <CombineArray value="NotVortexd"/>
+        <CombineArray value="AP_NotFullLife"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_RoyalGuardStationLandedStarport">
+        <Type value="Or"/>
+        <CombineArray value="AP_RoyalGuardStationLandedBarracks"/>
+        <CombineArray value="AP_RoyalGuardStationLandedFactory"/>
+        <CombineArray value="AP_RoyalGuardStationLandedStarportOnly"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="AP_RoyalGuardStationLandedBarracks">
+        <WhichUnit Value="Target"/>
+        <Value value="AP_BarracksMengsk"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_RoyalGuardStationLandedFactory">
+        <WhichUnit Value="Target"/>
+        <Value value="AP_FactoryMengsk"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="AP_RoyalGuardStationLandedStarportOnly">
+        <WhichUnit Value="Target"/>
+        <Value value="AP_StarportMengsk"/>
+    </CValidatorUnitType>
+    <CValidatorLocationEnumArea id="AP_RoyalGuardStationStarportNearby">
+        <WhichLocation Value="CasterUnit"/>
+        <AreaArray Radius="2.625" Validator="AP_RoyalGuardStationLandedStarport"/>
+        <Compare value="GE"/>
+        <Count value="1"/>
+        <SearchFlags index="ExtendByUnitRadius" value="0"/>
+        <SearchFilters value="Ground,Structure;Self,Ally,Enemy,Neutral,Dead,Hidden,UnderConstruction"/>
+    </CValidatorLocationEnumArea>
+    <CValidatorCombine id="AP_RoyalGuardStationHasParent">
+        <Type value="And"/>
+        <CombineArray value="AP_RoyalGuardStationHasLink"/>
+        <CombineArray value="AP_RoyalGuardStationStarportNearby"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_RoyalGuardStationHasNoParent">
+        <CombineArray value="AP_RoyalGuardStationHasParent"/>
+        <Negate value="1"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="AP_RoyalGuardStationShowDetached">
+        <Type value="And"/>
+        <CombineArray value="IsNotConstructing"/>
+        <CombineArray value="AP_RoyalGuardStationHasNoParent"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="AP_RoyalGuardAcademyHasLink">
+        <Compare value="GT"/>
+        <Value value="0"/>
+        <Behavior value="AP_RoyalGuardAcademyLink"/>
+    </CValidatorUnitCompareBehaviorCount>
 </Catalog>

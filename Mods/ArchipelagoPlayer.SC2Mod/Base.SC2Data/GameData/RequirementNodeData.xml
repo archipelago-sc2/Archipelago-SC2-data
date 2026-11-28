@@ -23,13 +23,13 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="AP_MarineMengskProdigalSon" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
-    <CRequirementCountUpgrade id="AP_CountUpgradeMarineMengskSpiderMineLobCompleteOnly">
+    <CRequirementCountUpgrade id="AP_CountUpgradeMarineMengskResilientArmorCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="AP_MarineMengskSpiderMineLob" State="CompleteOnly"/>
+        <Count Link="AP_MarineMengskResilientArmor" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
-    <CRequirementCountUpgrade id="AP_CountUpgradeMarineMengskBuildABoomCompleteOnly">
+    <CRequirementCountUpgrade id="AP_CountUpgradeMarineMengskTheGoodStuffCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="AP_MarineMengskBuildABoom" State="CompleteOnly"/>
+        <Count Link="AP_MarineMengskTheGoodStuff" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="AP_CountUpgradeMarineMengskCombatShieldCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
@@ -7617,10 +7617,6 @@
         <OperandArray index="0" value="AP_CountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit"/>
         <OperandArray index="1" value="3"/>
     </CRequirementGTE>
-    <CRequirementAnd id="AP_AndCountUpgradeMarineMengskSpiderMineLobCompleteOnlyGTECountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit3">
-        <OperandArray value="AP_CountUpgradeMarineMengskSpiderMineLobCompleteOnly"/>
-        <OperandArray value="AP_GTECountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit3"/>
-    </CRequirementAnd>
     <CRequirementGTE id="AP_GTECountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit4">
         <OperandArray index="0" value="AP_CountBehaviorMengskVeterancyMarineMengskCompleteOnlyAtUnit"/>
         <OperandArray index="1" value="4"/>
@@ -9798,4 +9794,83 @@
     <CRequirementCountUpgrade id="AP_ThorNuke">
         <Count Link="AP_ThorNuke" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_UnlockRoyalIndoctrinator">
+        <Count Link="AP_UnlockRoyalIndoctrinator" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_RoyalMedbotEfficiency">
+        <Count Link="AP_RoyalMedbotEfficiency" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_EliteProductionFirstBuildFree">
+        <Count Link="AP_EliteProductionFirstBuildFree" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="AP_EliteBarracksFirstBuildSpent">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_EliteBarracksFirstBuildSpent" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementNot id="AP_NotEliteBarracksFirstBuildSpent">
+        <OperandArray index="0" value="AP_EliteBarracksFirstBuildSpent"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_EliteBarracksFirstBuildFreeAvailable">
+        <OperandArray value="AP_EliteProductionFirstBuildFree"/>
+        <OperandArray value="AP_NotEliteBarracksFirstBuildSpent"/>
+    </CRequirementAnd>
+    <CRequirementNot id="AP_NotEliteBarracksFirstBuildFreeAvailable">
+        <OperandArray index="0" value="AP_EliteBarracksFirstBuildFreeAvailable"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_BuildEliteBarracksFirstFree">
+        <OperandArray value="AP_UnlockEliteBarracks"/>
+        <OperandArray value="AP_EliteBarracksFirstBuildFreeAvailable"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_BuildEliteBarracksPaid">
+        <OperandArray value="AP_UnlockEliteBarracks"/>
+        <OperandArray value="AP_NotEliteBarracksFirstBuildFreeAvailable"/>
+    </CRequirementAnd>
+    <CRequirementCountUpgrade id="AP_EliteFactoryFirstBuildSpent">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_EliteFactoryFirstBuildSpent" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementNot id="AP_NotEliteFactoryFirstBuildSpent">
+        <OperandArray index="0" value="AP_EliteFactoryFirstBuildSpent"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_EliteFactoryFirstBuildFreeAvailable">
+        <OperandArray value="AP_EliteProductionFirstBuildFree"/>
+        <OperandArray value="AP_NotEliteFactoryFirstBuildSpent"/>
+    </CRequirementAnd>
+    <CRequirementNot id="AP_NotEliteFactoryFirstBuildFreeAvailable">
+        <OperandArray index="0" value="AP_EliteFactoryFirstBuildFreeAvailable"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_BuildEliteFactoryFirstFree">
+        <OperandArray value="AP_UnlockEliteFactory"/>
+        <OperandArray value="AP_EliteFactoryFirstBuildFreeAvailable"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_BuildEliteFactoryPaid">
+        <OperandArray value="AP_UnlockEliteFactory"/>
+        <OperandArray value="AP_NotEliteFactoryFirstBuildFreeAvailable"/>
+    </CRequirementAnd>
+    <CRequirementCountUpgrade id="AP_EliteStarportFirstBuildSpent">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AP_EliteStarportFirstBuildSpent" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementNot id="AP_NotEliteStarportFirstBuildSpent">
+        <OperandArray index="0" value="AP_EliteStarportFirstBuildSpent"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_EliteStarportFirstBuildFreeAvailable">
+        <OperandArray value="AP_EliteProductionFirstBuildFree"/>
+        <OperandArray value="AP_NotEliteStarportFirstBuildSpent"/>
+    </CRequirementAnd>
+    <CRequirementNot id="AP_NotEliteStarportFirstBuildFreeAvailable">
+        <OperandArray index="0" value="AP_EliteStarportFirstBuildFreeAvailable"/>
+    </CRequirementNot>
+    <CRequirementAnd id="AP_BuildEliteStarportFirstFree">
+        <OperandArray value="AP_UnlockEliteStarport"/>
+        <OperandArray value="AP_EliteStarportFirstBuildFreeAvailable"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="AP_BuildEliteStarportPaid">
+        <OperandArray value="AP_UnlockEliteStarport"/>
+        <OperandArray value="AP_NotEliteStarportFirstBuildFreeAvailable"/>
+    </CRequirementAnd>
+    <CRequirementCountBehavior id="AP_CountRoyalGuardStationLinkAtUnit">
+        <Count Link="AP_RoyalGuardStationLink" State="CompleteOnlyAtUnit"/>
+        <Tooltip value="Requirement/Tooltip/AP_CountRoyalGuardStationLinkAtUnit"/>
+    </CRequirementCountBehavior>
 </Catalog>

@@ -631,6 +631,7 @@ Behavior/Name/AP_LockdownB=Lockdown
 Behavior/Name/AP_LurkerCarapace=Carapace
 Behavior/Name/AP_MarauderMengskAbsorb=Aegis Barrier
 Behavior/Name/AP_MarauderMengskAttackSpeedBoost=High-Grade Stimpacks
+Behavior/Name/AP_MarineMengskRoyalStimpack=Royal Stimpack
 Behavior/Name/AP_MarauderMengskShrapnelSlow=Incapacitator Shells
 Behavior/Name/AP_MatrixOverloadTarget=Matrix Overload
 Behavior/Name/AP_MedicMengskDefensiveMatrixBuff=Defensive Matrix
@@ -983,6 +984,7 @@ Behavior/Tooltip/AP_LockOn=This unit has been targeted by a Cyclone's Lock On ab
 Behavior/Tooltip/AP_LurkerCarapace=This unit has temporary hitpoints
 Behavior/Tooltip/AP_MarauderMengskAbsorb=When active, this Aegis Barrier blocks all incoming damage, up to a maximum of <d ref="Behavior,AP_MarauderMengskAbsorb,DamageResponse.ModifyLimit"/>.
 Behavior/Tooltip/AP_MarauderMengskAttackSpeedBoost=This unit attacks more quickly while under the effects of High-Grade Stimpacks.
+Behavior/Tooltip/AP_MarineMengskRoyalStimpack=This unit moves and attacks more quickly while under the effects of Royal Stimpack.
 Behavior/Tooltip/AP_MarauderMengskShrapnelSlow=Movement speed reduced by <d ref="(1-Behavior,AP_MarauderMengskShrapnelSlow,Modification.MoveSpeedMultiplier)*100" precision="0"/>%.
 Behavior/Tooltip/AP_MatrixOverloadTarget=This unit's movement and attack speed has been increased.
 Behavior/Tooltip/AP_MedicMengskDefensiveMatrixBuff=While active, Defensive Matrix absorbs up to <c val="#ColorTooltipNumber"><d ref="Behavior,AP_MedicMengskDefensiveMatrixBuff,DamageResponse.ModifyLimit"/></c> damage for <c val="#ColorTooltipNumber"><d ref="Behavior,AP_MedicMengskDefensiveMatrixBuff,Duration"/></c> seconds.
@@ -1860,11 +1862,11 @@ Button/Name/AP_MarauderMengskSlow=Incapacitator Shells
 Button/Name/AP_MarauderMengskSovereignNeosteel=Sovereign Neosteel
 Button/Name/AP_Marine=Train Marine
 Button/Name/AP_MarineMengsk=Train Son of Korhal
-Button/Name/AP_MarineMengskBuildABoom=Build-A-Boom
 Button/Name/AP_MarineMengskCombatShield=Shield of the Dominion
 Button/Name/AP_MarineMengskProdigalSon=The Prodigal Son
-Button/Name/AP_MarineMengskSpiderMineLob=Toss Spider Mine
-Button/Name/AP_MarineMengskSpiderMines=Deploy Spider Mine
+Button/Name/AP_MarineMengskResilientArmor=Resilient Armor
+Button/Name/AP_MarineMengskRoyalStimpack=Royal Stimpack
+Button/Name/AP_MarineMengskTheGoodStuff=The Good Stuff
 Button/Name/AP_MatrixOverload=Matrix Overload
 Button/Name/AP_MatrixOverloadEnergizer=Matrix Overload
 Button/Name/AP_Medic=Train Medic
@@ -3641,18 +3643,18 @@ Button/Tooltip/AP_MarauderMengskSlow=Aegis Guard's attacks slow enemy units hit 
 Button/Tooltip/AP_MarauderMengskSovereignNeosteel=Increases Aegis Guard life by <c val="ffff8a">+<d ref="$UpgradeEffectArrayValue:AP_MarauderMengskSovereignNeosteel:Unit,AP_MarauderMengsk,LifeMax$"/></c> and life gained per rank by <c val="ffff8a">+<d ref="Behavior,AP_MarauderMengskSovereignNeosteelRankBonus,Modification.VitalMaxArray[Life]"/></c>.
 Button/Tooltip/AP_Marine=General-purpose infantry.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/AP_MarineMengsk=Royal Guard general-purpose infantry.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
-Button/Tooltip/AP_MarineMengskBuildABoom=Sons of Korhal start with <c val="ffff8a"><d ref="$UpgradeEffectArrayValue:AP_MarineMengskBuildABoom:Abil,AP_MarineMengskSpiderMines,Cost[0].Charge.CountStart$"/></c> additional Spider Mines and gain <c val="ffff8a"><d ref="Abil,AP_MarineMengskSpiderMines,Cost[0].Charge.CountUse"/></c> additional Spider Mine per rank.
 Button/Tooltip/AP_MarineMengskCombatDiagnosis=The stats for the Son of Korhal are listed below:<n/><n/><c val="ffff8a">Life:</c> <d ref="Unit,AP_MarineMengsk,LifeMax"/> (+<d ref="Behavior,AP_MengskVeterancyMarineMengsk,VeterancyLevelArray[1].Modification.VitalMaxArray[Life]"/> per rank)<n/><c val="ffff8a">Weapon Damage:</c> <d ref="Effect,AP_GaussRifleMengsk,Amount" player="0"/> (+2 per rank)
 Button/Tooltip/AP_MarineMengskCombatShield=Increases Son of Korhal life by <c val="ffff8a">+<d ref="Upgrade,AP_MarineMengskCombatShield,EffectArray[0].Value"/></c>.
 Button/Tooltip/AP_MarineMengskProdigalSon=Upon reaching <c val="ffff8a">Rank 2</c>, Sons of Korhal gain <c val="ffff8a">+<d ref="Behavior,AP_MarineMengskProdigalSonRank2Bonus,Modification.WeaponRange"/></c> range.
-Button/Tooltip/AP_MarineMengskRank1=<n/><c val="ffff8a">Rank 1:</c> Gains the Spider Mines ability.
-Button/Tooltip/AP_MarineMengskRank1Preview=<n/><c val="777777">Rank 1: Gains the Spider Mines ability.</c>
-Button/Tooltip/AP_MarineMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Increases attack speed by <c val="ffff8a"><d ref="Behavior,AP_MengskVeterancyMarineMengsk,VeterancyLevelArray[2].Modification.AdditiveAttackSpeedFactor*100" precision="0"/>%</c>.
-Button/Tooltip/AP_MarineMengskRank2Preview=<n/><c val="777777">Rank 2: Increases attack speed by <c val="ffff8a"><d ref="Behavior,AP_MengskVeterancyMarineMengsk,VeterancyLevelArray[2].Modification.AdditiveAttackSpeedFactor*100" precision="0"/>%</c>.</c>
+Button/Tooltip/AP_MarineMengskRank1=<n/><c val="ffff8a">Rank 1:</c> Gains the Royal Stimpack ability.
+Button/Tooltip/AP_MarineMengskRank1Preview=<n/><c val="777777">Rank 1: Gains the Royal Stimpack ability.</c>
+Button/Tooltip/AP_MarineMengskRank2=<n/><c val="ffff8a">Rank 2:</c> Royal Stimpack also grants <c val="ffff8a">+<d ref="Behavior,AP_MarineMengskRoyalStimpackArmor,Modification.LifeArmorBonus" precision="0"/></c> armor while active.
+Button/Tooltip/AP_MarineMengskRank2Preview=<n/><c val="777777">Rank 2: Royal Stimpack also grants <c val="ffff8a">+<d ref="Behavior,AP_MarineMengskRoyalStimpackArmor,Modification.LifeArmorBonus" precision="0"/></c> armor while active.</c>
 Button/Tooltip/AP_MarineMengskRank3=<n/><c val="ffff8a">Rank 3:</c> Gains Hail of Lead ability.
 Button/Tooltip/AP_MarineMengskRank3Preview=<n/><c val="777777">Rank 3: Gains Hail of Lead ability.</c>
-Button/Tooltip/AP_MarineMengskSpiderMineLob=Throws a Spider Mine at the target location, causing it to explode on impact for up to <c val="ffff8a"><d ref="Effect,AP_MarineMengskSpiderMineLobDamage,Amount"/></c> damage to enemy units. Does <c val="ffff8a">NOT</c> damage friendly units.
-Button/Tooltip/AP_MarineMengskSpiderMines=Spider Mines pursue enemy units that come in range, and detonate for <c val="ffff8a"><d ref="Effect,AP_MarineMengskSpiderMineLobDamage,Amount"/></c> damage. Buried Spider Mines can only be seen by enemy <c val="FFE303">Detectors</c>.<n/><n/><c val="ffff8a">Gain <d ref="Abil,AP_MarineMengskSpiderMines,Cost[0].Charge.CountUse"/> charge of Spider Mines per Rank.</c>
+Button/Tooltip/AP_MarineMengskResilientArmor=Sons of Korhal take <c val="ffff8a"><d ref="(0-Behavior,AP_MarineMengskResilientArmor,Modification.DamageTakenFraction[Splash])*100" precision="0"/>%</c> less damage from splash and spell attacks.
+Button/Tooltip/AP_MarineMengskRoyalStimpack=Increases attack speed by <c val="ffff8a"><d ref="(Behavior,AP_MarineMengskRoyalStimpack,Modification.AttackSpeedMultiplier-1)*100" precision="0"/>%</c> and movement speed by <c val="ffff8a"><d ref="(Behavior,AP_MarineMengskRoyalStimpack,Modification.MoveSpeedMultiplier-1)*100" precision="0"/>%</c> for <c val="ffff8a"><d ref="Behavior,AP_MarineMengskRoyalStimpack,Duration" precision="0"/></c> seconds.<n/><n/>Cooldown: <c val="ffff8a"><d ref="Abil,AP_MarineMengskRoyalStimpack,Cost[0].Cooldown.TimeUse" precision="0"/></c> seconds.<n/><n/><c val="ffff8a">Rank 2:</c> Also grants <c val="ffff8a">+<d ref="Behavior,AP_MarineMengskRoyalStimpackArmor,Modification.LifeArmorBonus" precision="0"/></c> armor while active.
+Button/Tooltip/AP_MarineMengskTheGoodStuff=Royal Stimpack attack and movement speed bonuses are increased by <c val="ffff8a">+<d ref="Upgrade,AP_MarineMengskTheGoodStuff,EffectArray[0].Value*100" precision="0"/>%</c>, and its cooldown is reduced by <c val="ffff8a"><d ref="0-Upgrade,AP_MarineMengskTheGoodStuff,EffectArray[2].Value" precision="0"/></c> seconds.
 Button/Tooltip/AP_MasteryMengskRoyalGuardMengskRanks=<n/><n/><c val="ffff8a">This unit will also unlock new abilities or passive bonuses with each Rank.</c><n/>
 Button/Tooltip/AP_MatrixOverload=All friendly units gain <d ref="Behavior,AP_MatrixOverloadTarget,Modification.MoveSpeedMultiplier*100-100"/>% movement speed and <d ref="Behavior,AP_MatrixOverloadTarget,Modification.AttackSpeedMultiplier*100-100"/>% attack speed within Pylon power fields. Effect lasts for up to <d ref="Behavior,AP_MatrixOverloadTarget,Duration"/> seconds after leaving.<n/><n/><c val="ffff8a">Passive ability.</c>
 Button/Tooltip/AP_MatrixOverloadEnergizer=All friendly units gain a <d ref="Behavior,AP_MatrixOverloadTarget,Modification.MoveSpeedMultiplier*100-100"/>% bonus to movement speed and a <d ref="Behavior,AP_MatrixOverloadTarget,Modification.AttackSpeedMultiplier*100-100"/>% bonus to attack speed while positioned within an Energizer's power field. Effect lasts for up to <d ref="Behavior,AP_MatrixOverloadTarget,Duration"/> seconds after leaving the power field.<n/><n/><c val="ffff8a">Passive ability.</c>
@@ -7334,10 +7336,10 @@ Upgrade/Name/AP_MarauderMengskAddictiveSupplements=Addictive Supplements
 Upgrade/Name/AP_MarauderMengskBolsteredBarrier=Bolstered Barrier
 Upgrade/Name/AP_MarauderMengskIncapacitatorShells=Incapacitator Shells
 Upgrade/Name/AP_MarauderMengskSovereignNeosteel=Sovereign Neosteel
-Upgrade/Name/AP_MarineMengskBuildABoom=Build-A-Boom
 Upgrade/Name/AP_MarineMengskCombatShield=Shield of the Dominion
 Upgrade/Name/AP_MarineMengskProdigalSon=The Prodigal Son
-Upgrade/Name/AP_MarineMengskSpiderMineLob=Toss Spider Mine
+Upgrade/Name/AP_MarineMengskResilientArmor=Resilient Armor
+Upgrade/Name/AP_MarineMengskTheGoodStuff=The Good Stuff
 Upgrade/Name/AP_MarineStimpack=Stimpack
 Upgrade/Name/AP_MechanicalRebirth=Immortality Protocol
 Upgrade/Name/AP_MedicMengskHospiceCare=Hospice Care
@@ -7974,3 +7976,23 @@ Button/Tooltip/AP_LaunchBayEnhancedTargeting=Interceptors can be launched +2 ran
 Button/Tooltip/AP_LaunchBayOptimizedOrdnance=Interceptors attack 25% faster.
 Button/Tooltip/AP_PsiSpireEnhancedTargeting=Psionic Storm gains +2 cast range.
 Button/Tooltip/AP_PsiSpireOptimizedOrdnance=Psionic Storm cooldown recovers 25% faster.
+Abil/Name/AP_RoyalGuardStationHeal=Royal Guard Heal
+Button/Name/AP_RoyalGuardHealingStationBuild=Build Royal Medbot
+Button/Name/AP_RoyalGuardStationHeal=Royal Guard Heal
+Button/Tooltip/AP_RoyalGuardHealingStationBuild=Heals nearby injured Royal Guard units for 9 life per second, spending 1 energy for every 3 life restored.
+Button/Tooltip/AP_RoyalGuardHealingStationBuildEfficient=Heals nearby injured Royal Guard units for 9 life per second. Requires no energy.
+Button/Tooltip/AP_RoyalGuardStationHeal=Heals an injured Royal Guard for 9 life per second, spending 1 energy for every 3 life restored. Can be autocast.
+Button/Tooltip/AP_RoyalGuardStationHealEfficient=Heals an injured Royal Guard for 9 life per second. Requires no energy. Can be autocast.
+Unit/Name/AP_RoyalGuardHealingStation=Royal Medbot
+Unit/Name/AP_RoyalGuardAcademy=Royal Indoctrinator
+Behavior/Name/AP_RoyalGuardAcademyTraining=Inspired to Serve
+Behavior/Tooltip/AP_RoyalGuardAcademyTraining=This unit gains 33% more experience from all sources.
+Button/Name/AP_RoyalGuardAcademyBuild=Build Royal Indoctrinator
+Button/Tooltip/AP_RoyalGuardAcademyBuild=Increases XP gained from Royal Guards trained at this building by 33%.
+Button/Tooltip/AP_BarracksMengskFirstBuildFree=Elite infantry production facility.<n/><n/><c val="ffff8a">Your first Elite Barracks this mission costs no resources and builds twice as fast.</c>
+Button/Tooltip/AP_FactoryMengskFirstBuildFree=Elite vehicle-production facility.<n/><n/><c val="ffff8a">Your first Elite Factory this mission costs no resources and builds twice as fast.</c>
+Button/Tooltip/AP_StarportMengskFirstBuildFree=Elite air-unit production facility.<n/><n/><c val="ffff8a">Your first Elite Starport this mission costs no resources and builds twice as fast.</c>
+Upgrade/Name/AP_RoyalGuardExperienceBonus=Imperial Mentorship
+Upgrade/Name/AP_EliteProductionFirstBuildFree=Imperial Construction Grant
+Upgrade/Name/AP_UnlockRoyalIndoctrinator=Royal Indoctrinator
+Upgrade/Name/AP_RoyalMedbotEfficiency=Efficiency Protocols
