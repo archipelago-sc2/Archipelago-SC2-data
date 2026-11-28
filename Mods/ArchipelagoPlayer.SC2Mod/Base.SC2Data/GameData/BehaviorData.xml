@@ -9955,7 +9955,6 @@
         <VeterancyLevelArray MinVeterancyXP="1400" LevelGainEffect="AP_MarineMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
                 <VitalMaxArray index="Life" value="25"/>
-                <AdditiveAttackSpeedFactor value="0.25"/>
             </Modification>
         </VeterancyLevelArray>
         <VeterancyLevelArray>
@@ -9979,6 +9978,33 @@
         <Modification>
             <WeaponRange value="2"/>
             <WeaponScanBonus value="2"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MarineMengskRoyalStimpack">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-mengsk-marauder-royalstimpack.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Duration value="15"/>
+        <Modification MoveSpeedMultiplier="1.35" AttackSpeedMultiplier="1.35"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MarineMengskRoyalStimpackArmor">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <DisableValidatorArray value="AP_MarineMengskHasRoyalStimpack"/>
+        <DisableValidatorArray value="AP_HaveMarineMengskVeterancyLevel3"/>
+        <Modification>
+            <LifeArmorBonus value="3"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_MarineMengskResilientArmor">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <DisableValidatorArray value="AP_HaveMarineMengskResilientArmor"/>
+        <Modification>
+            <DamageTakenFraction index="Splash" value="-0.4"/>
+            <DamageTakenFraction index="Spell" value="-0.4"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_WarpRelocating">
@@ -12073,7 +12099,6 @@
         <VeterancyLevelArray MinVeterancyXP="1400" LevelGainEffect="AP_MarineMengskLevelUpSet" RankNameSchema="Behavior/RankName/AP_MengskRank2">
             <Modification>
                 <VitalMaxArray index="Life" value="25"/>
-                <AdditiveAttackSpeedFactor value="0.25"/>
             </Modification>
         </VeterancyLevelArray>
         <XPFraction index="Kills" value="0"/>
@@ -12319,7 +12344,12 @@
         <InfoFlags index="Hidden" value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AP_RoyalGuardAcademyTraining">
-        <Icon value="Assets\Textures\btn-building-terran-ghostacademy.dds"/>
+        <InfoIcon value="Assets\Textures\btn-building-terran-ghostacademy.dds"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AP_EliteFirstBuildFreeMarker">
+        <EditorCategories value="Race:Terran"/>
+        <InfoFlags index="Hidden" value="1"/>
         <BehaviorFlags index="Permanent" value="1"/>
     </CBehaviorBuff>
 </Catalog>

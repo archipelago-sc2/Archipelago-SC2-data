@@ -25,10 +25,20 @@
         <Find value="1"/>
         <Value value="AP_HaveDisruptorPermanentCloak"/>
     </CValidatorPlayerRequirement>
-    <CValidatorPlayerRequirement id="AP_HaveMarineMengskBuildABoom">
+    <CValidatorPlayerRequirement id="AP_HaveMarineMengskResilientArmor">
         <Find value="1"/>
-        <Value value="AP_HaveMarineMengskBuildABoom"/>
+        <Value value="AP_HaveMarineMengskResilientArmor"/>
     </CValidatorPlayerRequirement>
+    <CValidatorPlayerRequirement id="AP_HaveMarineMengskVeterancyLevel3">
+        <Find value="1"/>
+        <Value value="AP_HaveMarineMengskVeterancyLevel3"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="AP_MarineMengskHasRoyalStimpack">
+        <WhichUnit Value="Target"/>
+        <Compare value="GE"/>
+        <Value value="1"/>
+        <Behavior value="AP_MarineMengskRoyalStimpack"/>
+    </CValidatorUnitCompareBehaviorCount>
     <CValidatorPlayerRequirement id="AP_HaveMarineMengskProdigalSon">
         <Find value="1"/>
         <Value value="AP_HaveMarineMengskProdigalSon"/>
@@ -9251,6 +9261,15 @@
         <Value value="0"/>
         <Behavior value="AP_RoyalGuardHealingTarget"/>
     </CValidatorUnitCompareBehaviorCount>
+    <CValidatorPlayerRequirement id="AP_HaveRoyalMedbotEfficiency">
+        <Find value="1"/>
+        <Value value="AP_HaveRoyalMedbotEfficiency"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorCombine id="AP_RoyalGuardStationHealHasEnergy">
+        <Type value="Or"/>
+        <CombineArray value="AP_HaveRoyalMedbotEfficiency"/>
+        <CombineArray value="healCasterMinEnergy"/>
+    </CValidatorCombine>
     <CValidatorCombine id="AP_RoyalGuardStationHealValid">
         <Type value="And"/>
         <CombineArray value="AP_RoyalGuardStationHasParent"/>

@@ -3130,6 +3130,7 @@
         <On Terms="Abil.AP_Stimpack.SourceCastStart" Send="Create"/>
         <On Terms="Abil.AP_StimpackReaper.SourceCastStart" Send="Create"/>
         <On Terms="Abil.AP_StimpackPygalisk.SourceCastStart" Send="Create"/>
+        <On Terms="Abil.AP_MarineMengskRoyalStimpack.SourceCastStart" Send="Create"/>
     </CActorSound>
     <CActorSound id="AP_Marauder_Stimpack" parent="SoundOneShot">
         <Sound value="Marauder_Stimpack"/>
@@ -3144,6 +3145,7 @@
         <On Terms="Abil.AP_StimpackFirebat.SourceCastStart" Send="Create"/>
         <On Terms="Abil.AP_StimpackHellbat.SourceCastStart" Send="Create"/>
         <On Terms="Abil.AP_StimpackPygalisk.SourceCastStart" Send="Create"/>
+        <On Terms="Abil.AP_MarineMengskRoyalStimpack.SourceCastStart" Send="Create"/>
         <Model value="StimpackStartImpact"/>
         <Host Subject="_Selectable"/>
         <HostSiteOps Ops="SOpAttachOverhead"/>
@@ -3156,6 +3158,7 @@
         <On Terms="Behavior.AP_StimpackFirebat.Off; ValidateUnit NotDead" Send="Create"/>
         <On Terms="Behavior.AP_StimpackHellbat.Off; ValidateUnit NotDead" Send="Create"/>
         <On Terms="Behavior.AP_StimpackPygalisk.Off; ValidateUnit NotDead" Send="Create"/>
+        <On Terms="Behavior.AP_MarineMengskRoyalStimpack.Off; ValidateUnit NotDead" Send="Create"/>
         <Model value="StimpackEndImpact"/>
         <Host Subject="_Selectable"/>
         <HostSiteOps Ops="SOpAttachOverhead"/>
@@ -3227,22 +3230,6 @@
         <ImpactMap index="None" Sound="Reaper_D8ChargeAttackImpact"/>
     </CActorAction>
     <CActorMissile id="AP_D8ClusterBombReleaseMissile" parent="GenericAttackMissile" unitName="AP_D8ClusterBombWeapon"/>
-    <CActorSound id="AP_MarineMengskSpiderMineLobLaunch" parent="SoundOneShot">
-        <On Terms="Effect.AP_MarineMengskSpiderMineLobLaunchMissile.Start" Send="Create"/>
-    </CActorSound>
-    <CActorSplat id="AP_MarineMengskSpiderMineLobCursorSplat" parent="TerranCursorSplat" abil="AP_MarineMengskSpiderMineLob"/>
-    <CActorRange id="AP_MarineMengskSpiderMineLobRange" parent="RangeAbil" abil="AP_MarineMengskSpiderMineLob"/>
-    <CActorMissile id="AP_MarineMengskSpiderMineLobMissile" parent="GenericAttackMissile" unitName="AP_MarineMengskSpiderMineLobWeapon"/>
-    <CActorAction id="AP_MarineMengskSpiderMineLob" parent="GenericAttack" effectImpact="AP_MarineMengskSpiderMineLobDamage" effectLaunch="AP_MarineMengskSpiderMineLobLaunchMissile">
-        <LaunchAttachQuery Methods="AP_FilterHandLeft"/>
-        <ImpactMap index="None" Sound="AP_VultureSpiderMineAttackImpact"/>
-    </CActorAction>
-    <CActorModel id="AP_MarineMengskSpiderMineLobImpact" parent="ModelAnimationStyleOneShot">
-        <On Terms="Effect.AP_MarineMengskSpiderMineLobDamage.Start; At Effect" Send="Create"/>
-        <HostSiteOps Ops="SOpTargetPoint SOpShadow"/>
-        <Model value="AP_VultureSpiderMineAttackImpact"/>
-        <Scale value="0.950000"/>
-    </CActorModel>
     <CActorUnit id="AP_Hellion" parent="GenericUnitBase" unitName="AP_Hellion">
         <Aliases value="_UnitMedium"/>
         <Macros value="UnloadDropAnim"/>
@@ -33001,6 +32988,7 @@
         <!-- Override -->
         <!-- Let it be aware of AP build -->
         <On Terms="Abil.AP_TerranBuild.BuiltStart" Send="Create"/>
+        <On Terms="Abil.AP_TerranBuildEliteFirstFree.BuiltStart" Send="Create"/>
         <On Terms="Abil.AP_TrooperMengskBuild.BuiltStart" Send="Create"/>
         <On Terms="Abil.AP_BarracksAddOns.BuiltStart" Send="Create"/>
         <On Terms="Abil.AP_FactoryAddOns.BuiltStart" Send="Create"/>
@@ -43586,7 +43574,6 @@
         <CustomUnitStatusFrame value="AP_Coop_UnitStatus_Mengsk/MengskMarine_StatusFrame"/>
         <StatusBarOn index="Custom" value="1"/>
         <UnitFlags index="SuppressDefaultStatusBar" value="1"/>
-        <On Terms="Abil.AP_MarineMengskSpiderMineLob.SourcePrepStart" Send="$Spell 0 -1.000000 -1.000000 1.500000 AsDuration"/>
         <On Terms="UnitDeath.AP_MarineMengsk; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
         <On Terms="ActorCreation; ValidatePlayer AP_NoMarineMengskCombatShield" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
         <On Terms="Upgrade.AP_MarineMengskCombatShield.Add" Send="AnimClear Cover"/>
@@ -43619,7 +43606,6 @@
         <ImpactMap index="None" Model="MarineAttackImpact" Sound="Marine_AttackImpact"/>
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
     </CActorAction>
-    <CActorRange id="AP_MarineMengskSpiderMinesRange" parent="RangeAbil" abil="AP_MarineMengskSpiderMines"/>
     <CActorSimple id="AP_WarpRelocateTransition">
         <On Terms="Behavior.AP_WarpRelocating.On" Send="Create"/>
         <On Terms="ActorCreation" Target="_Unit" Send="SetOpacity 0.000000 2.00000 WarpRelocateOpacity"/>
@@ -49441,6 +49427,8 @@
         </Wireframe>
         <Model value="AP_RoyalGuardHealingStation"/>
         <PlacementModel value="AP_RoyalGuardHealingStationPlacement"/>
+        <HeroIcon value="AP\Assets\Textures\btn-terran-royal-medbot.dds"/>
+        <UnitIcon value="AP\Assets\Textures\btn-terran-royal-medbot.dds"/>
         <LookAtPriorityList value="AP_RoyalGuardStationTurret"/>
         <BuildModel value="Invisible"/>
         <On Terms="UnitConstruction.AP_RoyalGuardHealingStation.Start" Send="Create AP_RoyalGuardHealingStationBuildBody"/>
@@ -49472,13 +49460,40 @@
         <Inherits index="Visibility" value="1"/>
         <On Terms="Effect.AP_RoyalGuardStationHeal.TargetStart" Send="Create"/>
         <On Terms="Effect.AP_RoyalGuardStationHeal.TargetStop" Send="Destroy"/>
-        <Model value="AP_NanoRepairBeam"/>
+        <On Terms="Effect.AP_RoyalGuardStationHealFree.TargetStart" Send="Create"/>
+        <On Terms="Effect.AP_RoyalGuardStationHealFree.TargetStop" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetTintColor {40,255,40 3.000000}"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Model value="MedivacHealBeam"/>
         <HostForProps Subject="_Unit" Scope="Caster" Actor="Find"/>
         <HostLaunch Subject="_Unit" Scope="Caster" Actor="Find"/>
         <HostLaunchSiteOps Ops="SOpAttachWeapon"/>
         <HostImpact Subject="_Unit" Scope="Target" Actor="Find"/>
         <HostImpactSiteOps Ops="SOpAttachCenter"/>
     </CActorBeamSimple>
+    <CActorSound id="AP_RoyalGuardStationHealSound" parent="SoundContinuous">
+        <On Terms="Effect.AP_RoyalGuardStationHeal.TargetStart; At Target" Send="Create"/>
+        <On Terms="Effect.AP_RoyalGuardStationHeal.TargetStop; At Target" Send="Destroy"/>
+        <On Terms="Effect.AP_RoyalGuardStationHealFree.TargetStart; At Target" Send="Create"/>
+        <On Terms="Effect.AP_RoyalGuardStationHealFree.TargetStop; At Target" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="Create AP_MedicHealSoundStart"/>
+        <On Terms="ActorDestruction" Send="Create AP_MedicHealSoundStop"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Sound value="AP_Medic_Heal"/>
+    </CActorSound>
+    <CActorModel id="AP_RoyalGuardStationHealModel" parent="ModelAnimationStyleContinuous">
+        <On Terms="ActorCreation" Send="$Birth PlayForever"/>
+        <On Terms="Effect.AP_RoyalGuardStationHeal.TargetStart; At Target" Send="Create"/>
+        <On Terms="Effect.AP_RoyalGuardStationHeal.TargetStop; At Target" Send="Destroy"/>
+        <On Terms="Effect.AP_RoyalGuardStationHealFree.TargetStart; At Target" Send="Create"/>
+        <On Terms="Effect.AP_RoyalGuardStationHealFree.TargetStop; At Target" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Model value="AP_MedicHealModel"/>
+    </CActorModel>
     <CActorUnit id="AP_RoyalGuardAcademy" parent="TerranBuilding" unitName="AP_RoyalGuardAcademy">
         <Model value="AP_RoyalGuardAcademy"/>
         <BuildModel value="Invisible"/>
@@ -49500,7 +49515,7 @@
         <GroupIcon>
             <Image value="AP\Assets\Textures\wireframe-terran-royal-indoctrinator.dds"/>
         </GroupIcon>
-        <HeroIcon value="Assets\Textures\btn-building-terran-ghostacademy.dds"/>
+        <HeroIcon value="AP\Assets\Textures\btn-terran-royal-indoctrinator.dds"/>
         <HighlightTooltip value="Unit/Name/AP_RoyalGuardAcademy"/>
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
         <SoundArray index="Birth" value="TechLab_Birth"/>
@@ -49513,7 +49528,7 @@
         <SoundArray index="ClickError" value="TechLabClickError"/>
         <SoundArray index="Highlight" value="TechLabHighlight"/>
         <UnitFlags index="ShowBlobShadow" value="0"/>
-        <UnitIcon value="Assets\Textures\btn-building-terran-ghostacademy.dds"/>
+        <UnitIcon value="AP\Assets\Textures\btn-terran-royal-indoctrinator.dds"/>
         <Wireframe>
             <Image value="AP\Assets\Textures\wireframe-terran-royal-indoctrinator.dds"/>
         </Wireframe>
